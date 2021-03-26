@@ -24,7 +24,7 @@ public class LorenzoActionCard {
      * @param num represents how many spaces it has to be taken forward
      */
     public LorenzoActionCard(int num){
-       this.actionType=LorenzoAction.incrementPopeTrack;
+       this.actionType=LorenzoAction.INCREMENTPOPETRACK;
        this.num=num;
     }
 
@@ -33,7 +33,7 @@ public class LorenzoActionCard {
      * @param actionColor represents what kind of card will be discarded
      */
     public LorenzoActionCard(CardColor actionColor){
-        this.actionType=LorenzoAction.discardEvolution;
+        this.actionType=LorenzoAction.DISCARDEVOLUTION;
         this.actionColor=actionColor;
     }
 

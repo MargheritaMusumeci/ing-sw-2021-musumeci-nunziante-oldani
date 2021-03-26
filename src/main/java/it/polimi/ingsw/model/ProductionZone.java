@@ -11,6 +11,9 @@ public class ProductionZone {
 
     public ProductionZone() {
         cards = new ArrayList[3];
+        cards[0] = new ArrayList<>();
+        cards[1] = new ArrayList<>();
+        cards[2] = new ArrayList<>();
     }
 
     /**
@@ -22,42 +25,40 @@ public class ProductionZone {
     public EvolutionCard getCard(int posizion) {
         switch (posizion) {
             case (1):
-                return cards[0].get(0); //not sure about get method
+                return cards[0].get(0);
             case (2):
-                return cards[0].get(1);
+                return cards[1].get(0);
             case (3):
-                return cards[0].get(2);
+                return cards[2].get(0);
             default:
                 return null;
         }
     }
 
     /**
-     *
-     * @param card new card bought from EvolutionSection
+     * @param card     new card bought from EvolutionSection
      * @param position where card will be set
-     * @return true if was successful
      */
-    public boolean addCard(EvolutionCard card, int position) {
-        if (!(isFull(position)) && ((position == 1) || (position == 2) || (position == 3)) && ((cards[position].get(0)).getLevel()==card.getLevel()+1)) {  //throw exeption ?
+    public void addCard(EvolutionCard card, int position) {
+        if (!(isFull(position)) && ((position == 1) || (position == 2) || (position == 3)) && ((cards[position].get(0)).getLevel().ordinal() == card.getLevel().ordinal() + 1)) {  //throw exeption ?
             cards[position].add(0, card);
-            return true;
-        } else return false;
+        }
     }
 
     /**
      * check if there is at least a free space in the slot
+     *
      * @param position number of the slot
      * @return true if the slot is not full
      */
     public boolean isFull(int position) {
         if ((position == 1) || (position == 2) || (position == 3)) {  //throw exeption ?
-            return cards[position].contains(null);
-        } else return false;
+            return cards[position].size() > 2;
+        }
+        return false;
     }
 
     /**
-     *
      * @param position number of the slot
      * @return Array of Evolution Card
      */
@@ -66,5 +67,20 @@ public class ProductionZone {
             return (EvolutionCard[]) cards[position].clone();
         } else return null;
     }
+
+    /**
+     *
+     * @param position number of the slot
+     * @return level of the highest card
+     */
+    public LevelEnum getLevel(int position) {
+        if ((position == 1) || (position == 2) || (position == 3)) {
+            return cards[position].get(0).getLevel();
+        }
+        return null;
+    }
 }
+
+
+
 
