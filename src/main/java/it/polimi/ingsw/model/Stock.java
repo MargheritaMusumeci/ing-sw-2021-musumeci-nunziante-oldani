@@ -20,12 +20,12 @@ public class Stock {
 
     /**
      * Assumption : the box was filled starting from the first position
-     * Return the ResourceType of the required box
+     *
      * @param position number of box I want the resource type
-     * @return
+     * @return the ResourceType of the required box
      */
-    public ResourceType getResourceType(int position){
-        return boxes.get(position)[0].getType();
+    public Resource getResourceType(int position){
+        return boxes.get(position)[0];
     }
 
     /**
@@ -37,14 +37,14 @@ public class Stock {
      * @param numberResources number of resources I would like to insert
      * @param resourceType type of the resources I'm adding
      */
-    public void addResources(int originBox , int numberResources , ResourceType resourceType){
+    public void addResources(int originBox , int numberResources , Resource resourceType){
         Resource[] box = boxes.get(originBox);
         int i = 0;
         int maxDim = box.length;//this can be eliminated if the controller do all the control
 
         while(numberResources != 0 && i < maxDim){
             if(box[i] == null){
-                box[i] = new Resource(resourceType);
+                box[i] = resourceType;
                 numberResources--;
             }
             i++;
@@ -53,9 +53,8 @@ public class Stock {
     }
 
     /**
-     * Return the quantity of resources in the box specified by originBox
-     * @param originBox
-     * @return
+     * @param originBox number of box we are interested
+     * @return the quantity of resources in the box specified by originBox
      */
     public int getQuantities(int originBox){
         int quantity = 0;
@@ -74,8 +73,8 @@ public class Stock {
      * Assumption: the controller has already done the check about the available resources
      *
      * Eliminate resources from the last position to the first position
-     * @param originBox
-     * @param numberResources
+     * @param originBox number of box we are interested
+     * @param numberResources number of resources we use
      */
     public void useResources(int originBox , int numberResources){
         Resource[] box = boxes.get(originBox);
@@ -98,7 +97,6 @@ public class Stock {
 
     /**
      * add into boxes a new box of variable dimension in case of special ability
-     *
      * @param howBig dimension of the new box
      */
     public void addBox(int howBig){
