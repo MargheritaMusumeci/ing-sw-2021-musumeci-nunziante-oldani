@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Market {
 
     private Resource[][] marketBoard;
@@ -18,6 +21,42 @@ public class Market {
      * method that really populate the board when the object is istantiated
      */
     private void randomPopulateBoard(){
+        ArrayList<ResourceType> listOfElement = new ArrayList<ResourceType>();
+        Random r = new Random();
+        int numChosen;
+
+        //2 coins, 2 shilds, 2 servants, 2 rocks, 1 faith, 4 nothing --> tot 13
+        listOfElement.add(ResourceType.COIN);
+        listOfElement.add(ResourceType.COIN);
+        listOfElement.add(ResourceType.ROCK);
+        listOfElement.add(ResourceType.ROCK);
+        listOfElement.add(ResourceType.SERVANT);
+        listOfElement.add(ResourceType.SERVANT);
+        listOfElement.add(ResourceType.SHIELD);
+        listOfElement.add(ResourceType.SHIELD);
+        listOfElement.add(ResourceType.FAITH);
+        listOfElement.add(ResourceType.NOTHING);
+        listOfElement.add(ResourceType.NOTHING);
+        listOfElement.add(ResourceType.NOTHING);
+        listOfElement.add(ResourceType.NOTHING);
+
+        numChosen = r.nextInt(listOfElement.size());
+        externalResource = new Resource(listOfElement.get(numChosen));
+        listOfElement.remove(numChosen);
+
+        for (int i=0; i<marketBoard.length; i++){
+            for (int j=0; j<marketBoard[i].length;j++){
+                if(listOfElement.size() != 0){
+                    numChosen = r.nextInt(listOfElement.size());
+                }else{
+                    numChosen = 0;
+                }
+
+                marketBoard[i][j] = new Resource(listOfElement.get(numChosen));
+                listOfElement.remove(numChosen);
+
+            }
+        }
 
     }
 
@@ -28,6 +67,23 @@ public class Market {
      */
     public void updateBoard(int position, boolean isRow){
 
+        Resource tempRes;
+
+        if(isRow){
+            tempRes = marketBoard[position][0];
+            for (int i=0; i< marketBoard[position].length - 1; i++){
+                marketBoard[position][i] = marketBoard[position][i+1];
+            }
+            marketBoard[position][3] = externalResource;
+            externalResource = tempRes;
+        }else{
+            tempRes = marketBoard[0][position];
+            for (int i=0; i< marketBoard.length - 1; i++){
+                marketBoard[i][position] = marketBoard[i+1][position];
+            }
+            marketBoard[2][position] = externalResource;
+            externalResource = tempRes;
+        }
     }
 
     /**
@@ -37,8 +93,7 @@ public class Market {
      * @return the resource at that position in the market
      */
     public Resource getPosition(int row, int column){
-        //fake object to avoid errors before actually implement the method
-        Resource r = new Resource(ResourceType.COIN);
-        return r;
+
+        return new Resource(marketBoard[row][column].getType());
     }
 }

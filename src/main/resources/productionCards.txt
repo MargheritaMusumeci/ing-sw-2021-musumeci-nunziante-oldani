@@ -1,0 +1,27 @@
+# every line that starts with # will be ignored by the class that reads this file
+# In this file i've put the list of requirements for every card in this order
+#
+# Cards are dived by level
+# Then by color
+# Then are listed in crescent order based on life points
+#
+# Colour order: green, blu, yellow, purple
+# A line that starts with n will identify a new card, the next line will describe the level, then the colour, then the cost,
+# then the requirement as an array of number, then the production and in the end the life points
+# order of array: rock, shield, coins, servants, nothing, faith
+###################
+n
+1
+g
+0 2 0 0
+0 0 1 0 0 0
+0 0 0 0 0 1
+1
+n
+1
+g
+1 1 0 1
+1 0 0 0 0 0
+0 0 0 1 0 0
+2
+
