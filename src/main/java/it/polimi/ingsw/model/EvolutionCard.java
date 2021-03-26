@@ -6,9 +6,9 @@ public class EvolutionCard {
     private LevelEnum level;
     private int point;
     private int cost;
-    private ResourceType costType;
-    private Resource[] requires;
-    private Resource[] product;
+    private Resource costType;
+    private int[] requires; //rock, shield, coins, servants
+    private int[] product; //rock, shield, coins, servants, faith
     private boolean isActive;
 
     /**
@@ -18,11 +18,11 @@ public class EvolutionCard {
      * @param point represent the card point
      * @param cost  represent the card cost
      * @param costType represent the resource type of the cost
-     * @param requires array of resources required to activate the card
-     * @param product   array of the resource produced by the productioon
+     * @param requires array of resources required to activate the card in the order rock, shield, coins, servants
+     * @param product   array of the resource produced by the productioon in the order rock, shield, coins, servants, faith
      */
 
-    public EvolutionCard(CardColor color, LevelEnum level, int point, int cost, ResourceType costType, Resource[] requires, Resource[] product){
+    public EvolutionCard(CardColor color, LevelEnum level, int point, int cost, Resource costType, int[] requires, int[] product){
         this.color = color;
         this.level = level;
         this.point = point;
@@ -48,15 +48,15 @@ public class EvolutionCard {
         return cost;
     }
 
-    public ResourceType getCostType() {
+    public Resource getCostType() {
         return costType;
     }
 
-    public Resource[] getRequires() {
+    public int[] getRequires() {
         return requires.clone();
     }
 
-    public Resource[] getProduction() {
+    public int[] getProduction() {
         return product.clone();
     }
 

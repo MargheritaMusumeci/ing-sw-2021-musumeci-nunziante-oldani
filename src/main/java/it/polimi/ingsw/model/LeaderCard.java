@@ -8,7 +8,7 @@ public class LeaderCard {
     private int point;
     private LeaderAbility abilityType;
     private int numSale;
-    private ResourceType abilityResourceType;
+    private Resource abilityResourceType;
 
     /**
      * creation of a Discount card
@@ -17,7 +17,7 @@ public class LeaderCard {
      * @param numSale amount of sale
      * @param abilityResourceType type of sale
      */
-    public LeaderCard(EvolutionCard[] requires, int point, int numSale, ResourceType abilityResourceType){
+    public LeaderCard(EvolutionCard[] requires, int point, int numSale, Resource abilityResourceType){
         this.requires=new EvolutionCard[4];
         this.requires=requires;
         this.point=point;
@@ -32,7 +32,7 @@ public class LeaderCard {
      * @param abilityResourceType type of resource you can store
      */
 
-    public LeaderCard(EvolutionCard[] requires,ResourceType abilityResourceType){
+    public LeaderCard(EvolutionCard[] requires, Resource abilityResourceType){
         this.requires=new EvolutionCard[4];
         this.requires=requires;
         this.abilityType=LeaderAbility.stockPlus;
@@ -45,7 +45,7 @@ public class LeaderCard {
      * @param numSale number of resourse for active the power
      * @param abilityResourceType type of resource you need transform
      */
-    public LeaderCard(EvolutionCard[] requires,int numSale, ResourceType abilityResourceType){
+    public LeaderCard(EvolutionCard[] requires,int numSale, Resource abilityResourceType){
         this.requires=new EvolutionCard[4];
         this.requires=requires;
         this.abilityType=LeaderAbility.prodctionPower;
@@ -74,7 +74,7 @@ public class LeaderCard {
         return numSale;
     }
 
-    public ResourceType getAbilityResourceType() {
+    public Resource getAbilityResourceType() {
         return abilityResourceType;
     }
 

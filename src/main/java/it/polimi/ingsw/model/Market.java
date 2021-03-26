@@ -21,27 +21,27 @@ public class Market {
      * method that really populate the board when the object is istantiated
      */
     private void randomPopulateBoard(){
-        ArrayList<ResourceType> listOfElement = new ArrayList<ResourceType>();
+        ArrayList<Resource> listOfElement = new ArrayList<Resource>();
         Random r = new Random();
         int numChosen;
 
         //2 coins, 2 shilds, 2 servants, 2 rocks, 1 faith, 4 nothing --> tot 13
-        listOfElement.add(ResourceType.COIN);
-        listOfElement.add(ResourceType.COIN);
-        listOfElement.add(ResourceType.ROCK);
-        listOfElement.add(ResourceType.ROCK);
-        listOfElement.add(ResourceType.SERVANT);
-        listOfElement.add(ResourceType.SERVANT);
-        listOfElement.add(ResourceType.SHIELD);
-        listOfElement.add(ResourceType.SHIELD);
-        listOfElement.add(ResourceType.FAITH);
-        listOfElement.add(ResourceType.NOTHING);
-        listOfElement.add(ResourceType.NOTHING);
-        listOfElement.add(ResourceType.NOTHING);
-        listOfElement.add(ResourceType.NOTHING);
+        listOfElement.add(Resource.COIN);
+        listOfElement.add(Resource.COIN);
+        listOfElement.add(Resource.ROCK);
+        listOfElement.add(Resource.ROCK);
+        listOfElement.add(Resource.SERVANT);
+        listOfElement.add(Resource.SERVANT);
+        listOfElement.add(Resource.SHIELD);
+        listOfElement.add(Resource.SHIELD);
+        listOfElement.add(Resource.FAITH);
+        listOfElement.add(Resource.NOTHING);
+        listOfElement.add(Resource.NOTHING);
+        listOfElement.add(Resource.NOTHING);
+        listOfElement.add(Resource.NOTHING);
 
         numChosen = r.nextInt(listOfElement.size());
-        externalResource = new Resource(listOfElement.get(numChosen));
+        externalResource = listOfElement.get(numChosen);
         listOfElement.remove(numChosen);
 
         for (int i=0; i<marketBoard.length; i++){
@@ -52,7 +52,7 @@ public class Market {
                     numChosen = 0;
                 }
 
-                marketBoard[i][j] = new Resource(listOfElement.get(numChosen));
+                marketBoard[i][j] = listOfElement.get(numChosen);
                 listOfElement.remove(numChosen);
 
             }
@@ -93,6 +93,6 @@ public class Market {
      * @return the resource at that position in the market
      */
     public Resource getPosition(int row, int column){
-        return new Resource(marketBoard[row][column].getType());
+        return marketBoard[row][column];
     }
 }
