@@ -91,43 +91,6 @@ public class Dashboard {
         return inkwell;
     }
 
-
-
-    /**
-     * maybe useless, we'll see
-     * @param personalProductionZone
-     */
-    public void setPersonalProductionZone(ProductionZone[] personalProductionZone) {
-        this.personalProductionZone = personalProductionZone;
-    }
-
-
-
-    /**
-     * method that increment the position of the player into his pope track
-     * @param increment is the actual increment to be done
-     */
-    public void setPopeTrack(int increment) {
-
-    }
-
-    /**
-     * method capable of setting the leaders card after the player has selected them
-     * @param leaderCards is the array of cards to be added to the dashboard
-     */
-    public void setLeaderCards(LeaderCard[] leaderCards) {
-        this.leaderCards = leaderCards;
-    }
-
-    /**
-     * method to add a card bought in the EvolutionSection in one of the player's production zone
-     * @param card the card to be added
-     * @param box the number of the box in which the card has to be added
-     */
-    public void setProductionZone(EvolutionCard card, int box){
-
-    }
-
     /**
      * method that set the score
      * @param points is the new value of the score, not the increment
@@ -136,15 +99,52 @@ public class Dashboard {
         this.totalScore = points;
     }
 
-    /**
+
+
+    /*
+     * maybe useless, we'll see
+     * @param personalProductionZone
+
+    public void setPersonalProductionZone(ProductionZone[] personalProductionZone) {
+        this.personalProductionZone = personalProductionZone;
+    }
+    */
+
+
+
+    /*
+     * method that increment the position of the player into his pope track
+     * @param increment is the actual increment to be done
+
+    public void setPopeTrack(int increment) {
+
+    }
+    */
+
+
+    /*
+     * method to add a card bought in the EvolutionSection in one of the player's production zone
+     * @param card the card to be added
+     * @param box the number of the box in which the card has to be added
+
+    public void setProductionZone(EvolutionCard card, int box){
+
+    }
+
+     */
+
+
+    /*
      * Probably useless and to be deprecated
      * @param type is the type of resource added to the lockbox
      * @param numResources is the number of resources to add or withdraw
      * @param action defines if its a withdraw or a deposit
-     */
+
     public void setLockBox(ResourceType type, int numResources, String action){
 
     }
+    */
+
 
 
 

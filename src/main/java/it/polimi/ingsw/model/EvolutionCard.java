@@ -65,7 +65,7 @@ public class EvolutionCard {
     }
 
     /**
-     * method that change the card state from acrive to inactive and vice versa
+     * method that change the card state from active to inactive and vice versa
      * @param value is true if the card is active, false otherwise
      */
     public void setActive(boolean value){

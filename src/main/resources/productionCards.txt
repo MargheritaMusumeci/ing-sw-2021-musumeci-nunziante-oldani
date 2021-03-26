@@ -8,20 +8,20 @@
 # Colour order: green, blu, yellow, purple
 # A line that starts with n will identify a new card, the next line will describe the level, then the colour, then the cost,
 # then the requirement as an array of number, then the production and in the end the life points
-# order of array: rock, shield, coins, servants, nothing, faith
+# order of array: rock, shield, coins, servants, faith
 ###################
 n
 1
 g
 0 2 0 0
-0 0 1 0 0 0
-0 0 0 0 0 1
+0 0 1 0
+0 0 0 0 1
 1
 n
 1
 g
 1 1 0 1
-1 0 0 0 0 0
-0 0 0 1 0 0
+1 0 0 0
+0 0 0 1 0
 2
 

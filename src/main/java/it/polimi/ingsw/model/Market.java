@@ -93,7 +93,6 @@ public class Market {
      * @return the resource at that position in the market
      */
     public Resource getPosition(int row, int column){
-
         return new Resource(marketBoard[row][column].getType());
     }
 }
