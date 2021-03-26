@@ -3,21 +3,31 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 
 public class PopeTrack {
-    private Position[] track;//25
-    private PopeCard[] popeCard;//3
+    private Track track;
+    private PopeCard[] popeCard;
     private Position gamerPosition;
     private Position lorenzoPosition;//su UML è int
 
+    /**
+     * Take the instance of the track and initialize the attribute
+     * @param popeCard0 popeCard in the first popeSection
+     * @param popeCard1 popeCard in the second popeSection
+     * @param popeCard2 popeCard in the third popeSection
+     */
     public PopeTrack(PopeCard popeCard0 , PopeCard popeCard1 , PopeCard popeCard2){
-        track = new Position[25];//setto qua le 25 posizioni o ricevo un array di posizioni già create?
+        track = Track.getInstanceOfTrack();
         popeCard = new PopeCard[3];
         popeCard[0] = new PopeCard(popeCard0.getPoint() , popeCard0.getPosition());
         popeCard[1] = new PopeCard(popeCard1.getPoint() , popeCard1.getPosition());
         popeCard[2] = new PopeCard(popeCard2.getPoint() , popeCard2.getPosition());
-        gamerPosition = track[0];
-        lorenzoPosition = track[0];
+        gamerPosition = track.getTrack()[0];
+        lorenzoPosition = track.getTrack()[0];
     }
 
+    /**
+     *
+     * @return the current position of the gamer
+     */
     public Position getGamerPosition(){
         return gamerPosition;
     }
@@ -27,7 +37,7 @@ public class PopeTrack {
      * @param increment number of steps in the track
      */
     public void updateGamerPosition(int increment){
-        gamerPosition = track[gamerPosition.getIndex() + increment];
+        gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
     }
 
     /**
@@ -37,7 +47,7 @@ public class PopeTrack {
     public PopeCard[] getPopeCard() { return popeCard.clone(); }
 
     /**
-     * In case of single player return the position of Lorenzo
+     * In case of single player return the current position of Lorenzo
      * @return
      */
     public Position getLorenzoPosition(){ return lorenzoPosition; }
@@ -47,6 +57,6 @@ public class PopeTrack {
      * @param increment number of steps in the track
      */
     public void updateLorenzoPosition(int increment){
-        lorenzoPosition = track[lorenzoPosition.getIndex() + increment];
+        lorenzoPosition = track.getTrack()[gamerPosition.getIndex() + increment];
     }
 }

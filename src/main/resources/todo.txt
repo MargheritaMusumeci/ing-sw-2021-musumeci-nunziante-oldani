@@ -3,14 +3,11 @@ Musumeci:
 
 Nunziante:
 - Creare classe track con posizioni e sistemare popeTrack
-- togliere setGamerPosition
-- togliere action da lockbox
-- sisteamre dimensione stock
-- aggiungere tipo risorsa stock
-- aggiungere metodo getResourceType nello stock
-- change string to CardColor
-- rimuovere commenti
-- aggiungi metodo aggiungibox in stock
+- Domanda da fare :
+   1)visto che i controlli li dobbiamo fare nel model, nei controlli usiamo sempre le
+     eccezioni o dove i metodi sono void facciamo un return true/false per sapere l'esito?
+   2)le tessere favore papale il giocatore le sceglie prima di creare l'oggetto Player o
+     in player serve un metodo che gliele fa scegliere?
 
 Oldani:
 - Leggere le carte dal file e crearle

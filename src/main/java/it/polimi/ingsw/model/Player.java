@@ -5,13 +5,15 @@ public class Player {
     private Dashboard dashboard;
     private Market market;
     private EvolutionSection evolutionSection;
+    private PopeTrack popeTrack;
     private boolean[] hasLeaderBeenUsed;
     private boolean hasActionBeenUsed;
 
-    //Is it right or there is an other way to initialize dashboard?
-    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection){
+
+    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection , PopeCard popeCard0 , PopeCard popeCard1 , PopeCard popeCard2){
         this.nickName = nickName;
-        dashboard = new Dashboard(nickName , leaderCards , inkwell, null); //need a popetrack
+        this.popeTrack = new PopeTrack(popeCard0 , popeCard1 , popeCard2);
+        dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
         this.market = market;
         this.evolutionSection = evolutionSection;
         hasLeaderBeenUsed = new boolean[] {false , false};
@@ -43,13 +45,21 @@ public class Player {
         //discard the card
     }
 
+    /**
+     *
+     * @return true if the player has already chosen the action
+     */
     public boolean getActionState(){ return hasActionBeenUsed; }
 
-    public void setActionState(){ hasActionBeenUsed = true;}//no in UML
+    /**
+     *
+     * @param state true if the action is been chosen, false otherwise or when the turn ends
+     */
+    public void setActionState(boolean state){ hasActionBeenUsed = state;}//no in UML
 
     /**
-     * Return the dashboard of the player
-     * @return
+     *
+     * @return the dashboard of the player
      */
     public Dashboard getDashboard(){ return dashboard; }
 }

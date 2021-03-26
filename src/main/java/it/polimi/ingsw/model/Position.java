@@ -7,7 +7,7 @@ public class Position {
     private boolean isPopePosition;
     private int numPopeSection;
 
-    public Position(int index , int point , boolean isPopeSection , boolean isPopePosition , int numPopeSection){
+    public Position(int index , int point , boolean isPopeSection , int numPopeSection , boolean isPopePosition){
         this.index = index;
         this.point = point;
         this.isPopeSection = isPopeSection;

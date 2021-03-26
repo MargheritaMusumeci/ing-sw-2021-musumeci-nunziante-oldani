@@ -5,6 +5,11 @@ public class PopeCard {
     private boolean isUsed;
     private Position position;
 
+    /**
+     *
+     * @param point of the card
+     * @param position in the popeTrack --> maybe it's better use the index instead of the position
+     */
     public PopeCard(int point , Position position){
         this.point = point;
         this.isUsed = false;
