@@ -20,10 +20,7 @@ Nunziante:
 - aggiungi metodo aggiungibox in stock
 
 Oldani:
-- Rimuovere la classe risorsa e usare solo l’enum
-- Sistemare buy
-- Sistemare isActive in Evolutioncarc
-- Aggiornare get position di market
+- Leggere le carte dal file e crearle
 
 
 
