@@ -6,22 +6,27 @@
 # Then are listed in crescent order based on life points
 #
 # Colour order: green, blu, yellow, purple
-# A line that starts with n will identify a new card, the next line will describe the level, then the colour, then the cost,
-# then the requirement as an array of number, then the production and in the end the life points
-# order of array: rock, shield, coins, servants, faith
-###################
-n
+# A line that starts with n will identify a new card. Next lines as follow
+# - level (1,2,3)
+# - colour (g, b, y, p)
+# - cost [rock, shield, coins, servants]
+# - requirement [rock, shield, coins, servants]
+# - production [rock, shield, coins, servants, faith]
+# - game points
+#
+###############################################################################################
+n1
 1
 g
-0 2 0 0
-0 0 1 0
-0 0 0 0 1
+0200
+0010
+00001
 1
-n
+n2
 1
 g
-1 1 0 1
-1 0 0 0
-0 0 0 1 0
+1101
+1000
+00010
 2
 

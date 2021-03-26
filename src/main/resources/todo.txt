@@ -32,3 +32,12 @@ Generali:
 --> decidere come sistemare la sitazione lorezoPlayer
 
 
+DOMANDE TUTORATO
+
+- I controlli sulla validità dei parametri dove li devo fare? Noi li faremmo nel controller
+- Nelle EvolutionCard le tipologie di risorse per requirements, products e cost sono mappate intrinsecamente dentro l'array
+    che le contiene come //rock, shield, coin, servant, faith. Può esseere un problema?
+- se va bene il metodo di creazione delle carte da parte di file
+
+
+
