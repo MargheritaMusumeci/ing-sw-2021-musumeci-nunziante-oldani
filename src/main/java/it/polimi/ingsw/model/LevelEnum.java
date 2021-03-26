@@ -4,4 +4,5 @@ public enum LevelEnum {
     FIRST,
     SECOND,
     THIRD
+
 }

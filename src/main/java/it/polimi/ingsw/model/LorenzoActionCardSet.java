@@ -16,10 +16,10 @@ public class LorenzoActionCardSet {
     public LorenzoActionCardSet(){
 
         actionSet= new ArrayList<>();
-        actionSet.add(0, new LorenzoActionCard(CardColor.blue));
-        actionSet.add(1, new LorenzoActionCard(CardColor.yellow));
-        actionSet.add(2, new LorenzoActionCard(CardColor.purple));
-        actionSet.add(3, new LorenzoActionCard(CardColor.green));
+        actionSet.add(0, new LorenzoActionCard(CardColor.BLUE));
+        actionSet.add(1, new LorenzoActionCard(CardColor.YELLOW));
+        actionSet.add(2, new LorenzoActionCard(CardColor.PURPLE));
+        actionSet.add(3, new LorenzoActionCard(CardColor.GREEN));
         actionSet.add(4, new LorenzoActionCard(1));
         actionSet.add(5, new LorenzoActionCard(2));
         Collections.shuffle(actionSet);
