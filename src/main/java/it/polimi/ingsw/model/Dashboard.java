@@ -11,47 +11,97 @@ public class Dashboard {
     private LeaderCard[] leaderCards;
     private boolean inkwell;
 
-    public Dashboard(String nickName, LeaderCard[] leaderCards, boolean inkwell){
+    public Dashboard(String nickName, LeaderCard[] leaderCards, boolean inkwell, PopeTrack personalPopeTrack){
         this.nickName = nickName;
         this.leaderCards = leaderCards;
         this.inkwell = inkwell;
+        this.personalPopeTrack = personalPopeTrack;
+
+        totalScore = 0;
+        personalLockBox = new LockBox();
+        personalStock = new Stock();
+
+        personalProductionZone = new ProductionZone[3];
+        for (int i=0; i<personalProductionZone.length; i++){
+            personalProductionZone[i] = new ProductionZone();
+        }
     }
 
+    /**
+     *
+     * @return the nickname of the player who owns the dashboard
+     */
     public String getNickName() {
         return nickName;
     }
 
+    /**
+     *
+     * @return the score of the player who owns the dashboard
+     */
     public int getScore() {
         return totalScore;
     }
 
+    /**
+     *
+     * @return the instance of the actual personal stock of the player, not a copy
+     */
     public Stock getStock() {
         return personalStock;
     }
 
+    /**
+     *
+     * @return the instance of the actual personal lockbox of the player, not a copy
+     */
     public LockBox getLockBox() {
         return personalLockBox;
     }
 
+    /**
+     *
+     * @return the instance of the actual production zone (array of three production zones) of the player, not a copy
+     */
     public ProductionZone[] getProductionZone() {
         return personalProductionZone;
     }
 
+    /**
+     *
+     * @return the instance of the actual pope track of the player, not a copy
+     */
     public PopeTrack getPopeTrack() {
         return personalPopeTrack;
     }
 
+    /**
+     *
+     * @return the instance of the actual leaders card (array of two leader cards) of the player, not a copy
+     */
     public LeaderCard[] getLeaderCards() {
         return leaderCards;
     }
 
+    /**
+     *
+     * @return true if the player is the first one of the tourn, false otherwise
+     */
+    public boolean getInkwell() {
+        return inkwell;
+    }
+
+
+
+    /**
+     * maybe useless, we'll see
+     * @param personalProductionZone
+     */
     public void setPersonalProductionZone(ProductionZone[] personalProductionZone) {
         this.personalProductionZone = personalProductionZone;
     }
 
-    public boolean getInkwell() {
-        return inkwell;
-    }
+
 
     /**
      * method that increment the position of the player into his pope track

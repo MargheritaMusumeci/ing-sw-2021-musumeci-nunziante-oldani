@@ -5,6 +5,6 @@ public enum ResourceType {
     SHIELD,
     ROCK,
     SERVANT,
-    FAIR,
+    FAITH,
     NOTHING
 }

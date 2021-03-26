@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 public class EvolutionCard {
 
-    private String color;
-    private int level;
+    private CardColor color;
+    private LevelEnum level;
     private int point;
     private int cost;
     private ResourceType costType;
@@ -13,6 +13,7 @@ public class EvolutionCard {
 
     /**
      *
+     * @param color represent the card color
      * @param level represent the card level
      * @param point represent the card point
      * @param cost  represent the card cost
@@ -21,19 +22,21 @@ public class EvolutionCard {
      * @param product   array of the resource produced by the productioon
      */
 
-    public EvolutionCard(int level, int point, int cost, ResourceType costType, Resource[] requires, Resource[] product){
+    public EvolutionCard(CardColor color, LevelEnum level, int point, int cost, ResourceType costType, Resource[] requires, Resource[] product){
+        this.color = color;
         this.level = level;
         this.point = point;
         this.costType = costType;
         this.requires = requires;
         this.product = product;
+        isActive = false;
     }
 
-    public String getColor() {
+    public CardColor getColor() {
         return color;
     }
 
-    public int getLevel() {
+    public LevelEnum getLevel() {
         return level;
     }
 
@@ -50,17 +53,21 @@ public class EvolutionCard {
     }
 
     public Resource[] getRequires() {
-        return requires;
+        return requires.clone();
     }
 
     public Resource[] getProduction() {
-        return product;
+        return product.clone();
     }
 
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     * method that change the card state from acrive to inactive and vice versa
+     * @param value is true if the card is active, false otherwise
+     */
     public void setActive(boolean value){
         isActive = value;
     }

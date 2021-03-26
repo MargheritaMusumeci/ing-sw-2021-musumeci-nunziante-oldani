@@ -11,7 +11,7 @@ public class Player {
     //Is it right or there is an other way to initialize dashboard?
     public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection){
         this.nickName = nickName;
-        dashboard = new Dashboard(nickName , leaderCards , inkwell);
+        dashboard = new Dashboard(nickName , leaderCards , inkwell, null); //need a popetrack
         this.market = market;
         this.evolutionSection = evolutionSection;
         hasLeaderBeenUsed = new boolean[] {false , false};

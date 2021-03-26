@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public class Resource {
+public class Resource implements Cloneable{
 
     private ResourceType type;
 

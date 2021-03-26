@@ -10,7 +10,8 @@ public class Market {
      * the number of type of resources is defined, only the position is random
      */
     public Market(){
-
+        marketBoard = new Resource[3][4];
+        randomPopulateBoard();
     }
 
     /**
@@ -30,7 +31,7 @@ public class Market {
     }
 
     /**
-     * methos that return the resource at the given position in the market
+     * method that return the resource at the given position in the market
      * @param row is the number of the chosen row (0 is the first)
      * @param column is the number of the chosen column (0 is the first)
      * @return the resource at that position in the market

@@ -10,16 +10,45 @@ public class EvolutionSection {
      * constructor that creates the section in which EvolutionCards are stored and instantiates every card
      */
     public EvolutionSection(){
-        this.evolutionSection = null;
+
+        evolutionSection = new ArrayList[3][4];
+
+        for (int i=0; i<evolutionSection.length; i++){
+            for(int j=0; j<evolutionSection[i].length; j++){
+                evolutionSection[i][j] = new ArrayList<EvolutionCard>();
+
+            }
+        }
+
+        populateSection();
+
     }
 
     /**
-     * @return the fist card of each section that can be bought
+     * method that creates the instances for every card
+     */
+    private void populateSection(){
+
+    }
+
+
+    /**
+     * @return the fist card of each section that can be bought, if the cards in that postion are finished
+     * the position is set to null
      */
     public EvolutionCard[][] canBuy(){
 
-        //fake object just to resolve errors before implementing the method
-        EvolutionCard[][] c = new EvolutionCard[1][1];
+        EvolutionCard[][] c = new EvolutionCard[3][4];
+        for (int i=0; i<evolutionSection.length; i++){
+            for(int j=0; j<evolutionSection[i].length; j++){
+                if(evolutionSection[i][j].size() > 0){
+                    c[i][j] = evolutionSection[i][j].get(0);
+                }else{
+                    c[i][j] = null;
+                }
+            }
+        }
+
         return c;
     }
 
@@ -30,8 +59,8 @@ public class EvolutionSection {
      * @return the card bought
      */
     public EvolutionCard buy(int row, int col){
-        //fake object just to resolve errors before implementing the method
-        EvolutionCard c = new EvolutionCard(1,1,1,ResourceType.COIN, null,null);
+        EvolutionCard c = evolutionSection[row][col].get(0);
+        evolutionSection[row][col].remove(0);
         return c;
     }
 
