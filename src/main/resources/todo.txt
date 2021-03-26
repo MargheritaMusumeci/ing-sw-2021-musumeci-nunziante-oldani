@@ -1,0 +1,37 @@
+Musumeci:
+- rifre la classe leader card (uso optional)
+- productionZone sistemare getLevel
+- aggiungere metodi ad enum per il valore
+- usare optional per Lorenzo action card
+- rsistemare costruttore production zone, manca la creazione delle arraylist
+- sistemare get della production zone
+- cambiare isFull
+- se tolgo i controlli aggiungo getLevel
+
+Nunziante:
+- Creare classe track con posizioni e sistemare popeTrack
+- togliere setGamerPosition
+- togliere action da lockbox
+- sisteamre dimensione stock
+- aggiungere tipo risorsa stock
+- aggiungere metodo getResourceType nello stock
+- change string to CardColor
+- rimuovere commenti
+- aggiungi metodo aggiungibox in stock
+
+Oldani:
+- Rimuovere la classe risorsa e usare solo l’enum
+- Sistemare buy
+- Sistemare isActive in Evolutioncarc
+- Aggiornare get position di market
+
+
+
+
+Generali:
+
+- pensare al controller
+- scrivere insieme il game -->
+--> decidere come sistemare la sitazione lorezoPlayer
+
+
