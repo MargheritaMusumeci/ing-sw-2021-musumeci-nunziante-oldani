@@ -18,20 +18,34 @@ public class PopeTrack {
         lorenzoPosition = track[0];
     }
 
-    public Position getGamerPosition(){   //ci sono 2 getPosition nell' UML
+    public Position getGamerPosition(){
         return gamerPosition;
     }
 
+    /**
+     * Increment the position of the player
+     * @param increment number of steps in the track
+     */
     public void updateGamerPosition(int increment){
         gamerPosition = track[gamerPosition.getIndex() + increment];
     }
 
+    /**
+     * Return the 3 pope cards in this popeTrack
+     * @return
+     */
     public PopeCard[] getPopeCard() { return popeCard.clone(); }
 
-    public void setGamerPosition(Position position){ }//Is it really necessary????
-
+    /**
+     * In case of single player return the position of Lorenzo
+     * @return
+     */
     public Position getLorenzoPosition(){ return lorenzoPosition; }
 
+    /**
+     * Increment the position of Lorenzo
+     * @param increment number of steps in the track
+     */
     public void updateLorenzoPosition(int increment){
         lorenzoPosition = track[lorenzoPosition.getIndex() + increment];
     }

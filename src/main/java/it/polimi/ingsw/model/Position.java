@@ -15,13 +15,33 @@ public class Position {
         this.numPopeSection = numPopeSection;
     }
 
+    /**
+     *Return the index of the position
+     * @return
+     */
     public int getIndex(){ return index; }
 
+    /**
+     * Return the point of the position
+     * @return
+     */
     public int getPoint(){ return point; }
 
+    /**
+     * Return true if this position is a pope position
+     * @return
+     */
     public boolean getPopePosition(){ return isPopePosition; }
 
+    /**
+     * Return true if this position is a pope section
+     * @return
+     */
     public boolean getPopeSection(){ return isPopeSection; }
 
+    /**
+     * Return of the number of pope section, if getPopeSection() == true
+     * @return
+     */
     public int getNumPopeSection(){ return numPopeSection; }
 }

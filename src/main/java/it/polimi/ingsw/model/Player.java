@@ -22,13 +22,12 @@ public class Player {
 
     }
 
-    //I'm not sure about this function: here or in dashboard? 3 or 4?
+    //4 because the base production
     public void activeProduction(boolean[] activatedProductionZone){
 
     }
 
-    //Void method or return EvolutionCard?
-    public void buyCard(int level , String color){
+    public void buyCard(int level , CardColor color){
 
     }
 
@@ -48,5 +47,9 @@ public class Player {
 
     public void setActionState(){ hasActionBeenUsed = true;}//no in UML
 
+    /**
+     * Return the dashboard of the player
+     * @return
+     */
     public Dashboard getDashboard(){ return dashboard; }
 }
