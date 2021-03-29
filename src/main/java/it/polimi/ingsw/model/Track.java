@@ -6,7 +6,8 @@ import java.util.Scanner;
 
 /**
  * This class initialize the standard track, reading the details from a file
- * Use of the patter singleton -> the track is the same for each game -> if it can change from game to game ->no static
+ * Use of the patter singleton -> the track is the same for each game -> if it can change from game to game ->
+ *  ->map with key the idGame and with value the instance of the Track
  */
 public class Track {
     private static Track instanceOfTrack = null;
@@ -16,8 +17,8 @@ public class Track {
     /**
      * Initialize the common track, taking the info from "positionTrack.txt"
      * @index , @point , @isPopeSection , @numPopeSection , @isPopeSection are the future attribute of a Position object
-     * @i is the current position
-     * @j is used to determine which attribute I'm reading
+     * i is the current position
+     * j is used to determine which attribute I'm reading
      */
     private Track(){
         File info = new File("C:\\Users\\Matteo Nunziante\\IdeaProjects\\ing-sw-2021-musumeci-nunziante-oldani\\src\\main\\resources\\positionTrack.txt");
@@ -55,6 +56,7 @@ public class Track {
                     j++;
                 }
             }
+            scanner.close();
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }
@@ -82,7 +84,7 @@ public class Track {
      * @return the track
      */
     public Position[] getTrack(){
-        return track.clone();
+        return instanceOfTrack.track.clone();
     }
 
 }

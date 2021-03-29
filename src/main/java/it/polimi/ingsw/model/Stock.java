@@ -1,18 +1,22 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Stock {
     private ArrayList<Resource[]> boxes;
 
     /**
-     * Initialize a free stock
+     * Initialize an empty stock
      */
     public Stock(){
         boxes = new ArrayList<Resource[]>();
         Resource[] box0 = new Resource[1];
         Resource[] box1 = new Resource[2];
         Resource[] box2 = new Resource[3];
+        Arrays.fill(box0 , null);
+        Arrays.fill(box1 , null);
+        Arrays.fill(box2 , null);
         boxes.add(box0);
         boxes.add(box1);
         boxes.add(box2);
@@ -40,7 +44,7 @@ public class Stock {
     public void addResources(int originBox , int numberResources , Resource resourceType){
         Resource[] box = boxes.get(originBox);
         int i = 0;
-        int maxDim = box.length;//this can be eliminated if the controller do all the control
+        int maxDim = box.length;
 
         while(numberResources != 0 && i < maxDim){
             if(box[i] == null){
@@ -70,6 +74,13 @@ public class Stock {
     }
 
     /**
+     *
+     * @param originBox
+     * @return the length of the originBox
+     */
+    public int getBoxLength(int originBox){ return boxes.get(originBox).length; }
+
+    /**
      * Assumption: the controller has already done the check about the available resources
      *
      * Eliminate resources from the last position to the first position
@@ -91,8 +102,34 @@ public class Stock {
         boxes.set(originBox , box);
     }
 
-    public void moveResources(int originBox , int destinationBox){
+    /**
+     * Assumption : I can't discard resources in this phase, only move from one box to an other
+     *
+     * @param originBox from where take the resources
+     * @param destinationBox where put the resources
+     * @return true if the operation is completed, false otherwise
+     */
+    public boolean moveResources(int originBox , int destinationBox){
+        if(getQuantities(originBox) > getBoxLength(destinationBox))
+            return false;
+        if(getQuantities(destinationBox) > getBoxLength(originBox))
+            return false;
 
+        Resource[] boxOrigin = boxes.get(originBox);
+        Resource[] boxDestination = boxes.get(destinationBox);
+        Arrays.fill(boxOrigin , null);
+        Arrays.fill(boxDestination , null);
+        int originQuantities = getQuantities(originBox);
+        int destinationQuantities = getQuantities(destinationBox);
+        for(int i = 0; i < originQuantities; i++){
+            boxDestination[i] = boxes.get(originBox)[i];
+        }
+        for(int j = 0; j < destinationQuantities; j++){
+            boxOrigin[j] = boxes.get(destinationBox)[j];
+        }
+        boxes.set(originBox , boxOrigin);
+        boxes.set(destinationBox , boxDestination);
+        return true;
     }
 
     /**
