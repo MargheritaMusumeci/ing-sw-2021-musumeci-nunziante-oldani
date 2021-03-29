@@ -9,6 +9,8 @@ public class Player {
     private boolean[] hasLeaderBeenUsed;
     private boolean hasActionBeenUsed;
 
+    private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
+
 
     public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection , PopeCard popeCard0 , PopeCard popeCard1 , PopeCard popeCard2){
         this.nickName = nickName;
@@ -20,9 +22,19 @@ public class Player {
         hasActionBeenUsed = false;
     }
 
+    /**
+     * I don't know why I'm saving these resources.
+     * We need this method only to invoke updateMarket?
+     * Because the controller can invoke itself the methods of Stock and LockBox to add resources.
+     * @param position
+     * @param isRow
+     */
     public void buyAtMarket(int position , boolean isRow){
-
+        //take max 4 resources in Resources[] resource
+        market.updateBoard(position , isRow);
+        resources = new Resource[]{Resource.COIN , Resource.COIN , Resource.SERVANT , Resource.NOTHING};
     }
+
 
     //4 because the base production
     public void activeProduction(boolean[] activatedProductionZone){

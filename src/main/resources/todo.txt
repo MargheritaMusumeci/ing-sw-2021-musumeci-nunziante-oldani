@@ -10,6 +10,11 @@ Nunziante:
      in player serve un metodo che gliele fa scegliere?
    3)quando nello stock posso muovere le risorse, le risorse complessive rimangono uguali o
      posso anche scartarle in questa fase?
+   4)per la gestion del mercato non è meglio in updateBoard fare già che restituisce le risorse nella riga/colonna?
+        Altrimenti devo rifare il ciclo praticamente uguale in player.
+   5)Commento del metodo buyAtMArket
+- aggiunto un array di risorse come attributo di player dove ci metto le risorse prese in caso di buyAtMArket, così poi
+    posso invocare singoli metodi per una singola risorsa quando l'utente ha scelto che risorsa e dove metterla.
 
 Oldani:
 - Leggere le carte dal file e crearle
