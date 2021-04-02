@@ -6,6 +6,8 @@ public class LockBox {
     private int rock;
     private int shield;
 
+
+
     /**
      * Return the amount of coins in the LockBox
      * @return

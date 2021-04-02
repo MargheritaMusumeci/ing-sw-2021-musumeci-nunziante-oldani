@@ -10,13 +10,13 @@ public class PopeTrack {
 
     /**
      * Take the instance of the track and initialize the attribute
-     * @param popeCard is the array of three pope cards
      */
-    public PopeTrack(PopeCard[] popeCard){
+    public PopeTrack(){
         track = Track.getInstanceOfTrack();
         this.popeCard = popeCard.clone();
         gamerPosition = track.getTrack()[0];
         lorenzoPosition = track.getTrack()[0];
+        // add popeCard creation
     }
 
     /**

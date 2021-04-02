@@ -5,12 +5,7 @@ Nunziante:
 - Creare classe track con posizioni e sistemare popeTrack
 
 - Domanda da fare :
-   1)visto che i controlli li dobbiamo fare nel model, nei controlli usiamo sempre le
-     eccezioni o dove i metodi sono void facciamo un return true/false per sapere l'esito?
-     \\\\ i Matteo userebbero le eccezioni ( in particolare oldani )
-   2)le tessere favore papale il giocatore le sceglie prima di creare l'oggetto Player o
-     in player serve un metodo che gliele fa scegliere?
-     \\\\ vengon passate insieme agli altri oggetti alla creazione del player. Il player le sceglierà/pescate a caso nell'inizializzazione del gioco
+
 
    5)Commento del metodo buyAtMArket
       \\\\ commento nelle mie note (oldani)

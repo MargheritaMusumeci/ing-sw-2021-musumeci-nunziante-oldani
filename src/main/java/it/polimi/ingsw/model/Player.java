@@ -12,9 +12,9 @@ public class Player {
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
 
 
-    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection , PopeCard[] popeCard){
+    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection){
         this.nickName = nickName;
-        this.popeTrack = new PopeTrack(popeCard);
+        this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
         this.market = market;
         this.evolutionSection = evolutionSection;
