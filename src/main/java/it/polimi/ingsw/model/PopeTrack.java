@@ -10,16 +10,11 @@ public class PopeTrack {
 
     /**
      * Take the instance of the track and initialize the attribute
-     * @param popeCard0 popeCard in the first popeSection
-     * @param popeCard1 popeCard in the second popeSection
-     * @param popeCard2 popeCard in the third popeSection
+     * @param popeCard is the array of three pope cards
      */
-    public PopeTrack(PopeCard popeCard0 , PopeCard popeCard1 , PopeCard popeCard2){
+    public PopeTrack(PopeCard[] popeCard){
         track = Track.getInstanceOfTrack();
-        popeCard = new PopeCard[3];
-        popeCard[0] = new PopeCard(popeCard0.getPoint() , popeCard0.getPosition());
-        popeCard[1] = new PopeCard(popeCard1.getPoint() , popeCard1.getPosition());
-        popeCard[2] = new PopeCard(popeCard2.getPoint() , popeCard2.getPosition());
+        this.popeCard = popeCard.clone();
         gamerPosition = track.getTrack()[0];
         lorenzoPosition = track.getTrack()[0];
     }

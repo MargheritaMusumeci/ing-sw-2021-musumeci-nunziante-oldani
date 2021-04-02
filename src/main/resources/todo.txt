@@ -3,21 +3,27 @@ Musumeci:
 
 Nunziante:
 - Creare classe track con posizioni e sistemare popeTrack
+
 - Domanda da fare :
    1)visto che i controlli li dobbiamo fare nel model, nei controlli usiamo sempre le
      eccezioni o dove i metodi sono void facciamo un return true/false per sapere l'esito?
+     \\\\ i Matteo userebbero le eccezioni ( in particolare oldani )
    2)le tessere favore papale il giocatore le sceglie prima di creare l'oggetto Player o
      in player serve un metodo che gliele fa scegliere?
-   3)quando nello stock posso muovere le risorse, le risorse complessive rimangono uguali o
-     posso anche scartarle in questa fase?
-   4)per la gestion del mercato non è meglio in updateBoard fare già che restituisce le risorse nella riga/colonna?
-        Altrimenti devo rifare il ciclo praticamente uguale in player.
+     \\\\ vengon passate insieme agli altri oggetti alla creazione del player. Il player le sceglierà/pescate a caso nell'inizializzazione del gioco
+
    5)Commento del metodo buyAtMArket
+      \\\\ commento nelle mie note (oldani)
+
 - aggiunto un array di risorse come attributo di player dove ci metto le risorse prese in caso di buyAtMArket, così poi
     posso invocare singoli metodi per una singola risorsa quando l'utente ha scelto che risorsa e dove metterla.
 
 Oldani:
 - Leggere le carte dal file e crearle
+
+-modificare la signature di updateMarket nell'uml
+-aggiunfere il get del market board nell'uml
+
 
 
 
@@ -32,9 +38,15 @@ Generali:
 DOMANDE TUTORATO
 
 - I controlli sulla validità dei parametri dove li devo fare? Noi li faremmo nel controller
+        Vanno fatti nel model
+
+
 - Nelle EvolutionCard le tipologie di risorse per requirements, products e cost sono mappate intrinsecamente dentro l'array
     che le contiene come //rock, shield, coin, servant, faith. Può esseere un problema?
+        user un hashmap {resource, valore}
+
 - se va bene il metodo di creazione delle carte da parte di file
+        usare la libreiria gson
 
 
 

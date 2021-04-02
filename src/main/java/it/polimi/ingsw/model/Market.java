@@ -61,15 +61,18 @@ public class Market {
     }
 
     /**
-     *
+     * method that update resources in the market when someone buy at the market
      * @param position is the index of the row/column chosen to play the move in the market
      * @param isRow if true the player have chosen a row, if false a column
+     * @return the array of resources bought at the market
      */
-    public void updateBoard(int position, boolean isRow){
+    public Resource[] updateBoard(int position, boolean isRow){
 
         Resource tempRes;
+        Resource[] bought = null;
 
         if(isRow){
+            bought = marketBoard[position].clone();
             tempRes = marketBoard[position][0];
             for (int i=0; i< marketBoard[position].length - 1; i++){
                 marketBoard[position][i] = marketBoard[position][i+1];
@@ -77,13 +80,17 @@ public class Market {
             marketBoard[position][3] = externalResource;
             externalResource = tempRes;
         }else{
+            bought = new Resource[3];
             tempRes = marketBoard[0][position];
             for (int i=0; i< marketBoard.length - 1; i++){
+                bought[i] = marketBoard[i][position];
                 marketBoard[i][position] = marketBoard[i+1][position];
             }
             marketBoard[2][position] = externalResource;
             externalResource = tempRes;
         }
+
+        return bought;
     }
 
     /**
@@ -94,5 +101,13 @@ public class Market {
      */
     public Resource getPosition(int row, int column){
         return marketBoard[row][column];
+    }
+
+    /**
+     * method that returns a copy of the market board
+     * @return a copy of the market board
+     */
+    public Resource[][] getMarketBoard(){
+        return marketBoard.clone();
     }
 }

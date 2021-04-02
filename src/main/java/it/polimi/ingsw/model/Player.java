@@ -12,15 +12,16 @@ public class Player {
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
 
 
-    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection , PopeCard popeCard0 , PopeCard popeCard1 , PopeCard popeCard2){
+    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection , PopeCard[] popeCard){
         this.nickName = nickName;
-        this.popeTrack = new PopeTrack(popeCard0 , popeCard1 , popeCard2);
+        this.popeTrack = new PopeTrack(popeCard);
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
         this.market = market;
         this.evolutionSection = evolutionSection;
         hasLeaderBeenUsed = new boolean[] {false , false};
         hasActionBeenUsed = false;
     }
+
 
     /**
      * I don't know why I'm saving these resources.
