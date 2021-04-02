@@ -30,7 +30,14 @@ Generali:
 --> decidere come sistemare la sitazione lorezoPlayer
 
 
-DOMANDE TUTORATO
+DOMANDE TUTORATO:
+
+- Posso scegliere dove mettere le risorse appena comprate a magazzino vuoto o vanno messe in automatico?
+
+- Dove parte il gioco? Chi sarà in grado di gestire l'inizio una volta che i player sono collegati al server? Il controller?
+
+
+RISPOSTE TUTORATO:
 
 - I controlli sulla validità dei parametri dove li devo fare? Noi li faremmo nel controller
         Vanno fatti nel model
