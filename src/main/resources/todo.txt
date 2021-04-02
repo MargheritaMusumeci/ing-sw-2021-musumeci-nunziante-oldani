@@ -1,36 +1,36 @@
 Musumeci:
-- leggere le LeaderCard dal file e crearle
+- leggere le LeaderCard dal file e crearle --> GSON
 
 Nunziante:
-- Creare classe track con posizioni e sistemare popeTrack
-
-- Domanda da fare :
-
-
-   5)Commento del metodo buyAtMArket
-      \\\\ commento nelle mie note (oldani)
-
-- aggiunto un array di risorse come attributo di player dove ci metto le risorse prese in caso di buyAtMArket, così poi
-    posso invocare singoli metodi per una singola risorsa quando l'utente ha scelto che risorsa e dove metterla.
+- crezione posizioni GSON
 
 Oldani:
-- Leggere le carte dal file e crearle
+- Leggere le carte dal file e crearle --> GSON
 
 -modificare la signature di updateMarket nell'uml
 -aggiunfere il get del market board nell'uml
 
 
 
-
-
 Generali:
 
-- pensare al controller
-- scrivere insieme il game -->
---> decidere come sistemare la sitazione lorezoPlayer
+- pensare al controller --> UML
+- scrivere insieme il game --> decidere come sistemare la sitazione lorezoPlayer
+- fare test delle classi implementare
+- aggiornare UML
+
+
 
 
 DOMANDE TUTORATO:
+
+- Creare nel controller la classe SoloGameHandler che in caso di sologame gestisca le mosse di un ipotetico lorenzo usando le action card
+  e usando gli oggetti di game (market e le evolutionCardSection)
+  Metterà l'active player a null durante la computazione
+  Aggiorna posizoone pope track di lorenzo
+
+- Dobbiamo gestire gli eventuali errori (parametri non validi arrivati al model/controller)
+  con exception o ci sono altri modi consiglaiti? Chi gestirà poi tutte le exception?
 
 - Posso scegliere dove mettere le risorse appena comprate a magazzino vuoto o vanno messe in automatico?
 
