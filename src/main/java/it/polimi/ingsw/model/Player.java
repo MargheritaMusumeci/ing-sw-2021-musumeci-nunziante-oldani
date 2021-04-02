@@ -19,29 +19,34 @@ public class Player {
     }
 
 
-    /*
-     * I don't know why I'm saving these resources.
-     * We need this method only to invoke updateMarket?
-     * Because the controller can invoke itself the methods of Stock and LockBox to add resources.
-     * @param position
-     * @param isRow
+    /**
+     * method that return in which production zone i can put the card that i bought
+     * @param card id the card that i bought in the EvolutionSection
+     * @return an array of boolean that says which prod zone is usable
+     */
+    public boolean[] getPossibleProductionZone(EvolutionCard card){
 
-    public void buyAtMarket(int position , boolean isRow){
-        //take max 4 resources in Resources[] resource
-        market.updateBoard(position , isRow);
-        resources = new Resource[]{Resource.COIN , Resource.COIN , Resource.SERVANT , Resource.NOTHING};
+        return null;
     }
 
+    /**
+     * method that return which card the player can buy at the evolution section based on stock and lockbock resources,
+     * state of production zones and active leader cards abilities
+     * @return a matrix of boolean that activates the positions of the card that can be bought by the player
+     */
+    public boolean[][] getPossibleEvolutionCard(){
 
-    //4 because the base production
-    public void activeProduction(boolean[] activatedProductionZone){
-
+        return null;
     }
 
-    public void buyCard(int level , CardColor color){
+    /**
+     * method that returns the production that can be activated based on stock, lockbox and active leader cards abilities
+     * @return an array of boolean that says which production could be activedted by the player
+     */
+    public boolean[] getPossibleActiveProductionZone(){
 
+        return null;
     }
-      */
 
 
     public void activeLeaderCard(int position){
