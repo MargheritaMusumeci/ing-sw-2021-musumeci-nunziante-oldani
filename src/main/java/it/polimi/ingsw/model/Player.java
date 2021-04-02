@@ -3,33 +3,29 @@ package it.polimi.ingsw.model;
 public class Player {
     private String nickName;
     private Dashboard dashboard;
-    private Market market;
-    private EvolutionSection evolutionSection;
     private PopeTrack popeTrack;
     private boolean[] hasLeaderBeenUsed;
     private boolean hasActionBeenUsed;
 
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
 
-
-    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell , Market market , EvolutionSection evolutionSection){
+    //Togliere market e EvolutionSection che saranno una proprietà del game
+    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell){
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
-        this.market = market;
-        this.evolutionSection = evolutionSection;
         hasLeaderBeenUsed = new boolean[] {false , false};
         hasActionBeenUsed = false;
     }
 
 
-    /**
+    /*
      * I don't know why I'm saving these resources.
      * We need this method only to invoke updateMarket?
      * Because the controller can invoke itself the methods of Stock and LockBox to add resources.
      * @param position
      * @param isRow
-     */
+
     public void buyAtMarket(int position , boolean isRow){
         //take max 4 resources in Resources[] resource
         market.updateBoard(position , isRow);
@@ -45,6 +41,8 @@ public class Player {
     public void buyCard(int level , CardColor color){
 
     }
+      */
+
 
     public void activeLeaderCard(int position){
         //Throw an exception if position < 0 || position > 2 ?
