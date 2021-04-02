@@ -5,6 +5,7 @@ import java.util.Optional;
 /**
  * possible requires:
  * - two EvolutionCard Color
+ * - three EvolutionCard Color
  * - n Resource
  * - a EvolutionCard with specific Color and Level
  *
@@ -14,6 +15,7 @@ import java.util.Optional;
  * - add a Production Power
  * - add space in Stock
  */
+
 public class LeaderCard {
     private Optional<CardColor>[] requiresColor;
     private Optional<LevelEnum>[] requiresLevel;
@@ -22,7 +24,7 @@ public class LeaderCard {
     private int point;
     private LeaderAbility abilityType;
     private Optional<Integer> numSale;
-    private Resource abilityResourceType; //rock, shield, coins, servants for production,white-change  and sale
+    private Resource abilityResource; //rock, shield, coins, servants for production,white-change  and sale
 
     public LeaderCard(){
         //read from file and built cards
@@ -47,8 +49,8 @@ public class LeaderCard {
         return numSale;
     }
 
-    public Resource getAbilityResourceType() {
-        return abilityResourceType;
+    public Resource getAbilityResource() {
+        return abilityResource;
     }
 
     public LeaderAbility getAbilityType() {
