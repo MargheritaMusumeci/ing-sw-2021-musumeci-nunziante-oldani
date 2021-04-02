@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.ExcessOfPositionException;
+
 import java.util.ArrayList;
 
-public class PopeTrack {
+public class PopeTrack{
     private Track track;
     private PopeCard[] popeCard;
     private Position gamerPosition;
@@ -13,10 +15,9 @@ public class PopeTrack {
      */
     public PopeTrack(){
         track = Track.getInstanceOfTrack();
-        this.popeCard = popeCard.clone();
+        //this.popeCard = popeCard.clone();
         gamerPosition = track.getTrack()[0];
         lorenzoPosition = track.getTrack()[0];
-        // add popeCard creation
     }
 
     /**
@@ -30,8 +31,12 @@ public class PopeTrack {
     /**
      * Increment the position of the player
      * @param increment number of steps in the track
+     * @throws ExcessOfPositionException if  LorenzoPlayer is already in the last position
      */
-    public void updateGamerPosition(int increment){
+    public void updateGamerPosition(int increment) throws ExcessOfPositionException {
+
+        if((gamerPosition.getIndex() + increment) > track.getTrack().length) throw new ExcessOfPositionException("Player: Track is ended");
+
         gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
     }
 
@@ -50,8 +55,12 @@ public class PopeTrack {
     /**
      * Increment the position of Lorenzo
      * @param increment number of steps in the track
+     * @throws ExcessOfPositionException if  LorenzoPlayer is already in the last position
      */
-    public void updateLorenzoPosition(int increment){
+    public void updateLorenzoPosition(int increment) throws ExcessOfPositionException{
+
+        if((lorenzoPosition.getIndex() + increment) > track.getTrack().length) throw new ExcessOfPositionException("Lorenzo: Track is ended");
+
         lorenzoPosition = track.getTrack()[gamerPosition.getIndex() + increment];
     }
 }
