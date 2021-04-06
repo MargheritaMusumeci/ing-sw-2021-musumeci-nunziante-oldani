@@ -3,34 +3,51 @@ package it.polimi.ingsw.model;
 public class PopeCard {
     private int point;
     private boolean isUsed;
-    private Position position;
+    private boolean isDiscard;
+    private int position;
 
     /**
      *
      * @param point of the card
      * @param position in the popeTrack --> maybe it's better use the index instead of the position
      */
-    public PopeCard(int point , Position position){
+    public PopeCard(int point , int position){
         this.point = point;
         this.isUsed = false;
         this.position = position;
     }
 
     /**
-     * Return the point of the popeCard
-     * @return
+     *
+     * @return the point of the popeCard
      */
     public int getPoint(){ return point; }
 
     /**
-     * Return true if the card is been discovered
-     * @return
+     *
+     * @return true if the card is been discovered
      */
     public boolean isUsed(){ return isUsed; }
 
     /**
-     * Return the position of the card
-     * @return
+     *
+     * @return true if the card was discard
      */
-    public Position getPosition(){ return position; }
+    public boolean isDiscard(){ return isDiscard; }
+
+    /**
+     *
+     * @return the position of the card
+     */
+    public int getPosition(){ return position; }
+
+    /**
+     * Set true isUser if the player is in a pope section or in a pope position
+     */
+    public void  setIsUsed() { isUsed = true; }
+
+    /**
+     * Set true isDiscard if the player can't use the pope card anymore
+     */
+    public void setIsDiscard() { isDiscard = true; }
 }

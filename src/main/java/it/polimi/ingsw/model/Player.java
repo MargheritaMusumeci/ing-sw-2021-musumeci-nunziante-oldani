@@ -9,7 +9,6 @@ public class Player {
 
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
 
-    //Togliere market e EvolutionSection che saranno una proprietà del game
     public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell){
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
@@ -30,7 +29,7 @@ public class Player {
     }
 
     /**
-     * method that return which card the player can buy at the evolution section based on stock and lockbock resources,
+     * method that return which card the player can buy at the evolution section based on stock and lock box resources,
      * state of production zones and active leader cards abilities
      * @return a matrix of boolean that activates the positions of the card that can be bought by the player
      */
@@ -40,8 +39,8 @@ public class Player {
     }
 
     /**
-     * method that returns the production that can be activated based on stock, lockbox and active leader cards abilities
-     * @return an array of boolean that says which production could be activedted by the player
+     * method that returns the production that can be activated based on stock, lock box and active leader cards abilities
+     * @return an array of boolean that says which production could be activated by the player
      */
     public boolean[] getPossibleActiveProductionZone(){
 

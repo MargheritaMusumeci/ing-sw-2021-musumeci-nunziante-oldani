@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.NotEnoughResourcesException;
+import it.polimi.ingsw.exception.NotEnoughSpaceException;
+import it.polimi.ingsw.exception.ResourceAlreadyPresentException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,23 +29,32 @@ public class Stock {
     /**
      * Assumption : the box was filled starting from the first position
      *
-     * @param position number of box I want the resource type
+     * @param originBox number of box I want the resource type
      * @return the ResourceType of the required box
      */
-    public Resource getResourceType(int position){
-        return boxes.get(position)[0];
+    public Resource getResourceType(int originBox){
+        return boxes.get(originBox)[0];
     }
 
     /**
-     * Assumption : the controller has already verified the resourceType is not present in others box
-     *      and the numberResources is not bigger than free space
-     *
      * Add resources in the specified origin box starting from the first free position
      * @param originBox box I would like to insert the resources
      * @param numberResources number of resources I would like to insert
      * @param resourceType type of the resources I'm adding
+     * @throws NotEnoughSpaceException if there isn't enough space in the originBox
+     * @throws ResourceAlreadyPresentException if the resource type specified is already in an other box
      */
-    public void addResources(int originBox , int numberResources , Resource resourceType){
+    public void addResources(int originBox , int numberResources , Resource resourceType) throws NotEnoughSpaceException, ResourceAlreadyPresentException {
+
+        for(int i = 0; i < boxes.size(); i++){
+            if(i != originBox){
+                if(resourceType == getResourceType(originBox)) throw new ResourceAlreadyPresentException("The resource type is already in an other box");
+            }
+            else{
+                if(boxes.get(originBox).length - getQuantities(originBox) < numberResources) throw new NotEnoughSpaceException("The box is too small");
+            }
+        }
+
         Resource[] box = boxes.get(originBox);
         int i = 0;
         int maxDim = box.length;
@@ -81,13 +94,15 @@ public class Stock {
     public int getBoxLength(int originBox){ return boxes.get(originBox).length; }
 
     /**
-     * Assumption: the controller has already done the check about the available resources
-     *
      * Eliminate resources from the last position to the first position
      * @param originBox number of box we are interested
      * @param numberResources number of resources we use
+     * @throws NotEnoughResourcesException if the number of the resources required is smaller than the number of available resources
      */
-    public void useResources(int originBox , int numberResources){
+    public void useResources(int originBox , int numberResources) throws NotEnoughResourcesException{
+
+        if(numberResources > getQuantities(originBox)) throw new NotEnoughResourcesException("You don't have enough resources");
+
         Resource[] box = boxes.get(originBox);
         int i  = box.length;
 
@@ -103,17 +118,15 @@ public class Stock {
     }
 
     /**
-     * Assumption : I can't discard resources in this phase, only move from one box to an other
      *
      * @param originBox from where take the resources
      * @param destinationBox where put the resources
      * @return true if the operation is completed, false otherwise
+     * @throw NotEnoughSpaceException if one of the box is too smaller to contain the amount of resources in the other box
      */
-    public boolean moveResources(int originBox , int destinationBox){
-        if(getQuantities(originBox) > getBoxLength(destinationBox))
-            return false;
-        if(getQuantities(destinationBox) > getBoxLength(originBox))
-            return false;
+    public void moveResources(int originBox , int destinationBox) throws NotEnoughSpaceException {
+        if(getQuantities(originBox) > getBoxLength(destinationBox)) throw new NotEnoughSpaceException("Destination box is too small");
+        if(getQuantities(destinationBox) > getBoxLength(originBox)) throw new NotEnoughSpaceException("Origin box is too small");
 
         Resource[] boxOrigin = boxes.get(originBox);
         Resource[] boxDestination = boxes.get(destinationBox);
@@ -129,7 +142,6 @@ public class Stock {
         }
         boxes.set(originBox , boxOrigin);
         boxes.set(destinationBox , boxDestination);
-        return true;
     }
 
     /**
