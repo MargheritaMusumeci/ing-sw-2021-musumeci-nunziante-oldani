@@ -1,7 +1,11 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -13,6 +17,7 @@ public class EvolutionSection {
     /**
      * constructor that creates the section in which EvolutionCards are stored and instantiates every card
      */
+
     public EvolutionSection(){
 
         evolutionSection = new ArrayList[3][4];
@@ -30,7 +35,7 @@ public class EvolutionSection {
 
     /**
      * method that creates the instances for every card
-     */
+
     private void populateSection(){
 
         int row = 0;
@@ -102,6 +107,28 @@ public class EvolutionSection {
             e.printStackTrace();
         }
 
+
+    }
+     */
+    private void populateSection(){
+
+        String path = "/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/productionCards.json"; //need to find the correct path
+        try {
+            JsonReader reader = new JsonReader(new FileReader(path));
+            EvolutionCard[] evolutionCards = new Gson().fromJson(reader, EvolutionCard[].class);
+
+            //actually putting the card into the section
+            int counter = 0;
+            for (int i=0; i<evolutionSection.length; i++){
+                for (int j=0; j<evolutionSection[i].length; j++){
+                    for (int k=0; k<4; k++)
+                        evolutionSection[i][j].add(k, evolutionCards[counter]);
+                        counter++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -185,6 +212,10 @@ public class EvolutionSection {
         prodArray[4] = products.charAt(4) - '0';
 
         return prodArray;
+    }
+
+    public EvolutionCard getCard(int row, int col, int pos){
+        return evolutionSection[row][col].get(pos);
     }
 
 

@@ -1,13 +1,18 @@
 package it.polimi.ingsw.model;
 
+import java.util.HashMap;
+
 public class EvolutionCard {
 
     private CardColor color;
     private LevelEnum level;
     private int point;
-    private int[] cost; //rock, shield, coins, servant
-    private int[] requires; //rock, shield, coin, servant
-    private int[] product; //rock, shield, coin, servant, faith
+    private HashMap<Resource, Integer> cost;
+    private HashMap<Resource, Integer> requires;
+    private HashMap<Resource, Integer> products;
+    //private int[] cost; //rock, shield, coins, servant
+    //private int[] requires; //rock, shield, coin, servant
+    //private int[] product; //rock, shield, coin, servant, faith
     private boolean isActive;
 
     /**
@@ -17,15 +22,16 @@ public class EvolutionCard {
      * @param point represent the card point
      * @param cost  represent the card cost
      * @param requires array of resources required to activate the card in the order rock, shield, coins, servants
-     * @param product   array of the resource produced by the productioon in the order rock, shield, coins, servants, faith
+     * @param products   array of the resource produced by the productioon in the order rock, shield, coins, servants, faith
      */
 
-    public EvolutionCard(CardColor color, LevelEnum level, int point, int[] cost, int[] requires, int[] product){
+    public EvolutionCard(CardColor color, LevelEnum level, int point,  HashMap<Resource, Integer> cost,
+                         HashMap<Resource, Integer> requires, HashMap<Resource, Integer> products){
         this.color = color;
         this.level = level;
         this.point = point;
         this.requires = requires;
-        this.product = product;
+        this.products = products;
         isActive = false;
     }
 
@@ -41,16 +47,16 @@ public class EvolutionCard {
         return point;
     }
 
-    public int[] getCost() {
+    public HashMap<Resource, Integer> getCost() {
         return cost;
     }
 
-    public int[] getRequires() {
-        return requires.clone();
+    public HashMap<Resource, Integer> getRequires() {
+        return requires;
     }
 
-    public int[] getProduction() {
-        return product.clone();
+    public HashMap<Resource, Integer> getProduction() {
+        return products;
     }
 
     public boolean isActive() {

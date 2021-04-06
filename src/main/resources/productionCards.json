@@ -1,0 +1,74 @@
+[
+  {
+    "level": 3,
+    "point": 1,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "level": 3,
+    "point": 1,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "level": 3,
+    "point": 1,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "product" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  }
+]
