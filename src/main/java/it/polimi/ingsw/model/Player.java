@@ -1,10 +1,15 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
+import it.polimi.ingsw.exception.OutOfBandException;
+
 public class Player {
     private String nickName;
     private Dashboard dashboard;
     private PopeTrack popeTrack;
     private boolean[] hasLeaderBeenUsed;
+    private boolean[] hasLeaderBeenDiscard;
     private boolean hasActionBeenUsed;
 
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
@@ -54,10 +59,22 @@ public class Player {
         //active the LeaderCard ability
     }
 
-    public void discardLeaderCard(int position){
-        //Throw an exception if position < 0 || position > 2 ?
-        hasLeaderBeenUsed[position] = true;
-        //discard the card
+    /**
+     * This method discard a leader card increasing the position of the player in the pope track
+     * @param position is the leader card the player want to discard
+     * @throws OutOfBandException if the leader card specified doesn't exist
+     * @throws LeaderCardAlreadyUsedException if the leader card specified is already been used/discarded
+     */
+    public void discardLeaderCard(int position) throws OutOfBandException,LeaderCardAlreadyUsedException {
+        if(position < 0 || position > 2) throw new OutOfBandException("Invalid position");
+        if(hasLeaderBeenDiscard[position] || hasLeaderBeenUsed[position]) throw new LeaderCardAlreadyUsedException("This leader card is already been used");
+
+        hasLeaderBeenDiscard[position] = true;
+        try{
+            popeTrack.updateGamerPosition(1);
+        }catch(ExcessOfPositionException e){
+            //the game is already ended for this player, theoretically it's impossible be here for the player
+        }
     }
 
     /**
