@@ -24,13 +24,47 @@ public class Player {
 
 
     /**
-     * method that return in which production zone i can put the card that i bought
-     * @param card id the card that i bought in the EvolutionSection
-     * @return an array of boolean that says which prod zone is usable
+     * Method that returns in which production zone I can put the card that I bought
+     * @param card is the card that I bought in the EvolutionSection
+     * @return an array of boolean that says which production zone is usable
      */
     public boolean[] getPossibleProductionZone(EvolutionCard card){
+        int numOfProductionZone = dashboard.getProductionZone().length;
+        boolean[] result = new boolean[numOfProductionZone];
+        LevelEnum level = card.getLevel();
 
-        return null;
+        for(int i = 0; i < numOfProductionZone; i++){
+            if(dashboard.getProductionZone()[i].isFull(i))
+                result[i] = false;
+            else{
+                switch (level){
+                    case FIRST:
+                        if(dashboard.getProductionZone()[i].getLevel(i) == null)
+                            result[i] = true;
+                        else
+                            result[i] = false;
+                        break;
+
+                    case SECOND:
+                        if(dashboard.getProductionZone()[i].getLevel(i) == LevelEnum.FIRST)
+                            result[i] = true;
+                        else
+                            result[i] = false;
+                        break;
+
+                    case THIRD:
+                        if(dashboard.getProductionZone()[i].getLevel(i) == LevelEnum.SECOND)
+                            result[i] = true;
+                        else
+                            result[i] = false;
+                        break;
+
+                    default:
+                        result[i] = false;
+                }
+            }
+        }
+        return result;
     }
 
     /**

@@ -25,6 +25,13 @@ Generali:
 - aggiornare UML
 
 
+Richieste di matteoNunz:
+- sistemare in ProductionZone getCard : position
+- non sono sicuro di aver capito come è fatta la singola production zone, secondo me voi non vi siete capiti
+- sempre in production zone mi sarebbe più comodo se le posizioni andassero da 0 a 2 al posto che da 1 a 3,
+    poi ditemi voi
+
+
 
 
 DOMANDE TUTORATO:
