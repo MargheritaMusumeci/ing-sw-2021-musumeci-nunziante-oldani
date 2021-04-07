@@ -4,6 +4,8 @@ import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
 import it.polimi.ingsw.exception.OutOfBandException;
 
+import java.util.HashMap;
+
 public class Player {
     private String nickName;
     private Dashboard dashboard;
@@ -78,14 +80,45 @@ public class Player {
     }
 
     /**
-     * method that returns the production that can be activated based on stock, lock box and active leader cards abilities
-     * @return an array of boolean that says which production could be activated by the player
+     * Method that returns the production that can be activated based on stock and lock box
+     * Active leader card abilities are useful only when buying a new evolution card, not in activating the production zone
+     *
+     * In result[0] there is the base production zone, in 1,2 and 3 there are the other production zones
+     *
+     * @return an array of boolean that says which production zone could be activated by the player
      */
     public boolean[] getPossibleActiveProductionZone(){
+        int numOfProductionZone = dashboard.getProductionZone().length;
+        boolean[] result = new boolean[numOfProductionZone];
 
-        return null;
-    }
+        //Verify if the player can activate the base production zone: he needs at least 2 resources of the same type
+        if(dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() > 1 ||
+                dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getCoin() > 1 ||
+                dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getServant() > 1 ||
+                dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() > 1)
+            result[0] = true;
+        else
+            result[0] = false;
 
+        //Verify if the player can activate the production zone using his resources
+        for(int i = 1; i <= numOfProductionZone; i++){
+            if(dashboard.getProductionZone()[i].getLevel(i) == null) {
+                result[i] = false;
+                break;
+            }
+            EvolutionCard[] eCard = dashboard.getProductionZone()[i].getCardList(i);
+            HashMap<Resource , Integer> requires = eCard[eCard.length - 1].getRequires();
+
+            if(dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() >= requires.get(Resource.SHIELD) &&
+                    dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getCoin() >= requires.get(Resource.COIN) &&
+                    dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getServant() >= requires.get(Resource.SERVANT) &&
+                    dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() >= requires.get(Resource.ROCK))
+                result[i] = true;
+            else
+                result[i] = false;
+            }
+        return result;
+        }
 
     public void activeLeaderCard(int position){
         //Throw an exception if position < 0 || position > 2 ?
