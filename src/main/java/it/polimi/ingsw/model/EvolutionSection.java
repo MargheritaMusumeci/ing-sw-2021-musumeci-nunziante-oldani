@@ -100,8 +100,6 @@ public class EvolutionSection {
         evolutionSection[row][col].remove(0);
         return c;
     }
-
-
     /**
      * Method uses for debugging purpose --> to be removed
      * @param row row of needed card

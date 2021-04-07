@@ -21,6 +21,7 @@ import java.util.Optional;
 
 
 public class LeaderCard {
+
     private LeaderCardRequires requires;
     private CardColor[] requiresColor = null ;
     private LevelEnum[] requiresLevel = null ;
@@ -55,5 +56,12 @@ public class LeaderCard {
 
     public LeaderAbility getAbilityType() {
         return abilityType;
+    }
+
+    public LeaderCardRequires getRequires() {
+        return requires;
+    }
+    public HashMap<Resource, Integer> getProductsPower() {
+        return productsPower;
     }
 }

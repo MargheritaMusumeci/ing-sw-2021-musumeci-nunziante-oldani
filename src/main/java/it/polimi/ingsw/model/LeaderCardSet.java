@@ -25,9 +25,7 @@ public class LeaderCardSet {
             JsonReader reader = new JsonReader(new FileReader(path));
             LeaderCard[] leaderCards = new Gson().fromJson(reader, LeaderCard[].class);
             LeaderCard leader;
-            for (int i=0; i<leaderCards.length;i++) {
-                leaderCardSet.add(leaderCards[i]);
-            }
+            Collections.addAll(leaderCardSet, leaderCards);
             Collections.shuffle(leaderCardSet);
 
         } catch (FileNotFoundException e) {
