@@ -87,6 +87,7 @@ public class Market {
 
         if(isRow){
             bought = marketBoard[position].clone();
+
             tempRes = marketBoard[position][0];
             for (int i=0; i< marketBoard[position].length - 1; i++){
                 marketBoard[position][i] = marketBoard[position][i+1];
@@ -95,9 +96,12 @@ public class Market {
             externalResource = tempRes;
         }else{
             bought = new Resource[3];
-            tempRes = marketBoard[0][position];
-            for (int i=0; i< marketBoard.length - 1; i++){
+            for(int i=0; i< marketBoard.length; i++){
                 bought[i] = marketBoard[i][position];
+            }
+            tempRes = marketBoard[0][position];
+            for (int i=0; i< marketBoard.length -1; i++){
+
                 marketBoard[i][position] = marketBoard[i+1][position];
             }
             marketBoard[2][position] = externalResource;
@@ -122,6 +126,19 @@ public class Market {
      * @return a copy of the market board
      */
     public Resource[][] getMarketBoard(){
-        return marketBoard.clone();
+        Resource[][] marketBoardCopy = new Resource[marketBoard.length][marketBoard[0].length];
+
+        for (int i=0; i<marketBoard.length;i++){
+            for (int j=0; j<marketBoard[i].length;j++){
+                marketBoardCopy[i][j] = marketBoard[i][j];
+            }
+        }
+        return marketBoardCopy;
     }
+
+    /**
+     *
+     * @return the actual external resource
+     */
+    public Resource getExternalResource(){ return externalResource;}
 }
