@@ -6,5 +6,6 @@ public enum Resource {
     ROCK,
     SERVANT,
     FAITH,
-    NOTHING
+    NOTHING,
+    WISH;
 }

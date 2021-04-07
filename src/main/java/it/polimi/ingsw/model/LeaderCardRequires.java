@@ -2,17 +2,13 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Colors assumed by Development Cards
- */
-public enum CardColor {
-
+public enum LeaderCardRequires {
     @SerializedName("1")
-    GREEN,
+    TWOEVOLUTIONCOLOR,
     @SerializedName("2")
-    YELLOW,
+    THREEEVOLUTIONCOLOR,
     @SerializedName("3")
-    BLUE,
+    NUMBEROFRESOURSE,
     @SerializedName("4")
-    PURPLE
+    EVOLUTIONCOLORANDLEVEL;
 }

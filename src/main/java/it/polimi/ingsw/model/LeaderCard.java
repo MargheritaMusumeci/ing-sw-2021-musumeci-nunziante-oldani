@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.JsonAdapter;
+
+import java.util.HashMap;
 import java.util.Optional;
 
 /**
@@ -16,40 +19,37 @@ import java.util.Optional;
  * - add space in Stock
  */
 
+
 public class LeaderCard {
-    private Optional<CardColor>[] requiresColor;
-    private Optional<LevelEnum>[] requiresLevel;
-    private Optional<Resource>[] requiresResource;
+    private LeaderCardRequires requires;
+    private CardColor[] requiresColor = null ;
+    private LevelEnum[] requiresLevel = null ;
+    private HashMap<Resource, Integer> requiresResource = null;
 
     private int point;
     private LeaderAbility abilityType;
-    private Optional<Integer> numSale;
-    private Resource abilityResource; //rock, shield, coins, servants for production,white-change  and sale
-
+    private HashMap<Resource, Integer> abilityResource; //rock, shield, coins, servants for production,white-change  and sale
+    private HashMap<Resource, Integer> productsPower = null ;
     public LeaderCard(){
         //read from file and built cards
     }
-    public Optional<CardColor>[] getRequiresColor() {
-        return requiresColor.clone();
+    public CardColor[] getRequiresColor() {
+        return requiresColor;
     }
 
-    public Optional<LevelEnum>[] getRequiresLevel() {
-        return requiresLevel.clone();
+    public LevelEnum[] getRequiresLevel() {
+        return requiresLevel;
     }
 
-    public Optional<Resource>[] getRequiresResource() {
-        return requiresResource.clone();
+    public HashMap<Resource, Integer> getRequiresResource() {
+        return requiresResource;
     }
 
     public int getPoint() {
         return point;
     }
 
-    public Optional<Integer> getNumSale() {
-        return numSale;
-    }
-
-    public Resource getAbilityResource() {
+    public HashMap<Resource, Integer> getAbilityResource() {
         return abilityResource;
     }
 
