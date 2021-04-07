@@ -1,16 +1,36 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.*;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 
 public class LeaderCardSet {
 
     private ArrayList<LeaderCard> leaderCardSet;
 
     public LeaderCardSet(){
+
         leaderCardSet = new ArrayList<LeaderCard>();
-        //build the deck with the gson library
-        //instanzia le 16 carte leader e fa lo shuffle tanto lo fa una volta sola
+        populateLeaderSet();
+    }
+
+    private void populateLeaderSet(){
+
+        String path = "C:/Users/margh/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/leaderCards.json"; //need to find the correct path
+        try {
+            JsonReader reader = new JsonReader(new FileReader(path));
+            LeaderCard[] leaderCards = new Gson().fromJson(reader, LeaderCard[].class);
+            LeaderCard leader;
+            Collections.addAll(leaderCardSet, leaderCards);
+            Collections.shuffle(leaderCardSet);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -26,9 +46,12 @@ public class LeaderCardSet {
      * @param position of the card to be returned
      * @return the card in the set at the given position
      */
-    public LeaderCard getLeaderCard(int position){
+    public LeaderCard getLeaderCard(int position) {
         //possibile esposizione del rep
-        return leaderCardSet.get(position);
+        if ((position >= 0) && (position <= 16)) {
+            return leaderCardSet.get(position);
+        }
+        return null;
     }
 
 }

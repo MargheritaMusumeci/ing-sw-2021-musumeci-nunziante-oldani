@@ -56,6 +56,13 @@ DOMANDE TUTORATO:
 
 - Dove parte il gioco? Chi sarà in grado di gestire l'inizio una volta che i player sono collegati al server? Il controller?
 
+- Come lavorare con gli optional su json (GSON)? :(((((
+
+- E' errato restituire un valore per riferimento e non per copia anche se l'attributo è privato e
+  non esistono metodi setter della classe in questione?
+
+
+
 
 RISPOSTE TUTORATO:
 
