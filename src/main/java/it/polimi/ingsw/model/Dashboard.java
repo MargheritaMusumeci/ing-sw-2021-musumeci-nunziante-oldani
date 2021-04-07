@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.NegativeScoreException;
+
 public class Dashboard {
 
     private String nickName;
@@ -95,7 +97,10 @@ public class Dashboard {
      * method that set the score
      * @param points is the new value of the score, not the increment
      */
-    public void setScore(int points){
+    public void setScore(int points) throws NegativeScoreException {
+        if(points < 0){
+            throw new NegativeScoreException("You cannot subtract points to a player");
+        }
         this.totalScore = points;
     }
 
