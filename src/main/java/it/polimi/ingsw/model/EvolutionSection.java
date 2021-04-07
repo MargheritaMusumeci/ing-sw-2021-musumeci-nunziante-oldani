@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.exception.ExcessOfPositionException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -95,7 +96,10 @@ public class EvolutionSection {
      * @param col indicates the row in which the card to buy is
      * @return the card bought
      */
-    public EvolutionCard buy(int row, int col){
+    public EvolutionCard buy(int row, int col) throws ExcessOfPositionException {
+        if(row < 0 || row >= evolutionSection.length || col < 0 || col > evolutionSection[0].length ){
+            throw new ExcessOfPositionException("Invalid Position, no card available to be bought");
+        }
         EvolutionCard c = evolutionSection[row][col].get(0);
         evolutionSection[row][col].remove(0);
         return c;
@@ -108,6 +112,7 @@ public class EvolutionSection {
      * @return the selected card
      */
     public EvolutionCard getCard(int row, int col, int pos){
+
         return evolutionSection[row][col].get(pos);
     }
 
