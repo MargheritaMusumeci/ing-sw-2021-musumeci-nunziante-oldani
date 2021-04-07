@@ -87,6 +87,21 @@ public class Stock {
     }
 
     /**
+     * Method that return the total number of a resource type in the stock
+     * @param resourceType is the type I want the quantity
+     * @return the number of resourceType
+     */
+    public int getTotalQuantitiesOf(Resource resourceType){
+        int numOfBox = boxes.size();
+
+        for(int i = 0; i < numOfBox; i++){
+            if(getResourceType(i) == resourceType)
+                return getQuantities(i);
+        }
+        return 0;
+    }
+
+    /**
      *
      * @param originBox
      * @return the length of the originBox

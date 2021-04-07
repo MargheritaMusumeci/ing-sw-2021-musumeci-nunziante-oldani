@@ -49,11 +49,12 @@ public class Track {
     }
 
     /**
-     *
+     * Maybe this method is useless, because I can take the track with getInstanceOfTrack().track
      * @return the track
      */
     public Position[] getTrack(){
         return instanceOfTrack.track.clone();
+
     }
 
 }

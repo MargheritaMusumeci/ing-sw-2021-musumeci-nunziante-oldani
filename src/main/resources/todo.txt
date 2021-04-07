@@ -2,7 +2,6 @@ Musumeci:
 - leggere le LeaderCard dal file e crearle --> GSON
 
 Nunziante:
-- crezione posizioni GSON
 - in PopeTrack capire come fare l'aggiornamento su tutti i player  -> checkGamerPosition() in PopeTrack,
     ma il controller deve capire se il player ha raggiunto o superato la popeSection
 - in Player ho aggiunto boolean[] hasLeaderBeenDiscard invece di usare solo hasLeaderBeenUsed altrimenti nei turni successivi non so se la
