@@ -1,15 +1,416 @@
 [
   {
+    "color": 1,
     "level": 3,
-    "point": 1,
+    "point": 9,
     "cost" : {
       "ROCK" : 0,
+      "SHIELD" : 6,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 3,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 3,
+    "point": 10,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 5,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 2,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 3,
+    "point": 11,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 7,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0,
+      "FAITH" : 3
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 3,
+    "point": 12,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 4,
+      "COIN" : 4,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 3,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 3,
+    "point": 9,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 6,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 3,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 3,
+    "point": 10,
+    "cost" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 5,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 2,
+      "SHIELD" :0,
+      "COIN" : 0,
+      "SERVANT" : 2,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 3,
+    "point": 11,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 7,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 3
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 3,
+    "point": 12,
+    "cost" : {
+      "ROCK" : 4,
+      "SHIELD" : 0,
+      "COIN" : 4,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 3,
+      "COIN" : 1,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 3,
+    "point": 9,
+    "cost" : {
+      "ROCK" : 6,
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 0
     },
     "requires" : {
       "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 3,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 3,
+    "point": 10,
+    "cost" : {
+      "ROCK" : 5,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 2,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 3,
+    "point": 11,
+    "cost" : {
+      "ROCK" : 7,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 3
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 3,
+    "point": 12,
+    "cost" : {
+      "ROCK" : 4,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 4
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 3,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 3,
+    "point": 9,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 6
+    },
+    "requires" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 3,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 3,
+    "point": 10,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 5
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 2,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 3,
+    "point": 11,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 7
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 3
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 3,
+    "point": 12,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 4,
+      "COIN" : 0,
+      "SERVANT" : 4
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 3,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 2,
+    "point": 5,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 4,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 1,
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 0
@@ -19,21 +420,697 @@
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 2,
+    "point": 6,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" :3,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 3,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
       "FAITH" : 0
     },
     "isActive" : false
   },
   {
-    "level": 3,
-    "point": 1,
+    "color": 1,
+    "level": 2,
+    "point": 7,
     "cost" : {
       "ROCK" : 0,
+      "SHIELD" : 5,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 2,
+    "point": 8,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 3,
+      "COIN" : 3,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 2,
+    "point": 5,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 4,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 2,
+    "point": 6,
+    "cost" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 3,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" :0,
+      "COIN" : 0,
+      "SERVANT" : 3,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 2,
+    "point": 7,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 5,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 2,
+    "point": 8,
+    "cost" : {
+      "ROCK" : 3,
+      "SHIELD" : 0,
+      "COIN" : 3,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 2,
+    "point": 5,
+    "cost" : {
+      "ROCK" : 4,
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 0
     },
     "requires" : {
       "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 2,
+    "point": 6,
+    "cost" : {
+      "ROCK" : 3,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 3,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 2,
+    "point": 7,
+    "cost" : {
+      "ROCK" : 5,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 2,
+    "point": 8,
+    "cost" : {
+      "ROCK" : 3,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 3
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 2,
+    "point": 5,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 4
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 2,
+    "point": 6,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 3
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 3,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 2,
+    "point": 7,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 5
+    },
+    "requires" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 0,
+      "FAITH" : 2
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 2,
+    "point": 8,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 3,
+      "COIN" : 0,
+      "SERVANT" : 3
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 1,
+    "point": 1,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 1,
+    "point": 2,
+    "cost" : {
+      "ROCK" : 1,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 1,
+    "point": 3,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 3,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "products" : {
+      "ROCK" : 1,
+      "SHIELD" : 1,
+      "COIN" : 1,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 1,
+    "level": 1,
+    "point": 4,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 2,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 1,
+    "point": 1,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 1,
+    "point": 2,
+    "cost" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 1
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 1,
+      "SHIELD" :0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 1,
+    "point": 3,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 3,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 1,
+      "SERVANT" : 1,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 3,
+    "level": 1,
+    "point": 4,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 2,
+      "SERVANT" : 2
+    },
+    "requires" : {
+      "ROCK" : 1,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 2,
+    "point": 1,
+    "cost" : {
+      "ROCK" : 2,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 1,
+    "point": 2,
+    "cost" : {
+      "ROCK" : 1,
+      "SHIELD" : 1,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 1,
+    "point": 3,
+    "cost" : {
+      "ROCK" : 3,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 1,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 1,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 2,
+    "level": 1,
+    "point": 4,
+    "cost" : {
+      "ROCK" : 2,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 1
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 1,
+    "point": 1,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "requires" : {
+      "ROCK" : 1,
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 0
@@ -43,31 +1120,82 @@
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 0,
+      "FAITH" : 1
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 1,
+    "point": 2,
+    "cost" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 1,
+      "SERVANT" : 1
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 0,
       "FAITH" : 0
     },
     "isActive" : false
   },
   {
-    "level": 3,
-    "point": 1,
+    "color": 4,
+    "level": 1,
+    "point": 3,
     "cost" : {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 0,
-      "SERVANT" : 0
+      "SERVANT" : 3
     },
     "requires" : {
       "ROCK" : 0,
       "SHIELD" : 0,
-      "COIN" : 0,
+      "COIN" : 2,
       "SERVANT" : 0
     },
-    "product" : {
+    "products" : {
+      "ROCK" : 1,
+      "SHIELD" : 1,
+      "COIN" : 0,
+      "SERVANT" : 1,
+      "FAITH" : 0
+    },
+    "isActive" : false
+  },
+  {
+    "color": 4,
+    "level": 1,
+    "point": 4,
+    "cost" : {
       "ROCK" : 0,
+      "SHIELD" : 2,
+      "COIN" : 0,
+      "SERVANT" : 2
+    },
+    "requires" : {
+      "ROCK" : 0,
+      "SHIELD" : 1,
+      "COIN" : 1,
+      "SERVANT" : 0
+    },
+    "products" : {
+      "ROCK" : 2,
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 0,
-      "FAITH" : 0
+      "FAITH" : 1
     },
     "isActive" : false
   }
