@@ -2,34 +2,28 @@ package it.polimi.ingsw.model;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class LorenzoActionCardSetTest {
 
     @Test
-    public void getActionCardTest() {
-        LorenzoActionCardSet ls = new LorenzoActionCardSet();
-        LorenzoActionCard lc;
-        LorenzoActionCardSet ls_copy = ls;
-        LorenzoActionCard lc_copy;
+    public void getActionCard() {
+       LorenzoActionCardSet actionSet = new LorenzoActionCardSet();
+       LorenzoActionCard card;
+       LorenzoActionCard card2;
 
-        //check that get method doesn't alter the list
-        lc= ls.getActionCard();
-        assertEquals(ls_copy, ls);
+       //check correct shuffle of get method
+       card= actionSet.getActionCard();
+       card2= actionSet.getActionCard();
+       assertNotEquals(card,card2);
 
-        lc_copy= new LorenzoActionCard(2);
-        lc=lc_copy;
-
-        assertEquals(ls_copy, ls);
     }
 
     @Test
-    public void shuffleTest() {
-        LorenzoActionCardSet ls = new LorenzoActionCardSet();
-        LorenzoActionCardSet ls_copy = ls;
-
-        ls.shuffle();
-        assertEquals(ls_copy,ls);
-
+    public void shuffle() {
+    // ogni elemento contenuto nella lista di partenza è contenuto anche dopo lo shuffle
     }
 }

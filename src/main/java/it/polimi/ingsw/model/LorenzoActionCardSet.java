@@ -33,7 +33,7 @@ public class LorenzoActionCardSet {
         LorenzoActionCard firstCard;
         firstCard = actionSet.remove(0); //returns the object removed
         actionSet.add(5,firstCard);
-        return firstCard;
+        return firstCard; //restituisce il riferimento :( ma non implementiamo il setter per modificarlo
     }
 
     /**
@@ -42,4 +42,5 @@ public class LorenzoActionCardSet {
     public void shuffle(){
         Collections.shuffle(actionSet);
     }
+
 }
