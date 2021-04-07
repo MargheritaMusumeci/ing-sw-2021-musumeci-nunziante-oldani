@@ -23,13 +23,14 @@ public class ProductionZone {
      * @return first Development card of the slot if present
      */
     public EvolutionCard getCard(int posizion) {
+
         switch (posizion) {
             case (1):
-                return cards[0].get(0);
+                return cards[0].isEmpty() ? null : cards[0].get(0);
             case (2):
-                return cards[1].get(0);
+                return cards[1].isEmpty() ? null : cards[1].get(0);
             case (3):
-                return cards[2].get(0);
+                return cards[2].isEmpty() ? null : cards[2].get(0);
             default:
                 return null;
         }
@@ -64,7 +65,7 @@ public class ProductionZone {
      */
     public EvolutionCard[] getCardList(int position) {
         if ((position == 1) || (position == 2) || (position == 3)) {  //throw exeption ?
-            return (EvolutionCard[]) cards[position].clone();
+            return cards[position].isEmpty() ? null : (EvolutionCard[]) cards[position].clone();
         } else return null;
     }
 
@@ -75,7 +76,7 @@ public class ProductionZone {
      */
     public LevelEnum getLevel(int position) {
         if ((position == 1) || (position == 2) || (position == 3)) {
-            return cards[position].get(0).getLevel();
+            return cards[position].isEmpty() ? null : cards[position].get(0).getLevel();
         }
         return null;
     }
