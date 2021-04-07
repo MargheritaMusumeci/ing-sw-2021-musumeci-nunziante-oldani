@@ -11,9 +11,14 @@ Nunziante:
 
 Oldani:
 - Leggere le carte dal file e crearle --> GSON
+    --> da testare una volta finito il json
 
--modificare la signature di updateMarket nell'uml
--aggiunfere il get del market board nell'uml
+- modificare la signature di updateMarket nell'uml
+- aggiunfere il get del market board nell'uml
+- sistemare uml --> product è products nelle productionCards
+- aggiunto metodo per prendere una carta dalla evolutionsection in una data posizione
+- aggiunto signleton per il market --> aggiornare uml
+- aggiunto singleton per la EvolutionSection --> aggiornare UMl
 
 
 

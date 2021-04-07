@@ -13,9 +13,8 @@ public class Game {
     public Game(ArrayList<Player> players, boolean isSoloGame){
         this.players = players;
         this.isSoloGame = isSoloGame;
-        this.market = new Market();
-        this.evolutionSection = new EvolutionSection();
-
+        this.market= Market.getInstanceOfMarket();
+        this.evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
         this.activePlayer = players.get(0);
     }
 

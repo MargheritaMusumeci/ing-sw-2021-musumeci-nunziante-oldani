@@ -13,12 +13,14 @@ import java.util.logging.Level;
 public class EvolutionSection {
 
     private ArrayList<EvolutionCard>[][] evolutionSection;
+    //if we want to implement multigames we need an hashmap of instances related to the gameid
+    private static EvolutionSection instanceOfEvolutionSection = null;
 
     /**
      * constructor that creates the section in which EvolutionCards are stored and instantiates every card
      */
 
-    public EvolutionSection(){
+    private EvolutionSection(){
 
         evolutionSection = new ArrayList[3][4];
 
@@ -32,84 +34,19 @@ public class EvolutionSection {
         populateSection();
 
     }
-
     /**
-     * method that creates the instances for every card
-
-    private void populateSection(){
-
-        int row = 0;
-        int col = 0;
-
-        EvolutionCard evolutionCard;
-        CardColor c;
-        LevelEnum l;
-
-        File productionCard = new File("resouces/productionCard.txt");
-        try {
-            Scanner myScanner = new Scanner(productionCard);
-
-            while (myScanner.hasNextLine()){
-                String data = myScanner.nextLine();
-
-                if(data.charAt(0) == 'n'){
-                    int position = data.charAt(1) - '0';
-                    int level = Integer.parseInt(myScanner.nextLine());
-                    char color = myScanner.nextLine().charAt(0);
-                    String cost = myScanner.nextLine();
-                    String requirements = myScanner.nextLine();
-                    String products = myScanner.nextLine();
-                    int gamePoints = Integer.parseInt(myScanner.nextLine());
-
-                    switch (level){
-                        case 1: l = LevelEnum.FIRST;
-                                break;
-                        case 2: l = LevelEnum.SECOND;
-                            break;
-                        case 3: l = LevelEnum.THIRD;
-                            break;
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + level);
-                    }
-
-                    switch (color){
-                        case 'g': c = CardColor.GREEN;
-                            break;
-                        case 'y': c = CardColor.YELLOW;
-                            break;
-                        case 'b': c = CardColor.BLUE;
-                            break;
-                        case 'p': c = CardColor.PURPLE;
-                            break;
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + color);
-                    }
-
-                    if(position == 1){
-                        evolutionSection[row][col] = new ArrayList<>();
-                        evolutionCard = new EvolutionCard(c, l, gamePoints, processCost(cost), processRequirements(requirements), processProducts(products));
-                        evolutionSection[row][col].add(evolutionCard);
-                    }else{
-                        evolutionCard = new EvolutionCard(c, l, gamePoints, processCost(cost), processRequirements(requirements), processProducts(products));
-                        evolutionSection[row][col].add(evolutionCard);
-                        if(position == 4){
-                            if(col < 3){
-                                col++;
-                            }else{
-                                col = 0;
-                                row++;
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-    }
+     *
+     * @return the single instance of the EvolutionSection, if it doesn't exist invoke the private constructor
      */
+    //if we would impelemente the multigame we need the game id as argument of this method
+    public static EvolutionSection getInstanceOfEvolutionSection(){
+        if(instanceOfEvolutionSection == null){
+            instanceOfEvolutionSection = new EvolutionSection();
+        }
+        return instanceOfEvolutionSection;
+    }
+
+
     private void populateSection(){
 
         String path = "/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/productionCards.json"; //need to find the correct path
@@ -166,54 +103,12 @@ public class EvolutionSection {
 
 
     /**
-     * method that process the string with the cost read from the file
-     * @param cost is the string to be processed
-     * @return the array that corresponds to the string
+     * Method uses for debugging purpose --> to be removed
+     * @param row row of needed card
+     * @param col column of needed card
+     * @param pos pos inside the arraylist
+     * @return the selected card
      */
-    private int[] processCost(String cost){
-        int[] costArray = new int[4];
-
-        costArray[0] = cost.charAt(0) - '0';
-        costArray[1] = cost.charAt(1) - '0';
-        costArray[2] = cost.charAt(2) - '0';
-        costArray[3] = cost.charAt(3) - '0';
-
-        return costArray;
-    }
-
-    /**
-     * method that process the string with the requirements read from the file
-     * @param requirements is the string to be processed
-     * @return the array that corresponds to the string
-     */
-    private int[] processRequirements(String requirements){
-        int[] reqArray = new int[4];
-
-        reqArray[0] = requirements.charAt(0) - '0';
-        reqArray[1] = requirements.charAt(1) - '0';
-        reqArray[2] = requirements.charAt(2) - '0';
-        reqArray[3] = requirements.charAt(3) - '0';
-
-        return reqArray;
-    }
-
-    /**
-     * method that process the string with the products read from the file
-     * @param products is the string to be processed
-     * @return the array that corresponds to the string
-     */
-    private int[] processProducts(String products){
-        int[] prodArray = new int[4];
-
-        prodArray[0] = products.charAt(0) - '0';
-        prodArray[1] = products.charAt(1) - '0';
-        prodArray[2] = products.charAt(2) - '0';
-        prodArray[3] = products.charAt(3) - '0';
-        prodArray[4] = products.charAt(4) - '0';
-
-        return prodArray;
-    }
-
     public EvolutionCard getCard(int row, int col, int pos){
         return evolutionSection[row][col].get(pos);
     }
