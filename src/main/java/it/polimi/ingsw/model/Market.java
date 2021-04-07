@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.ExcessOfPositionException;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -80,7 +82,17 @@ public class Market {
      * @param isRow if true the player have chosen a row, if false a column
      * @return the array of resources bought at the market
      */
-    public Resource[] updateBoard(int position, boolean isRow){
+    public Resource[] updateBoard(int position, boolean isRow) throws ExcessOfPositionException {
+
+        if(isRow){
+            if(position <0 || position > 2){
+                throw new ExcessOfPositionException("No row at that position");
+                }
+        }else{
+            if(position<0 || position >3){
+                throw new ExcessOfPositionException("No columns at that position");
+            }
+        }
 
         Resource tempRes;
         Resource[] bought = null;
@@ -117,7 +129,10 @@ public class Market {
      * @param column is the number of the chosen column (0 is the first)
      * @return the resource at that position in the market
      */
-    public Resource getPosition(int row, int column){
+    public Resource getPosition(int row, int column) throws ExcessOfPositionException{
+        if(row < 0 || row > 2 || column <0 || column > 3){
+            throw new ExcessOfPositionException("invalid position");
+        }
         return marketBoard[row][column];
     }
 

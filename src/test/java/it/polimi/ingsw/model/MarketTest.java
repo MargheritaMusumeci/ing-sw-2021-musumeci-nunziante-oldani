@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.ExcessOfPositionException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -18,7 +19,7 @@ public class MarketTest {
     }
 
     @Test
-    public void updateBoardTest() {
+    public void updateBoardTest() throws ExcessOfPositionException {
         Market m = Market.getInstanceOfMarket();
         Resource[][] r = m.getMarketBoard();
         Resource[][] rnew = null;
@@ -176,14 +177,25 @@ public class MarketTest {
             System.out.println();
         }
 
+        try {
+            m.updateBoard(4, true);
+        } catch (ExcessOfPositionException e) {
+            System.out.println(e.getMessage());
 
+        }
+
+        try {
+            m.updateBoard(4, false);
+        } catch (ExcessOfPositionException e) {
+            System.out.println(e.getMessage());
+        }
 
 
 
     }
 
     @Test
-    public void getPositionTest() {
+    public void getPositionTest() throws ExcessOfPositionException {
 
         Market m = Market.getInstanceOfMarket();
 
@@ -203,10 +215,17 @@ public class MarketTest {
         m.updateBoard(0, true);
         assertNotEquals(pos, m.getPosition(0,0));
 
+        try{
+            pos = m.getPosition(-1, 3);
+
+        }catch (ExcessOfPositionException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Test
-    public void getMarketBoardTest() {
+    public void getMarketBoardTest() throws ExcessOfPositionException {
         //check that the returned value doesn't chenage
         Resource[][] board1, board2;
         Market m = Market.getInstanceOfMarket();

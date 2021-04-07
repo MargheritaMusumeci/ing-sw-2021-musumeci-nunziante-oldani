@@ -21,6 +21,7 @@ Oldani:
 - aggiunto singleton per la EvolutionSection --> aggiornare UMl
 
 - a market aggiunto il metodo get per la externalResource
+- Class Market testata.
 
 
 
