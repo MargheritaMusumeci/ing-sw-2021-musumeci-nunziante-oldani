@@ -51,7 +51,7 @@ DOMANDE TUTORATO:
 - Dobbiamo gestire gli eventuali errori (parametri non validi arrivati al model/controller)
   con exception o ci sono altri modi consiglaiti? Chi gestirà poi tutte le exception?
 
-- Posso scegliere dove mettere le risorse appena comprate a magazzino vuoto o vanno messe in automatico?
+- Posso scegliere dove mettere le risorse appena comprate a magazzino vuoto o vanno messe in automatico? ( su slack ci sono rispsote constrastanti)
 
 - Dove parte il gioco? Chi sarà in grado di gestire l'inizio una volta che i player sono collegati al server? Il controller?
 
@@ -59,6 +59,10 @@ DOMANDE TUTORATO:
 
 - E' errato restituire un valore per riferimento e non per copia anche se l'attributo è privato e
   non esistono metodi setter della classe in questione?
+
+- Devo testare anche i metodi get e in quel caso cosa dovrei fare? Quale è la verifica che viene imposta?
+- Devo testare che tutte le carte caricate nela evolutionSection dal json siano caricate giuste o basta verificare che una di quelle caricate sia corretta?
+
 
 
 

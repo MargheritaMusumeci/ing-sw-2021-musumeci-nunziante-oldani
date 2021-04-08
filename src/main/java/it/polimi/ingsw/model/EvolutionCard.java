@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.HashMap;
 
-public class EvolutionCard {
+public class EvolutionCard implements Cloneable {
 
     private CardColor color;
     private LevelEnum level;
