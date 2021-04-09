@@ -104,13 +104,29 @@ public class Player {
                     dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() >= requires.get(Resource.ROCK);
             }
         return result;
-        }
+    }
 
+    /**
+     * Method that set active the leader card. This method execute the ability's card only if the ability is one more box in stock.
+     *      In other cases the ability should be activated explicitly by the user when he wants to.
+     * @param position is which leader card the user wants to active
+     * @throws OutOfBandException if the card specified doesn't exist
+     */
     public void activeLeaderCard(int position) throws OutOfBandException{
         if(position < 0 || position > 2) throw new OutOfBandException("Invalid position");
 
         hasLeaderBeenUsed[position] = true;
-        //Only in case of new box ability I have to create it here
+
+        //Only in case of new box I have to create it here
+        if(dashboard.getLeaderCards()[position].getAbilityType() == LeaderAbility.STOCKPLUS){
+            HashMap<Resource , Integer> resourceBoxType = dashboard.getLeaderCards()[position].getAbilityResource();
+            for (Resource res : resourceBoxType.keySet()) {
+                if(resourceBoxType.get(res) != 0){
+                    dashboard.getStock().addBox(2 , res);
+                    break;
+                }
+            }
+        }
     }
 
     /**
