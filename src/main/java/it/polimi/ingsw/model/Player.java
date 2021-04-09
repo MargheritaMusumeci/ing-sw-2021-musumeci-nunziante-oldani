@@ -4,6 +4,7 @@ import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
 import it.polimi.ingsw.exception.OutOfBandException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player {
@@ -36,29 +37,20 @@ public class Player {
         LevelEnum level = card.getLevel();
 
         for(int i = 0; i < numOfProductionZone; i++){
-            if(dashboard.getProductionZone()[i].isFull(i))
+            if(dashboard.getProductionZone()[i].isFull())
                 result[i] = false;
             else{
                 switch (level){
                     case FIRST:
-                        if(dashboard.getProductionZone()[i].getLevel(i) == null)
-                            result[i] = true;
-                        else
-                            result[i] = false;
+                        result[i] = dashboard.getProductionZone()[i].getLevel() == null;
                         break;
 
                     case SECOND:
-                        if(dashboard.getProductionZone()[i].getLevel(i) == LevelEnum.FIRST)
-                            result[i] = true;
-                        else
-                            result[i] = false;
+                        result[i] = dashboard.getProductionZone()[i].getLevel() == LevelEnum.FIRST;
                         break;
 
                     case THIRD:
-                        if(dashboard.getProductionZone()[i].getLevel(i) == LevelEnum.SECOND)
-                            result[i] = true;
-                        else
-                            result[i] = false;
+                        result[i] = dashboard.getProductionZone()[i].getLevel() == LevelEnum.SECOND;
                         break;
 
                     default:
@@ -92,30 +84,24 @@ public class Player {
         boolean[] result = new boolean[numOfProductionZone];
 
         //Verify if the player can activate the base production zone: he needs at least 2 resources of the same type
-        if(dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() > 1 ||
+        result[0] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() > 1 ||
                 dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getCoin() > 1 ||
                 dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getServant() > 1 ||
-                dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() > 1)
-            result[0] = true;
-        else
-            result[0] = false;
+                dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() > 1;
 
         //Verify if the player can activate the production zone using his resources
         for(int i = 1; i <= numOfProductionZone; i++){
-            if(dashboard.getProductionZone()[i].getLevel(i) == null) {
+            if(dashboard.getProductionZone()[i].getLevel() == null) {
                 result[i] = false;
                 break;
             }
-            EvolutionCard[] eCard = dashboard.getProductionZone()[i].getCardList(i);
-            HashMap<Resource , Integer> requires = eCard[eCard.length - 1].getRequires();
+            ArrayList<EvolutionCard> eCard = dashboard.getProductionZone()[i].getCardList();
+            HashMap<Resource , Integer> requires = eCard.get(0).getRequires();
 
-            if(dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() >= requires.get(Resource.SHIELD) &&
+            result[i] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() >= requires.get(Resource.SHIELD) &&
                     dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getCoin() >= requires.get(Resource.COIN) &&
                     dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getServant() >= requires.get(Resource.SERVANT) &&
-                    dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() >= requires.get(Resource.ROCK))
-                result[i] = true;
-            else
-                result[i] = false;
+                    dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() >= requires.get(Resource.ROCK);
             }
         return result;
         }

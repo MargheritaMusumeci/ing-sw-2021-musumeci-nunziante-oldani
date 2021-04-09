@@ -7,78 +7,66 @@ import java.util.ArrayList;
  */
 public class ProductionZone {
 
-    private ArrayList<EvolutionCard>[] cards;
+    private ArrayList<EvolutionCard> cards;
 
     public ProductionZone() {
-        cards = new ArrayList[3];
-        cards[0] = new ArrayList<>();
-        cards[1] = new ArrayList<>();
-        cards[2] = new ArrayList<>();
+        cards = new ArrayList<>();
     }
 
     /**
-     * each section of the production zone could contain at most 3 cards
      *
-     * @param posizion distinguish throw the three slot of production
-     * @return first Development card of the slot if present
+     * @return first card of the production section
      */
-    public EvolutionCard getCard(int posizion) {
-
-        switch (posizion) {
-            case (1):
-                return cards[0].isEmpty() ? null : cards[0].get(0);
-            case (2):
-                return cards[1].isEmpty() ? null : cards[1].get(0);
-            case (3):
-                return cards[2].isEmpty() ? null : cards[2].get(0);
-            default:
-                return null;
+    public EvolutionCard getCard() {
+            return cards.isEmpty() ? null : cards.get(0);
         }
-    }
 
     /**
+     * if possible add a card to production section
      * @param card     new card bought from EvolutionSection
-     * @param position where card will be set
      */
-    public void addCard(EvolutionCard card, int position) {
-        if (!(isFull(position)) && ((position == 1) || (position == 2) || (position == 3)) && ((cards[position].get(0)).getLevel().ordinal() == card.getLevel().ordinal() + 1)) {  //throw exeption ?
-            cards[position].add(0, card);
+    public void addCard(EvolutionCard card) {
+        if (isFull() ||
+                (!(cards.isEmpty()) && ( compare(cards.get(0).getLevel())!= (compare(card.getLevel()) - 1))) ||
+                ((cards.isEmpty()) && (card.getLevel()!=LevelEnum.FIRST))) {
+            return;
         }
+        cards.add(0, card);
     }
 
     /**
      * check if there is at least a free space in the slot
      *
-     * @param position number of the slot
      * @return true if the slot is not full
      */
-    public boolean isFull(int position) {
-        if ((position == 1) || (position == 2) || (position == 3)) {  //throw exeption ?
-            return cards[position].size() > 2;
-        }
-        return false;
+    public boolean isFull() {
+            return cards.size() > 2;
     }
 
     /**
-     * @param position number of the slot
      * @return Array of Evolution Card
      */
-    public EvolutionCard[] getCardList(int position) {
-        if ((position == 1) || (position == 2) || (position == 3)) {  //throw exeption ?
-            return cards[position].isEmpty() ? null : (EvolutionCard[]) cards[position].clone();
-        } else return null;
+    public ArrayList<EvolutionCard> getCardList() {
+            return cards.isEmpty() ? null : (ArrayList<EvolutionCard>) cards.clone();
     }
 
     /**
      *
-     * @param position number of the slot
      * @return level of the highest card
      */
-    public LevelEnum getLevel(int position) {
-        if ((position == 1) || (position == 2) || (position == 3)) {
-            return cards[position].isEmpty() ? null : cards[position].get(0).getLevel();
-        }
-        return null;
+    public LevelEnum getLevel() {
+            return cards.isEmpty() ? null : cards.get(0).getLevel();
+    }
+
+    /**
+     * method added just for simplify cheks in addCard
+     * @param levelEnum enum variable
+     * @return int represent level
+     */
+    public int compare(LevelEnum levelEnum){
+        if(levelEnum.equals(LevelEnum.FIRST)){return 1;}
+        else if(levelEnum.equals(LevelEnum.SECOND)){return 2;}
+        else{return 3;}
     }
 }
 
