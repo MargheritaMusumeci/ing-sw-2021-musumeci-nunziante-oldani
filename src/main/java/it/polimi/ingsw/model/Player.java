@@ -164,4 +164,18 @@ public class Player {
      * @return the dashboard of the player
      */
     public Dashboard getDashboard(){ return dashboard; }
+
+    /**
+     * Method that sets the resources the players had bought in this turn.
+     * @param resources is an array of resources.This param will be null when the user ended his turn, to reset the variable
+     */
+    public void setResources(Resource[] resources){
+        this.resources = resources.clone();
+    }
+
+    /**
+     * Method that returns the resources the user bought but still need to be placed in the stock
+     * @return an array of resources
+     */
+    public Resource[] getResources(){ return resources.clone(); }
 }
