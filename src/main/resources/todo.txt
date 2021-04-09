@@ -26,35 +26,62 @@ DOMANDE TUTORATO:
 - Dobbiamo gestire gli eventuali errori (parametri non validi arrivati al model/controller)
   con exception o ci sono altri modi consiglaiti? Chi gestirà poi tutte le exception?
 
+  Se siamo nel Model possiamo supporre che venga fatto un precontrollo a livello della View e del Controller.
+  Quidni mi aspetto di ricevere già dei dati corretti.
+  Se lancio un eccezione chi la riceve la deve gestire senza interrompere o "distruggere" la partita.
+  Se riesce il controller puo gestirla in automatico se no devo rispedire alla view il problema
+
 - Posso scegliere dove mettere le risorse appena comprate a magazzino vuoto o vanno messe in automatico?
     ( su slack ci sono rispsote constrastanti)
 
+    A nostra discrezione
+
 - E' errato restituire un valore per riferimento e non per copia anche se l'attributo è privato e
   non esistono metodi setter della classe in questione?
+
+  No, non è un problema
+  solo attenzioni alle modifiche concorrenti
 
 - Devo testare anche i metodi get e in quel caso cosa dovrei fare? Quale è la verifica che viene imposta?
 - Devo testare che tutte le carte caricate nela evolutionSection dal json siano caricate giuste o basta verificare
   che una di quelle caricate sia corretta?
 
+    no test dei metodi get
+    solo alcune prove delle carte json
 
 - Creare nel controller la classe SoloGameHandler che in caso di sologame gestisca le mosse di un ipotetico lorenzo usando le action card
   e usando gli oggetti di game (market e le evolutionCardSection)
   Metterà l'active player a null durante la computazione
   Aggiorna posizoone pope track di lorenzo
 
+    piu pulito mettere un finto player lorenzo
+    oppure dire che è il turno di lorenzo
+
 - Dove parte il gioco? Chi sarà in grado di gestire l'inizio una volta che i player sono collegati al server? Il controller?
 
+   --> controller costruisce tutto il gioco
+    il client sa solo di se stesso
+    network parla generalmente con il controller
+
+    Dobbiamo:
+    -->ORGANIZZARE IL MODEL IN SOTTOPACKAGE
+
+    -->TEST STATICO PER QUANTO RIGUARDA LE CARTE --> MEGLIO NON FAREMETODI SOLO PER I TEST
+
+    VEDO SE SUCCEDE CIò CHE MI ASPETTO
 
 
 
+    Multi-game --> abbandonare il singleton è complesso e perde di significato.
 
-
+    no classi astratte --> tutte le carte classe astratta comune
+    nella classe concreta aggiungiamo oggetti
+    -->strategy ?
 
 RISPOSTE TUTORATO:
 
 - I controlli sulla validità dei parametri dove li devo fare? Noi li faremmo nel controller
         Vanno fatti nel model
-
 
 - Nelle EvolutionCard le tipologie di risorse per requirements, products e cost sono mappate intrinsecamente dentro l'array
     che le contiene come //rock, shield, coin, servant, faith. Può esseere un problema?
