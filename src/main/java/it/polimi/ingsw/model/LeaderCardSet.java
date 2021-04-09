@@ -10,11 +10,11 @@ import com.google.gson.stream.JsonReader;
 
 public class LeaderCardSet {
 
-    private ArrayList<LeaderCard> leaderCardSet;
+    private List<LeaderCard> leaderCardSet;
 
     public LeaderCardSet(){
 
-        leaderCardSet = new ArrayList<LeaderCard>();
+        leaderCardSet = new ArrayList<>();
         populateLeaderSet();
     }
 
@@ -38,7 +38,7 @@ public class LeaderCardSet {
      * @return the entire set
      */
     public ArrayList<LeaderCard> getLeaderCardSet() {
-        return (ArrayList<LeaderCard>) leaderCardSet.clone();
+        return (ArrayList<LeaderCard>) leaderCardSet;
     }
 
     /**
