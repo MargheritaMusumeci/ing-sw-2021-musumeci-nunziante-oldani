@@ -9,13 +9,15 @@ public class Game {
     private EvolutionSection evolutionSection;
     private Player activePlayer;
     private boolean isSoloGame;
+    private int idGame;
 
-    public Game(ArrayList<Player> players, boolean isSoloGame){
+    public Game(ArrayList<Player> players, boolean isSoloGame , int idGame){
         this.players = players;
         this.isSoloGame = isSoloGame;
         this.market= Market.getInstanceOfMarket();
         this.evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
         this.activePlayer = players.get(0);
+        this.idGame = idGame;
     }
 
     /**

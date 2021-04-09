@@ -7,6 +7,10 @@ Nunziante:
 - aggiornare UML
 
 
+- Soluzione al problema della matrice dell'evolutionSection:
+    La matrice e gli array li crea il controller che, una volta creati, li setterà in degli attributi
+    di player.
+
 Oldani:
 
 - modificare la signature di updateMarket nell'uml

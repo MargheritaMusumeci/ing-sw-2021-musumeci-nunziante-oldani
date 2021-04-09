@@ -62,7 +62,7 @@ public class Player {
     }
 
     /**
-     * method that return which card the player can buy at the evolution section based on stock and lock box resources,
+     * Method that return which card the player can buy at the evolution section based on stock and lock box resources,
      * state of production zones and active leader cards abilities
      * @return a matrix of boolean that activates the positions of the card that can be bought by the player
      */
@@ -174,8 +174,14 @@ public class Player {
     }
 
     /**
-     * Method that returns the resources the user bought but still need to be placed in the stock
-     * @return an array of resources
+     *
+     * @return the resources the user bought but still need to be placed in the stock
      */
     public Resource[] getResources(){ return resources.clone(); }
+
+    /**
+     *
+     * @return the nickName of the player
+     */
+    public String getNickName(){ return nickName; }
 }
