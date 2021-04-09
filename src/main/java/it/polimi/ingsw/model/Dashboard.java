@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
 
+import java.util.Optional;
+
 public class Dashboard {
 
     private String nickName;
@@ -24,6 +26,7 @@ public class Dashboard {
         personalStock = new Stock();
 
         personalProductionZone = new ProductionZone[3];
+
         for (int i=0; i<personalProductionZone.length; i++){
             personalProductionZone[i] = new ProductionZone();
         }
