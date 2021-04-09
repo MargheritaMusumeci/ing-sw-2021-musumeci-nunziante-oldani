@@ -59,9 +59,10 @@ public class EvolutionSection {
             int counter = 0;
             for (int i=0; i<evolutionSection.length; i++){
                 for (int j=0; j<evolutionSection[i].length; j++){
-                    for (int k=0; k<4; k++)
+                    for (int k=0; k<4; k++) {
                         evolutionSection[i][j].add(k, evolutionCards[counter]);
                         counter++;
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
