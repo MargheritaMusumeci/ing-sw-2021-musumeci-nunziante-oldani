@@ -206,7 +206,7 @@
       "ROCK" : 5,
       "SHIELD" : 0,
       "COIN" : 0,
-      "SERVANT" : 1
+      "SERVANT" : 0
     },
 
     "abilityType": 2,
@@ -227,7 +227,7 @@
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 5,
-      "SERVANT" : 1
+      "SERVANT" : 0
     },
 
     "abilityType": 2,
