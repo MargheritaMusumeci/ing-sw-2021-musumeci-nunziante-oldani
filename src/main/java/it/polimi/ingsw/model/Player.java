@@ -106,10 +106,11 @@ public class Player {
         return result;
         }
 
-    public void activeLeaderCard(int position){
-        //Throw an exception if position < 0 || position > 2 ?
+    public void activeLeaderCard(int position) throws OutOfBandException{
+        if(position < 0 || position > 2) throw new OutOfBandException("Invalid position");
+
         hasLeaderBeenUsed[position] = true;
-        //active the LeaderCard ability
+        //Only in case of new box ability I have to create it here
     }
 
     /**
