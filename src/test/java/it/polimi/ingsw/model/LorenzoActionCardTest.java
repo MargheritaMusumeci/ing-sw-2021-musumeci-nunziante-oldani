@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+//unuseful test ? only getter method
 public class LorenzoActionCardTest {
 
     @Test

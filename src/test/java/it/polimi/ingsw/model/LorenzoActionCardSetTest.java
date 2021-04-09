@@ -11,15 +11,15 @@ public class LorenzoActionCardSetTest {
 
     @Test
     public void getActionCard() {
+
        LorenzoActionCardSet actionSet = new LorenzoActionCardSet();
        LorenzoActionCard card;
        LorenzoActionCard card2;
 
-       //check correct shuffle of get method
+       //check correct shuffle of get method ?
        card= actionSet.getActionCard();
        card2= actionSet.getActionCard();
        assertNotEquals(card,card2);
-
     }
 
     @Test
