@@ -31,8 +31,8 @@ public class Stock {
         boxes.add(box1);
         boxes.add(box2);
 
-        boxPlus = null;
-        resourcesPlus = null;
+        boxPlus = new ArrayList<Resource[]>();
+        resourcesPlus = new ArrayList<Resource>();
     }
 
     /**
