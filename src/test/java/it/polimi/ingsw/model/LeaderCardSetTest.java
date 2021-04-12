@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.LeaderAbility;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCardRequires;
+import it.polimi.ingsw.model.game.LeaderCardSet;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,40 +23,40 @@ public class LeaderCardSetTest {
         leaderCards = leaderCardSet.getLeaderCardSet();
         int i = 1;
         for (LeaderCard leaderCard : leaderCards) {
-            if (leaderCard.getRequires() == LeaderCardRequires.EVOLUTIONCOLORANDLEVEL) {
+            if (leaderCard.getRequiresForActiveLeaderCards() == LeaderCardRequires.EVOLUTIONCOLORANDLEVEL) {
                 assertEquals(leaderCard.getPoint(), 4);
                 assertEquals(leaderCard.getRequiresColor().length, 1);
                 assertEquals(leaderCard.getRequiresLevel().length, 1);
-                assertNull(leaderCard.getRequiresResource());
-                assertNotNull(leaderCard.getProductsPower());
+                assertNull(leaderCard.getRequires());
+                assertNotNull(leaderCard.getProduction());
                 assertTrue(leaderCard.getAbilityResource().containsValue(1));
                 assertEquals(leaderCard.getAbilityType(), LeaderAbility.PRODUCTIONPOWER);
             }
-            if (leaderCard.getRequires() == LeaderCardRequires.NUMBEROFRESOURSE) {
+            if (leaderCard.getRequiresForActiveLeaderCards() == LeaderCardRequires.NUMBEROFRESOURSE) {
                 assertEquals(leaderCard.getPoint(), 3);
                 assertNull(leaderCard.getRequiresColor());
                 assertNull(leaderCard.getRequiresLevel());
-                assertTrue(leaderCard.getRequiresResource().containsValue(5));
+                assertTrue(leaderCard.getRequires().containsValue(5));
                 assertTrue(leaderCard.getAbilityResource().containsValue(2));
-                assertNull(leaderCard.getProductsPower());
+                assertNull(leaderCard.getProduction());
                 assertEquals(leaderCard.getAbilityType(), LeaderAbility.STOCKPLUS);
             }
-            if (leaderCard.getRequires() == LeaderCardRequires.THREEEVOLUTIONCOLOR) {
+            if (leaderCard.getRequiresForActiveLeaderCards() == LeaderCardRequires.THREEEVOLUTIONCOLOR) {
                 assertEquals(leaderCard.getPoint(), 5);
                 assertEquals(leaderCard.getRequiresColor().length, 3);
                 assertNull(leaderCard.getRequiresLevel());
-                assertNull(leaderCard.getRequiresResource());
+                assertNull(leaderCard.getRequires());
                 assertTrue(leaderCard.getAbilityResource().containsValue(1));
-                assertNull(leaderCard.getProductsPower());
+                assertNull(leaderCard.getProduction());
                 assertEquals(leaderCard.getAbilityType(), LeaderAbility.NOMOREWHITE);
             }
-            if (leaderCard.getRequires() == LeaderCardRequires.TWOEVOLUTIONCOLOR) {
+            if (leaderCard.getRequiresForActiveLeaderCards() == LeaderCardRequires.TWOEVOLUTIONCOLOR) {
                 assertEquals(leaderCard.getPoint(), 2);
                 assertEquals(leaderCard.getRequiresColor().length, 2);
                 assertNull(leaderCard.getRequiresLevel());
-                assertNull(leaderCard.getRequiresResource());
+                assertNull(leaderCard.getRequires());
                 assertTrue(leaderCard.getAbilityResource().containsValue(-1));
-                assertNull(leaderCard.getProductsPower());
+                assertNull(leaderCard.getProduction());
                 assertEquals(leaderCard.getAbilityType(), LeaderAbility.SALES);
             }
 

@@ -1,12 +1,12 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.game;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.model.cards.LeaderCard;
 
 public class LeaderCardSet {
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.model.game.Market;
+import it.polimi.ingsw.model.game.Resource;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

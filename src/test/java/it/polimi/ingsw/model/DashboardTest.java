@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
+import it.polimi.ingsw.model.board.Dashboard;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

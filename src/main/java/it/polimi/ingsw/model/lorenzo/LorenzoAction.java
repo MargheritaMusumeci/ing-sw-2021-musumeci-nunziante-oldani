@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.lorenzo;
 
 import com.google.gson.annotations.SerializedName;
 

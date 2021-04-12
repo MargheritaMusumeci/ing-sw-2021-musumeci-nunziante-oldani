@@ -1,19 +1,19 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.game;
+
+import it.polimi.ingsw.model.players.HumanPlayer;
 
 import java.util.ArrayList;
 
 public class Game {
 
-    private ArrayList<Player> players;
+    private ArrayList<HumanPlayer> players;
     private Market market;
     private EvolutionSection evolutionSection;
-    private Player activePlayer;
-    private boolean isSoloGame;
+    private HumanPlayer activePlayer;
     private int idGame;
 
-    public Game(ArrayList<Player> players, boolean isSoloGame , int idGame){
+    public Game(ArrayList<HumanPlayer> players, int idGame){
         this.players = players;
-        this.isSoloGame = isSoloGame;
         this.market= Market.getInstanceOfMarket();
         this.evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
         this.activePlayer = players.get(0);
@@ -24,7 +24,7 @@ public class Game {
      * method that updates the current active player
      * @return the new active player
      */
-    public Player updateActivePlayer(){
+    public HumanPlayer updateActivePlayer(){
 
        for(int i=0; i<players.size(); i++){
            if(activePlayer.equals(players.get(i))){
@@ -39,7 +39,7 @@ public class Game {
        return activePlayer;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<HumanPlayer> getPlayers() {
         return players;
     }
 
@@ -51,11 +51,17 @@ public class Game {
         return evolutionSection;
     }
 
-    public Player getActivePlayer() {
+    public HumanPlayer getActivePlayer() {
         return activePlayer;
     }
 
-    public boolean isSoloGame() {
-        return isSoloGame;
-    }
+    /*
+    LorenzoPlayer x;
+    HumanPlayer y;
+
+    isInstanceOf(game.getAcriceplater) == LorenzoPlater
+        true --> x = (LorenPlayer) game.getActiveplayer()
+                 x.play
+                game.upd
+*/
 }

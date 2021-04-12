@@ -1,8 +1,10 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
-import java.util.Optional;
+import java.util.ArrayList;
 
 public class Dashboard {
 
@@ -12,10 +14,10 @@ public class Dashboard {
     private LockBox personalLockBox;
     private ProductionZone[] personalProductionZone;
     private PopeTrack personalPopeTrack;
-    private LeaderCard[] leaderCards;
+    private ArrayList<LeaderCard> leaderCards;
     private boolean inkwell;
 
-    public Dashboard(String nickName, LeaderCard[] leaderCards, boolean inkwell, PopeTrack personalPopeTrack){
+    public Dashboard(String nickName, ArrayList<LeaderCard> leaderCards, boolean inkwell, PopeTrack personalPopeTrack){
         this.nickName = nickName;
         this.leaderCards = leaderCards;
         this.inkwell = inkwell;
@@ -84,7 +86,7 @@ public class Dashboard {
      *
      * @return the instance of the actual leaders card (array of two leader cards) of the player, not a copy
      */
-    public LeaderCard[] getLeaderCards() {
+    public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
 

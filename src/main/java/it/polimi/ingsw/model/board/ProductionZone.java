@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.board;
+
+import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LevelEnum;
 
 import java.util.ArrayList;
 
@@ -28,7 +31,7 @@ public class ProductionZone {
     public void addCard(EvolutionCard card) {
         if (isFull() ||
                 (!(cards.isEmpty()) && ( compare(cards.get(0).getLevel())!= (compare(card.getLevel()) - 1))) ||
-                ((cards.isEmpty()) && (card.getLevel()!=LevelEnum.FIRST))) {
+                ((cards.isEmpty()) && (card.getLevel()!= LevelEnum.FIRST))) {
             return;
         }
         cards.add(0, card);

@@ -1,9 +1,10 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NotEnoughResourcesException;
 import it.polimi.ingsw.exception.NotEnoughSpaceException;
 import it.polimi.ingsw.exception.OutOfBandException;
 import it.polimi.ingsw.exception.ResourceAlreadyPresentException;
+import it.polimi.ingsw.model.game.Resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;

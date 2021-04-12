@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.lorenzo.LorenzoActionCard;
+import it.polimi.ingsw.model.lorenzo.LorenzoActionCardSet;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

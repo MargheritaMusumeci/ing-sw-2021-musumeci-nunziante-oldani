@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.popeTrack;
 
 public class Position {
     private int index;

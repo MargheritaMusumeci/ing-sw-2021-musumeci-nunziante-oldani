@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.model.board.ProductionZone;
+import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LevelEnum;
+import it.polimi.ingsw.model.game.EvolutionSection;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -148,7 +152,7 @@ public class ProductionZoneTest {
         productionZone.addCard(evolutionCard);
 
         //one card
-        assertEquals(productionZone.getLevel(),LevelEnum.FIRST);
+        assertEquals(productionZone.getLevel(), LevelEnum.FIRST);
 
         //two card
         evolutionCard = evolutionSection.buy(1,1);

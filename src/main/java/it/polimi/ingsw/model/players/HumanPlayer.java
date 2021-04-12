@@ -1,23 +1,28 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.players;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
 import it.polimi.ingsw.exception.OutOfBandException;
+import it.polimi.ingsw.model.board.Dashboard;
+import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderAbility;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LevelEnum;
+import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Player {
-    private String nickName;
-    private Dashboard dashboard;
-    private PopeTrack popeTrack;
+public class HumanPlayer extends Player{
+
     private boolean[] hasLeaderBeenUsed;
     private boolean[] hasLeaderBeenDiscard;
     private boolean hasActionBeenUsed;
 
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
 
-    public Player(String nickName , LeaderCard[] leaderCards, boolean inkwell){
+    public HumanPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
@@ -113,13 +118,13 @@ public class Player {
      * @throws OutOfBandException if the card specified doesn't exist
      */
     public void activeLeaderCard(int position) throws OutOfBandException{
-        if(position < 0 || position > 2) throw new OutOfBandException("Invalid position");
+        if(position < 0 || position >= dashboard.getLeaderCards().size() ) throw new OutOfBandException("Invalid position");
 
         hasLeaderBeenUsed[position] = true;
 
         //Only in case of new box I have to create it here
-        if(dashboard.getLeaderCards()[position].getAbilityType() == LeaderAbility.STOCKPLUS){
-            HashMap<Resource , Integer> resourceBoxType = dashboard.getLeaderCards()[position].getAbilityResource();
+        if(dashboard.getLeaderCards().get(position).getAbilityType() == LeaderAbility.STOCKPLUS){
+            HashMap<Resource , Integer> resourceBoxType = dashboard.getLeaderCards().get(position).getAbilityResource();
             for (Resource res : resourceBoxType.keySet()) {
                 if(resourceBoxType.get(res) != 0){
                     dashboard.getStock().addBox(2 , res);
@@ -159,11 +164,7 @@ public class Player {
      */
     public void setActionState(boolean state){ hasActionBeenUsed = state;}//no in UML
 
-    /**
-     *
-     * @return the dashboard of the player
-     */
-    public Dashboard getDashboard(){ return dashboard; }
+
 
     /**
      * Method that sets the resources the players had bought in this turn.
@@ -179,9 +180,5 @@ public class Player {
      */
     public Resource[] getResources(){ return resources.clone(); }
 
-    /**
-     *
-     * @return the nickName of the player
-     */
-    public String getNickName(){ return nickName; }
+
 }

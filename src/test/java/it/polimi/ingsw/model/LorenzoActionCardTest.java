@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
-import org.junit.After;
-import org.junit.Before;
+import it.polimi.ingsw.model.cards.CardColor;
+import it.polimi.ingsw.model.lorenzo.LorenzoAction;
+import it.polimi.ingsw.model.lorenzo.LorenzoActionCard;
 import org.junit.Test;
 
 import java.util.Optional;

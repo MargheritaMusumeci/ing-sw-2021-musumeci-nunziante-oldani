@@ -1,9 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
 
-import com.google.gson.annotations.JsonAdapter;
+import it.polimi.ingsw.model.game.Resource;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 /**
  * possible requires:
@@ -20,17 +19,20 @@ import java.util.Optional;
  */
 
 
-public class LeaderCard {
+public class LeaderCard implements Card {
 
-    private LeaderCardRequires requires;
+    private LeaderCardRequires requiresForActiveLeaderCards;
     private CardColor[] requiresColor = null ;
     private LevelEnum[] requiresLevel = null ;
-    private HashMap<Resource, Integer> requiresResource = null;
-
-    private int point;
     private LeaderAbility abilityType;
     private HashMap<Resource, Integer> abilityResource; //rock, shield, coins, servants for production,white-change  and sale
-    private HashMap<Resource, Integer> productsPower = null ;
+
+
+    private int point;
+    private HashMap<Resource, Integer> requires = null;
+    private HashMap<Resource, Integer> products = null ;
+    private boolean isActive;
+
     public LeaderCard(){
         //read from file and built cards
     }
@@ -42,8 +44,8 @@ public class LeaderCard {
         return requiresLevel;
     }
 
-    public HashMap<Resource, Integer> getRequiresResource() {
-        return requiresResource;
+    public HashMap<Resource, Integer> getRequires() {
+        return requires;
     }
 
     public int getPoint() {
@@ -58,10 +60,24 @@ public class LeaderCard {
         return abilityType;
     }
 
-    public LeaderCardRequires getRequires() {
-        return requires;
+    public LeaderCardRequires getRequiresForActiveLeaderCards() {
+        return requiresForActiveLeaderCards;
     }
-    public HashMap<Resource, Integer> getProductsPower() {
-        return productsPower;
+
+    public HashMap<Resource, Integer> getProduction() {
+        return products;
     }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    /**
+     * method that change the card state from active to inactive and vice versa
+     * @param value is true if the card is active, false otherwise
+     */
+    public void setActive(boolean value){
+        isActive = value;
+    }
+
 }

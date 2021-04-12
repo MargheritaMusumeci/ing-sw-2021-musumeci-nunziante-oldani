@@ -1,8 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.popeTrack;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
-
-import java.util.ArrayList;
 
 public class PopeTrack{
     private Track track;
@@ -39,7 +37,7 @@ public class PopeTrack{
      */
     public void updateGamerPosition(int increment) throws ExcessOfPositionException {
 
-        if((gamerPosition.getIndex() + increment) > track.getTrack().length) throw new ExcessOfPositionException("Player: Track is ended");
+        if((gamerPosition.getIndex() + increment) > track.getTrack().length) throw new ExcessOfPositionException("HumanPlayer: Track is ended");
 
         gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
     }

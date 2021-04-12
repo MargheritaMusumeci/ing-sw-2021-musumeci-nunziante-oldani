@@ -1,15 +1,13 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.game;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.model.cards.EvolutionCard;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
 
 public class EvolutionSection {
 

@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.lorenzo;
+
+import it.polimi.ingsw.model.cards.CardColor;
 
 import java.util.Optional;
 

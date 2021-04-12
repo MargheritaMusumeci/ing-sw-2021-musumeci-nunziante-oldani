@@ -1,18 +1,18 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
+
+import it.polimi.ingsw.model.game.Resource;
 
 import java.util.HashMap;
 
-public class EvolutionCard implements Cloneable {
+public class EvolutionCard implements Card {
 
     private CardColor color;
     private LevelEnum level;
-    private int point;
     private HashMap<Resource, Integer> cost;
+
+    private int point;
     private HashMap<Resource, Integer> requires;
     private HashMap<Resource, Integer> products;
-    //private int[] cost; //rock, shield, coins, servant
-    //private int[] requires; //rock, shield, coin, servant
-    //private int[] product; //rock, shield, coin, servant, faith
     private boolean isActive;
 
     /**
