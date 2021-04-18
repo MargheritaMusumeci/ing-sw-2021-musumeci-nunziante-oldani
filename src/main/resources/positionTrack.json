@@ -3,175 +3,175 @@
     "index" : 0,
     "point" : 0,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 1,
     "point" : 0,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 2,
     "point" : 0,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 3,
     "point" : 1,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 4,
     "point" : 1,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 5,
     "point" : 1,
     "isPopeSection" : true,
-    "numPopePosition" : 1,
+    "numPopeSection" : 1,
     "isPopePosition" : false
   },
   {
     "index" : 6,
     "point" : 2,
     "isPopeSection" : true,
-    "numPopePosition" : 1,
+    "numPopeSection" : 1,
     "isPopePosition" : false
   },
   {
     "index" : 7,
     "point" : 2,
     "isPopeSection" : true,
-    "numPopePosition" : 1,
+    "numPopeSection" : 1,
     "isPopePosition" : false
   },
   {
     "index" : 8,
     "point" : 2,
     "isPopeSection" : true,
-    "numPopePosition" : 1,
+    "numPopeSection" : 1,
     "isPopePosition" : true
   },
   {
     "index" : 9,
     "point" : 4,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 10,
     "point" : 4,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 11,
     "point" : 4,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 12,
     "point" : 6,
     "isPopeSection" : true,
-    "numPopePosition" : 2,
+    "numPopeSection" : 2,
     "isPopePosition" : false
   },
   {
     "index" : 13,
     "point" : 6,
     "isPopeSection" : true,
-    "numPopePosition" : 2,
+    "numPopeSection" : 2,
     "isPopePosition" : false
   },
   {
     "index" : 14,
     "point" : 6,
     "isPopeSection" : true,
-    "numPopePosition" : 2,
+    "numPopeSection" : 2,
     "isPopePosition" : false
   },
   {
     "index" : 15,
     "point" : 9,
     "isPopeSection" : true,
-    "numPopePosition" : 2,
+    "numPopeSection" : 2,
     "isPopePosition" : false
   },
   {
     "index" : 16,
     "point" : 9,
     "isPopeSection" : true,
-    "numPopePosition" : 2,
+    "numPopeSection" : 2,
     "isPopePosition" : true
   },
   {
     "index" : 17,
     "point" : 9,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 18,
     "point" : 12,
     "isPopeSection" : false,
-    "numPopePosition" : -1,
+    "numPopeSection" : 0,
     "isPopePosition" : false
   },
   {
     "index" : 19,
     "point" : 12,
     "isPopeSection" : true,
-    "numPopePosition" : 3,
+    "numPopeSection" : 3,
     "isPopePosition" : false
   },
   {
     "index" : 20,
     "point" : 12,
     "isPopeSection" : true,
-    "numPopePosition" : 3,
+    "numPopeSection" : 3,
     "isPopePosition" : false
   },
   {
     "index" : 21,
     "point" : 16,
     "isPopeSection" : true,
-    "numPopePosition" : 3,
+    "numPopeSection" : 3,
     "isPopePosition" : false
   },
   {
     "index" : 22,
     "point" : 16,
     "isPopeSection" : true,
-    "numPopePosition" : 3,
+    "numPopeSection" : 3,
     "isPopePosition" : false
   },
   {
     "index" : 23,
     "point" : 16,
     "isPopeSection" : true,
-    "numPopePosition" : 3,
+    "numPopeSection" : 3,
     "isPopePosition" : false
   },
   {
     "index" : 24,
     "point" : 20,
     "isPopeSection" : true,
-    "numPopePosition" : 3,
+    "numPopeSection" : 3,
     "isPopePosition" : true
   }
 ]
