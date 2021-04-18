@@ -62,7 +62,6 @@ public class Stock {
     /**
      * Assumption : the box was filled starting from the first position
      * Method that returns the resourceType accordingly to the box required: common box or added box
-     *
      * @param originBox number of box I want the resource type
      * @return the ResourceType of the required box
      */

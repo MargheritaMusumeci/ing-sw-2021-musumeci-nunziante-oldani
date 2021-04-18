@@ -12,7 +12,6 @@ public class LorenzoPlayer extends Player {
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
-
     }
 
     public void Play(){

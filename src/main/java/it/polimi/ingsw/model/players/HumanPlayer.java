@@ -16,8 +16,6 @@ import java.util.HashMap;
 
 public class HumanPlayer extends Player{
 
-    private boolean[] hasLeaderBeenUsed;
-    private boolean[] hasLeaderBeenDiscard;
     private boolean hasActionBeenUsed;
 
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
@@ -26,7 +24,6 @@ public class HumanPlayer extends Player{
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
-        hasLeaderBeenUsed = new boolean[] {false , false};
         hasActionBeenUsed = false;
     }
 
@@ -116,11 +113,14 @@ public class HumanPlayer extends Player{
      *      In other cases the ability should be activated explicitly by the user when he wants to.
      * @param position is which leader card the user wants to active
      * @throws OutOfBandException if the card specified doesn't exist
+     * @throws LeaderCardAlreadyUsedException if the card specified is already been used
      */
-    public void activeLeaderCard(int position) throws OutOfBandException{
+    public void activeLeaderCard(int position) throws OutOfBandException,LeaderCardAlreadyUsedException{
         if(position < 0 || position >= dashboard.getLeaderCards().size() ) throw new OutOfBandException("Invalid position");
 
-        hasLeaderBeenUsed[position] = true;
+        if(dashboard.getLeaderCards().get(position).isActive()) throw new LeaderCardAlreadyUsedException("This leader card is already used");
+
+        dashboard.getLeaderCards().get(position).setActive(true);
 
         //Only in case of new box I have to create it here
         if(dashboard.getLeaderCards().get(position).getAbilityType() == LeaderAbility.STOCKPLUS){
@@ -141,10 +141,12 @@ public class HumanPlayer extends Player{
      * @throws LeaderCardAlreadyUsedException if the leader card specified is already been used/discarded
      */
     public void discardLeaderCard(int position) throws OutOfBandException,LeaderCardAlreadyUsedException {
-        if(position < 0 || position > 2) throw new OutOfBandException("Invalid position");
-        if(hasLeaderBeenDiscard[position] || hasLeaderBeenUsed[position]) throw new LeaderCardAlreadyUsedException("This leader card is already been used");
+        if(position < 0 || position > dashboard.getLeaderCards().size()) throw new OutOfBandException("Invalid position");
 
-        hasLeaderBeenDiscard[position] = true;
+        if(dashboard.getLeaderCards().get(position).isActive()) throw new LeaderCardAlreadyUsedException("This leader card is already been used");
+
+        dashboard.getLeaderCards().remove(position)
+        ;
         try{
             popeTrack.updateGamerPosition(1);
         }catch(ExcessOfPositionException e){
@@ -162,7 +164,7 @@ public class HumanPlayer extends Player{
      *
      * @param state true if the action is been chosen, false otherwise or when the turn ends
      */
-    public void setActionState(boolean state){ hasActionBeenUsed = state;}//no in UML
+    public void setActionState(boolean state){ hasActionBeenUsed = state;}
 
 
 

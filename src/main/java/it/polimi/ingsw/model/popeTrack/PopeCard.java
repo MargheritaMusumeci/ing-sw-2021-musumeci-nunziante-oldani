@@ -9,7 +9,7 @@ public class PopeCard {
     /**
      *
      * @param point of the card
-     * @param position in the popeTrack --> maybe it's better use the index instead of the position
+     * @param position in the popeTrack: 1 , 2 or 3
      */
     public PopeCard(int point , int position){
         this.point = point;

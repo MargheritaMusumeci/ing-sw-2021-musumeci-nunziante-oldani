@@ -14,6 +14,7 @@ public class PopeTrack{
     public PopeTrack(){
         track = Track.getInstanceOfTrack();
 
+        //Initialize the pope card
         popeCard[0] = new PopeCard(2 , 1);
         popeCard[1] = new PopeCard(3 , 2);
         popeCard[2] = new PopeCard(4 , 3);
