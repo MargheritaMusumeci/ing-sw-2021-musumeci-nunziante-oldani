@@ -4,12 +4,7 @@ Musumeci:
 Nunziante:
 - in PopeTrack capire come fare l'aggiornamento su tutti i player  -> checkGamerPosition() in PopeTrack,
     ma il controller deve capire se il player ha raggiunto o superato la popeSection
-- aggiornare UML
-
-
-- Soluzione al problema della matrice dell'evolutionSection:
-    La matrice e gli array li crea il controller che, una volta creati, li setterà in degli attributi
-    di player.
+- verificare un attimo su game la questione di HumanPlayer
 
 Oldani:
 
@@ -24,6 +19,7 @@ Generali:
 - pensare al controller --> UML
 - decidere come sistemare la sitazione lorezoPlayer
 - sequence diagram
+- aggiungere UML su github
 
 
 
