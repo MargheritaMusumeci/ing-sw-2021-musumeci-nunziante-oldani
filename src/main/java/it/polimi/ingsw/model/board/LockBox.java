@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board;
 
+import it.polimi.ingsw.exception.NotEnoughResourcesException;
+
 public class LockBox {
     private int coin;
     private int servant;
@@ -32,27 +34,38 @@ public class LockBox {
 
     /**
      * Increment/reduce the quantities of coins
-     * @return
+     * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setCoin(int howMany){ coin = coin + howMany; }
+    public void setCoin(int howMany) throws NotEnoughResourcesException {
+        if(coin + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
+        coin = coin + howMany;
+    }
 
     /**
      * Increment/reduce the quantities of servants
-     * @return
-     *
+     * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setServant(int howMany){ servant = servant + howMany; }
+    public void setServant(int howMany) throws NotEnoughResourcesException {
+        if(servant + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
+        servant = servant + howMany;
+    }
 
     /**
      * Increment/reduce the quantities of rocks
-     * @return
+     * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setRock(int howMany){ rock = rock + howMany; }
+    public void setRock(int howMany) throws NotEnoughResourcesException {
+        if(rock + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
+        rock = rock + howMany;
+    }
 
     /**
      * Increment/reduce the quantities of shields
-     * @return
+     * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setShield(int howMany){ shield = shield + howMany; }
+    public void setShield(int howMany) throws NotEnoughResourcesException {
+        if(shield + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
+        shield = shield + howMany;
+    }
 
 }
