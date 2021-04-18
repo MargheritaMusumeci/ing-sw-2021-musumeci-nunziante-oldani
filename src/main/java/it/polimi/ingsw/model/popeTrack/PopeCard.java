@@ -13,8 +13,9 @@ public class PopeCard {
      */
     public PopeCard(int point , int position){
         this.point = point;
-        this.isUsed = false;
         this.position = position;
+        this.isUsed = false;
+        this.isDiscard = false;
     }
 
     /**

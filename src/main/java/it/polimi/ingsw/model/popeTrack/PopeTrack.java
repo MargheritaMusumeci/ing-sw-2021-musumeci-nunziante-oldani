@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model.popeTrack;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.exception.OutOfBandException;
+
+import java.util.ArrayList;
 
 public class PopeTrack{
     private Track track;
-    private PopeCard[] popeCard;
+    private ArrayList<PopeCard> popeCard;
     private Position gamerPosition;
     private Position lorenzoPosition;
 
@@ -15,9 +18,10 @@ public class PopeTrack{
         track = Track.getInstanceOfTrack();
 
         //Initialize the pope card
-        popeCard[0] = new PopeCard(2 , 1);
-        popeCard[1] = new PopeCard(3 , 2);
-        popeCard[2] = new PopeCard(4 , 3);
+        popeCard = new ArrayList<PopeCard>();
+        popeCard.add(new PopeCard(2 , 1));
+        popeCard.add(new PopeCard(3 , 2));
+        popeCard.add(new PopeCard(4 , 3));
 
         gamerPosition = track.getTrack()[0];
         lorenzoPosition = track.getTrack()[0];
@@ -38,19 +42,22 @@ public class PopeTrack{
      */
     public void updateGamerPosition(int increment) throws ExcessOfPositionException {
 
-        if((gamerPosition.getIndex() + increment) > track.getTrack().length) throw new ExcessOfPositionException("HumanPlayer: Track is ended");
+        if((gamerPosition.getIndex() + increment) >= track.getTrack().length) throw new ExcessOfPositionException("HumanPlayer: Track is ended");
 
         gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
     }
 
     /**
      * This method will be invoked by the controller when one player is arrived in a pope position to check if other players
-     *      can turn on their pope card of the specified section
+     *      can turn on their pope card of the specified section or if the pope card has to be discard
      * @param popeSection is the pope section where one player is arrived in the pope position
      */
-    public void checkGamerPosition(int popeSection){
+    public void checkGamerPosition(int popeSection) throws OutOfBandException {
+        if(popeSection <= 0 || popeSection > popeCard.size()) throw new OutOfBandException("This popeSection doesn't exist");
         if(gamerPosition.getNumPopeSection() == popeSection)
-            popeCard[gamerPosition.getNumPopeSection()].setIsUsed();
+            popeCard.get(gamerPosition.getNumPopeSection() - 1).setIsUsed();
+        else
+            popeCard.get(popeSection - 1).setIsDiscard();
     }
 
     /**
@@ -58,16 +65,19 @@ public class PopeTrack{
      *      or Lorenzo can turn on its pope card of the specified section
      * @param popeSection is the pope section where one player is arrived in the pope position
      */
-    public void checkLorenzoPosition(int popeSection){
+    public void checkLorenzoPosition(int popeSection) throws OutOfBandException{
+        if(popeSection <= 0 || popeSection > popeCard.size()) throw new OutOfBandException("This popeSection doesn't exist");
         if(lorenzoPosition.getNumPopeSection() == popeSection)
-            popeCard[lorenzoPosition.getNumPopeSection()].setIsUsed();
+            popeCard.get(lorenzoPosition.getNumPopeSection() - 1).setIsUsed();
+        else
+            popeCard.get(popeSection - 1).setIsDiscard();
     }
 
     /**
      * Return the 3 pope cards in this popeTrack
      * @return
      */
-    public PopeCard[] getPopeCard() { return popeCard.clone(); }
+    public ArrayList<PopeCard> getPopeCard() { return popeCard; }
 
     /**
      * In case of single player return the current position of Lorenzo
@@ -82,9 +92,9 @@ public class PopeTrack{
      */
     public void updateLorenzoPosition(int increment) throws ExcessOfPositionException{
 
-        if((lorenzoPosition.getIndex() + increment) > track.getTrack().length) throw new ExcessOfPositionException("Lorenzo: Track is ended");
+        if((lorenzoPosition.getIndex() + increment) >= track.getTrack().length) throw new ExcessOfPositionException("Lorenzo: Track is ended");
 
-        lorenzoPosition = track.getTrack()[gamerPosition.getIndex() + increment];
+        lorenzoPosition = track.getTrack()[lorenzoPosition.getIndex() + increment];
 
     }
 }
