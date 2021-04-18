@@ -50,7 +50,7 @@ public class PopeTrackTest extends TestCase {
         }
     }
 
-    //Chech if it don't modify isActive/isDiscard when there is an exception
+    //Check if it don't modify isActive/isDiscard when there is an exception
     public void testCheckGamerPosition2(){
         PopeTrack pTrack = new PopeTrack();
         boolean isUsed = false;
