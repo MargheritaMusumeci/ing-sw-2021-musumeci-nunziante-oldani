@@ -227,4 +227,12 @@ public class Stock {
         boxPlus.add(newBox);
         resourcesPlus.add(resourceType);
     }
+
+    /**
+     *
+     * @return number of standard boxes in stock
+     */
+    public int getNumberOfBoxes(){
+        return boxes.size() + boxPlus.size();
+    }
 }
