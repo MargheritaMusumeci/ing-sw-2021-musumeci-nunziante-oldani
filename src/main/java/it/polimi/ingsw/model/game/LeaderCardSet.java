@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.model.cards.LeaderCard;
 
+/**
+ * Collection of LeaderCard
+ */
 public class LeaderCardSet {
 
     private List<LeaderCard> leaderCardSet;
@@ -18,6 +21,9 @@ public class LeaderCardSet {
         populateLeaderSet();
     }
 
+    /**
+     * Read cards from json and create them
+     */
     private void populateLeaderSet(){
 
         String path = "C:/Users/margh/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/leaderCards.json"; //need to find the correct path
@@ -47,7 +53,7 @@ public class LeaderCardSet {
      * @return the card in the set at the given position
      */
     public LeaderCard getLeaderCard(int position) {
-        //possibile esposizione del rep
+
         if ((position >= 0) && (position <= 16)) {
             return leaderCardSet.get(position);
         }

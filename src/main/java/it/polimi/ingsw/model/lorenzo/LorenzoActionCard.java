@@ -12,7 +12,7 @@ public class LorenzoActionCard {
     private LorenzoAction actionType;
 
     /**
-     * if actionType is discard a Development Card, this attribute represents what kind of card will be discarded
+     * If actionType is discard a Development Card, this attribute represents what kind of card will be discarded
      * else is null
      */
     private Optional<CardColor> actionColor;
@@ -24,7 +24,7 @@ public class LorenzoActionCard {
     private Optional<Integer> num;
 
     /**
-     * costructor of 'move Black Cross' tokens equals to 'incrementPopeTrack'
+     * Costructor of 'move Black Cross' tokens equals to 'incrementPopeTrack'
      * @param num represents how many spaces it has to be taken forward
      */
     public LorenzoActionCard(int num){
@@ -34,7 +34,7 @@ public class LorenzoActionCard {
     }
 
     /**
-     * costructor of 'discard 2 Development Cards' tokens equals to 'discardEvolution'
+     * Costructor of 'discard 2 Development Cards' tokens equals to 'discardEvolution'
      * @param actionColor represents what kind of card will be discarded
      */
     public LorenzoActionCard(CardColor actionColor){

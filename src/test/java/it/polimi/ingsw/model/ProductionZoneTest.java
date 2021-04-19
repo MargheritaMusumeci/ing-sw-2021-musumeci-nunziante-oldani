@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.exception.InvalidPlaceException;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LevelEnum;
@@ -14,7 +15,7 @@ import static org.junit.Assert.*;
 public class ProductionZoneTest {
 
     @Test
-    public void getCardTest() throws ExcessOfPositionException {
+    public void getCardTest() throws ExcessOfPositionException, InvalidPlaceException {
         //if is empty?
         EvolutionCard evolutionCard;
         ProductionZone productionZone = new ProductionZone();
@@ -44,7 +45,7 @@ public class ProductionZoneTest {
     }
 
     @Test
-    public void addCardTest() throws ExcessOfPositionException {
+    public void addCardTest() throws ExcessOfPositionException, InvalidPlaceException {
 
         //wrong position
         EvolutionCard evolutionCard;
@@ -86,7 +87,7 @@ public class ProductionZoneTest {
     }
 
     @Test
-    public void isFullTest() throws ExcessOfPositionException {
+    public void isFullTest() throws ExcessOfPositionException, InvalidPlaceException {
         //empty
         EvolutionCard evolutionCard;
         ProductionZone productionZone = new ProductionZone();
@@ -110,7 +111,7 @@ public class ProductionZoneTest {
     }
 
     @Test
-    public void getCardListTest() throws ExcessOfPositionException {
+    public void getCardListTest() throws ExcessOfPositionException, InvalidPlaceException {
         ArrayList<EvolutionCard> cards = new ArrayList<>();
 
         //empty
@@ -140,7 +141,7 @@ public class ProductionZoneTest {
     }
 
     @Test
-    public void getLevelTest() throws ExcessOfPositionException {
+    public void getLevelTest() throws ExcessOfPositionException, InvalidPlaceException {
 
         //empty
         EvolutionCard evolutionCard;
