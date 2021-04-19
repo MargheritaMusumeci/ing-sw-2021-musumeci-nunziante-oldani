@@ -13,6 +13,7 @@ public class Dashboard {
     private Stock personalStock;
     private LockBox personalLockBox;
     private ProductionZone[] personalProductionZone;
+    private int evolutionCardNumber;
     private PopeTrack personalPopeTrack;
     private ArrayList<LeaderCard> leaderCards;
     private boolean inkwell;
@@ -32,6 +33,15 @@ public class Dashboard {
         for (int i=0; i<personalProductionZone.length; i++){
             personalProductionZone[i] = new ProductionZone();
         }
+    }
+
+
+    public int getEvolutionCardNumber() {
+        return evolutionCardNumber;
+    }
+
+    public void setEvolutionCardNumber(int evolutionCardNumber) {
+        this.evolutionCardNumber = evolutionCardNumber;
     }
 
     /**
