@@ -1,8 +1,5 @@
 package it.polimi.ingsw.controller;
-import it.polimi.ingsw.exception.ExcessOfPositionException;
-import it.polimi.ingsw.exception.NotEnoughSpaceException;
-import it.polimi.ingsw.exception.OutOfBandException;
-import it.polimi.ingsw.exception.ResourceAlreadyPresentException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.board.Stock;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
@@ -52,5 +49,19 @@ public class doActionPlayer {
             stockBox = 1; //sarà il risultato di un metodo che chiede al client in che box inserire le nuove biglie
             stock.addResources(stockBox, 1, resources[i]);
         }
+    }
+
+    public void activeLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
+        modelGame.getActivePlayer().activeLeaderCard(position);
+        //se è un potere di produzione aggiuntivo come lo tratto? creo un'altra produzionZonePlus ?
+    }
+
+    /**
+     * method used for move resources from a box to an other
+     */
+    public void manageStock(int originBox,int finalBox) throws OutOfBandException, NotEnoughSpaceException {
+
+        modelGame.getActivePlayer().getDashboard().getStock().moveResources(originBox,finalBox);
+
     }
 }
