@@ -111,6 +111,60 @@ public class LockBoxTest extends TestCase {
         }
     }
 
+    public void testSetAmountOf(){
+        LockBox lBox = new LockBox();
+        try{
+            lBox.setAmountOf(Resource.COIN , 5);
+            assertEquals(5 , lBox.getAmountOf(Resource.COIN));
+            lBox.setAmountOf(Resource.SHIELD , 2);
+            assertEquals(2 , lBox.getAmountOf(Resource.SHIELD));
+            lBox.setAmountOf(Resource.ROCK , 20);
+            assertEquals(20 , lBox.getAmountOf(Resource.ROCK));
+            lBox.setAmountOf(Resource.SERVANT , 3);
+            assertEquals(3 , lBox.getAmountOf(Resource.SERVANT));
+
+            lBox.setAmountOf(Resource.COIN , 5);
+            assertEquals(10 , lBox.getAmountOf(Resource.COIN));
+            lBox.setAmountOf(Resource.SHIELD , -1);
+            assertEquals(1 , lBox.getAmountOf(Resource.SHIELD));
+            lBox.setAmountOf(Resource.ROCK , -10);
+            assertEquals(10 , lBox.getAmountOf(Resource.ROCK));
+            lBox.setAmountOf(Resource.SERVANT , 17);
+            assertEquals(20 , lBox.getAmountOf(Resource.SERVANT));
+
+        }catch(NotEnoughResourcesException e){
+            fail();
+        }
+        try {
+            lBox.setAmountOf(Resource.COIN , -15);
+            assertEquals(10 , lBox.getAmountOf(Resource.COIN));
+            fail();
+        }catch(NotEnoughResourcesException e){
+
+        }
+        try {
+            lBox.setAmountOf(Resource.SHIELD , -100);
+            assertEquals(1 , lBox.getAmountOf(Resource.SHIELD));
+            fail();
+        }catch(NotEnoughResourcesException e){
+
+        }
+        try {
+            lBox.setAmountOf(Resource.ROCK , -15);
+            assertEquals(10 , lBox.getAmountOf(Resource.ROCK));
+            fail();
+        }catch(NotEnoughResourcesException e){
+
+        }
+        try {
+            lBox.setAmountOf(Resource.SERVANT , -25);
+            assertEquals(20 , lBox.getAmountOf(Resource.SERVANT));
+            fail();
+        }catch(NotEnoughResourcesException e){
+
+        }
+    }
+
 }
 
 

@@ -93,11 +93,19 @@ public class LockBox {
      */
     public void setAmountOf(Resource resourceType , int howMany) throws NotEnoughResourcesException{
         switch(resourceType){
-            case COIN:     setCoin(howMany);
-            case SERVANT:  setServant(howMany);
-            case SHIELD:   setShield(howMany);
-            case ROCK:     setRock(howMany);
-            default:       return;
+            case COIN:
+                setCoin(howMany);
+                break;
+            case SERVANT:
+                setServant(howMany);
+                break;
+            case SHIELD:
+                setShield(howMany);
+                break;
+            case ROCK:
+                setRock(howMany);
+                break;
+            default:
         }
     }
 
