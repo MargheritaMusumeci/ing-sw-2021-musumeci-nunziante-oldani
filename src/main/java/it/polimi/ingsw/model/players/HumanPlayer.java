@@ -10,14 +10,18 @@ import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LevelEnum;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
+import it.polimi.ingsw.model.game.Game;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.stream.IntStream;
 
 public class HumanPlayer extends Player{
 
     private boolean hasActionBeenUsed;
-
+    private Game game;
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
 
     public HumanPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
@@ -25,6 +29,7 @@ public class HumanPlayer extends Player{
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
         hasActionBeenUsed = false;
+        game = null;
     }
 
 
@@ -65,12 +70,74 @@ public class HumanPlayer extends Player{
 
     /**
      * Method that return which card the player can buy at the evolution section based on stock and lock box resources,
-     * state of production zones and active leader cards abilities
+     *      state of production zones and active leader cards abilities
      * @return a matrix of boolean that activates the positions of the card that can be bought by the player
      */
     public boolean[][] getPossibleEvolutionCard(){
 
-        return null;
+        EvolutionCard[][] eCard = game.getEvolutionSection().canBuy();
+        int numRow = eCard.length;
+        int numCol = eCard[0].length;
+        boolean[][] result = new boolean[numRow][numCol];
+
+        int numLeaderCard = dashboard.getLeaderCards().size();
+        boolean[] leaderSaleOn = new boolean[numLeaderCard];
+        Arrays.fill(leaderSaleOn , false);
+
+        if(numLeaderCard > 0){
+            for(int i = 0; i < numLeaderCard; i++){
+                if(dashboard.getLeaderCards().get(i).isActive() &&
+                        dashboard.getLeaderCards().get(i).getAbilityType() == LeaderAbility.SALES){
+                    leaderSaleOn[i] = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < numRow ; i++){     //row
+            for(int j = 0; j < numCol; j++){   //column
+                EvolutionCard card = eCard[i][j];//the current card
+                if(card == null){//if there isn't card to buy
+                    result[i][j] = false;
+                    break;
+                }
+                //if the card can't be placed in a production zone
+                if(!Arrays.asList(getPossibleProductionZone(card)).contains(true)){
+                    result[i][j] = false;
+                    break;
+                }
+                HashMap<Resource , Integer> req = card.getRequires();
+                //Next 3 lines are necessary to avoid the clone() of req
+                HashMap<Resource , Integer> requires = new HashMap<Resource , Integer>();
+                for(Resource res : req.keySet())
+                    requires.put(res , req.get(res));
+
+                for(int k = 0; k < numLeaderCard; k++){
+                    if(leaderSaleOn[k]){
+                        HashMap<Resource , Integer> abilityResource = dashboard.getLeaderCards().get(k).getAbilityResource();
+                        for(Resource resource : abilityResource.keySet()){
+                            int numResource  = requires.get(resource);//resource required by the evolution card
+                            if(numResource > 0){
+                                int numSale = abilityResource.get(resource);//num of resources of sale (it's a negative number)
+                                if(numSale < 0){
+                                    if(numResource + numSale > 0)
+                                        requires.put(resource , numResource + numSale);
+                                    else
+                                        requires.put(resource , 0);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Now requires is update with sales and there is only to check if the resource in stock and in lockBox enough
+                for(Resource resource : requires.keySet()){
+                    if(dashboard.getLockBox().getAmountOf(resource) + dashboard.getStock().getTotalQuantitiesOf(resource) >=
+                            requires.get(resource))
+                        result[i][j] = true;
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -182,5 +249,13 @@ public class HumanPlayer extends Player{
      */
     public Resource[] getResources(){ return resources.clone(); }
 
+    /**
+     * Idea: There is the creation of the players before and than the creation of the Game object.
+     *       Now it's possible set this attribute in Player
+     * @param game is the game the player is playing
+     */
+    public void setGame(Game game){
+        this.game = game;
+    }
 
 }

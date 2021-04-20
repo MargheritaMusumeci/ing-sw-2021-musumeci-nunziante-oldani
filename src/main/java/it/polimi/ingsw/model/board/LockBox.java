@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NotEnoughResourcesException;
+import it.polimi.ingsw.model.game.Resource;
 
 public class LockBox {
     private int coin;
@@ -31,6 +32,22 @@ public class LockBox {
      * @return
      */
     public int getShield(){ return shield; }
+
+    /**
+     * Method that return the amount od a specified resource type
+     *  Probably the get method above should be private
+     * @param resourceType is the resource type I want the amount
+     * @return the amount of resourceType in the LockBox
+     */
+    public int getAmountOf(Resource resourceType){
+        switch(resourceType){
+            case COIN:     return getCoin();
+            case SERVANT:  return getServant();
+            case SHIELD:   return getShield();
+            case ROCK:     return getRock();
+            default:       return 0;
+        }
+    }
 
     /**
      * Increment/reduce the quantities of coins
