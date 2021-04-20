@@ -85,4 +85,20 @@ public class LockBox {
         shield = shield + howMany;
     }
 
+    /**
+     * Method that call the right setter according to the resourceType
+     * @param resourceType the resource the user wants to update
+     * @param howMany is the quantity of resources to add + /remove -
+     * @throws NotEnoughResourcesException if the setter throw the exception
+     */
+    public void setAmountOf(Resource resourceType , int howMany) throws NotEnoughResourcesException{
+        switch(resourceType){
+            case COIN:     setCoin(howMany);
+            case SERVANT:  setServant(howMany);
+            case SHIELD:   setShield(howMany);
+            case ROCK:     setRock(howMany);
+            default:       return;
+        }
+    }
+
 }

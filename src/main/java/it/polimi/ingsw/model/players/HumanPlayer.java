@@ -12,11 +12,9 @@ import it.polimi.ingsw.model.cards.LevelEnum;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.model.game.Game;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 public class HumanPlayer extends Player{
 
@@ -212,8 +210,8 @@ public class HumanPlayer extends Player{
 
         if(dashboard.getLeaderCards().get(position).isActive()) throw new LeaderCardAlreadyUsedException("This leader card is already been used");
 
-        dashboard.getLeaderCards().remove(position)
-        ;
+        dashboard.getLeaderCards().remove(position);
+
         try{
             popeTrack.updateGamerPosition(1);
         }catch(ExcessOfPositionException e){
