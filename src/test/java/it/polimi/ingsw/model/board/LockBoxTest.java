@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NotEnoughResourcesException;
+import it.polimi.ingsw.model.game.Resource;
 import junit.framework.TestCase;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class LockBoxTest extends TestCase {
@@ -82,4 +84,37 @@ public class LockBoxTest extends TestCase {
 
         }
     }
+
+    public void testGetAmountOf(){
+        LockBox lBox = new LockBox();
+        try{
+            lBox.setCoin(5);
+            assertEquals(5 , lBox.getAmountOf(Resource.COIN));
+            lBox.setShield(2);
+            assertEquals(2 , lBox.getAmountOf(Resource.SHIELD));
+            lBox.setRock(20);
+            assertEquals(20 , lBox.getAmountOf(Resource.ROCK));
+            lBox.setServant(3);
+            assertEquals(3 , lBox.getAmountOf(Resource.SERVANT));
+
+            lBox.setCoin(5);
+            assertEquals(10 , lBox.getAmountOf(Resource.COIN));
+            lBox.setShield(-1);
+            assertEquals(1 , lBox.getAmountOf(Resource.SHIELD));
+            lBox.setRock(-10);
+            assertEquals(10 , lBox.getAmountOf(Resource.ROCK));
+            lBox.setServant(17);
+            assertEquals(20 , lBox.getAmountOf(Resource.SERVANT));
+
+        }catch(NotEnoughResourcesException e){
+            fail();
+        }
+    }
+
 }
+
+
+
+
+
+
