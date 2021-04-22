@@ -31,7 +31,7 @@ public class DoActionPlayer extends DoAction {
         //if( modelGame.getActivePlayer().getActionState()==false){}
 
         //mossa effettuata
-        modelGame.getActivePlayer().setActionState(true);
+        modelGame.getActivePlayer().setActionChose(Action.BUY_FROM_MARKET);
 
         //prendo le risorse dal mercato e aggiorno qust'ultimo
         Resource[] resources = null;
