@@ -27,7 +27,7 @@ public class TemporaryDoActionPlayer extends DoAction {
             //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
             //                                      we need to check if the player arrived in a popePosition or
             //                                      in new point position in order to increase the score
-            //To do so moveCross should be have as parameters: player , increment
+            //To do so, moveCross should have as parameters: player , increment
             for(Player player : modelGame.getPlayers()){
                 if(!player.equals(modelGame.getActivePlayer()))
                     player.getDashboard().getPopeTrack().updateGamerPosition(1);
@@ -105,6 +105,11 @@ public class TemporaryDoActionPlayer extends DoAction {
                     e.getLocalizedMessage();
                 }
             }
+
+            //Set false in the position possibleActiveProductionZone in player
+            //So the user can't activate the production twice in the same zone
+            boolean[] possibleActiveProductionZone = modelGame.getActivePlayer().getPossibleActiveProductionZone();
+            possibleActiveProductionZone[position] = false;
         }
     }
 }
