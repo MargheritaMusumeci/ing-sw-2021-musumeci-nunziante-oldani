@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.players;
 
+import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
 import it.polimi.ingsw.exception.OutOfBandException;
@@ -18,8 +19,9 @@ import java.util.HashMap;
 
 public class HumanPlayer extends Player{
 
-    private boolean hasActionBeenUsed;
     private Game game;
+
+     private Action actionChose;
 
     /**
      * Here I save the resources the player bought this turn and that he still have to place in the lockBox end,
@@ -33,8 +35,8 @@ public class HumanPlayer extends Player{
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
-        hasActionBeenUsed = false;
         isWinner = false;
+        actionChose = null;
         game = null;
     }
 
@@ -234,20 +236,6 @@ public class HumanPlayer extends Player{
     }
 
     /**
-     *
-     * @return true if the player has already chosen the action
-     */
-    public boolean getActionState(){ return hasActionBeenUsed; }
-
-    /**
-     *
-     * @param state true if the action is been chosen, false otherwise or when the turn ends
-     */
-    public void setActionState(boolean state){ hasActionBeenUsed = state;}
-
-
-
-    /**
      * Method that sets the resources the players had bought in this turn.
      * @param resources is an array of resources.This param will be null when the user ended his turn, to reset the variable
      */
@@ -279,5 +267,20 @@ public class HumanPlayer extends Player{
         this.isWinner = true;
     }
 
+    /**
+     * Method that set the action choose by the player
+     * @param actionChoose is the type of action
+     */
+    public void setActionChose(Action actionChoose){
+        this.actionChose = actionChoose;
+    }
+
+    /**
+     *
+     * @return the action the player choose
+     */
+    public Action getActionChose(){
+        return actionChose;
+    }
 
 }

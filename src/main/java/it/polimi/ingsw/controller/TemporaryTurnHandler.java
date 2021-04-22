@@ -32,8 +32,8 @@ public class TemporaryTurnHandler {
     }
 
     public void endTurn(){
-        //Set false the action state of the player
-        modelGame.getActivePlayer().setActionState(false);
+        //Set NOTHING the action chose by the player
+        modelGame.getActivePlayer().setActionChose(Action.NOTHING);
         //Set isActive = false in the eCards on the top of each productionZone
         for(ProductionZone pZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
             if(pZone.getCard() != null)

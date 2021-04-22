@@ -39,14 +39,16 @@ public class TemporaryDoActionPlayer extends DoAction {
 
     public void activeProductionZone(int position){
         //When the turn ends it's necessary to set false the attribute isActive in every evolutionCard in the top of each zone
-        //and set false the attribute hasActionBeenUsed in activePlayer
+        //and set NOTHING the attribute isActionChose in Player
+        if(modelGame.getActivePlayer().getActionChose() != Action.NOTHING &&
+                modelGame.getActivePlayer().getActionChose() != Action.ACTIVE_PRODUCTION){
+            //I should do this control in the method that decide which action the player chose
+            //---> method doAction() in TurnHandler
+        }
         if(modelGame.getActivePlayer().getPossibleActiveProductionZone()[position]){//if can be activated
 
             //active the production of the last evolutionCard in the productionZone specified by position
             modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
-
-            //set true the player has chosen the action
-            modelGame.getActivePlayer().setActionState(true);
 
             //take the card activated by the player
             EvolutionCard eCard = modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
@@ -100,6 +102,8 @@ public class TemporaryDoActionPlayer extends DoAction {
                     e.getLocalizedMessage();
                 }
             }
+            //Set which action the player chose only if the action is been completed
+            modelGame.getActivePlayer().setActionChose(Action.ACTIVE_PRODUCTION);
         }
     }
 }
