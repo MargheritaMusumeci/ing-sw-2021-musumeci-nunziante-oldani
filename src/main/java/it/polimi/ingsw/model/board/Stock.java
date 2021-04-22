@@ -171,7 +171,7 @@ public class Stock {
      * @param numberResources number of resources we use
      * @throws NotEnoughResourcesException if the number of the resources required is smaller than the number of available resources
      */
-    public void useResources(int originBox , int numberResources) throws NotEnoughResourcesException,OutOfBandException{
+    private void useResources(int originBox , int numberResources) throws NotEnoughResourcesException,OutOfBandException{
         if(originBox >= boxes.size() + boxPlus.size()) throw new OutOfBandException("This box doesn't exist");
         if(numberResources > getQuantities(originBox)) throw new NotEnoughResourcesException("You don't have enough resources");
 
@@ -187,6 +187,22 @@ public class Stock {
             i--;
         }
         setBox(originBox , box);
+    }
+
+    public void useResources(int numberResources , Resource resourceType) throws NotEnoughResourcesException{
+        int numBox = getNumberOfBoxes();
+
+        for(int i = 0; i < numBox && numberResources > 0; i++){
+            if(getResourceType(i) == resourceType){
+                int quantity = getQuantities(i);
+                try {
+                    useResources(i , quantity);
+                    numberResources -= quantity;
+                }catch(NotEnoughResourcesException | OutOfBandException e){
+                    throw new NotEnoughResourcesException("Not enough resources in this box");
+                }
+            }
+        }
     }
 
     /**
