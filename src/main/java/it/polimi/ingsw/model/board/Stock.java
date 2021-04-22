@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.board;
 
-import it.polimi.ingsw.exception.NotEnoughResourcesException;
-import it.polimi.ingsw.exception.NotEnoughSpaceException;
-import it.polimi.ingsw.exception.OutOfBandException;
-import it.polimi.ingsw.exception.ResourceAlreadyPresentException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.game.Resource;
 
 import java.util.ArrayList;
@@ -66,11 +63,13 @@ public class Stock {
      * @return the ResourceType of the required box
      */
     public Resource getResourceType(int originBox) {
+        if(originBox < 0 || originBox >= getNumberOfBoxes())
+            return null;
         if(originBox >= 0 && originBox < boxes.size())
             return boxes.get(originBox)[0];
-        if(boxPlus.get(originBox - boxes.size()) != null)
+        //if(boxPlus.get(originBox - boxes.size()) != null)
+        else
             return resourcesPlus.get(originBox - boxes.size());
-        return null;
     }
 
     /**
@@ -88,10 +87,16 @@ public class Stock {
         if(originBox >= 0 && originBox < boxes.size()) {
             for (int i = 0; i < boxes.size(); i++) {
                 if (i != originBox)
-                    if (resourceType == getResourceType(originBox))
+                    if (resourceType == getResourceType(i))
                         throw new ResourceAlreadyPresentException("The resource type is already in an other box");
             }
         }
+
+        if(originBox >= boxes.size() && originBox < getNumberOfBoxes()){
+            if(getResourceType(originBox) != resourceType)
+                throw  new ResourceAlreadyPresentException("This kind of resource cannot be placed here");
+        }
+
         Resource[] box = getBox(originBox);
 
         if(box.length - getQuantities(originBox) < numberResources) throw new NotEnoughSpaceException("The box is too small");
@@ -120,12 +125,14 @@ public class Stock {
         int i = 0;
 
         Resource[] box = getBox(originBox);
-        int maxDim = box.length;
 
-        while(i < maxDim){
-            if(box[i] != null)
-                quantity++;
-            i++;
+        if(box != null){
+            int maxDim = box.length;
+            while(i < maxDim){
+                if(box[i] != null)
+                    quantity++;
+                i++;
+            }
         }
         return quantity;
     }
@@ -171,8 +178,9 @@ public class Stock {
      * @param numberResources number of resources we use
      * @throws NotEnoughResourcesException if the number of the resources required is smaller than the number of available resources
      */
-    private void useResources(int originBox , int numberResources) throws NotEnoughResourcesException,OutOfBandException{
-        if(originBox >= boxes.size() + boxPlus.size()) throw new OutOfBandException("This box doesn't exist");
+    private void useResources(int originBox , int numberResources) throws NotEnoughResourcesException{
+        //Never threw OutOfBandException because I invoke this method only with a valid originBox
+        //if(originBox >= boxes.size() + boxPlus.size()) throw new OutOfBandException("This box doesn't exist");
         if(numberResources > getQuantities(originBox)) throw new NotEnoughResourcesException("You don't have enough resources");
 
         Resource[] box = getBox(originBox);
@@ -192,13 +200,18 @@ public class Stock {
     public void useResources(int numberResources , Resource resourceType) throws NotEnoughResourcesException{
         int numBox = getNumberOfBoxes();
 
+        if(getTotalQuantitiesOf(resourceType) < numberResources)
+            throw new NotEnoughResourcesException("Not enough resources in the Stock");
+
         for(int i = 0; i < numBox && numberResources > 0; i++){
             if(getResourceType(i) == resourceType){
                 int quantity = getQuantities(i);
+                if(quantity > numberResources)
+                    quantity = numberResources;
                 try {
                     useResources(i , quantity);
                     numberResources -= quantity;
-                }catch(NotEnoughResourcesException | OutOfBandException e){
+                }catch(NotEnoughResourcesException e){
                     throw new NotEnoughResourcesException("Not enough resources in this box");
                 }
             }
@@ -211,14 +224,23 @@ public class Stock {
      * @param destinationBox where put the resources
      * @throws NotEnoughSpaceException if one of the box is too smaller to contain the amount of resources in the other box
      */
-    public void moveResources(int originBox , int destinationBox) throws NotEnoughSpaceException,OutOfBandException {
-        if(getQuantities(originBox) > getBoxLength(destinationBox)) throw new NotEnoughSpaceException("Destination box is too small");
-        if(getQuantities(destinationBox) > getBoxLength(originBox)) throw new NotEnoughSpaceException("Origin box is too small");
+    public void moveResources(int originBox , int destinationBox) throws NotEnoughSpaceException,OutOfBandException, NonCompatibleResourceException {
+        if(originBox == destinationBox)
+            return;
 
         Resource[] boxOrigin = getBox(originBox);
         Resource[] boxDestination = getBox(destinationBox);
 
         if(boxOrigin == null || boxDestination == null) throw new OutOfBandException("The box doesn't exist");
+
+        if(getQuantities(originBox) > getBoxLength(destinationBox)) throw new NotEnoughSpaceException("Destination box is too small");
+        if(getQuantities(destinationBox) > getBoxLength(originBox)) throw new NotEnoughSpaceException("Origin box is too small");
+
+        //If one(or two) of originBox or destinationBox is a box plus
+        if(originBox >= boxes.size() || destinationBox >= boxes.size()){
+            if(getResourceType(originBox) != getResourceType(destinationBox))
+                throw new NonCompatibleResourceException("Resources are not compatible according to the boxes");
+        }
 
         Arrays.fill(boxOrigin , null);
         Arrays.fill(boxDestination , null);

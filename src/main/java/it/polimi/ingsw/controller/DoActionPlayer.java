@@ -108,7 +108,7 @@ public class DoActionPlayer extends DoAction {
     /**
      *  Controller method used for move resources from a box to an other
      */
-    public void manageStock(int originBox, int finalBox) throws OutOfBandException, NotEnoughSpaceException {
+    public void manageStock(int originBox, int finalBox) throws OutOfBandException, NotEnoughSpaceException , NonCompatibleResourceException{
 
         modelGame.getActivePlayer().getDashboard().getStock().moveResources(originBox, finalBox);
 
