@@ -21,7 +21,6 @@ public class HumanPlayer extends Player{
     private boolean hasActionBeenUsed;
     private Game game;
     private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
-    boolean[] possibleActiveProductionZone;
 
     public HumanPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
         this.nickName = nickName;
@@ -29,7 +28,6 @@ public class HumanPlayer extends Player{
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
         hasActionBeenUsed = false;
         game = null;
-        updatePossibleActiveProductionZone();
     }
 
     /**
@@ -140,25 +138,14 @@ public class HumanPlayer extends Player{
     }
 
     /**
-     *
-     * @return the production zone that can be activated based on stock and lock box and the previews
-     *          activation in the same turn
-     */
-    public boolean[] getPossibleActiveProductionZone(){
-        return possibleActiveProductionZone;
-    }
-    /**
-     * Method that update the production zone that can be activated based on stock and lock box in the start of the turn
+     * Method that update the production zone that can be activated based on stock and lock box
      * Active leader card abilities are useful only when buying a new evolution card, not in activating the production zone
-     *
-     * I need to call this method only in the Player constructor and in the start of the turn, then I will get
-     *  this array with getPossibleActiveProductionZone().
      *
      * In result[0] there is the base production zone, in 1,2 and 3 there are the other production zones
      *
      * @return an array of boolean that says which production zone could be activated by the player
      */
-    public boolean[] updatePossibleActiveProductionZone(){
+    public boolean[] getPossibleActiveProductionZone(){
         int numOfProductionZone = dashboard.getProductionZone().length;
         boolean[] result = new boolean[numOfProductionZone];
 
@@ -170,10 +157,17 @@ public class HumanPlayer extends Player{
 
         //Verify if the player can activate the production zone using his resources
         for(int i = 1; i <= numOfProductionZone; i++){
+            //If there isn't a card in this production zone
             if(dashboard.getProductionZone()[i].getLevel() == null) {
                 result[i] = false;
                 break;
             }
+            //If the card is already been used this turn
+            if(dashboard.getProductionZone()[i].getCard().isActive()){
+                result[i] = false;
+                break;
+            }
+            //If there is a card and it is not active check the LockBox resources
             ArrayList<EvolutionCard> eCard = dashboard.getProductionZone()[i].getCardList();
             HashMap<Resource , Integer> requires = eCard.get(0).getRequires();
 
@@ -182,8 +176,6 @@ public class HumanPlayer extends Player{
                     dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getServant() >= requires.get(Resource.SERVANT) &&
                     dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() >= requires.get(Resource.ROCK);
             }
-        possibleActiveProductionZone = result;//update the attribute
-        //I cannot return the clone because I need to modify this array after the activation of a production zone
         return result;
     }
 

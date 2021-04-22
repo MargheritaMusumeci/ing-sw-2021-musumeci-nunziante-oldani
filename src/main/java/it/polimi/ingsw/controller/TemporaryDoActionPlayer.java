@@ -38,11 +38,6 @@ public class TemporaryDoActionPlayer extends DoAction {
     }
 
     public void activeProductionZone(int position){
-        //When the turn starts the controller should update getPossibleProductionZone() because
-        //   the player can activate the production zone only using the resources he has in the start
-        //   of the turn,not the resources he obtained with other production in the current turn
-        //-->I think it's necessary create an attribute in player that contains this array
-
         //When the turn ends it's necessary to set false the attribute isActive in every evolutionCard in the top of each zone
         //and set false the attribute hasActionBeenUsed in activePlayer
         if(modelGame.getActivePlayer().getPossibleActiveProductionZone()[position]){//if can be activated
@@ -105,11 +100,6 @@ public class TemporaryDoActionPlayer extends DoAction {
                     e.getLocalizedMessage();
                 }
             }
-
-            //Set false in the position possibleActiveProductionZone in player
-            //So the user can't activate the production twice in the same zone
-            boolean[] possibleActiveProductionZone = modelGame.getActivePlayer().getPossibleActiveProductionZone();
-            possibleActiveProductionZone[position] = false;
         }
     }
 }
