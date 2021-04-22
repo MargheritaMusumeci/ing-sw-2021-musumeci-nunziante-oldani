@@ -20,13 +20,21 @@ public class HumanPlayer extends Player{
 
     private boolean hasActionBeenUsed;
     private Game game;
-    private Resource[] resources;//here I save the current resources end, in the end turn, I fill this array with null
+
+    /**
+     * Here I save the resources the player bought this turn and that he still have to place in the lockBox end,
+     *  in the end of the turn, the controller will fill this array with null
+     * Now it's an array but maybe is better to use an ArrayList
+     */
+    private Resource[] resources;
+    private boolean isWinner;
 
     public HumanPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
         hasActionBeenUsed = false;
+        isWinner = false;
         game = null;
     }
 
@@ -261,5 +269,15 @@ public class HumanPlayer extends Player{
     public void setGame(Game game){
         this.game = game;
     }
+
+    /**
+     * Method that set the player as the winner,in this way the view, in the end of the turn, can see herself who is/are
+     *      the winner/winners
+     *
+     */
+    public void setWinner(){
+        this.isWinner = true;
+    }
+
 
 }
