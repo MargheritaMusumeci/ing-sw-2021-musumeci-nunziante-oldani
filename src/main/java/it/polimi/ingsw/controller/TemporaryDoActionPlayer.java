@@ -59,6 +59,8 @@ public class TemporaryDoActionPlayer extends DoAction {
             HashMap<Resource , Integer> products = eCard.getProduction();
 
             //Remove resource from the stock
+            // E IL LOCKBOX LO LASCIAMO A CASA?  !!!!!!!!!!!!!!!!!!!!!
+
             int numOfBox = modelGame.getActivePlayer().getDashboard().getStock().getNumberOfBoxes();
             for(Resource resource : requires.keySet()){
                 int numOfResources = requires.get(resource);//number of resources to use of type resource
