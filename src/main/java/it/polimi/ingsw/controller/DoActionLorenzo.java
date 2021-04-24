@@ -2,6 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.players.Player;
+
+import java.util.ArrayList;
 
 public class DoActionLorenzo extends DoAction{
 
@@ -29,8 +32,9 @@ public class DoActionLorenzo extends DoAction{
     }
 
     @Override
-    public void moveCross(int positions) {
+    public void moveCross(int positions, ArrayList<Player> players) {
 
+        //move only Lorenzo's Cross
         try {
             modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(positions);
         } catch (ExcessOfPositionException e) {

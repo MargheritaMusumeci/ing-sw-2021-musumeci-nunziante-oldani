@@ -4,15 +4,20 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.board.Stock;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
+import it.polimi.ingsw.model.popeTrack.PopeCard;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DoActionPlayer extends DoAction {
 
-
-    public DoActionPlayer(Game modelGame) {
+    TurnHandler turnHandler;
+    public DoActionPlayer(Game modelGame, TurnHandler turnHandler) {
        this.modelGame = modelGame;
+       this.turnHandler=turnHandler;
     }
 
     /**
@@ -26,14 +31,9 @@ public class DoActionPlayer extends DoAction {
      * @throws ResourceAlreadyPresentException
      * @throws NotEnoughSpaceException
      */
-    public void buyFromMarket(int position, boolean isRow, Stock personalStock){
-        //devo controllare che posso effettivamente svolgere la mossa?
-        //if( modelGame.getActivePlayer().getActionState()==false){}
+    public void buyFromMarket(int position, boolean isRow, Stock personalStock) {
 
-        //mossa effettuata
-        modelGame.getActivePlayer().setActionChose(Action.BUY_FROM_MARKET);
-
-        //prendo le risorse dal mercato e aggiorno qust'ultimo
+        //Purchase resources from market and updates the market board
         Resource[] resources = null;
         try {
             resources = modelGame.getMarket().updateBoard(position, isRow);
@@ -41,11 +41,10 @@ public class DoActionPlayer extends DoAction {
             e.getLocalizedMessage();
         }
 
-        //converto le risorse ottenute in arrayList per comodità della gestione
-        List<Resource> resourceList= Arrays.asList(resources);
+        List<Resource> resourceList = Arrays.asList(resources);
 
-        //se ho ottenuto un punto fede allora incremento il popeTrack --> sempre 1 posizione
-        if(resourceList.contains(Resource.FAITH)){
+        //Increase PopeTrackPosition if you got a faith ball
+        if (resourceList.contains(Resource.FAITH)) {
             try {
                 modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(1);
             } catch (ExcessOfPositionException e) {
@@ -54,6 +53,31 @@ public class DoActionPlayer extends DoAction {
             resourceList.remove(Resource.FAITH);
         }
 
+        //Ask client which resources he want to discard
+
+        ArrayList<Resource> discardResource = null;
+        //MESSAGE discardResource = throwAway(resourceList); !!!!! toDo
+
+        for (Resource deleteResource : discardResource) {
+            resourceList.remove(deleteResource);
+        }
+
+        while (personalStock.manageStock(resourceList)) {
+            for (Resource deleteResource : discardResource) {
+                resourceList.add(deleteResource);
+            }
+            //Ask client which resources he want to discard
+
+            discardResource = null;
+            //MESSAGE discardResource = throwAway(resourceList); !!!!! toDo
+
+            for (Resource deleteResource : discardResource) {
+                resourceList.remove(deleteResource);
+            }
+        }
+
+        /*
+        STOCK AUTOGESTITO
         //prendo dal client le informazioni riguardanti il tipo di risorsa, la futura locazione della risorsa e se le biglie rimaste le vuole scartare
         int stockBox;
         int numberOfResourses;
@@ -77,15 +101,21 @@ public class DoActionPlayer extends DoAction {
             }
             stopStoreResources = false; //sarà il risultato di un metodo che chiede al client se le biglie restanti le vuole scartare
         }
+         */
 
         //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
+        List<Player> players = new ArrayList<>();
         if(resourceList.size()>0) {
             for (Player player : modelGame.getPlayers()) {
-                if (player.equals(modelGame.getActivePlayer())) {
-                    moveCross(resourceList.size());
+                if (!player.equals(modelGame.getActivePlayer())) {
+                    players.add(player);
                 }
             }
+            moveCross(discardResource.size(), (ArrayList<Player>) players);
         }
+
+        //mossa effettuata
+        modelGame.getActivePlayer().setActionChose(Action.BUY_FROM_MARKET);
     }
 
     /**
@@ -105,26 +135,64 @@ public class DoActionPlayer extends DoAction {
         //se è un potere di produzione aggiuntivo come lo tratto? creo un'altra produzionZonePlus ?
     }
 
-    /**
-     *  Controller method used for move resources from a box to an other
-     */
-    public void manageStock(int originBox, int finalBox) throws OutOfBandException, NotEnoughSpaceException , NonCompatibleResourceException{
-
-        modelGame.getActivePlayer().getDashboard().getStock().moveResources(originBox, finalBox);
-
-    }
-
     @Override
     public void buyEvolutionCard(int row, int col) {
         //compro una carta e la assegno alla zona di produzione
     }
 
     @Override
-    public void moveCross(int positions) {
-        try {
-            modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(positions);
-        } catch (ExcessOfPositionException e) {
-            e.getLocalizedMessage();
+    public void moveCross(int positions, ArrayList<Player> players) {
+
+        //Increment Pope Track
+        for (Player player : players) {
+
+            if (player instanceof LorenzoPlayer) {
+                try {
+                    player.getPopeTrack().checkLorenzoPosition(positions);
+                } catch (OutOfBandException e) {
+                    e.getLocalizedMessage();
+                }
+            } else {
+                try {
+                    player.getPopeTrack().updateGamerPosition(positions);
+                } catch (ExcessOfPositionException e) {
+                    e.getLocalizedMessage();
+                }
+            }
+        }
+
+        //Check Pope section
+        for (Player player : players) {
+
+            if (!(player instanceof LorenzoPlayer)) {
+
+                /**
+                 * se sono in una posizione di incontro papale
+                 * se nessuno era già arrivato la
+                 * se non avevo scartato quella carta papale --> quite impossible se nessuno vi era già arrivato
+                 */
+                if (player.getPopeTrack().getGamerPosition().getPopePosition() &&
+                        (turnHandler.getLastSection() < player.getPopeTrack().getGamerPosition().getNumPopeSection()) &&
+                        !player.getPopeTrack().getPopeCard().get(player.getPopeTrack().getGamerPosition().getNumPopeSection()).isDiscard()) {
+
+                    PopeCard popeCard = player.getPopeTrack().getPopeCard().get(player.getPopeTrack().getGamerPosition().getNumPopeSection() - 1);
+                    popeCard.setIsUsed();
+                    turnHandler.setLastSection(player.getPopeTrack().getGamerPosition().getNumPopeSection());
+
+                    // per tutti gli altri player controllo se sono nella stessa sezione papale, in caso affermativo attivo anche la loro carta, in caso negativo la scarto
+                    for (Player player2 : players) {
+                        if (player2 != player &&
+                                player2.getPopeTrack().getGamerPosition().getPopeSection() &&
+                                player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection() &&
+                                !player.getPopeTrack().getPopeCard().get(player.getPopeTrack().getGamerPosition().getNumPopeSection()).isDiscard()) {
+                                player2.getPopeTrack().getPopeCard().get(player2.getPopeTrack().getGamerPosition().getNumPopeSection() - 1).setIsUsed();
+                        } else {
+                            player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection()).setIsDiscard();
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 }
