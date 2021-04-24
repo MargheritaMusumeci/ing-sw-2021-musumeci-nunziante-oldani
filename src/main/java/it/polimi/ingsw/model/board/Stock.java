@@ -3,8 +3,7 @@ package it.polimi.ingsw.model.board;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.game.Resource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Other classes will see the stock as a single ArrayList of box, so originBox should be between 0 and (boxes.length + boxPlus.length)
@@ -272,5 +271,113 @@ public class Stock {
      */
     public int getNumberOfBoxes(){
         return boxes.size() + boxPlus.size();
+    }
+
+    /**
+     * Manage stock for adding new resources
+     * Create a temporary Stock
+     * Try to insert all the resources starting with the more numerous
+     * @param resourceList new resources added to stock
+     * @return true if all is completed successfully
+     */
+    public boolean manageStock(List<Resource> resourceList) {
+        //collect resources
+        HashMap<Resource,Integer> totalResources = new HashMap<>();
+
+        //create false stock
+        ArrayList<Resource[]> boxes2 = new ArrayList<Resource[]>();
+        Resource[] box0 = new Resource[1];
+        Resource[] box1 = new Resource[2];
+        Resource[] box2 = new Resource[3];
+        Arrays.fill(box0 , null);
+        Arrays.fill(box1 , null);
+        Arrays.fill(box2 , null);
+        ArrayList<Resource[]> boxPlus2 = null;
+        
+        for (Resource resource : resourceList) {
+            totalResources.merge(resource,1,Integer::sum);
+        }
+
+        for (int i=0; i< getNumberOfBoxes(); i++){
+            totalResources.merge(getResourceType(i),getQuantities(i),Integer::sum);
+        }
+
+       if(totalResources.size()>getNumberOfBoxes()){ return false;}
+
+        Resource resourceType;
+        if(getNumberOfBoxes()==4){
+            boxPlus2 = new ArrayList<Resource[]>();
+            int boxPlusDimension = this.resourcesPlus.size();
+            Resource[] resourcesPlus = new Resource[boxPlusDimension];
+            resourceType = getResourceType(3);
+            int boxIndex=0;
+
+           while(totalResources.get(resourceType) > boxPlusDimension && boxPlusDimension > boxIndex){
+                resourcesPlus[boxIndex]=resourceType;
+                boxIndex++;
+                totalResources.merge(resourceType,-1,Integer::sum);
+            }
+           boxPlus.add(resourcesPlus);
+           if(totalResources.get(resourceType)<1){totalResources.remove(resourceType);}
+        }
+
+        int fullBoxes=0;
+        while(totalResources.size()>0){
+            int maxResources =0;
+            Set<Resource> allKeys = totalResources.keySet();
+            ArrayList<Resource> allKeysList = new ArrayList<>(allKeys);
+            resourceType=allKeysList.get(0);
+
+            //find the resource with the max number of items in the map
+            for(int i=0;i<allKeys.size();i++)
+            {
+                if(maxResources<totalResources.get(allKeysList.get(i))) {
+                    maxResources = totalResources.get(allKeysList.get(i));
+                    resourceType = allKeysList.get(i);
+                }
+            }
+
+            // if number of resources is greater thant the possible space available return false
+            if(totalResources.get(resourceType)>3-fullBoxes){return false;}
+            int i = 0;
+
+            //fullBoxes represents which box has to be fulfilled in this case
+            //boxes are fulfilled from the greatest to the smallest
+            switch (fullBoxes){
+                case(0):
+                    while(totalResources.get(resourceType)>0 && i<3){
+                        box2[i]=resourceType;
+                        i++;
+                        totalResources.merge(resourceType,-1,Integer::sum);
+                    }
+                    totalResources.remove(resourceType);
+                    break;
+                case(1):
+                    while(totalResources.get(resourceType)>0 && i<2){
+                        box1[i]=resourceType;
+                        i++;
+                        totalResources.merge(resourceType,-1,Integer::sum);
+                    }
+                    totalResources.remove(resourceType);
+                    break;
+                case(2):
+                    while(totalResources.get(resourceType)>0 && i<1){
+                        box0[i]=resourceType;
+                        i++;
+                        totalResources.merge(resourceType,-1,Integer::sum);
+                    }
+                    totalResources.remove(resourceType);
+                    break;
+            }
+            fullBoxes++;
+        }
+        boxes2.add(box0);
+        boxes2.add(box1);
+        boxes2.add(box2);
+
+        this.boxes=boxes2;
+        this.boxPlus=boxPlus2;
+
+        return true;
     }
 }
