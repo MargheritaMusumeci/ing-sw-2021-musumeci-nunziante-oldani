@@ -39,7 +39,8 @@ DOMANDE TUTORATO:
     A nostra discrezione
 
 
-- Creare nel controller la classe SoloGameHandler che in caso di sologame gestisca le mosse di un ipotetico lorenzo usando le action card
+- Creare nel controller la classe SoloGameHandler che in caso di sologame gestisca le mosse di un ipotetico
+  lorenzo usando le action card
   e usando gli oggetti di game (market e le evolutionCardSection)
   Metterà l'active player a null durante la computazione
   Aggiorna posizoone pope track di lorenzo
@@ -89,6 +90,7 @@ RISPOSTE TUTORATO:
     network parla generalmente con il controller
 
 - Devo testare anche i metodi get e in quel caso cosa dovrei fare? Quale è la verifica che viene imposta?
+
 - Devo testare che tutte le carte caricate nela evolutionSection dal json siano caricate giuste o basta verificare
   che una di quelle caricate sia corretta?
 
