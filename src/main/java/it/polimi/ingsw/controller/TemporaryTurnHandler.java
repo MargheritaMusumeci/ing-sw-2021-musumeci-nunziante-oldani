@@ -76,8 +76,8 @@ public class TemporaryTurnHandler {
         //Add the winners in winners and set isWinner attribute in Player
         for(HumanPlayer player : modelGame.getPlayers()){
             if(player.getDashboard().getScore() == winner.getDashboard().getScore()){
-                winners.add(player);
-                player.setWinner();
+                //winners.add(player);
+                //player.setWinner();
             }
         }
         return winners;

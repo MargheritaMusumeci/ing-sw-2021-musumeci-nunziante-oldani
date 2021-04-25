@@ -381,6 +381,25 @@ public class StockTest extends TestCase {
         assertEquals(5 , stock.getNumberOfBoxes());
 
     }
+
+    public void testGetTotalNumberOfResources() {
+        Stock stock = new Stock();
+        stock.addBox(2 , Resource.COIN);
+
+        try {
+            stock.addResources(1 , 2 , Resource.COIN);
+            stock.addResources(2 , 2 , Resource.SHIELD);
+            stock.addResources(3 , 1 , Resource.COIN);
+
+            assertEquals(2 , stock.getQuantities(1));
+            assertEquals(2 , stock.getQuantities(2));
+            assertEquals(1 , stock.getQuantities(3));
+
+            assertEquals(5 , stock.getTotalNumberOfResources());
+        }catch(Exception e){
+            fail();
+        }
+    }
 }
 
 

@@ -4,6 +4,8 @@ import it.polimi.ingsw.exception.NotEnoughResourcesException;
 import it.polimi.ingsw.model.game.Resource;
 import junit.framework.TestCase;
 
+import java.util.concurrent.locks.Lock;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -165,6 +167,19 @@ public class LockBoxTest extends TestCase {
         }
     }
 
+    public void testGetTotalAmountOfResources() {
+        LockBox lBox = new LockBox();
+
+        try{
+            lBox.setAmountOf(Resource.COIN , 3);
+            lBox.setAmountOf(Resource.SERVANT , 10);
+            lBox.setAmountOf(Resource.SHIELD , 4);
+
+            assertEquals(17 , lBox.getTotalAmountOfResources());
+        }catch(Exception e){
+            fail();
+        }
+    }
 }
 
 
