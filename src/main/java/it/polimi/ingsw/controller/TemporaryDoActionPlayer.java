@@ -39,17 +39,13 @@ public class TemporaryDoActionPlayer extends DoAction {
      * @param position is which production zone the user wants to activate
      */
     public void activeProductionZone(int position){
-        //When the turn ends it's necessary to set false the attribute isActive in every evolutionCard in the top of each zone
-        //and set NOTHING the attribute isActionChose in Player
         if(modelGame.getActivePlayer().getActionChose() != Action.NOTHING &&
                 modelGame.getActivePlayer().getActionChose() != Action.ACTIVE_PRODUCTION){
             //I should do this control in the method that decide which action the player chose
             //---> method doAction() in TurnHandler
+            return;
         }
         if(modelGame.getActivePlayer().getPossibleActiveProductionZone()[position]){//if can be activated
-
-            //active the production of the last evolutionCard in the productionZone specified by position
-            modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
 
             //take the card activated by the player
             EvolutionCard eCard = modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
@@ -58,46 +54,44 @@ public class TemporaryDoActionPlayer extends DoAction {
             HashMap<Resource , Integer> requires = eCard.getRequires();
             HashMap<Resource , Integer> products = eCard.getProduction();
 
-            //Remove resource from the stock
-            // E IL LOCKBOX LO LASCIAMO A CASA?  !!!!!!!!!!!!!!!!!!!!!
+            //If the method arrives here that means that the player have enough resources to activate the production
 
-            int numOfBox = modelGame.getActivePlayer().getDashboard().getStock().getNumberOfBoxes();
+            //First of all this method removes the resources the player can remove from Stock, then take the other from stock
             for(Resource resource : requires.keySet()){
-                int numOfResources = requires.get(resource);//number of resources to use of type resource
+                int numOfResources = requires.get(resource);
                 if(numOfResources > 0){
+                    //Take resources from stock
                     if(modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource) >= numOfResources){
                         try{
+                            //Take all the resources of type resource from Stock
                             modelGame.getActivePlayer().getDashboard().getStock().useResources(numOfResources , resource);
+                            numOfResources = 0;//number of resources to take from the LockBox
                         }catch(NotEnoughResourcesException e){
                             //It's impossible be here
                             e.getLocalizedMessage();
                         }
                     }
-                    //this for is necessary in case of boxPlus because the player can have 2 resources in a standard box
-                    //and 2 resources in a plus box
-                    /*for(int i = 0; i < numOfBox && numOfResources > 0; i++){
-                        if(modelGame.getActivePlayer().getDashboard().getStock().getResourceType(i) == resource){
-                            if(modelGame.getActivePlayer().getDashboard().getStock().getQuantities(i) > numOfResources){
-                                try {
-                                    modelGame.getActivePlayer().getDashboard().getStock().useResources(i , numOfResources);
-                                    numOfResources = 0;
-                                }catch(NotEnoughResourcesException | OutOfBandException e){
-                                    e.getLocalizedMessage();
-                                }
-                            }
-                            else
-                            {
-                                numOfResources -= modelGame.getActivePlayer().getDashboard().getStock().getQuantities(i);
-                                try {
-                                    modelGame.getActivePlayer().getDashboard().getStock().useResources(i , modelGame.getActivePlayer().getDashboard().getStock().getQuantities(i));
-                                }catch(NotEnoughResourcesException | OutOfBandException e){
-                                    e.getLocalizedMessage();
-                                }
-                            }
+                    else{
+                        int availableResource = modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource);
+                        numOfResources -= availableResource;//number of resources to take from the LockBox
+                        try {
+                            //Take resources from Stock
+                            modelGame.getActivePlayer().getDashboard().getStock().useResources(availableResource , resource);
+                        }catch (NotEnoughResourcesException e){
+                            //It's impossible be here
+                            e.getLocalizedMessage();
                         }
-                    }*/
+                    }
+                    //Take resources from LockBox
+                    try {
+                        modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -numOfResources);
+                    }catch(NotEnoughResourcesException e){
+                        //It's impossible be here
+                        e.getLocalizedMessage();
+                    }
                 }
             }
+
             //Add resources to the lockBox
             for(Resource resource : products.keySet()){
                 try {
@@ -113,6 +107,8 @@ public class TemporaryDoActionPlayer extends DoAction {
                     e.getLocalizedMessage();
                 }
             }
+            //active the production of the last evolutionCard in the productionZone specified by position
+            modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
             //Set which action the player chose only if the action is been completed
             modelGame.getActivePlayer().setActionChose(Action.ACTIVE_PRODUCTION);
         }

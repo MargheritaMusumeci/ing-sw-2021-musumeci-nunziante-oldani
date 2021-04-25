@@ -176,10 +176,10 @@ public class HumanPlayer extends Player{
         possibleActiveProductionZone = new boolean[numOfProductionZone];
 
         //Verify if the player can activate the base production zone: he needs at least 2 resources of the same type
-        possibleActiveProductionZone[0] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() > 1 ||
-                dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getCoin() > 1 ||
-                dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getServant() > 1 ||
-                dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() > 1;
+        possibleActiveProductionZone[0] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getAmountOf(Resource.SHIELD) > 1 ||
+                dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getAmountOf(Resource.COIN) > 1 ||
+                dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getAmountOf(Resource.SERVANT) > 1 ||
+                dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getAmountOf(Resource.ROCK) > 1;
 
         //Verify if the player can activate the production zone using his resources
         for(int i = 1; i <= numOfProductionZone; i++){
@@ -197,10 +197,10 @@ public class HumanPlayer extends Player{
             ArrayList<EvolutionCard> eCard = dashboard.getProductionZone()[i].getCardList();
             HashMap<Resource , Integer> requires = eCard.get(0).getRequires();
 
-            possibleActiveProductionZone[i] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getShield() >= requires.get(Resource.SHIELD) &&
-                    dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getCoin() >= requires.get(Resource.COIN) &&
-                    dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getServant() >= requires.get(Resource.SERVANT) &&
-                    dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getRock() >= requires.get(Resource.ROCK);
+            possibleActiveProductionZone[i] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getAmountOf(Resource.SHIELD) >= requires.get(Resource.SHIELD) &&
+                    dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getAmountOf(Resource.COIN) >= requires.get(Resource.COIN) &&
+                    dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getAmountOf(Resource.SERVANT) >= requires.get(Resource.SERVANT) &&
+                    dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getAmountOf(Resource.ROCK) >= requires.get(Resource.ROCK);
             }
         return possibleActiveProductionZone;
     }
