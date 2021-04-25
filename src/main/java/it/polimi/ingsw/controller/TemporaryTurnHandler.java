@@ -58,11 +58,11 @@ public class TemporaryTurnHandler {
     }
 
     /**
-     * Method the checks the score of each player and create an arrayList with the winners
+     * Method the checks the score/the number of resources of each player and create an arrayList with the winners
      * @return the arrayList winners
      */
     private ArrayList<Player> checkWinner(){
-        //winners is an arrayList that contains the winner or the winners in case of same score
+        //winners is an arrayList that contains the winner or the winners in case of same score and same amount of resources
         ArrayList<Player> winners = new ArrayList<Player>();
         //winner is initialized with a default value
         Player winner = modelGame.getActivePlayer();
@@ -73,11 +73,22 @@ public class TemporaryTurnHandler {
                 winner = player;
             }
         }
-        //Add the winners in winners and set isWinner attribute in Player
+        //Take the last player with the highest score and the highest number of resources
         for(HumanPlayer player : modelGame.getPlayers()){
             if(player.getDashboard().getScore() == winner.getDashboard().getScore()){
-                winners.add(player);
+                if(player.getDashboard().getStock().getTotalNumberOfResources() + player.getDashboard().getLockBox().getTotalAmountOfResources()
+                        >= winner.getDashboard().getLockBox().getTotalAmountOfResources() + winner.getDashboard().getStock().getTotalNumberOfResources())  {
+                    winner = player;
+                }
+            }
+        }
+        //Add to winner the players with the highest score and number of resources
+        for(HumanPlayer player : modelGame.getPlayers()){
+            if(player.getDashboard().getScore() == winner.getDashboard().getScore() &&
+            (player.getDashboard().getStock().getTotalNumberOfResources() + player.getDashboard().getLockBox().getTotalAmountOfResources()) ==
+            (winner.getDashboard().getLockBox().getTotalAmountOfResources() + winner.getDashboard().getStock().getTotalNumberOfResources())){
                 player.setWinner();
+                winners.add(player);
             }
         }
         return winners;

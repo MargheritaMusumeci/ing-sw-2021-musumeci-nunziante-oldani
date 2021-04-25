@@ -274,6 +274,20 @@ public class Stock {
     }
 
     /**
+     * Method that return the whole amount of resources in the stock
+     * This method will be use to check the winner in case of draw
+     * @return the whole amount of resources in the stock
+     */
+    public int getTotalNumberOfResources(){
+        int numOfBox = getNumberOfBoxes();
+        int result = 0;
+        for(int i = 0; i < numOfBox; i++){
+            result += getQuantities(i);
+        }
+        return result;
+    }
+
+    /**
      * Manage stock for adding new resources
      * Create a temporary Stock
      * Try to insert all the resources starting with the more numerous

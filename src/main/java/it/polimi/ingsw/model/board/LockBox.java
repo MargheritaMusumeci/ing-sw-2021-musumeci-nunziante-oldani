@@ -50,6 +50,14 @@ public class LockBox {
     }
 
     /**
+     * This method will be use in case pf draw
+     * @return the total amount of resources in the lockBox
+     */
+    public int getTotalAmountOfResources(){
+        return (getCoin() + getRock() + getShield() + getServant());
+    }
+
+    /**
      * Increment/reduce the quantities of coins
      * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */

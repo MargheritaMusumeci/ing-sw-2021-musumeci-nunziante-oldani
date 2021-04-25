@@ -39,17 +39,13 @@ public class TemporaryDoActionPlayer extends DoAction {
      * @param position is which production zone the user wants to activate
      */
     public void activeProductionZone(int position){
-        //When the turn ends it's necessary to set false the attribute isActive in every evolutionCard in the top of each zone
-        //and set NOTHING the attribute isActionChose in Player
         if(modelGame.getActivePlayer().getActionChose() != Action.NOTHING &&
                 modelGame.getActivePlayer().getActionChose() != Action.ACTIVE_PRODUCTION){
             //I should do this control in the method that decide which action the player chose
             //---> method doAction() in TurnHandler
+            return;
         }
         if(modelGame.getActivePlayer().getPossibleActiveProductionZone()[position]){//if can be activated
-
-            //active the production of the last evolutionCard in the productionZone specified by position
-            modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
 
             //take the card activated by the player
             EvolutionCard eCard = modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
@@ -58,46 +54,11 @@ public class TemporaryDoActionPlayer extends DoAction {
             HashMap<Resource , Integer> requires = eCard.getRequires();
             HashMap<Resource , Integer> products = eCard.getProduction();
 
-            //Remove resource from the stock
-            // E IL LOCKBOX LO LASCIAMO A CASA?  !!!!!!!!!!!!!!!!!!!!!
+            //If the method arrives here that means that the player have enough resources to activate the production
 
-            int numOfBox = modelGame.getActivePlayer().getDashboard().getStock().getNumberOfBoxes();
-            for(Resource resource : requires.keySet()){
-                int numOfResources = requires.get(resource);//number of resources to use of type resource
-                if(numOfResources > 0){
-                    if(modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource) >= numOfResources){
-                        try{
-                            modelGame.getActivePlayer().getDashboard().getStock().useResources(numOfResources , resource);
-                        }catch(NotEnoughResourcesException e){
-                            //It's impossible be here
-                            e.getLocalizedMessage();
-                        }
-                    }
-                    //this for is necessary in case of boxPlus because the player can have 2 resources in a standard box
-                    //and 2 resources in a plus box
-                    /*for(int i = 0; i < numOfBox && numOfResources > 0; i++){
-                        if(modelGame.getActivePlayer().getDashboard().getStock().getResourceType(i) == resource){
-                            if(modelGame.getActivePlayer().getDashboard().getStock().getQuantities(i) > numOfResources){
-                                try {
-                                    modelGame.getActivePlayer().getDashboard().getStock().useResources(i , numOfResources);
-                                    numOfResources = 0;
-                                }catch(NotEnoughResourcesException | OutOfBandException e){
-                                    e.getLocalizedMessage();
-                                }
-                            }
-                            else
-                            {
-                                numOfResources -= modelGame.getActivePlayer().getDashboard().getStock().getQuantities(i);
-                                try {
-                                    modelGame.getActivePlayer().getDashboard().getStock().useResources(i , modelGame.getActivePlayer().getDashboard().getStock().getQuantities(i));
-                                }catch(NotEnoughResourcesException | OutOfBandException e){
-                                    e.getLocalizedMessage();
-                                }
-                            }
-                        }
-                    }*/
-                }
-            }
+            //Take resources from Stock and then from LockBox
+            takeResources(requires);
+
             //Add resources to the lockBox
             for(Resource resource : products.keySet()){
                 try {
@@ -113,28 +74,10 @@ public class TemporaryDoActionPlayer extends DoAction {
                     e.getLocalizedMessage();
                 }
             }
+            //active the production of the last evolutionCard in the productionZone specified by position
+            modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
             //Set which action the player chose only if the action is been completed
             modelGame.getActivePlayer().setActionChose(Action.ACTIVE_PRODUCTION);
-        }
-    }
-
-    /**
-     * Method that read the required of the card the player wants to buy and ask him from here take these resources
-     * @param row of the evolutionSection
-     * @param col od the evolutionSection
-     */
-    public void prepareBuyEvolutionCard(int row , int col){
-        //Check if the player can buy this card
-        if(modelGame.getActivePlayer().getPossibleEvolutionCard()[row][col]){
-
-            //Read the card the player wants to buy
-            EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
-
-            //Read the cost of eCard
-            HashMap<Resource , Integer> cost = eCard.getCost();
-
-            //Call a method that ask the player from where and how many resources he wants to take from
-            //  LockBox and Stock
         }
     }
 
@@ -143,66 +86,31 @@ public class TemporaryDoActionPlayer extends DoAction {
      * @param row row of the evolutionSection
      * @param col column of the evolutionSection
      * @param position is in which productionZone the player wants to place the card
-     * @param howManyFromLockBox how many resources take from the LockBox
-     * @param howManyFromStock how many resources  take from the Stock
      */
-    public void buyEvolutionCard(int row, int col , int position ,
-                                 HashMap<Resource , Integer> howManyFromLockBox , HashMap<Resource , Integer> howManyFromStock) {
+    public void buyEvolutionCard(int row, int col , int position) {
 
+        if(modelGame.getActivePlayer().getActionChose() != Action.NOTHING){
+            //The user had already done a move
+            return;
+        }
         //Check if the player can buy this card
         if(modelGame.getActivePlayer().getPossibleEvolutionCard()[row][col]){
 
             //Read the card the player wants to buy
             EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
 
-            if(modelGame.getActivePlayer().getPossibleProductionZone(eCard)[position]){
+            if(!modelGame.getActivePlayer().getPossibleProductionZone(eCard)[position]){
                 //The card cannot be placed in position
                 //Ask again the user where place the card
+                return;
             }
 
             //Read the cost of eCard
             HashMap<Resource , Integer> cost = eCard.getCost();
 
-            //Control if the amount od resources to take are right
-            //I know that the player has enough resources to buy the card, otherwise the if above give false
-            //->I can control only one of the 2 hashMap
-            //Control the LockBox -> it's the easier
-            for(Resource res : howManyFromLockBox.keySet()){
-                int difference = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(res) - howManyFromLockBox.get(res);
-                if(difference < 0){
-                    //Increase the amount of resources to take from the Stock
-                    //difference is negative
-                    howManyFromStock.put(res , howManyFromStock.get(res) - difference);
+            //Take resources from Stock and then from LockBox
+            takeResources(cost);
 
-                    //Check if the number of resources are not more than the required
-                    if(howManyFromStock.get(res) > cost.get(res))
-                        howManyFromStock.put(res , cost.get(res));
-                }
-                //Check id the total resources from Stock and LockBox are equal to the cost
-                if(howManyFromStock.get(res) + howManyFromLockBox.get(res) == cost.get(res))
-                    break;
-
-                //Send an error and ask the player to say again the amount od resources
-            }
-
-            //Remove resources from LockBox and Stock
-            for(Resource resource : howManyFromLockBox.keySet()){
-                    //From LockBox
-                    try{
-                        //To check if the amount of resources in the hashMap are positive or negative
-                        modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -howManyFromLockBox.get(resource));
-                    }catch(NotEnoughResourcesException e){
-                        //Theoretically it's impossible be here
-                        e.getLocalizedMessage();
-                    }
-                    //From Stock
-                    try{
-                        modelGame.getActivePlayer().getDashboard().getStock().useResources(howManyFromStock.get(resource) , resource);
-                    }catch(NotEnoughResourcesException e){
-                        //Theoretically it's impossible be here
-                        e.getLocalizedMessage();
-                    }
-            }
             //Buy the card and place it
             try{
                 EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row , col);
@@ -217,4 +125,47 @@ public class TemporaryDoActionPlayer extends DoAction {
         }
 
     }
+
+    /**
+     * Private method that take the resources from Stock before and then from Stock automatically
+     * @param requires is an HashMap that contains the resources to remove
+     */
+    private void takeResources(HashMap<Resource , Integer> requires){
+        //First of all this method removes the resources the player can remove from Stock, then take the other from stock
+        for(Resource resource : requires.keySet()){
+            int numOfResources = requires.get(resource);
+            if(numOfResources > 0){
+                //Take resources from stock
+                if(modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource) >= numOfResources){
+                    try{
+                        //Take all the resources of type resource from Stock
+                        modelGame.getActivePlayer().getDashboard().getStock().useResources(numOfResources , resource);
+                        numOfResources = 0;//number of resources to take from the LockBox
+                    }catch(NotEnoughResourcesException e){
+                        //It's impossible be here
+                        e.getLocalizedMessage();
+                    }
+                }
+                else{
+                    int availableResource = modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource);
+                    numOfResources -= availableResource;//number of resources to take from the LockBox
+                    try {
+                        //Take resources from Stock
+                        modelGame.getActivePlayer().getDashboard().getStock().useResources(availableResource , resource);
+                    }catch (NotEnoughResourcesException e){
+                        //It's impossible be here
+                        e.getLocalizedMessage();
+                    }
+                }
+                //Take resources from LockBox
+                try {
+                    modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -numOfResources);
+                }catch(NotEnoughResourcesException e){
+                    //It's impossible be here
+                    e.getLocalizedMessage();
+                }
+            }
+        }
+    }
+
 }
