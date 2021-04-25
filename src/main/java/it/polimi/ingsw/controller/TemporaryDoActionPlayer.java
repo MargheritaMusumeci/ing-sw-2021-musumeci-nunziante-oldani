@@ -56,41 +56,8 @@ public class TemporaryDoActionPlayer extends DoAction {
 
             //If the method arrives here that means that the player have enough resources to activate the production
 
-            //First of all this method removes the resources the player can remove from Stock, then take the other from stock
-            for(Resource resource : requires.keySet()){
-                int numOfResources = requires.get(resource);
-                if(numOfResources > 0){
-                    //Take resources from stock
-                    if(modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource) >= numOfResources){
-                        try{
-                            //Take all the resources of type resource from Stock
-                            modelGame.getActivePlayer().getDashboard().getStock().useResources(numOfResources , resource);
-                            numOfResources = 0;//number of resources to take from the LockBox
-                        }catch(NotEnoughResourcesException e){
-                            //It's impossible be here
-                            e.getLocalizedMessage();
-                        }
-                    }
-                    else{
-                        int availableResource = modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource);
-                        numOfResources -= availableResource;//number of resources to take from the LockBox
-                        try {
-                            //Take resources from Stock
-                            modelGame.getActivePlayer().getDashboard().getStock().useResources(availableResource , resource);
-                        }catch (NotEnoughResourcesException e){
-                            //It's impossible be here
-                            e.getLocalizedMessage();
-                        }
-                    }
-                    //Take resources from LockBox
-                    try {
-                        modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -numOfResources);
-                    }catch(NotEnoughResourcesException e){
-                        //It's impossible be here
-                        e.getLocalizedMessage();
-                    }
-                }
-            }
+            //Take resources from Stock and then from LockBox
+            takeResources(requires);
 
             //Add resources to the lockBox
             for(Resource resource : products.keySet()){
@@ -115,90 +82,35 @@ public class TemporaryDoActionPlayer extends DoAction {
     }
 
     /**
-     * Method that read the required of the card the player wants to buy and ask him from here take these resources
-     * @param row of the evolutionSection
-     * @param col od the evolutionSection
-     */
-    public void prepareBuyEvolutionCard(int row , int col){
-        //Check if the player can buy this card
-        if(modelGame.getActivePlayer().getPossibleEvolutionCard()[row][col]){
-
-            //Read the card the player wants to buy
-            EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
-
-            //Read the cost of eCard
-            HashMap<Resource , Integer> cost = eCard.getCost();
-
-            //Call a method that ask the player from where and how many resources he wants to take from
-            //  LockBox and Stock
-        }
-    }
-
-    /**
      * Method that buy a card, use the resources and place the card
      * @param row row of the evolutionSection
      * @param col column of the evolutionSection
      * @param position is in which productionZone the player wants to place the card
-     * @param howManyFromLockBox how many resources take from the LockBox
-     * @param howManyFromStock how many resources  take from the Stock
      */
-    public void buyEvolutionCard(int row, int col , int position ,
-                                 HashMap<Resource , Integer> howManyFromLockBox , HashMap<Resource , Integer> howManyFromStock) {
+    public void buyEvolutionCard(int row, int col , int position) {
 
+        if(modelGame.getActivePlayer().getActionChose() != Action.NOTHING){
+            //The user had already done a move
+            return;
+        }
         //Check if the player can buy this card
         if(modelGame.getActivePlayer().getPossibleEvolutionCard()[row][col]){
 
             //Read the card the player wants to buy
             EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
 
-            if(modelGame.getActivePlayer().getPossibleProductionZone(eCard)[position]){
+            if(!modelGame.getActivePlayer().getPossibleProductionZone(eCard)[position]){
                 //The card cannot be placed in position
                 //Ask again the user where place the card
+                return;
             }
 
             //Read the cost of eCard
             HashMap<Resource , Integer> cost = eCard.getCost();
 
-            //Control if the amount od resources to take are right
-            //I know that the player has enough resources to buy the card, otherwise the if above give false
-            //->I can control only one of the 2 hashMap
-            //Control the LockBox -> it's the easier
-            for(Resource res : howManyFromLockBox.keySet()){
-                int difference = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(res) - howManyFromLockBox.get(res);
-                if(difference < 0){
-                    //Increase the amount of resources to take from the Stock
-                    //difference is negative
-                    howManyFromStock.put(res , howManyFromStock.get(res) - difference);
+            //Take resources from Stock and then from LockBox
+            takeResources(cost);
 
-                    //Check if the number of resources are not more than the required
-                    if(howManyFromStock.get(res) > cost.get(res))
-                        howManyFromStock.put(res , cost.get(res));
-                }
-                //Check id the total resources from Stock and LockBox are equal to the cost
-                if(howManyFromStock.get(res) + howManyFromLockBox.get(res) == cost.get(res))
-                    break;
-
-                //Send an error and ask the player to say again the amount od resources
-            }
-
-            //Remove resources from LockBox and Stock
-            for(Resource resource : howManyFromLockBox.keySet()){
-                    //From LockBox
-                    try{
-                        //To check if the amount of resources in the hashMap are positive or negative
-                        modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -howManyFromLockBox.get(resource));
-                    }catch(NotEnoughResourcesException e){
-                        //Theoretically it's impossible be here
-                        e.getLocalizedMessage();
-                    }
-                    //From Stock
-                    try{
-                        modelGame.getActivePlayer().getDashboard().getStock().useResources(howManyFromStock.get(resource) , resource);
-                    }catch(NotEnoughResourcesException e){
-                        //Theoretically it's impossible be here
-                        e.getLocalizedMessage();
-                    }
-            }
             //Buy the card and place it
             try{
                 EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row , col);
@@ -213,4 +125,47 @@ public class TemporaryDoActionPlayer extends DoAction {
         }
 
     }
+
+    /**
+     * Private method that take the resources from Stock before and then from Stock automatically
+     * @param requires is an HashMap that contains the resources to remove
+     */
+    private void takeResources(HashMap<Resource , Integer> requires){
+        //First of all this method removes the resources the player can remove from Stock, then take the other from stock
+        for(Resource resource : requires.keySet()){
+            int numOfResources = requires.get(resource);
+            if(numOfResources > 0){
+                //Take resources from stock
+                if(modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource) >= numOfResources){
+                    try{
+                        //Take all the resources of type resource from Stock
+                        modelGame.getActivePlayer().getDashboard().getStock().useResources(numOfResources , resource);
+                        numOfResources = 0;//number of resources to take from the LockBox
+                    }catch(NotEnoughResourcesException e){
+                        //It's impossible be here
+                        e.getLocalizedMessage();
+                    }
+                }
+                else{
+                    int availableResource = modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource);
+                    numOfResources -= availableResource;//number of resources to take from the LockBox
+                    try {
+                        //Take resources from Stock
+                        modelGame.getActivePlayer().getDashboard().getStock().useResources(availableResource , resource);
+                    }catch (NotEnoughResourcesException e){
+                        //It's impossible be here
+                        e.getLocalizedMessage();
+                    }
+                }
+                //Take resources from LockBox
+                try {
+                    modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -numOfResources);
+                }catch(NotEnoughResourcesException e){
+                    //It's impossible be here
+                    e.getLocalizedMessage();
+                }
+            }
+        }
+    }
+
 }
