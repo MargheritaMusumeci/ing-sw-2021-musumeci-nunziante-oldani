@@ -51,6 +51,7 @@ public class SocketServer implements Runnable{
             try {
                 s = serverSocket.accept();
                 s.setSoTimeout(20*1000);
+
             } catch (IOException e) {
                 System.err.println("Error while accepting the socket, server still listening");
                 continue;
@@ -62,6 +63,7 @@ public class SocketServer implements Runnable{
             ServerClientConnection scc = null;
             try {
                 scc = new ServerClientConnection(this.server, s);
+                server.getQueue().add(scc);
                 executorService.submit(scc);
             } catch (IOException e) {
                 System.out.println("Error while getting output and input streams, socket discharged but server.");

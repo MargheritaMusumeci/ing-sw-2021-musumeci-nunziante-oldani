@@ -23,6 +23,7 @@ public class Server {
     private List<ServerClientConnection> lobby4players;
     private List<ServerClientConnection> lobby3players;
     private List<ServerClientConnection> lobby2players;
+    private List<ServerClientConnection> queue; // we should think of a better solution than an array list (MAP)
 
 
     public Server(){
@@ -30,6 +31,7 @@ public class Server {
         lobby4players = new ArrayList<>();
         lobby3players = new ArrayList<>();
         lobby2players = new ArrayList<>();
+        queue = new ArrayList<>();
     }
 
     public int getPort(){ return port; }
@@ -48,6 +50,25 @@ public class Server {
 
     public List<ServerClientConnection> getLobby2players() {
         return lobby2players;
+    }
+
+    public List<ServerClientConnection> getQueue(){ return queue; }
+
+    /**
+     * method that removes the serverClientConnection from the queue.
+     * @param scc
+     * @return true if the object is removed correctly, false otherwise
+     */
+    public boolean removeFromQueue(ServerClientConnection scc){
+
+        for (ServerClientConnection serverClientConnection: queue) {
+            if(serverClientConnection.equals(scc)){
+                queue.remove(scc);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static void main(String[] args){
