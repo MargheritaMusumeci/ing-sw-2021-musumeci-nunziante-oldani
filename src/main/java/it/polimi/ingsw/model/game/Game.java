@@ -7,13 +7,13 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private ArrayList<HumanPlayer> players;
+    private ArrayList<Player> players;
     private Market market;
     private EvolutionSection evolutionSection;
-    private HumanPlayer activePlayer;
+    private Player activePlayer;
     private int idGame;
 
-    public Game(ArrayList<HumanPlayer> players, int idGame){
+    public Game(ArrayList<Player> players, int idGame){
         this.players = players;
         this.market= Market.getInstanceOfMarket();
         this.evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
@@ -25,7 +25,7 @@ public class Game {
      * method that updates the current active player
      * @return the new active player
      */
-    public HumanPlayer updateActivePlayer(){
+    public Player updateActivePlayer(){
 
        for(int i=0; i<players.size(); i++){
            if(activePlayer.equals(players.get(i))){
@@ -40,7 +40,7 @@ public class Game {
        return activePlayer;
     }
 
-    public ArrayList<HumanPlayer> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -52,7 +52,7 @@ public class Game {
         return evolutionSection;
     }
 
-    public HumanPlayer getActivePlayer() {
+    public Player getActivePlayer() {
         return activePlayer;
     }
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.board.Stock;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.model.popeTrack.PopeCard;
@@ -115,7 +116,7 @@ public class DoActionPlayer extends DoAction {
         }
 
         //mossa effettuata
-        modelGame.getActivePlayer().setActionChose(Action.BUY_FROM_MARKET);
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
     }
 
     /**
@@ -127,7 +128,7 @@ public class DoActionPlayer extends DoAction {
      */
     public void activeLeaderCard(int position){
         try {
-            modelGame.getActivePlayer().activeLeaderCard(position);
+            ((HumanPlayer) modelGame.getActivePlayer()).activeLeaderCard(position);
         } catch (OutOfBandException | LeaderCardAlreadyUsedException e) {
            e.getLocalizedMessage();
         }

@@ -31,7 +31,7 @@ public class HumanPlayer extends Player{
      * Now it's an array but maybe is better to use an ArrayList
      */
     private Resource[] resources;
-    private boolean isWinner;
+
 
     public HumanPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
         this.nickName = nickName;
@@ -274,14 +274,7 @@ public class HumanPlayer extends Player{
         this.game = game;
     }
 
-    /**
-     * Method that set the player as the winner,in this way the view, in the end of the turn, can see herself who is/are
-     *      the winner/winners
-     *
-     */
-    public void setWinner(){
-        this.isWinner = true;
-    }
+
 
     /**
      * Method that set the action choose by the player

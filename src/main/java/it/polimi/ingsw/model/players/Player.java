@@ -8,6 +8,7 @@ public abstract class Player {
     protected String nickName;
     protected Dashboard dashboard;
     protected PopeTrack popeTrack;
+    protected boolean isWinner;
 
     /**
      *
@@ -27,5 +28,14 @@ public abstract class Player {
      */
     public PopeTrack getPopeTrack() {
         return popeTrack;
+    }
+
+    /**
+     * Method that set the player as the winner,in this way the view, in the end of the turn, can see herself who is/are
+     *      the winner/winners
+     *
+     */
+    public void setWinner(){
+        this.isWinner = true;
     }
 }

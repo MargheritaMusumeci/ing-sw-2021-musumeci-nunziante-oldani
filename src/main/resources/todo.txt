@@ -23,28 +23,12 @@ Generali:
 
 DOMANDE TUTORATO:
 
-- Dobbiamo gestire gli eventuali errori (parametri non validi arrivati al model/controller)
-  con exception o ci sono altri modi consiglaiti? Chi gestirà poi tutte le exception?
+- Devo gestire il caso in cui la disconnessione avvenga tra l'avvio del gioco e la registrazione dei giocatori nell'hashmap con l'id del game?
 
-  Se siamo nel Model possiamo supporre che venga fatto un precontrollo a livello della View e del Controller.
-  Quidni mi aspetto di ricevere già dei dati corretti.
-  Se lancio un eccezione chi la riceve la deve gestire senza interrompere o "distruggere" la partita.
-  Se riesce il controller puo gestirla in automatico se no devo rispedire alla view il problema
-
-- Posso scegliere dove mettere le risorse appena comprate a magazzino vuoto o vanno messe in automatico?
-    ( su slack ci sono rispsote constrastanti)
-
-    A nostra discrezione
-
-
-- Creare nel controller la classe SoloGameHandler che in caso di sologame gestisca le mosse di un ipotetico
-  lorenzo usando le action card
-  e usando gli oggetti di game (market e le evolutionCardSection)
-  Metterà l'active player a null durante la computazione
-  Aggiorna posizoone pope track di lorenzo
-
-    piu pulito mettere un finto player lorenzo
-    oppure dire che è il turno di lorenzo
+- È giusto implementare il server come qualcso che non attende mai il client e che non manda mai messaggi che comportiano l'esecuzione diretta di metodi da parte
+  del client? In questo modo il server risponde solo a domande ed esegue le operazioni solo se il giocatore che le richiede è quello giusto ( e le operazioni sono giuste)
+  Esempio --> Compro le risorse e non mi viene chiesto dal server quali voglio tenere e quali no. Sono io che lo avviso ed è la view che superviziona questo processo. Il server
+  saprà solo se può o meno inserire quelle richieste dal client. 
 
 
 
@@ -95,4 +79,26 @@ RISPOSTE TUTORATO:
     no test dei metodi get
     solo alcune prove delle carte json
 
+- Dobbiamo gestire gli eventuali errori (parametri non validi arrivati al model/controller)
+  con exception o ci sono altri modi consiglaiti? Chi gestirà poi tutte le exception?
 
+  Se siamo nel Model possiamo supporre che venga fatto un precontrollo a livello della View e del Controller.
+  Quidni mi aspetto di ricevere già dei dati corretti.
+  Se lancio un eccezione chi la riceve la deve gestire senza interrompere o "distruggere" la partita.
+  Se riesce il controller puo gestirla in automatico se no devo rispedire alla view il problema
+
+
+- Posso scegliere dove mettere le risorse appena comprate a magazzino vuoto o vanno messe in automatico?
+    ( su slack ci sono rispsote constrastanti)
+
+    A nostra discrezione
+
+
+- Creare nel controller la classe SoloGameHandler che in caso di sologame gestisca le mosse di un ipotetico
+  lorenzo usando le action card
+  e usando gli oggetti di game (market e le evolutionCardSection)
+  Metterà l'active player a null durante la computazione
+  Aggiorna posizoone pope track di lorenzo
+
+    piu pulito mettere un finto player lorenzo
+    oppure dire che è il turno di lorenzo

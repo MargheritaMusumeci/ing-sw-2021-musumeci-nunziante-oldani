@@ -33,7 +33,7 @@ public class TemporaryTurnHandler {
 
     public void endTurn(){
         //Set NOTHING the action chose by the player
-        modelGame.getActivePlayer().setActionChose(Action.NOTHING);
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
         //Set isActive = false in the eCards on the top of each productionZone
         for(ProductionZone pZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
             if(pZone.getCard() != null)
@@ -68,13 +68,13 @@ public class TemporaryTurnHandler {
         Player winner = modelGame.getActivePlayer();
 
         //Take last player with the highest score
-        for(HumanPlayer player : modelGame.getPlayers()){
+        for(Player player : modelGame.getPlayers()){
             if(player.getDashboard().getScore() >= winner.getDashboard().getScore()){
                 winner = player;
             }
         }
         //Take the last player with the highest score and the highest number of resources
-        for(HumanPlayer player : modelGame.getPlayers()){
+        for(Player player : modelGame.getPlayers()){
             if(player.getDashboard().getScore() == winner.getDashboard().getScore()){
                 if(player.getDashboard().getStock().getTotalNumberOfResources() + player.getDashboard().getLockBox().getTotalAmountOfResources()
                         >= winner.getDashboard().getLockBox().getTotalAmountOfResources() + winner.getDashboard().getStock().getTotalNumberOfResources())  {
@@ -83,7 +83,7 @@ public class TemporaryTurnHandler {
             }
         }
         //Add to winner the players with the highest score and number of resources
-        for(HumanPlayer player : modelGame.getPlayers()){
+        for(Player player : modelGame.getPlayers()){
             if(player.getDashboard().getScore() == winner.getDashboard().getScore() &&
             (player.getDashboard().getStock().getTotalNumberOfResources() + player.getDashboard().getLockBox().getTotalAmountOfResources()) ==
             (winner.getDashboard().getLockBox().getTotalAmountOfResources() + winner.getDashboard().getStock().getTotalNumberOfResources())){

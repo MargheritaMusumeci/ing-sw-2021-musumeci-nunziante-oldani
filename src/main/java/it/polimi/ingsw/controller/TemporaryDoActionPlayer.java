@@ -4,6 +4,7 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class TemporaryDoActionPlayer extends DoAction {
      */
     public void discardLeaderCard(int position){
         try {
-            modelGame.getActivePlayer().discardLeaderCard(position);
+            ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
             //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
             //                                      we need to check if the player arrived in a popePosition or
             //                                      in new point position in order to increase the score
@@ -39,13 +40,13 @@ public class TemporaryDoActionPlayer extends DoAction {
      * @param position is which production zone the user wants to activate
      */
     public void activeProductionZone(int position){
-        if(modelGame.getActivePlayer().getActionChose() != Action.NOTHING &&
-                modelGame.getActivePlayer().getActionChose() != Action.ACTIVE_PRODUCTION){
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING &&
+                ((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.ACTIVE_PRODUCTION){
             //I should do this control in the method that decide which action the player chose
             //---> method doAction() in TurnHandler
             return;
         }
-        if(modelGame.getActivePlayer().getPossibleActiveProductionZone()[position]){//if can be activated
+        if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleActiveProductionZone()[position]){//if can be activated
 
             //take the card activated by the player
             EvolutionCard eCard = modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
@@ -77,7 +78,7 @@ public class TemporaryDoActionPlayer extends DoAction {
             //active the production of the last evolutionCard in the productionZone specified by position
             modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
             //Set which action the player chose only if the action is been completed
-            modelGame.getActivePlayer().setActionChose(Action.ACTIVE_PRODUCTION);
+            ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
         }
     }
 
@@ -89,17 +90,17 @@ public class TemporaryDoActionPlayer extends DoAction {
      */
     public void buyEvolutionCard(int row, int col , int position) {
 
-        if(modelGame.getActivePlayer().getActionChose() != Action.NOTHING){
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING){
             //The user had already done a move
             return;
         }
         //Check if the player can buy this card
-        if(modelGame.getActivePlayer().getPossibleEvolutionCard()[row][col]){
+        if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col]){
 
             //Read the card the player wants to buy
             EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
 
-            if(!modelGame.getActivePlayer().getPossibleProductionZone(eCard)[position]){
+            if(!((HumanPlayer) modelGame.getActivePlayer()).getPossibleProductionZone(eCard)[position]){
                 //The card cannot be placed in position
                 //Ask again the user where place the card
                 return;
@@ -121,7 +122,7 @@ public class TemporaryDoActionPlayer extends DoAction {
             }
 
             //Set the action done in player
-            modelGame.getActivePlayer().setActionChose(Action.BUY_CARD);
+            ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_CARD);
         }
 
     }
