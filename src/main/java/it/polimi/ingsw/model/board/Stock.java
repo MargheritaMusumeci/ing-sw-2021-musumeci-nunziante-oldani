@@ -17,7 +17,7 @@ public class Stock {
      * Initialize an empty stock
      */
     public Stock(){
-        boxes = new ArrayList<Resource[]>();
+        boxes = new ArrayList<>();
         Resource[] box0 = new Resource[1];
         Resource[] box1 = new Resource[2];
         Resource[] box2 = new Resource[3];
@@ -28,8 +28,8 @@ public class Stock {
         boxes.add(box1);
         boxes.add(box2);
 
-        boxPlus = new ArrayList<Resource[]>();
-        resourcesPlus = new ArrayList<Resource>();
+        boxPlus = new ArrayList<>();
+        resourcesPlus = new ArrayList<>();
     }
 
     /**
@@ -270,7 +270,7 @@ public class Stock {
      * @return number of standard boxes in stock
      */
     public int getNumberOfBoxes(){
-        return boxes.size() + boxPlus.size();
+        return boxPlus!=null ? boxes.size() + boxPlus.size(): boxes.size();
     }
 
     /**
@@ -299,7 +299,7 @@ public class Stock {
         HashMap<Resource,Integer> totalResources = new HashMap<>();
 
         //create false stock
-        ArrayList<Resource[]> boxes2 = new ArrayList<Resource[]>();
+        ArrayList<Resource[]> boxes2 = new ArrayList<>();
         Resource[] box0 = new Resource[1];
         Resource[] box1 = new Resource[2];
         Resource[] box2 = new Resource[3];
@@ -307,20 +307,27 @@ public class Stock {
         Arrays.fill(box1 , null);
         Arrays.fill(box2 , null);
         ArrayList<Resource[]> boxPlus2 = null;
-        
+
+        //just for prevent errors
+        resourceList.remove(Resource.FAITH);
+        resourceList.remove(Resource.WISH);
+        resourceList.remove(Resource.NOTHING);
+
         for (Resource resource : resourceList) {
             totalResources.merge(resource,1,Integer::sum);
         }
 
-        for (int i=0; i< getNumberOfBoxes(); i++){
-            totalResources.merge(getResourceType(i),getQuantities(i),Integer::sum);
+        for (int i=0; i< getNumberOfBoxes(); i++) {
+            if (getResourceType(i) != null) {
+                totalResources.merge(getResourceType(i), getQuantities(i), Integer::sum);
+            }
         }
-
        if(totalResources.size()>getNumberOfBoxes()){ return false;}
+       if(totalResources.size()==0){return true;}
 
         Resource resourceType;
         if(getNumberOfBoxes()==4){
-            boxPlus2 = new ArrayList<Resource[]>();
+            boxPlus2 = new ArrayList<>();
             int boxPlusDimension = this.resourcesPlus.size();
             Resource[] resourcesPlus = new Resource[boxPlusDimension];
             resourceType = getResourceType(3);
