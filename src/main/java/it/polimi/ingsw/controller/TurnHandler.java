@@ -3,100 +3,94 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.Player;
 
-public class TurnHandler {
+import java.util.ArrayList;
 
-    private Game modelGame;
+public abstract class TurnHandler {
+
+    protected Game modelGame;
 
     /**
      * This attribute will be set true when one player previously ends the game
      *  and next active player would be the one with inkwell
      */
-    private boolean isTheEnd;
+    protected boolean isTheEnd;
+
     /**
      * This attribute will be set true when one player ends the game
      *  but the game must go on until the player with the inkwell
      */
-    private boolean isTheLastTurn;
+    protected boolean isTheLastTurn;
 
     /**
      * This attribute maintains the last popePosition that it's been reached by a player
      * We will use this attribute when one player reaches a pope position to control if he is the
      *      first one or if this section is already been discovered by an other player
      */
-    private int lastSection;
+    protected int lastSection;
 
     public TurnHandler(Game modelGame){
-        this.modelGame=modelGame;
-        lastSection=0;
-        isTheLastTurn=false;
-        isTheEnd=false;
+        this.modelGame = modelGame;
+        this.lastSection = 0;
+        this.isTheEnd = false;
+        this.isTheLastTurn = false;
     }
 
     /**
      * useless maybe better startGame?
      */
-    public void startTurn(){
-
-    }
-
-    public void doAction(){
-
-        //in base al messaggio che arriverà dal client chiamo il metodo corretto
-        //posso controllare qua che l'utente non ha già effettuato l'azione
-        //if(modelGame.getActivePlayer().getActionState()==false){}
-
-        //se è un soloGame, ed è attivo Lorenzo allora pesco una carta LorenzoAction e chiamo il corrispondente metodo di DoActionLorenzo
-    }
+    abstract void startTurn();
 
     /**
-     * Check if the acrivePlayer has reached the end of the game
+     * Do the action of the active player according to the message received
      */
-    public void checkEndGame(){
+    abstract void doAction();
 
-        for (Player player :modelGame.getPlayers()) {
-            if(player.getPopeTrack().getGamerPosition().getIndex()==25){
-                isTheLastTurn=true;
-                break;
-            }
-        }
-        if(!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber()>6){
-            isTheLastTurn=true;
-        }
+    /**
+     * Method the checks the score/the number of resources of each player and create an arrayList with the winners
+     * @return the arrayList winners
+     */
+    abstract ArrayList<Player> checkWinner();
 
-        Player followingPlayer = null;
-        for(int i=0; i<modelGame.getPlayers().size(); i++){
-            if(modelGame.getPlayers().get(i).equals(modelGame.getActivePlayer())){
-                i++;
-                if(i>= modelGame.getPlayers().size()){
-                    i = 0;
-                }
-                followingPlayer = modelGame.getPlayers().get(i);
-                break;
-            }
-        }
+    /**
+     * Check if the activePlayer has reached the end of the game
+     */
+    abstract void checkEndGame();
 
-        if (followingPlayer != null && followingPlayer.getDashboard().getInkwell()) {
-            isTheEnd = true;
-        }
-    }
+    /**
+     * Method called in the end of the turn
+     */
+    abstract void endTurn();
 
-    public void endGame(){
+    /**
+     * Method that ends the game
+     */
+    abstract void endGame();
 
-    }
-
+    /**
+     *
+     * @return the last section reached
+     */
     public int getLastSection() {
         return lastSection;
     }
 
+    /**
+     * Method that sets the last section reached
+     * @param lastSection is the number of a section
+     */
     public void setLastSection(int lastSection) {
         this.lastSection = lastSection;
     }
 
-    public boolean isTheEnd() {
-        return isTheEnd;
-    }
+    /**
+     *
+     * @return if the game is ended or no
+     */
+    public boolean isTheEnd() { return isTheEnd; }
 
-    public void setTheEnd(boolean theEnd) {
-        isTheEnd = theEnd;
-    }
+    /**
+     * Method that set isTheEnd
+     * @param theEnd
+     */
+    public void setTheEnd(boolean theEnd) { isTheEnd = theEnd; }
 }

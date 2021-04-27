@@ -15,8 +15,8 @@ import java.util.List;
 
 public class DoActionPlayer extends DoAction {
 
-    TurnHandler turnHandler;
-    public DoActionPlayer(Game modelGame, TurnHandler turnHandler) {
+    TurnHandlerMultiPlayer turnHandler;
+    public DoActionPlayer(Game modelGame, TurnHandlerMultiPlayer turnHandler) {
        this.modelGame = modelGame;
        this.turnHandler=turnHandler;
     }

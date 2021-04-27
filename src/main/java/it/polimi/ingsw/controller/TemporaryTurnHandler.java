@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
 
-public class TemporaryTurnHandler {
+public class TemporaryTurnHandler{
 
     private Game modelGame;
     /**
@@ -31,7 +31,7 @@ public class TemporaryTurnHandler {
         lastSection = 0;
     }
 
-    public void endTurn(){
+    /*public void endTurn(){
         //Set NOTHING the action chose by the player
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
         //Set isActive = false in the eCards on the top of each productionZone
@@ -48,11 +48,11 @@ public class TemporaryTurnHandler {
         //if(modelGame.getActivePlayer() instanceof LorenzoPlayer )
 
         //There is to change in Game class from HumanPlayer to Player
-    }
+    }*/
 
     public void endGame(){
         //take the winners
-        ArrayList<Player> winners = checkWinner();
+        //ArrayList<Player> winners = checkWinner();
 
         //Do something or it's useless?
     }
@@ -61,7 +61,7 @@ public class TemporaryTurnHandler {
      * Method the checks the score/the number of resources of each player and create an arrayList with the winners
      * @return the arrayList winners
      */
-    private ArrayList<Player> checkWinner(){
+    /*private ArrayList<Player> checkWinner(){
         //winners is an arrayList that contains the winner or the winners in case of same score and same amount of resources
         ArrayList<Player> winners = new ArrayList<Player>();
         //winner is initialized with a default value
@@ -92,5 +92,5 @@ public class TemporaryTurnHandler {
             }
         }
         return winners;
-    }
+    }*/
 }

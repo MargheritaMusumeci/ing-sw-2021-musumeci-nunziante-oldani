@@ -11,10 +11,8 @@ public class LorenzoPlayer extends Player {
     public LorenzoPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
+        this.isWinner = false;
         dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
     }
 
-    public void Play(){
-
-    }
 }
