@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.players;
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
+import it.polimi.ingsw.exception.NonCompatibleResourceException;
 import it.polimi.ingsw.exception.OutOfBandException;
 import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.game.Resource;
@@ -30,7 +31,7 @@ public class HumanPlayer extends Player{
      *  in the end of the turn, the controller will fill this array with null
      * Now it's an array but maybe is better to use an ArrayList
      */
-    private Resource[] resources;
+    private ArrayList<Resource> resources;
 
 
     public HumanPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
@@ -40,6 +41,7 @@ public class HumanPlayer extends Player{
         isWinner = false;
         actionChose = null;
         game = null;
+        resources = new ArrayList<Resource>();
     }
 
     /**
@@ -253,17 +255,19 @@ public class HumanPlayer extends Player{
 
     /**
      * Method that sets the resources the players had bought in this turn.
-     * @param resources is an array of resources.This param will be null when the user ended his turn, to reset the variable
+     * @param resource is a resource.This param will be null when the user ended his turn, to reset the variable
      */
-    public void setResources(Resource[] resources){
-        this.resources = resources.clone();
+    public void addResources(Resource resource){
+        resources.add(resource);
     }
 
     /**
-     *
-     * @return the resources the user bought but still need to be placed in the stock
+     * Method that removes a resource
+     * @return
      */
-    public Resource[] getResources(){ return resources.clone(); }
+    public void removeResources(Resource resource) throws NonCompatibleResourceException {
+        resources.remove(resource);
+    }
 
     /**
      * Idea: There is the creation of the players before and than the creation of the Game object.
