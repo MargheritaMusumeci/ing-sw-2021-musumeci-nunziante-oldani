@@ -474,7 +474,42 @@ public class StockTest extends TestCase {
         assertEquals(stock.getQuantities(2),3);
         assertEquals(stock.getQuantities(1),2);
         assertEquals(stock.getQuantities(0),1);
+
+        //leader card active
+        Stock stock2 = new Stock();
+        List<Resource> resourceList3 = new ArrayList<>();
+        stock2.addBox(2,Resource.ROCK);
+        resourceList3.add(Resource.COIN);
+        resourceList3.add(Resource.COIN);
+        resourceList3.add(Resource.COIN);
+        resourceList3.add(Resource.SHIELD);
+
+        stock2.manageStock(resourceList3);
+        assertEquals(stock2.getResourceType(2),Resource.COIN);
+        assertEquals(stock2.getResourceType(1),Resource.SHIELD);
+        assertEquals(stock2.getQuantities(3),0);
+        assertEquals(stock2.getQuantities(2),3);
+        assertEquals(stock2.getQuantities(1),1);
+
+        List<Resource> resourceList4 = new ArrayList<>();
+        resourceList4.add(Resource.ROCK);
+        resourceList4.add(Resource.ROCK);
+        resourceList4.add(Resource.ROCK);
+
+        stock2.manageStock(resourceList4);
+        assertEquals(stock2.getResourceType(3),Resource.ROCK);
+        assertEquals(stock2.getResourceType(2),Resource.COIN);
+        assertEquals(stock2.getResourceType(1),Resource.ROCK);
+        assertEquals(stock2.getResourceType(0),Resource.SHIELD);
+        assertEquals(stock2.getQuantities(3),2);
+        assertEquals(stock2.getQuantities(2),3);
+        assertEquals(stock2.getQuantities(1),1);
+        assertEquals(stock2.getQuantities(0),1);
+
+
+
     }
+
 
 }
 
