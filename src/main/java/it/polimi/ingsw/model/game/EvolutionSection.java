@@ -55,10 +55,10 @@ public class EvolutionSection {
 
             //actually putting the card into the section
             int counter = 0;
-            for (int i=0; i<evolutionSection.length; i++){
-                for (int j=0; j<evolutionSection[i].length; j++){
-                    for (int k=0; k<4; k++) {
-                        evolutionSection[i][j].add(k, evolutionCards[counter]);
+            for (ArrayList<EvolutionCard>[] arrayLists : evolutionSection) {
+                for (int j = 0; j < arrayLists.length; j++) {
+                    for (int k = 0; k < 4; k++) {
+                        arrayLists[j].add(k, evolutionCards[counter]);
                         counter++;
                     }
                 }
@@ -115,7 +115,9 @@ public class EvolutionSection {
         return evolutionSection[row][col].get(pos);
     }
 
-
+    public ArrayList<EvolutionCard>[][] getEvolutionSection() {
+        return evolutionSection;
+    }
 
 
 }
