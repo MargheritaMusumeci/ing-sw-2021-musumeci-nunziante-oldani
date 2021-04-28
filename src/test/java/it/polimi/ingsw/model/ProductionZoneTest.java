@@ -165,4 +165,10 @@ public class ProductionZoneTest {
         productionZone.addCard(evolutionCard);
         assertEquals(productionZone.getLevel(),LevelEnum.THIRD);
     }
+
+    public void compareTest(){
+        assertEquals(1,LevelEnum.FIRST);
+        assertEquals(2,LevelEnum.SECOND);
+        assertEquals(3,LevelEnum.THIRD);
+    }
 }
