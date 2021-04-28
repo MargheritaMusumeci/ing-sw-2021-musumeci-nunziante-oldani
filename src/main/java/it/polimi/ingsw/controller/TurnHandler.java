@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.Player;
 
@@ -36,14 +37,14 @@ public abstract class TurnHandler {
     }
 
     /**
-     * useless maybe better startGame?
+     * check if start turn or end game
      */
     abstract void startTurn();
 
     /**
      * Do the action of the active player according to the message received
      */
-    abstract void doAction();
+    abstract void doAction() throws ExcessOfPositionException;
 
     /**
      * Method the checks the score/the number of resources of each player and create an arrayList with the winners

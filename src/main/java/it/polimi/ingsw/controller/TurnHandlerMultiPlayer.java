@@ -21,7 +21,6 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
         if(isTheLastTurn && modelGame.getActivePlayer().getDashboard().getInkwell()){
             isTheEnd = true;
             endGame();
-            return;
         }
     }
 
@@ -31,7 +30,6 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
         //in base al messaggio che arriverà dal client chiamo il metodo corretto
         //posso controllare qua che l'utente non ha già effettuato l'azione
         //if(modelGame.getActivePlayer().getActionState()==false){}
-
         //se è un soloGame, ed è attivo Lorenzo allora pesco una carta LorenzoAction e chiamo il corrispondente metodo di DoActionLorenzo
     }
 
@@ -41,7 +39,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
     @Override
     protected ArrayList<Player> checkWinner(){
         //winners is an arrayList that contains the winner or the winners in case of same score and same amount of resources
-        ArrayList<Player> winners = new ArrayList<Player>();
+        ArrayList<Player> winners = new ArrayList<>();
         //winner is initialized with a default value
         Player winner = modelGame.getActivePlayer();
 
@@ -74,34 +72,22 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
 
     /**
      * Check if the acrivePlayer has reached the end of the game
+     * Called only if  isTheLastTurn == false
      */
     @Override
     public void checkEndGame(){
 
+        //someone reached the end of the track
         for (Player player :modelGame.getPlayers()) {
             if(player.getPopeTrack().getGamerPosition().getIndex()==25){
                 isTheLastTurn=true;
                 break;
             }
         }
+
+        //active player bought 7 Evolution Cards
         if(!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber()>6){
             isTheLastTurn=true;
-        }
-
-        Player followingPlayer = null;
-        for(int i=0; i<modelGame.getPlayers().size(); i++){
-            if(modelGame.getPlayers().get(i).equals(modelGame.getActivePlayer())){
-                i++;
-                if(i>= modelGame.getPlayers().size()){
-                    i = 0;
-                }
-                followingPlayer = modelGame.getPlayers().get(i);
-                break;
-            }
-        }
-
-        if (followingPlayer != null && followingPlayer.getDashboard().getInkwell()) {
-            isTheEnd = true;
         }
     }
 
@@ -118,7 +104,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
                 pZone.getCard().setActive(false);
         }
 
-        checkEndGame();
+        if(!isTheLastTurn) checkEndGame();
 
         //Update the active player for the next turn
         modelGame.updateActivePlayer();
