@@ -264,10 +264,18 @@ public class HumanPlayer extends Player{
     /**
      * Method that removes a resource
      * @return
+     * @throws NonCompatibleResourceException id the resource type isn't present in the arrayList
      */
     public void removeResources(Resource resource) throws NonCompatibleResourceException {
+        if(!resources.contains(resource)) throw new NonCompatibleResourceException("This resourceType is not present");
         resources.remove(resource);
     }
+
+    /**
+     *
+     * @return the resources the player still have to place in the stock
+     */
+    public ArrayList<Resource> getResources(){ return resources; }
 
     /**
      * Idea: There is the creation of the players before and than the creation of the Game object.
@@ -278,7 +286,11 @@ public class HumanPlayer extends Player{
         this.game = game;
     }
 
-
+    /**
+     *
+     * @return the game the player is playing
+     */
+    public Game getGame(){ return game; }
 
     /**
      * Method that set the action choose by the player

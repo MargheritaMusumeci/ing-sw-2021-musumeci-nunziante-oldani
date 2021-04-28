@@ -8,11 +8,16 @@ import java.util.ArrayList;
 
 public class LorenzoPlayer extends Player {
 
-    public LorenzoPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
-        this.nickName = nickName;
-        this.popeTrack = new PopeTrack();
+    /**
+     * LorenzoPlayer will receive the dashboard and the popeTrack of the player
+     * @param popeTrack is the popeTrack of the player
+     * @param dashboard is the dashboard of the player
+     */
+    public LorenzoPlayer(PopeTrack popeTrack , Dashboard dashboard){
+        this.nickName = "Lorenzo";
+        this.popeTrack = popeTrack;
+        this.dashboard = dashboard;
         this.isWinner = false;
-        dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
     }
 
 }

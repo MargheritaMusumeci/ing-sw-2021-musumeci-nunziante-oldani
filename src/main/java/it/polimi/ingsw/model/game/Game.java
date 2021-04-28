@@ -56,13 +56,6 @@ public class Game {
         return activePlayer;
     }
 
-    /*
-    LorenzoPlayer x;
-    HumanPlayer y;
+    public int getIdGame(){ return idGame; }
 
-    isInstanceOf(game.getAcriceplater) == LorenzoPlater
-        true --> x = (LorenPlayer) game.getActiveplayer()
-                 x.play
-                game.upd
-*/
 }

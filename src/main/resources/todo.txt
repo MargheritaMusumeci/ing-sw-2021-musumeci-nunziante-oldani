@@ -2,7 +2,8 @@ Musumeci:
 - aggiornare UML
 
 Nunziante:
-- verificare un attimo su game la questione di HumanPlayer
+- non so se sono io, ma bisogna sistemare la questione di lettura dai Json perchè non me li fa
+    creare i vostri -> non posso testate i metodi critici di player
 
 Oldani:
 
