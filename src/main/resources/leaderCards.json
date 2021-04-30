@@ -1,19 +1,19 @@
 [
   {
-    "requires": 4 ,
+    "requiresForActiveLeaderCards": 4,
     "requiresColor": [1],
     "requiresLevel": [2],
-    "requiresResource": null,
+    "requires": null,
 
-    "abilityType":4 ,
-    "point":4 ,
+    "abilityType":4,
+    "point":4,
     "abilityResource": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 1,
       "SERVANT" : 0
     },
-    "productsPower": {
+    "products": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 0,
@@ -23,12 +23,12 @@
     }
   },
   {
-    "requires": 4,
+    "requiresForActiveLeaderCards": 4,
     "requiresColor": [4],
     "requiresLevel": [2],
-    "requiresResource": null,
+    "requires": null,
 
-    "abilityType":4 ,
+    "abilityType":4,
     "point":4 ,
     "abilityResource": {
       "ROCK" : 1,
@@ -36,7 +36,7 @@
       "COIN" : 0,
       "SERVANT" : 0
     },
-    "productsPower": {
+    "products": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 0,
@@ -46,20 +46,20 @@
     }
   },
   {
-    "requires": 4,
+    "requiresForActiveLeaderCards": 4,
     "requiresColor": [3],
     "requiresLevel": [2],
-    "requiresResource": null,
+    "requires": null,
 
-    "abilityType":4 ,
-    "point":4 ,
+    "abilityType":4,
+    "point":4,
     "abilityResource": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 0,
       "SERVANT" : 1
     },
-    "productsPower": {
+    "products": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 0,
@@ -69,20 +69,20 @@
     }
   },
   {
-    "requires": 4,
+    "requiresForActiveLeaderCards": 4,
     "requiresColor": [2],
     "requiresLevel": [2],
-    "requiresResource": null,
+    "requires": null,
 
-    "abilityType":4 ,
-    "point":4 ,
+    "abilityType":4,
+    "point":4,
     "abilityResource": {
       "ROCK" : 0,
       "SHIELD" : 1,
       "COIN" : 0,
       "SERVANT" : 0
     },
-    "productsPower": {
+    "products": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 0,
@@ -92,14 +92,14 @@
     }
   },
   {
-  "requires": 2,
+  "requiresForActiveLeaderCards": 2,
   "requiresColor": [4,4,1],
   "requiresLevel": null,
-  "requiresResource": null,
-  "productsPower": null,
+  "requires": null,
+  "products": null,
 
   "abilityType": 3,
-  "point":5 ,
+  "point":5,
   "abilityResource": {
     "ROCK" : 0,
     "SHIELD" : 0,
@@ -108,10 +108,10 @@
   }
 },
   {
-    "requires": 2,
+    "requiresForActiveLeaderCards": 2,
     "requiresColor": [3,3,2],
     "requiresLevel": null,
-    "requiresResource": null,
+    "requires": null,
     "productsPower": null,
 
     "abilityType": 3,
@@ -124,11 +124,11 @@
     }
   },
   {
-    "requires": 2,
+    "requiresForActiveLeaderCards": 2,
     "requiresColor": [1,1,4],
     "requiresLevel": null,
-    "requiresResource": null,
-    "productsPower": null,
+    "requires": null,
+    "products": null,
 
     "abilityType": 3,
     "point":5 ,
@@ -140,11 +140,11 @@
     }
   },
   {
-    "requires": 2,
+    "requiresForActiveLeaderCards": 2,
     "requiresColor": [2,2,3],
     "requiresLevel": null,
-    "requiresResource": null,
-    "productsPower": null,
+    "requires": null,
+    "products": null,
 
     "abilityType": 3,
     "point":5 ,
@@ -156,11 +156,11 @@
     }
   },
   {
-    "requires": 3,
+    "requiresForActiveLeaderCards": 3,
     "requiresLevel": null,
     "requiresColor": null,
-    "productsPower": null,
-    "requiresResource": {
+    "products": null,
+    "requires": {
       "ROCK" : 0,
       "SHIELD" : 5,
       "COIN" : 0,
@@ -177,11 +177,11 @@
     }
   },
   {
-    "requires": 3,
+    "requiresForActiveLeaderCards": 3,
     "requiresLevel": null,
     "requiresColor": null,
-    "productsPower": null,
-    "requiresResource": {
+    "products": null,
+    "requires": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 0,
@@ -198,11 +198,11 @@
     }
   },
   {
-    "requires": 3,
+    "requiresForActiveLeaderCards": 3,
     "requiresLevel": null,
     "requiresColor": null,
-    "productsPower": null,
-    "requiresResource": {
+    "products": null,
+    "requires": {
       "ROCK" : 5,
       "SHIELD" : 0,
       "COIN" : 0,
@@ -219,11 +219,11 @@
     }
   },
   {
-    "requires": 3,
+    "requiresForActiveLeaderCards": 3,
     "requiresLevel": null,
     "requiresColor": null,
-    "productsPower": null,
-    "requiresResource": {
+    "products": null,
+    "requires": {
       "ROCK" : 0,
       "SHIELD" : 0,
       "COIN" : 5,
@@ -240,10 +240,10 @@
     }
   },
   {
-    "requires": 1,
+    "requiresForActiveLeaderCards": 1,
     "requiresLevel": null,
-    "requiresResource": null,
-    "productsPower": null,
+    "requires": null,
+    "products": null,
     "requiresColor": [2,4],
 
     "abilityType": 1,
@@ -256,11 +256,11 @@
     }
   },
   {
-    "requires": 1,
+    "requiresForActiveLeaderCards": 1,
     "requiresColor": [1,3],
     "requiresLevel": null,
-    "requiresResource": null,
-    "productsPower": null,
+    "requires": null,
+    "products": null,
 
     "abilityType": 1,
     "point": 2,
@@ -272,11 +272,11 @@
     }
   },
   {
-    "requires": 1,
+    "requiresForActiveLeaderCards": 1,
     "requiresColor": [3,4],
     "requiresLevel": null,
-    "requiresResource": null,
-    "productsPower": null,
+    "requires": null,
+    "products": null,
 
     "abilityType": 1,
     "point": 2,
@@ -288,11 +288,11 @@
     }
   },
   {
-    "requires": 1,
+    "requiresForActiveLeaderCards": 1,
     "requiresColor": [2,1],
     "requiresLevel": null,
-    "requiresResource": null,
-    "productsPower": null,
+    "requires": null,
+    "products": null,
 
     "abilityType": 1,
     "point": 2,
