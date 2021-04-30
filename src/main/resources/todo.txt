@@ -29,12 +29,27 @@ DOMANDE TUTORATO:
 
 - Devo gestire il caso in cui la disconnessione avvenga tra l'avvio del gioco e la registrazione dei giocatori nell'hashmap con l'id del game?
 
+    E' un caso limite, non veniamo penalizzati se la gestiamo "approsimatiamente".
+    Dobbiamo gestire in modo corretto la disconnesione e riconnesione del player a gioco iniziato.
+
+    Per quanto riguarda la domanda
+    Posso escludere dal gioco il client che si è disconnesso prima dell'effettivo inizio o rimandare tutti nella lobby e attendere un ulteriore player.
+
 - È giusto implementare il server come qualcso che non attende mai il client e che non manda mai messaggi che comportiano l'esecuzione diretta di metodi da parte
   del client? In questo modo il server risponde solo a domande ed esegue le operazioni solo se il giocatore che le richiede è quello giusto ( e le operazioni sono giuste)
   Esempio --> Compro le risorse e non mi viene chiesto dal server quali voglio tenere e quali no. Sono io che lo avviso ed è la view che superviziona questo processo. Il server
   saprà solo se può o meno inserire quelle richieste dal client. 
 
+    La possivilità che il server invii messaggi o meno al client dipende dalle nostre scelte imlementative. Fare in modo che solo il client possa mandare messaggi va più che bene.
+    Per quanto riguarda il multi-socket è un flop. Il rischio di avere più socket sta nel:
+    1)rischio di collisioni e concorrenza sgradevole
+    2)problema del ping-> ogni ping garantisce solo che la socket che lo ha inviato è ancora attiva
 
+    Possibili alternative alla nostra idea:
+    1)Unico socket che riceve i messaggi. In base al tipo di messaggio ricevuto smista il contenuto a diversi socket che si occuperano della  gesione
+    2)Implementare un observable che legge sulla socket e notifica ai thread
+
+    RICORDIAMOCI DI RIDURRE IL TEMPO DI PING --> CONSIGLIATO A 2
 
     Dobbiamo:
     -->ORGANIZZARE IL MODEL IN SOTTOPACKAGE
@@ -106,3 +121,5 @@ RISPOSTE TUTORATO:
 
     piu pulito mettere un finto player lorenzo
     oppure dire che è il turno di lorenzo
+
+

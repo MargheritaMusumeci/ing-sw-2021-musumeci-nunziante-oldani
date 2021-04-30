@@ -2,32 +2,29 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.lorenzo.LorenzoActionCard;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
 
 public class DoActionLorenzo extends DoAction{
 
+    LorenzoActionCard lorenzoActionCard;
 
     public DoActionLorenzo(Game modelGame) {
         this.modelGame = modelGame;
     }
 
+    public LorenzoActionCard getLorenzoActionCard() {
+        return lorenzoActionCard;
+    }
+
+    public void setLorenzoActionCard(LorenzoActionCard lorenzoActionCard) {
+        this.lorenzoActionCard = lorenzoActionCard;
+    }
+
     @Override
     public void buyEvolutionCard(int row, int col) {
-/*
-        //cerco la prima carta ancora disponibile del colore che devo scartare
-
-        while(modelGame.getEvolutionSection().getCard(row,col,0)==null){
-            row--;
-        }
-
-        try {
-            modelGame.getEvolutionSection().buy(row, col);
-        } catch (ExcessOfPositionException e) {
-            e.getLocalizedMessage();
-        }
- */
 
     }
 
@@ -41,4 +38,5 @@ public class DoActionLorenzo extends DoAction{
             e.getLocalizedMessage();
         }
     }
+
 }

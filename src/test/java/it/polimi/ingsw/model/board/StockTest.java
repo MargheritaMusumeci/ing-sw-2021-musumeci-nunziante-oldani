@@ -506,8 +506,6 @@ public class StockTest extends TestCase {
 
         //two leader cards active
         stock2.addBox(2,Resource.COIN);
-        System.out.println(stock2.getNumberOfBoxes());
-        System.out.println(stock2.getResourceType(4));
         List<Resource> resourceList5 = new ArrayList<>();
         resourceList5.add(Resource.COIN);
         resourceList5.add(Resource.COIN);
