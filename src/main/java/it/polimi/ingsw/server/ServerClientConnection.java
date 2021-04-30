@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
 
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -64,7 +63,6 @@ public class ServerClientConnection implements Runnable{
                 Message input = (Message) inputStream.readObject();
                 System.out.println("Messaggio letto");
                 //messageHandler(input);
-               // System.out.println(input.getAuthor() + input.getMessage());
             }
         }catch (IOException e){
 
