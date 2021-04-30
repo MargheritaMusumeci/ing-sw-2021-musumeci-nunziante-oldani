@@ -1,8 +1,7 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.utils.Constants;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -24,6 +23,7 @@ public class Server {
     private List<ServerClientConnection> lobby3players;
     private List<ServerClientConnection> lobby2players;
     private List<ServerClientConnection> queue; // we should think of a better solution than an array list (MAP)
+    private List<GameHandler> games;
 
 
     public Server(){
@@ -32,6 +32,7 @@ public class Server {
         lobby3players = new ArrayList<>();
         lobby2players = new ArrayList<>();
         queue = new ArrayList<>();
+        games = new ArrayList<>();
     }
 
     public int getPort(){ return port; }
@@ -53,6 +54,8 @@ public class Server {
     }
 
     public List<ServerClientConnection> getQueue(){ return queue; }
+
+    public List<GameHandler> getGames() { return games; }
 
     /**
      * method that removes the serverClientConnection from the queue.
