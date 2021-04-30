@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.CardColor;
+import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.lorenzo.LorenzoAction;
 import it.polimi.ingsw.model.lorenzo.LorenzoActionCard;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TurnHandlerSoloGame extends TurnHandler{
 
@@ -113,9 +115,14 @@ public class TurnHandlerSoloGame extends TurnHandler{
             }
         } else {
             //A evolution cards type is no longer available
-            if (modelGame.getEvolutionSection().getEvolutionSection() == null) {
-                isTheLastTurn = true;
-            }
+            //4 is the number of type (color) of evolution cards
+            int index=0;
+           while(index<4 && !isTheLastTurn){
+               int i = index;
+               EvolutionCard[] typeEvolution = Arrays.stream(modelGame.getEvolutionSection().getEvolutionSection()).map(o->o[i]).toArray(EvolutionCard[]::new);
+               if(typeEvolution.length==0) isTheLastTurn=true;
+               index++;
+           }
 
             //Lorenzo arrived to the end of the PopeTrack
             if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getIndex() == 25) {

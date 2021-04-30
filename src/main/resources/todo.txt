@@ -1,5 +1,8 @@
 Musumeci:
 - aggiornare UML
+DOMANDA:
+va ripensato il controller, doActionLorenzo è sicuramente inutile in quanto posso implementare direttamente in Turn HandlerSoloGame le mosse.
+Anzi, sarebbe ancora più complesso dover chiamare i metodi buyFromMarket e move cross
 
 Nunziante:
 - non so se sono io, ma bisogna sistemare la questione di lettura dai Json perchè non me li fa
