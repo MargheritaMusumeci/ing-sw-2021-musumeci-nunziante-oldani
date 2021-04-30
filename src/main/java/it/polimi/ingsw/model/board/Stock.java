@@ -326,22 +326,27 @@ public class Stock {
        if(totalResources.size()==0){return true;}
 
         Resource resourceType;
-        System.out.println(getNumberOfBoxes());
 
-        if(getNumberOfBoxes()==4){
+        if(getNumberOfBoxes()>3){ //more stock space
+            int space = getNumberOfBoxes()-3;
+            int i =0; //index for boxPlus boxes
             boxPlus2 = new ArrayList<>();
-            int boxPlusDimension = this.boxPlus.get(0).length;
-            Resource[] resourcesPlus = new Resource[boxPlusDimension];
-            resourceType = this.resourcesPlus.get(0);
-            int boxIndex=0;
+            while(space>0) {
 
-           while(totalResources.get(resourceType) >= boxPlusDimension && boxPlusDimension > boxIndex){
-                resourcesPlus[boxIndex]=resourceType;
-                boxIndex++;
-                totalResources.merge(resourceType,-1,Integer::sum);
+                int boxPlusDimension = this.boxPlus.get(i).length;
+                Resource[] resourcesPlus = new Resource[boxPlusDimension];
+                resourceType = this.resourcesPlus.get(i);
+                int boxIndex = 0;
+                while (totalResources.get(resourceType) >= boxPlusDimension && boxPlusDimension > boxIndex) {
+                    resourcesPlus[boxIndex] = resourceType;
+                    boxIndex++;
+                    totalResources.merge(resourceType, -1, Integer::sum);
+                }
+                boxPlus2.add(resourcesPlus);
+                if (totalResources.get(resourceType) < 1) totalResources.remove(resourceType);
+                space--;
+                i++;
             }
-           boxPlus2.add(resourcesPlus);
-           if(totalResources.get(resourceType)<1){totalResources.remove(resourceType);}
         }
 
         int fullBoxes=0;

@@ -499,14 +499,41 @@ public class StockTest extends TestCase {
         stock2.manageStock(resourceList4);
         assertEquals(stock2.getResourceType(3),Resource.ROCK);
         assertEquals(stock2.getResourceType(2),Resource.COIN);
-        assertEquals(stock2.getResourceType(1),Resource.ROCK);
-        assertEquals(stock2.getResourceType(0),Resource.SHIELD);
         assertEquals(stock2.getQuantities(3),2);
         assertEquals(stock2.getQuantities(2),3);
         assertEquals(stock2.getQuantities(1),1);
         assertEquals(stock2.getQuantities(0),1);
 
+        //two leader cards active
+        stock2.addBox(2,Resource.COIN);
+        System.out.println(stock2.getNumberOfBoxes());
+        System.out.println(stock2.getResourceType(4));
+        List<Resource> resourceList5 = new ArrayList<>();
+        resourceList5.add(Resource.COIN);
+        resourceList5.add(Resource.COIN);
 
+        stock2.manageStock(resourceList4);
+
+        assertEquals(stock2.getResourceType(3),Resource.ROCK);
+        assertEquals(stock2.getResourceType(2),Resource.COIN);
+        assertEquals(stock2.getResourceType(1),Resource.ROCK);
+        assertEquals(stock2.getResourceType(0),Resource.SHIELD);
+        assertEquals(stock2.getQuantities(4),0);
+        assertEquals(stock2.getQuantities(3),2);
+        assertEquals(stock2.getQuantities(2),3);
+        assertEquals(stock2.getQuantities(1),1);
+        assertEquals(stock2.getQuantities(0),1);
+
+        stock2.manageStock(resourceList5);
+
+        assertEquals(stock2.getResourceType(4),Resource.COIN);
+        assertEquals(stock2.getResourceType(3),Resource.ROCK);
+        assertEquals(stock2.getResourceType(2),Resource.COIN);
+        assertEquals(stock2.getQuantities(4),2);
+        assertEquals(stock2.getQuantities(3),2);
+        assertEquals(stock2.getQuantities(2),3);
+        assertEquals(stock2.getQuantities(1),1);
+        assertEquals(stock2.getQuantities(0),1);
 
     }
 

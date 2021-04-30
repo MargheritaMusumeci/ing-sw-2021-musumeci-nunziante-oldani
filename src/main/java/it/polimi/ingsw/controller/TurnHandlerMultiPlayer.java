@@ -14,7 +14,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
     }
 
     /**
-     * useless maybe better startGame?
+     * check if start turn or end game
      */
     @Override
     public void startTurn(){
