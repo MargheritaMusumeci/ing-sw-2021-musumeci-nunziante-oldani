@@ -27,14 +27,13 @@ public class HumanPlayerTest extends TestCase {
     public void testActiveLeaderCard() {
     }
 
-    //To finish -> problem with the creation of the LeaderCardSet because the path
     public void testDiscardLeaderCard() {
         LeaderCardSet leaderCardSet = new LeaderCardSet();
         ArrayList<LeaderCard> cardsSet = leaderCardSet.getLeaderCardSet();
         ArrayList<LeaderCard> playerCards = new ArrayList<LeaderCard>();
-        LeaderCard[] cards = (LeaderCard[]) cardsSet.toArray();
-        for(LeaderCard l : cards)
-            playerCards.add(l);
+        playerCards.add(cardsSet.get(0));
+        playerCards.add(cardsSet.get(1));
+
         HumanPlayer player = new HumanPlayer("Matteo" , playerCards , false);
 
         try {
@@ -46,6 +45,28 @@ public class HumanPlayerTest extends TestCase {
         }catch (LeaderCardAlreadyUsedException e){
             fail();
         }
+
+        player.getDashboard().getLeaderCards().get(0).setActive(true);
+        try {
+            player.discardLeaderCard(0);
+            fail();
+        }catch(OutOfBandException e){
+            fail();
+        }catch(LeaderCardAlreadyUsedException e){
+            //It's true
+            assertEquals(player.getDashboard().getLeaderCards().size() , 2);
+        }
+
+        try{
+            assertEquals(player.getDashboard().getPopeTrack().getGamerPosition().getIndex(), 0);
+            player.discardLeaderCard(1);
+            assertEquals(player.getDashboard().getLeaderCards().size() , 1);
+            assertEquals(player.getDashboard().getPopeTrack().getGamerPosition().getIndex(), 1);
+        }catch(Exception e){
+            fail();
+        }
+
+
     }
 
     public void testAddResources() {
