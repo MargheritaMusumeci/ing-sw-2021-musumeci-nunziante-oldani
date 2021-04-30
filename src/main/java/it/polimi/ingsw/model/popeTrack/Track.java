@@ -19,7 +19,7 @@ public class Track {
      * Initialize the common track, taking the info from "positionTrack.json"
      */
     private Track(){
-        String path = "C:\\Users\\Matteo Nunziante\\IdeaProjects\\ing-sw-2021-musumeci-nunziante-oldani\\src\\main\\resources\\positionTrack.json";
+        String path = "src\\main\\resources\\positionTrack.json";
         try {
             JsonReader reader = new JsonReader(new FileReader(path));
             track = new Gson().fromJson(reader , Position[].class);
