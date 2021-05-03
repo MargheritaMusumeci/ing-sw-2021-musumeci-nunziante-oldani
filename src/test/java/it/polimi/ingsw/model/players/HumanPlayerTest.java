@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
 import it.polimi.ingsw.exception.NonCompatibleResourceException;
 import it.polimi.ingsw.exception.OutOfBandException;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
@@ -25,6 +26,55 @@ public class HumanPlayerTest extends TestCase {
     }
 
     public void testActiveLeaderCard() {
+        LeaderCardSet leaderCardSet = new LeaderCardSet();
+        ArrayList<LeaderCard> cardsSet = leaderCardSet.getLeaderCardSet();
+        ArrayList<LeaderCard> playerCards = new ArrayList<LeaderCard>();
+        int i = 0;
+        //Take the card with no STOCK PLUS ability
+        while(cardsSet.get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS))
+            i++;
+        playerCards.add(cardsSet.get(i));
+        i = 0;
+        //Take the card with STOCK PLUS ability
+        while(!cardsSet.get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS))
+            i++;
+        playerCards.add(cardsSet.get(i));
+
+        HumanPlayer player = new HumanPlayer("Matteo" , false);
+        player.getDashboard().setLeaderCards(playerCards);
+
+        try {
+            assertEquals(player.getDashboard().getLeaderCards().size() , 2);
+            player.activeLeaderCard(3);
+            fail();
+        }catch(OutOfBandException e){
+            //It's right
+        }catch (LeaderCardAlreadyUsedException e){
+            fail();
+        }
+
+        try{
+            player.activeLeaderCard(0);
+        }catch(Exception e){
+            fail();
+        }
+
+        try{
+            player.activeLeaderCard(0);
+            fail();
+        }catch(LeaderCardAlreadyUsedException e){
+            //It's true
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            assertEquals(player.getDashboard().getStock().getNumberOfBoxes() , 3);
+            player.activeLeaderCard(1);
+            assertEquals(player.getDashboard().getStock().getNumberOfBoxes() , 4);
+        }catch (Exception e){
+            fail();
+        }
     }
 
     public void testDiscardLeaderCard() {
@@ -35,6 +85,7 @@ public class HumanPlayerTest extends TestCase {
         playerCards.add(cardsSet.get(1));
 
         HumanPlayer player = new HumanPlayer("Matteo" , false);
+        player.getDashboard().setLeaderCards(playerCards);
 
         try {
             assertEquals(player.getDashboard().getLeaderCards().size() , 2);
