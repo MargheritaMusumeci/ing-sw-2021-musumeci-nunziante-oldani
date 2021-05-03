@@ -22,6 +22,7 @@ Generali:
 - decidere come sistemare la sitazione lorezoPlayer
 - sequence diagram
 - aggiungere UML su github
+- dobbiamo decidere come aggiungere la nuova produzion
 
 
 

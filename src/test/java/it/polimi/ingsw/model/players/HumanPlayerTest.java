@@ -34,7 +34,7 @@ public class HumanPlayerTest extends TestCase {
         playerCards.add(cardsSet.get(0));
         playerCards.add(cardsSet.get(1));
 
-        HumanPlayer player = new HumanPlayer("Matteo" , playerCards , false);
+        HumanPlayer player = new HumanPlayer("Matteo" , false);
 
         try {
             assertEquals(player.getDashboard().getLeaderCards().size() , 2);
@@ -70,7 +70,7 @@ public class HumanPlayerTest extends TestCase {
     }
 
     public void testAddResources() {
-        HumanPlayer player = new HumanPlayer("Matteo" , null , false);
+        HumanPlayer player = new HumanPlayer("Matteo" , false);
         assertEquals(player.getResources().size() , 0);
 
         player.addResources(Resource.COIN);
@@ -82,7 +82,7 @@ public class HumanPlayerTest extends TestCase {
     }
 
     public void testRemoveResources() {
-        HumanPlayer player = new HumanPlayer("Matteo" , null , false);
+        HumanPlayer player = new HumanPlayer("Matteo" , false);
 
         player.addResources(Resource.COIN);
         player.addResources(Resource.SHIELD);
@@ -118,7 +118,7 @@ public class HumanPlayerTest extends TestCase {
     }
 
     public void testSetGame() {
-        Player player = new HumanPlayer("Matteo" , null , false);
+        Player player = new HumanPlayer("Matteo" , false);
         ArrayList<Player> players = new ArrayList<Player>();
         players.add(player);
         Game game = new Game(players , 0);
@@ -128,7 +128,7 @@ public class HumanPlayerTest extends TestCase {
     }
 
     public void testSetActionChose() {
-        HumanPlayer player = new HumanPlayer("Matteo" , null , false);
+        HumanPlayer player = new HumanPlayer("Matteo" , false);
 
         player.setActionChose(Action.NOTHING);
         assertEquals(Action.NOTHING , player.getActionChose());

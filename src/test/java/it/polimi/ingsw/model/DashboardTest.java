@@ -42,7 +42,7 @@ public class DashboardTest {
 
     @Test
     public void setScoreTest() throws NegativeScoreException {
-        Dashboard d = new Dashboard("", null, false, null);
+        Dashboard d = new Dashboard("", false , null);
         int score = 0;
         score = d.getScore();
         d.setScore(15);

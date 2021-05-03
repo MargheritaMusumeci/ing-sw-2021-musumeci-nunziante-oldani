@@ -18,9 +18,9 @@ public class Dashboard {
     private ArrayList<LeaderCard> leaderCards;
     private boolean inkwell;
 
-    public Dashboard(String nickName, ArrayList<LeaderCard> leaderCards, boolean inkwell, PopeTrack personalPopeTrack){
+    public Dashboard(String nickName, boolean inkwell, PopeTrack personalPopeTrack){
         this.nickName = nickName;
-        this.leaderCards = leaderCards;
+        this.leaderCards = new ArrayList<LeaderCard>();
         this.inkwell = inkwell;
         this.personalPopeTrack = personalPopeTrack;
 
@@ -98,6 +98,15 @@ public class Dashboard {
      */
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
+    }
+
+    /**
+     * Set the leader card)
+     * @param leaderCards is the card for the player: 4 in the start , 2 after the player chose them
+     */
+    public void setLeaderCards(ArrayList<LeaderCard> leaderCards){
+        for(LeaderCard card : leaderCards)
+            this.leaderCards.add(card);
     }
 
     /**

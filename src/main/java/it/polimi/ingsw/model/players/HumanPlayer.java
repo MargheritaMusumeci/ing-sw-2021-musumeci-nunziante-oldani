@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LevelEnum;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.model.game.Game;
@@ -34,10 +33,10 @@ public class HumanPlayer extends Player{
     private ArrayList<Resource> resources;
 
 
-    public HumanPlayer(String nickName , ArrayList<LeaderCard> leaderCards, boolean inkwell){
+    public HumanPlayer(String nickName, boolean inkwell){
         this.nickName = nickName;
         this.popeTrack = new PopeTrack();
-        dashboard = new Dashboard(nickName , leaderCards , inkwell, popeTrack);
+        dashboard = new Dashboard(nickName , inkwell, popeTrack);
         isWinner = false;
         actionChose = null;
         game = null;
