@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.board.ProductionZone;
+import it.polimi.ingsw.model.cards.LeaderAbility;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
@@ -102,6 +104,16 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
         for(ProductionZone pZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
             if(pZone.getCard() != null)
                 pZone.getCard().setActive(false);
+        }
+
+        // !!!!!!!!
+        //reset used Leader Card
+        //for stockPlus ability it's always true
+        //for all other ability, player could choose if active or not card during his turn
+        for (LeaderCard leaderCard: modelGame.getActivePlayer().getDashboard().getLeaderCards()) {
+            if (!leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+                leaderCard.setUsed(false);
+            }
         }
 
         if(!isTheLastTurn) checkEndGame();

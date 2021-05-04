@@ -8,6 +8,8 @@ Nunziante:
 - non so se sono io, ma bisogna sistemare la questione di lettura dai Json perchè non me li fa
     creare i vostri -> non posso testate i metodi critici di player
 
+    !!!!! aggiornamento leader card, sentire marghe
+
 Oldani:
 
 - modificare la signature di updateMarket nell'uml
