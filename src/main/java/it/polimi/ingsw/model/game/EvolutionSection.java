@@ -25,7 +25,7 @@ public class EvolutionSection {
 
         for (int i=0; i<evolutionSection.length; i++){
             for(int j=0; j<evolutionSection[i].length; j++){
-                evolutionSection[i][j] = new ArrayList<EvolutionCard>();
+                evolutionSection[i][j] = new ArrayList<>();
 
             }
         }
@@ -48,14 +48,26 @@ public class EvolutionSection {
 
     private void populateSection(){
 
-        //String path = "/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/productionCards.json"; //need to find the correct path
-        String path = "src\\main\\resources\\productionCards.json";
+        String path = "/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/productionCards.json"; //need to find the correct path
+        //String path = "src/main/resources/productionCards.json";
         try {
             JsonReader reader = new JsonReader(new FileReader(path));
             EvolutionCard[] evolutionCards = new Gson().fromJson(reader, EvolutionCard[].class);
 
             //actually putting the card into the section
             int counter = 0;
+            //per ogni riga
+                //per oni colonna
+                    //per ogni posizione ne faccio 4
+            for (int i=0; i<evolutionSection.length; i++){
+                for(int j=0; j<evolutionSection[i].length; j++){
+                    for(int k=0; k<4; k++){
+                        evolutionSection[i][j].add(k, evolutionCards[counter]);
+                        counter++;
+                    }
+                }
+            }
+            /* old not working method of adding cards
             for (ArrayList<EvolutionCard>[] arrayLists : evolutionSection) {
                 for (int j = 0; j < arrayLists.length; j++) {
                     for (int k = 0; k < 4; k++) {
@@ -64,6 +76,8 @@ public class EvolutionSection {
                     }
                 }
             }
+            /
+             */
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

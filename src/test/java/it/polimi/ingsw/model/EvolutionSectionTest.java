@@ -14,7 +14,10 @@ public class EvolutionSectionTest {
 
         EvolutionSection e = EvolutionSection.getInstanceOfEvolutionSection();
         for (int i=0; i<3; i++){
-
+            for(int j=0; j<4; j++){
+                System.out.print(e.getCard(i, j, 0).getLevel() +"\t");
+            }
+            System.out.println();
         }
 
     }

@@ -1001,7 +1001,7 @@
   },
   {
     "color": 2,
-    "level": 2,
+    "level": 1,
     "point": 1,
     "cost" : {
       "ROCK" : 2,
