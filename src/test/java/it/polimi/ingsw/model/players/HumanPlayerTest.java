@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model.players;
 
 import it.polimi.ingsw.controller.Action;
-import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
-import it.polimi.ingsw.exception.NonCompatibleResourceException;
-import it.polimi.ingsw.exception.OutOfBandException;
+import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LevelEnum;
+import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
 import it.polimi.ingsw.model.game.Resource;
@@ -17,6 +18,71 @@ import java.util.List;
 public class HumanPlayerTest extends TestCase {
 
     public void testGetPossibleProductionZone() {
+        HumanPlayer player = new HumanPlayer("Matteo" , true);
+        HumanPlayer player2 = new HumanPlayer("Loser" , false);
+        ArrayList<Player> players = new ArrayList<Player>();
+        players.add(player);
+        players.add(player2);
+        Game game = new Game(players , 1234);
+        boolean[] result = new boolean[player.getDashboard().getProductionZone().length];;
+        boolean[] toCheck;
+
+        try {
+            EvolutionCard[][] eSection = game.getEvolutionSection().canBuy();
+
+            assertEquals(LevelEnum.FIRST , eSection[2][2].getLevel());
+            assertEquals(LevelEnum.SECOND , eSection[1][1].getLevel());;
+            player.getDashboard().getProductionZone()[1].addCard(game.getEvolutionSection().buy(2, 2));//FIRST
+            player.getDashboard().getProductionZone()[2].addCard(game.getEvolutionSection().buy(2, 2));//FIRST
+            player.getDashboard().getProductionZone()[2].addCard(game.getEvolutionSection().buy(1, 1));//SECOND
+
+            result[0] = true;
+            result[1] = false;
+            result[2] = false;
+
+            eSection = game.getEvolutionSection().canBuy();
+
+            toCheck = player.getPossibleProductionZone(eSection[2][0]);//FIRST
+            for (int i = 0; i < player.getDashboard().getProductionZone().length; i++) {
+                assertEquals(result[i], toCheck[i]);
+            }
+
+            result[0] = false;
+            result[1] = false;
+            result[2] = true;
+            toCheck = player.getPossibleProductionZone(eSection[0][0]);//THIRD
+            for(int i = 0; i < player.getDashboard().getProductionZone().length; i++){
+                assertEquals(result[i] , toCheck[i]);
+            }
+
+            result[0] = false;
+            result[1] = true;
+            result[2] = false;
+            toCheck = player.getPossibleProductionZone(eSection[1][1]);//SECOND
+            for(int i = 0; i < player.getDashboard().getProductionZone().length; i++){
+                assertEquals(result[i] , toCheck[i]);
+            }
+        }catch(InvalidPlaceException e){
+            fail();
+        }catch ( ExcessOfPositionException e){
+            fail();
+        }
+        try {
+            player.getDashboard().getProductionZone()[0].addCard(game.getEvolutionSection().buy(2 ,2));//FIRST
+            EvolutionCard[][] eSection = game.getEvolutionSection().canBuy();
+            result[0] = false;
+            result[1] = false;
+            result[2] = false;
+            toCheck = player.getPossibleProductionZone(eSection[2][1]);//FIRST
+            for(int i = 0; i < player.getDashboard().getProductionZone().length; i++){
+                assertEquals(result[i] , toCheck[i]);
+            }
+        }catch(InvalidPlaceException e){
+            fail();
+        }catch ( ExcessOfPositionException e){
+            fail();
+        }
+
     }
 
     public void testGetPossibleEvolutionCard() {
