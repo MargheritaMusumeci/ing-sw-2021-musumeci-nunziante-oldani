@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.game;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
@@ -27,7 +28,8 @@ public class LeaderCardSet {
     private void populateLeaderSet(){
 
         //String path = "C:/Users/margh/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/leaderCards.json"; //need to find the correct path
-        String path = "src\\main\\resources\\leaderCards.json";
+        String path = new File("src/main/resources/leaderCards.json").getAbsolutePath();
+
         try {
             JsonReader reader = new JsonReader(new FileReader(path));
             LeaderCard[] leaderCards = new Gson().fromJson(reader, LeaderCard[].class);
