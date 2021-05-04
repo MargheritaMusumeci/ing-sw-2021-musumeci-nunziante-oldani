@@ -29,8 +29,8 @@ public class EvolutionSectionTest {
         EvolutionCard[][] cards = e.canBuy();
 
         for(int i = 0; i<cards.length; i++){
-            for(int j= 0; j< cards[i].length;j++){
-                assertEquals(cards[i][j], e.getCard(i,j,0));
+            for(int j= 0; j< cards[i].length;j++) {
+                assertEquals(cards[i][j], e.getCard(i, j, 0));
             }
         }
 
@@ -41,7 +41,7 @@ public class EvolutionSectionTest {
             excessOfPositionException.printStackTrace();
         }
 
-
+        cards = e.canBuy();
         for(int i = 0; i<cards.length; i++){
             for(int j= 0; j< cards[i].length;j++){
                 assertEquals(cards[i][j], e.getCard(i,j,0));

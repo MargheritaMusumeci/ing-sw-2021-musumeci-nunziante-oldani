@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -49,7 +50,8 @@ public class EvolutionSection {
     private void populateSection(){
 
         //String path = "/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/productionCards.json"; //need to find the correct path
-        String path = "src/main/resources/productionCards.json";
+        String path = new File("src/main/resources/productionCards.json").getAbsolutePath();
+        System.out.println(path);
         try {
             JsonReader reader = new JsonReader(new FileReader(path));
             EvolutionCard[] evolutionCards = new Gson().fromJson(reader, EvolutionCard[].class);
