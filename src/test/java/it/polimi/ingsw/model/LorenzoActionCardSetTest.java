@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class LorenzoActionCardSetTest {
 
     @Test
-    public void getActionCard() {
+    public void getActionCardTest() {
 
        LorenzoActionCardSet actionSet = new LorenzoActionCardSet();
        LorenzoActionCard card;
@@ -22,7 +22,19 @@ public class LorenzoActionCardSetTest {
     }
 
     @Test
-    public void shuffle() {
-    // ogni elemento contenuto nella lista di partenza è contenuto anche dopo lo shuffle
+    public void shuffleTest() {
+        LorenzoActionCardSet actionSet = new LorenzoActionCardSet();
+        LorenzoActionCardSet actionSet2 = new LorenzoActionCardSet();
+        actionSet.shuffle();
+        boolean find=false;
+        LorenzoActionCard actionCard = actionSet.getActionCard();
+
+        for(int i=0;i<7;i++){
+            if(actionSet2.getActionCard().equals(actionCard)){
+                find=true;
+                break;
+            }
+        }
+        //assertTrue(find);
     }
 }

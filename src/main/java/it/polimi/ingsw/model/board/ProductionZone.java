@@ -70,7 +70,7 @@ public class ProductionZone {
      * @param levelEnum enum variable
      * @return int represent level
      */
-    public int compare(LevelEnum levelEnum){
+    private int compare(LevelEnum levelEnum){
         if(levelEnum.equals(LevelEnum.FIRST)){return 1;}
         else if(levelEnum.equals(LevelEnum.SECOND)){return 2;}
         else{return 3;}
