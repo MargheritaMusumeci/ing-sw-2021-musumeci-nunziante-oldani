@@ -16,15 +16,9 @@ public class LeaderProductionZone extends ProductionZone{
         this.leaderCard = leaderCard;
     }
 
-
     @Override
     public Card getCard() {
         return leaderCard;
-    }
-
-    @Override
-    public void addCard(Card card) throws InvalidPlaceException {
-
     }
 
     @Override

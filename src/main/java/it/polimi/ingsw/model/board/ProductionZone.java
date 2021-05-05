@@ -16,20 +16,10 @@ public abstract class ProductionZone {
     public abstract Card getCard();
 
     /**
-     * Add new card to production zone
-     * @param card bought from Evolution Section
-     */
-    public abstract void addCard(Card card)  throws InvalidPlaceException;
-
-    /**
      * Check if there is at least a free space in the slot
-     *
      * @return true if the slot isn't full
      */
     public abstract boolean isFull();
-
-
-
 }
 
 
