@@ -62,6 +62,12 @@ public class LeaderCard implements Card {
      */
     private boolean isActive;
 
+    /**
+     * If true,Leader Card Power is used
+     * @return
+     */
+    private boolean isUsed;
+
     public CardColor[] getRequiresColor() {
         return requiresColor;
     }
@@ -99,11 +105,23 @@ public class LeaderCard implements Card {
     }
 
     /**
-     * Method that change the card state from active to inactive
+     * Method that change the card state from inactive to active
      * @param value is true if the card is active, false otherwise
      */
     public void setActive(boolean value){
         isActive = value;
+    }
+
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    /**
+     * Method used for know if player is using leader power during turn
+     * @param used is true if the card is using, false otherwise
+     */
+    public void setUsed(boolean used) {
+        isUsed = used;
     }
 
 }

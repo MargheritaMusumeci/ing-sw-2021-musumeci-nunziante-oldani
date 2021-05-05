@@ -223,6 +223,7 @@ public class HumanPlayer extends Player{
 
         //Only in case of new box I have to create it here
         if(dashboard.getLeaderCards().get(position).getAbilityType() == LeaderAbility.STOCKPLUS){
+            dashboard.getLeaderCards().get(position).setUsed(true);
             HashMap<Resource , Integer> resourceBoxType = dashboard.getLeaderCards().get(position).getAbilityResource();
             for (Resource res : resourceBoxType.keySet()) {
                 if(resourceBoxType.get(res) != 0){
