@@ -2,13 +2,15 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.listeners.DashboardListener;
+import it.polimi.ingsw.model.game.EvolutionSection;
+import it.polimi.ingsw.model.game.Market;
+import it.polimi.ingsw.model.listeners.*;
 import it.polimi.ingsw.model.osservables.DashboardObservable;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
 import java.util.ArrayList;
 
-public class Dashboard extends DashboardObservable {
+public class Dashboard extends DashboardObservable implements LockBoxListener, PopeTrackListener, ProductionZoneListener, StockListener {
 
     private String nickName;
     private int totalScore;
@@ -26,16 +28,22 @@ public class Dashboard extends DashboardObservable {
         this.leaderCards = new ArrayList<LeaderCard>();
         this.inkwell = inkwell;
         this.personalPopeTrack = personalPopeTrack;
+        this.personalPopeTrack.addPopeTrackListener(this);
 
         totalScore = 0;
+
         personalLockBox = new LockBox();
+        personalLockBox.addLockBoxListener(this);
+
         personalStock = new Stock();
+        personalStock.addStockListener(this);
 
         personalProductionZones = new NormalProductionZone[3];
-
         for (int i = 0; i< personalProductionZones.length; i++){
             personalProductionZones[i] = new NormalProductionZone();
+            personalProductionZones[i].addProductionZoneListener(this);
         }
+
     }
 
 
@@ -154,6 +162,30 @@ public class Dashboard extends DashboardObservable {
         }
 
         notifyDashboardListener(this);
+    }
+
+    @Override
+    public void update(LockBox lockbox) {
+        notifyDashboardListener(this);
+
+    }
+
+    @Override
+    public void update(PopeTrack popeTrack) {
+        notifyDashboardListener(this);
+
+    }
+
+    @Override
+    public void update(ProductionZone productionZone) {
+        notifyDashboardListener(this);
+
+    }
+
+    @Override
+    public void update(Stock stock) {
+        notifyDashboardListener(this);
+
     }
 
 
