@@ -49,7 +49,7 @@ public class TemporaryDoActionPlayer extends DoAction {
         if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleActiveProductionZone()[position]){//if can be activated
 
             //take the card activated by the player
-            EvolutionCard eCard = modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
+            EvolutionCard eCard = (EvolutionCard) modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
 
             //take the requires and the products
             HashMap<Resource , Integer> requires = eCard.getRequires();

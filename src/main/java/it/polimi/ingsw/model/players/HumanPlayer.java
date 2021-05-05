@@ -6,6 +6,7 @@ import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
 import it.polimi.ingsw.exception.NonCompatibleResourceException;
 import it.polimi.ingsw.exception.OutOfBandException;
 import it.polimi.ingsw.model.board.Dashboard;
+import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
@@ -195,7 +196,7 @@ public class HumanPlayer extends Player{
                 break;
             }
             //If there is a card and it is not active check the LockBox resources
-            ArrayList<EvolutionCard> eCard = dashboard.getProductionZone()[i].getCardList();
+            ArrayList<Card> eCard = dashboard.getProductionZone()[i].getCardList();
             HashMap<Resource , Integer> requires = eCard.get(0).getRequires();
 
             possibleActiveProductionZone[i] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getAmountOf(Resource.SHIELD) >= requires.get(Resource.SHIELD) &&

@@ -12,7 +12,8 @@ public class Dashboard {
     private int totalScore;
     private Stock personalStock;
     private LockBox personalLockBox;
-    private ProductionZone[] personalProductionZone;
+    private NormalProductionZone[] personalProductionZones;
+    private ArrayList<LeaderProductionZone> leaderProductionZones;
     private int evolutionCardNumber;
     private PopeTrack personalPopeTrack;
     private ArrayList<LeaderCard> leaderCards;
@@ -28,10 +29,10 @@ public class Dashboard {
         personalLockBox = new LockBox();
         personalStock = new Stock();
 
-        personalProductionZone = new ProductionZone[3];
+        personalProductionZones = new NormalProductionZone[3];
 
-        for (int i=0; i<personalProductionZone.length; i++){
-            personalProductionZone[i] = new ProductionZone();
+        for (int i = 0; i< personalProductionZones.length; i++){
+            personalProductionZones[i] = new NormalProductionZone();
         }
     }
 
@@ -78,11 +79,17 @@ public class Dashboard {
 
     /**
      *
-     * @return the instance of the actual production zone (array of three production zones) of the player, not a copy
+     * @return the instance of the actual normal production zone (array of three production zones) of the player, not a copy
      */
-    public ProductionZone[] getProductionZone() {
-        return personalProductionZone;
+    public NormalProductionZone[] getProductionZone() {
+        return personalProductionZones;
     }
+
+    /**
+     *
+     * @return the instance of the actual leader production zone (array list of max 2 zones) of the player, not a copy
+     */
+    public ArrayList<LeaderProductionZone> getLeaderProductionZones(){return leaderProductionZones;}
 
     /**
      *
@@ -126,6 +133,18 @@ public class Dashboard {
             throw new NegativeScoreException("You cannot subtract points to a player");
         }
         this.totalScore = points;
+    }
+
+    /**
+     * method that create a new Leader production zone when a leader card with that power is activated is acivated
+     * @param leaderCard is the leader card that has been activated
+     */
+    public void addLeaderCardProductionZone(LeaderCard leaderCard){
+        if(leaderProductionZones.size()<2){
+            leaderProductionZones.add(new LeaderProductionZone(leaderCard));
+        }else{
+            //possibilità di lanciare un'eccezione
+        }
     }
 
 
