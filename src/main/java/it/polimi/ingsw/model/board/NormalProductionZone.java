@@ -46,6 +46,8 @@ public class NormalProductionZone extends ProductionZone{
             throw new InvalidPlaceException("Invalid Position for adding the card");
         }
         cards.add(0, (EvolutionCard) card);
+
+        notifyProductionZoneListener(this);
     }
 
     /**

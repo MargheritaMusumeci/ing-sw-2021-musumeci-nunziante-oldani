@@ -2,11 +2,13 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.listeners.DashboardListener;
+import it.polimi.ingsw.model.osservables.DashboardObservable;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
 import java.util.ArrayList;
 
-public class Dashboard {
+public class Dashboard extends DashboardObservable {
 
     private String nickName;
     private int totalScore;
@@ -43,6 +45,7 @@ public class Dashboard {
 
     public void setEvolutionCardNumber(int evolutionCardNumber) {
         this.evolutionCardNumber = evolutionCardNumber;
+        notifyDashboardListener(this);
     }
 
     /**
@@ -114,6 +117,8 @@ public class Dashboard {
     public void setLeaderCards(ArrayList<LeaderCard> leaderCards){
         for(LeaderCard card : leaderCards)
             this.leaderCards.add(card);
+
+        notifyDashboardListener(this);
     }
 
     /**
@@ -133,6 +138,8 @@ public class Dashboard {
             throw new NegativeScoreException("You cannot subtract points to a player");
         }
         this.totalScore = points;
+
+        notifyDashboardListener(this);
     }
 
     /**
@@ -145,6 +152,8 @@ public class Dashboard {
         }else{
             //possibilità di lanciare un'eccezione
         }
+
+        notifyDashboardListener(this);
     }
 
 

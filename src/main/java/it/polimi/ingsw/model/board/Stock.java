@@ -2,13 +2,14 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.osservables.StockObservable;
 
 import java.util.*;
 
 /**
  * Other classes will see the stock as a single ArrayList of box, so originBox should be between 0 and (boxes.length + boxPlus.length)
  */
-public class Stock {
+public class Stock extends StockObservable {
     private ArrayList<Resource[]> boxes;//standard boxes
     private ArrayList<Resource[]> boxPlus;//added boxes due to leader card ability
     private ArrayList<Resource> resourcesPlus;//this arrayList contains the allowed resources in boxPlus, at the same position
@@ -53,6 +54,8 @@ public class Stock {
             boxes.set(originBox , box);
         if(originBox >= boxes.size() && originBox < boxes.size() + boxPlus.size())
             boxPlus.set(originBox - boxes.size() , box);
+
+        notifyStockListener(this);
     }
 
     /**
@@ -111,7 +114,9 @@ public class Stock {
             i++;
         }
         setBox(originBox , box);
-        }
+
+        notifyStockListener(this);
+    }
 
 
     /**
@@ -194,6 +199,8 @@ public class Stock {
             i--;
         }
         setBox(originBox , box);
+
+        notifyStockListener(this);
     }
 
     public void useResources(int numberResources , Resource resourceType) throws NotEnoughResourcesException{
@@ -215,6 +222,8 @@ public class Stock {
                 }
             }
         }
+
+        notifyStockListener(this);
     }
 
     /**
@@ -252,6 +261,8 @@ public class Stock {
 
         setBox(originBox , boxOrigin);
         setBox(destinationBox , boxDestination);
+
+        notifyStockListener(this);
     }
 
     /**
@@ -263,6 +274,8 @@ public class Stock {
         Resource[] newBox = new Resource[howBig];
         boxPlus.add(newBox);
         resourcesPlus.add(resourceType);
+
+        notifyStockListener(this);
     }
 
     /**
@@ -406,6 +419,11 @@ public class Stock {
         this.boxes=boxes2;
         this.boxPlus=boxPlus2;
 
+
+        notifyStockListener(this);
+
         return true;
     }
+
+
 }
