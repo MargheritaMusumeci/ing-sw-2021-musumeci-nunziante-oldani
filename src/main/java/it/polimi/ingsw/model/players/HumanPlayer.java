@@ -17,6 +17,7 @@ import it.polimi.ingsw.model.game.Game;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class HumanPlayer extends Player{
 
@@ -272,6 +273,11 @@ public class HumanPlayer extends Player{
         resources.remove(resource);
     }
 
+    /**
+     *
+     * @param resources obtained from market. If a leader card NOMOREWHITE is active, white ball have already been replaced
+     */
+    public void setResources(List<Resource> resources){this.resources= (ArrayList<Resource>) resources;}
     /**
      *
      * @return the resources the player still have to place in the stock

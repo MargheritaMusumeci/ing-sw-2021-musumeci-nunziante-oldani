@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.model.board.Stock;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
@@ -24,13 +23,8 @@ public class DoActionPlayer extends DoAction {
 
     /**
      * This method manages the purchase of resources from market, updates the market board and the player's stock
-     *
      * @param position indicates the row or column to be purchased
      * @param isRow true if player chose a row, false otherwise
-     * @throws ExcessOfPositionException
-     * @throws OutOfBandException
-     * @throws ResourceAlreadyPresentException
-     * @throws NotEnoughSpaceException
      */
     public void buyFromMarket(int position, boolean isRow) {
 
@@ -42,29 +36,14 @@ public class DoActionPlayer extends DoAction {
             e.getLocalizedMessage();
         }
 
-        //if leader card with power: NOMOREWHITE is active and in use, modify resource list obtained from market
-        for(int i = 0; i<modelGame.getActivePlayer().getDashboard().getLeaderCards().size();i++){
+        //check if leader card is in use and refactor array to arraylist
+        ArrayList<Resource> resourceList = modifyResources(resources);
 
-            if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).isUsed() &&
-            modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityType() == LeaderAbility.NOMOREWHITE){
+        //save resources in model section
+        HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
+        humanPlayer.setResources(resourceList);
 
-                Resource replaceResource = Resource.NOTHING;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.COIN)!=0) replaceResource = Resource.COIN;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.ROCK)!=0) replaceResource = Resource.ROCK;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.SERVANT)!=0) replaceResource = Resource.SERVANT;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.SHIELD)!=0) replaceResource = Resource.SHIELD;
-
-                for(int j=0; j<resources.length;j++){
-                    if(resources[j]==Resource.NOTHING){
-                        resources[j]=replaceResource;
-                    }
-                }
-            }
-        }
-
-        List<Resource> resourceList = Arrays.asList(resources);
-
-        //Increase PopeTrackPosition if you got a faith ball
+        //Increase PopeTrackPosition if player got a faith ball
         if (resourceList.contains(Resource.FAITH)) {
             try {
                 modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(1);
@@ -75,7 +54,24 @@ public class DoActionPlayer extends DoAction {
         }
 
         //Ask client which resources he want to discard
+        ArrayList<Resource> saveResources = humanPlayer.getResources();
 
+        //until the player chooses a correct number of resources to insert
+        while(modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)){
+
+            //notify error
+            //reestablish original resources
+            humanPlayer.setResources(resourceList);
+
+            //ask again
+        }
+        ArrayList<Resource> discardResource = resourceList;
+
+        for (Resource saveResource : saveResources) {
+            discardResource.remove(saveResource);
+        }
+
+        /*
         ArrayList<Resource> discardResource = null;
         //MESSAGE discardResource = throwAway(resourceList); !!!!! toDo
 
@@ -126,7 +122,7 @@ public class DoActionPlayer extends DoAction {
 
         //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
         List<Player> players = new ArrayList<>();
-        if(resourceList.size()>0) {
+        if(discardResource.size()>0) {
             for (Player player : modelGame.getPlayers()) {
                 if (!player.equals(modelGame.getActivePlayer())) {
                     players.add(player);
@@ -143,8 +139,6 @@ public class DoActionPlayer extends DoAction {
      * Set 'active' a specified leaderCard. In case of STOCKPLUS-leaderCard this method create new space in stock
      *
      * @param position index of the array of leaderCard
-     * @throws OutOfBandException
-     * @throws LeaderCardAlreadyUsedException
      */
     public void activeLeaderCard(int position){
         try {
@@ -215,5 +209,36 @@ public class DoActionPlayer extends DoAction {
                 }
             }
         }
+    }
+
+    /**
+     * Method used for replace white balls with colored ones if a leader card NOMOREWHITE is in use.
+     * Method used also for transform the array of resources in an arrayList.
+     * @param resources resources obtained by market
+     * @return arrayList of modified resources
+     */
+    private ArrayList<Resource> modifyResources(Resource[] resources){
+
+        //if leader card with power: NOMOREWHITE is active and in use, modify resource list obtained from market
+        for(int i = 0; i<modelGame.getActivePlayer().getDashboard().getLeaderCards().size();i++){
+
+            if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).isUsed() &&
+                    modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityType() == LeaderAbility.NOMOREWHITE){
+
+                Resource replaceResource = Resource.NOTHING;
+                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.COIN)!=0) replaceResource = Resource.COIN;
+                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.ROCK)!=0) replaceResource = Resource.ROCK;
+                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.SERVANT)!=0) replaceResource = Resource.SERVANT;
+                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.SHIELD)!=0) replaceResource = Resource.SHIELD;
+
+                for(int j=0; j<resources.length;j++){
+                    if(resources[j]==Resource.NOTHING){
+                        resources[j]=replaceResource;
+                    }
+                }
+            }
+        }
+        List<Resource> resourceList = Arrays.asList(resources);
+        return (ArrayList<Resource>) resourceList;
     }
 }
