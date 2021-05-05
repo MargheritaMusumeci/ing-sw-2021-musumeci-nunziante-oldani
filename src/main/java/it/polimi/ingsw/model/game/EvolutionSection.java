@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.osservables.EvolutionSectionOsservable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-public class EvolutionSection {
+public class EvolutionSection extends EvolutionSectionOsservable{
 
     private ArrayList<EvolutionCard>[][] evolutionSection;
     //if we want to implement multigames we need an hashmap of instances related to the gameid
@@ -118,6 +119,8 @@ public class EvolutionSection {
         }
         EvolutionCard c = evolutionSection[row][col].get(0);
         evolutionSection[row][col].remove(0);
+
+        notifyEvolutionSectionListener(this);
         return c;
     }
     /**

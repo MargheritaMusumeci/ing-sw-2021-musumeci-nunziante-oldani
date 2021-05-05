@@ -2,10 +2,11 @@ package it.polimi.ingsw.model.popeTrack;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.OutOfBandException;
+import it.polimi.ingsw.model.osservables.PopeTrackObservable;
 
 import java.util.ArrayList;
 
-public class PopeTrack{
+public class PopeTrack extends PopeTrackObservable {
     private Track track;
     private ArrayList<PopeCard> popeCard;
     private Position gamerPosition;
@@ -45,6 +46,8 @@ public class PopeTrack{
         if((gamerPosition.getIndex() + increment) >= track.getTrack().length) throw new ExcessOfPositionException("HumanPlayer: Track is ended");
 
         gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
+
+        notifyPopeTrackListener(this);
     }
 
     /**
@@ -96,5 +99,6 @@ public class PopeTrack{
 
         lorenzoPosition = track.getTrack()[lorenzoPosition.getIndex() + increment];
 
+        notifyPopeTrackListener(this);
     }
 }
