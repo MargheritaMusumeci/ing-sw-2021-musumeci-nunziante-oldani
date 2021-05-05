@@ -19,7 +19,7 @@ public class TemporaryDoActionPlayer extends DoAction {
      * Method that discard a leader card invoking discardLeaderCard in activePlayer object
      * @param position is the leader card the activePlayer wants to discard
      */
-    public void discardLeaderCard(int position){
+    /*public void discardLeaderCard(int position){
         try {
             ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
             //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
@@ -33,13 +33,13 @@ public class TemporaryDoActionPlayer extends DoAction {
         }catch(OutOfBandException | LeaderCardAlreadyUsedException | ExcessOfPositionException e){
             e.getLocalizedMessage();
         }
-    }
+    }*/
 
     /**
      * Method that activate the production zone specified
      * @param position is which production zone the user wants to activate
      */
-    public void activeProductionZone(int position){
+    /*public void activeProductionZone(int position){
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING &&
                 ((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.ACTIVE_PRODUCTION){
             //I should do this control in the method that decide which action the player chose
@@ -80,7 +80,7 @@ public class TemporaryDoActionPlayer extends DoAction {
             //Set which action the player chose only if the action is been completed
             ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
         }
-    }
+    }*/
 
     /**
      * Method that buy a card, use the resources and place the card
@@ -88,7 +88,7 @@ public class TemporaryDoActionPlayer extends DoAction {
      * @param col column of the evolutionSection
      * @param position is in which productionZone the player wants to place the card
      */
-    public void buyEvolutionCard(int row, int col , int position) {
+    /*public void buyEvolutionCard(int row, int col , int position) {
 
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING){
             //The user had already done a move
@@ -124,14 +124,13 @@ public class TemporaryDoActionPlayer extends DoAction {
             //Set the action done in player
             ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_CARD);
         }
-
-    }
+    }*/
 
     /**
      * Private method that take the resources from Stock before and then from Stock automatically
      * @param requires is an HashMap that contains the resources to remove
      */
-    private void takeResources(HashMap<Resource , Integer> requires){
+    /*private void takeResources(HashMap<Resource , Integer> requires){
         //First of all this method removes the resources the player can remove from Stock, then take the other from stock
         for(Resource resource : requires.keySet()){
             int numOfResources = requires.get(resource);
@@ -167,6 +166,6 @@ public class TemporaryDoActionPlayer extends DoAction {
                 }
             }
         }
-    }
+    }*/
 
 }
