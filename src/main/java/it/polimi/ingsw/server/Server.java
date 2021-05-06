@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.server.virtualView.VirtualView;
 import it.polimi.ingsw.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,7 +22,8 @@ public class Server {
     private List<ServerClientConnection> lobby2players;
     private List<ServerClientConnection> queue; // we should think of a better solution than an array list (MAP)
     private List<GameHandler> games;
-
+    private List<String> listOfTakenNicknames;
+    private HashMap<String, VirtualView> waitingForReconnection;
 
     public Server(){
         this.socketServer = new SocketServer(this);
@@ -33,6 +32,8 @@ public class Server {
         lobby2players = new ArrayList<>();
         queue = new ArrayList<>();
         games = new ArrayList<>();
+        listOfTakenNicknames = new ArrayList<>();
+        waitingForReconnection = new HashMap<>();
     }
 
     public int getPort(){ return port; }
@@ -56,6 +57,8 @@ public class Server {
     public List<ServerClientConnection> getQueue(){ return queue; }
 
     public List<GameHandler> getGames() { return games; }
+
+    public List<String> getListOfTakenNicknames(){ return listOfTakenNicknames;}
 
     /**
      * method that removes the serverClientConnection from the queue.
@@ -97,6 +100,54 @@ public class Server {
         ExecutorService ex = Executors.newCachedThreadPool();
         ex.submit(server.socketServer);
 
+    }
+
+    /**
+     * method that checks if a nickname is available. It is required because is able to makle the check with
+     * syncronization
+     * @param nickname is the nickname to be checked
+     * @return true if is already taken, false if is available
+     */
+    public synchronized boolean checkNickname(String nickname){
+
+        if(listOfTakenNicknames.contains(nickname)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * method that cheks if the player who is trying to play is one of the player that were playing in a game before
+     * disconnection
+     * @param nickname is the nickname to be evaluated
+     * @return the virtual view of the player if exist, null otherwise.
+     */
+    public synchronized VirtualView checkDisconnectedPlayer(String nickname){
+
+        if(waitingForReconnection.containsKey(nickname)){
+            return waitingForReconnection.get(nickname);
+        }else{
+            return null;
+        }
+    }
+
+    public synchronized void addToLobby2Players(ServerClientConnection scc){
+        lobby2players.add(scc);
+        //check if the lobby is ready to make a new game
+        System.out.println("2 players: " + lobby2players.size());
+    }
+
+    public synchronized void addToLobby3Players(ServerClientConnection scc){
+        lobby3players.add(scc);
+        //check if the lobby is ready to make a new game
+        System.out.println("3 players: " + lobby3players.size());
+    }
+
+    public synchronized void addToLobby4Players(ServerClientConnection scc){
+        lobby4players.add(scc);
+        //check if the lobby is ready to make a new game
+        System.out.println("4 players: " + lobby4players.size());
     }
 
 

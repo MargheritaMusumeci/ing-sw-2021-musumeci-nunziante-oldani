@@ -22,6 +22,8 @@ public class ServerClientConnection implements Runnable{
     private boolean isActive = false;
     private PingSender ps;
     private ExecutorService executorService;
+    private MessageHandler messageHandler;
+    private GamePhases gamePhase;
 
 
     public ServerClientConnection(Server server, Socket socket) throws IOException{
@@ -30,15 +32,16 @@ public class ServerClientConnection implements Runnable{
         isActive = true;
         executorService = Executors.newCachedThreadPool();
 
-
+        messageHandler = new MessageHandler(this.server);
         inputStream = new ObjectInputStream(socket.getInputStream());
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         isActive = true;
         ps = new PingSender(outputStream, inputStream);
+        gamePhase = GamePhases.CONFIGURATION;
 
     }
 
-    public void send(Message message) {
+    public synchronized void send(Message message) {
         try {
             outputStream.reset();
             outputStream.writeObject(message);
@@ -62,12 +65,28 @@ public class ServerClientConnection implements Runnable{
                 //leggo i messaggi in arrivo e li eseguo
                 Message input = (Message) inputStream.readObject();
                 System.out.println("Messaggio letto");
-                //messageHandler(input);
+                messageHandler.handleMessage(input, this);
             }
         }catch (IOException e){
 
         }catch (ClassNotFoundException e){
 
         }
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public GamePhases getGamePhase() {
+        return gamePhase;
+    }
+
+    public void setGamePhase(GamePhases gamePhase) {
+        this.gamePhase = gamePhase;
     }
 }
