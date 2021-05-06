@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
+import it.polimi.ingsw.exception.NotEnoughResourcesException;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Market;
+import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.listeners.*;
 import it.polimi.ingsw.model.osservables.DashboardObservable;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
@@ -162,6 +164,29 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
         }
 
         notifyDashboardListener(this);
+    }
+
+    /**
+     * method able to manage the basic production of every dashboard
+     * @param requires1 the first resource to be converted
+     * @param requires2 the second resource to be converted
+     * @param ensures the resource to be generated and added to the personal lock box
+     * @throws NotEnoughResourcesException
+     */
+    public void activeBasicProduction(Resource requires1, Resource requires2, Resource ensures) throws NotEnoughResourcesException {
+        if(personalStock.getTotalQuantitiesOf(requires1) > 0){
+            personalStock.useResources(1, requires1);
+        }else{
+            personalLockBox.setAmountOf(requires1, -1);
+        }
+
+        if(personalStock.getTotalQuantitiesOf(requires2) > 0){
+            personalStock.useResources(1, requires2);
+        }else{
+            personalLockBox.setAmountOf(requires2, -1);
+        }
+
+        personalLockBox.setAmountOf(ensures, 1);
     }
 
     @Override
