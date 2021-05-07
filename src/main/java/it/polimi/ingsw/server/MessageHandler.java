@@ -38,12 +38,11 @@ public class MessageHandler {
                 if(server.getListOfTakenNicknames().contains(nmessage.getMessage())){
 
                     scc.send(new NACKMessage("Error! This nickname has already been taken"));
-                    return;
-                }else{
+                } else {
                     scc.setNickname(nmessage.getMessage());
                     scc.send(new ACKMessage("OK"));
-                    return;
                 }
+                return;
             }
 
             if(message instanceof NumberOfPlayerMessage){
