@@ -103,8 +103,8 @@ public class Server {
     }
 
     /**
-     * method that checks if a nickname is available. It is required because is able to makle the check with
-     * syncronization
+     * method that checks if a nickname is available. It is required because is able to make the check with
+     * synchronization
      * @param nickname is the nickname to be checked
      * @return true if is already taken, false if is available
      */

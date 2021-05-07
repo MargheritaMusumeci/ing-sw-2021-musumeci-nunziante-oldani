@@ -64,6 +64,7 @@ public class SocketServer implements Runnable{
                 server.getQueue().add(scc);
                 executorService.submit(scc);
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("Error while getting output and input streams, socket discharged but server.");
                 System.err.println("Server still listening");
                 continue;

@@ -33,8 +33,11 @@ public class ServerClientConnection implements Runnable{
         executorService = Executors.newCachedThreadPool();
 
         messageHandler = new MessageHandler(this.server);
+        System.out.println("trying to create streams for socket: " + socket);
         inputStream = new ObjectInputStream(socket.getInputStream());
+        System.out.println("input stream created");
         outputStream = new ObjectOutputStream(socket.getOutputStream());
+        System.out.println("output stream created");
         isActive = true;
         ps = new PingSender(outputStream, inputStream);
         gamePhase = GamePhases.CONFIGURATION;
