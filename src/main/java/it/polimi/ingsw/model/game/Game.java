@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
 
@@ -11,14 +12,27 @@ public class Game {
     private Market market;
     private EvolutionSection evolutionSection;
     private Player activePlayer;
-    private int idGame;
 
-    public Game(ArrayList<Player> players, int idGame){
+    public Game(ArrayList<Player> players){
         this.players = players;
         this.market= Market.getInstanceOfMarket();
         this.evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
         this.activePlayer = players.get(0);
-        this.idGame = idGame;
+
+        assignLeaderCards();
+    }
+
+    private void assignLeaderCards() {
+
+        LeaderCardSet leaderCardSet = new LeaderCardSet();
+        int count = 0;
+        for (Player player : players) {
+            if (player instanceof HumanPlayer) {
+                ArrayList<LeaderCard> playerSet = new ArrayList<LeaderCard>();
+                playerSet.add((LeaderCard) leaderCardSet.getLeaderCardSet().subList(count, count+4));
+                count += 4;
+            }
+        }
     }
 
     /**
@@ -55,7 +69,5 @@ public class Game {
     public Player getActivePlayer() {
         return activePlayer;
     }
-
-    public int getIdGame(){ return idGame; }
 
 }
