@@ -35,8 +35,7 @@ public class MessageHandler {
                     //send reconnection Message
                     return;
                 }
-                if(server.getListOfTakenNicknames().contains(nmessage.getMessage())){
-
+                if(!server.checkNickname(nmessage.getMessage())){
                     scc.send(new NACKMessage("Error! This nickname has already been taken"));
                 } else {
                     scc.setNickname(nmessage.getMessage());

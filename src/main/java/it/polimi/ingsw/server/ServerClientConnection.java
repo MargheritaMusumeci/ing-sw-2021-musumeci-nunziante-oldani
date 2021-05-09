@@ -34,10 +34,10 @@ public class ServerClientConnection implements Runnable{
 
         messageHandler = new MessageHandler(this.server);
         System.out.println("trying to create streams for socket: " + socket);
-        inputStream = new ObjectInputStream(socket.getInputStream());
-        System.out.println("input stream created");
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("output stream created");
+        inputStream = new ObjectInputStream(socket.getInputStream());
+        System.out.println("input stream created");
         isActive = true;
         ps = new PingSender(outputStream, inputStream);
         gamePhase = GamePhases.CONFIGURATION;
@@ -63,11 +63,12 @@ public class ServerClientConnection implements Runnable{
 
         try{
             new Thread(ps).start();
+            System.out.println("inizio con il socket" + socket);
             while (isActive){
-                System.out.println("inizio con il scc");
+
                 //leggo i messaggi in arrivo e li eseguo
                 Message input = (Message) inputStream.readObject();
-                System.out.println("Messaggio letto");
+                System.out.println("Messaggio letto: " + input.getMessage());
                 messageHandler.handleMessage(input, this);
             }
         }catch (IOException e){

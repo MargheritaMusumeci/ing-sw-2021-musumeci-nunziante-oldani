@@ -21,9 +21,8 @@ public class ClientSocket implements Runnable{
         this.cli = cli;
         this.socket = socket;
 
-        inputStream = new ObjectInputStream(socket.getInputStream());
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-
+        inputStream = new ObjectInputStream(socket.getInputStream());
         messageHandler = new MessageHandler(cli);
 
         isActive = true;
@@ -36,9 +35,11 @@ public class ClientSocket implements Runnable{
      */
     public void send(Message message){
         try {
+            System.err.println("sto per mandare il messaggio");
             outputStream.reset();
             outputStream.writeObject(message);
             outputStream.flush();
+            System.err.println("messaggio mandato");
         } catch (IOException e) {
             close();
         }
@@ -53,11 +54,10 @@ public class ClientSocket implements Runnable{
     @Override
     public void run() {
         while(isActive){
-            System.out.println("inizio con il scc");
             //leggo i messaggi in arrivo e li eseguo
             try {
                 Message input = (Message) inputStream.readObject();
-                System.out.println("Messaggio letto: " + input.getMessage());
+                System.err.println("Messaggio letto: " + input.getMessage());
                 messageHandler.handleMessage(input);
             } catch (IOException e) {
                 e.printStackTrace();

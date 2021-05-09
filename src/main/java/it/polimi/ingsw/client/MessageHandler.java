@@ -26,13 +26,15 @@ public class MessageHandler{
         }
 
         if(message instanceof ACKMessage){
-
+            System.err.println("ack received");
             cli.setIsAckArrived(true);
             return;
         }
 
         if(message instanceof NACKMessage){
+            System.err.println("nack received");
             cli.setIsNackArrived(true);
+            cli.notifyAll();
             return;
         }
 

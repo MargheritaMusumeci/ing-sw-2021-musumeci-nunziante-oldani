@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class CLI {
+public class CLI implements Runnable {
 
     private Scanner scanner;
     private ClientSocket clientSocket;
@@ -19,6 +19,7 @@ public class CLI {
     private String nickname;
     private int numberOfPlayers;
     private boolean isGameStarted;
+    private Socket socket;
 
 
     public CLI(){
@@ -28,27 +29,9 @@ public class CLI {
         isAckArrived = false;
         isGameStarted = false;
 
-        //creation of the clineSocket
-        connectionInitialization();
-        if(clientSocket == null){
-            return;
-        }
-        new Thread(clientSocket).start();
+        new Thread(this).start();
 
 
-        //setting of the nickname
-        do{
-            nickname =nicknameInitialization();
-            if(nickname==null){
-                System.out.println("Your nickname has already been chosen");
-            }
-        }while(nickname==null);
-
-        //setting the number of players
-        numberOfPlayersInitialization();
-
-        //wait other player to join
-        waitOtherPlayers();
 
     }
 
@@ -65,7 +48,7 @@ public class CLI {
         System.out.print("Enter number of players (1 to 4): ");
         numberOfPlayers = scanner.nextInt();
 
-        while(numberOfPlayers < 2 || numberOfPlayers > 4){
+        while(numberOfPlayers < 1 || numberOfPlayers > 4){
             System.out.println("Error! Invalid number of player");
             System.out.print("Enter number of players (1 to 4): ");
             numberOfPlayers = scanner.nextInt();
@@ -98,25 +81,32 @@ public class CLI {
         }
 
         try {
-            Socket socket = new Socket(address, port);
+            socket = new Socket(address, port);
+            System.out.println("test se qui arrivo");
             clientSocket = new ClientSocket(this, socket);
         } catch (IOException e) {
-            e.printStackTrace();
             clientSocket = null;
+            System.out.println("There was a problem with the server. Please chek if the ip address and port number" +
+                    "are correct and if the server is up and running ");
             //probabilemte qui c'è un errore con il server (o con i dati inseriti ip/port)
         }
 
     }
 
-    private String nicknameInitialization(){
+    private String nicknameInitialization() throws InterruptedException {
         String nic;
 
         System.out.print("Enter your nickname: ");
         nic = scanner.next();
         clientSocket.send(new NickNameMessage(nic));
+
         if(waitForAck()){
+            System.err.println("sono nella fine del nickname init");
+            isNackArrived = false;
             return nic;
         }else{
+            isNackArrived = false;
+            System.err.println("sono nella fine del nickname init");
             return null;
         }
     }
@@ -125,10 +115,12 @@ public class CLI {
      * method that checks if an ack or nack is arrived from the server
      * @return true if ack is recived and false is nack is recived
      */
-    private boolean waitForAck(){
-        while(!isAckArrived && !isNackArrived){
+    private boolean waitForAck() throws InterruptedException {
 
+        while(!isAckArrived && !isNackArrived){
+            Thread.sleep(1000);
         }
+        System.err.println("esco dal for del wait");
         if(isAckArrived){
             isAckArrived = false;
             return true;
@@ -140,6 +132,7 @@ public class CLI {
 
     public void setIsAckArrived(boolean value){
         isAckArrived = value;
+        System.out.println("ack reset: " + isAckArrived);
     }
 
     public boolean isAckArrived() {
@@ -165,6 +158,37 @@ public class CLI {
     public static void main(String[] args){
 
         new CLI();
+
+    }
+
+    @Override
+    public void run() {
+
+        //creation of the clineSocket
+        connectionInitialization();
+        if(clientSocket == null){
+            return;
+        }
+        new Thread(clientSocket).start();
+
+
+        //setting of the nickname
+        do{
+            try {
+                nickname = nicknameInitialization();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(nickname==null){
+                System.out.println("Your nickname has already been chosen");
+            }
+        }while(nickname==null);
+
+        //setting the number of players
+        numberOfPlayersInitialization();
+
+        //wait other player to join
+        waitOtherPlayers();
 
     }
 }

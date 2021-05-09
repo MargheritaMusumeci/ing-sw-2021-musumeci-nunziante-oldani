@@ -77,43 +77,19 @@ public class Server {
         return false;
     }
 
-    public static void main(String[] args){
-        System.out.println(Constants.ANSI_CYAN + "Maestri del Rinascimento | Server" + Constants.ANSI_RESET);
-        Scanner scanner = new Scanner(System.in);
-
-        do {
-            System.out.println(">Insert the port which server will listen on.");
-            System.out.print(">");
-            try {
-                port = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.err.println("Numeric format requested, retry...");
-            }
-            if(port < 1025 || port > 65535){
-                System.err.println("Error: ports available only from 1025 to 65534");
-            }
-        }while(port < 1025 || port > 65534);
-
-        System.out.println(Constants.ANSI_GREEN + "Starting the server" + Constants.ANSI_RESET);
-        Server server = new Server();
-
-        ExecutorService ex = Executors.newCachedThreadPool();
-        ex.submit(server.socketServer);
-
-    }
 
     /**
      * method that checks if a nickname is available. It is required because is able to make the check with
      * synchronization
      * @param nickname is the nickname to be checked
-     * @return true if is already taken, false if is available
+     * @return false if is already taken, true if is available
      */
     public synchronized boolean checkNickname(String nickname){
 
         if(listOfTakenNicknames.contains(nickname)){
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
     }
 
@@ -148,6 +124,31 @@ public class Server {
         lobby4players.add(scc);
         //check if the lobby is ready to make a new game
         System.out.println("4 players: " + lobby4players.size());
+    }
+
+    public static void main(String[] args){
+        System.out.println(Constants.ANSI_CYAN + "Maestri del Rinascimento | Server" + Constants.ANSI_RESET);
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            System.out.println(">Insert the port which server will listen on.");
+            System.out.print(">");
+            try {
+                port = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println("Numeric format requested, retry...");
+            }
+            if(port < 1025 || port > 65535){
+                System.err.println("Error: ports available only from 1025 to 65534");
+            }
+        }while(port < 1025 || port > 65534);
+
+        System.out.println(Constants.ANSI_GREEN + "Starting the server" + Constants.ANSI_RESET);
+        Server server = new Server();
+
+        ExecutorService ex = Executors.newCachedThreadPool();
+        ex.submit(server.socketServer);
+
     }
 
 
