@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableStock;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class EvolutionCard implements Card {
+public class EvolutionCard implements Card, Serializable {
 
     private CardColor color;
     private LevelEnum level;

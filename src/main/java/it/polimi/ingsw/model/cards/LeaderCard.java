@@ -2,12 +2,13 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.game.Resource;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Method that manage each single Leader Card
  */
-public class LeaderCard implements Card {
+public class LeaderCard implements Card, Serializable {
 
     /**
      * Possible requires:
