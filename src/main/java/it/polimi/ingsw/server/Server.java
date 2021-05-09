@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import it.polimi.ingsw.utils.Constants;
 
@@ -21,9 +22,10 @@ public class Server {
     private List<ServerClientConnection> lobby3players;
     private List<ServerClientConnection> lobby2players;
     private List<ServerClientConnection> queue; // we should think of a better solution than an array list (MAP)
-    private List<GameHandler> games;
+
+    private HashMap<ServerClientConnection, GameHandler> games;
     private List<String> listOfTakenNicknames;
-    private HashMap<String, VirtualView> waitingForReconnection;
+    private HashMap<String, ServerClientConnection> waitingForReconnection;
 
     public Server(){
         this.socketServer = new SocketServer(this);
@@ -31,7 +33,7 @@ public class Server {
         lobby3players = new ArrayList<>();
         lobby2players = new ArrayList<>();
         queue = new ArrayList<>();
-        games = new ArrayList<>();
+        games = new HashMap<>();
         listOfTakenNicknames = new ArrayList<>();
         waitingForReconnection = new HashMap<>();
     }
@@ -56,7 +58,7 @@ public class Server {
 
     public List<ServerClientConnection> getQueue(){ return queue; }
 
-    public List<GameHandler> getGames() { return games; }
+    public HashMap<ServerClientConnection, GameHandler> getGames() { return games; }
 
     public List<String> getListOfTakenNicknames(){ return listOfTakenNicknames;}
 
@@ -84,14 +86,18 @@ public class Server {
      * @param nickname is the nickname to be checked
      * @return false if is already taken, true if is available
      */
-    public synchronized boolean checkNickname(String nickname){
+    public boolean checkNickname(String nickname){
 
-        if(listOfTakenNicknames.contains(nickname)){
-            return false;
-        }else{
-            return true;
+        synchronized(listOfTakenNicknames){
+            if(listOfTakenNicknames.contains(nickname)){
+                return false;
+            }else{
+                return true;
+            }
         }
+
     }
+
 
     /**
      * method that cheks if the player who is trying to play is one of the player that were playing in a game before
@@ -99,24 +105,44 @@ public class Server {
      * @param nickname is the nickname to be evaluated
      * @return the virtual view of the player if exist, null otherwise.
      */
-    public synchronized VirtualView checkDisconnectedPlayer(String nickname){
+    public ServerClientConnection checkDisconnectedPlayer(String nickname){
 
-        if(waitingForReconnection.containsKey(nickname)){
-            return waitingForReconnection.get(nickname);
-        }else{
-            return null;
+        synchronized(waitingForReconnection){
+            if(waitingForReconnection.containsKey(nickname)){
+                return waitingForReconnection.get(nickname);
+            }else{
+                return null;
+            }
         }
+
     }
 
     public synchronized void addToLobby2Players(ServerClientConnection scc){
         lobby2players.add(scc);
         //check if the lobby is ready to make a new game
+        if (lobby2players.size()==2){
+            ArrayList<ServerClientConnection> twoPlayers = new ArrayList<>();
+            twoPlayers.add(lobby2players.remove(0));
+            twoPlayers.add(lobby2players.remove(0));
+            GameHandler gameHandler = new GameHandler(2, twoPlayers);
+            games.put(twoPlayers.get(0), gameHandler);
+            games.put(twoPlayers.get(1), gameHandler);
+        }
         System.out.println("2 players: " + lobby2players.size());
     }
 
     public synchronized void addToLobby3Players(ServerClientConnection scc){
         lobby3players.add(scc);
         //check if the lobby is ready to make a new game
+        if (lobby2players.size()==3){
+            ArrayList<ServerClientConnection> threePlayers = new ArrayList<>();
+            threePlayers.add(lobby2players.remove(0));
+            threePlayers.add(lobby2players.remove(0));
+            threePlayers.add(lobby2players.remove(0));
+            games.put(threePlayers.get(0), new GameHandler(2, threePlayers));
+            games.put(threePlayers.get(1), new GameHandler(2, threePlayers));
+            games.put(threePlayers.get(2), new GameHandler(2, threePlayers));
+        }
         System.out.println("3 players: " + lobby3players.size());
     }
 
@@ -124,6 +150,22 @@ public class Server {
         lobby4players.add(scc);
         //check if the lobby is ready to make a new game
         System.out.println("4 players: " + lobby4players.size());
+    }
+
+    public void addTakenNickname(String nickname) {
+        synchronized (listOfTakenNicknames){
+            listOfTakenNicknames.add(nickname);
+        }
+    }
+
+    public void addWaitingForReconnection(ServerClientConnection scc){
+        waitingForReconnection.put(scc.getNickname(), scc);
+    }
+
+    public void removeWaitForReconnection(ServerClientConnection scc) {
+        synchronized (waitingForReconnection){
+            waitingForReconnection.remove(scc.getNickname());
+        }
     }
 
     public static void main(String[] args){
@@ -150,7 +192,6 @@ public class Server {
         ex.submit(server.socketServer);
 
     }
-
 
 
 

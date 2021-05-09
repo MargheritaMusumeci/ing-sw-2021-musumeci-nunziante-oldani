@@ -1,11 +1,14 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.model.game.Game;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.SQLOutput;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,6 +27,7 @@ public class ServerClientConnection implements Runnable{
     private ExecutorService executorService;
     private MessageHandler messageHandler;
     private GamePhases gamePhase;
+    private GameHandler gameHandler;
 
 
     public ServerClientConnection(Server server, Socket socket) throws IOException{
@@ -31,7 +35,7 @@ public class ServerClientConnection implements Runnable{
         this.socket = socket;
         isActive = true;
         executorService = Executors.newCachedThreadPool();
-
+        nickname = null;
         messageHandler = new MessageHandler(this.server);
         System.out.println("trying to create streams for socket: " + socket);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -39,7 +43,7 @@ public class ServerClientConnection implements Runnable{
         inputStream = new ObjectInputStream(socket.getInputStream());
         System.out.println("input stream created");
         isActive = true;
-        ps = new PingSender(outputStream, inputStream);
+        ps = new PingSender(this);
         gamePhase = GamePhases.CONFIGURATION;
 
     }
@@ -56,6 +60,7 @@ public class ServerClientConnection implements Runnable{
 
     public void close(){
         //method that delete the socket and if the socket was in a game calls the method to save the satus in order to accept a reconnection
+        System.out.println(nickname + ": disconnesso");
     }
 
     @Override
@@ -65,16 +70,16 @@ public class ServerClientConnection implements Runnable{
             new Thread(ps).start();
             System.out.println("inizio con il socket" + socket);
             while (isActive){
-
                 //leggo i messaggi in arrivo e li eseguo
                 Message input = (Message) inputStream.readObject();
-                System.out.println("Messaggio letto: " + input.getMessage());
+                if(! (input instanceof PingMessage))
+                    System.out.println("Messaggio letto: " + input.getMessage());
                 messageHandler.handleMessage(input, this);
             }
         }catch (IOException e){
-
+            System.out.println(nickname + ": disconnesso");
         }catch (ClassNotFoundException e){
-
+            System.out.println("message sent was not correct");
         }
     }
 
@@ -90,7 +95,45 @@ public class ServerClientConnection implements Runnable{
         return gamePhase;
     }
 
+    public PingSender getPingSender() { return ps;}
+
+    public GameHandler getGameHandler() {
+        return gameHandler;
+    }
+
+    public void setGameHandler(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
+    }
+
     public void setGamePhase(GamePhases gamePhase) {
         this.gamePhase = gamePhase;
+    }
+
+    public boolean isActive(){return isActive;}
+
+    public void disconnect(){
+        if(nickname != null){
+            server.addWaitingForReconnection(this);
+            isActive = false;
+        }
+    }
+
+    public boolean reconnect(Socket socket){
+        this.socket = socket;
+        try {
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            inputStream = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            System.out.println("error while restarting scc");
+            return false;
+        }
+        //vede se gestire qui la riattivazione del game handler corrispondente
+        isActive = true;
+        new Thread(this).start();
+        return true;
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 }
