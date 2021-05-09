@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.messages.PingMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,40 +12,34 @@ import java.net.Socket;
  */
 public class PingSender implements Runnable{
 
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
-    private Socket socket;
-    //private Message pingMessage;
+    private ServerClientConnection scc;
     private boolean isActive;
 
-    public PingSender(ObjectOutputStream out, ObjectInputStream in){
-        this.out = out;
-        this.in = in;
-
-        //pingMessage = new Message(MessageType.PING, null, null);
+    public PingSender(ServerClientConnection scc){
+        this.scc = scc;
         isActive = true;
     }
 
     @Override
     public void run() {
         while(isActive){
+
             //mando messaggio di ping
-            try {
-
-                out.reset();
-                //out.writeObject(pingMessage);
-                out.flush();
-                //System.out.println("ping mandato dal server");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            scc.send(new PingMessage("Ping"));
+            isActive = false;
 
             try {
-                Thread.sleep(1000*10);
+                Thread.sleep(1000*3);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
+        //Socket disconnesso, non devo più mandare ping e devo fare tutte le cose di quando un client si disconnette
+        scc.disconnect();
+        System.out.println(scc.getNickname() + ": disconnesso");
+    }
+
+    public void pingRecived() {
+        isActive = true;
     }
 }
