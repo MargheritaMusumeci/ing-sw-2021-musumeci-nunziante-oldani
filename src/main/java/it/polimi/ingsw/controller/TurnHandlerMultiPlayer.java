@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -27,12 +28,13 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
     }
 
     @Override
-    public void doAction(){
+    public boolean doAction(Message message){
 
         //in base al messaggio che arriverà dal client chiamo il metodo corretto
         //posso controllare qua che l'utente non ha già effettuato l'azione
         //if(modelGame.getActivePlayer().getActionState()==false){}
         //se è un soloGame, ed è attivo Lorenzo allora pesco una carta LorenzoAction e chiamo il corrispondente metodo di DoActionLorenzo
+        return false;
     }
 
     /**

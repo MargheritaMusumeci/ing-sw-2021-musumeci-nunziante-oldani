@@ -1,13 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.board.ProductionZone;
-import it.polimi.ingsw.model.cards.CardColor;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.lorenzo.LorenzoAction;
 import it.polimi.ingsw.model.lorenzo.LorenzoActionCard;
-import it.polimi.ingsw.model.lorenzo.LorenzoActionCardSet;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
@@ -17,10 +16,9 @@ import java.util.Arrays;
 
 public class TurnHandlerSoloGame extends TurnHandler{
 
-    LorenzoActionCardSet lorenzoActionCardSet;
+
     public TurnHandlerSoloGame(Game modelGame) {
         super(modelGame);
-        lorenzoActionCardSet = new LorenzoActionCardSet();
     }
 
     /**
@@ -39,11 +37,13 @@ public class TurnHandlerSoloGame extends TurnHandler{
      * |Green|Blue|Yellow|Purple| --> LEVEL 3
      * |Green|Blue|Yellow|Purple| --> LEVEL 2
      * |Green|Blue|Yellow|Purple| --> LEVEL 1
+     * @param message
+     * @return
      */
     @Override
-    public void doAction() throws ExcessOfPositionException {
+    public boolean doAction(Message message) throws ExcessOfPositionException {
         if (modelGame.getActivePlayer() instanceof LorenzoPlayer) {
-            LorenzoActionCard lorenzoActionCard = lorenzoActionCardSet.getActionCard();
+            LorenzoActionCard lorenzoActionCard = ((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().getActionCard();
 
             //Discard 2 evolution cards
             if (lorenzoActionCard.getActionType() == LorenzoAction.DISCARDEVOLUTION) {
@@ -79,13 +79,16 @@ public class TurnHandlerSoloGame extends TurnHandler{
             //Move Lorenzo cross
             if(lorenzoActionCard.getActionType()==LorenzoAction.INCREMENTPOPETRACK){
                 modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(lorenzoActionCard.getNum().get());
-                if(lorenzoActionCard.getNum().get()==1){lorenzoActionCardSet.shuffle();}
+                if(lorenzoActionCard.getNum().get()==1){((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().shuffle();}
             }
+
+            return true;
         }
 
         if(modelGame.getActivePlayer() instanceof HumanPlayer){
             //wait for messages
         }
+        return false;
     }
 
     /**
