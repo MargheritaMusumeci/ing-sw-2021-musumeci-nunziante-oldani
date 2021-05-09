@@ -23,7 +23,7 @@ public class HumanPlayerTest extends TestCase {
         ArrayList<Player> players = new ArrayList<Player>();
         players.add(player);
         players.add(player2);
-        Game game = new Game(players , 1234);
+        Game game = new Game(players);
         boolean[] result = new boolean[player.getDashboard().getProductionZone().length];;
         boolean[] toCheck;
 
@@ -238,10 +238,10 @@ public class HumanPlayerTest extends TestCase {
         Player player = new HumanPlayer("Matteo" , false);
         ArrayList<Player> players = new ArrayList<Player>();
         players.add(player);
-        Game game = new Game(players , 0);
+        Game game = new Game(players);
 
         ((HumanPlayer) player).setGame(game);
-        assertEquals(game.getIdGame() , ((HumanPlayer) player).getGame().getIdGame());
+
     }
 
     public void testSetActionChose() {
