@@ -1,17 +1,16 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
-import it.polimi.ingsw.messages.ACKMessage;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.NACKMessage;
-import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.*;
 
 public class MessageHandler{
 
     private CLI cli;
+    private ClientSocket clientSocket;
 
-    public MessageHandler( CLI cli){
+    public MessageHandler(CLI cli, ClientSocket clientSocket){
         this.cli = cli;
+        this.clientSocket = clientSocket;
     }
 
     /**
@@ -21,21 +20,23 @@ public class MessageHandler{
     public void handleMessage(Message message){
 
         if(message instanceof PingMessage){
-
+            clientSocket.send(new PingMessage("Ping response"));
             return;
         }
 
         if(message instanceof ACKMessage){
-            System.err.println("ack received");
             cli.setIsAckArrived(true);
             return;
         }
 
         if(message instanceof NACKMessage){
-            System.err.println("nack received");
             cli.setIsNackArrived(true);
-            cli.notifyAll();
             return;
+        }
+
+        if (message instanceof ReconnectionMessage){
+            System.out.println("riconnessione effettuata");
+            cli.setIsAckArrived(true);
         }
 
     }
