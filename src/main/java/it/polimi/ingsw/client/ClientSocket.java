@@ -2,7 +2,9 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PingMessage;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,7 +25,7 @@ public class ClientSocket implements Runnable{
 
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
-        messageHandler = new MessageHandler(cli);
+        messageHandler = new MessageHandler(cli, this);
 
         isActive = true;
 
@@ -35,11 +37,9 @@ public class ClientSocket implements Runnable{
      */
     public void send(Message message){
         try {
-            System.err.println("sto per mandare il messaggio");
             outputStream.reset();
             outputStream.writeObject(message);
             outputStream.flush();
-            System.err.println("messaggio mandato");
         } catch (IOException e) {
             close();
         }
@@ -50,19 +50,27 @@ public class ClientSocket implements Runnable{
         isActive = false;
     }
 
-
+    /**
+     * method in which messaged from the server are received
+     */
     @Override
     public void run() {
         while(isActive){
             //leggo i messaggi in arrivo e li eseguo
             try {
                 Message input = (Message) inputStream.readObject();
-                System.err.println("Messaggio letto: " + input.getMessage());
+                if(! (input instanceof PingMessage))
+                    System.out.println("Messaggio letto: " + input.getMessage());
                 messageHandler.handleMessage(input);
+            } catch (EOFException e){
+                System.out.println("Server disconnected, retry later");
+                return;
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Connection ended, retry later");
+                return;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                System.out.println("Server corrupted, retry later");
+                return;
             }
 
         }
