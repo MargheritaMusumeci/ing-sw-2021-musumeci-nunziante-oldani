@@ -24,24 +24,43 @@ public class CLI implements Runnable {
 
     public CLI(){
         scanner = new Scanner(System.in);
-        messageHandler = new MessageHandler(this);
         isNackArrived = false;
         isAckArrived = false;
         isGameStarted = false;
 
         new Thread(this).start();
 
-
-
     }
 
     /**
      * method that wait until the game is going to start and the flag "isGameStarted" is set to TRUE
      */
-    private void waitOtherPlayers() {
+    private void waitOtherPlayers() throws InterruptedException {
 
         System.out.println("Wait other players to reach the game! Have fun and avoid cheating");
-        while (!isGameStarted){}
+        while (!isGameStarted){
+            Thread.sleep(1000);
+        }
+
+    }
+
+    /**
+     * method that checks if an ack or nack is arrived from the server
+     * @return true if ack is recived and false is nack is recived
+     */
+    private boolean waitForAck() throws InterruptedException {
+
+        while(!isAckArrived && !isNackArrived){
+            Thread.sleep(1000);
+        }
+        System.err.println("esco dal for del wait");
+        if(isAckArrived){
+            isAckArrived = false;
+            return true;
+        }else{
+            isNackArrived = false;
+            return false;
+        }
     }
 
     private void numberOfPlayersInitialization() {
@@ -101,38 +120,17 @@ public class CLI implements Runnable {
         clientSocket.send(new NickNameMessage(nic));
 
         if(waitForAck()){
-            System.err.println("sono nella fine del nickname init");
             isNackArrived = false;
             return nic;
         }else{
             isNackArrived = false;
-            System.err.println("sono nella fine del nickname init");
             return null;
         }
     }
 
-    /**
-     * method that checks if an ack or nack is arrived from the server
-     * @return true if ack is recived and false is nack is recived
-     */
-    private boolean waitForAck() throws InterruptedException {
-
-        while(!isAckArrived && !isNackArrived){
-            Thread.sleep(1000);
-        }
-        System.err.println("esco dal for del wait");
-        if(isAckArrived){
-            isAckArrived = false;
-            return true;
-        }else{
-            isNackArrived = false;
-            return false;
-        }
-    }
 
     public void setIsAckArrived(boolean value){
         isAckArrived = value;
-        System.out.println("ack reset: " + isAckArrived);
     }
 
     public boolean isAckArrived() {
@@ -171,7 +169,6 @@ public class CLI implements Runnable {
         }
         new Thread(clientSocket).start();
 
-
         //setting of the nickname
         do{
             try {
@@ -188,7 +185,12 @@ public class CLI implements Runnable {
         numberOfPlayersInitialization();
 
         //wait other player to join
-        waitOtherPlayers();
+        try {
+            waitOtherPlayers();
+        } catch (InterruptedException e) {
+            // make the player restart the cli because of a disconnection
+            e.printStackTrace();
+        }
 
     }
 }
