@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.lorenzo;
 
 import it.polimi.ingsw.model.lorenzo.LorenzoActionCard;
 import it.polimi.ingsw.model.lorenzo.LorenzoActionCardSet;

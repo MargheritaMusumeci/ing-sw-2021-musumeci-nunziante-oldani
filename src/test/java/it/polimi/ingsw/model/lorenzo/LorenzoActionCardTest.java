@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.lorenzo;
 
 import it.polimi.ingsw.model.cards.CardColor;
 import it.polimi.ingsw.model.lorenzo.LorenzoAction;
