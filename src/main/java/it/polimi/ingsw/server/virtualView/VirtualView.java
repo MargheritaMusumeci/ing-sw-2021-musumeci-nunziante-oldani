@@ -1,16 +1,18 @@
 package it.polimi.ingsw.server.virtualView;
 
 import it.polimi.ingsw.model.board.Dashboard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Market;
 import it.polimi.ingsw.model.listeners.DashboardListener;
 import it.polimi.ingsw.model.listeners.EvolutionSectionListener;
+import it.polimi.ingsw.model.listeners.LeaderCardListener;
 import it.polimi.ingsw.model.listeners.MarketListener;
 import it.polimi.ingsw.server.ServerClientConnection;
 
 import java.util.HashMap;
 
-public class VirtualView extends VirtualViewObservable implements DashboardListener, MarketListener, EvolutionSectionListener, VirtualViewListener {
+public class VirtualView extends VirtualViewObservable implements DashboardListener, MarketListener, EvolutionSectionListener, VirtualViewListener, LeaderCardListener {
 
     private ServerClientConnection scc;
     private Market market;
@@ -21,8 +23,14 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
     public VirtualView(ServerClientConnection scc, Market market, EvolutionSection evolutionSection, Dashboard personalDashboard){
         this.scc=scc;
         this.evolutionSection = evolutionSection;
+        evolutionSection.addEvolutionSectionListener(this);
         this.market = market;
+        market.addMarketListener(this);
         this.personalDashboard = personalDashboard;
+        personalDashboard.addDashboardListener(this);
+        for (LeaderCard leadercard: personalDashboard.getLeaderCards()) {
+            leadercard.addLeaderCardListener(this);
+        }
         //vedere se aggiungere other player dashboard gia nel costruttore
     }
 
@@ -48,6 +56,11 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
     public void update(VirtualView virtualView) {
        otherPlayersView.put(virtualView.scc, virtualView);
         //inserire la creazione dell'oggetto che deve essere inserito alla vera view come messaggio di update
+
+    }
+
+    @Override
+    public void update(LeaderCard leaderCard) {
 
     }
 }

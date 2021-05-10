@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.osservables.LeaderCardObservable;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 /**
  * Method that manage each single Leader Card
  */
-public class LeaderCard implements Card, Serializable {
+public class LeaderCard extends LeaderCardObservable implements Card {
 
     /**
      * Possible requires:
