@@ -1,18 +1,25 @@
 Musumeci:
+- do serializable class costructors
+- add comments to methods
+- do tests
+- iniziare gui in parallelo alla cli
 
 Nunziante:
-- non so se sono io, ma bisogna sistemare la questione di lettura dai Json perchè non me li fa
-    creare i vostri -> non posso testate i metodi critici di player
-
-    !!!!! aggiornamento leader card, sentire marghe
+- abbellire cli
+- add comments to methods
+- do tests
 
 Oldani:
+- togliere singleton
+- sistemare la lobby da 3 da 4 e da 1
+- add comments to methods
+- do tests
+
 
 - modificare la signature di updateMarket nell'uml
 - sistemare uml --> product è products nelle productionCards
 - test alcune carte del evolutionSection
 - test del buy senza la get che va tolto
-
 
 Generali:
 
