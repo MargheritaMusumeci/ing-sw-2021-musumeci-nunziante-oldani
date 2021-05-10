@@ -1,9 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.actionMessages.*;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderAbility;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.lorenzo.LorenzoAction;
 import it.polimi.ingsw.model.lorenzo.LorenzoActionCard;
@@ -37,11 +40,9 @@ public class TurnHandlerSoloGame extends TurnHandler{
      * |Green|Blue|Yellow|Purple| --> LEVEL 3
      * |Green|Blue|Yellow|Purple| --> LEVEL 2
      * |Green|Blue|Yellow|Purple| --> LEVEL 1
-     * @param message
-     * @return
+     * @return true if server has completed the action. False if something went wrong
      */
-    @Override
-    public boolean doAction(Message message) throws ExcessOfPositionException {
+    private void doActionLorenzo() {
         if (modelGame.getActivePlayer() instanceof LorenzoPlayer) {
             LorenzoActionCard lorenzoActionCard = ((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().getActionCard();
 
@@ -70,7 +71,11 @@ public class TurnHandlerSoloGame extends TurnHandler{
                 for (int i = 0; i < lorenzoActionCard.getNum().get(); i++) {
                     for (int j = 2; j >= 0; j--) {
                         if (modelGame.getEvolutionSection().getEvolutionSection()[j][positionCol]!=null){
-                            modelGame.getEvolutionSection().buy(j,positionCol);
+                            try {
+                                modelGame.getEvolutionSection().buy(j,positionCol);
+                            } catch (ExcessOfPositionException e) {
+                                //--> carta non presente
+                            }
                         }
                     }
                 }
@@ -78,17 +83,18 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
             //Move Lorenzo cross
             if(lorenzoActionCard.getActionType()==LorenzoAction.INCREMENTPOPETRACK){
-                modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(lorenzoActionCard.getNum().get());
+                try {
+                    modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(lorenzoActionCard.getNum().get());
+                } catch (ExcessOfPositionException e) {
+                   //-->da eliminare
+                }
                 if(lorenzoActionCard.getNum().get()==1){((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().shuffle();}
+
             }
 
-            return true;
-        }
 
-        if(modelGame.getActivePlayer() instanceof HumanPlayer){
-            //wait for messages
         }
-        return false;
+        endTurn();
     }
 
     /**
@@ -148,12 +154,22 @@ public class TurnHandlerSoloGame extends TurnHandler{
                 if(pZone.getCard() != null)
                     pZone.getCard().setActive(false);
             }
+            for (LeaderCard leaderCard: modelGame.getActivePlayer().getDashboard().getLeaderCards()) {
+                if (!leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+                    leaderCard.setUsed(false);
+                }
+            }
         }
 
         checkEndGame();
 
         //Update the active player for the next turn
         modelGame.updateActivePlayer();
+
+        //prima di terminare il turno effettuo una mossa di lorenzo
+        if(modelGame.getActivePlayer() instanceof LorenzoPlayer) {
+            doActionLorenzo();
+        }
     }
 
     /**

@@ -30,16 +30,7 @@ public class MessageHandler {
                 scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
                 return;
             }
-            try {
-                if(scc.getGameHandler().getTurnHandler().doAction(message)){
-                    //ho gia mandato i messaggi di update
-                    scc.send(new ACKMessage("OK"));
-                }else{
-                    scc.send(new NACKMessage("KO"));
-                }
-            } catch (ExcessOfPositionException e) {
-                //useless exception --> to be removed
-            }
+            scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
         }
 
         if(message instanceof EndTurnMessage){

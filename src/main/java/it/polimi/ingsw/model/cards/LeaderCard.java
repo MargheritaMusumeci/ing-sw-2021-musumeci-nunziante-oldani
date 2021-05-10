@@ -122,7 +122,7 @@ public class LeaderCard implements Card, Serializable {
      * @param used is true if the card is using, false otherwise
      */
     public void setUsed(boolean used) {
-        isUsed = used;
+        if(isActive) isUsed = used;
     }
 
 }

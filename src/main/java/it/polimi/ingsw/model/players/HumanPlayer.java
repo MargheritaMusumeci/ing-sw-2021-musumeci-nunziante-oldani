@@ -98,7 +98,7 @@ public class HumanPlayer extends Player{
 
         if(numLeaderCard > 0){
             for(int i = 0; i < numLeaderCard; i++){
-                if(dashboard.getLeaderCards().get(i).isActive() &&
+                if(dashboard.getLeaderCards().get(i).isUsed() &&
                         dashboard.getLeaderCards().get(i).getAbilityType() == LeaderAbility.SALES){
                     leaderSaleOn[i] = true;
                 }
@@ -313,6 +313,14 @@ public class HumanPlayer extends Player{
      */
     public Action getActionChose(){
         return actionChose;
+    }
+
+    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
+        if(position < 0 || position >= dashboard.getLeaderCards().size() ) throw new OutOfBandException("Invalid position");
+
+        if(dashboard.getLeaderCards().get(position).isUsed()) throw new LeaderCardAlreadyUsedException("This leader card is already used");
+
+        dashboard.getLeaderCards().get(position).setUsed(true);
     }
 
 }

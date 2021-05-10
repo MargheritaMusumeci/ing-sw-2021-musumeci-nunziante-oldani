@@ -38,4 +38,5 @@ public abstract class Player {
     public void setWinner(){
         this.isWinner = true;
     }
+
 }

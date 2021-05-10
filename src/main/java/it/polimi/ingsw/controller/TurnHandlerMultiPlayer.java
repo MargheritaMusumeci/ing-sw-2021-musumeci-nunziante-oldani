@@ -1,18 +1,21 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.actionMessages.*;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
 
-public class TurnHandlerMultiPlayer extends TurnHandler{
+public class TurnHandlerMultiPlayer extends TurnHandler {
 
-    public TurnHandlerMultiPlayer(Game modelGame){
+    public TurnHandlerMultiPlayer(Game modelGame) {
         super(modelGame);
     }
 
@@ -20,22 +23,13 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
      * check if start turn or end game
      */
     @Override
-    public void startTurn(){
-        if(isTheLastTurn && modelGame.getActivePlayer().getDashboard().getInkwell()){
+    public void startTurn() {
+        if (isTheLastTurn && modelGame.getActivePlayer().getDashboard().getInkwell()) {
             isTheEnd = true;
             endGame();
         }
     }
 
-    @Override
-    public boolean doAction(Message message){
-
-        //in base al messaggio che arriverà dal client chiamo il metodo corretto
-        //posso controllare qua che l'utente non ha già effettuato l'azione
-        //if(modelGame.getActivePlayer().getActionState()==false){}
-        //se è un soloGame, ed è attivo Lorenzo allora pesco una carta LorenzoAction e chiamo il corrispondente metodo di DoActionLorenzo
-        return false;
-    }
 
     /**
      * Method that check who is the winner
@@ -108,10 +102,6 @@ public class TurnHandlerMultiPlayer extends TurnHandler{
                 pZone.getCard().setActive(false);
         }
 
-        // !!!!!!!!
-        //reset used Leader Card
-        //for stockPlus ability it's always true
-        //for all other ability, player could choose if active or not card during his turn
         for (LeaderCard leaderCard: modelGame.getActivePlayer().getDashboard().getLeaderCards()) {
             if (!leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 leaderCard.setUsed(false);

@@ -1,13 +1,18 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.NACKMessage;
+import it.polimi.ingsw.messages.actionMessages.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
 
 public abstract class TurnHandler {
+
+    protected DoActionPlayer actionHandler;
 
     protected Game modelGame;
 
@@ -35,6 +40,7 @@ public abstract class TurnHandler {
         this.lastSection = 0;
         this.isTheEnd = false;
         this.isTheLastTurn = false;
+        actionHandler= new DoActionPlayer(modelGame,this);
     }
 
     /**
@@ -47,9 +53,80 @@ public abstract class TurnHandler {
      * @param message
      * @return
      */
-    public boolean doAction(Message message) throws ExcessOfPositionException{
 
-        return false;
+    //return message --> NACK CREO FIGLI
+    public Message doAction(Message message){
+
+        if (message instanceof BuyFromMarketMessage) {
+            try {
+                actionHandler.buyFromMarket(((BuyFromMarketMessage) message).getPosition(), ((BuyFromMarketMessage) message).isRow());
+                return new ACKMessage("OK");
+            } catch (ExcessOfPositionException e) {
+                return new NACKMessage("Position not found");
+            }
+        }
+
+        if (message instanceof ActiveLeaderCardMessage){
+            try {
+                actionHandler.activeLeaderCard(((ActiveLeaderCardMessage) message).getPosition());
+                return new ACKMessage("OK");
+            } catch (OutOfBandException e) {
+               return new NACKMessage("Leader Card not present");
+            } catch (LeaderCardAlreadyUsedException e) {
+                return new NACKMessage("Leader Card has already used");
+            }
+        }
+        if (message instanceof DiscardLeaderCardMessage){
+            try {
+                actionHandler.discardLeaderCard(((DiscardLeaderCardMessage) message).getPosition());
+                return new ACKMessage("OK");
+            } catch (OutOfBandException e) {
+                return new NACKMessage("Leader Card not present");
+            } catch (LeaderCardAlreadyUsedException e) {
+                return new NACKMessage("Leader Card has already discarded");
+            } catch (ExcessOfPositionException e) {
+                //-->da eliminare --> sei già arrivato alla fine del pope track
+            }
+        }
+
+        if (message instanceof UseLeaderCardMessage) {
+            try {
+                actionHandler.useLeaderCard(((UseLeaderCardMessage) message).getPosition());
+                return new ACKMessage("OK");
+            } catch (OutOfBandException e) {
+                return new NACKMessage("Leader Card not present");
+            } catch (LeaderCardAlreadyUsedException e) {
+                return new NACKMessage("Leader Card has already used");
+            }
+        }
+
+        if (message instanceof BuyEvolutionCardMessage){
+            try {
+                actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(),((BuyEvolutionCardMessage) message).getCol(),((BuyEvolutionCardMessage) message).getPosition());
+                return new ACKMessage("OK");
+            } catch (ExcessOfPositionException e) {
+                return new NACKMessage("Evolution Card not present");
+            } catch (InvalidPlaceException e) {
+                return new NACKMessage("Production Zone not accessible");
+            } catch (NotEnoughResourcesException e) {
+                return new NACKMessage("Nor enough resources");
+            }
+        }
+
+        if (message instanceof ActiveProductionMessage){
+            ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
+            for (int position: positions) {
+                try {
+                    actionHandler.activeProductionZone(position);
+                } catch (NotEnoughResourcesException e) {
+                    return new NACKMessage("Nor enough resources");
+                } catch (ExcessOfPositionException e) {
+                    //-->da eliminare --> sei già arrivato alla fine del pope track
+                }
+            }
+            return new ACKMessage("OK");
+        }
+        return new NACKMessage("Action not found");
     }
 
     /**

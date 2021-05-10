@@ -15,12 +15,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class DoActionPlayer extends DoAction {
+public class DoActionPlayer {
 
-    TurnHandlerMultiPlayer turnHandler;
-    public DoActionPlayer(Game modelGame, TurnHandlerMultiPlayer turnHandler) {
-       this.modelGame = modelGame;
-       this.turnHandler=turnHandler;
+    private Game modelGame;
+    TurnHandler turnHandler;
+
+    public DoActionPlayer(Game modelGame,TurnHandler turnHandler) {
+        this.modelGame=modelGame;
+        this.turnHandler=turnHandler;
     }
 
     /**
@@ -28,15 +30,10 @@ public class DoActionPlayer extends DoAction {
      * @param position indicates the row or column to be purchased
      * @param isRow true if player chose a row, false otherwise
      */
-    public void buyFromMarket(int position, boolean isRow) {
+    public void buyFromMarket(int position, boolean isRow) throws ExcessOfPositionException {
 
         //Purchase resources from market and updates the market board
-        Resource[] resources = null;
-        try {
-            resources = modelGame.getMarket().updateBoard(position, isRow);
-        } catch (ExcessOfPositionException e) {
-            e.getLocalizedMessage();
-        }
+        Resource[] resources = modelGame.getMarket().updateBoard(position, isRow);
 
         //check if leader card is in use and refactor array to arraylist
         ArrayList<Resource> resourceList = modifyResources(resources);
@@ -50,7 +47,7 @@ public class DoActionPlayer extends DoAction {
             try {
                 modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(1);
             } catch (ExcessOfPositionException e) {
-                e.getLocalizedMessage();
+                //se sono alla fine del percorso resto fermo? da sistemare
             }
             resourceList.remove(Resource.FAITH);
         }
@@ -73,55 +70,6 @@ public class DoActionPlayer extends DoAction {
             discardResource.remove(saveResource);
         }
 
-        /*
-        ArrayList<Resource> discardResource = null;
-        //MESSAGE discardResource = throwAway(resourceList); !!!!! toDo
-
-        for (Resource deleteResource : discardResource) {
-            resourceList.remove(deleteResource);
-        }
-
-        while (modelGame.getActivePlayer().getDashboard().getStock().manageStock(resourceList)) {
-            for (Resource deleteResource : discardResource) {
-                resourceList.add(deleteResource);
-            }
-            //Ask client which resources he want to discard
-
-            discardResource = null;
-            //MESSAGE discardResource = throwAway(resourceList); !!!!! toDo
-
-            for (Resource deleteResource : discardResource) {
-                resourceList.remove(deleteResource);
-            }
-        }
-
-        /*
-        STOCK AUTOGESTITO
-        //prendo dal client le informazioni riguardanti il tipo di risorsa, la futura locazione della risorsa e se le biglie rimaste le vuole scartare
-        int stockBox;
-        int numberOfResourses;
-        Resource typeOfResource;
-        boolean stopStoreResources = false;
-
-        while ((resourceList.size() > 0) && (!stopStoreResources)) {
-            stockBox = 1; //sarà il risultato di un metodo che chiede al client in che box inserire le nuove biglie
-            numberOfResourses = 1; //sarà il risultato di un metodo che chiede al client quante biglie inserire
-            typeOfResource = Resource.COIN; //sarà il risultato di un metodo che chiede al client che tipo di biglie inserire
-
-            try {
-                personalStock.addResources(stockBox, numberOfResourses, typeOfResource);
-            } catch (NotEnoughSpaceException | ResourceAlreadyPresentException | OutOfBandException e) {
-                e.getLocalizedMessage();
-            }
-
-            while(numberOfResourses>0){
-                resourceList.remove(typeOfResource);
-                numberOfResourses--;
-            }
-            stopStoreResources = false; //sarà il risultato di un metodo che chiede al client se le biglie restanti le vuole scartare
-        }
-         */
-
         //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
         List<Player> players = new ArrayList<>();
         if(discardResource.size()>0) {
@@ -142,12 +90,8 @@ public class DoActionPlayer extends DoAction {
      *
      * @param position index of the array of leaderCard
      */
-    public void activeLeaderCard(int position){
-        try {
-            ((HumanPlayer) modelGame.getActivePlayer()).activeLeaderCard(position);
-        } catch (OutOfBandException | LeaderCardAlreadyUsedException e) {
-           e.getLocalizedMessage();
-        }
+    public void activeLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
+        ((HumanPlayer) modelGame.getActivePlayer()).activeLeaderCard(position);
 
         //se è un potere di produzione aggiuntivo come lo tratto? creo un'altra produzionZonePlus ?
     }
@@ -156,8 +100,7 @@ public class DoActionPlayer extends DoAction {
      * Method that discard a leader card invoking discardLeaderCard in activePlayer object
      * @param position is the leader card the activePlayer wants to discard
      */
-    public void discardLeaderCard(int position){
-        try {
+    public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException, ExcessOfPositionException {
             ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
             //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
             //                                      we need to check if the player arrived in a popePosition or
@@ -167,16 +110,13 @@ public class DoActionPlayer extends DoAction {
                 if(!player.equals(modelGame.getActivePlayer()))
                     player.getDashboard().getPopeTrack().updateGamerPosition(1);
             }
-        }catch(OutOfBandException | LeaderCardAlreadyUsedException | ExcessOfPositionException e){
-            e.getLocalizedMessage();
-        }
     }
 
     /**
      * Method that activate the production zone specified
      * @param position is which production zone the user wants to activate
      */
-    public void activeProductionZone(int position){
+    public void activeProductionZone(int position) throws NotEnoughResourcesException, ExcessOfPositionException {
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING &&
                 ((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.ACTIVE_PRODUCTION){
             //I should do this control in the method that decide which action the player chose
@@ -199,18 +139,11 @@ public class DoActionPlayer extends DoAction {
 
             //Add resources to the lockBox
             for(Resource resource : products.keySet()){
-                try {
                     if(!resource.equals(Resource.FAITH))
                         modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , products.get(resource));
                     else
                         //Here with moveCross there will be a control of the position
                         modelGame.getActivePlayer().getDashboard().getPopeTrack().updateGamerPosition(products.get(resource));
-                }catch(NotEnoughResourcesException e){
-                    //theoretically it's impossible be here -> only increase the number of resources here
-                    e.getLocalizedMessage();
-                }catch(ExcessOfPositionException e){
-                    e.getLocalizedMessage();
-                }
             }
             //active the production of the last evolutionCard in the productionZone specified by position
             modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
@@ -225,7 +158,7 @@ public class DoActionPlayer extends DoAction {
      * @param col column of the evolutionSection
      * @param position is in which productionZone the player wants to place the card
      */
-    public void buyEvolutionCard(int row, int col , int position) {
+    public void buyEvolutionCard(int row, int col , int position) throws ExcessOfPositionException, InvalidPlaceException, NotEnoughResourcesException {
 
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING){
             //The user had already done a move
@@ -250,21 +183,16 @@ public class DoActionPlayer extends DoAction {
             takeResources(cost);
 
             //Buy the card and place it
-            try{
+
                 EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row , col);
                 modelGame.getActivePlayer().getDashboard().getProductionZone()[position].addCard(cardBought);
-            }catch(InvalidPlaceException | ExcessOfPositionException e){
-                //Theoretically it's impossible be here
-                e.getLocalizedMessage();
-            }
 
             //Set the action done in player
             ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_CARD);
         }
     }
 
-    @Override
-    public void moveCross(int positions, ArrayList<Player> players) {
+    private void moveCross(int positions, ArrayList<Player> players) {
 
         //Increment Pope Track
         for (Player player : players) {
@@ -273,13 +201,13 @@ public class DoActionPlayer extends DoAction {
                 try {
                     player.getPopeTrack().checkLorenzoPosition(positions);
                 } catch (OutOfBandException e) {
-                    e.getLocalizedMessage();
+                   // -->inutile
                 }
             } else {
                 try {
                     player.getPopeTrack().updateGamerPosition(positions);
                 } catch (ExcessOfPositionException e) {
-                    e.getLocalizedMessage();
+                   // --> inutile
                 }
             }
         }
@@ -354,42 +282,36 @@ public class DoActionPlayer extends DoAction {
      * Private method that take the resources from Stock before and then from Stock automatically
      * @param requires is an HashMap that contains the resources to remove
      */
-    private void takeResources(HashMap<Resource , Integer> requires){
+    private void takeResources(HashMap<Resource , Integer> requires) throws NotEnoughResourcesException {
         //First of all this method removes the resources the player can remove from Stock, then take the other from stock
         for(Resource resource : requires.keySet()){
             int numOfResources = requires.get(resource);
             if(numOfResources > 0){
                 //Take resources from stock
                 if(modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource) >= numOfResources){
-                    try{
                         //Take all the resources of type resource from Stock
                         modelGame.getActivePlayer().getDashboard().getStock().useResources(numOfResources , resource);
-                        numOfResources = 0;//number of resources to take from the LockBox
-                    }catch(NotEnoughResourcesException e){
-                        //It's impossible be here
-                        e.getLocalizedMessage();
-                    }
+                        numOfResources = 0;//number of resources to take from the LockBo
                 }
                 else{
                     int availableResource = modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource);
                     numOfResources -= availableResource;//number of resources to take from the LockBox
-                    try {
-                        //Take resources from Stock
                         modelGame.getActivePlayer().getDashboard().getStock().useResources(availableResource , resource);
-                    }catch (NotEnoughResourcesException e){
-                        //It's impossible be here
-                        e.getLocalizedMessage();
                     }
                 }
                 //Take resources from LockBox
-                try {
                     modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -numOfResources);
-                }catch(NotEnoughResourcesException e){
-                    //It's impossible be here
-                    e.getLocalizedMessage();
                 }
             }
-        }
+
+    /**
+     * there is a difference between active and use leaderCard
+     * STOK-> always active
+     * PRODUCTION,MARKET AND SALE --> could be chose
+     * @param position
+     */
+    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
+            ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
     }
 
 }
