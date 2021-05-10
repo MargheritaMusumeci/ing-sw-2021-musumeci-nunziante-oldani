@@ -8,15 +8,25 @@ public class SerializableDashboard implements Serializable {
     private SerializablePopeTack serializablePopeTack;
     private SerializableProductionZone[] serializableProductionZones;
     private String nickname;
+    private boolean inkwell;
+
+    public boolean isInkwell() {
+        return inkwell;
+    }
+
+    public void setInkwell(boolean inkwell) {
+        this.inkwell = inkwell;
+    }
 
     public SerializableDashboard(SerializableLockBox serializableLockBox, SerializableStock serializableStock,
                                  SerializablePopeTack serializablePopeTack, SerializableProductionZone[] serializableProductionZones,
-                                 String nickname) {
+                                 String nickname , boolean inkwell) {
         this.serializableLockBox = serializableLockBox;
         this.serializableStock = serializableStock;
         this.serializablePopeTack = serializablePopeTack;
         this.serializableProductionZones = serializableProductionZones;
         this.nickname = nickname;
+        this.inkwell = inkwell;
     }
 
     public SerializableLockBox getSerializableLockBox() {
