@@ -38,12 +38,13 @@ public class PopeTrack extends PopeTrackObservable {
 
     /**
      * Increment the position of the player
+     * Limit the increment if the player is already in the end
      * @param increment number of steps in the track
-     * @throws ExcessOfPositionException if  gamerPosition is already in the last position
      */
-    public void updateGamerPosition(int increment) throws ExcessOfPositionException {
+    public void updateGamerPosition(int increment){
 
-        if((gamerPosition.getIndex() + increment) >= track.getTrack().length) throw new ExcessOfPositionException("HumanPlayer: Track is ended");
+        if((gamerPosition.getIndex() + increment) > track.getTrack().length - 1)
+            increment = track.getTrack().length - 1 - gamerPosition.getIndex();
 
         gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
 
@@ -91,11 +92,11 @@ public class PopeTrack extends PopeTrackObservable {
     /**
      * Increment the position of Lorenzo
      * @param increment number of steps in the track
-     * @throws ExcessOfPositionException if  LorenzoPlayer is already in the last position
      */
-    public void updateLorenzoPosition(int increment) throws ExcessOfPositionException{
+    public void updateLorenzoPosition(int increment){
 
-        if((lorenzoPosition.getIndex() + increment) >= track.getTrack().length) throw new ExcessOfPositionException("Lorenzo: Track is ended");
+        if((lorenzoPosition.getIndex() + increment) >= track.getTrack().length - 1)
+            increment = track.getTrack().length - 1 - lorenzoPosition.getIndex();
 
         lorenzoPosition = track.getTrack()[lorenzoPosition.getIndex() + increment];
 

@@ -21,6 +21,8 @@ Generali:
 - sequence diagram
 - aggiungere UML su github
 - dobbiamo decidere come aggiungere la nuova produzion
+- invalidPlaceException c'è un motivo se non eredita da Exception ma da Throwable?
+
 
 
 

@@ -10,36 +10,26 @@ public class PopeTrackTest extends TestCase {
         PopeTrack pTrack = new PopeTrack();
         assertEquals(0 , pTrack.getGamerPosition().getIndex());
         //Increment the player position by 1
-        try{
-            pTrack.updateGamerPosition(1);
-            assertEquals(1 , pTrack.getGamerPosition().getIndex());
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+        pTrack.updateGamerPosition(1);
+        assertEquals(1 , pTrack.getGamerPosition().getIndex());
+
         //Increment the player position until the last position available(24)
-        try {
-            pTrack.updateGamerPosition(23);
-            assertEquals(24 , pTrack.getGamerPosition().getIndex());
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+        pTrack.updateGamerPosition(23);
+        assertEquals(24 , pTrack.getGamerPosition().getIndex());
+
         //Try to exceed the number of position
         try {
             pTrack.updateGamerPosition(1);
+        }catch(Exception e){
             fail();
-        }catch(ExcessOfPositionException e){
-
         }
     }
 
     //Check if discard the card
     public void testCheckGamerPosition1() {
         PopeTrack pTrack = new PopeTrack();
-        try{
-            pTrack.updateGamerPosition(1);
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+
+        pTrack.updateGamerPosition(1);
 
         try {
             pTrack.checkGamerPosition(1);
@@ -78,11 +68,9 @@ public class PopeTrackTest extends TestCase {
     //Check if active the card
     public void testCheckGamerPosition3() {
         PopeTrack pTrack = new PopeTrack();
-        try{
-            pTrack.updateGamerPosition(5);
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+
+        pTrack.updateGamerPosition(5);
+
         try {
             pTrack.checkGamerPosition(1);
             assertEquals(true , pTrack.getPopeCard().get(0).isUsed());
@@ -94,11 +82,8 @@ public class PopeTrackTest extends TestCase {
 
     public void testCheckLorenzoPosition1() {
         PopeTrack pTrack = new PopeTrack();
-        try{
-            pTrack.updateGamerPosition(1);
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+
+        pTrack.updateGamerPosition(1);
 
         try {
             pTrack.checkGamerPosition(1);
@@ -135,11 +120,9 @@ public class PopeTrackTest extends TestCase {
 
     public void testCheckLorenzoPosition3(){
         PopeTrack pTrack = new PopeTrack();
-        try{
-            pTrack.updateGamerPosition(5);
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+
+        pTrack.updateGamerPosition(5);
+
         try {
             pTrack.checkGamerPosition(1);
             assertEquals(true , pTrack.getPopeCard().get(0).isUsed());
@@ -153,25 +136,18 @@ public class PopeTrackTest extends TestCase {
         PopeTrack pTrack = new PopeTrack();
         assertEquals(0 , pTrack.getLorenzoPosition().getIndex());
         //Increment the player position by 1
-        try{
-            pTrack.updateLorenzoPosition(1);
-            assertEquals(1 , pTrack.getLorenzoPosition().getIndex());
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+        pTrack.updateLorenzoPosition(1);
+        assertEquals(1 , pTrack.getLorenzoPosition().getIndex());
+
         //Increment the player position until the last position available(24)
-        try {
-            pTrack.updateLorenzoPosition(23);
-            assertEquals(24 , pTrack.getLorenzoPosition().getIndex());
-        }catch(ExcessOfPositionException e){
-            fail();
-        }
+        pTrack.updateLorenzoPosition(23);
+        assertEquals(24 , pTrack.getLorenzoPosition().getIndex());
+
         //Try to exceed the number of position
         try {
             pTrack.updateLorenzoPosition(1);
+        }catch(Exception e){
             fail();
-        }catch(ExcessOfPositionException e){
-
         }
     }
 }

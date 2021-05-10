@@ -83,11 +83,9 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
             //Move Lorenzo cross
             if(lorenzoActionCard.getActionType()==LorenzoAction.INCREMENTPOPETRACK){
-                try {
-                    modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(lorenzoActionCard.getNum().get());
-                } catch (ExcessOfPositionException e) {
-                   //-->da eliminare
-                }
+
+                modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(lorenzoActionCard.getNum().get());
+
                 if(lorenzoActionCard.getNum().get()==1){((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().shuffle();}
 
             }

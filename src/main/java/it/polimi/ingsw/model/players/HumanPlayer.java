@@ -40,7 +40,7 @@ public class HumanPlayer extends Player{
         this.popeTrack = new PopeTrack();
         dashboard = new Dashboard(nickName , inkwell, popeTrack);
         isWinner = false;
-        actionChose = null;
+        actionChose = Action.NOTHING;
         game = null;
         resources = new ArrayList<Resource>();
     }
@@ -192,7 +192,7 @@ public class HumanPlayer extends Player{
                 break;
             }
             //If the card is already been used this turn
-            if(dashboard.getProductionZone()[i].getCard().isActive()){
+            if(dashboard.getProductionZone()[i].getCard() != null  && dashboard.getProductionZone()[i].getCard().isActive()){
                 possibleActiveProductionZone[i] = false;
                 break;
             }
@@ -248,11 +248,9 @@ public class HumanPlayer extends Player{
 
         dashboard.getLeaderCards().remove(position);
 
-        try{
-            popeTrack.updateGamerPosition(1);
-        }catch(ExcessOfPositionException e){
-            //the game is already ended for this player, theoretically it's impossible be here for the player
-        }
+        //I should do this in the controller
+        popeTrack.updateGamerPosition(1);
+
     }
 
     /**

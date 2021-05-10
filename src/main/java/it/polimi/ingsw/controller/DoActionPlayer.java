@@ -44,11 +44,7 @@ public class DoActionPlayer {
 
         //Increase PopeTrackPosition if player got a faith ball
         if (resourceList.contains(Resource.FAITH)) {
-            try {
-                modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(1);
-            } catch (ExcessOfPositionException e) {
-                //se sono alla fine del percorso resto fermo? da sistemare
-            }
+            modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(1);
             resourceList.remove(Resource.FAITH);
         }
 
@@ -204,11 +200,7 @@ public class DoActionPlayer {
                    // -->inutile
                 }
             } else {
-                try {
-                    player.getPopeTrack().updateGamerPosition(positions);
-                } catch (ExcessOfPositionException e) {
-                   // --> inutile
-                }
+                player.getPopeTrack().updateGamerPosition(positions);
             }
         }
 

@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.game.Resource;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HumanPlayerTest extends TestCase {
@@ -88,8 +89,67 @@ public class HumanPlayerTest extends TestCase {
     public void testGetPossibleEvolutionCard() {
     }
 
-    public void testGetPossibleActiveProductionZone() {
-    }
+    /**
+     * For now I won't consider leader card production zone
+     */
+    /*public void testGetPossibleActiveProductionZone() {
+        HumanPlayer player = new HumanPlayer("Matteo" , true);
+        HumanPlayer player2 = new HumanPlayer("Loser" , false);
+        ArrayList<Player> players = new ArrayList<Player>();
+        players.add(player);
+        players.add(player2);
+        Game game = new Game(players , 1234);
+
+        boolean[] result = new boolean[player.getDashboard().getProductionZone().length];
+        boolean[] toCheck =  new boolean[player.getDashboard().getProductionZone().length];
+
+        //With no resources and no cards player can activate nothing
+        for(int i = 0; i < player.getDashboard().getProductionZone().length ; i++)
+            result[i] = false;
+        toCheck = player.getPossibleActiveProductionZone();
+
+        for(int i = 0; i < player.getDashboard().getProductionZone().length ; i++)
+            assertEquals(result[i] , toCheck[i]);
+
+        //Add 2 coins -> now the player can activate the basix production
+        try {
+            player.getDashboard().getLockBox().setAmountOf(Resource.COIN , 2);
+        }catch(Exception e){
+            fail();
+        }
+        result[0] = true;
+        for(int i = 1; i < player.getDashboard().getProductionZone().length ; i++)
+            result[i] = false;
+        toCheck = player.getPossibleActiveProductionZone();
+        for(int i = 0; i < player.getDashboard().getProductionZone().length ; i++)
+            assertEquals(result[i] , toCheck[i]);
+
+        //Add a card in the production zone
+        try {
+            player.getDashboard().getProductionZone()[1].addCard(game.getEvolutionSection().buy(2, 2));//FIRST , requires = 1 servant
+            HashMap<Resource , Integer> requires = player.getDashboard().getProductionZone()[1].getCard().getRequires();
+            for(Resource res : requires.keySet()){
+                System.out.println("Resource: " + res + ", number: " + requires.get(res));
+            }
+        }catch (Exception | InvalidPlaceException e){
+            fail();
+        }
+        try {
+            player.getDashboard().getStock().addResources(0 , 1 , Resource.SERVANT);
+
+        }catch (Exception e){
+            fail();
+        }
+        result[0] = true;
+        result[1] = true;//production zone 0
+        for(int i = 1; i < player.getDashboard().getProductionZone().length ; i++)
+            result[i] = false;
+        toCheck = player.getPossibleActiveProductionZone();
+        for(int i = 0; i < player.getDashboard().getProductionZone().length ; i++)
+            System.out.println(toCheck[i]);
+        //assertEquals(result[i] , toCheck[i]);
+
+    }*/
 
     public void testActiveLeaderCard() {
         LeaderCardSet leaderCardSet = new LeaderCardSet();
