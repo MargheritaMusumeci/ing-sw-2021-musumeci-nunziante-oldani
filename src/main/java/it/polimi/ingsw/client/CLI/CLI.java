@@ -2,11 +2,15 @@ package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.MessageHandler;
-import it.polimi.ingsw.messages.configurationMessages.NickNameMessage;
-import it.polimi.ingsw.messages.configurationMessages.NumberOfPlayerMessage;
+import it.polimi.ingsw.messages.configurationMessages.*;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CLI implements Runnable {
@@ -20,6 +24,8 @@ public class CLI implements Runnable {
     private int numberOfPlayers;
     private boolean isGameStarted;
     private Socket socket;
+    private ArrayList<SerializableLeaderCard> leaderCards;
+    private  ArrayList<Resource> resources;
 
 
     public CLI(){
@@ -27,6 +33,8 @@ public class CLI implements Runnable {
         isNackArrived = false;
         isAckArrived = false;
         isGameStarted = false;
+        leaderCards = null;
+        resources = null;
 
         new Thread(this).start();
 
@@ -48,10 +56,14 @@ public class CLI implements Runnable {
      * method that checks if an ack or nack is arrived from the server
      * @return true if ack is recived and false is nack is recived
      */
-    private boolean waitForAck() throws InterruptedException {
+    private boolean waitForAck(){
 
         while(!isAckArrived && !isNackArrived){
-            Thread.sleep(1000);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         System.err.println("esco dal for del wait");
         if(isAckArrived){
@@ -153,6 +165,96 @@ public class CLI implements Runnable {
         return isGameStarted;
     }
 
+    public void setLeaderCards(ArrayList<SerializableLeaderCard> leaderCards){ this.leaderCards = leaderCards; }
+
+    public void setResources(ArrayList<Resource> resources){ this.resources = resources; }
+
+    private void waitForLeaderCards(){
+        while(leaderCards == null){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void chooseLeaderCards(){
+        clientSocket.send(new RequestLeaderCardMessage("Request leader card"));
+        int index = 0;
+        ArrayList<Integer> lCards = new ArrayList<Integer>();
+
+        waitForLeaderCards();
+
+        System.out.println("Chose 2 cards");
+        System.out.println();
+        for(int i = 0 ; i < leaderCards.size() ; i++){
+            System.out.println("Card " + i + ": " + leaderCards.get(i).getRequiresForActiveLeaderCards() + " , " + leaderCards.get(i).getAbilityType() + "\n");
+        }
+        for(int i = 0; i < 2; i++){
+            index = scanner.nextInt();
+            if(index < leaderCards.size() && index >= 0){
+                lCards.add(index);
+            }
+            else{
+                i--;
+                System.out.println("Carta scelta non valida");
+            }
+        }
+        clientSocket.send(new LeaderCardChoiceMessage("Leader card scelte" , lCards));
+    }
+
+    private void waitForResources(){
+        while(resources == null){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void chooseInitialResources(){
+        int index;
+
+        waitForResources();
+
+        if(resources.size() == 4){
+            for(int i = 0 ; i < 4 ; i++){
+                System.out.println("Risorsa " + i + ": " + resources.get(i));
+            }
+
+            index = 0;
+            do{
+                System.out.println("Scegli una risorsa(tra 0 e 3)");
+                index = scanner.nextInt();
+            }while (index < 0 || index > 3);
+
+            ArrayList<Resource> selected = new ArrayList<Resource>();
+            selected.add(resources.get(index));
+            clientSocket.send(new SelectedInitialResourceMessage("Resource chose" , selected));
+        }
+        else if(resources.size() == 8){
+            for(int i = 0 ; i < 8 ; i++){
+                System.out.println("Risorsa " + i + ": " + resources.get(i));
+            }
+
+            index = 0;
+            int index2 = 0;
+            do{
+                System.out.println("Scegli 2 risorse(tra 0 e 7)");
+                index = scanner.nextInt();
+                index2 = scanner.nextInt();
+
+            }while (index < 0 || index > 7 || index2 < 0 || index2 > 7 || index2 != index);
+
+            ArrayList<Resource> selected = new ArrayList<Resource>();
+            selected.add(resources.get(index));
+            selected.add(resources.get(index2));
+            clientSocket.send(new SelectedInitialResourceMessage("Resource chose" , selected));
+        }
+    }
+
     public static void main(String[] args){
 
         new CLI();
@@ -191,6 +293,17 @@ public class CLI implements Runnable {
             // make the player restart the cli because of a disconnection
             e.printStackTrace();
         }
+
+        do{
+            chooseLeaderCards();
+        }while(!waitForAck());
+        System.out.println("Ack aggiunte bello");
+
+        do{
+            chooseInitialResources();
+        }while(!waitForAck());
+
+        System.out.println("Ci siamoooooooooooooooooooooooooooooooooooooooo");
 
     }
 }

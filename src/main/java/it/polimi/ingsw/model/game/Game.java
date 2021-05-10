@@ -27,14 +27,20 @@ public class Game {
 
         LeaderCardSet leaderCardSet = new LeaderCardSet();
         int count = 0;
+        int position = 1;
         List<LeaderCard> lCards;
         for (Player player : players) {
             if (player instanceof HumanPlayer) {
                 ArrayList<LeaderCard> playerSet = new ArrayList<LeaderCard>();
                 lCards = leaderCardSet.getLeaderCardSet().subList(count, count+4);
-                for(int i = 0; i < 4 ; i++)
+                for(int i = 0; i < 4 ; i++){
                     playerSet.add(lCards.get(i));
+                    System.out.println("Card " + i + ": " + lCards.get(i).getRequiresForActiveLeaderCards() + " , " + lCards.get(i).getAbilityType() + "\n");
+                }
+                ((HumanPlayer) player).setPosition(position);
+                player.getDashboard().setLeaderCards(playerSet);
                 count += 4;
+                position++;
             }
         }
     }

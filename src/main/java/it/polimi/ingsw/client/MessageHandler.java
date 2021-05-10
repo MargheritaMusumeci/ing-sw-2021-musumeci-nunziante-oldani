@@ -2,6 +2,9 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.configurationMessages.FourLeaderCardsMessage;
+import it.polimi.ingsw.messages.configurationMessages.InitialResourcesMessage;
+import it.polimi.ingsw.messages.configurationMessages.StartGameMessage;
 
 public class MessageHandler{
 
@@ -37,6 +40,21 @@ public class MessageHandler{
         if (message instanceof ReconnectionMessage){
             System.out.println("riconnessione effettuata");
             cli.setIsAckArrived(true);
+        }
+
+        if(message instanceof StartGameMessage){
+            System.out.println("gioco iniziato");
+            cli.setIsGameStarted(true);
+        }
+
+        if(message instanceof FourLeaderCardsMessage){
+            System.out.println("Leader card ricevute");
+            cli.setLeaderCards(((FourLeaderCardsMessage) message).getLeaderCards());
+        }
+
+        if(message instanceof InitialResourcesMessage){
+            System.out.println("Risorse iniziali ricevute");
+            cli.setResources(((InitialResourcesMessage) message).getResources());
         }
 
     }

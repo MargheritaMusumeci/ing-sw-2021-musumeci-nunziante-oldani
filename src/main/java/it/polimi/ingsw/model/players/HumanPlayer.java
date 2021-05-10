@@ -34,6 +34,10 @@ public class HumanPlayer extends Player{
      */
     private ArrayList<Resource> resources;
 
+    /**
+     * Position of the player during the game
+     */
+    private int position;
 
     public HumanPlayer(String nickName, boolean inkwell){
         this.nickName = nickName;
@@ -43,6 +47,7 @@ public class HumanPlayer extends Player{
         actionChose = Action.NOTHING;
         game = null;
         resources = new ArrayList<Resource>();
+        position = 0;
     }
 
     /**
@@ -319,6 +324,14 @@ public class HumanPlayer extends Player{
         if(dashboard.getLeaderCards().get(position).isUsed()) throw new LeaderCardAlreadyUsedException("This leader card is already used");
 
         dashboard.getLeaderCards().get(position).setUsed(true);
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
 }

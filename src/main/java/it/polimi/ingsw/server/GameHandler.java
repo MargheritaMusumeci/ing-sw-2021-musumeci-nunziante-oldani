@@ -4,12 +4,16 @@ import it.polimi.ingsw.controller.InitializationHandler;
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.controller.TurnHandlerMultiPlayer;
 import it.polimi.ingsw.controller.TurnHandlerSoloGame;
+import it.polimi.ingsw.messages.configurationMessages.InitialResourcesMessage;
+import it.polimi.ingsw.messages.configurationMessages.StartGameMessage;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
+import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -62,6 +66,13 @@ public class GameHandler implements Runnable{
             turnHandler = new TurnHandlerSoloGame(game);
         }else{
             turnHandler = new TurnHandlerMultiPlayer(game);
+        }
+
+
+        for(ServerClientConnection scc : playerSockets){
+            ArrayList<Resource> resources = initializationHandler.prepareInitialResources(getPlayersInGame().get(scc));
+            scc.send(new InitialResourcesMessage("Risorse iniziali" , resources));
+            scc.send(new StartGameMessage("Inizio"));
         }
 
         new Thread(this).start();

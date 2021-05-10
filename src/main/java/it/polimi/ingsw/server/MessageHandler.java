@@ -3,10 +3,10 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.actionMessages.ActionMessage;
-import it.polimi.ingsw.messages.configurationMessages.ConfigurationMessage;
-import it.polimi.ingsw.messages.configurationMessages.LeaderCardChoiceMessage;
-import it.polimi.ingsw.messages.configurationMessages.NickNameMessage;
-import it.polimi.ingsw.messages.configurationMessages.NumberOfPlayerMessage;
+import it.polimi.ingsw.messages.configurationMessages.*;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+
+import java.util.ArrayList;
 
 public class MessageHandler {
 
@@ -97,19 +97,30 @@ public class MessageHandler {
             }
         } else if(scc.getGamePhase() == GamePhases.INITIALIZATION){
 
+            if(message instanceof RequestLeaderCardMessage){
+                ArrayList<SerializableLeaderCard> serializableLeaderCards = scc.getGameHandler().getInitializationHandler().takeLeaderCards(scc.getGameHandler().getPlayersInGame().get(scc));
+                scc.send(new FourLeaderCardsMessage("4 Leader card" , serializableLeaderCards));
+            }
+
             if(message instanceof LeaderCardChoiceMessage){
-                scc.getGameHandler().getInitializationHandler().setLeaderCards( scc.getGameHandler().getPlayersInGame().get(scc),
-                        ((LeaderCardChoiceMessage) message).getLeaderCards() );
+                if(scc.getGameHandler().getInitializationHandler().setLeaderCards( scc.getGameHandler().getPlayersInGame().get(scc),
+                        ((LeaderCardChoiceMessage) message).getLeaderCards()))
+                    scc.send(new ACKMessage("OK"));
+                else
+                    scc.send(new NACKMessage("KO"));
+            }
+
+            if(message instanceof SelectedInitialResourceMessage){
+                if(scc.getGameHandler().getInitializationHandler().setInitialResources(scc.getGameHandler().getPlayersInGame().get(scc) ,
+                        ((SelectedInitialResourceMessage) message).getResources()))
+                    scc.send(new ACKMessage("OK"));
+                else
+                    scc.send(new NACKMessage("KO"));
             }
 
         }else {
             scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
         }
-
-
-
-
-
 
     }
 }

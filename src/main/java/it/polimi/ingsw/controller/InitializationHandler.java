@@ -2,7 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,14 +39,49 @@ public class InitializationHandler {
         return true;
     }
 
+    public ArrayList<SerializableLeaderCard> takeLeaderCards(Player player){
+        ArrayList<LeaderCard> leaderCards = player.getDashboard().getLeaderCards();
+        ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<SerializableLeaderCard>();
+
+        for(int i = 0 ; i < leaderCards.size() ; i++){
+            LeaderCard lCard = leaderCards.get(i);
+            serializableLeaderCards.add(new SerializableLeaderCard(lCard));
+        }
+
+        return serializableLeaderCards;
+    }
+
+    public ArrayList<Resource> prepareInitialResources(HumanPlayer player){
+        int playerPosition = player.getPosition();
+        ArrayList<Resource> resources = new ArrayList<Resource>();
+
+        if(playerPosition == 2 || playerPosition == 3){
+            resources.add(Resource.COIN);
+            resources.add(Resource.SHIELD);
+            resources.add(Resource.ROCK);
+            resources.add(Resource.SERVANT);
+        }
+        else if(playerPosition == 4){
+            for(int i = 0 ; i < 2 ; i++){
+                resources.add(Resource.COIN);
+                resources.add(Resource.SHIELD);
+                resources.add(Resource.ROCK);
+                resources.add(Resource.SERVANT);
+            }
+        }
+
+        player.setResources(resources);
+        return resources;
+    }
+
     /**
      * Method that sets the initial resources of a player
      * @param player is the player who chose the resources
      * @param resources is an array list that contains the resources chose
-     * @param playerPosition is the position of the player
      * @return true if the action ended correctly , false otherwise
      */
-    public boolean setInitialResources(Player player, ArrayList<Resource> resources, int playerPosition){
+    public boolean setInitialResources(HumanPlayer player, ArrayList<Resource> resources){
+        int playerPosition = player.getPosition();
         if(playerPosition == 0)
             return false;
         if( (playerPosition == 1 || playerPosition == 2) && resources.size() != 1 )
