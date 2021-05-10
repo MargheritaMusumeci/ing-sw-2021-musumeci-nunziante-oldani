@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
-import it.polimi.ingsw.model.popeTrack.PopeCard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ public class DoActionPlayer {
      * @param position indicates the row or column to be purchased
      * @param isRow true if player chose a row, false otherwise
      */
-    public void buyFromMarket(int position, boolean isRow) throws ExcessOfPositionException {
+    public void buyFromMarket(int position, boolean isRow) throws ExcessOfPositionException{
 
         //Purchase resources from market and updates the market board
         Resource[] resources = modelGame.getMarket().updateBoard(position, isRow);
@@ -96,7 +95,7 @@ public class DoActionPlayer {
      * Method that discard a leader card invoking discardLeaderCard in activePlayer object
      * @param position is the leader card the activePlayer wants to discard
      */
-    public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException, ExcessOfPositionException {
+    public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException{
             ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
             //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
             //                                      we need to check if the player arrived in a popePosition or
@@ -112,7 +111,7 @@ public class DoActionPlayer {
      * Method that activate the production zone specified
      * @param position is which production zone the user wants to activate
      */
-    public void activeProductionZone(int position) throws NotEnoughResourcesException, ExcessOfPositionException {
+    public void activeProductionZone(int position) throws NotEnoughResourcesException {
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING &&
                 ((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.ACTIVE_PRODUCTION){
             //I should do this control in the method that decide which action the player chose
@@ -188,53 +187,56 @@ public class DoActionPlayer {
         }
     }
 
-    private void moveCross(int positions, ArrayList<Player> players) {
+    private void moveCross(int positions, ArrayList<Player> players){
 
         //Increment Pope Track
         for (Player player : players) {
 
             if (player instanceof LorenzoPlayer) {
-                try {
-                    player.getPopeTrack().checkLorenzoPosition(positions);
-                } catch (OutOfBandException e) {
-                   // -->inutile
-                }
+                player.getPopeTrack().updateLorenzoPosition(positions);
             } else {
                 player.getPopeTrack().updateGamerPosition(positions);
             }
         }
 
         //Check Pope section
+        boolean popeMeeting = false;
+
         for (Player player : players) {
 
-            if (!(player instanceof LorenzoPlayer)) {
+            //check that a player arrived in a PopeMeeting position
+            //check that no one has ever arrived in that position
+            if (player instanceof LorenzoPlayer) {
+                if (player.getPopeTrack().getLorenzoPosition().getPopePosition() &&
+                        turnHandler.getLastSection() < player.getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
 
-                /**
-                 * se sono in una posizione di incontro papale
-                 * se nessuno era già arrivato la
-                 * se non avevo scartato quella carta papale --> quite impossible se nessuno vi era già arrivato
-                 */
+                    turnHandler.setLastSection(player.getPopeTrack().getLorenzoPosition().getNumPopeSection());
+                    player.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
+                    popeMeeting = true;
+                }
+            }
+
+            if (player instanceof HumanPlayer && !popeMeeting) {
                 if (player.getPopeTrack().getGamerPosition().getPopePosition() &&
-                        (turnHandler.getLastSection() < player.getPopeTrack().getGamerPosition().getNumPopeSection()) &&
-                        !player.getPopeTrack().getPopeCard().get(player.getPopeTrack().getGamerPosition().getNumPopeSection()).isDiscard()) {
+                        turnHandler.getLastSection() < player.getPopeTrack().getGamerPosition().getNumPopeSection()) {
 
-                    PopeCard popeCard = player.getPopeTrack().getPopeCard().get(player.getPopeTrack().getGamerPosition().getNumPopeSection() - 1);
-                    popeCard.setIsUsed();
                     turnHandler.setLastSection(player.getPopeTrack().getGamerPosition().getNumPopeSection());
+                    popeMeeting = true;
+                }
+            }
 
-                    // per tutti gli altri player controllo se sono nella stessa sezione papale, in caso affermativo attivo anche la loro carta, in caso negativo la scarto
-                    for (Player player2 : players) {
-                        if (player2 != player &&
-                                player2.getPopeTrack().getGamerPosition().getPopeSection() &&
-                                player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection() &&
-                                !player.getPopeTrack().getPopeCard().get(player.getPopeTrack().getGamerPosition().getNumPopeSection()).isDiscard()) {
-                                player2.getPopeTrack().getPopeCard().get(player2.getPopeTrack().getGamerPosition().getNumPopeSection() - 1).setIsUsed();
+            if (popeMeeting) {
+                for (Player player2 : players) {
+                    if (player instanceof HumanPlayer) {
+                        if (player2.getPopeTrack().getGamerPosition().getPopeSection() &&
+                                player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection()) {
+                            player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
                         } else {
                             player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection()).setIsDiscard();
                         }
                     }
-                    break;
                 }
+                break;
             }
         }
     }
@@ -300,7 +302,7 @@ public class DoActionPlayer {
      * there is a difference between active and use leaderCard
      * STOK-> always active
      * PRODUCTION,MARKET AND SALE --> could be chose
-     * @param position
+     * @param position position
      */
     public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
             ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);

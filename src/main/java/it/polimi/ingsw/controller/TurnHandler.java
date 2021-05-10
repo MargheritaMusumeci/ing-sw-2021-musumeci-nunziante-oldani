@@ -84,8 +84,6 @@ public abstract class TurnHandler {
                 return new NACKMessage("Leader Card not present");
             } catch (LeaderCardAlreadyUsedException e) {
                 return new NACKMessage("Leader Card has already discarded");
-            } catch (ExcessOfPositionException e) {
-                //-->da eliminare --> sei già arrivato alla fine del pope track
             }
         }
 
@@ -109,7 +107,7 @@ public abstract class TurnHandler {
             } catch (InvalidPlaceException e) {
                 return new NACKMessage("Production Zone not accessible");
             } catch (NotEnoughResourcesException e) {
-                return new NACKMessage("Nor enough resources");
+                return new NACKMessage("Not enough resources");
             }
         }
 
@@ -119,9 +117,7 @@ public abstract class TurnHandler {
                 try {
                     actionHandler.activeProductionZone(position);
                 } catch (NotEnoughResourcesException e) {
-                    return new NACKMessage("Nor enough resources");
-                } catch (ExcessOfPositionException e) {
-                    //-->da eliminare --> sei già arrivato alla fine del pope track
+                    return new NACKMessage("Not enough resources");
                 }
             }
             return new ACKMessage("OK");

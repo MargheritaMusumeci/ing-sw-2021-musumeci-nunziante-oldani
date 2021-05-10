@@ -60,7 +60,7 @@ public class EvolutionSectionTest {
                         EvolutionCard b = e.buy(i, j);
                         assertEquals(c, b);
                     } catch (ExcessOfPositionException excessOfPositionException) {
-                        excessOfPositionException.printStackTrace();
+                       assertTrue(true);
                     }
 
 
