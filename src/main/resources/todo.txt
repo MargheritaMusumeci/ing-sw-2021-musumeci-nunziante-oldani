@@ -13,7 +13,7 @@ Nunziante:
 - do tests
 
 Oldani:
-- togliere singleton
+
 - sistemare la lobby da 3 da 4 e da 1
 - add comments to methods
 - do tests

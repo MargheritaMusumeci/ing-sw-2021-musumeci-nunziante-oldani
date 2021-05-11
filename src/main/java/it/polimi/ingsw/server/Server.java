@@ -122,11 +122,14 @@ public class Server {
         //check if the lobby is ready to make a new game
         if (lobby2players.size()==2){
             ArrayList<ServerClientConnection> twoPlayers = new ArrayList<>();
-            twoPlayers.add(lobby2players.remove(0));
-            twoPlayers.add(lobby2players.remove(0));
+
+            for (int i=0; i<2; i++) {
+                twoPlayers.add(lobby2players.remove(0));
+            }
             GameHandler gameHandler = new GameHandler(2, twoPlayers);
-            games.put(twoPlayers.get(0), gameHandler);
-            games.put(twoPlayers.get(1), gameHandler);
+            for (int i=0; i<2; i++) {
+                games.put(twoPlayers.get(i), gameHandler);
+            }
         }
         System.out.println("2 players: " + lobby2players.size());
     }
@@ -134,14 +137,17 @@ public class Server {
     public synchronized void addToLobby3Players(ServerClientConnection scc){
         lobby3players.add(scc);
         //check if the lobby is ready to make a new game
-        if (lobby2players.size()==3){
+        if (lobby3players.size()==3){
             ArrayList<ServerClientConnection> threePlayers = new ArrayList<>();
-            threePlayers.add(lobby2players.remove(0));
-            threePlayers.add(lobby2players.remove(0));
-            threePlayers.add(lobby2players.remove(0));
-            games.put(threePlayers.get(0), new GameHandler(2, threePlayers));
-            games.put(threePlayers.get(1), new GameHandler(2, threePlayers));
-            games.put(threePlayers.get(2), new GameHandler(2, threePlayers));
+
+            for (int i=0; i<3; i++) {
+                threePlayers.add(lobby3players.remove(0));
+            }
+            GameHandler gameHandler = new GameHandler(3, threePlayers);
+            for (int i=0; i<3; i++) {
+                games.put(threePlayers.get(i), gameHandler);
+            }
+
         }
         System.out.println("3 players: " + lobby3players.size());
     }
@@ -149,6 +155,16 @@ public class Server {
     public synchronized void addToLobby4Players(ServerClientConnection scc){
         lobby4players.add(scc);
         //check if the lobby is ready to make a new game
+        if(lobby4players.size() == 4){
+            ArrayList<ServerClientConnection> fourPlayers = new ArrayList<>();
+            for (int i=0; i<4; i++) {
+                fourPlayers.add(lobby4players.remove(0));
+            }
+            GameHandler gameHandler = new GameHandler(4, fourPlayers);
+            for (int i=0; i<4; i++) {
+               games.put(fourPlayers.get(i), gameHandler);
+            }
+        }
         System.out.println("4 players: " + lobby4players.size());
     }
 
