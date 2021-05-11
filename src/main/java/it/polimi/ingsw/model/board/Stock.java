@@ -425,5 +425,15 @@ public class Stock extends StockObservable {
         return true;
     }
 
+    public ArrayList<Resource[]> getBoxes() {
+        return boxes;
+    }
 
+    public ArrayList<Resource[]> getBoxPlus() {
+        return boxPlus;
+    }
+
+    public ArrayList<Resource> getResourcesPlus() {
+        return resourcesPlus;
+    }
 }
