@@ -15,13 +15,12 @@ public class EvolutionSection extends EvolutionSectionOsservable{
 
     private ArrayList<EvolutionCard>[][] evolutionSection;
     //if we want to implement multigames we need an hashmap of instances related to the gameid
-    private static EvolutionSection instanceOfEvolutionSection = null;
 
     /**
      * constructor that creates the section in which EvolutionCards are stored and instantiates every card
      */
 
-    private EvolutionSection(){
+    public EvolutionSection(){
 
         evolutionSection = new ArrayList[3][4];
 
@@ -35,18 +34,6 @@ public class EvolutionSection extends EvolutionSectionOsservable{
         populateSection();
 
     }
-    /**
-     *
-     * @return the single instance of the EvolutionSection, if it doesn't exist invoke the private constructor
-     */
-    //if we would impelemente the multigame we need the game id as argument of this method
-    public static EvolutionSection getInstanceOfEvolutionSection(){
-        if(instanceOfEvolutionSection == null){
-            instanceOfEvolutionSection = new EvolutionSection();
-        }
-        return instanceOfEvolutionSection;
-    }
-
 
     private void populateSection(){
 

@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import org.junit.Test;
 
+import javax.swing.*;
+
 import static org.junit.Assert.*;
 
 public class EvolutionSectionTest {
@@ -12,7 +14,7 @@ public class EvolutionSectionTest {
     @Test
     public void EvolutionSectionConstructorTest(){
 
-        EvolutionSection e = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection e = new EvolutionSection();
         for (int i=0; i<3; i++){
             for(int j=0; j<4; j++){
                 System.out.print(e.getCard(i, j, 0).getLevel() +"\t");
@@ -25,7 +27,7 @@ public class EvolutionSectionTest {
     @Test
     public void canBuy() {
         //Test that the matrix returned corresponds to the first card of the array
-        EvolutionSection e = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection e = new EvolutionSection();
         EvolutionCard[][] cards = e.canBuy();
 
         for(int i = 0; i<cards.length; i++){
@@ -51,7 +53,7 @@ public class EvolutionSectionTest {
 
     @Test
     public void buy() {
-        EvolutionSection e = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection e = new EvolutionSection();
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
                 for(int k=0; k<4; k++){

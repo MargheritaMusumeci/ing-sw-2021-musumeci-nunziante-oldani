@@ -26,7 +26,7 @@ public class NormalProductionZoneTest{
         assertNull(productionZone.getCard());
 
         //existing 1 card
-        EvolutionSection evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection evolutionSection = new EvolutionSection();
         evolutionCard = evolutionSection.buy(2,3);
         productionZone.addCard(evolutionCard);
         EvolutionCard evolutionCard1 = (EvolutionCard) productionZone.getCard();
@@ -50,7 +50,7 @@ public class NormalProductionZoneTest{
         //wrong position
         EvolutionCard evolutionCard = null;
         NormalProductionZone productionZone = new NormalProductionZone();
-        EvolutionSection evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection evolutionSection = new EvolutionSection();
         EvolutionCard evolutionCard1;
 
 
@@ -143,7 +143,7 @@ public class NormalProductionZoneTest{
         //empty
         EvolutionCard evolutionCard;
         NormalProductionZone productionZone = new NormalProductionZone();
-        EvolutionSection evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection evolutionSection = new EvolutionSection();
         evolutionCard = evolutionSection.buy(2,0);
         assertFalse(productionZone.isFull());
 
@@ -169,7 +169,7 @@ public class NormalProductionZoneTest{
         //empty
         EvolutionCard evolutionCard;
         NormalProductionZone productionZone = new NormalProductionZone();
-        EvolutionSection evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection evolutionSection = new EvolutionSection();
         evolutionCard = evolutionSection.buy(2,3);
         assertNull(productionZone.getCardList());
 
@@ -198,7 +198,7 @@ public class NormalProductionZoneTest{
         //empty
         EvolutionCard evolutionCard;
         NormalProductionZone productionZone = new NormalProductionZone();
-        EvolutionSection evolutionSection = EvolutionSection.getInstanceOfEvolutionSection();
+        EvolutionSection evolutionSection = new EvolutionSection();
         evolutionCard = evolutionSection.buy(2,1);
         assertNull(productionZone.getLevel());
 

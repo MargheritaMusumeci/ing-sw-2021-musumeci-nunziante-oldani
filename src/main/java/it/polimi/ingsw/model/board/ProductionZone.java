@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.osservables.ProductionZoneObservable;
  */
 public abstract class ProductionZone extends ProductionZoneObservable {
 
-
     /**
      * @return the most recent card bought
      */
