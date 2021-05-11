@@ -1,14 +1,12 @@
 package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.ClientSocket;
-import it.polimi.ingsw.client.MessageHandler;
+import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.configurationMessages.*;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,76 +15,27 @@ public class CLI implements Runnable {
 
     private Scanner scanner;
     private ClientSocket clientSocket;
-    private MessageHandler messageHandler;
+    private GamePhases gamePhase;
     private boolean isAckArrived;
     private boolean isNackArrived;
     private String nickname;
     private int numberOfPlayers;
-    private boolean isGameStarted;
     private Socket socket;
     private ArrayList<SerializableLeaderCard> leaderCards;
     private  ArrayList<Resource> resources;
+    private boolean serverIsUp;
 
 
     public CLI(){
         scanner = new Scanner(System.in);
         isNackArrived = false;
         isAckArrived = false;
-        isGameStarted = false;
         leaderCards = null;
         resources = null;
-
+        gamePhase = GamePhases.IINITIALIZATION;
         new Thread(this).start();
-
     }
 
-    /**
-     * method that wait until the game is going to start and the flag "isGameStarted" is set to TRUE
-     */
-    private void waitOtherPlayers() throws InterruptedException {
-
-        System.out.println("Wait other players to reach the game! Have fun and avoid cheating");
-        while (!isGameStarted){
-            Thread.sleep(1000);
-        }
-
-    }
-
-    /**
-     * method that checks if an ack or nack is arrived from the server
-     * @return true if ack is recived and false is nack is recived
-     */
-    private boolean waitForAck(){
-
-        while(!isAckArrived && !isNackArrived){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        System.err.println("esco dal for del wait");
-        if(isAckArrived){
-            isAckArrived = false;
-            return true;
-        }else{
-            isNackArrived = false;
-            return false;
-        }
-    }
-
-    private void numberOfPlayersInitialization() {
-        System.out.print("Enter number of players (1 to 4): ");
-        numberOfPlayers = scanner.nextInt();
-
-        while(numberOfPlayers < 1 || numberOfPlayers > 4){
-            System.out.println("Error! Invalid number of player");
-            System.out.print("Enter number of players (1 to 4): ");
-            numberOfPlayers = scanner.nextInt();
-        }
-
-        clientSocket.send(new NumberOfPlayerMessage(String.valueOf(numberOfPlayers)));
-    }
 
     /**
      * method that ask for ip and port of the server and creates the socket between client and server
@@ -123,53 +72,54 @@ public class CLI implements Runnable {
         }
 
     }
-
-    private String nicknameInitialization() throws InterruptedException {
+    private void nicknameInitialization(){
         String nic;
 
         System.out.print("Enter your nickname: ");
         nic = scanner.next();
         clientSocket.send(new NickNameMessage(nic));
 
-        if(waitForAck()){
-            isNackArrived = false;
-            return nic;
+        try {
+            synchronized (this){
+                wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IllegalMonitorStateException e){
+            e.printStackTrace();
+        }
+
+        if(isAckArrived){
+            nickname = nic;
+            gamePhase = GamePhases.NUMBEROFPLAYERS;
+            isAckArrived = false;
         }else{
             isNackArrived = false;
-            return null;
+            System.err.println("The nickname that you have chose is already in use, please pick a different nickname");
+        }
+
+    }
+    private void numberOfPlayersInitialization() {
+        System.out.print("Enter number of players (1 to 4): ");
+        numberOfPlayers = scanner.nextInt();
+
+        while(numberOfPlayers < 1 || numberOfPlayers > 4){
+            System.out.println("Error! Invalid number of player");
+            System.out.print("Enter number of players (1 to 4): ");
+            numberOfPlayers = scanner.nextInt();
+        }
+
+        clientSocket.send(new NumberOfPlayerMessage(String.valueOf(numberOfPlayers)));
+        if(numberOfPlayers != 1){
+            gamePhase = GamePhases.WAITINGOTHERPLAYERS;
+        }else{
+            //implementare partita single game
         }
     }
+    public void chooseLeaderCards(){
 
+        clientSocket.send(new RequestLeaderCardMessage("Request leader card"));
 
-    public void setIsAckArrived(boolean value){
-        isAckArrived = value;
-    }
-
-    public boolean isAckArrived() {
-        return isAckArrived;
-    }
-
-    public void setIsNackArrived(boolean value){
-        isNackArrived = value;
-    }
-
-    public boolean isNackArrived() {
-        return isNackArrived;
-    }
-
-    public void setIsGameStarted(boolean value){
-        isGameStarted = value;
-    }
-
-    public boolean isGameStarted() {
-        return isGameStarted;
-    }
-
-    public void setLeaderCards(ArrayList<SerializableLeaderCard> leaderCards){ this.leaderCards = leaderCards; }
-
-    public void setResources(ArrayList<Resource> resources){ this.resources = resources; }
-
-    private void waitForLeaderCards(){
         while(leaderCards == null){
             try {
                 Thread.sleep(1000);
@@ -177,14 +127,8 @@ public class CLI implements Runnable {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void chooseLeaderCards(){
-        clientSocket.send(new RequestLeaderCardMessage("Request leader card"));
         int index = 0;
         ArrayList<Integer> lCards = new ArrayList<Integer>();
-
-        waitForLeaderCards();
 
         System.out.println("Chose 2 cards");
         System.out.println();
@@ -202,9 +146,32 @@ public class CLI implements Runnable {
             }
         }
         clientSocket.send(new LeaderCardChoiceMessage("Leader card scelte" , lCards));
-    }
 
-    private void waitForResources(){
+        try {
+            synchronized (this){
+                wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IllegalMonitorStateException e){
+            e.printStackTrace();
+        }
+
+        if(isAckArrived){
+            gamePhase = GamePhases.INITIALRESOURCESELECTION;
+            isAckArrived = false;
+        }else{
+            isNackArrived = false;
+            System.err.println("Error while setting the initial leader card, retry");
+        }
+
+
+    }
+    private void chooseInitialResources(){
+        int index;
+
+
+
         while(resources == null){
             try {
                 Thread.sleep(1000);
@@ -212,12 +179,6 @@ public class CLI implements Runnable {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void chooseInitialResources(){
-        int index;
-
-        waitForResources();
 
         if(resources.size() == 4){
             for(int i = 0 ; i < 4 ; i++){
@@ -252,7 +213,51 @@ public class CLI implements Runnable {
             selected.add(resources.get(index));
             selected.add(resources.get(index2));
             clientSocket.send(new SelectedInitialResourceMessage("Resource chose" , selected));
+
+
+        }else{
+            gamePhase = GamePhases.STARTGAME;
+            return;
         }
+
+        try {
+            synchronized (this){
+                wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IllegalMonitorStateException e){
+            e.printStackTrace();
+        }
+
+        if(isAckArrived){
+            gamePhase = GamePhases.STARTGAME;
+            isAckArrived = false;
+        }else{
+            isNackArrived = false;
+            System.err.println("Error while setting the initial resources, retry");
+        }
+    }
+
+
+    public void setIsAckArrived(boolean value){
+        isAckArrived = value;
+    }
+
+    public void setIsNackArrived(boolean value){
+        isNackArrived = value;
+    }
+
+    public void setLeaderCards(ArrayList<SerializableLeaderCard> leaderCards){ this.leaderCards = leaderCards; }
+
+    public void setResources(ArrayList<Resource> resources){ this.resources = resources; }
+
+    public void setGamePhase(GamePhases gamePahse){
+        this.gamePhase = gamePahse;
+    }
+
+    public GamePhases getGamePhase() {
+        return gamePhase;
     }
 
     public static void main(String[] args){
@@ -263,47 +268,47 @@ public class CLI implements Runnable {
 
     @Override
     public void run() {
+        serverIsUp = true;
 
-        //creation of the clineSocket
-        connectionInitialization();
-        if(clientSocket == null){
-            return;
-        }
-        new Thread(clientSocket).start();
+        while(serverIsUp){
 
-        //setting of the nickname
-        do{
-            try {
-                nickname = nicknameInitialization();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            switch (gamePhase){
+                case IINITIALIZATION:
+                    connectionInitialization();
+                    if(clientSocket == null){
+                        serverIsUp = false;
+                    }else{
+                        gamePhase = GamePhases.NICKNAME;
+                        new Thread(clientSocket).start();
+                    }
+                    break;
+                case NICKNAME:
+                    nicknameInitialization();
+                    break;
+                case NUMBEROFPLAYERS:
+                    numberOfPlayersInitialization();
+                    break;
+                case WAITINGOTHERPLAYERS:
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case INITIALLEADERCARDSELECTION:
+                    chooseLeaderCards();
+                    break;
+                case INITIALRESOURCESELECTION:
+                    chooseInitialResources();
+                    break;
+                case STARTGAME:
+                    System.out.println("wait che implemento anche questa cosa");
+                    while (true){
+
+                    }
+
             }
-            if(nickname==null){
-                System.out.println("Your nickname has already been chosen");
-            }
-        }while(nickname==null);
-
-        //setting the number of players
-        numberOfPlayersInitialization();
-
-        //wait other player to join
-        try {
-            waitOtherPlayers();
-        } catch (InterruptedException e) {
-            // make the player restart the cli because of a disconnection
-            e.printStackTrace();
         }
-
-        do{
-            chooseLeaderCards();
-        }while(!waitForAck());
-        System.out.println("Ack aggiunte bello");
-
-        do{
-            chooseInitialResources();
-        }while(!waitForAck());
-
-        System.out.println("Ci siamoooooooooooooooooooooooooooooooooooooooo");
 
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.InitializationHandler;
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.controller.TurnHandlerMultiPlayer;
 import it.polimi.ingsw.controller.TurnHandlerSoloGame;
+import it.polimi.ingsw.messages.configurationMessages.FourLeaderCardsMessage;
 import it.polimi.ingsw.messages.configurationMessages.InitialResourcesMessage;
 import it.polimi.ingsw.messages.configurationMessages.StartGameMessage;
 import it.polimi.ingsw.model.game.Game;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.awt.geom.RectangularShape;
@@ -59,6 +61,12 @@ public class GameHandler implements Runnable{
         //creo il game
         game = new Game(playersForGame);
 
+        //qui posso mandare le carte perchè sono nel player
+        for(ServerClientConnection scc : playerSockets) {
+            ArrayList<SerializableLeaderCard> serializableLeaderCards = scc.getGameHandler().getInitializationHandler().takeLeaderCards(scc.getGameHandler().getPlayersInGame().get(scc));
+            scc.send(new FourLeaderCardsMessage("4 Leader card", serializableLeaderCards));
+        }
+
         this.numberOfPlayers = numberOfPlayers;
 
 
@@ -68,6 +76,14 @@ public class GameHandler implements Runnable{
             turnHandler = new TurnHandlerMultiPlayer(game);
         }
 
+    }
+
+    public void handleInitialResourcesSettings(){
+
+        ArrayList<ServerClientConnection> playerSockets = new ArrayList<>();
+        for(ServerClientConnection scc : playersInGame.keySet()){
+            playerSockets.add(scc);
+        }
 
         for(ServerClientConnection scc : playerSockets){
             ArrayList<Resource> resources = initializationHandler.prepareInitialResources(getPlayersInGame().get(scc));

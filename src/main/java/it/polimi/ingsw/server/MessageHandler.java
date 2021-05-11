@@ -97,15 +97,20 @@ public class MessageHandler {
             }
         } else if(scc.getGamePhase() == GamePhases.INITIALIZATION){
 
-            if(message instanceof RequestLeaderCardMessage){
-                ArrayList<SerializableLeaderCard> serializableLeaderCards = scc.getGameHandler().getInitializationHandler().takeLeaderCards(scc.getGameHandler().getPlayersInGame().get(scc));
-                scc.send(new FourLeaderCardsMessage("4 Leader card" , serializableLeaderCards));
-            }
 
             if(message instanceof LeaderCardChoiceMessage){
                 if(scc.getGameHandler().getInitializationHandler().setLeaderCards( scc.getGameHandler().getPlayersInGame().get(scc),
-                        ((LeaderCardChoiceMessage) message).getLeaderCards()))
+                        ((LeaderCardChoiceMessage) message).getLeaderCards())){
                     scc.send(new ACKMessage("OK"));
+                    //controllare che tutti i giocatori del gamehandler abbiamo un arraylist di leaderCaard con size 2
+                    for(ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()){
+                        if(serverClientConnection.getGameHandler().getPlayersInGame().get(serverClientConnection).getDashboard().getLeaderCards().size() != 2){
+                            return;
+                        }
+                    }
+                    scc.getGameHandler().handleInitialResourcesSettings();
+                }
+
                 else
                     scc.send(new NACKMessage("KO"));
             }

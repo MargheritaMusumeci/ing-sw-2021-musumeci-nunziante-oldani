@@ -29,11 +29,20 @@ public class MessageHandler{
 
         if(message instanceof ACKMessage){
             cli.setIsAckArrived(true);
+            synchronized (cli){
+                cli.notifyAll();
+            }
+
             return;
         }
 
         if(message instanceof NACKMessage){
             cli.setIsNackArrived(true);
+
+            synchronized (cli){
+                cli.notifyAll();
+            }
+
             return;
         }
 
@@ -42,14 +51,17 @@ public class MessageHandler{
             cli.setIsAckArrived(true);
         }
 
+
         if(message instanceof StartGameMessage){
             System.out.println("gioco iniziato");
-            cli.setIsGameStarted(true);
+            cli.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
         }
+
 
         if(message instanceof FourLeaderCardsMessage){
             System.out.println("Leader card ricevute");
             cli.setLeaderCards(((FourLeaderCardsMessage) message).getLeaderCards());
+            cli.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
         }
 
         if(message instanceof InitialResourcesMessage){

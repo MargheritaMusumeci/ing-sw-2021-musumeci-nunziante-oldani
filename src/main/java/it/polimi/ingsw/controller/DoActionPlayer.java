@@ -196,8 +196,9 @@ public class DoActionPlayer {
 
             //Buy the card and place it
 
-                EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row , col);
-                modelGame.getActivePlayer().getDashboard().getProductionZone()[position].addCard(cardBought);
+            EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row , col);
+            modelGame.getActivePlayer().getDashboard().getProductionZone()[position].addCard(cardBought);
+            modelGame.getActivePlayer().getDashboard().setEvolutionCardNumber(modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() +1);
 
             //Set the action done in player
             ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_CARD);
