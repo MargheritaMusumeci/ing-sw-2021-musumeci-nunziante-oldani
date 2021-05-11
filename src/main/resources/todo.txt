@@ -3,6 +3,10 @@ Musumeci:
 - do tests
 - iniziare gui in parallelo alla cli
 
+
+???? abbiamo controllato che l'inkwell lo abbia solo un giocatore
+???? dobbiamo testare i messaggi per la copertura del codice
+
 Nunziante:
 - abbellire cli
 - add comments to methods

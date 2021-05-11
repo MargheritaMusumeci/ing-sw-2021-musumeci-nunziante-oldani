@@ -125,6 +125,7 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
      * @param leaderCards is the card for the player: 4 in the start , 2 after the player chose them
      */
     public void setLeaderCards(ArrayList<LeaderCard> leaderCards){
+        this.leaderCards = new ArrayList<LeaderCard>();
         for(LeaderCard card : leaderCards)
             this.leaderCards.add(card);
 

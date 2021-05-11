@@ -247,7 +247,7 @@ public class HumanPlayer extends Player{
      * @throws LeaderCardAlreadyUsedException if the leader card specified is already been used/discarded
      */
     public void discardLeaderCard(int position) throws OutOfBandException,LeaderCardAlreadyUsedException {
-        if(position < 0 || position > dashboard.getLeaderCards().size()) throw new OutOfBandException("Invalid position");
+        if(position < 0 || position > dashboard.getLeaderCards().size()-1) throw new OutOfBandException("Invalid position");
 
         if(dashboard.getLeaderCards().get(position).isActive()) throw new LeaderCardAlreadyUsedException("This leader card is already been used");
 

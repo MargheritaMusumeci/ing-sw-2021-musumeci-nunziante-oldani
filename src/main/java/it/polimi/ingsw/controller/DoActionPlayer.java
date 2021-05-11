@@ -12,10 +12,7 @@ import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class that contains the methods to update the model sequentially according to the action performed by the player.
@@ -64,7 +61,7 @@ public class DoActionPlayer {
 
 
         //only if the player chooses resources from the ones he receives
-        if(!resourceList.containsAll(saveResources) ) {
+        if(resourceList.containsAll(saveResources) ) {
 
             //only if the player chooses a correct number of resources to insert
             if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
@@ -79,7 +76,7 @@ public class DoActionPlayer {
             //notify error
         }else return new NACKMessage("They are not purchased resources");
 
-        ArrayList<Resource> discardResource = resourceList;
+        ArrayList<Resource> discardResource = (ArrayList<Resource>) resourceList.clone();
 
         for (Resource saveResource : saveResources) {
             discardResource.remove(saveResource);
@@ -103,20 +100,12 @@ public class DoActionPlayer {
     }
 
     /**
-     * Wait until player choose which resources wish store
-     */
-    private void waitForResources() {
-    }
-
-    /**
      * Set 'active' a specified leaderCard. In case of STOCKPLUS-leaderCard this method create new space in stock
      *
      * @param position index of the array of leaderCard
      */
     public void activeLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
         ((HumanPlayer) modelGame.getActivePlayer()).activeLeaderCard(position);
-
-        //se è un potere di produzione aggiuntivo come lo tratto? creo un'altra produzionZonePlus ?
     }
 
     /**
@@ -302,7 +291,9 @@ public class DoActionPlayer {
                 }
             }
         }
-        List<Resource> resourceList = Arrays.asList(resources);
+        ArrayList<Resource> resourceList = new ArrayList<>();
+        Collections.addAll(resourceList,resources);
+                //(ArrayList<Resource>) Arrays.asList(resources);
         return (ArrayList<Resource>) resourceList;
     }
 

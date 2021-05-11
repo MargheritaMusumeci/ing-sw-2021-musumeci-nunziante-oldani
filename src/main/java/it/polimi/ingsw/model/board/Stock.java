@@ -148,7 +148,10 @@ public class Stock extends StockObservable {
      */
     public int getTotalQuantitiesOf(Resource resourceType){
         int numOfBox = boxes.size();
-        int numOfBoxPlus = boxPlus.size();
+        int numOfBoxPlus = 0;
+
+        if(boxPlus!=null) numOfBoxPlus= boxPlus.size();
+
         int quantities = 0;
 
         for(int i = 0; i < numOfBox; i++){
