@@ -2,6 +2,9 @@ package it.polimi.ingsw.messages;
 
 import java.io.Serializable;
 
+/**
+ * Generic structure of messages
+ */
 public abstract class Message implements Serializable {
 
     private String message;

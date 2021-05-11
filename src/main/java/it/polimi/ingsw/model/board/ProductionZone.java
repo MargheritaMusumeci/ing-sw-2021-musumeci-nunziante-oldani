@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.osservables.ProductionZoneObservable;
 
 
 /**
- * Place of the dashboard where are stored Evolution Cards
+ * Place of the dashboard where are stored Evolution Cards or Leader Card with special Production Power
  */
 public abstract class ProductionZone extends ProductionZoneObservable {
 

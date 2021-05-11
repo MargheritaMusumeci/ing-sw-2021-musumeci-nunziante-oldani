@@ -7,6 +7,10 @@ import it.polimi.ingsw.model.cards.LevelEnum;
 
 import java.util.ArrayList;
 
+
+/**
+ * Place of the dashboard where are stored Evolution Cards
+ */
 public class NormalProductionZone extends ProductionZone{
 
     /**

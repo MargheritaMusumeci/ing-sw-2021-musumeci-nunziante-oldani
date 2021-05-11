@@ -1,7 +1,9 @@
 package it.polimi.ingsw.messages.configurationMessages;
 
-import it.polimi.ingsw.messages.Message;
 
+/**
+ * Message needed for sending nickname chosen to server
+ */
 public class NickNameMessage extends ConfigurationMessage {
 
     public NickNameMessage(String message) {

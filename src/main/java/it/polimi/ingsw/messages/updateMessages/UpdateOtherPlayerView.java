@@ -4,6 +4,9 @@ import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.io.Serializable;
 
+/**
+ * Message sent by server to inform no-active player that their view must be update because active player has done an action.
+ */
 public class UpdateOtherPlayerView extends UpdateMessage implements Serializable {
 
     private VirtualView virtualView;

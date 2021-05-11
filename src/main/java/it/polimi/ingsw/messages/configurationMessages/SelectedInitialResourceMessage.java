@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.game.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * Message sent by client for notify which initial resources chose
+ */
 public class SelectedInitialResourceMessage extends ConfigurationMessage{
 
     ArrayList<Resource> resources;

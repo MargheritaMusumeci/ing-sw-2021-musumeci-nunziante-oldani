@@ -1,5 +1,9 @@
 package it.polimi.ingsw.messages.actionMessages;
 
+/**
+ * Message sent by client for doing the action specified in the name of the message class
+ *
+ */
 public class BuyEvolutionCardMessage extends ActionMessage{
     int row;
     int col;

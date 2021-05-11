@@ -1,5 +1,5 @@
 Musumeci:
-- do serializable class costructors
+
 - add comments to methods
 - do tests
 - iniziare gui in parallelo alla cli

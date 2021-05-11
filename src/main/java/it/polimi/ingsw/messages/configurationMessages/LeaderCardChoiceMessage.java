@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 
 import java.util.ArrayList;
 
+/**
+ * Message sent by client in which are stored the two leader cards chosen by player for the game
+ *
+ */
 public class LeaderCardChoiceMessage extends ConfigurationMessage{
     private ArrayList<Integer> leaderCards;
     public LeaderCardChoiceMessage(String message, ArrayList<Integer> leaderCards) {
