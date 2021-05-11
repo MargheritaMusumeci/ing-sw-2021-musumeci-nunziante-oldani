@@ -6,14 +6,19 @@ import it.polimi.ingsw.model.game.Resource;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * Serializable class that contains the information needed by the view.
+ * Light copy of the LeaderCards.
+ *
+ */
 public class SerializableLeaderCard implements Serializable {
     private LeaderCardRequires requiresForActiveLeaderCards;
-    private CardColor[] requiresColor = null;
-    private LevelEnum[] requiresLevel = null;
+    private CardColor[] requiresColor;
+    private LevelEnum[] requiresLevel;
     private HashMap<Resource, Integer> requires;
     private LeaderAbility abilityType;
     private int point;
-    private HashMap<Resource, Integer> abilityResource = null;
+    private HashMap<Resource, Integer> abilityResource;
     private boolean isActive;
     private boolean isUsed;
 

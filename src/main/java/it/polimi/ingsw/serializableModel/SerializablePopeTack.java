@@ -1,17 +1,29 @@
 package it.polimi.ingsw.serializableModel;
 
+import it.polimi.ingsw.model.popeTrack.PopeCard;
+import it.polimi.ingsw.model.popeTrack.PopeTrack;
+
 import java.io.Serializable;
 
+/**
+ * Serializable class that contains the information needed by the view.
+ * Light copy of the PopeTrack.
+ *
+ */
 public class SerializablePopeTack implements Serializable {
 
     private boolean[] activeCards;
     private int position;
     private int lorenzoPosition;
 
-    public SerializablePopeTack(boolean[] activeCards, int position, int lorenzoPosition) {
-        this.activeCards = activeCards;
-        this.position = position;
-        this.lorenzoPosition = lorenzoPosition;
+    public SerializablePopeTack(PopeTrack popeTrack) {
+
+        activeCards = new boolean[popeTrack.getPopeCard().size()];
+        for (int i = 0; i < popeTrack.getPopeCard().size();i++) {
+            activeCards[i]= popeTrack.getPopeCard().get(i).isUsed();
+        }
+        this.position = popeTrack.getGamerPosition().getIndex();
+        this.lorenzoPosition = popeTrack.getLorenzoPosition().getIndex();
     }
 
     public boolean[] getActiveCards() {

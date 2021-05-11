@@ -1,7 +1,15 @@
 package it.polimi.ingsw.serializableModel;
 
+import it.polimi.ingsw.model.board.Dashboard;
+import it.polimi.ingsw.model.board.NormalProductionZone;
+
 import java.io.Serializable;
 
+/**
+ * Serializable class that contains the information needed by the view.
+ * Light copy of the Dashboard.
+ *
+ */
 public class SerializableDashboard implements Serializable {
     private SerializableLockBox serializableLockBox;
     private SerializableStock serializableStock;
@@ -18,15 +26,22 @@ public class SerializableDashboard implements Serializable {
         this.inkwell = inkwell;
     }
 
-    public SerializableDashboard(SerializableLockBox serializableLockBox, SerializableStock serializableStock,
-                                 SerializablePopeTack serializablePopeTack, SerializableProductionZone[] serializableProductionZones,
-                                 String nickname , boolean inkwell) {
-        this.serializableLockBox = serializableLockBox;
-        this.serializableStock = serializableStock;
-        this.serializablePopeTack = serializablePopeTack;
-        this.serializableProductionZones = serializableProductionZones;
-        this.nickname = nickname;
-        this.inkwell = inkwell;
+    public SerializableDashboard(Dashboard dashboard) {
+        this.serializableLockBox = new SerializableLockBox(dashboard.getLockBox());
+        this.serializableStock = new SerializableStock(dashboard.getStock());
+        this.serializablePopeTack = new SerializablePopeTack(dashboard.getPopeTrack());
+
+        int i = 0;
+        this.serializableProductionZones= new SerializableProductionZone[dashboard.getProductionZone().length];
+
+        for (NormalProductionZone normalPZ:dashboard.getProductionZone()) {
+            SerializableProductionZone serializableProductionZone = new SerializableProductionZone(normalPZ);
+            this.serializableProductionZones[i]=serializableProductionZone;
+            i++;
+        }
+
+        this.nickname = dashboard.getNickName();
+        this.inkwell = dashboard.getInkwell();
     }
 
     public SerializableLockBox getSerializableLockBox() {

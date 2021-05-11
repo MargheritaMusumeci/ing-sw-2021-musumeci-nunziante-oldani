@@ -1,20 +1,26 @@
 package it.polimi.ingsw.serializableModel;
 
+import it.polimi.ingsw.model.board.LockBox;
 import it.polimi.ingsw.model.game.Resource;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * Serializable class that contains the information needed by the view.
+ * Light copy of the LockBox.
+ *
+ */
 public class SerializableLockBox implements Serializable {
 
     private HashMap<Resource, Integer> resources;
 
-    public SerializableLockBox(int coin, int shield, int servant, int rock) {
+    public SerializableLockBox(LockBox lockBox) {
         resources = new HashMap<>();
-        resources.put(Resource.COIN, coin);
-        resources.put(Resource.SHIELD, shield);
-        resources.put(Resource.SERVANT, servant);
-        resources.put(Resource.ROCK, rock);
+        resources.put(Resource.COIN, lockBox.getCoin());
+        resources.put(Resource.SHIELD, lockBox.getShield());
+        resources.put(Resource.SERVANT, lockBox.getServant());
+        resources.put(Resource.ROCK, lockBox.getRock());
     }
 
     public HashMap<Resource, Integer> getResources() {
