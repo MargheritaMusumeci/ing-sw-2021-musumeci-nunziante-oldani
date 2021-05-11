@@ -10,14 +10,13 @@ public class Market extends MarketObservable {
 
     private Resource[][] marketBoard;
     private Resource externalResource;
-    //if we want to implement multigames we need an hashmap of instances related to the gameid
-    private static Market instanceOfMarket = null;
+
 
     /**
      * initialize a marker with random resource positions and random external resource according to the rules
      * the number of type of resources is defined, only the position is random
      */
-    private Market(){
+    public Market(){
         marketBoard = new Resource[3][4];
         randomPopulateBoard();
     }
@@ -26,13 +25,6 @@ public class Market extends MarketObservable {
      *
      * @return the single instance of the Market, if it doesn't exist invoke the private constructor
      */
-    //if we would impelemente the multigame we need the game id as argument of this method
-    public static Market getInstanceOfMarket(){
-        if(instanceOfMarket == null){
-            instanceOfMarket = new Market();
-        }
-        return instanceOfMarket;
-    }
 
     /**
      * method that really populate the board when the object is istantiated

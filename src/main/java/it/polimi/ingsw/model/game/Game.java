@@ -16,7 +16,7 @@ public class Game {
 
     public Game(ArrayList<Player> players){
         this.players = players;
-        this.market= Market.getInstanceOfMarket();
+        this.market= new Market();
         this.evolutionSection = new EvolutionSection();
         this.activePlayer = players.get(0);
 

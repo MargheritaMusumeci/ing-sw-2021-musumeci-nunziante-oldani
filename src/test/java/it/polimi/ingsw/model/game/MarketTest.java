@@ -9,20 +9,10 @@ import static org.junit.Assert.*;
 
 public class MarketTest {
 
-    @Test
-    public void getInstanceOfMarketTest() {
-        Market m1 = null;
-        Market m2 = null;
-        m1 = Market.getInstanceOfMarket();
-        m2 = Market.getInstanceOfMarket();
-        assertNotNull(m1);
-        assertEquals(m1, m2);
-
-    }
 
     @Test
     public void updateBoardTest() throws ExcessOfPositionException {
-        Market m = Market.getInstanceOfMarket();
+        Market m =new Market();
         Resource[][] r = m.getMarketBoard();
         Resource[][] rnew = null;
         Resource er = m.getExternalResource();
@@ -199,7 +189,7 @@ public class MarketTest {
     @Test
     public void getPositionTest() throws ExcessOfPositionException {
 
-        Market m = Market.getInstanceOfMarket();
+        Market m = new Market();
 
         Resource pos;
 
@@ -230,7 +220,7 @@ public class MarketTest {
     public void getMarketBoardTest() throws ExcessOfPositionException {
         //check that the returned value doesn't chenage
         Resource[][] board1, board2;
-        Market m = Market.getInstanceOfMarket();
+        Market m = new Market();
 
         board1 = m.getMarketBoard();
         board2 = m.getMarketBoard();
