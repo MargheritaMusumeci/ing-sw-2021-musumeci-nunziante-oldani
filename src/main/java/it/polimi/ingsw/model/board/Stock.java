@@ -439,4 +439,12 @@ public class Stock extends StockObservable {
     public ArrayList<Resource> getResourcesPlus() {
         return resourcesPlus;
     }
+
+    public boolean stockIsEmpty(){
+        int resources=0;
+        for(int i =0; i<getNumberOfBoxes(); i++){
+            resources=resources+getQuantities(i);
+        }
+        return resources==0 ? true : false;
+    }
 }
