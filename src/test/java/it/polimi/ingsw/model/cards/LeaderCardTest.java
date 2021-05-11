@@ -114,6 +114,9 @@ public class LeaderCardTest {
         LeaderCardSet leaderCardSet = new LeaderCardSet();
         assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
         leaderCardSet.getLeaderCard(2).setUsed(true);
+        assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
+        leaderCardSet.getLeaderCard(2).setActive(true);
+        leaderCardSet.getLeaderCard(2).setUsed(true);
         assertTrue(leaderCardSet.getLeaderCard(2).isUsed());
     }
 
@@ -121,6 +124,9 @@ public class LeaderCardTest {
     public void setIsUsedTest() {
         LeaderCardSet leaderCardSet = new LeaderCardSet();
         assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
+        leaderCardSet.getLeaderCard(2).setUsed(true);
+        assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
+        leaderCardSet.getLeaderCard(2).setActive(true);
         leaderCardSet.getLeaderCard(2).setUsed(true);
         assertTrue(leaderCardSet.getLeaderCard(2).isUsed());
     }

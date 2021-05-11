@@ -25,6 +25,7 @@ public abstract class TurnHandler {
      */
     protected boolean isTheEnd;
 
+
     /**
      * This attribute will be set true when one player ends the game
      *  but the game must go on until the player with the inkwell
@@ -195,4 +196,11 @@ public abstract class TurnHandler {
      */
     public void setTheEnd(boolean theEnd) { isTheEnd = theEnd; }
 
+    public boolean isTheLastTurn() {
+        return isTheLastTurn;
+    }
+
+    public void setTheLastTurn(boolean theLastTurn) {
+        isTheLastTurn = theLastTurn;
+    }
 }

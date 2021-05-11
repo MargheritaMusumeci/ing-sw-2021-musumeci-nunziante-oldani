@@ -76,7 +76,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
 
         //someone reached the end of the track
         for (Player player :modelGame.getPlayers()) {
-            if(player.getPopeTrack().getGamerPosition().getIndex()==25){
+            if(player.getPopeTrack().getGamerPosition().getIndex()==24){
                 isTheLastTurn=true;
                 break;
             }
