@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.configurationMessages.FourLeaderCardsMessage;
 import it.polimi.ingsw.messages.configurationMessages.InitialResourcesMessage;
+import it.polimi.ingsw.messages.configurationMessages.SendViewMessage;
 import it.polimi.ingsw.messages.configurationMessages.StartGameMessage;
 
 public class MessageHandler{
@@ -32,7 +33,6 @@ public class MessageHandler{
             synchronized (cli){
                 cli.notifyAll();
             }
-
             return;
         }
 
@@ -51,12 +51,10 @@ public class MessageHandler{
             cli.setIsAckArrived(true);
         }
 
-
         if(message instanceof StartGameMessage){
             System.out.println("gioco iniziato");
             cli.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
         }
-
 
         if(message instanceof FourLeaderCardsMessage){
             System.out.println("Leader card ricevute");
@@ -69,6 +67,14 @@ public class MessageHandler{
             cli.setResources(((InitialResourcesMessage) message).getResources());
         }
 
+        if(message instanceof SendViewMessage){
+            System.out.println("ricevo la view iniziale");
+            clientSocket.setView(((SendViewMessage) message).getView());
+
+            if(clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())){
+                cli.setGamePhase(GamePhases.MYTURN);
+            }else cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+        }
     }
 
 

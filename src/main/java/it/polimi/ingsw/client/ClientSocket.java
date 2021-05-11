@@ -18,6 +18,7 @@ public class ClientSocket implements Runnable{
     private ObjectOutputStream outputStream;
     private MessageHandler messageHandler;
     boolean isActive;
+    private View view;
 
     public ClientSocket(CLI cli, Socket socket) throws IOException {
         this.cli = cli;
@@ -48,6 +49,14 @@ public class ClientSocket implements Runnable{
     public void close(){
         //Network error, handle this
         isActive = false;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 
     /**

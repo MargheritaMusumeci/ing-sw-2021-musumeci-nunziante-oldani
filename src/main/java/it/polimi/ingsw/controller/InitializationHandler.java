@@ -36,6 +36,7 @@ public class InitializationHandler {
         for(int i = 0 ; i < 2 ; i++)
             leaderCards.add(lCards.get(i));
 
+        player.getDashboard().setLeaderCards(leaderCards);
         return true;
     }
 

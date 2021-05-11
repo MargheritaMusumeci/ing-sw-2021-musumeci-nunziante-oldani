@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.CLI;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.configurationMessages.*;
@@ -22,9 +23,8 @@ public class CLI implements Runnable {
     private int numberOfPlayers;
     private Socket socket;
     private ArrayList<SerializableLeaderCard> leaderCards;
-    private  ArrayList<Resource> resources;
+    private ArrayList<Resource> resources;
     private boolean serverIsUp;
-
 
     public CLI(){
         scanner = new Scanner(System.in);
@@ -239,7 +239,6 @@ public class CLI implements Runnable {
         }
     }
 
-
     public void setIsAckArrived(boolean value){
         isAckArrived = value;
     }
@@ -303,9 +302,13 @@ public class CLI implements Runnable {
                     break;
                 case STARTGAME:
                     System.out.println("wait che implemento anche questa cosa");
-                    while (true){
-
-                    }
+                    break;
+                case MYTURN:
+                    System.out.println("è il tuo turno");
+                    while (true){ }
+                case OTHERPLAYERSTURN:
+                    System.out.println("non tocca a te!");
+                    while (true){ }
 
             }
         }

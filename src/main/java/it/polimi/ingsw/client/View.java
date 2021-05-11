@@ -7,23 +7,34 @@ import it.polimi.ingsw.serializableModel.*;
 import java.util.ArrayList;
 
 public class View {
+
+    private String activePlayer;
     private String nickname;
     private SerializableDashboard dashboard;
     private ArrayList<SerializableDashboard> enemiesDashboard;
     private SerializableMarket market;
     private SerializableEvolutionSection evolutionSection;
-    private LeaderCard leaderCard;
+    private ArrayList<SerializableLeaderCard> leaderCards;
     private int score;
 
-    public View(String nickname, SerializableDashboard dashboard, ArrayList<SerializableDashboard> enemiesDashboard,
-                SerializableMarket market, SerializableEvolutionSection evolutionSection, LeaderCard leaderCard, int score) {
+    public View(String activePlayer, String nickname, SerializableDashboard dashboard, ArrayList<SerializableDashboard> enemiesDashboard,
+                SerializableMarket market, SerializableEvolutionSection evolutionSection, ArrayList<SerializableLeaderCard> leaderCards, int score) {
+        this.activePlayer=activePlayer;
         this.nickname = nickname;
         this.dashboard = dashboard;
         this.enemiesDashboard = enemiesDashboard;
         this.market = market;
         this.evolutionSection = evolutionSection;
-        this.leaderCard = leaderCard;
+        this.leaderCards = leaderCards;
         this.score = score;
+    }
+
+    public String getActivePlayer() {
+        return activePlayer;
+    }
+
+    public void setActivePlayer(String activePlayer) {
+        this.activePlayer = activePlayer;
     }
 
     public String getNickname() {
@@ -54,12 +65,12 @@ public class View {
         this.evolutionSection = evolutionSection;
     }
 
-    public LeaderCard getLeaderCard() {
-        return leaderCard;
+    public ArrayList<SerializableLeaderCard> getLeaderCards() {
+        return leaderCards;
     }
 
-    public void setLeaderCard(LeaderCard leaderCard) {
-        this.leaderCard = leaderCard;
+    public void setLeaderCards(ArrayList<SerializableLeaderCard> leaderCards) {
+        this.leaderCards = leaderCards;
     }
 
     public int getScore() {
