@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Class that contains all turn and game management commands for multiplayer match
+ */
 public class TurnHandlerMultiPlayer extends TurnHandler {
 
     public TurnHandlerMultiPlayer(Game modelGame) {

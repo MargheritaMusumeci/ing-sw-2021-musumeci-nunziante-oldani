@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.messages.ACKMessage;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Game;
@@ -14,9 +17,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class that contains the methods to update the model sequentially according to the action performed by the player.
+ */
 public class DoActionPlayer {
 
     private Game modelGame;
+    private  ArrayList<Resource> resourceList;
     TurnHandler turnHandler;
 
     public DoActionPlayer(Game modelGame,TurnHandler turnHandler) {
@@ -29,13 +36,13 @@ public class DoActionPlayer {
      * @param position indicates the row or column to be purchased
      * @param isRow true if player chose a row, false otherwise
      */
-    public void buyFromMarket(int position, boolean isRow) throws ExcessOfPositionException{
+    public void buyFromMarket(int position, boolean isRow) throws ExcessOfPositionException {
 
         //Purchase resources from market and updates the market board
         Resource[] resources = modelGame.getMarket().updateBoard(position, isRow);
 
         //check if leader card is in use and refactor array to arraylist
-        ArrayList<Resource> resourceList = modifyResources(resources);
+        resourceList = modifyResources(resources);
 
         //save resources in model section
         HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
@@ -46,19 +53,32 @@ public class DoActionPlayer {
             modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(1);
             resourceList.remove(Resource.FAITH);
         }
+    }
 
-        //Ask client which resources he want to discard
-        ArrayList<Resource> saveResources = humanPlayer.getResources();
+    /**
+     * Ask client which resources received from market he wants to store and after is called this method
+     */
+    public Message storeResourcesBought(ArrayList<Resource> saveResources){
 
-        //until the player chooses a correct number of resources to insert
-        while(modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)){
+        HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
 
+
+        //only if the player chooses resources from the ones he receives
+        if(!resourceList.containsAll(saveResources) ) {
+
+            //only if the player chooses a correct number of resources to insert
+            if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
+
+                //reestablish original resources
+                humanPlayer.setResources(resourceList);
+
+                //notify error
+                return new NACKMessage("Not enough space for store resources - try again");
+
+            }
             //notify error
-            //reestablish original resources
-            humanPlayer.setResources(resourceList);
+        }else return new NACKMessage("They are not purchased resources");
 
-            //ask again
-        }
         ArrayList<Resource> discardResource = resourceList;
 
         for (Resource saveResource : saveResources) {
@@ -67,6 +87,7 @@ public class DoActionPlayer {
 
         //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
         List<Player> players = new ArrayList<>();
+
         if(discardResource.size()>0) {
             for (Player player : modelGame.getPlayers()) {
                 if (!player.equals(modelGame.getActivePlayer())) {
@@ -78,6 +99,13 @@ public class DoActionPlayer {
 
         //mossa effettuata
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
+        return new ACKMessage("OK");
+    }
+
+    /**
+     * Wait until player choose which resources wish store
+     */
+    private void waitForResources() {
     }
 
     /**
@@ -187,6 +215,12 @@ public class DoActionPlayer {
         }
     }
 
+    /**
+     * Method that increment pope track position of the specified player and check if someone has arrived in a Pope Meeting position.
+     * In that case, will be active or deactive pope cards.
+     * @param positions number of steps for each player to take
+     * @param players player whose pope track should be increased
+     */
     private void moveCross(int positions, ArrayList<Player> players){
 
         //Increment Pope Track
@@ -307,5 +341,4 @@ public class DoActionPlayer {
     public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
             ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
     }
-
 }

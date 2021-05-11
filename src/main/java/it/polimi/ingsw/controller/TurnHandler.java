@@ -10,6 +10,9 @@ import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Class that contains all turn and game management commands
+ */
 public abstract class TurnHandler {
 
     protected DoActionPlayer actionHandler;
@@ -53,10 +56,16 @@ public abstract class TurnHandler {
      * @param message
      * @return
      */
-
-    //return message --> NACK CREO FIGLI
     public Message doAction(Message message){
 
+        //Client chooses which resources store in his stock and asks controller to do that
+        //this question will be asked until client asks for storing a correct number and type of resources
+        if(message instanceof StoreResourcesMessage){
+            return (actionHandler.storeResourcesBought(((StoreResourcesMessage) message).getSaveResources()));
+        }
+
+        //Client asks to receive resources from market
+        //Resources are stored in his dashboard not in his stock
         if (message instanceof BuyFromMarketMessage) {
             try {
                 actionHandler.buyFromMarket(((BuyFromMarketMessage) message).getPosition(), ((BuyFromMarketMessage) message).isRow());
@@ -66,6 +75,8 @@ public abstract class TurnHandler {
             }
         }
 
+        //Client asks to active his leader card
+        //one at a time
         if (message instanceof ActiveLeaderCardMessage){
             try {
                 actionHandler.activeLeaderCard(((ActiveLeaderCardMessage) message).getPosition());
@@ -76,6 +87,9 @@ public abstract class TurnHandler {
                 return new NACKMessage("Leader Card has already used");
             }
         }
+
+        //Client asks to discard his leader card
+        //one at a time
         if (message instanceof DiscardLeaderCardMessage){
             try {
                 actionHandler.discardLeaderCard(((DiscardLeaderCardMessage) message).getPosition());
@@ -87,6 +101,8 @@ public abstract class TurnHandler {
             }
         }
 
+        //Client asks to use his leader card
+        //one at a time
         if (message instanceof UseLeaderCardMessage) {
             try {
                 actionHandler.useLeaderCard(((UseLeaderCardMessage) message).getPosition());
@@ -98,6 +114,8 @@ public abstract class TurnHandler {
             }
         }
 
+        //Client asks to buy a evolution card
+        //one at a time
         if (message instanceof BuyEvolutionCardMessage){
             try {
                 actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(),((BuyEvolutionCardMessage) message).getCol(),((BuyEvolutionCardMessage) message).getPosition());
@@ -111,6 +129,7 @@ public abstract class TurnHandler {
             }
         }
 
+        //Client asks to active production zones
         if (message instanceof ActiveProductionMessage){
             ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
             for (int position: positions) {
@@ -175,4 +194,5 @@ public abstract class TurnHandler {
      * @param theEnd
      */
     public void setTheEnd(boolean theEnd) { isTheEnd = theEnd; }
+
 }

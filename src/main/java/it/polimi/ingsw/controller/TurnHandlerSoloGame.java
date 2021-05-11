@@ -17,6 +17,9 @@ import it.polimi.ingsw.model.players.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class that contains all turn and game management commands for solitaire game
+ */
 public class TurnHandlerSoloGame extends TurnHandler{
 
 
