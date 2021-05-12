@@ -36,12 +36,13 @@ public class ClientSocket implements Runnable{
      * method that send the message to the server
      * @param message is the message that has to be sent
      */
-    public void send(Message message){
+    public synchronized void send(Message message){
         try {
             outputStream.reset();
             outputStream.writeObject(message);
             outputStream.flush();
         } catch (IOException e) {
+            e.printStackTrace();
             close();
         }
     }
@@ -75,6 +76,7 @@ public class ClientSocket implements Runnable{
                 System.out.println("Server disconnected, retry later");
                 return;
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("Connection ended, retry later");
                 return;
             } catch (ClassNotFoundException e) {
