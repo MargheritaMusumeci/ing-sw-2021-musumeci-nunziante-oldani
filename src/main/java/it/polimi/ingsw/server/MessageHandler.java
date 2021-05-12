@@ -124,9 +124,16 @@ public class MessageHandler {
                     scc.send(new ACKMessage("OK"));
                     for (Player player : scc.getGameHandler().getPlayersInGame().values()) {
                         if (!player.getDashboard().getInkwell() && player.getDashboard().getStock().stockIsEmpty()) {
+                            //System.out.println("non dovrei entrare in questo if");
                             return;
                         }
+
+                        //le risorse sono settate devo creare le view e mandarle
+                        //System.out.println("ho chiamato il metodo che inizializza le view");
+
+                        //System.out.println("ho finito il metodo per l'invio delle view");
                     }
+                    scc.getGameHandler().initializationView();
                 }
                 else
                     scc.send(new NACKMessage("KO"));
