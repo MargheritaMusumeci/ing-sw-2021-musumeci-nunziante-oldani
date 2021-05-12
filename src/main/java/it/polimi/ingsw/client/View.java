@@ -4,9 +4,10 @@ import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.serializableModel.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class View {
+public class View implements Serializable {
 
     private String activePlayer;
     private String nickname;
