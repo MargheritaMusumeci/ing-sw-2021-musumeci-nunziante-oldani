@@ -60,6 +60,10 @@ public class MessageHandler{
             System.out.println("Leader card ricevute");
             cli.setLeaderCards(((FourLeaderCardsMessage) message).getLeaderCards());
             cli.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
+
+            synchronized (cli){
+                cli.notifyAll();
+            }
         }
 
         if(message instanceof InitialResourcesMessage){
@@ -74,6 +78,10 @@ public class MessageHandler{
             if(clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())){
                 cli.setGamePhase(GamePhases.MYTURN);
             }else cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+
+            synchronized (cli){
+                cli.notifyAll();
+            }
         }
     }
 

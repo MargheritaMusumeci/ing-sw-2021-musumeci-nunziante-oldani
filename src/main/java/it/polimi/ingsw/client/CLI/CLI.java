@@ -214,7 +214,6 @@ public class CLI implements Runnable {
             selected.add(resources.get(index2));
             clientSocket.send(new SelectedInitialResourceMessage("Resource chose" , selected));
 
-
         }else{
             gamePhase = GamePhases.STARTGAME;
             return;
@@ -289,7 +288,9 @@ public class CLI implements Runnable {
                     break;
                 case WAITINGOTHERPLAYERS:
                     try {
-                        Thread.sleep(1000);
+                        synchronized (this){
+                            wait();
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -302,6 +303,14 @@ public class CLI implements Runnable {
                     break;
                 case STARTGAME:
                     System.out.println("wait che implemento anche questa cosa");
+                    try {
+                        synchronized (this){
+                            wait();
+                        }
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case MYTURN:
                     System.out.println("è il tuo turno");
