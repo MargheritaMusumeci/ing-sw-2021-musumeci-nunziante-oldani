@@ -170,8 +170,6 @@ public class CLI implements Runnable {
     private void chooseInitialResources(){
         int index;
 
-
-
         while(resources == null){
             try {
                 Thread.sleep(1000);

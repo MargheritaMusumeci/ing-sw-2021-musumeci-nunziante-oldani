@@ -116,46 +116,62 @@ public class HumanPlayer extends Player{
                 EvolutionCard card = eCard[i][j];//the current card
                 if(card == null){//if there isn't card to buy
                     result[i][j] = false;
+                    continue;
                 }
-                //if the card can't be placed in a production zone
-                else if(!Arrays.asList(getPossibleProductionZone(card)).contains(true)){
+                //Check if the card can be placed in at least 1 production zone
+                boolean possiblePlace = false;
+                for(int k = 0 ; k < getPossibleActiveProductionZone().length && possiblePlace == false; k++){
+                    if(getPossibleProductionZone(card)[k] == true)
+                        possiblePlace = true;
+                }
+                if(possiblePlace == false){
                     result[i][j] = false;
+                    //System.out.println("Can't place the card " + i + " " + j);
+                    continue;
                 }
-                else{
-                    HashMap<Resource , Integer> req = card.getRequires();
-                    //Next 3 lines are necessary to avoid the clone() of req
-                    HashMap<Resource , Integer> requires = new HashMap<Resource , Integer>();
-                    for(Resource res : req.keySet())
-                        requires.put(res , req.get(res));
+                HashMap<Resource , Integer> req = card.getCost();
+                //Next 3 lines are necessary to avoid the clone() of req
+                HashMap<Resource , Integer> requires = new HashMap<Resource , Integer>();
+                for(Resource res : req.keySet())
+                    requires.put(res , req.get(res));
 
-                    for(int k = 0; k < numLeaderCard; k++){
-                        if(leaderSaleOn[k]){
-                            HashMap<Resource , Integer> abilityResource = dashboard.getLeaderCards().get(k).getAbilityResource();
-                            for(Resource resource : abilityResource.keySet()){
-                                int numResource  = requires.get(resource);//resource required by the evolution card
-                                if(numResource > 0){
-                                    int numSale = abilityResource.get(resource);//num of resources of sale (it's a negative number)
-                                    if(numSale < 0){
-                                        if(numResource + numSale > 0)
-                                            requires.put(resource , numResource + numSale);
-                                        else
-                                            requires.put(resource , 0);
-                                    }
+                for(int k = 0; k < numLeaderCard; k++){
+                    if(leaderSaleOn[k]){
+                        HashMap<Resource , Integer> abilityResource = dashboard.getLeaderCards().get(k).getAbilityResource();
+                        for(Resource resource : abilityResource.keySet()){
+                            int numResource  = requires.get(resource);//resource required by the evolution card
+                            if(numResource > 0){
+                                int numSale = abilityResource.get(resource);//num of resources of sale (it's a negative number)
+                                if(numSale < 0){
+                                    if(numResource + numSale > 0)
+                                        requires.put(resource , numResource + numSale);
+                                    else
+                                        requires.put(resource , 0);
                                 }
                             }
                         }
                     }
-                    //Now requires is update with sales and there is only to check if the resource in stock and in lockBox are enough
-                    boolean ok = true;
-                    for(Resource resource : requires.keySet()){
-                        if(!(dashboard.getLockBox().getAmountOf(resource) + dashboard.getStock().getTotalQuantitiesOf(resource) >=
-                                requires.get(resource)))
-                            ok = false;
-                    }
-                    if(ok == true)//if all the resources required are present
-                        result[i][j] = true;
-                    else
-                        result[i][j] = false;
+                }
+                //Now requires is update with sales and there is only to check if the resource in stock and in lockBox are enough
+                boolean ok = true;
+
+                //System.out.println("Requires: ");
+                for(Resource res : requires.keySet()){
+                    //System.out.println("Risorsa : " + res + " , Numero : " + requires.get(res));
+                }
+
+                for(Resource resource : requires.keySet()){
+                    if(!(dashboard.getLockBox().getAmountOf(resource) + dashboard.getStock().getTotalQuantitiesOf(resource) >=
+                            requires.get(resource)))
+                        ok = false;
+                }
+                if(ok == true){//if all the resources required are present
+                    result[i][j] = true;
+                    //System.out.println("Card " + i + " " + j + " can be placed");
+                }
+                else{
+                    result[i][j] = false;
+                    //System.out.println("Position i " + i + " j " + j + "in false statement");
                 }
             }
         }

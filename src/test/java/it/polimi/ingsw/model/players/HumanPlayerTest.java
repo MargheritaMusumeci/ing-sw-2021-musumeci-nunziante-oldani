@@ -32,7 +32,8 @@ public class HumanPlayerTest extends TestCase {
             EvolutionCard[][] eSection = game.getEvolutionSection().canBuy();
 
             assertEquals(LevelEnum.FIRST , eSection[2][2].getLevel());
-            assertEquals(LevelEnum.SECOND , eSection[1][1].getLevel());;
+            assertEquals(LevelEnum.SECOND , eSection[1][1].getLevel());
+            assertEquals(true , player.getPossibleProductionZone(eSection[2][2])[0]);
             player.getDashboard().getProductionZone()[1].addCard(game.getEvolutionSection().buy(2, 2));//FIRST
             player.getDashboard().getProductionZone()[2].addCard(game.getEvolutionSection().buy(2, 2));//FIRST
             player.getDashboard().getProductionZone()[2].addCard(game.getEvolutionSection().buy(1, 1));//SECOND
@@ -87,6 +88,36 @@ public class HumanPlayerTest extends TestCase {
     }
 
     public void testGetPossibleEvolutionCard() {
+        HumanPlayer player = new HumanPlayer("Matteo" , true);
+        HumanPlayer player2 = new HumanPlayer("Loser" , false);
+        ArrayList<Player> players = new ArrayList<Player>();
+        players.add(player);
+        players.add(player2);
+        Game game = new Game(players);
+        player.setGame(game);
+        player2.setGame(game);
+
+        EvolutionCard[][] eCards = game.getEvolutionSection().canBuy();
+        EvolutionCard eCard = eCards[2][2];//Required 1 servant , cost 2 rocks
+        System.out.println("Level: " + eCard.getLevel());
+        System.out.println("Requires: ");
+        for(Resource resource : eCard.getRequires().keySet()){
+            System.out.println("Resource: " + resource + " , quantity: " + eCard.getRequires().get(resource));
+        }
+        System.out.println("Cost:");
+        for(Resource resource : eCard.getRequires().keySet()){
+            System.out.println("Resource: " + resource + " , quantity: " + eCard.getCost().get(resource));
+        }
+
+        //now the player doesn't have resources
+        assertEquals(false , player.getPossibleEvolutionCard()[2][2]);
+
+        try {
+            player.getDashboard().getLockBox().setAmountOf(Resource.ROCK , 2);
+            assertEquals(true , player.getPossibleEvolutionCard()[2][2]);
+        }catch(NotEnoughResourcesException e){
+            fail();
+        }
     }
 
     /**
