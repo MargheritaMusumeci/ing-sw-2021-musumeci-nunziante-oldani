@@ -7,15 +7,12 @@ package it.polimi.ingsw.messages.actionMessages;
 public class DiscardLeaderCardMessage extends ActionMessage {
     int position;
 
-    public DiscardLeaderCardMessage(String message) {
+    public DiscardLeaderCardMessage(String message,int position) {
         super(message);
+        this.position=position;
     }
 
     public int getPosition() {
         return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 }

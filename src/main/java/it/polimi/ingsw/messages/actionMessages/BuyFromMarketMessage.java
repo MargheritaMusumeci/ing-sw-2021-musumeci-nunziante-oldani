@@ -9,23 +9,18 @@ public class BuyFromMarketMessage extends ActionMessage{
     private int position;
     private boolean isRow;
 
-    public BuyFromMarketMessage(String message) {
+    public BuyFromMarketMessage(String message,int position,boolean isRow) {
         super(message);
+        this.position=position;
+        this.isRow=isRow;
     }
 
     public int getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     public boolean isRow() {
         return isRow;
     }
 
-    public void setRow(boolean row) {
-        isRow = row;
-    }
 }

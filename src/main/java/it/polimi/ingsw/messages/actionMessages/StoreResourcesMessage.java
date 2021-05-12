@@ -13,9 +13,6 @@ public class StoreResourcesMessage extends ActionMessage{
         return saveResources;
     }
 
-    public void setSaveResources(ArrayList<Resource> saveResources) {
-        this.saveResources = saveResources;
-    }
 
     ArrayList<Resource> saveResources;
 
