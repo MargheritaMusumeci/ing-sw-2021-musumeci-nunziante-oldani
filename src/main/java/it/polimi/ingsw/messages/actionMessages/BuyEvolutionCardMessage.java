@@ -9,8 +9,11 @@ public class BuyEvolutionCardMessage extends ActionMessage{
     int col;
     int position;
 
-    public BuyEvolutionCardMessage(String message) {
+    public BuyEvolutionCardMessage(String message, int row, int col, int pos) {
         super(message);
+        this.col=col;
+        this.row=row;
+        this.position=pos;
     }
 
     public int getRow() {
