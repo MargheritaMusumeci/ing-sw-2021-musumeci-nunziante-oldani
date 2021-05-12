@@ -20,7 +20,7 @@ public class SerializableEvolutionSection implements Serializable {
 
     public SerializableEvolutionSection(EvolutionSection evolutionSection, HumanPlayer humanPlayer) {
         this.evolutionCards = evolutionSection.canBuy();
-        this.canBuyEvolutionCards = humanPlayer.getPossibleEvolutionCard();
+        //this.canBuyEvolutionCards = humanPlayer.getPossibleEvolutionCard();
     }
 
     public EvolutionCard[][] getEvolutionCards() {
