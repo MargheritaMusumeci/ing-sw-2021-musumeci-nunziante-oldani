@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.InvalidPlaceException;
 import it.polimi.ingsw.exception.NotEnoughResourcesException;
+import it.polimi.ingsw.messages.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
@@ -37,7 +38,7 @@ public class TurnHandlerMultiPlayerTest {
     }
 
     @Test
-    public void checkEndGame() throws NotEnoughResourcesException {
+    public void checkEndGameTest1() throws NotEnoughResourcesException {
 
         HumanPlayer player1 = new HumanPlayer("marghe", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
@@ -50,43 +51,51 @@ public class TurnHandlerMultiPlayerTest {
         modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(30);
         turnHandler.checkEndGame();
         assertTrue(turnHandler.isTheLastTurn());
+    }
 
-        HumanPlayer player3 = new HumanPlayer("marghe", true);
-        HumanPlayer player4 = new HumanPlayer("matteo", false);
-        ArrayList<Player> players2 = new ArrayList<>();
-        players2.add(player3);
-        players2.add(player4);
-        Game modelGame2 = new Game(players2);
-        TurnHandler turnHandler2 = new TurnHandlerMultiPlayer(modelGame2);
+    @Test
+    public void checkEndGameTest2(){
 
-        modelGame2.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
-        modelGame2.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
-        modelGame2.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
-        modelGame2.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
+        HumanPlayer player1 = new HumanPlayer("marghe", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+        player1.setGame(modelGame);
+        player2.setGame(modelGame);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        assertFalse(turnHandler.isTheLastTurn());
 
         try {
-
-            for(int i = 0; i<3;i++){
-                modelGame2.getActivePlayer().getDashboard().getProductionZone()[0].addCard(modelGame2.getEvolutionSection().buy(2-i,0));
-                turnHandler2.checkEndGame();
-                assertFalse(turnHandler2.isTheLastTurn());
-            }
-            for(int i = 0; i<3;i++){
-                modelGame2.getActivePlayer().getDashboard().getProductionZone()[1].addCard(modelGame2.getEvolutionSection().buy(2-i,1));
-                turnHandler2.checkEndGame();
-                assertFalse(turnHandler2.isTheLastTurn());
-            }
-            modelGame2.getActivePlayer().getDashboard().getProductionZone()[2].addCard(modelGame2.getEvolutionSection().buy(2,2));
-            turnHandler2.checkEndGame();
-            System.out.println(modelGame2.getActivePlayer().getDashboard().getEvolutionCardNumber());
-            assertTrue(turnHandler2.isTheLastTurn());
-
-            } catch (InvalidPlaceException e) {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
+        } catch (NotEnoughResourcesException e) {
             assertFalse(false);
-        } catch (ExcessOfPositionException e) {
-            assertFalse(false);
-        };
+        }
 
+        /**
+         *
+
+        for(int i = 0; i<3;i++){
+            turnHandler.doAction(new BuyEvolutionCardMessage("buy",2-i,0,0));
+            turnHandler.checkEndGame();
+            assertFalse(turnHandler.isTheLastTurn());
+            System.out.println(turnHandler.modelGame.getActivePlayer() );
+            System.out.println(turnHandler.modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber());
+        }
+        for(int i = 0; i<3;i++){
+            turnHandler.doAction(new BuyEvolutionCardMessage("buy",2-i,1,0));
+            turnHandler.checkEndGame();
+            assertFalse(turnHandler.isTheLastTurn());
+        }
+        turnHandler.doAction(new BuyEvolutionCardMessage("buy",2,2,0));
+        turnHandler.checkEndGame();
+        assertTrue(turnHandler.isTheLastTurn());
+         */
     }
     @Test
     public void endTurn() {

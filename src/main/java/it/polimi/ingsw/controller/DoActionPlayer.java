@@ -188,7 +188,7 @@ public class DoActionPlayer {
                 return;
             }
 
-            //Read the cost of eCard
+            //Read the cost of  n  eCard
             HashMap<Resource , Integer> cost = eCard.getCost();
 
             //Take resources from Stock and then from LockBox

@@ -7,17 +7,15 @@ import java.util.ArrayList;
  *
  */
 public class ActiveProductionMessage extends ActionMessage{
+
+    ArrayList<Integer> positions;
+
+    public ActiveProductionMessage(String message,ArrayList<Integer> positions) {
+        super(message);
+        this.positions=positions;
+    }
+
     public ArrayList<Integer> getPositions() {
         return positions;
     }
-
-    public void setPositions(ArrayList<Integer> positions) {
-        this.positions = positions;
-    }
-
-    ArrayList<Integer> positions;
-    public ActiveProductionMessage(String message) {
-        super(message);
-    }
-
 }
