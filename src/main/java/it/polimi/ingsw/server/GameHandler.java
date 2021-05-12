@@ -120,6 +120,8 @@ public class GameHandler implements Runnable{
             serializableDashboards.add(serializableDashboardEnemy);
         }
 
+
+
         View view = new View(game.getActivePlayer().getNickName(),virtualView.getScc().getNickname(),
                 serializableDashboard,serializableDashboards,serializableMarket,serializableEvolutionSection,
                 serializableLeaderCards, virtualView.getPersonalDashboard().getScore());

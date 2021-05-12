@@ -46,4 +46,5 @@ public class SerializableStock implements Serializable {
     public void setResourcesPlus(ArrayList<Resource> resourcesPlus) {
         this.resourcesPlus = resourcesPlus;
     }
+
 }

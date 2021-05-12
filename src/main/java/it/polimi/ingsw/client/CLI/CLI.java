@@ -1,11 +1,14 @@
 package it.polimi.ingsw.client.CLI;
 
+import com.sun.jdi.ArrayReference;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.configurationMessages.*;
+import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Resource;
-import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import it.polimi.ingsw.model.popeTrack.PopeTrack;
+import it.polimi.ingsw.serializableModel.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -236,6 +239,181 @@ public class CLI implements Runnable {
         }
     }
 
+    public void printLockBox(){
+        SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
+        System.out.println("LockBox: ");
+        for(Resource resource : lockBox.getResources().keySet()){
+            System.out.println("Resource: " + resource + " , quantity: " + lockBox.getResources().get(resource));
+        }
+        System.out.println("#################################################################");
+    }
+
+    public void printStock(){
+        SerializableStock stock = clientSocket.getView().getDashboard().getSerializableStock();
+        int i = 0;
+        System.out.println("Stock: ");
+        for(i = 0 ; i < stock.getBoxes().size() ; i++){
+            System.out.println("Box number " + i);
+            for(int j = 0 ; j < stock.getBoxes().get(i).length ; j++){
+                System.out.println(stock.getBoxes().get(i)[j]);
+            }
+            System.out.println("#################################################################");
+        }
+        if(stock.getBoxPlus() != null){
+            for(int j = 0 ; j < stock.getBoxPlus().size() ; j++){
+                System.out.println("Box number " + i+j);
+                for(int k = 0 ; k < stock.getBoxPlus().get(i).length ; k++){
+                    System.out.println(stock.getBoxes().get(j)[k]);
+                }
+                System.out.println("#################################################################");
+            }
+        }
+    }
+
+    public void printMarket(){
+        SerializableMarket market = clientSocket.getView().getMarket();
+        System.out.println("Market: ");
+        System.out.println("External resource: " + market.getExternalResource());
+        for(int i = 0 ; i < market.getMarket().length ; i++){
+            System.out.println("Line:" + i);
+            for(int j = 0 ; j < market.getMarket()[i].length ; j++){
+                //System.out.println("Column j:");
+                System.out.println(market.getMarket()[i][j]);
+            }
+        }
+        System.out.println("#################################################################");
+    }
+
+    public void printPopeTrack(){
+        SerializablePopeTack popeTack = clientSocket.getView().getDashboard().getSerializablePopeTack();
+        boolean atLeastOneCard = false;
+        System.out.println("Pope track: ");
+        System.out.println("your current position is: " + popeTack.getPosition());
+        System.out.println("Your active pope card are: ");
+        for(int i = 0 ; i < popeTack.getActiveCards().length ; i++){
+            if(popeTack.getActiveCards()[i] == true){
+                System.out.println("    " + i);
+                atLeastOneCard = true;
+            }
+        }
+        if(!atLeastOneCard)
+            System.out.println("    none");
+        if(popeTack.getLorenzoPosition() > 0)
+            System.out.println("Position of Lorenzo is: " + popeTack.getLorenzoPosition());
+        System.out.println("#################################################################");
+    }
+
+    public void printLeaderCards(){
+        ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
+        System.out.println("Your leader card are: ");
+        for(int i = 0 ; i < leaderCards.size() ; i++){
+            System.out.println("Leader card number " + i + ": ");
+            SerializableLeaderCard leaderCard = leaderCards.get(i);
+            System.out.println("Required color: ");
+            if(leaderCard.getRequiresColor() != null) {
+                for (int j = 0; j < leaderCard.getRequiresColor().length; j++) {
+                    System.out.println("    " + leaderCard.getRequiresColor()[j]);
+                }
+            }
+            else {
+                System.out.println("    none");
+            }
+            System.out.println("Required level: ");
+            if(leaderCard.getRequiresLevel() != null) {
+                for (int j = 0; j < leaderCard.getRequiresLevel().length; j++) {
+                    System.out.println("    " + leaderCard.getRequiresLevel()[j]);
+                }
+            }
+            else {
+                System.out.println("    none");
+            }
+            System.out.println("Require for activation: " + leaderCard.getRequiresForActiveLeaderCards());
+            System.out.println("Ability: " + leaderCard.getAbilityType());
+            System.out.println("point: " + leaderCard.getPoint());
+            System.out.println("Is active: " + leaderCard.isActive());
+            System.out.println("Is used: " + leaderCard.isUsed());
+            System.out.println("Requires: ");
+            if(leaderCard.getRequires() != null) {
+                for (Resource resource : leaderCard.getRequires().keySet()) {
+                    System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getRequires().get(resource));
+                }
+            }
+            else{
+                System.out.println("    none");
+            }
+            System.out.println("Ability resources: ");
+            for(Resource resource : leaderCard.getAbilityResource().keySet()){
+                System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
+            }
+            System.out.println("#################################################################");
+        }
+    }
+
+    //A problem because the attribute cards in SerializableProductionZone is null
+    public void printProductionZones(){
+        SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
+        System.out.println("production zones: ");
+        for(int i = 0 ; i < productionZones.length ; i++) {
+            System.out.println("production zone " + i + ": ");
+            SerializableProductionZone productionZone = productionZones[i];
+            ArrayList<EvolutionCard> evolutionCards = productionZone.getCards();
+            if (evolutionCards != null) {
+                for (int j = 0; j < evolutionCards.size(); j++) {
+                    EvolutionCard evolutionCard = evolutionCards.get(j);
+                    if (evolutionCard == null) {
+                        if (i == 0)
+                            System.out.println("    Empty");
+                        continue;
+                    }
+                    System.out.println("Card in position " + j + ": ");
+                    printEvolutionCard(evolutionCard);
+                    System.out.println("#################################################################");
+                }
+            }
+            else {
+                System.out.println("    none");
+                System.out.println("#################################################################");
+            }
+        }
+    }
+
+    public void printEvolutionSection(){
+        SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
+        System.out.println("Evolution section: ");
+        for(int i = 0 ; i < evolutionSection.getEvolutionCards().length ; i++){
+            for(int j = 0 ; j < evolutionSection.getEvolutionCards()[i].length ; j++){
+                System.out.println("Card in position " + i + " " + j);
+                EvolutionCard evolutionCard = evolutionSection.getEvolutionCards()[i][j];
+                if(evolutionCard == null){
+                    System.out.println("    Empty");
+                    continue;
+                }
+                printEvolutionCard(evolutionCard);
+                System.out.println("#################################################################");
+            }
+
+        }
+    }
+
+    private void printEvolutionCard(EvolutionCard evolutionCard){
+        System.out.println("Color: " + evolutionCard.getColor());
+        System.out.println("Level: " + evolutionCard.getLevel());
+        System.out.println("Point: " + evolutionCard.getPoint());
+        System.out.println("Is active: " + evolutionCard.isActive());
+        System.out.println("Cost: ");
+        for(Resource resource : evolutionCard.getCost().keySet()){
+            System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getCost().get(resource));
+        }
+        System.out.println("Requires: ");
+        for(Resource resource : evolutionCard.getRequires().keySet()){
+            System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getRequires().get(resource));
+        }
+        System.out.println("Products: ");
+        for(Resource resource : evolutionCard.getProduction().keySet()){
+            System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getProduction().get(resource));
+        }
+    }
+
     public void setIsAckArrived(boolean value){
         isAckArrived = value;
     }
@@ -294,13 +472,14 @@ public class CLI implements Runnable {
                     }
                     break;
                 case INITIALLEADERCARDSELECTION:
+                    System.out.println("Sono qui in INITIALLEADERCARDSELECTION");
                     chooseLeaderCards();
                     break;
                 case INITIALRESOURCESELECTION:
                     chooseInitialResources();
                     break;
                 case STARTGAME:
-                    System.out.println("wait che implemento anche questa cosa");
+                    System.out.println("The game is started");
                     try {
                         synchronized (this){
                             wait();
@@ -311,11 +490,61 @@ public class CLI implements Runnable {
                     }
                     break;
                 case MYTURN:
-                    System.out.println("è il tuo turno");
-                    while (true){ }
+                    System.out.println("It's your turn");
+
+                    while(true) {
+                        System.out.println("Possible action: ");
+                        System.out.println("1: Show leaderCards");
+                        System.out.println("2: Show stock");
+                        System.out.println("3: Show lockBox");
+                        System.out.println("4: Show popeTrack");
+                        System.out.println("5: Show productionZones");
+                        System.out.println("6: Show market");
+                        System.out.println("7: Show evolutionSection");
+
+                        int action = scanner.nextInt();
+
+                        switch (action) {
+                            case 1:
+                                printLeaderCards();
+                                break;
+
+                            case 2:
+                                printStock();
+                                break;
+
+                            case 3:
+                                printLockBox();
+                                break;
+
+                            case 4:
+                                printPopeTrack();
+                                break;
+
+                            case 5:
+                                printProductionZones();
+                                break;
+
+                            case 6:
+                                printMarket();
+                                break;
+
+                            case 7:
+                                printEvolutionSection();
+                                break;
+
+                            default:
+                                System.out.println("This action doesn't exist");
+                                break;
+                        }
+                    }
+
+
                 case OTHERPLAYERSTURN:
                     System.out.println("non tocca a te!");
-                    while (true){ }
+                    while (true){
+
+                    }
 
             }
         }

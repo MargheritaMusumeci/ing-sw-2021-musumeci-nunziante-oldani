@@ -19,11 +19,14 @@ public class SerializableProductionZone implements Serializable {
     private ArrayList<Card> cards;
 
     public SerializableProductionZone(NormalProductionZone productionZone) {
-        cards= productionZone.getCardList();
+
+        cards = productionZone.getCardList();
     }
 
     public ArrayList<EvolutionCard> getCards() {
         ArrayList<EvolutionCard> evolutionCards = null;
+        if(cards == null)
+            return null;
         for (Card card:cards) {
             evolutionCards.add((EvolutionCard) card);
         }

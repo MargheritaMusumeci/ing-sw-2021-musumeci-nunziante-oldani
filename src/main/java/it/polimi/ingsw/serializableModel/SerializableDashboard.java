@@ -32,7 +32,7 @@ public class SerializableDashboard implements Serializable {
         this.serializablePopeTack = new SerializablePopeTack(dashboard.getPopeTrack());
 
         int i = 0;
-        this.serializableProductionZones= new SerializableProductionZone[dashboard.getProductionZone().length];
+        this.serializableProductionZones = new SerializableProductionZone[dashboard.getProductionZone().length];
 
         for (NormalProductionZone normalPZ:dashboard.getProductionZone()) {
             SerializableProductionZone serializableProductionZone = new SerializableProductionZone(normalPZ);
