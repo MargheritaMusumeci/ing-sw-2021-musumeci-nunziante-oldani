@@ -2,10 +2,12 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
+import it.polimi.ingsw.exception.NotEnoughResourcesException;
 import it.polimi.ingsw.exception.OutOfBandException;
 import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
+import it.polimi.ingsw.messages.actionMessages.ActiveBasicProductionMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
@@ -227,6 +229,41 @@ public class DoActionPlayerTest {
         } catch (LeaderCardAlreadyUsedException e) {
             assertFalse(false);
         }
+    }
+
+    @Test
+    public void testActiveBasicProduction(){
+        HumanPlayer player1 = new HumanPlayer("marghe", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+
+        ArrayList<Resource> requires = new ArrayList<>();
+        requires.add(Resource.COIN);
+        requires.add(Resource.COIN);
+
+        ArrayList<Resource> ensures = new ArrayList<>();
+        ensures.add(Resource.ROCK);
+
+        assertTrue(turnHandler.doAction(new ActiveBasicProductionMessage("Active",requires,ensures)) instanceof NACKMessage);
+
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
+        } catch (NotEnoughResourcesException e) {
+            assertFalse(false);
+        }
+        requires.add(Resource.COIN);
+
+        assertTrue(turnHandler.doAction(new ActiveBasicProductionMessage("Active",requires,ensures)) instanceof NACKMessage);
+
+        ensures.add(Resource.ROCK);
+
+        assertTrue(turnHandler.doAction(new ActiveBasicProductionMessage("Active",requires,ensures)) instanceof NACKMessage);
+
     }
 
     @Test

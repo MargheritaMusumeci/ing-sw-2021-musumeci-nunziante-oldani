@@ -15,12 +15,14 @@ public class TurnHandlerSoloGameTest {
 
     @Test
     public void startTurn() {
+
     }
 
     @Test
     public void checkWinner() {
     }
 
+    @Test
     public void testCheckEndGame1() {
 
         //check end game del human player viene fatto nella classe turnHandlerMultiplaier
@@ -34,14 +36,44 @@ public class TurnHandlerSoloGameTest {
         player1.setGame(modelGame);
         TurnHandler turnHandler = new TurnHandlerSoloGame(modelGame);
         if(modelGame.getActivePlayer() instanceof LorenzoPlayer) {
-            //compro 7 carte evolution
+            try {
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(0,0);
+                modelGame.getEvolutionSection().buy(0,0);
+                modelGame.getEvolutionSection().buy(0,0);
+                modelGame.getEvolutionSection().buy(0,0);
+            } catch (ExcessOfPositionException e) {
+                assertFalse(false);
+            }
         }
         else{
             endTurn();
-            //compro 7 carte evolution
+            try {
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(2,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(1,0);
+                modelGame.getEvolutionSection().buy(0,0);
+                modelGame.getEvolutionSection().buy(0,0);
+                modelGame.getEvolutionSection().buy(0,0);
+                modelGame.getEvolutionSection().buy(0,0);
+            } catch (ExcessOfPositionException e) {
+                assertFalse(false);
+            }
         }
-
         turnHandler.endTurn();
+        turnHandler.checkEndGame();
         assertTrue(turnHandler.isTheLastTurn);
     }
 
@@ -58,13 +90,10 @@ public class TurnHandlerSoloGameTest {
         Game modelGame = new Game(players);
         player1.setGame(modelGame);
         TurnHandler turnHandler = new TurnHandlerSoloGame(modelGame);
-        if(modelGame.getActivePlayer() instanceof LorenzoPlayer) {
-            modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(25);
-        }
-        else{
+        if (!(modelGame.getActivePlayer() instanceof LorenzoPlayer)) {
             endTurn();
-            modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(25);
         }
+        modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(25);
 
         turnHandler.endTurn();
         assertTrue(turnHandler.isTheLastTurn);

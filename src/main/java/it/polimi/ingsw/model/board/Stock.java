@@ -275,6 +275,7 @@ public class Stock extends StockObservable {
      */
     public void addBox(int howBig , Resource resourceType){
         Resource[] newBox = new Resource[howBig];
+        if (boxPlus==null) boxPlus = new ArrayList<>();
         boxPlus.add(newBox);
         resourcesPlus.add(resourceType);
 

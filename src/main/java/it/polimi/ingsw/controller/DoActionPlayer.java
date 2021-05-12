@@ -47,7 +47,7 @@ public class DoActionPlayer {
 
         //Increase PopeTrackPosition if player got a faith ball
         if (resourceList.contains(Resource.FAITH)) {
-            modelGame.getActivePlayer().getPopeTrack().updateGamerPosition(1);
+            moveCross(1,new ArrayList<Player>(){{add(modelGame.getActivePlayer());}});
             resourceList.remove(Resource.FAITH);
         }
     }
@@ -120,7 +120,7 @@ public class DoActionPlayer {
             //To do so, moveCross should have as parameters: player , increment
             for(Player player : modelGame.getPlayers()){
                 if(!player.equals(modelGame.getActivePlayer()))
-                    player.getDashboard().getPopeTrack().updateGamerPosition(1);
+                    moveCross(1,new ArrayList<Player>(){{add(player);}});
             }
     }
 
@@ -332,5 +332,11 @@ public class DoActionPlayer {
      */
     public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
             ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
+    }
+
+    public void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
+
+        if(requires == null || ensures == null || requires.size()!=2 || ensures.size()!=1) throw new NonCompatibleResourceException("Too many or too few resources");
+        modelGame.getActivePlayer().getDashboard().activeBasicProduction(requires.get(0),requires.get(1),ensures.get(0));
     }
 }

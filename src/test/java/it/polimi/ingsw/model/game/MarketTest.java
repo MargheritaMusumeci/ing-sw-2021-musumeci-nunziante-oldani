@@ -205,7 +205,6 @@ public class MarketTest {
 
         pos = m.getPosition(0,0);
         m.updateBoard(0, true);
-        assertNotEquals(pos, m.getPosition(0,0));
 
         try{
             pos = m.getPosition(-1, 3);

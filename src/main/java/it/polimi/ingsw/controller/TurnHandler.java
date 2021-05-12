@@ -142,6 +142,19 @@ public abstract class TurnHandler {
             }
             return new ACKMessage("OK");
         }
+
+        //Client asks to active basic production zone
+        if (message instanceof ActiveBasicProductionMessage){
+            try {
+                actionHandler.activeBasicProduction(((ActiveBasicProductionMessage) message).getResourcesRequires(), ((ActiveBasicProductionMessage) message).getResourcesEnsures());
+                return new ACKMessage("OK");
+            } catch (NonCompatibleResourceException e) {
+                return new NACKMessage("Too many or too few resources required or ensured");
+            } catch (NotEnoughResourcesException e) {
+                return new NACKMessage("Not enough resources");
+            }
+        }
+
         return new NACKMessage("Action not found");
     }
 
@@ -159,9 +172,7 @@ public abstract class TurnHandler {
     /**
      * Method called in the end of the turn
      */
-    public void endTurn(){
-
-    }
+    public abstract void endTurn();
 
     /**
      * Method that ends the game

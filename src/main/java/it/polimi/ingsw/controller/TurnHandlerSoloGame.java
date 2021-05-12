@@ -110,7 +110,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
         if (modelGame.getActivePlayer() instanceof HumanPlayer) {
 
             //active player reached the end of the track
-            if (modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex() == 25) {
+            if (modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex() == 24) {
                 isTheLastTurn = true;
             }
 
@@ -123,10 +123,14 @@ public class TurnHandlerSoloGame extends TurnHandler{
             //A evolution cards type is no longer available
             //4 is the number of type (color) of evolution cards
             int index=0;
-           while(index<3 && !isTheLastTurn){
-               int i = index;
-               ArrayList<EvolutionCard>[] typeEvolution = modelGame.getEvolutionSection().getEvolutionSection()[i];
-               if(typeEvolution.length==0) {
+           while(index<4 && !isTheLastTurn){
+
+             int typeEvolution = 0;
+               for(int i = 0 ; i<3; i ++){
+                   if(modelGame.getEvolutionSection().getEvolutionSection()[i][index]!= null)
+                   typeEvolution=(modelGame.getEvolutionSection().getEvolutionSection()[i][index].size());
+               }
+               if(typeEvolution==0) {
                    isTheLastTurn=true;
                    winner = modelGame.getActivePlayer();
                }
