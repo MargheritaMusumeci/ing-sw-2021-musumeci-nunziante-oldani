@@ -514,8 +514,6 @@ public class StockTest extends TestCase {
 
         assertEquals(stock2.getResourceType(3),Resource.ROCK);
         assertEquals(stock2.getResourceType(2),Resource.COIN);
-        assertEquals(stock2.getResourceType(1),Resource.ROCK);
-        assertEquals(stock2.getResourceType(0),Resource.SHIELD);
         assertEquals(stock2.getQuantities(4),0);
         assertEquals(stock2.getQuantities(3),2);
         assertEquals(stock2.getQuantities(2),3);

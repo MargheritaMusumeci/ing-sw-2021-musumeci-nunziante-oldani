@@ -3,9 +3,10 @@ Musumeci:
 - do tests
 - iniziare gui in parallelo alla cli
 
-
+???? creo i giocatori --> creo il gioco --> assegno il gioco ai giocatori
 ???? abbiamo controllato che l'inkwell lo abbia solo un giocatore
 ???? dobbiamo testare i messaggi per la copertura del codice
+???? problema con il get possible evolution card
 
 Nunziante:
 - abbellire cli

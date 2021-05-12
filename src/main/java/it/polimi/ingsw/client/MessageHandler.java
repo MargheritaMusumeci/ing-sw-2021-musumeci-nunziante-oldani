@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.configurationMessages.FourLeaderCardsMessage;
 import it.polimi.ingsw.messages.configurationMessages.InitialResourcesMessage;
+import it.polimi.ingsw.messages.configurationMessages.SendViewMessage;
 import it.polimi.ingsw.messages.configurationMessages.StartGameMessage;
 
 public class MessageHandler{
@@ -29,11 +30,19 @@ public class MessageHandler{
 
         if(message instanceof ACKMessage){
             cli.setIsAckArrived(true);
+            synchronized (cli){
+                cli.notifyAll();
+            }
             return;
         }
 
         if(message instanceof NACKMessage){
             cli.setIsNackArrived(true);
+
+            synchronized (cli){
+                cli.notifyAll();
+            }
+
             return;
         }
 
@@ -44,12 +53,17 @@ public class MessageHandler{
 
         if(message instanceof StartGameMessage){
             System.out.println("gioco iniziato");
-            cli.setIsGameStarted(true);
+            cli.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
         }
 
         if(message instanceof FourLeaderCardsMessage){
             System.out.println("Leader card ricevute");
             cli.setLeaderCards(((FourLeaderCardsMessage) message).getLeaderCards());
+            cli.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
+
+            synchronized (cli){
+                cli.notifyAll();
+            }
         }
 
         if(message instanceof InitialResourcesMessage){
@@ -57,6 +71,18 @@ public class MessageHandler{
             cli.setResources(((InitialResourcesMessage) message).getResources());
         }
 
+        if(message instanceof SendViewMessage){
+            System.out.println("ricevo la view iniziale");
+            clientSocket.setView(((SendViewMessage) message).getView());
+
+            if(clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())){
+                cli.setGamePhase(GamePhases.MYTURN);
+            }else cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+
+            synchronized (cli){
+                cli.notifyAll();
+            }
+        }
     }
 
 

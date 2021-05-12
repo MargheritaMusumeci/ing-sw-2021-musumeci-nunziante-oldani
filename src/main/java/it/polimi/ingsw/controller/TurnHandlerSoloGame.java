@@ -22,6 +22,7 @@ import java.util.Arrays;
  */
 public class TurnHandlerSoloGame extends TurnHandler{
 
+    private Player winner;
 
     public TurnHandlerSoloGame(Game modelGame) {
         super(modelGame);
@@ -45,7 +46,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
      * |Green|Blue|Yellow|Purple| --> LEVEL 1
      * @return true if server has completed the action. False if something went wrong
      */
-    private void doActionLorenzo() {
+    private void doActionLorenzo() throws ExcessOfPositionException {
         if (modelGame.getActivePlayer() instanceof LorenzoPlayer) {
             LorenzoActionCard lorenzoActionCard = ((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().getActionCard();
 
@@ -74,11 +75,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
                 for (int i = 0; i < lorenzoActionCard.getNum().get(); i++) {
                     for (int j = 2; j >= 0; j--) {
                         if (modelGame.getEvolutionSection().getEvolutionSection()[j][positionCol]!=null){
-                            try {
-                                modelGame.getEvolutionSection().buy(j,positionCol);
-                            } catch (ExcessOfPositionException e) {
-                                //--> carta non presente
-                            }
+                            modelGame.getEvolutionSection().buy(j,positionCol);
                         }
                     }
                 }
@@ -92,8 +89,6 @@ public class TurnHandlerSoloGame extends TurnHandler{
                 if(lorenzoActionCard.getNum().get()==1){((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().shuffle();}
 
             }
-
-
         }
         endTurn();
     }
@@ -123,20 +118,25 @@ public class TurnHandlerSoloGame extends TurnHandler{
             if (!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() > 6) {
                 isTheLastTurn = true;
             }
+
         } else {
             //A evolution cards type is no longer available
             //4 is the number of type (color) of evolution cards
             int index=0;
-           while(index<4 && !isTheLastTurn){
+           while(index<3 && !isTheLastTurn){
                int i = index;
-               EvolutionCard[] typeEvolution = Arrays.stream(modelGame.getEvolutionSection().getEvolutionSection()).map(o->o[i]).toArray(EvolutionCard[]::new);
-               if(typeEvolution.length==0) isTheLastTurn=true;
+               ArrayList<EvolutionCard>[] typeEvolution = modelGame.getEvolutionSection().getEvolutionSection()[i];
+               if(typeEvolution.length==0) {
+                   isTheLastTurn=true;
+                   winner = modelGame.getActivePlayer();
+               }
                index++;
            }
 
             //Lorenzo arrived to the end of the PopeTrack
-            if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getIndex() == 25) {
+            if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getIndex() == 24) {
                 isTheLastTurn = true;
+                winner = modelGame.getActivePlayer();
             }
         }
     }
@@ -169,7 +169,11 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
         //prima di terminare il turno effettuo una mossa di lorenzo
         if(modelGame.getActivePlayer() instanceof LorenzoPlayer) {
-            doActionLorenzo();
+            try {
+                doActionLorenzo();
+            } catch (ExcessOfPositionException e) {
+                //messaggio --> carta che cerca di comprare lorenzo non presente
+            }
         }
     }
 
@@ -177,7 +181,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
      * Method that ends the game
      */
     @Override
-    public void endGame() {
+    public void endGame(){
         checkWinner();
     }
 }

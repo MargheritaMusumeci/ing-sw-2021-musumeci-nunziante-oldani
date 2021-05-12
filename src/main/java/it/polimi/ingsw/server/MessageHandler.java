@@ -4,6 +4,8 @@ import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.actionMessages.ActionMessage;
 import it.polimi.ingsw.messages.configurationMessages.*;
+import it.polimi.ingsw.model.players.HumanPlayer;
+import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
 import java.util.ArrayList;
@@ -97,23 +99,42 @@ public class MessageHandler {
             }
         } else if(scc.getGamePhase() == GamePhases.INITIALIZATION){
 
-            if(message instanceof RequestLeaderCardMessage){
-                ArrayList<SerializableLeaderCard> serializableLeaderCards = scc.getGameHandler().getInitializationHandler().takeLeaderCards(scc.getGameHandler().getPlayersInGame().get(scc));
-                scc.send(new FourLeaderCardsMessage("4 Leader card" , serializableLeaderCards));
-            }
 
             if(message instanceof LeaderCardChoiceMessage){
                 if(scc.getGameHandler().getInitializationHandler().setLeaderCards( scc.getGameHandler().getPlayersInGame().get(scc),
-                        ((LeaderCardChoiceMessage) message).getLeaderCards()))
+                        ((LeaderCardChoiceMessage) message).getLeaderCards())){
                     scc.send(new ACKMessage("OK"));
+                    //controllare che tutti i giocatori del gamehandler abbiamo un arraylist di leaderCaard con size 2
+                    for(ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()){
+                        if(serverClientConnection.getGameHandler().getPlayersInGame().get(serverClientConnection).getDashboard().getLeaderCards().size() != 2){
+                            //System.out.println("entro nell'if");
+                            return;
+                        }
+                    }
+                    scc.getGameHandler().handleInitialResourcesSettings();
+                }
+
                 else
                     scc.send(new NACKMessage("KO"));
             }
 
-            if(message instanceof SelectedInitialResourceMessage){
-                if(scc.getGameHandler().getInitializationHandler().setInitialResources(scc.getGameHandler().getPlayersInGame().get(scc) ,
-                        ((SelectedInitialResourceMessage) message).getResources()))
+            if(message instanceof SelectedInitialResourceMessage) {
+                if (scc.getGameHandler().getInitializationHandler().setInitialResources(scc.getGameHandler().getPlayersInGame().get(scc),
+                        ((SelectedInitialResourceMessage) message).getResources())) {
                     scc.send(new ACKMessage("OK"));
+                    for (Player player : scc.getGameHandler().getPlayersInGame().values()) {
+                        if (!player.getDashboard().getInkwell() && player.getDashboard().getStock().stockIsEmpty()) {
+                            //System.out.println("non dovrei entrare in questo if");
+                            return;
+                        }
+
+                        //le risorse sono settate devo creare le view e mandarle
+                        //System.out.println("ho chiamato il metodo che inizializza le view");
+
+                        //System.out.println("ho finito il metodo per l'invio delle view");
+                    }
+                    scc.getGameHandler().initializationView();
+                }
                 else
                     scc.send(new NACKMessage("KO"));
             }

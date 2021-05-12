@@ -37,10 +37,10 @@ public class LorenzoActionCard {
      * Costructor of 'discard 2 Development Cards' tokens equals to 'discardEvolution'
      * @param actionColor represents what kind of card will be discarded
      */
-    public LorenzoActionCard(CardColor actionColor){
+    public LorenzoActionCard(CardColor actionColor, int num){
         this.actionType=LorenzoAction.DISCARDEVOLUTION;
         this.actionColor= Optional.ofNullable(actionColor);
-        this.num=Optional.empty();
+        this.num=Optional.of(num);
     }
 
     public LorenzoAction getActionType() {
