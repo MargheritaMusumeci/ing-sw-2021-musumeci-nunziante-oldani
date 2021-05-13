@@ -263,6 +263,8 @@ public class HumanPlayer extends Player{
                     NormalProductionZone[] productionZones = dashboard.getProductionZone();
                     colorPresent = false;
                     for(int i = 0 ; i < productionZones.length ; i++){
+                        if(productionZones[i].getCardList() == null)
+                            continue;
                         for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
                             if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)){
                                 colorPresent = true;
@@ -286,6 +288,8 @@ public class HumanPlayer extends Player{
                     colorFound = false;
                     NormalProductionZone[] productionZones = dashboard.getProductionZone();
                     for(int i = 0 ; i < productionZones.length ; i++){
+                        if(productionZones[i].getCardList() == null)
+                            continue;
                         for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
                             if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)){
                                 numberOfColorPresent++;
@@ -311,6 +315,8 @@ public class HumanPlayer extends Player{
                 NormalProductionZone[] productionZones = dashboard.getProductionZone();
                 requiresSatisfied = false;
                 for(int i = 0 ; i < productionZones.length ; i++){
+                    if(productionZones[i].getCardList() == null)
+                        continue;
                     for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
                         if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)
                             && ((EvolutionCard) productionZones[i].getCardList().get(j)).getLevel().getValue() >= levelEnum.getValue()){

@@ -183,54 +183,133 @@ public class HumanPlayerTest extends TestCase {
     }*/
 
     public void testActiveLeaderCard() {
+        HumanPlayer player = new HumanPlayer("Matteo" , true);
+        HumanPlayer player2 = new HumanPlayer("Loser" , false);
+        ArrayList<Player> players = new ArrayList<Player>();
+        players.add(player);
+        players.add(player2);
+        Game game = new Game(players);
+        player.setGame(game);
+        player2.setGame(game);
+
         LeaderCardSet leaderCardSet = new LeaderCardSet();
         ArrayList<LeaderCard> cardsSet = leaderCardSet.getLeaderCardSet();
         ArrayList<LeaderCard> playerCards = new ArrayList<LeaderCard>();
         int i = 0;
         //Take the card with no STOCK PLUS ability
+        //Activation requirement :
         while(cardsSet.get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS))
             i++;
         playerCards.add(cardsSet.get(i));
         i = 0;
         //Take the card with STOCK PLUS ability
+        //Activation requirement : NumberOfResource -> 5 Servants
         while(!cardsSet.get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS))
             i++;
         playerCards.add(cardsSet.get(i));
 
-        HumanPlayer player = new HumanPlayer("Matteo" , false);
         player.getDashboard().setLeaderCards(playerCards);
 
+        System.out.println("Print the requirements");
+        for(i = 0 ; i < 2 ; i++){
+            LeaderCard leaderCard = player.getDashboard().getLeaderCards().get(i);
+            System.out.println("Leader card number " + i);
+            System.out.println("Ability type: " + leaderCard.getAbilityType());
+            System.out.println("Requirement for activation: " + leaderCard.getRequiresForActiveLeaderCards());
+            if(leaderCard.getRequiresColor() != null){
+                for(int j = 0 ; j < leaderCard.getRequiresColor().length ; j++){
+                    System.out.println("Color: " + leaderCard.getRequiresColor()[j]);
+                }
+            }
+            if(leaderCard.getRequiresLevel() != null){
+                for(int j = 0 ; j < leaderCard.getRequiresLevel().length ; j++){
+                    System.out.println("Level: " + leaderCard.getRequiresLevel()[j]);
+                }
+            }
+            if(leaderCard.getRequires() != null){
+                System.out.println("Requires: ");
+                for(Resource resource : leaderCard.getRequires().keySet()){
+                    System.out.println("Resource: " + resource + ", quantity: " + leaderCard.getRequires().get(resource));
+                }
+            }
+        }
+
         try {
-            assertEquals(player.getDashboard().getLeaderCards().size() , 2);
+            assertEquals(2 , player.getDashboard().getLeaderCards().size());
             player.activeLeaderCard(3);
             fail();
         }catch(OutOfBandException e){
-            //It's right
+            assertTrue(true);
         }catch (LeaderCardAlreadyUsedException | ActiveLeaderCardException e){
             fail();
         }
 
+        //Activation requirements not satisfied
         try{
             player.activeLeaderCard(0);
+            fail();
         }catch(Exception e){
+            assertTrue(true);
+        }
+        //Activation requirements not satisfied
+        try{
+            player.activeLeaderCard(1);
+            fail();
+        }catch(Exception e){
+            assertTrue(true);
+        }
+
+        //Activation requirements satisfied -> 5 servant required
+        try{
+            player.getDashboard().getLockBox().setAmountOf(Resource.SERVANT , 10);
+            player.getDashboard().getLockBox().setAmountOf(Resource.COIN , 10);
+            player.getDashboard().getLockBox().setAmountOf(Resource.ROCK , 10);
+            player.getDashboard().getLockBox().setAmountOf(Resource.SHIELD , 10);
+            assertEquals(player.getDashboard().getStock().getNumberOfBoxes() , 3);
+            player.activeLeaderCard(1);
+            assertEquals(player.getDashboard().getStock().getNumberOfBoxes() , 4);
+        }catch(ActiveLeaderCardException e){
+            fail();
+        } catch (OutOfBandException e) {
+            fail();
+        } catch (LeaderCardAlreadyUsedException e) {
+            fail();
+        } catch (NotEnoughResourcesException e) {
+            fail();
+        }
+
+        //Add evolution cards for satisfy requirements of the card
+        try {
+            player.getDashboard().getProductionZone()[0].addCard(game.getEvolutionSection().buy(2 ,2));
+            player.getDashboard().getProductionZone()[1].addCard(game.getEvolutionSection().buy(2 ,1));
+            player.getDashboard().getProductionZone()[2].addCard(game.getEvolutionSection().buy(2 ,0));
+            player.getDashboard().getProductionZone()[0].addCard(game.getEvolutionSection().buy(1 ,2));
+            player.getDashboard().getProductionZone()[1].addCard(game.getEvolutionSection().buy(1 ,1));
+            player.getDashboard().getProductionZone()[2].addCard(game.getEvolutionSection().buy(1 ,0));
+            player.getDashboard().getProductionZone()[0].addCard(game.getEvolutionSection().buy(0 ,2));
+            player.getDashboard().getProductionZone()[1].addCard(game.getEvolutionSection().buy(0 ,1));
+            player.getDashboard().getProductionZone()[2].addCard(game.getEvolutionSection().buy(0 ,0));
+        } catch (InvalidPlaceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
             fail();
         }
 
         try{
             player.activeLeaderCard(0);
-            fail();
         }catch(LeaderCardAlreadyUsedException e){
-            //It's true
-        }catch (Exception e){
+            fail();
+        }catch (ActiveLeaderCardException e){
+            fail();
+        }catch (OutOfBandException e){
             fail();
         }
 
         try {
-            assertEquals(player.getDashboard().getStock().getNumberOfBoxes() , 3);
             player.activeLeaderCard(1);
-            assertEquals(player.getDashboard().getStock().getNumberOfBoxes() , 4);
-        }catch (Exception e){
             fail();
+        }catch (Exception e){
+            assertTrue(true);
         }
     }
 
