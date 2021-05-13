@@ -144,6 +144,11 @@ public class GameHandler implements Runnable{
             System.out.println("inviato il messaggio per: " + player.getNickName());
             sccRelateToPlayer.get(player).setGamePhase(GamePhases.GAME);
         }
+
+        //a tutti devo dire che è cambiata la loro fare di gioco nell'scc
+        for (ServerClientConnection scc : playersInGame.keySet()){
+            scc.setGamePhase(GamePhases.GAME);
+        }
     }
 
 
