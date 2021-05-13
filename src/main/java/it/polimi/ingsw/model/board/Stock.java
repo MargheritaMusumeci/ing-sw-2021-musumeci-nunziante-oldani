@@ -313,16 +313,16 @@ public class Stock extends StockObservable {
      */
     public boolean manageStock(List<Resource> resourceList) {
         //collect resources
-        HashMap<Resource,Integer> totalResources = new HashMap<>();
+        HashMap<Resource, Integer> totalResources = new HashMap<>();
 
         //create false stock
         ArrayList<Resource[]> boxes2 = new ArrayList<>();
         Resource[] box0 = new Resource[1];
         Resource[] box1 = new Resource[2];
         Resource[] box2 = new Resource[3];
-        Arrays.fill(box0 , null);
-        Arrays.fill(box1 , null);
-        Arrays.fill(box2 , null);
+        Arrays.fill(box0, null);
+        Arrays.fill(box1, null);
+        Arrays.fill(box2, null);
         ArrayList<Resource[]> boxPlus2 = null;
 
         //just for prevent errors
@@ -330,131 +330,132 @@ public class Stock extends StockObservable {
         resourceList.remove(Resource.WISH);
         resourceList.remove(Resource.NOTHING);
 
-        for (Resource resource : resourceList) {
-            totalResources.merge(resource,1,Integer::sum);
-        }
-
-        for (int i=0; i< getNumberOfBoxes(); i++) {
-            if (getResourceType(i) != null) {
-                totalResources.merge(getResourceType(i), getQuantities(i), Integer::sum);
+        if (resourceList != null && resourceList.size() != 0) {
+            for (Resource resource : resourceList) {
+                totalResources.merge(resource, 1, Integer::sum);
             }
-        }
-       if(totalResources.size()>getNumberOfBoxes()){
-           notifyStockListener(this);
-           return false;
-       }
-       if(totalResources.size()==0){
-           notifyStockListener(this);
-           return true;
-       }
 
-        Resource resourceType;
-
-        if(getNumberOfBoxes()>3){ //more stock space
-            int space = getNumberOfBoxes()-3;
-            int i =0; //index for boxPlus boxes
-            boxPlus2 = new ArrayList<>();
-            while(space>0) {
-
-                int boxPlusDimension = this.boxPlus.get(i).length;
-                Resource[] resourcesPlus = new Resource[boxPlusDimension];
-                resourceType = this.resourcesPlus.get(i);
-                int boxIndex = 0;
-                while (totalResources.get(resourceType) >= boxPlusDimension && boxPlusDimension > boxIndex) {
-                    resourcesPlus[boxIndex] = resourceType;
-                    boxIndex++;
-                    totalResources.merge(resourceType, -1, Integer::sum);
-                }
-                boxPlus2.add(resourcesPlus);
-                if (totalResources.get(resourceType) < 1) totalResources.remove(resourceType);
-                space--;
-                i++;
-            }
-        }
-
-        int fullBoxes=0;
-        while(totalResources.size()>0){
-            int maxResources =0;
-            Set<Resource> allKeys = totalResources.keySet();
-            ArrayList<Resource> allKeysList = new ArrayList<>(allKeys);
-            resourceType=allKeysList.get(0);
-
-            //find the resource with the max number of items in the map
-            for(int i=0;i<allKeys.size();i++)
-            {
-                if(maxResources<totalResources.get(allKeysList.get(i))) {
-                    maxResources = totalResources.get(allKeysList.get(i));
-                    resourceType = allKeysList.get(i);
+            for (int i = 0; i < getNumberOfBoxes(); i++) {
+                if (getResourceType(i) != null) {
+                    totalResources.merge(getResourceType(i), getQuantities(i), Integer::sum);
                 }
             }
-
-            // if number of resources is greater thant the possible space available return false
-            if(totalResources.get(resourceType)>3-fullBoxes){
+            if (totalResources.size() > getNumberOfBoxes()) {
                 notifyStockListener(this);
                 return false;
             }
-            int i = 0;
-
-            //fullBoxes represents which box has to be fulfilled in this case
-            //boxes are fulfilled from the greatest to the smallest
-            switch (fullBoxes){
-                case(0):
-                    while(totalResources.get(resourceType)>0 && i<3){
-                        box2[i]=resourceType;
-                        i++;
-                        totalResources.merge(resourceType,-1,Integer::sum);
-                    }
-                    totalResources.remove(resourceType);
-                    break;
-                case(1):
-                    while(totalResources.get(resourceType)>0 && i<2){
-                        box1[i]=resourceType;
-                        i++;
-                        totalResources.merge(resourceType,-1,Integer::sum);
-                    }
-                    totalResources.remove(resourceType);
-                    break;
-                case(2):
-                    while(totalResources.get(resourceType)>0 && i<1){
-                        box0[i]=resourceType;
-                        i++;
-                        totalResources.merge(resourceType,-1,Integer::sum);
-                    }
-                    totalResources.remove(resourceType);
-                    break;
+            if (totalResources.size() == 0) {
+                notifyStockListener(this);
+                return true;
             }
-            fullBoxes++;
+
+            Resource resourceType;
+
+            if (getNumberOfBoxes() > 3) { //more stock space
+                int space = getNumberOfBoxes() - 3;
+                int i = 0; //index for boxPlus boxes
+                boxPlus2 = new ArrayList<>();
+                while (space > 0) {
+
+                    int boxPlusDimension = this.boxPlus.get(i).length;
+                    Resource[] resourcesPlus = new Resource[boxPlusDimension];
+                    resourceType = this.resourcesPlus.get(i);
+                    int boxIndex = 0;
+                    while (totalResources.get(resourceType) >= boxPlusDimension && boxPlusDimension > boxIndex) {
+                        resourcesPlus[boxIndex] = resourceType;
+                        boxIndex++;
+                        totalResources.merge(resourceType, -1, Integer::sum);
+                    }
+                    boxPlus2.add(resourcesPlus);
+                    if (totalResources.get(resourceType) < 1) totalResources.remove(resourceType);
+                    space--;
+                    i++;
+                }
+            }
+
+            int fullBoxes = 0;
+            while (totalResources.size() > 0) {
+                int maxResources = 0;
+                Set<Resource> allKeys = totalResources.keySet();
+                ArrayList<Resource> allKeysList = new ArrayList<>(allKeys);
+                resourceType = allKeysList.get(0);
+
+                //find the resource with the max number of items in the map
+                for (int i = 0; i < allKeys.size(); i++) {
+                    if (maxResources < totalResources.get(allKeysList.get(i))) {
+                        maxResources = totalResources.get(allKeysList.get(i));
+                        resourceType = allKeysList.get(i);
+                    }
+                }
+
+                // if number of resources is greater thant the possible space available return false
+                if (totalResources.get(resourceType) > 3 - fullBoxes) {
+                    notifyStockListener(this);
+                    return false;
+                }
+                int i = 0;
+
+                //fullBoxes represents which box has to be fulfilled in this case
+                //boxes are fulfilled from the greatest to the smallest
+                switch (fullBoxes) {
+                    case (0):
+                        while (totalResources.get(resourceType) > 0 && i < 3) {
+                            box2[i] = resourceType;
+                            i++;
+                            totalResources.merge(resourceType, -1, Integer::sum);
+                        }
+                        totalResources.remove(resourceType);
+                        break;
+                    case (1):
+                        while (totalResources.get(resourceType) > 0 && i < 2) {
+                            box1[i] = resourceType;
+                            i++;
+                            totalResources.merge(resourceType, -1, Integer::sum);
+                        }
+                        totalResources.remove(resourceType);
+                        break;
+                    case (2):
+                        while (totalResources.get(resourceType) > 0 && i < 1) {
+                            box0[i] = resourceType;
+                            i++;
+                            totalResources.merge(resourceType, -1, Integer::sum);
+                        }
+                        totalResources.remove(resourceType);
+                        break;
+                }
+                fullBoxes++;
+            }
+            boxes2.add(box0);
+            boxes2.add(box1);
+            boxes2.add(box2);
+
+            this.boxes = boxes2;
+            this.boxPlus = boxPlus2;
+
+
+            notifyStockListener(this);
+
         }
-        boxes2.add(box0);
-        boxes2.add(box1);
-        boxes2.add(box2);
-
-        this.boxes=boxes2;
-        this.boxPlus=boxPlus2;
-
-
-        notifyStockListener(this);
-
         return true;
     }
 
-    public ArrayList<Resource[]> getBoxes() {
-        return boxes;
-    }
-
-    public ArrayList<Resource[]> getBoxPlus() {
-        return boxPlus;
-    }
-
-    public ArrayList<Resource> getResourcesPlus() {
-        return resourcesPlus;
-    }
-
-    public boolean stockIsEmpty(){
-        int resources=0;
-        for(int i =0; i<getNumberOfBoxes(); i++){
-            resources=resources+getQuantities(i);
+        public ArrayList<Resource[]> getBoxes () {
+            return boxes;
         }
-        return resources==0 ? true : false;
-    }
+
+        public ArrayList<Resource[]> getBoxPlus () {
+            return boxPlus;
+        }
+
+        public ArrayList<Resource> getResourcesPlus () {
+            return resourcesPlus;
+        }
+
+        public boolean stockIsEmpty () {
+            int resources = 0;
+            for (int i = 0; i < getNumberOfBoxes(); i++) {
+                resources = resources + getQuantities(i);
+            }
+            return resources == 0 ? true : false;
+        }
 }

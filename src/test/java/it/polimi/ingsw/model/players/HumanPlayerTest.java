@@ -210,6 +210,7 @@ public class HumanPlayerTest extends TestCase {
             fail();
         }
 
+        /*
         try{
             player.activeLeaderCard(0);
         }catch(Exception e){
@@ -232,6 +233,8 @@ public class HumanPlayerTest extends TestCase {
         }catch (Exception e){
             fail();
         }
+
+         */
     }
 
     public void testDiscardLeaderCard() {
