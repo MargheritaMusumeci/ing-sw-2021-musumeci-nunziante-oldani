@@ -1,10 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.actionMessages.*;
+import it.polimi.ingsw.messages.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.board.ProductionZone;
-import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
@@ -15,7 +13,6 @@ import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Class that contains all turn and game management commands for solitaire game
@@ -147,9 +144,10 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
     /**
      * Method called in the end of the turn
+     * @return
      */
     @Override
-    public void endTurn() {
+    public UpdateActivePlayerMessage endTurn() {
         //If it was a player turn
         if(modelGame.getActivePlayer() instanceof HumanPlayer){
             //Set NOTHING the action chose by the player
@@ -179,6 +177,10 @@ public class TurnHandlerSoloGame extends TurnHandler{
                 //messaggio --> carta che cerca di comprare lorenzo non presente
             }
         }
+        //probabilemte va aggiunto perchè anche lorenzo ha fatto la sua mossa
+        modelGame.updateActivePlayer();
+
+        return new UpdateActivePlayerMessage(modelGame.getActivePlayer().getNickName());
     }
 
     /**
