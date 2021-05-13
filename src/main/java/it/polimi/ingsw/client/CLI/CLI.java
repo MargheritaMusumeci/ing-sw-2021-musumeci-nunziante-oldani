@@ -7,6 +7,8 @@ import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.messages.actionMessages.BuyFromMarketMessage;
+import it.polimi.ingsw.messages.actionMessages.RequestResourcesBoughtFromMarketMessage;
+import it.polimi.ingsw.messages.actionMessages.StoreResourcesMessage;
 import it.polimi.ingsw.messages.configurationMessages.*;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -474,6 +476,7 @@ public class CLI implements Runnable {
                 printSingleLeaderCard(leaderCard);
             }
         }
+
         boolean controllo;
         controllo = false;
         int number;
@@ -565,6 +568,80 @@ public class CLI implements Runnable {
             System.out.println("Errore durante l'acquisto delle risorse");
             isNackArrived = false;
         }
+
+        //chiedo le risorse
+        clientSocket.send(new RequestResourcesBoughtFromMarketMessage(""));
+
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //controllo se tra le risorse ottunute ho solo nothing, in quel caso mando un messaggio e termino
+        int countNotnull = 0;
+        for (Resource resource: clientSocket.getView().getResourcesBoughtFromMarker()){
+           if(resource != Resource.NOTHING){
+               countNotnull++;
+           }
+        }
+
+        //erano tutto nulle
+        if(countNotnull == 0){
+            clientSocket.send(new StoreResourcesMessage("salva risorse", clientSocket.getView().getResourcesBoughtFromMarker()));
+            return;
+        }
+
+
+        do{
+            //stampo le risorse ottenute
+            int i =0;
+            System.out.println("seleziona le risorse da inserire nello stock, -1 per terminare e 5 per sceglierle tutte");
+            for (Resource resource: clientSocket.getView().getResourcesBoughtFromMarker()){
+                System.out.println(i + ") "+resource);
+                i++;
+            }
+            ArrayList<Integer> positions = new ArrayList<>();
+            int positionSelected;
+
+            do{
+                positionSelected = scanner.nextInt();
+                if(positionSelected >= 0 &&
+                        positionSelected < clientSocket.getView().getResourcesBoughtFromMarker().size() &&
+                        !positions.contains(positionSelected)){
+                    System.out.println("prova if");
+                    positions.add(positionSelected);
+                }else{
+                    if(positionSelected == 5){
+                        positions = new ArrayList<>();
+                        for (int j=0; j<clientSocket.getView().getResourcesBoughtFromMarker().size(); j++){
+                            positions.add(j);
+                        }
+                        break;
+                    }
+                }
+            }while(positionSelected != -1);
+
+            ArrayList<Resource> resourcesToSend = new ArrayList<>();
+            for(Integer integer: positions){
+                resourcesToSend.add(clientSocket.getView().getResourcesBoughtFromMarker().get(integer));
+            }
+            clientSocket.send(new StoreResourcesMessage("salva risorse selezionate", resourcesToSend));
+
+            synchronized (this){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }while(!isAckArrived);
+
+        isAckArrived = false;
+        isNackArrived = false;
+
     }
 
 

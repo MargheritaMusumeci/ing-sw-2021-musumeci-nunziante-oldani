@@ -79,12 +79,8 @@ public abstract class TurnHandler {
                 try {
                     actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(),((BuyEvolutionCardMessage) message).getCol(),((BuyEvolutionCardMessage) message).getPosition());
                     return new ACKMessage("OK");
-                } catch (ExcessOfPositionException e) {
-                    return new NACKMessage("Evolution Card not present");
-                } catch (InvalidPlaceException e) {
-                    return new NACKMessage("Production Zone not accessible");
-                } catch (NotEnoughResourcesException e) {
-                    return new NACKMessage("Not enough resources");
+                } catch (Exception | InvalidPlaceException e) {
+                    return new NACKMessage("something goes wrong ... :(");
                 }
             }
 

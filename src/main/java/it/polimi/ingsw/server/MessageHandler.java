@@ -1,15 +1,11 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.actionMessages.ActionMessage;
-import it.polimi.ingsw.messages.actionMessages.ActiveLeaderCardMessage;
+import it.polimi.ingsw.messages.actionMessages.RequestResourcesBoughtFromMarketMessage;
+import it.polimi.ingsw.messages.actionMessages.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.configurationMessages.*;
-import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
-import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
-
-import java.util.ArrayList;
 
 public class MessageHandler {
 
@@ -147,6 +143,10 @@ public class MessageHandler {
             scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
         }
 
+        if (actionMessage instanceof RequestResourcesBoughtFromMarketMessage){
+
+            scc.send(new SendResourcesBoughtFromMarket("",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
+        }
         //controllo che la richiesta mi viene fatta dal player attivo
         if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
             scc.send(new NACKMessage("Error! It's not your turn"));

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.actionMessages.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.configurationMessages.FourLeaderCardsMessage;
 import it.polimi.ingsw.messages.configurationMessages.InitialResourcesMessage;
 import it.polimi.ingsw.messages.configurationMessages.SendViewMessage;
@@ -88,6 +89,13 @@ public class MessageHandler{
                 cli.notifyAll();
             }
         }
+
+        if(message instanceof SendResourcesBoughtFromMarket){
+            clientSocket.getView().setResourcesBoughtFromMarker(((SendResourcesBoughtFromMarket) message).getResources());
+            synchronized (cli){
+                cli.notifyAll();
+            }
+        }
     }
 
     private void handleUpdateMessage(UpdateMessage message) {
@@ -118,6 +126,8 @@ public class MessageHandler{
         if(message instanceof UpdateMarketMessage){
             clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
         }
+
+
     }
 
 

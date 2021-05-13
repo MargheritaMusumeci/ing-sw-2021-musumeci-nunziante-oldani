@@ -107,4 +107,12 @@ public class View implements Serializable {
     public void addEnemyLeaderCard(SerializableDashboard enemyDashboard, SerializableLeaderCard leaderCard){
         enemiesActivatedLeaderCards.get(enemyDashboard).add(leaderCard);
     }
+
+    public ArrayList<Resource> getResourcesBoughtFromMarker() {
+        return resourcesBoughtFromMarker;
+    }
+
+    public void setResourcesBoughtFromMarker(ArrayList<Resource> resourcesBoughtFromMarker) {
+        this.resourcesBoughtFromMarker = resourcesBoughtFromMarker;
+    }
 }

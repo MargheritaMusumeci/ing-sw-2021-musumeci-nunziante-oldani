@@ -1,12 +1,12 @@
-package it.polimi.ingsw.messages.updateMessages;
+package it.polimi.ingsw.messages.actionMessages;
 
 import it.polimi.ingsw.model.game.Resource;
 
 import java.util.ArrayList;
 
-public class UpdateResourcesBoughtFromMarketMessage extends UpdateMessage{
+public class SendResourcesBoughtFromMarket extends ActionMessage{
     private ArrayList<Resource> resources;
-    public UpdateResourcesBoughtFromMarketMessage(String message, ArrayList<Resource> resources) {
+    public SendResourcesBoughtFromMarket(String message,  ArrayList<Resource> resources) {
         super(message);
         this.resources = resources;
     }

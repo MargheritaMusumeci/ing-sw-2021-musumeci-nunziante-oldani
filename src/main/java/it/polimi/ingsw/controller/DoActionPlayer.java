@@ -51,6 +51,7 @@ public class DoActionPlayer {
             resourceList.remove(Resource.FAITH);
         }
 
+        humanPlayer.setResources(resourceList);
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
     }
 
@@ -61,9 +62,32 @@ public class DoActionPlayer {
 
         HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
 
+        int coin =0;
+        int rock=0;
+        int shield=0;
+        int servant=0;
+
+        for(int i =0; i<saveResources.size();i++){
+            if(saveResources.get(0).equals(Resource.COIN)){coin++;}
+            if(saveResources.get(0).equals(Resource.SHIELD)){shield++;}
+            if(saveResources.get(0).equals(Resource.ROCK)){rock++;}
+            if(saveResources.get(0).equals(Resource.SERVANT)){servant++;}
+        }
+
+        int coinOld =0;
+        int rockOld=0;
+        int shieldOld=0;
+        int servantOld=0;
+
+        for(int i =0; i<saveResources.size();i++){
+            if(resourceList.get(0).equals(Resource.COIN)){coinOld++;}
+            if(resourceList.get(0).equals(Resource.SHIELD)){shieldOld++;}
+            if(resourceList.get(0).equals(Resource.ROCK)){rockOld++;}
+            if(resourceList.get(0).equals(Resource.SERVANT)){servantOld++;}
+        }
 
         //only if the player chooses resources from the ones he receives
-        if(resourceList.equals(saveResources)) {
+        if(coinOld>=coin && rockOld>=rock & shieldOld>=shield && servantOld>=servant) {
 
             //only if the player chooses a correct number of resources to insert
             if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
@@ -166,34 +190,36 @@ public class DoActionPlayer {
      * @param col column of the evolutionSection
      * @param position is in which productionZone the player wants to place the card
      */
-    public void buyEvolutionCard(int row, int col , int position) throws ExcessOfPositionException, InvalidPlaceException, NotEnoughResourcesException {
+    public void buyEvolutionCard(int row, int col , int position) throws Exception, InvalidPlaceException {
 
         //Check if the player can buy this card
-        if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col]){
+        if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col]) {
 
             //Read the card the player wants to buy
             EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
 
-            if(!((HumanPlayer) modelGame.getActivePlayer()).getPossibleProductionZone(eCard)[position]){
+            if (!((HumanPlayer) modelGame.getActivePlayer()).getPossibleProductionZone(eCard)[position]) {
                 //The card cannot be placed in position
                 //Ask again the user where place the card
                 return;
             }
 
             //Read the cost of  n  eCard
-            HashMap<Resource , Integer> cost = eCard.getCost();
+            HashMap<Resource, Integer> cost = eCard.getCost();
 
             //Take resources from Stock and then from LockBox
             takeResources(cost);
 
             //Buy the card and place it
 
-            EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row , col);
+            EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row, col);
             modelGame.getActivePlayer().getDashboard().getProductionZone()[position].addCard(cardBought);
-            modelGame.getActivePlayer().getDashboard().setEvolutionCardNumber(modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() +1);
+            modelGame.getActivePlayer().getDashboard().setEvolutionCardNumber(modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() + 1);
 
             //Set the action done in player
             ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_CARD);
+        }else{
+            throw new Exception("wrong parameters");
         }
     }
 
