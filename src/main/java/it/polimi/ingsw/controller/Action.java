@@ -11,5 +11,9 @@ public enum Action {
 
     BUY_CARD,
 
-    ACTIVE_PRODUCTION
+    ACTIVE_PRODUCTION,
+
+    STORE_RESOURCE,
+
+    ACTIVE_BASIC_PRODUCTION;
 }

@@ -5,7 +5,7 @@ package it.polimi.ingsw.messages.actionMessages;
  *
  */
 public class DiscardLeaderCardMessage extends ActionMessage {
-    int position;
+    private int position;
 
     public DiscardLeaderCardMessage(String message,int position) {
         super(message);

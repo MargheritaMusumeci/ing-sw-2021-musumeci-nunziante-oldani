@@ -50,6 +50,8 @@ public class DoActionPlayer {
             moveCross(1,new ArrayList<Player>(){{add(modelGame.getActivePlayer());}});
             resourceList.remove(Resource.FAITH);
         }
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
     }
 
     /**
@@ -71,7 +73,6 @@ public class DoActionPlayer {
 
                 //notify error
                 return new NACKMessage("Not enough space for store resources - try again");
-
             }
             //notify error
         }else return new NACKMessage("They are not purchased resources");
@@ -95,7 +96,7 @@ public class DoActionPlayer {
         }
 
         //mossa effettuata
-        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.STORE_RESOURCE);
         return new ACKMessage("OK");
     }
 
@@ -129,12 +130,7 @@ public class DoActionPlayer {
      * @param position is which production zone the user wants to activate
      */
     public void activeProductionZone(int position) throws NotEnoughResourcesException {
-        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING &&
-                ((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.ACTIVE_PRODUCTION){
-            //I should do this control in the method that decide which action the player chose
-            //---> method doAction() in TurnHandler
-            return;
-        }
+
         if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleActiveProductionZone()[position]){//if can be activated
 
             //take the card activated by the player
@@ -172,10 +168,6 @@ public class DoActionPlayer {
      */
     public void buyEvolutionCard(int row, int col , int position) throws ExcessOfPositionException, InvalidPlaceException, NotEnoughResourcesException {
 
-        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose() != Action.NOTHING){
-            //The user had already done a move
-            return;
-        }
         //Check if the player can buy this card
         if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col]){
 
@@ -338,5 +330,6 @@ public class DoActionPlayer {
 
         if(requires == null || ensures == null || requires.size()!=2 || ensures.size()!=1) throw new NonCompatibleResourceException("Too many or too few resources");
         modelGame.getActivePlayer().getDashboard().activeBasicProduction(requires.get(0),requires.get(1),ensures.get(0));
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
     }
 }

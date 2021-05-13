@@ -6,6 +6,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.messages.actionMessages.*;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
@@ -59,21 +60,78 @@ public abstract class TurnHandler {
      */
     public Message doAction(Message message){
 
-        //Client chooses which resources store in his stock and asks controller to do that
-        //this question will be asked until client asks for storing a correct number and type of resources
-        if(message instanceof StoreResourcesMessage){
-            return (actionHandler.storeResourcesBought(((StoreResourcesMessage) message).getSaveResources()));
+        //Actions that client can perform only once in his turn
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)){
+            //Client asks to receive resources from market
+            //Resources are stored in his dashboard not in his stock
+            if (message instanceof BuyFromMarketMessage) {
+                try {
+                    actionHandler.buyFromMarket(((BuyFromMarketMessage) message).getPosition(), ((BuyFromMarketMessage) message).isRow());
+                    return new ACKMessage("OK");
+                } catch (ExcessOfPositionException e) {
+                    return new NACKMessage("Position not found");
+                }
+            }
+
+            //Client asks to buy a evolution card
+            //one at a time
+            if (message instanceof BuyEvolutionCardMessage){
+                try {
+                    actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(),((BuyEvolutionCardMessage) message).getCol(),((BuyEvolutionCardMessage) message).getPosition());
+                    return new ACKMessage("OK");
+                } catch (ExcessOfPositionException e) {
+                    return new NACKMessage("Evolution Card not present");
+                } catch (InvalidPlaceException e) {
+                    return new NACKMessage("Production Zone not accessible");
+                } catch (NotEnoughResourcesException e) {
+                    return new NACKMessage("Not enough resources");
+                }
+            }
+
+            //Client asks to active production zones
+            if (message instanceof ActiveProductionMessage){
+
+                //nel messaggio sono presenti dei campi che indicano se è attiva la production zone basic
+                //momentaneamente ho lasciato separati i metodi basic e normal
+                //vedi te se vuoi unificarli o si unificano a livello di model perchè entrambi andranno ad agire sul fake stock e fake lockbox
+
+
+                if(((ActiveProductionMessage) message).isActiveBasic()){
+                    try {
+                        actionHandler.activeBasicProduction(((ActiveProductionMessage) message).getResourcesRequires(),((ActiveProductionMessage) message).getResourcesEnsures());
+                    } catch (NonCompatibleResourceException e) {
+                        return new NACKMessage("Too many or too few resources required or ensured");
+                    } catch (NotEnoughResourcesException e) {
+                        return new NACKMessage("Not enough resources");
+                    }
+                }
+
+
+                ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
+                for (int position: positions) {
+                    try {
+                        actionHandler.activeProductionZone(position);
+                    } catch (NotEnoughResourcesException e) {
+                        return new NACKMessage("Not enough resources");
+                    }
+                }
+                return new ACKMessage("OK");
+            }
         }
 
-        //Client asks to receive resources from market
-        //Resources are stored in his dashboard not in his stock
-        if (message instanceof BuyFromMarketMessage) {
-            try {
-                actionHandler.buyFromMarket(((BuyFromMarketMessage) message).getPosition(), ((BuyFromMarketMessage) message).isRow());
-                return new ACKMessage("OK");
-            } catch (ExcessOfPositionException e) {
-                return new NACKMessage("Position not found");
+        //Action that client can perform only after buying from market
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.BUY_FROM_MARKET)){
+
+            //Client chooses which resources store in his stock and asks controller to do that
+            //this question will be asked until client asks for storing a correct number and type of resources
+            if(message instanceof StoreResourcesMessage){
+                return (actionHandler.storeResourcesBought(((StoreResourcesMessage) message).getSaveResources()));
             }
+        }
+
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.ACTIVE_BASIC_PRODUCTION) ||
+                ((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)){
+
         }
 
         //Client asks to active his leader card
@@ -112,46 +170,6 @@ public abstract class TurnHandler {
                 return new NACKMessage("Leader Card not present");
             } catch (LeaderCardAlreadyUsedException e) {
                 return new NACKMessage("Leader Card has already used");
-            }
-        }
-
-        //Client asks to buy a evolution card
-        //one at a time
-        if (message instanceof BuyEvolutionCardMessage){
-            try {
-                actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(),((BuyEvolutionCardMessage) message).getCol(),((BuyEvolutionCardMessage) message).getPosition());
-                return new ACKMessage("OK");
-            } catch (ExcessOfPositionException e) {
-                return new NACKMessage("Evolution Card not present");
-            } catch (InvalidPlaceException e) {
-                return new NACKMessage("Production Zone not accessible");
-            } catch (NotEnoughResourcesException e) {
-                return new NACKMessage("Not enough resources");
-            }
-        }
-
-        //Client asks to active production zones
-        if (message instanceof ActiveProductionMessage){
-            ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
-            for (int position: positions) {
-                try {
-                    actionHandler.activeProductionZone(position);
-                } catch (NotEnoughResourcesException e) {
-                    return new NACKMessage("Not enough resources");
-                }
-            }
-            return new ACKMessage("OK");
-        }
-
-        //Client asks to active basic production zone
-        if (message instanceof ActiveBasicProductionMessage){
-            try {
-                actionHandler.activeBasicProduction(((ActiveBasicProductionMessage) message).getResourcesRequires(), ((ActiveBasicProductionMessage) message).getResourcesEnsures());
-                return new ACKMessage("OK");
-            } catch (NonCompatibleResourceException e) {
-                return new NACKMessage("Too many or too few resources required or ensured");
-            } catch (NotEnoughResourcesException e) {
-                return new NACKMessage("Not enough resources");
             }
         }
 

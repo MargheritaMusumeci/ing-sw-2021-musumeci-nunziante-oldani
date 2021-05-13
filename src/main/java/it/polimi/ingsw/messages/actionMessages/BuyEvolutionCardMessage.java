@@ -5,9 +5,9 @@ package it.polimi.ingsw.messages.actionMessages;
  *
  */
 public class BuyEvolutionCardMessage extends ActionMessage{
-    int row;
-    int col;
-    int position;
+    private int row;
+    private int col;
+    private int position;
 
     public BuyEvolutionCardMessage(String message, int row, int col, int pos) {
         super(message);

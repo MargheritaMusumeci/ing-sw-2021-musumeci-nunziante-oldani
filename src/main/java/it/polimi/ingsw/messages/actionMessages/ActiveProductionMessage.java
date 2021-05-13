@@ -1,5 +1,7 @@
 package it.polimi.ingsw.messages.actionMessages;
 
+import it.polimi.ingsw.model.game.Resource;
+
 import java.util.ArrayList;
 
 /**
@@ -8,14 +10,45 @@ import java.util.ArrayList;
  */
 public class ActiveProductionMessage extends ActionMessage{
 
-    ArrayList<Integer> positions;
+    private ArrayList<Integer> positions;
+
+    private boolean activeBasic;
+
+    private ArrayList<Resource> resourcesRequires;
+    private ArrayList<Resource> resourcesEnsures;
 
     public ActiveProductionMessage(String message,ArrayList<Integer> positions) {
         super(message);
         this.positions=positions;
+        activeBasic=false;
     }
 
     public ArrayList<Integer> getPositions() {
         return positions;
     }
+
+    public boolean isActiveBasic() {
+        return activeBasic;
+    }
+
+    public void setActiveBasic(boolean activeBasic) {
+        this.activeBasic = activeBasic;
+    }
+
+    public ArrayList<Resource> getResourcesRequires() {
+        return resourcesRequires;
+    }
+
+    public ArrayList<Resource> getResourcesEnsures() {
+        return resourcesEnsures;
+    }
+
+    public void setResourcesRequires(ArrayList<Resource> resourcesRequires) {
+        this.resourcesRequires = resourcesRequires;
+    }
+
+    public void setResourcesEnsures(ArrayList<Resource> resourcesEnsures) {
+        this.resourcesEnsures = resourcesEnsures;
+    }
+
 }

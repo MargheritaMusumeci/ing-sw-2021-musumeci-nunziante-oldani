@@ -9,15 +9,17 @@ import java.util.ArrayList;
  */
 public class StoreResourcesMessage extends ActionMessage{
 
-    public ArrayList<Resource> getSaveResources() {
-        return saveResources;
-    }
 
 
-    ArrayList<Resource> saveResources;
+
+    private ArrayList<Resource> saveResources;
 
     public StoreResourcesMessage(String message,ArrayList<Resource> saveResources) {
         super(message);
         this.saveResources=saveResources;
+    }
+
+    public ArrayList<Resource> getSaveResources() {
+        return saveResources;
     }
 }
