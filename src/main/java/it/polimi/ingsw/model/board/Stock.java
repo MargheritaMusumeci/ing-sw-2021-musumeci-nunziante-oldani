@@ -339,8 +339,14 @@ public class Stock extends StockObservable {
                 totalResources.merge(getResourceType(i), getQuantities(i), Integer::sum);
             }
         }
-       if(totalResources.size()>getNumberOfBoxes()){ return false;}
-       if(totalResources.size()==0){return true;}
+       if(totalResources.size()>getNumberOfBoxes()){
+           notifyStockListener(this);
+           return false;
+       }
+       if(totalResources.size()==0){
+           notifyStockListener(this);
+           return true;
+       }
 
         Resource resourceType;
 
@@ -383,7 +389,10 @@ public class Stock extends StockObservable {
             }
 
             // if number of resources is greater thant the possible space available return false
-            if(totalResources.get(resourceType)>3-fullBoxes){return false;}
+            if(totalResources.get(resourceType)>3-fullBoxes){
+                notifyStockListener(this);
+                return false;
+            }
             int i = 0;
 
             //fullBoxes represents which box has to be fulfilled in this case
