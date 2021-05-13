@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model.players;
 
 import it.polimi.ingsw.model.board.Dashboard;
+import it.polimi.ingsw.model.osservables.PlayerObservable;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
-public abstract class Player {
+public abstract class Player extends PlayerObservable {
 
     protected String nickName;
     protected Dashboard dashboard;
