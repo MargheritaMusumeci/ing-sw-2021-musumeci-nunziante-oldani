@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
 
@@ -13,6 +14,7 @@ import java.net.Socket;
 public class ClientSocket implements Runnable{
 
     private CLI cli;
+    private GUI gui;
     private Socket socket;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
@@ -22,14 +24,23 @@ public class ClientSocket implements Runnable{
 
     public ClientSocket(CLI cli, Socket socket) throws IOException {
         this.cli = cli;
+        this.gui=null;
         this.socket = socket;
-
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
         messageHandler = new MessageHandler(cli, this);
-
         isActive = true;
 
+    }
+
+    public ClientSocket(GUI gui, Socket socket) throws IOException {
+        this.cli = null;
+        this.gui=gui;
+        this.socket = socket;
+        outputStream = new ObjectOutputStream(socket.getOutputStream());
+        inputStream = new ObjectInputStream(socket.getInputStream());
+        messageHandler = new MessageHandler(cli, this);
+        isActive = true;
     }
 
     /**

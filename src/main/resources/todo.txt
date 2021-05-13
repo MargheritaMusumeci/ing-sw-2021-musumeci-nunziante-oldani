@@ -1,5 +1,8 @@
 Musumeci:
 
+- connessione al ping
+- wait until ack
+
 - controllare e sistemare il test Active Basic Production
 - do tests Do action --> catch exception
 - iniziare gui in parallelo alla cli
