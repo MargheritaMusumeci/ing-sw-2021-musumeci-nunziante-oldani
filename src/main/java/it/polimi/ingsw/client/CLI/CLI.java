@@ -1,11 +1,15 @@
 package it.polimi.ingsw.client.CLI;
 
+import com.google.gson.stream.JsonToken;
 import com.sun.jdi.ArrayReference;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.messages.actionMessages.ActiveLeaderCardMessage;
+import it.polimi.ingsw.messages.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.messages.configurationMessages.*;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.serializableModel.*;
@@ -28,6 +32,7 @@ public class CLI implements Runnable {
     private ArrayList<SerializableLeaderCard> leaderCards;
     private ArrayList<Resource> resources;
     private boolean serverIsUp;
+    private boolean isActionBeenDone;
 
     public CLI(){
         scanner = new Scanner(System.in);
@@ -36,6 +41,7 @@ public class CLI implements Runnable {
         leaderCards = null;
         resources = null;
         gamePhase = GamePhases.IINITIALIZATION;
+        isActionBeenDone = false;
         new Thread(this).start();
     }
 
@@ -247,7 +253,6 @@ public class CLI implements Runnable {
         }
         System.out.println("#################################################################");
     }
-
     public void printStock(){
         SerializableStock stock = clientSocket.getView().getDashboard().getSerializableStock();
         int i = 0;
@@ -269,7 +274,6 @@ public class CLI implements Runnable {
             }
         }
     }
-
     public void printMarket(){
         SerializableMarket market = clientSocket.getView().getMarket();
         System.out.println("Market: ");
@@ -283,7 +287,6 @@ public class CLI implements Runnable {
         }
         System.out.println("#################################################################");
     }
-
     public void printPopeTrack(){
         SerializablePopeTack popeTack = clientSocket.getView().getDashboard().getSerializablePopeTack();
         boolean atLeastOneCard = false;
@@ -302,13 +305,12 @@ public class CLI implements Runnable {
             System.out.println("Position of Lorenzo is: " + popeTack.getLorenzoPosition());
         System.out.println("#################################################################");
     }
-
     public void printLeaderCards(){
         ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
         System.out.println("Your leader card are: ");
         for(int i = 0 ; i < leaderCards.size() ; i++){
-            System.out.println("Leader card number " + i + ": ");
             SerializableLeaderCard leaderCard = leaderCards.get(i);
+            System.out.println("Leader card id: " + leaderCard.getId());
             System.out.println("Required color: ");
             if(leaderCard.getRequiresColor() != null) {
                 for (int j = 0; j < leaderCard.getRequiresColor().length; j++) {
@@ -348,7 +350,6 @@ public class CLI implements Runnable {
             System.out.println("#################################################################");
         }
     }
-
     //A problem because the attribute cards in SerializableProductionZone is null
     public void printProductionZones(){
         SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
@@ -376,7 +377,6 @@ public class CLI implements Runnable {
             }
         }
     }
-
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
         System.out.println("Evolution section: ");
@@ -394,7 +394,6 @@ public class CLI implements Runnable {
 
         }
     }
-
     private void printEvolutionCard(EvolutionCard evolutionCard){
         System.out.println("Color: " + evolutionCard.getColor());
         System.out.println("Level: " + evolutionCard.getLevel());
@@ -413,6 +412,162 @@ public class CLI implements Runnable {
             System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getProduction().get(resource));
         }
     }
+    private void printSingleLeaderCard(SerializableLeaderCard leaderCard){
+        System.out.println("#################################################################");
+        System.out.println("Leader card id: " + leaderCard.getId());
+        System.out.println("Required color: ");
+        if(leaderCard.getRequiresColor() != null) {
+            for (int j = 0; j < leaderCard.getRequiresColor().length; j++) {
+                System.out.println("    " + leaderCard.getRequiresColor()[j]);
+            }
+        }
+        else {
+            System.out.println("    none");
+        }
+        System.out.println("Required level: ");
+        if(leaderCard.getRequiresLevel() != null) {
+            for (int j = 0; j < leaderCard.getRequiresLevel().length; j++) {
+                System.out.println("    " + leaderCard.getRequiresLevel()[j]);
+            }
+        }
+        else {
+            System.out.println("    none");
+        }
+        System.out.println("Require for activation: " + leaderCard.getRequiresForActiveLeaderCards());
+        System.out.println("Ability: " + leaderCard.getAbilityType());
+        System.out.println("point: " + leaderCard.getPoint());
+        System.out.println("Is active: " + leaderCard.isActive());
+        System.out.println("Is used: " + leaderCard.isUsed());
+        System.out.println("Requires: ");
+        if(leaderCard.getRequires() != null) {
+            for (Resource resource : leaderCard.getRequires().keySet()) {
+                System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getRequires().get(resource));
+            }
+        }
+        else{
+            System.out.println("    none");
+        }
+        System.out.println("Ability resources: ");
+        for(Resource resource : leaderCard.getAbilityResource().keySet()){
+            System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
+        }
+        System.out.println("#################################################################");
+    }
+
+    private void activeLeaderCards() {
+
+        //check if there is a leader card to be activated
+        int possibleLeaderCards = 0;
+        for (SerializableLeaderCard leaderCard : clientSocket.getView().getLeaderCards()){
+            if (!leaderCard.isActive()){
+                possibleLeaderCards++;
+            }
+        }
+
+        if(possibleLeaderCards == 0){
+            System.out.println("You have already activated all your cards!");
+            return;
+        }
+
+        for (SerializableLeaderCard leaderCard : clientSocket.getView().getLeaderCards()){
+            if (!leaderCard.isActive()){
+                printSingleLeaderCard(leaderCard);
+            }
+        }
+        boolean controllo;
+        controllo = false;
+        int number;
+        do{
+            System.out.println("Choose the leader card to be activated (type the id): ");
+            number = scanner.nextInt();
+
+
+
+            for(SerializableLeaderCard lcard : clientSocket.getView().getLeaderCards()){
+                if(lcard.getId() == number && !lcard.isActive()){
+                    controllo = true;
+                }
+            }
+        }while(!controllo);
+
+        //trovo la posizione a cui si trova la leader card nel mio set
+        int pos = 0;
+        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
+            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
+                pos = i;
+            }
+        }
+
+        //devo mandare il messsaggio di attiazione
+        clientSocket.send(new ActiveLeaderCardMessage("active leader card", pos));
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            System.out.println("Leader card correctly activated");
+        }else{
+            System.out.println("Error while activating the leader card");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+
+    }
+    private void buyFromMarket() {
+        printMarket();
+        int scelta = 0;
+        do {
+            System.out.println("Inserire 1 per scegliere una riga o 2 per scelgiere una colonna:");
+            System.out.print(">");
+
+            scelta = scanner.nextInt();
+
+            if(scelta == 1){
+                int row = 0;
+                do{
+                   System.out.println("Inserire la riga che si vuole acquistare: (0,1,2)");
+                   row = scanner.nextInt();
+                }while (row <0 || row > 2);
+
+                clientSocket.send(new BuyFromMarketMessage("buy from market", row, true));
+
+            }
+            if(scelta ==2){
+                int col = 0;
+                do{
+                    System.out.println("Inserire la colonna che si vuole acquistare: (0,1,2,3)");
+                    col = scanner.nextInt();
+                }while (col <0 || col > 3);
+
+                clientSocket.send(new BuyFromMarketMessage("buy from market", col, false));
+            }
+        }while (scelta != 1 && scelta != 2);
+
+        //ho acquistato, devo aspettare un ack
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(isAckArrived){
+            System.out.println("Risosrse dal mercato prese in modo corretto");
+            isAckArrived = false;
+            isActionBeenDone = true;
+        }else{
+            System.out.println("Errore durante l'acquisto delle risorse");
+            isNackArrived = false;
+        }
+    }
+
+
 
     public void setIsAckArrived(boolean value){
         isAckArrived = value;
@@ -426,8 +581,8 @@ public class CLI implements Runnable {
 
     public void setResources(ArrayList<Resource> resources){ this.resources = resources; }
 
-    public void setGamePhase(GamePhases gamePahse){
-        this.gamePhase = gamePahse;
+    public void setGamePhase(GamePhases gamePhase){
+        this.gamePhase = gamePhase;
     }
 
     public GamePhases getGamePhase() {
@@ -472,7 +627,6 @@ public class CLI implements Runnable {
                     }
                     break;
                 case INITIALLEADERCARDSELECTION:
-                    System.out.println("Sono qui in INITIALLEADERCARDSELECTION");
                     chooseLeaderCards();
                     break;
                 case INITIALRESOURCESELECTION:
@@ -490,10 +644,12 @@ public class CLI implements Runnable {
                     }
                     break;
                 case MYTURN:
+                    isActionBeenDone = false;
                     System.out.println("It's your turn");
-
-                    while(true) {
+                    boolean endTurnSelected = false;
+                    while(!endTurnSelected) {
                         System.out.println("Possible action: ");
+                        System.out.println("0: END TURN");
                         System.out.println("1: Show leaderCards");
                         System.out.println("2: Show stock");
                         System.out.println("3: Show lockBox");
@@ -501,37 +657,57 @@ public class CLI implements Runnable {
                         System.out.println("5: Show productionZones");
                         System.out.println("6: Show market");
                         System.out.println("7: Show evolutionSection");
+                        System.out.println("8: Active Leader cards");
+                        System.out.println("9: Discard Leader cards");
+                        System.out.println("10: Buy from Market");
+                        System.out.println("11: Active Production");
+                        System.out.println("12: Byu Evolution card");
+                        System.out.println("13: Manage stock");
+
 
                         int action = scanner.nextInt();
 
                         switch (action) {
+                            case 0:
+                                endTurnSelected = true;
+                                //implementare messsaggio di endTurn
+                                break;
                             case 1:
                                 printLeaderCards();
                                 break;
-
                             case 2:
                                 printStock();
                                 break;
-
                             case 3:
                                 printLockBox();
                                 break;
-
                             case 4:
                                 printPopeTrack();
                                 break;
-
                             case 5:
                                 printProductionZones();
                                 break;
-
                             case 6:
                                 printMarket();
                                 break;
-
                             case 7:
                                 printEvolutionSection();
                                 break;
+                            case 8:
+                                activeLeaderCards();
+                                break;
+                            case 9:
+                                //to be implemented in the future
+                                break;
+                            case 10:
+                                if(!isActionBeenDone){
+                                    buyFromMarket();
+                                }else{
+                                    System.out.println("You have already make an action, yuo should end your turn now!");
+                                }
+
+                                break;
+
 
                             default:
                                 System.out.println("This action doesn't exist");
@@ -550,4 +726,8 @@ public class CLI implements Runnable {
         }
 
     }
+
+
+
+
 }
