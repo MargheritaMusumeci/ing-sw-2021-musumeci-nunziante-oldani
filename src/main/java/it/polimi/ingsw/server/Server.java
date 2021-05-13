@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import it.polimi.ingsw.utils.Constants;
 
+import java.lang.reflect.AnnotatedArrayType;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -115,6 +116,13 @@ public class Server {
             }
         }
 
+    }
+
+    public synchronized void startSoloGame(ServerClientConnection scc){
+        ArrayList<ServerClientConnection> soloPlayer = new ArrayList<>();
+        soloPlayer.add(scc);
+        GameHandler gameHandler = new GameHandler(1, soloPlayer);
+        System.out.println("solo game started");
     }
 
     public synchronized void addToLobby2Players(ServerClientConnection scc){
