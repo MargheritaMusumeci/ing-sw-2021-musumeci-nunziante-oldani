@@ -12,6 +12,7 @@ import java.util.HashMap;
  *
  */
 public class SerializableLeaderCard implements Serializable {
+    private int id;
     private LeaderCardRequires requiresForActiveLeaderCards;
     private CardColor[] requiresColor;
     private LevelEnum[] requiresLevel;
@@ -32,6 +33,7 @@ public class SerializableLeaderCard implements Serializable {
         this.abilityResource = leaderCard.getAbilityResource();
         this.isActive = leaderCard.isActive();
         this.isUsed = leaderCard.isUsed();
+        this.id = leaderCard.getId();
     }
 
     public LeaderCardRequires getRequiresForActiveLeaderCards() {
@@ -68,5 +70,9 @@ public class SerializableLeaderCard implements Serializable {
 
     public boolean isUsed() {
         return isUsed;
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -12,6 +12,11 @@ import java.util.HashMap;
 public class LeaderCard extends LeaderCardObservable implements Card {
 
     /**
+     * unique id for every leader card
+     */
+    private int id;
+
+    /**
      * Possible requires:
      * - 2 EvolutionCard in which are specified only the Color --> type A
      * - 3 EvolutionCard in which are specified only the Color --> type B
@@ -106,12 +111,17 @@ public class LeaderCard extends LeaderCardObservable implements Card {
         return isActive;
     }
 
+    public int getId() {
+        return id;
+    }
+
     /**
      * Method that change the card state from inactive to active
      * @param value is true if the card is active, false otherwise
      */
     public void setActive(boolean value){
         isActive = value;
+        notifyLeaderCardListener(this);
     }
 
     public boolean isUsed() {
@@ -124,6 +134,7 @@ public class LeaderCard extends LeaderCardObservable implements Card {
      */
     public void setUsed(boolean used) {
         if(isActive) isUsed = used;
+        notifyLeaderCardListener(this);
     }
 
 }

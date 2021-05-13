@@ -1,5 +1,6 @@
 [
   {
+    "id" : 1,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 4,
@@ -25,6 +26,7 @@
     }
   },
   {
+    "id" : 2,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 4,
@@ -50,6 +52,7 @@
     }
   },
   {
+    "id" : 3,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 4,
@@ -75,6 +78,7 @@
     }
   },
   {
+    "id" : 4,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 4,
@@ -100,24 +104,26 @@
     }
   },
   {
+    "id" : 5,
     "isActive": false,
     "isUsed":false,
-  "requiresForActiveLeaderCards": 2,
-  "requiresColor": [4,4,1],
-  "requiresLevel": null,
-  "requires": null,
-  "products": null,
+    "requiresForActiveLeaderCards": 2,
+    "requiresColor": [4,4,1],
+    "requiresLevel": null,
+    "requires": null,
+    "products": null,
 
-  "abilityType": 3,
-  "point":5,
-  "abilityResource": {
-    "ROCK" : 0,
-    "SHIELD" : 0,
-    "COIN" : 1,
-    "SERVANT" : 0
-  }
-},
+    "abilityType": 3,
+    "point":5,
+    "abilityResource": {
+      "ROCK" : 0,
+      "SHIELD" : 0,
+      "COIN" : 1,
+      "SERVANT" : 0
+    }
+  },
   {
+    "id" : 6,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 2,
@@ -136,6 +142,7 @@
     }
   },
   {
+    "id" : 7,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 2,
@@ -154,6 +161,7 @@
     }
   },
   {
+    "id" : 8,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 2,
@@ -172,6 +180,7 @@
     }
   },
   {
+    "id" : 9,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 3,
@@ -195,6 +204,7 @@
     }
   },
   {
+    "id" : 10,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 3,
@@ -218,6 +228,7 @@
     }
   },
   {
+    "id" : 11,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 3,
@@ -241,6 +252,7 @@
     }
   },
   {
+    "id" : 12,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 3,
@@ -264,6 +276,7 @@
     }
   },
   {
+    "id" : 13,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 1,
@@ -282,6 +295,7 @@
     }
   },
   {
+    "id" : 14,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 1,
@@ -300,6 +314,7 @@
     }
   },
   {
+    "id" : 15,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 1,
@@ -318,6 +333,7 @@
     }
   },
   {
+    "id" : 16,
     "isActive": false,
     "isUsed":false,
     "requiresForActiveLeaderCards": 1,
