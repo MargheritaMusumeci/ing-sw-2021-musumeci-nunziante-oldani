@@ -3,17 +3,14 @@ package it.polimi.ingsw.server.virtualView;
 import it.polimi.ingsw.messages.updateMessages.UpdateDashBoardMessage;
 import it.polimi.ingsw.messages.updateMessages.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.messages.updateMessages.UpdateMarketMessage;
-import it.polimi.ingsw.messages.updateMessages.UpdateResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Market;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.listeners.*;
-import it.polimi.ingsw.model.osservables.PlayerObservable;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.serializableModel.SerializableDashboard;
-import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.serializableModel.SerializableMarket;
 import it.polimi.ingsw.server.ServerClientConnection;
@@ -155,6 +152,6 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
     @Override
     public void update(ArrayList<Resource> resources) {
         //devo dire alla view del client che le risorse comrpate dal mercaro sonos state messe nell'array
-        scc.send(new UpdateResourcesBoughtFromMarketMessage("resources bought from market", resources));
+       //scc.send(new UpdateResourcesBoughtFromMarketMessage("resources bought from market", resources));
     }
 }
