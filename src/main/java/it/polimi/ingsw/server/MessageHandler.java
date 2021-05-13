@@ -5,6 +5,7 @@ import it.polimi.ingsw.messages.actionMessages.ActionMessage;
 import it.polimi.ingsw.messages.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.actionMessages.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.configurationMessages.*;
+import it.polimi.ingsw.messages.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.players.Player;
 
 public class MessageHandler {
@@ -29,7 +30,12 @@ public class MessageHandler {
         }
 
         if(message instanceof EndTurnMessage){
-            scc.getGameHandler().getTurnHandler().endTurn();
+            //per ongi player mando il messaggio che è cambiato il turno
+            UpdateActivePlayerMessage updateActivePlayerMessage= scc.getGameHandler().getTurnHandler().endTurn();
+
+            for (ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
+                serverClientConnection.send(updateActivePlayerMessage);
+            }
         }
 
     }
@@ -70,6 +76,7 @@ public class MessageHandler {
                 }else{
                     switch (Integer.parseInt(numMessage.getMessage())){
                         case 1:
+                            server.startSoloGame(scc);
                             break;
                         case 2:
                             server.addToLobby2Players(scc);
