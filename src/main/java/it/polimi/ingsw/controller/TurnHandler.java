@@ -89,16 +89,16 @@ public abstract class TurnHandler {
             }
 
             //Client asks to active production zones
-            if (message instanceof ActiveProductionMessage){
+            if (message instanceof ActiveProductionMessage) {
 
                 //nel messaggio sono presenti dei campi che indicano se è attiva la production zone basic
                 //momentaneamente ho lasciato separati i metodi basic e normal
                 //vedi te se vuoi unificarli o si unificano a livello di model perchè entrambi andranno ad agire sul fake stock e fake lockbox
 
 
-                if(((ActiveProductionMessage) message).isActiveBasic()){
+                if (((ActiveProductionMessage) message).isActiveBasic()) {
                     try {
-                        actionHandler.activeBasicProduction(((ActiveProductionMessage) message).getResourcesRequires(),((ActiveProductionMessage) message).getResourcesEnsures());
+                        actionHandler.activeBasicProduction(((ActiveProductionMessage) message).getResourcesRequires(), ((ActiveProductionMessage) message).getResourcesEnsures());
                     } catch (NonCompatibleResourceException e) {
                         return new NACKMessage("Too many or too few resources required or ensured");
                     } catch (NotEnoughResourcesException e) {
@@ -106,16 +106,19 @@ public abstract class TurnHandler {
                     }
                 }
 
+                //controllo fatto perchè se un giocatore vuole attivare solo la basic, passa un array vuoto
 
-                ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
-                for (int position: positions) {
-                    try {
-                        actionHandler.activeProductionZone(position);
-                    } catch (NotEnoughResourcesException e) {
-                        return new NACKMessage("Not enough resources");
+                if (((ActiveProductionMessage) message).getPositions() != null) {
+                    ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
+                    for (int position : positions) {
+                        try {
+                            actionHandler.activeProductionZone(position);
+                        } catch (NotEnoughResourcesException e) {
+                            return new NACKMessage("Not enough resources");
+                        }
                     }
+                    return new ACKMessage("OK");
                 }
-                return new ACKMessage("OK");
             }
         }
 
@@ -127,11 +130,6 @@ public abstract class TurnHandler {
             if(message instanceof StoreResourcesMessage){
                 return (actionHandler.storeResourcesBought(((StoreResourcesMessage) message).getSaveResources()));
             }
-        }
-
-        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.ACTIVE_BASIC_PRODUCTION) ||
-                ((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)){
-
         }
 
         //Client asks to active his leader card

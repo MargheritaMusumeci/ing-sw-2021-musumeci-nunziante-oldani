@@ -3,6 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.NotEnoughResourcesException;
 import it.polimi.ingsw.messages.ACKMessage;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.messages.actionMessages.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
@@ -25,26 +27,51 @@ public class TurnHandlerTest {
         players.add(player1);
         players.add(player2);
         Game modelGame = new Game(players);
+        player1.setGame(modelGame);
+        player2.setGame(modelGame);
         TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
 
         //COMPRO DAL MERCATO
+
+        //posizione non valida
+        assertTrue(turnHandler.doAction(new BuyFromMarketMessage("BUY",7,true)) instanceof NACKMessage);
         assertTrue(turnHandler.doAction(new BuyFromMarketMessage("BUY",1,true)) instanceof ACKMessage);
 
         //SALVO LE  RISORSE
         ArrayList<Resource> resources = ((HumanPlayer)modelGame.getActivePlayer()).getResources();
+        ArrayList<Resource> resources2 = (ArrayList<Resource>) resources.clone();
+        resources2.add(Resource.ROCK);
+
+        //risorse sbagliate
+        turnHandler.doAction(new StoreResourcesMessage("STORE",resources2));
+        //assertTrue() instanceof NACKMessage);
+
         assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
+
+        //azione già effettuata
+        assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof NACKMessage);
+        turnHandler.endTurn();
 
         //ATTIVO UNA LEADER CARD
         assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",0)) instanceof ACKMessage);
+
+        //carta non presente
+        assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",7)) instanceof NACKMessage);
+
+        //carta già attiva
+        assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",0)) instanceof NACKMessage);
 
         //SCARTO UNA LEADER CARD
         assertTrue(turnHandler.doAction(new DiscardLeaderCardMessage("DISCARD",1)) instanceof ACKMessage);
 
         //COMPRO UNA CARTA EVOLUTION
-        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",0,0,0)) instanceof ACKMessage);
+        //compro carte anche se non ho abbastanza risorse
+        //assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",0,0,0)) instanceof ACKMessage);
+        //turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE
         assertTrue(turnHandler.doAction(new ActiveProductionMessage("ACTIVE",new ArrayList<Integer>(){{add(0);}})) instanceof ACKMessage);
+        turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE BASE
         try {
@@ -59,8 +86,13 @@ public class TurnHandlerTest {
         ArrayList<Resource> ensures = new ArrayList<>();
         ensures.add(Resource.ROCK);
 
-        assertTrue(turnHandler.doAction(new ActiveBasicProductionMessage("ACTIVE BASIC",requires,ensures)) instanceof ACKMessage);
+        ArrayList<Integer> empty= null;
+        Message message = new ActiveProductionMessage("active",empty);
+        ((ActiveProductionMessage)message).setActiveBasic(true);
+        ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
+        ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
+        //assertTrue(turnHandler.doAction(message) instanceof ACKMessage);
 
     }
 

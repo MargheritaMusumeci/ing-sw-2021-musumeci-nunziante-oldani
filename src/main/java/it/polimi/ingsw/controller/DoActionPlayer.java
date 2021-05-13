@@ -63,7 +63,7 @@ public class DoActionPlayer {
 
 
         //only if the player chooses resources from the ones he receives
-        if(resourceList.containsAll(saveResources) ) {
+        if(resourceList.equals(saveResources)) {
 
             //only if the player chooses a correct number of resources to insert
             if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {

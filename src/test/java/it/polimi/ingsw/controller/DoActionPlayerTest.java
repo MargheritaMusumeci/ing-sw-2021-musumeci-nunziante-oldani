@@ -7,6 +7,7 @@ import it.polimi.ingsw.exception.OutOfBandException;
 import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
+import it.polimi.ingsw.messages.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
@@ -248,21 +249,29 @@ public class DoActionPlayerTest {
         ArrayList<Resource> ensures = new ArrayList<>();
         ensures.add(Resource.ROCK);
 
-        //assertTrue(turnHandler.doAction(new ActiveBasicProductionMessage("Active",requires,ensures)) instanceof NACKMessage);
+        ArrayList<Integer> empty= null;
+        Message message = new ActiveProductionMessage("active",empty);
+        ((ActiveProductionMessage)message).setActiveBasic(true);
+        ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
+        ((ActiveProductionMessage)message).setResourcesRequires(requires);
+
+        turnHandler.doAction(message);
+        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
 
         try {
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
         } catch (NotEnoughResourcesException e) {
             assertFalse(false);
         }
+        //assertTrue(turnHandler.doAction(message) instanceof ACKMessage);
+
         requires.add(Resource.COIN);
 
-        //assertTrue(turnHandler.doAction(new ActiveBasicProductionMessage("Active",requires,ensures)) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
 
         ensures.add(Resource.ROCK);
 
-        //assertTrue(turnHandler.doAction(new ActiveBasicProductionMessage("Active",requires,ensures)) instanceof NACKMessage);
-
+        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
     }
 
     @Test
