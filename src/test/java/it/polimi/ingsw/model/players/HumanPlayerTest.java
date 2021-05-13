@@ -206,7 +206,7 @@ public class HumanPlayerTest extends TestCase {
             fail();
         }catch(OutOfBandException e){
             //It's right
-        }catch (LeaderCardAlreadyUsedException e){
+        }catch (LeaderCardAlreadyUsedException | ActiveLeaderCardException e){
             fail();
         }
 
