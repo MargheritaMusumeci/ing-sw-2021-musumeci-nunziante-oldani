@@ -1,5 +1,7 @@
 package it.polimi.ingsw.messages.updateMessages;
 
+import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,14 @@ import java.io.Serializable;
  */
 public class UpdateEvolutionSectionMessage extends UpdateMessage implements Serializable {
 
-    public UpdateEvolutionSectionMessage(String message) {
+    private SerializableEvolutionSection evolutionSection;
+
+    public UpdateEvolutionSectionMessage(String message, SerializableEvolutionSection serializableEvolutionSection) {
         super(message);
+        this.evolutionSection = serializableEvolutionSection;
+    }
+
+    public SerializableEvolutionSection getEvolutionSection() {
+        return evolutionSection;
     }
 }
