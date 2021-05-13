@@ -113,6 +113,7 @@ public class Market extends MarketObservable {
             externalResource = tempRes;
         }
 
+        notifyMarketListeners(this);
         return bought;
     }
 
