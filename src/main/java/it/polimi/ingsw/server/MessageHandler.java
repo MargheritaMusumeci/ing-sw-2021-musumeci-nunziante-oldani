@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.actionMessages.ActionMessage;
+import it.polimi.ingsw.messages.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.messages.configurationMessages.*;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
@@ -28,11 +29,7 @@ public class MessageHandler {
         }
 
         if(message instanceof ActionMessage){
-            if(scc.getGamePhase() != GamePhases.GAME){
-                scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
-                return;
-            }
-            scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+            handleActionMessages((ActionMessage) message, scc);
         }
 
         if(message instanceof EndTurnMessage){
@@ -40,6 +37,7 @@ public class MessageHandler {
         }
 
     }
+
 
     private void handleConfigurationMessages(ConfigurationMessage message, ServerClientConnection scc){
 
@@ -99,7 +97,6 @@ public class MessageHandler {
             }
         } else if(scc.getGamePhase() == GamePhases.INITIALIZATION){
 
-
             if(message instanceof LeaderCardChoiceMessage){
                 if(scc.getGameHandler().getInitializationHandler().setLeaderCards( scc.getGameHandler().getPlayersInGame().get(scc),
                         ((LeaderCardChoiceMessage) message).getLeaderCards())){
@@ -142,6 +139,20 @@ public class MessageHandler {
         }else {
             scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
         }
+
+    }
+
+    private void handleActionMessages(ActionMessage actionMessage, ServerClientConnection scc){
+        if (scc.getGamePhase() != GamePhases.GAME){
+            scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
+        }
+
+        //controllo che la richiesta mi viene fatta dal player attivo
+        if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
+            scc.send(new NACKMessage("Error! It's not your turn"));
+        }
+
+        scc.send(scc.getGameHandler().getTurnHandler().doAction(actionMessage));
 
     }
 }
