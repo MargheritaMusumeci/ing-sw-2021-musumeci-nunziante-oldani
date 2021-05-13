@@ -242,7 +242,7 @@ public class HumanPlayer extends Player{
 
         if(dashboard.getLeaderCards().get(position).isActive()) throw new LeaderCardAlreadyUsedException("This leader card is already used");
 
-        //Check if the activation requirement are satisfied
+        //Check if the activation requirements are satisfied
         LeaderCardRequires leaderCardRequires = dashboard.getLeaderCards().get(position).getRequiresForActiveLeaderCards();
         CardColor[] cardColor = dashboard.getLeaderCards().get(position).getRequiresColor();
 
@@ -278,7 +278,28 @@ public class HumanPlayer extends Player{
                 break;
 
             case THREEEVOLUTIONCOLOR:
-                //Where are the number of colors that are necessary?
+                //Variable that counts how many colors are present -> stop when it's equal to color.length
+                int numberOfColorPresent = 0;
+                boolean colorFound;
+
+                for(CardColor color : cardColor){
+                    colorFound = false;
+                    NormalProductionZone[] productionZones = dashboard.getProductionZone();
+                    for(int i = 0 ; i < productionZones.length ; i++){
+                        for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
+                            if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)){
+                                numberOfColorPresent++;
+                                colorFound = true;
+                                break;
+                            }
+                        }
+                        if(colorFound)
+                            break;
+                    }
+                }
+                if(numberOfColorPresent != cardColor.length)
+                    throw new ActiveLeaderCardException("Requires not satisfied");
+
                 break;
 
             case EVOLUTIONCOLORANDLEVEL:
@@ -321,6 +342,10 @@ public class HumanPlayer extends Player{
                     break;
                 }
             }
+        }
+        //Only in case of new production power
+        if(dashboard.getLeaderCards().get(position).getAbilityType() == LeaderAbility.PRODUCTIONPOWER){
+            dashboard.addLeaderCardProductionZone(dashboard.getLeaderCards().get(position));
         }
     }
 
