@@ -8,6 +8,17 @@ public enum LevelEnum {
     @SerializedName("2")
     SECOND,
     @SerializedName("3")
-    THIRD
+    THIRD;
 
+    //Return the level as int
+    public int getValue(){
+        if(this.equals(LevelEnum.FIRST))
+            return 1;
+        else if(this.equals(LevelEnum.SECOND))
+            return 2;
+        else if(this.equals(LevelEnum.THIRD))
+            return 3;
+        return 0;
+    }
 }
+

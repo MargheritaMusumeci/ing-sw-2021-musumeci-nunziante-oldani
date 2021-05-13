@@ -105,7 +105,7 @@ public class DoActionPlayer {
      *
      * @param position index of the array of leaderCard
      */
-    public void activeLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
+    public void activeLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException,ActiveLeaderCardException {
         ((HumanPlayer) modelGame.getActivePlayer()).activeLeaderCard(position);
     }
 

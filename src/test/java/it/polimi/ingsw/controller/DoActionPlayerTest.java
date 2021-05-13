@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exception.ExcessOfPositionException;
-import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
-import it.polimi.ingsw.exception.NotEnoughResourcesException;
-import it.polimi.ingsw.exception.OutOfBandException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
@@ -149,7 +146,7 @@ public class DoActionPlayerTest {
         modelGame.getPlayers().get(1).getDashboard().setLeaderCards(leaderCards);
         try {
             doActionPlayer.activeLeaderCard(0);
-        } catch (OutOfBandException | LeaderCardAlreadyUsedException e) {
+        } catch (OutOfBandException | LeaderCardAlreadyUsedException | ActiveLeaderCardException e) {
             assertFalse(false);
         }
         assertTrue(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isActive());
@@ -161,6 +158,8 @@ public class DoActionPlayerTest {
             assertTrue(true);
         } catch (LeaderCardAlreadyUsedException e) {
             assertFalse(false);
+        } catch (ActiveLeaderCardException e) {
+            assertFalse(false);
         }
 
         try {
@@ -170,6 +169,8 @@ public class DoActionPlayerTest {
         } catch (LeaderCardAlreadyUsedException e) {
             System.out.println("eccezione lanciata 2");
             assertTrue(true);
+        }catch (ActiveLeaderCardException e){
+            assertFalse(false);
         }
 
     }
@@ -208,7 +209,7 @@ public class DoActionPlayerTest {
 
         try {
             doActionPlayer.activeLeaderCard(0);
-        } catch (OutOfBandException | LeaderCardAlreadyUsedException e) {
+        } catch (OutOfBandException | LeaderCardAlreadyUsedException | ActiveLeaderCardException e) {
             assertFalse(false);
         }
 

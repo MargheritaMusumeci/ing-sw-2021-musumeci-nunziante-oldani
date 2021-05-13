@@ -1,16 +1,12 @@
 package it.polimi.ingsw.model.players;
 
 import it.polimi.ingsw.controller.Action;
-import it.polimi.ingsw.exception.ExcessOfPositionException;
-import it.polimi.ingsw.exception.LeaderCardAlreadyUsedException;
-import it.polimi.ingsw.exception.NonCompatibleResourceException;
-import it.polimi.ingsw.exception.OutOfBandException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.board.Dashboard;
-import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.board.NormalProductionZone;
+import it.polimi.ingsw.model.board.ProductionZone;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.game.Resource;
-import it.polimi.ingsw.model.cards.EvolutionCard;
-import it.polimi.ingsw.model.cards.LeaderAbility;
-import it.polimi.ingsw.model.cards.LevelEnum;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.model.game.Game;
 
@@ -241,10 +237,77 @@ public class HumanPlayer extends Player{
      * @throws OutOfBandException if the card specified doesn't exist
      * @throws LeaderCardAlreadyUsedException if the card specified is already been used
      */
-    public void activeLeaderCard(int position) throws OutOfBandException,LeaderCardAlreadyUsedException{
+    public void activeLeaderCard(int position) throws OutOfBandException,LeaderCardAlreadyUsedException, ActiveLeaderCardException {
         if(position < 0 || position >= dashboard.getLeaderCards().size() ) throw new OutOfBandException("Invalid position");
 
         if(dashboard.getLeaderCards().get(position).isActive()) throw new LeaderCardAlreadyUsedException("This leader card is already used");
+
+        //Check if the activation requirement are satisfied
+        LeaderCardRequires leaderCardRequires = dashboard.getLeaderCards().get(position).getRequiresForActiveLeaderCards();
+        CardColor[] cardColor = dashboard.getLeaderCards().get(position).getRequiresColor();
+
+        switch (leaderCardRequires){
+            case NUMBEROFRESOURSE:
+                HashMap<Resource , Integer> requires = dashboard.getLeaderCards().get(position).getRequires();
+                for (Resource resource : requires.keySet()){
+                    if(dashboard.getLockBox().getAmountOf(resource) + dashboard.getStock().getTotalQuantitiesOf(resource) <
+                        requires.get(resource)){
+                        throw new ActiveLeaderCardException("Requires not satisfied");
+                    }
+                }
+                break;
+
+            case TWOEVOLUTIONCOLOR:
+                boolean colorPresent;
+                for(CardColor color : cardColor){
+                    NormalProductionZone[] productionZones = dashboard.getProductionZone();
+                    colorPresent = false;
+                    for(int i = 0 ; i < productionZones.length ; i++){
+                        for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
+                            if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)){
+                                colorPresent = true;
+                                break;
+                            }
+                        }
+                        if(colorPresent)
+                            break;
+                    }
+                    if(!colorPresent)
+                        throw new ActiveLeaderCardException("Requires not satisfied");
+                }
+                break;
+
+            case THREEEVOLUTIONCOLOR:
+                //Where are the number of colors that are necessary?
+                break;
+
+            case EVOLUTIONCOLORANDLEVEL:
+                //Theoretically only 1 color with 1 level
+                LevelEnum levelEnum = dashboard.getLeaderCards().get(position).getRequiresLevel()[0];
+                CardColor color = cardColor[0];
+                boolean requiresSatisfied;
+
+                NormalProductionZone[] productionZones = dashboard.getProductionZone();
+                requiresSatisfied = false;
+                for(int i = 0 ; i < productionZones.length ; i++){
+                    for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
+                        if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)
+                            && ((EvolutionCard) productionZones[i].getCardList().get(j)).getLevel().getValue() >= levelEnum.getValue()){
+                            requiresSatisfied = true;
+                            break;
+                        }
+                    }
+                    if(requiresSatisfied)
+                        break;
+                }
+                if(!requiresSatisfied)
+                    throw new ActiveLeaderCardException("Requires not satisfied");
+
+                break;
+
+            default:
+                throw new ActiveLeaderCardException("Can't activate the leader card");
+        }
 
         dashboard.getLeaderCards().get(position).setActive(true);
 

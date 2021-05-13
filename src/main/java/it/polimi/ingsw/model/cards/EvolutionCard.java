@@ -72,4 +72,5 @@ public class EvolutionCard implements Card, Serializable {
     public void setActive(boolean value){
         isActive = value;
     }
+
 }
