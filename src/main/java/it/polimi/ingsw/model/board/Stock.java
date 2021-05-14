@@ -326,9 +326,11 @@ public class Stock extends StockObservable {
         ArrayList<Resource[]> boxPlus2 = null;
 
         //just for prevent errors
-        resourceList.remove(Resource.FAITH);
-        resourceList.remove(Resource.WISH);
-        resourceList.remove(Resource.NOTHING);
+        for(Resource resource: resourceList){
+            if(resource.equals(Resource.FAITH)) resourceList.remove(Resource.FAITH);
+            if(resource.equals(Resource.WISH)) resourceList.remove(Resource.WISH);
+            if(resource.equals(Resource.NOTHING)) resourceList.remove(Resource.NOTHING);
+        }
 
         if (resourceList != null && resourceList.size() != 0) {
             for (Resource resource : resourceList) {
