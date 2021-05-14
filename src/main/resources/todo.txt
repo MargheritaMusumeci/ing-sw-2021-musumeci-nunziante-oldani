@@ -38,7 +38,8 @@ Generali:
 - dobbiamo decidere come aggiungere la nuova produzion
 - invalidPlaceException c'è un motivo se non eredita da Exception ma da Throwable?
 - attenzione: gli altri player non devono vedere le leader card fino a quando non vengono attivate
-- la basic production può produrre punti fede?
+- la basic production può produrre punti fede? -> se si l'attivazione della basic production zone va fatta nel controller
+                                                       insieme alle altre per via dell'incremento del pope track
 
 
 
