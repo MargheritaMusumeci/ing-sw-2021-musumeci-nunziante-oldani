@@ -2,6 +2,7 @@ Musumeci:
 
 - connessione al ping
 - wait until ack
+- ho uno stage e un metodo che mi cambia la scene in base alla fase del gioco in cui mi trovo ?
 
 - controllare e sistemare il test Active Basic Production
 - do tests Do action --> catch exception

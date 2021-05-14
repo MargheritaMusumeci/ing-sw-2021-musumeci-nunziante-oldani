@@ -68,10 +68,10 @@ public class DoActionPlayer {
         int servant=0;
 
         for(int i =0; i<saveResources.size();i++){
-            if(saveResources.get(0).equals(Resource.COIN)){coin++;}
-            if(saveResources.get(0).equals(Resource.SHIELD)){shield++;}
-            if(saveResources.get(0).equals(Resource.ROCK)){rock++;}
-            if(saveResources.get(0).equals(Resource.SERVANT)){servant++;}
+            if(saveResources.get(i).equals(Resource.COIN)){coin++;}
+            if(saveResources.get(i).equals(Resource.SHIELD)){shield++;}
+            if(saveResources.get(i).equals(Resource.ROCK)){rock++;}
+            if(saveResources.get(i).equals(Resource.SERVANT)){servant++;}
         }
 
         int coinOld =0;
@@ -80,10 +80,10 @@ public class DoActionPlayer {
         int servantOld=0;
 
         for(int i =0; i<saveResources.size();i++){
-            if(resourceList.get(0).equals(Resource.COIN)){coinOld++;}
-            if(resourceList.get(0).equals(Resource.SHIELD)){shieldOld++;}
-            if(resourceList.get(0).equals(Resource.ROCK)){rockOld++;}
-            if(resourceList.get(0).equals(Resource.SERVANT)){servantOld++;}
+            if(resourceList.get(i).equals(Resource.COIN)){coinOld++;}
+            if(resourceList.get(i).equals(Resource.SHIELD)){shieldOld++;}
+            if(resourceList.get(i).equals(Resource.ROCK)){rockOld++;}
+            if(resourceList.get(i).equals(Resource.SERVANT)){servantOld++;}
         }
 
         //only if the player chooses resources from the ones he receives
