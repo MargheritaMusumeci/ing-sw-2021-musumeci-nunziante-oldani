@@ -75,12 +75,14 @@ public abstract class TurnHandler {
 
             //Client asks to buy a evolution card
             //one at a time
-            if (message instanceof BuyEvolutionCardMessage){
+            if (message instanceof BuyEvolutionCardMessage) {
                 try {
-                    actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(),((BuyEvolutionCardMessage) message).getCol(),((BuyEvolutionCardMessage) message).getPosition());
+                    actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(), ((BuyEvolutionCardMessage) message).getCol(), ((BuyEvolutionCardMessage) message).getPosition());
                     return new ACKMessage("OK");
-                } catch (Exception | InvalidPlaceException e) {
-                    return new NACKMessage("something goes wrong ... :(");
+                }catch (InvalidPlaceException e){
+                    return new NACKMessage("Wrong position");
+                }catch (Exception e) {
+                    return new NACKMessage("Can't buy this card");
                 }
             }
 

@@ -193,34 +193,40 @@ public class DoActionPlayer {
     public void buyEvolutionCard(int row, int col , int position) throws Exception, InvalidPlaceException {
 
         //Check if the player can buy this card
-        if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col]) {
-
-            //Read the card the player wants to buy
-            EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
-
-            if (!((HumanPlayer) modelGame.getActivePlayer()).getPossibleProductionZone(eCard)[position]) {
-                //The card cannot be placed in position
-                //Ask again the user where place the card
-                return;
-            }
-
-            //Read the cost of  n  eCard
-            HashMap<Resource, Integer> cost = eCard.getCost();
-
-            //Take resources from Stock and then from LockBox
-            takeResources(cost);
-
-            //Buy the card and place it
-
-            EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row, col);
-            modelGame.getActivePlayer().getDashboard().getProductionZone()[position].addCard(cardBought);
-            modelGame.getActivePlayer().getDashboard().setEvolutionCardNumber(modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() + 1);
-
-            //Set the action done in player
-            ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_CARD);
-        }else{
+        if(!(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col])) {
             throw new Exception("wrong parameters");
         }
+
+        //Check if the position is valid
+        if(position < 0 || position >=
+                (modelGame.getActivePlayer().getDashboard().getProductionZone().length
+                        + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size())){
+            throw new InvalidPlaceException("Invalid position");
+        }
+
+        //Read the card the player wants to buy
+        EvolutionCard eCard = modelGame.getEvolutionSection().canBuy()[row][col];
+
+        if (!((HumanPlayer) modelGame.getActivePlayer()).getPossibleProductionZone(eCard)[position]) {
+            //The card cannot be placed in position
+            //Ask again the user where place the card
+            throw new InvalidPlaceException("Invalid position");
+        }
+
+        //Read the cost of  n  eCard
+        HashMap<Resource, Integer> cost = eCard.getCost();
+
+        //Take resources from Stock and then from LockBox
+        takeResources(cost);
+
+        //Buy the card and place it
+
+        EvolutionCard cardBought = modelGame.getEvolutionSection().buy(row, col);
+        modelGame.getActivePlayer().getDashboard().getProductionZone()[position].addCard(cardBought);
+        modelGame.getActivePlayer().getDashboard().setEvolutionCardNumber(modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() + 1);
+
+        //Set the action done in player
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_CARD);
     }
 
     /**
