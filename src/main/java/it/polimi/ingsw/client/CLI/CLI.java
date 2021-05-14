@@ -5,16 +5,15 @@ import com.sun.jdi.ArrayReference;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
-import it.polimi.ingsw.messages.actionMessages.ActiveLeaderCardMessage;
-import it.polimi.ingsw.messages.actionMessages.BuyFromMarketMessage;
-import it.polimi.ingsw.messages.actionMessages.RequestResourcesBoughtFromMarketMessage;
-import it.polimi.ingsw.messages.actionMessages.StoreResourcesMessage;
+import it.polimi.ingsw.messages.EndTurnMessage;
+import it.polimi.ingsw.messages.actionMessages.*;
 import it.polimi.ingsw.messages.configurationMessages.*;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.serializableModel.*;
+import it.polimi.ingsw.utils.Constants;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -56,8 +55,7 @@ public class CLI implements Runnable {
         int port;
         String address;
 
-        System.out.println("CLI | Master of Renaissance");
-        System.out.println("Wilkommen");
+        printTitle();
 
         System.out.print("Enter the ip address of the Server: ");
         address = scanner.next();
@@ -73,7 +71,6 @@ public class CLI implements Runnable {
 
         try {
             socket = new Socket(address, port);
-            System.out.println("test se qui arrivo");
             clientSocket = new ClientSocket(this, socket);
         } catch (IOException e) {
             clientSocket = null;
@@ -121,11 +118,8 @@ public class CLI implements Runnable {
         }
 
         clientSocket.send(new NumberOfPlayerMessage(String.valueOf(numberOfPlayers)));
-        if(numberOfPlayers != 1){
-            gamePhase = GamePhases.WAITINGOTHERPLAYERS;
-        }else{
-            //implementare partita single game
-        }
+        gamePhase = GamePhases.WAITINGOTHERPLAYERS;
+
     }
     public void chooseLeaderCards(){
 
@@ -247,6 +241,38 @@ public class CLI implements Runnable {
         }
     }
 
+    private void printTitle(){
+        System.out.println(Constants.ANSI_RED + "\n" +
+                "                     _                               \n" +
+                " _ __ ___   __ _ ___| |_ ___ _ __                    \n" +
+                "| '_ ` _ \\ / _` / __| __/ _ \\ '__|                   \n" +
+                "| | | | | | (_| \\__ \\ ||  __/ |                      \n" +
+                "|_| |_| |_|\\__,_|___/\\__\\___|_|                      \n" +
+                "                                                     \n" +
+                "        __                                           \n" +
+                "  ___  / _|                                          \n" +
+                " / _ \\| |_                                           \n" +
+                "| (_) |  _|                                          \n" +
+                " \\___/|_|                                            \n" +
+                "                                                     \n" +
+                "                      _                              \n" +
+                " _ __ ___ _ __   __ _(_)___ ___  __ _ _ __   ___ ___ \n" +
+                "| '__/ _ \\ '_ \\ / _` | / __/ __|/ _` | '_ \\ / __/ _ \\\n" +
+                "| | |  __/ | | | (_| | \\__ \\__ \\ (_| | | | | (_|  __/\n" +
+                "|_|  \\___|_| |_|\\__,_|_|___/___/\\__,_|_| |_|\\___\\___|\n" +
+                "                                                     \n" + Constants.ANSI_RESET);
+    }
+    private void printMenu(){
+        System.out.println("+--------------------------+\r\n|     " +
+                "Possible action:     |\r\n+==========================+\r\n| " +
+                "0: END TURN              |\r\n| 1: Show leaderCards      |\r\n| " +
+                "2: Show stock            |\r\n| 3: Show lockBox          |\r\n| " +
+                "4: Show popeTrack        |\r\n| 5: Show productionZones  |\r\n| " +
+                "6: Show market           |\r\n| 7: Show evolutionSection |\r\n| " +
+                "8: Active Leader cards   |\r\n| 9: Discard Leader cards  |\r\n| " +
+                "10: Buy from Market      |\r\n| 11: Active Production    |\r\n| " +
+                "12: Buy Evolution card   |\r\n+--------------------------+\r\n\r\n");
+    }
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
         System.out.println("LockBox: ");
@@ -643,7 +669,112 @@ public class CLI implements Runnable {
         isNackArrived = false;
 
     }
+    private void buyEvolutionCard(){
+        printEvolutionSection();
 
+        int row, col, pos;
+
+        do{
+            System.out.println("Inserisci la riga e la colonna della carta da comprare");
+            System.out.print("riga > ");
+            row = scanner.nextInt();
+            System.out.print("colonna > ");
+            col = scanner.nextInt();
+            System.out.println("inserisci in quale production zone inserire la carta: (0,1,2)");
+            System.out.print("> ");
+            pos = scanner.nextInt();
+        }while ((row<0 || row > 2) || (col <0 || col>3) || (pos != 0 && pos != 1 && pos != 2));
+
+        clientSocket.send(new BuyEvolutionCardMessage("buy evolution card", row, col, pos));
+
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(isAckArrived){
+            System.out.println("Carta inserita correttamente");
+            isAckArrived = false;
+            isActionBeenDone = true;
+        }else{
+            System.out.println("Errore durante l'acquisto della carta dalla evolution section");
+            isNackArrived = false;
+        }
+
+    }
+    private void discardLeaderCard(){
+
+        if(clientSocket.getView().getLeaderCards().size() == 0){
+            System.out.println("Non hai leader card!");
+            return;
+        }
+
+        //controllo che ci siano ancora carte non attivate
+        boolean check = false;
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(!serializableLeaderCard.isActive()){
+                check = true;
+            }
+        }
+        if (!check){
+            //non ho carte non attive
+            System.out.println("Tutte le tue carte sono attivate, non puoi scartarle");
+            return;
+        }
+
+        //stampo le carte scartabili
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(!serializableLeaderCard.isActive()){
+                printSingleLeaderCard(serializableLeaderCard);
+            }
+        }
+
+        boolean controllo;
+        controllo = false;
+        int number;
+        do{
+            System.out.println("Choose the leader card to be discard (type the id): ");
+            number = scanner.nextInt();
+
+
+
+            for(SerializableLeaderCard lcard : clientSocket.getView().getLeaderCards()){
+                if(lcard.getId() == number && !lcard.isActive()){
+                    controllo = true;
+                }
+            }
+        }while(!controllo);
+
+        //trovo la posizione a cui si trova la leader card nel mio set
+        int pos = 0;
+        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
+            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
+                pos = i;
+            }
+        }
+
+        //devo mandare il messsaggio di scarto carta
+        clientSocket.send(new DiscardLeaderCardMessage("discard leader card", pos));
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            System.out.println("Leader card correctly discarded");
+        }else{
+            System.out.println("Error while discarding the leader card");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+    }
 
 
     public void setIsAckArrived(boolean value){
@@ -711,43 +842,34 @@ public class CLI implements Runnable {
                     break;
                 case STARTGAME:
                     System.out.println("The game is started");
-                    try {
-                        synchronized (this){
-                            wait();
-                        }
+                    if(numberOfPlayers == 1){
+                        gamePhase = GamePhases.MYTURN;
+                    }else{
+                        try {
+                            synchronized (this){
+                                wait();
+                            }
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
+
                     break;
                 case MYTURN:
+
                     isActionBeenDone = false;
                     System.out.println("It's your turn");
                     boolean endTurnSelected = false;
                     while(!endTurnSelected) {
-                        System.out.println("Possible action: ");
-                        System.out.println("0: END TURN");
-                        System.out.println("1: Show leaderCards");
-                        System.out.println("2: Show stock");
-                        System.out.println("3: Show lockBox");
-                        System.out.println("4: Show popeTrack");
-                        System.out.println("5: Show productionZones");
-                        System.out.println("6: Show market");
-                        System.out.println("7: Show evolutionSection");
-                        System.out.println("8: Active Leader cards");
-                        System.out.println("9: Discard Leader cards");
-                        System.out.println("10: Buy from Market");
-                        System.out.println("11: Active Production");
-                        System.out.println("12: Byu Evolution card");
-                        System.out.println("13: Manage stock");
-
+                        printMenu();
 
                         int action = scanner.nextInt();
 
                         switch (action) {
                             case 0:
                                 endTurnSelected = true;
-                                //implementare messsaggio di endTurn
+                                clientSocket.send(new EndTurnMessage("turno finito"));
                                 break;
                             case 1:
                                 printLeaderCards();
@@ -774,7 +896,7 @@ public class CLI implements Runnable {
                                 activeLeaderCards();
                                 break;
                             case 9:
-                                //to be implemented in the future
+                                discardLeaderCard();
                                 break;
                             case 10:
                                 if(!isActionBeenDone){
@@ -782,9 +904,17 @@ public class CLI implements Runnable {
                                 }else{
                                     System.out.println("You have already make an action, yuo should end your turn now!");
                                 }
-
                                 break;
-
+                            case 11:
+                                //to be implemented
+                                break;
+                            case 12:
+                                if (!isActionBeenDone){
+                                    buyEvolutionCard();
+                                }else{
+                                    System.out.println("You have already make an action, yuo should end your turn now!");
+                                }
+                                break;
 
                             default:
                                 System.out.println("This action doesn't exist");
@@ -795,16 +925,17 @@ public class CLI implements Runnable {
 
                 case OTHERPLAYERSTURN:
                     System.out.println("non tocca a te!");
-                    while (true){
-
+                    synchronized (this){
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
             }
         }
 
     }
-
-
-
 
 }

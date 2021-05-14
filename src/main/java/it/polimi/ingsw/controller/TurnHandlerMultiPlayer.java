@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.messages.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -90,9 +91,10 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
 
     /**
      * Method called in the end of the turn
+     * @return
      */
     @Override
-    public void endTurn() {
+    public UpdateActivePlayerMessage endTurn() {
         //Set NOTHING the action chose by the player
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
         //Set isActive = false in the eCards on the top of each productionZone
@@ -111,6 +113,8 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
 
         //Update the active player for the next turn
         modelGame.updateActivePlayer();
+
+        return new UpdateActivePlayerMessage(modelGame.getActivePlayer().getNickName());
     }
 
     @Override

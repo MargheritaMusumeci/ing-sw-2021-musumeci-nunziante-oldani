@@ -44,6 +44,12 @@ Generali:
 
 DOMANDE TUTORATO:
 
+
+--- devo dare la possibilità all'utente di fare il riordino dello stock se in realà è una cosa autogestita?
+--- resilienza alle disconnessioni per partita single player
+
+
+
 - Devo gestire il caso in cui la disconnessione avvenga tra l'avvio del gioco e la registrazione dei giocatori nell'hashmap con l'id del game?
 
     E' un caso limite, non veniamo penalizzati se la gestiamo "approsimatiamente".

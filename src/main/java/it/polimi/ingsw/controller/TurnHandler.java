@@ -5,6 +5,7 @@ import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.messages.actionMessages.*;
+import it.polimi.ingsw.messages.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
@@ -187,8 +188,9 @@ public abstract class TurnHandler {
 
     /**
      * Method called in the end of the turn
+     * @return
      */
-    public abstract void endTurn();
+    public abstract UpdateActivePlayerMessage endTurn();
 
     /**
      * Method that ends the game

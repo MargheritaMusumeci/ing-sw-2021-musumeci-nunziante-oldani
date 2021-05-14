@@ -113,6 +113,9 @@ public class MessageHandler{
             if(clientSocket.getView().getNickname().equals(clientSocket.getView().getActivePlayer())){
                 //allora è il mio turno
                 cli.setGamePhase(GamePhases.MYTURN);
+                synchronized (cli){
+                    cli.notifyAll();
+                }
             }else{
                 //allora è il tuno dei miei avversari
                 cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);

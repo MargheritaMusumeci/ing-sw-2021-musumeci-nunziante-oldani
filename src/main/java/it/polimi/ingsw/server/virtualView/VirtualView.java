@@ -95,6 +95,13 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
         SerializableDashboard serializableDashboard = new SerializableDashboard(dashboard);
         System.out.println("sono nella virtual view e dovrei madnare il messaggio per aggiornare la dashboead");
         scc.send(new UpdateDashBoardMessage("new dashboard", serializableDashboard));
+
+        //mando anche il messsaggio per aggiornare le leader cards
+        ArrayList<SerializableLeaderCard> newSetOfLeaderCards = new ArrayList<>();
+        for(LeaderCard leaderCard : dashboard.getLeaderCards()){
+            newSetOfLeaderCards.add(new SerializableLeaderCard(leaderCard));
+        }
+        scc.send(new UpdateLeaderCardsMessage("new set of leader cards", newSetOfLeaderCards));
     }
 
     @Override
