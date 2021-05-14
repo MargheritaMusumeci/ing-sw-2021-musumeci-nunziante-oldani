@@ -35,7 +35,7 @@ public class Game {
                 lCards = leaderCardSet.getLeaderCardSet().subList(count, count+4);
                 for(int i = 0; i < 4 ; i++){
                     playerSet.add(lCards.get(i));
-                    System.out.println("Card " + i + ": " + lCards.get(i).getRequiresForActiveLeaderCards() + " , " + lCards.get(i).getAbilityType() + "\n");
+                    //System.out.println("Card " + i + ": " + lCards.get(i).getRequiresForActiveLeaderCards() + " , " + lCards.get(i).getAbilityType() + "\n");
                 }
                 ((HumanPlayer) player).setPosition(position);
                 player.getDashboard().setLeaderCards(playerSet);

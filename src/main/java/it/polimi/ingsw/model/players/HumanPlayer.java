@@ -245,6 +245,7 @@ public class HumanPlayer extends Player{
         //Check if the activation requirements are satisfied
         LeaderCardRequires leaderCardRequires = dashboard.getLeaderCards().get(position).getRequiresForActiveLeaderCards();
         CardColor[] cardColor = dashboard.getLeaderCards().get(position).getRequiresColor();
+        NormalProductionZone[] productionZones = dashboard.getProductionZone();
 
         switch (leaderCardRequires){
             case NUMBEROFRESOURSE:
@@ -260,7 +261,6 @@ public class HumanPlayer extends Player{
             case TWOEVOLUTIONCOLOR:
                 boolean colorPresent;
                 for(CardColor color : cardColor){
-                    NormalProductionZone[] productionZones = dashboard.getProductionZone();
                     colorPresent = false;
                     for(int i = 0 ; i < productionZones.length ; i++){
                         if(productionZones[i].getCardList() == null)
@@ -282,54 +282,50 @@ public class HumanPlayer extends Player{
             case THREEEVOLUTIONCOLOR:
                 //Variable that counts how many colors are present -> stop when it's equal to color.length
                 int numberOfColorPresent = 0;
-                boolean colorFound;
-
+                HashMap<CardColor , Integer> totalNumberOfColors = new HashMap<CardColor , Integer>();
                 for(CardColor color : cardColor){
-                    colorFound = false;
-                    NormalProductionZone[] productionZones = dashboard.getProductionZone();
+                    numberOfColorPresent = 0;
                     for(int i = 0 ; i < productionZones.length ; i++){
                         if(productionZones[i].getCardList() == null)
                             continue;
                         for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
                             if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)){
                                 numberOfColorPresent++;
-                                colorFound = true;
-                                break;
                             }
                         }
-                        if(colorFound)
-                            break;
                     }
+                    totalNumberOfColors.put(color , numberOfColorPresent);
                 }
-                if(numberOfColorPresent != cardColor.length)
-                    throw new ActiveLeaderCardException("Requires not satisfied");
 
+                for(CardColor color : totalNumberOfColors.keySet())
+                    System.out.println("Color: " + color + " , quantity found: " + totalNumberOfColors.get(color));
+
+                for(CardColor color : cardColor){
+                    if(totalNumberOfColors.get(color) - 1 < 0)
+                        throw new ActiveLeaderCardException("Requires not satisfied");
+                    else
+                        totalNumberOfColors.put(color , totalNumberOfColors.get(color) - 1);
+                }
                 break;
 
             case EVOLUTIONCOLORANDLEVEL:
                 //Theoretically only 1 color with 1 level
                 LevelEnum levelEnum = dashboard.getLeaderCards().get(position).getRequiresLevel()[0];
                 CardColor color = cardColor[0];
-                boolean requiresSatisfied;
+                boolean requiresSatisfied = false;
 
-                NormalProductionZone[] productionZones = dashboard.getProductionZone();
-                requiresSatisfied = false;
-                for(int i = 0 ; i < productionZones.length ; i++){
+                for(int i = 0 ;!requiresSatisfied && i < productionZones.length ; i++){
                     if(productionZones[i].getCardList() == null)
                         continue;
-                    for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
+                    for(int  j = 0 ; !requiresSatisfied && j < productionZones[i].getCardList().size() ; j++){
                         if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)
                             && ((EvolutionCard) productionZones[i].getCardList().get(j)).getLevel().getValue() >= levelEnum.getValue()){
                             requiresSatisfied = true;
-                            break;
                         }
                     }
-                    if(requiresSatisfied)
-                        break;
                 }
                 if(!requiresSatisfied)
                     throw new ActiveLeaderCardException("Requires not satisfied");
-
                 break;
 
             default:

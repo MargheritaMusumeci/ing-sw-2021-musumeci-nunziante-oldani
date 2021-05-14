@@ -45,6 +45,7 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
             personalProductionZones[i] = new NormalProductionZone();
             personalProductionZones[i].addProductionZoneListener(this);
         }
+        leaderProductionZones = new ArrayList<LeaderProductionZone>();
 
     }
 
