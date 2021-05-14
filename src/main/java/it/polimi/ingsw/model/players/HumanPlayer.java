@@ -21,8 +21,6 @@ public class HumanPlayer extends Player{
 
     private Action actionChose;
 
-    private  boolean[] possibleActiveProductionZone;
-
     /**
      * Here I save the resources the player bought this turn and that he still have to place in the lockBox end,
      *  in the end of the turn, the controller will fill this array with null
@@ -116,8 +114,8 @@ public class HumanPlayer extends Player{
                 }
                 //Check if the card can be placed in at least 1 production zone
                 boolean possiblePlace = false;
-                for(int k = 0 ; k < getPossibleActiveProductionZone().length && possiblePlace == false; k++){
-                    if(getPossibleProductionZone(card)[k] == true)
+                for(int k = 0 ; k < dashboard.getProductionZone().length && possiblePlace == false; k++){
+                    if(getPossibleProductionZone(card)[k])
                         possiblePlace = true;
                 }
                 if(possiblePlace == false){
@@ -153,7 +151,7 @@ public class HumanPlayer extends Player{
 
                 //System.out.println("Requires: ");
                 for(Resource res : requires.keySet()){
-                    //System.out.println("Risorsa : " + res + " , Numero : " + requires.get(res));
+                    //System.out.println("Resource : " + res + " , number : " + requires.get(res));
                 }
 
                 for(Resource resource : requires.keySet()){
@@ -172,62 +170,6 @@ public class HumanPlayer extends Player{
             }
         }
         return result;
-    }
-
-    /**
-     * Method that update the production zone that can be activated based on stock and lock box
-     * Active leader card abilities are useful only when buying a new evolution card, not in activating the production zone
-     *
-     * In result[0] there is the base production zone, in 1,2 and 3 there are the other production zones
-     *
-     * @return an array of boolean that says which production zone could be activated by the player
-     */
-    public boolean[] getPossibleActiveProductionZone(){
-        int numOfProductionZone = dashboard.getProductionZone().length;
-
-        //In this way the method returns the possible production zone at the start of the turn, updated with false
-        //the zone where the player had already activated the production
-        if(actionChose != Action.NOTHING){
-            for(int i = 0; i < numOfProductionZone; i++){
-                //If the card is already been used this turn
-                if(dashboard.getProductionZone()[i].getCard().isActive()){
-                    possibleActiveProductionZone[i] = false;
-                    break;
-                }
-            }
-            return possibleActiveProductionZone;
-        }
-        //If it's the first time this turn
-        possibleActiveProductionZone = new boolean[numOfProductionZone];
-
-        //Verify if the player can activate the base production zone: he needs at least 2 resources of the same type
-        possibleActiveProductionZone[0] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getAmountOf(Resource.SHIELD) > 1 ||
-                dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getAmountOf(Resource.COIN) > 1 ||
-                dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getAmountOf(Resource.SERVANT) > 1 ||
-                dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getAmountOf(Resource.ROCK) > 1;
-
-        //Verify if the player can activate the production zone using his resources
-        for(int i = 1; i <= numOfProductionZone; i++){
-            //If there isn't a card in this production zone
-            if(dashboard.getProductionZone()[i].getLevel() == null) {
-                possibleActiveProductionZone[i] = false;
-                break;
-            }
-            //If the card is already been used this turn
-            if(dashboard.getProductionZone()[i].getCard() != null  && dashboard.getProductionZone()[i].getCard().isActive()){
-                possibleActiveProductionZone[i] = false;
-                break;
-            }
-            //If there is a card and it is not active check the LockBox resources
-            ArrayList<Card> eCard = dashboard.getProductionZone()[i].getCardList();
-            HashMap<Resource , Integer> requires = eCard.get(0).getRequires();
-
-            possibleActiveProductionZone[i] = dashboard.getStock().getTotalQuantitiesOf(Resource.SHIELD) + dashboard.getLockBox().getAmountOf(Resource.SHIELD) >= requires.get(Resource.SHIELD) &&
-                    dashboard.getStock().getTotalQuantitiesOf(Resource.COIN) + dashboard.getLockBox().getAmountOf(Resource.COIN) >= requires.get(Resource.COIN) &&
-                    dashboard.getStock().getTotalQuantitiesOf(Resource.SERVANT) + dashboard.getLockBox().getAmountOf(Resource.SERVANT) >= requires.get(Resource.SERVANT) &&
-                    dashboard.getStock().getTotalQuantitiesOf(Resource.ROCK) + dashboard.getLockBox().getAmountOf(Resource.ROCK) >= requires.get(Resource.ROCK);
-            }
-        return possibleActiveProductionZone;
     }
 
     /**
@@ -389,7 +331,7 @@ public class HumanPlayer extends Player{
 
     /**
      *
-     * @param resources obtained from market. If a leader card NOMOREWHITE is active, white ball have already been replaced
+     * @param resources obtained from market. If a leader card NO MORE WHITE is active, white ball have already been replaced
      */
     public void setResources(List<Resource> resources){this.resources= (ArrayList<Resource>) resources;}
     /**

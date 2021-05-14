@@ -37,8 +37,8 @@ Generali:
 - aggiungere UML su github
 - dobbiamo decidere come aggiungere la nuova produzion
 - invalidPlaceException c'è un motivo se non eredita da Exception ma da Throwable?
-- question del moveCross
 - attenzione: gli altri player non devono vedere le leader card fino a quando non vengono attivate
+- la basic production può produrre punti fede?
 
 
 

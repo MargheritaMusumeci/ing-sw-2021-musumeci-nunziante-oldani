@@ -4,8 +4,11 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
+import it.polimi.ingsw.messages.actionMessages.RequestResourcesBoughtFromMarketMessage;
+import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
@@ -150,38 +153,118 @@ public class DoActionPlayer {
     }
 
     /**
-     * Method that activate the production zone specified
-     * @param position is which production zone the user wants to activate
+     * Method that check if a series of production zone can be activated and activate it if possible
+     * @param positions is an array list that contains the position of the production zone the player wants to activate
+     * @param activeBasic is true if the player wants to activate the basic production zone
+     * @param resourcesRequires is an array list that contains the resources to use in the basic production
+     * @param resourcesEnsures is an array list that contains the new resources the player wants after the basic production
+     * @throws NotEnoughResourcesException if the player cannot activate all the production zone specified
+     * @throws ExcessOfPositionException if a position specified doesn't exist
+     * @throws BadParametersException if there is a repetition of the same production zone in positions
+     * @throws NonCompatibleResourceException if the resources specified for the basic production are wrong
+     * @throws ActionAlreadyDoneException if the player has already done an action in this turn
      */
-    public void activeProductionZone(int position) throws NotEnoughResourcesException {
+    public void activeProductionZones(ArrayList<Integer> positions , boolean activeBasic ,
+                                      ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures)
+                                        throws NotEnoughResourcesException , ExcessOfPositionException , BadParametersException ,
+                                                NonCompatibleResourceException , ActionAlreadyDoneException{
 
-        if(((HumanPlayer) modelGame.getActivePlayer()).getPossibleActiveProductionZone()[position]){//if can be activated
+        //Check if the player can do this action
+        if(!((HumanPlayer)modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING) &&
+                !((HumanPlayer)modelGame.getActivePlayer()).getActionChose().equals(Action.ACTIVE_PRODUCTION))
+            throw new ActionAlreadyDoneException("Cannot do an other action");
 
-            //take the card activated by the player
-            EvolutionCard eCard = (EvolutionCard) modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
-
-            //take the requires and the products
-            HashMap<Resource , Integer> requires = eCard.getRequires();
-            HashMap<Resource , Integer> products = eCard.getProduction();
-
-            //If the method arrives here that means that the player have enough resources to activate the production
-
-            //Take resources from Stock and then from LockBox
-            takeResources(requires);
-
-            //Add resources to the lockBox
-            for(Resource resource : products.keySet()){
-                    if(!resource.equals(Resource.FAITH))
-                        modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , products.get(resource));
-                    else
-                        //Here with moveCross there will be a control of the position
-                        modelGame.getActivePlayer().getDashboard().getPopeTrack().updateGamerPosition(products.get(resource));
+        //Check if the position are valid and if there isn't equal position
+        for(int i = 0 ; i < positions.size() ; i++){
+            if(positions.get(i) < 0 || positions.get(i) >= (modelGame.getActivePlayer().getDashboard().getProductionZone().length)
+                + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size())
+                throw new ExcessOfPositionException("Position not valid");
+            for(int j = 0; j < positions.size() ; j++){
+                if(i != j && positions.get(i).equals(positions.get(j)))
+                    throw new BadParametersException("Cannot activate the same production zone twice");
             }
-            //active the production of the last evolutionCard in the productionZone specified by position
-            modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard().setActive(true);
-            //Set which action the player chose only if the action is been completed
-            ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
         }
+
+        if(activeBasic){
+            if(resourcesRequires == null || resourcesEnsures == null)
+                throw new BadParametersException("Requires and ensures not specified");
+            if(resourcesRequires.size() != 2 || resourcesEnsures.size() != 1)
+                throw new NonCompatibleResourceException("Too many or too few resources for the activation of the basic production");
+        }
+
+        //Check if the resources the player has are enough
+        //I'll sum all the requires and I'll verify if they are present
+        HashMap<Resource , Integer> totalRequires = new HashMap<Resource , Integer>();
+        //Initialize the hashMap
+        totalRequires.put(Resource.COIN , 0);
+        totalRequires.put(Resource.ROCK , 0);
+        totalRequires.put(Resource.SHIELD , 0);
+        totalRequires.put(Resource.SERVANT , 0);
+
+        //If the player wants to activate the basic production zone
+        if(activeBasic){
+            for(Resource resource : resourcesRequires){
+                totalRequires.put(resource , totalRequires.get(resource) + 1);
+            }
+        }
+
+        //Sum all the requires
+        for(int i = 0 ; i < positions.size() ; i++){
+            if(modelGame.getActivePlayer().getDashboard().getProductionZone()[i] == null)
+                throw new BadParametersException("This production zone is empty");
+
+            Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+            HashMap<Resource , Integer> cardRequires = card.getRequires();
+
+            for(Resource resource : cardRequires.keySet()){
+                totalRequires.put(resource , (totalRequires.get(resource) + cardRequires.get(resource)));
+            }
+        }
+
+        //Check if the resources are enough
+        for(Resource resource : totalRequires.keySet()){
+            if(totalRequires.get(resource) > (modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource)
+                + modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource)))
+                throw new NotEnoughResourcesException("Resources are not enough");
+        }
+
+        //Here the player can activate all the production he specified
+
+        //Active the base production -> can I do this operation here without call a method?
+        activeBasicProduction(resourcesRequires , resourcesEnsures);
+
+        //Active the production zone
+        for(int i = 0 ; i < positions.size() ; i++){
+            Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+            HashMap<Resource , Integer> cardRequires = card.getRequires();
+            HashMap<Resource , Integer> cardProduction = card.getProduction();
+
+            //Take resources from Stock and LockBox
+            takeResources(cardRequires);
+
+            //Add the resources produced by the activation of this production zone in LockBox
+            for(Resource resource : cardProduction.keySet()){
+                try {
+                    if(!resource.equals(Resource.FAITH))
+                        //Add the resources
+                        modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , cardProduction.get(resource));
+                    else{
+                        //Increment the pope track position
+                        ArrayList<Player> player = new ArrayList<Player>();
+                        player.add(((Player) modelGame.getActivePlayer()));
+                        moveCross(1 , player);
+                    }
+                }catch (NotEnoughResourcesException e){
+                    //Impossible be here
+                }
+            }
+            if(card instanceof EvolutionCard)
+                 card.setActive(true);
+            else
+                ((LeaderCard) card).setUsed(true);
+        }
+        //Set the action at the player
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
     }
 
     /**
@@ -327,26 +410,32 @@ public class DoActionPlayer {
      * @param requires is an HashMap that contains the resources to remove
      */
     private void takeResources(HashMap<Resource , Integer> requires) throws NotEnoughResourcesException {
-        //First of all this method removes the resources the player can remove from Stock, then take the other from stock
+        //Take resources from Stock and LockBox
         for(Resource resource : requires.keySet()){
-            int numOfResources = requires.get(resource);
-            if(numOfResources > 0){
-                //Take resources from stock
-                if(modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource) >= numOfResources){
-                        //Take all the resources of type resource from Stock
-                        modelGame.getActivePlayer().getDashboard().getStock().useResources(numOfResources , resource);
-                        numOfResources = 0;//number of resources to take from the LockBo
+            int resourceInStock = modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource);
+            int totalResource = requires.get(resource);
+            //Take resources from Stock and LockBox
+            if(resourceInStock > 0){
+                if(resourceInStock - totalResource >= 0){
+                    modelGame.getActivePlayer().getDashboard().getStock().useResources(totalResource , resource);
+                    totalResource = 0;
                 }
                 else{
-                    int availableResource = modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource);
-                    numOfResources -= availableResource;//number of resources to take from the LockBox
-                        modelGame.getActivePlayer().getDashboard().getStock().useResources(availableResource , resource);
-                    }
-                }
-                //Take resources from LockBox
-                    modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -numOfResources);
+                    modelGame.getActivePlayer().getDashboard().getStock().useResources(resourceInStock , resource);
+                    totalResource -= resourceInStock;
                 }
             }
+            //If necessary take resources from LockBox
+            if(totalResource > 0){
+                try {
+                    modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , -totalResource);
+                }catch (NotEnoughResourcesException e){
+                    //Impossible be here
+                }
+            }
+        }
+
+    }
 
     /**
      * there is a difference between active and use leaderCard

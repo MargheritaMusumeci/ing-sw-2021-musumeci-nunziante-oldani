@@ -95,7 +95,25 @@ public abstract class TurnHandler {
                 //vedi te se vuoi unificarli o si unificano a livello di model perchè entrambi andranno ad agire sul fake stock e fake lockbox
 
 
-                if (((ActiveProductionMessage) message).isActiveBasic()) {
+                try {
+                    actionHandler.activeProductionZones(((ActiveProductionMessage) message).getPositions() ,
+                            ((ActiveProductionMessage) message).isActiveBasic() ,
+                            ((ActiveProductionMessage) message).getResourcesRequires() ,
+                            ((ActiveProductionMessage) message).getResourcesEnsures());
+                } catch (NonCompatibleResourceException e) {
+                    return new NACKMessage("Too many or too few resources for the activation of the basic production");
+                } catch (ExcessOfPositionException e) {
+                    return new NACKMessage("Position not valid");
+                } catch (NotEnoughResourcesException e) {
+                    return new NACKMessage("Resources are not enough");
+                } catch (ActionAlreadyDoneException e) {
+                    return new NACKMessage("Cannot do an other action");
+                } catch (BadParametersException e) {
+                    return new NACKMessage("Empty production zone / same production zone specified twice / " +
+                            "requires or ensures not specified");
+                }
+
+                /*if (((ActiveProductionMessage) message).isActiveBasic()) {
                     try {
                         actionHandler.activeBasicProduction(((ActiveProductionMessage) message).getResourcesRequires(), ((ActiveProductionMessage) message).getResourcesEnsures());
                     } catch (NonCompatibleResourceException e) {
@@ -103,11 +121,11 @@ public abstract class TurnHandler {
                     } catch (NotEnoughResourcesException e) {
                         return new NACKMessage("Not enough resources");
                     }
-                }
+                }*/
 
                 //controllo fatto perchè se un giocatore vuole attivare solo la basic, passa un array vuoto
 
-                if (((ActiveProductionMessage) message).getPositions() != null) {
+                /*if (((ActiveProductionMessage) message).getPositions() != null) {
                     ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
                     for (int position : positions) {
                         try {
@@ -117,7 +135,7 @@ public abstract class TurnHandler {
                         }
                     }
                     return new ACKMessage("OK");
-                }
+                }*/
             }
         }
 
