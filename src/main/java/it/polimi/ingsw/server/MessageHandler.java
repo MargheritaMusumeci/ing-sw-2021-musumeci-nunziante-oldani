@@ -151,12 +151,13 @@ public class MessageHandler {
         }
 
         if (actionMessage instanceof RequestResourcesBoughtFromMarketMessage){
-
             scc.send(new SendResourcesBoughtFromMarket("",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
+            return;
         }
         //controllo che la richiesta mi viene fatta dal player attivo
         if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
             scc.send(new NACKMessage("Error! It's not your turn"));
+            return;
         }
 
         scc.send(scc.getGameHandler().getTurnHandler().doAction(actionMessage));

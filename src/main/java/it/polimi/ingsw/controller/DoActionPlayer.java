@@ -46,7 +46,7 @@ public class DoActionPlayer {
 
         //save resources in model section
         HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
-        humanPlayer.setResources(resourceList);
+        //humanPlayer.setResources(resourceList);
 
         //Increase PopeTrackPosition if player got a faith ball
         if (resourceList.contains(Resource.FAITH)) {
@@ -65,6 +65,15 @@ public class DoActionPlayer {
 
         HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
 
+        System.out.println("Resources bought");
+        if(resourceList != null){
+            for(Resource resource : resourceList)
+                System.out.println("Resource : " + resource);
+        }
+        else {
+            System.out.println("resourceList is null!");
+        }
+
         int coin =0;
         int rock=0;
         int shield=0;
@@ -82,7 +91,7 @@ public class DoActionPlayer {
         int shieldOld=0;
         int servantOld=0;
 
-        for(int i =0; i<saveResources.size();i++){
+        for(int i =0; i<resourceList.size();i++){
             if(resourceList.get(i).equals(Resource.COIN)){coinOld++;}
             if(resourceList.get(i).equals(Resource.SHIELD)){shieldOld++;}
             if(resourceList.get(i).equals(Resource.ROCK)){rockOld++;}

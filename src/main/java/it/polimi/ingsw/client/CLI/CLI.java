@@ -503,21 +503,19 @@ public class CLI implements Runnable {
             }
         }
 
-        boolean controllo;
-        controllo = false;
+        boolean control;
+        control = false;
         int number;
         do{
             System.out.println("Choose the leader card to be activated (type the id): ");
             number = scanner.nextInt();
 
-
-
-            for(SerializableLeaderCard lcard : clientSocket.getView().getLeaderCards()){
-                if(lcard.getId() == number && !lcard.isActive()){
-                    controllo = true;
+            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
+                if(lCard.getId() == number && !lCard.isActive()){
+                    control = true;
                 }
             }
-        }while(!controllo);
+        }while(!control);
 
         //trovo la posizione a cui si trova la leader card nel mio set
         int pos = 0;
@@ -527,7 +525,7 @@ public class CLI implements Runnable {
             }
         }
 
-        //devo mandare il messsaggio di attiazione
+        //devo mandare il messsaggio di attivazione
         clientSocket.send(new ActiveLeaderCardMessage("active leader card", pos));
         synchronized (this){
             try {
@@ -547,6 +545,7 @@ public class CLI implements Runnable {
         isNackArrived = false;
 
     }
+
     private void buyFromMarket() {
         printMarket();
         int scelta = 0;
@@ -669,6 +668,7 @@ public class CLI implements Runnable {
         isNackArrived = false;
 
     }
+
     private void buyEvolutionCard(){
         printEvolutionSection();
 
@@ -705,6 +705,7 @@ public class CLI implements Runnable {
         }
 
     }
+
     private void discardLeaderCard(){
 
         if(clientSocket.getView().getLeaderCards().size() == 0){
@@ -739,10 +740,8 @@ public class CLI implements Runnable {
             System.out.println("Choose the leader card to be discard (type the id): ");
             number = scanner.nextInt();
 
-
-
-            for(SerializableLeaderCard lcard : clientSocket.getView().getLeaderCards()){
-                if(lcard.getId() == number && !lcard.isActive()){
+            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
+                if(lCard.getId() == number && !lCard.isActive()){
                     controllo = true;
                 }
             }

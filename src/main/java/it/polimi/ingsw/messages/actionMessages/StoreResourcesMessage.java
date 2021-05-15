@@ -9,9 +9,6 @@ import java.util.ArrayList;
  */
 public class StoreResourcesMessage extends ActionMessage{
 
-
-
-
     private ArrayList<Resource> saveResources;
 
     public StoreResourcesMessage(String message,ArrayList<Resource> saveResources) {
