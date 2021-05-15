@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
+import it.polimi.ingsw.client.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-public class LeaderCardsConfigurationController {
+public class LeaderCardsConfigurationController implements Controller{
 
     @FXML
     private CheckBox cardId1;
@@ -59,5 +60,10 @@ public class LeaderCardsConfigurationController {
                 errorLabel.setText("Too many or too few cards selected");
             }
         }
+    }
+
+    @Override
+    public void setGui(GUI gui) {
+
     }
 }
