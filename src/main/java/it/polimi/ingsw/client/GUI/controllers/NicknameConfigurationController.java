@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class NicknameConfigurationController implements Controller, Initializable {
+public class NicknameConfigurationController implements Controller{
 
     @FXML
     private TextField nicknameField;
@@ -24,8 +24,6 @@ public class NicknameConfigurationController implements Controller, Initializabl
     @FXML
     private Button loginButton;
 
-    private String nickname;
-
     private GUI gui;
 
     @FXML
@@ -34,7 +32,7 @@ public class NicknameConfigurationController implements Controller, Initializabl
         loginButton.setVisible(false);
         loading.setVisible(true);
 
-        if(nicknameField.getText()==null || nicknameField.getText() == ""){
+        if(nicknameField==null || nicknameField.getText().equals("")){
             error.setText("Nickname is required...");
             loginButton.setVisible(true);
             loading.setVisible(false);
@@ -42,8 +40,15 @@ public class NicknameConfigurationController implements Controller, Initializabl
 
         }else{
 
-            nickname=nicknameField.getText();
+            String nickname = nicknameField.getText();
             gui.getClientSocket().send(new NickNameMessage(nickname));
+
+            gui.setGamePhase(GamePhases.NUMBEROFPLAYERS);
+            gui.setCurrentScene(gui.getScene(GUI.PLAYERS));
+            gui.setOldScene(gui.getScene(GUI.NICKNAME));
+
+            //overwrite in case of error
+            gui.setNickname(nickname);
         }
     }
 
@@ -52,11 +57,4 @@ public class NicknameConfigurationController implements Controller, Initializabl
         this.gui=gui;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        if (gui.getErrorFromServer()!=null){
-            error.setText(gui.getErrorFromServer());
-        }
-    }
 }

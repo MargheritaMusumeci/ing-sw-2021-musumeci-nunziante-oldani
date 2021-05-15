@@ -27,14 +27,14 @@ public class IpPortConfigurationController implements Controller{
     private ProgressIndicator loading;
 
     @FXML
-    public void connectionInitialization(ActionEvent actionEvent) {
+    public void connectionInitialization() {
 
         //disabilito il bottone di connessione
         //mostro il loading
         connect.setVisible(false);
         loading.setVisible(true);
 
-        if(port.getText()==null || ip.getText()==null ||port.getText()=="" || ip.getText()==""){
+        if(port.getText()==null || ip.getText()==null || port.getText().equals("") || ip.getText().equals("")){
             error.setText("Missing some necessary arguments...");
             connect.setVisible(true);
             loading.setVisible(false);
@@ -48,7 +48,6 @@ public class IpPortConfigurationController implements Controller{
             error.setText("Invalid port number. Pick a port in range 1025-65535...");
             connect.setVisible(true);
             loading.setVisible(false);
-            return;
         }else {
 
             try {
@@ -66,7 +65,6 @@ public class IpPortConfigurationController implements Controller{
                 error.setText("Server not reachable - client ");
                 connect.setVisible(true);
                 loading.setVisible(false);
-                return;
             }else{
                 new Thread(gui.getClientSocket()).start();
                 gui.setGamePhase(GamePhases.NICKNAME);

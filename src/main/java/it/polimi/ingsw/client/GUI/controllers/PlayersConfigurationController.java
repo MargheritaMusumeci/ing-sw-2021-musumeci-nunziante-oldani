@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class PlayersConfigurationController implements Controller{
+public class PlayersConfigurationController implements Controller {
 
     @FXML
     private MenuButton playerField;
@@ -34,7 +34,7 @@ public class PlayersConfigurationController implements Controller{
     }
 
     @FXML
-    public void doLogin(ActionEvent actionEvent) {
+    public void doLogin() {
 
         loginButton.setVisible(false);
         loading.setVisible(true);
@@ -47,6 +47,7 @@ public class PlayersConfigurationController implements Controller{
 
         }else{
 
+           gui.setOldScene(gui.getCurrentScene());
            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
            gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
            gui.getClientSocket().send(new NumberOfPlayerMessage(String.valueOf(player)));

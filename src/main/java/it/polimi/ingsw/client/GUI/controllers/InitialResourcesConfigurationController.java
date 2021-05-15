@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.messages.configurationMessages.SelectedInitialResourceMessage;
+import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,36 +18,28 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class InitialResourcesConfigurationController implements Controller {
 
     @FXML
     ToggleGroup resources1;
-
     @FXML
     ToggleGroup resources2;
-
     @FXML
     RadioButton rock1;
-
     @FXML
     RadioButton coin1;
-
     @FXML
     RadioButton shield1;
-
     @FXML
     RadioButton servant1;
-
     @FXML
     RadioButton rock2;
-
     @FXML
     RadioButton coin2;
-
     @FXML
     RadioButton shield2;
-
     @FXML
     RadioButton servant2;
     @FXML
@@ -53,47 +47,84 @@ public class InitialResourcesConfigurationController implements Controller {
     @FXML
     Button confirm;
 
+    private GUI gui;
+
     int coin=0;
     int rock=0;
     int shield=0;
     int servant=0;
+
+    private ArrayList<Resource> resources;
+
+    public void init(){
+       resources= gui.getResources();
+
+       //se null sono il primo giocatore e non devo scegliere risorse
+       if(resources!=null){
+
+           //se sono il secondo o il terzo giocatore posso scegliere solo una risorsa
+          if(resources.size()==4){
+              servant2.setVisible(false);
+              shield2.setVisible(false);
+              rock2.setVisible(false);
+              coin2.setVisible(false);
+          }
+       }
+    }
 
     public void confermation(ActionEvent actionEvent) {
 
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
         RadioButton radio2 = (RadioButton) resources2.getSelectedToggle();
 
+        ArrayList<Resource> selected = new ArrayList<Resource>();
 
-        if(radio == coin1)coin++;
-        if(radio == shield1)shield++;
-        if(radio == rock1)rock++;
-        if(radio == servant1)servant++;
+        if(radio == coin1){
+            coin++;
+            selected.add(Resource.COIN);
+        }
+        if(radio == shield1){
+            shield++;
+            selected.add(Resource.SHIELD);
+        }
+        if(radio == rock1){
+            rock++;
+            selected.add(Resource.ROCK);
+        }
+        if(radio == servant1){
+            servant++;
+            selected.add(Resource.ROCK);
+        }
 
-        if(radio2 == coin2)coin++;
-        if(radio2 == shield2)shield++;
-        if(radio2 == rock2)rock++;
-        if(radio2 == servant2)servant++;
+        if(radio == coin2){
+            coin++;
+            selected.add(Resource.COIN);
+        }
+        if(radio == shield2){
+            shield++;
+            selected.add(Resource.SHIELD);
+        }
+        if(radio == rock2){
+            rock++;
+            selected.add(Resource.ROCK);
+        }
+        if(radio == servant2){
+            servant++;
+            selected.add(Resource.ROCK);
+        }
 
         if(coin+rock+shield+servant == 2){
-            try {
-                URL url = new File("src/main/resources/fxml/waiting.fxml").toURI().toURL();
-                Parent waiting = FXMLLoader.load(url);
-                Scene waitingScene = new Scene(waiting);
-                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                window.setScene(waitingScene);
-                window.show();
 
-            } catch (IOException e) {
-                errorMessage.setText("Something goes wrong 2 :(");
-            }
-        }
-        else{
+            gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
+
+        } else{
+            selected.clear();
             errorMessage.setText("Something goes wrong :(");
         }
     }
 
     @Override
     public void setGui(GUI gui) {
-
+    this.gui=gui;
     }
 }

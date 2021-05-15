@@ -34,24 +34,28 @@ public class MessageHandlerGUI extends MessageHandler {
             return;
         }
 
-        if(message instanceof ACKMessage){
-            //gui.setAckArrived(true);
-            synchronized (gui){
-                gui.notifyAll();
+        if (message instanceof ACKMessage) {
+
+            synchronized (gui) {
+                gui.setAckArrived(true);
+                gui.changeScene();
             }
             return;
         }
 
-        if(message instanceof NACKMessage){
-            //gui.setNackArrived(true);
+        if (message instanceof NACKMessage) {
 
-            synchronized (gui){
-                gui.notifyAll();
+            synchronized (gui) {
+                gui.setNackArrived(true);
+                gui.setErrorFromServer(message.toString());
+                gui.setGamePhase(gui.phase(gui.getOldScene()));
+                gui.setCurrentScene(gui.getOldScene());
+                gui.changeScene();
             }
 
             return;
         }
-        /*
+
         if (message instanceof ReconnectionMessage) {
             //gui.setIsAckArrived(true);
         }
@@ -61,19 +65,26 @@ public class MessageHandlerGUI extends MessageHandler {
         }
 
         if (message instanceof FourLeaderCardsMessage) {
-            //gui.setLeaderCards(((FourLeaderCardsMessage) message).getLeaderCards());
-            gui.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
 
             synchronized (gui) {
-                gui.notifyAll();
+                gui.setLeaderCards(((FourLeaderCardsMessage) message).getLeaderCards());
+                gui.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
+                gui.setOldScene(gui.getCurrentScene());
+                gui.setCurrentScene(gui.getScene(GUI.LEADER_CARD));
+                gui.changeScene();
             }
         }
 
         if (message instanceof InitialResourcesMessage) {
-            //gui.setResources(((InitialResourcesMessage) message).getResources());
+            gui.setResources(((InitialResourcesMessage) message).getResources());
+            gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
+            gui.setOldScene(gui.getCurrentScene());
+            gui.setCurrentScene(gui.getScene(GUI.INITIAL_RESOURCES));
+            gui.changeScene();
         }
 
         if (message instanceof SendViewMessage) {
+            /*
             clientSocket.setView(((SendViewMessage) message).getView());
 
             if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
@@ -83,6 +94,8 @@ public class MessageHandlerGUI extends MessageHandler {
             synchronized (gui) {
                 gui.notifyAll();
             }
+
+           */
         }
 
         if (message instanceof SendResourcesBoughtFromMarket) {
@@ -96,14 +109,15 @@ public class MessageHandlerGUI extends MessageHandler {
     private void handleUpdateMessage(UpdateMessage message) {
 
         if (message instanceof UpdateLeaderCardsMessage) {
-            clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
+            // clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
         }
 
         if (message instanceof UpdateDashBoardMessage) {
-            clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
+            //clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
         }
 
         if (message instanceof UpdateActivePlayerMessage) {
+           /*
             clientSocket.getView().setActivePlayer(message.getMessage());
             if (clientSocket.getView().getNickname().equals(clientSocket.getView().getActivePlayer())) {
                 //allora è il mio turno
@@ -124,7 +138,8 @@ public class MessageHandlerGUI extends MessageHandler {
         if (message instanceof UpdateMarketMessage) {
             clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
         }
-*/
 
+           */
+        }
     }
 }

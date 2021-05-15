@@ -1,17 +1,25 @@
 package it.polimi.ingsw.client.GUI;
 
+import com.sun.java.accessibility.util.GUIInitializedListener;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
+import it.polimi.ingsw.client.GUI.controllers.InitialResourcesConfigurationController;
+import it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.View;
+import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,10 +34,11 @@ public class GUI extends Application {
     public static final String NICKNAME = "nickname_configuration.fxml";
     public static final String PLAYERS = "players_configuration.fxml";
     public static final String LEADER_CARD = "leader_cards_configuration.fxml";
-    public static final String INITIAL_RESOURCES = "initial_resources.fxml";
+    public static final String INITIAL_RESOURCES = "initial_resources_configuration.fxml";
     public static final String WAITING_ROOM = "waiting.fxml";
 
     private Scene currentScene;
+    private Scene oldScene;
     private Stage currentStage;
     private HashMap<String, Scene> scenes;
     private HashMap<String, Controller> controllers;
@@ -39,7 +48,11 @@ public class GUI extends Application {
     private ClientSocket clientSocket;
     private Socket socket;
     private GamePhases gamePhase;
+    private ArrayList<SerializableLeaderCard> leaderCards;
+    private ArrayList<Resource> resources;
     private String nickname;
+    private boolean isAckArrived;
+    private boolean isNackArrived;
     private String errorFromServer;
 
     public GUI() {
@@ -50,7 +63,7 @@ public class GUI extends Application {
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(IP_PORT, NICKNAME, PLAYERS, LEADER_CARD, INITIAL_RESOURCES, WAITING_ROOM));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM,NICKNAME,INITIAL_RESOURCES));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -59,11 +72,11 @@ public class GUI extends Application {
                 scenes.put(path, scene);
                 Controller controller = loader.getController();
                 controller.setGui(this);
-                phases.put(scene, linkFXMLPageToPhase(path));
                 controllers.put(path, controller);
+                phases.put(scene, linkFXMLPageToPhase(path));
             }
         } catch (IOException e) {
-            // logger.log(Level.SEVERE, e.getMessage(), e);
+            e.printStackTrace();
         }
         currentScene = scenes.get(IP_PORT);
     }
@@ -84,6 +97,107 @@ public class GUI extends Application {
         currentStage.setTitle("Masters of Renaissance");
         currentStage.setScene(currentScene);
         currentStage.show();
+    }
+
+    public void changeScene() {
+
+        Platform.runLater(()->{
+                isAckArrived=false;
+                isNackArrived=false;
+
+                currentStage.setScene(currentScene);
+
+                if(currentScene.equals(scenes.get(LEADER_CARD))){
+                    LeaderCardsConfigurationController controller = (LeaderCardsConfigurationController)  controllers.get(LEADER_CARD);
+                    controller.init();
+                }
+                if(currentScene.equals(scenes.get(INITIAL_RESOURCES))){
+                    InitialResourcesConfigurationController controller = (InitialResourcesConfigurationController)  controllers.get(INITIAL_RESOURCES);
+                    controller.init();
+                }
+
+                currentStage.show();
+        });
+    }
+
+    @Override
+    public void stop() {
+        System.exit(0);
+    }
+
+    private GamePhases linkFXMLPageToPhase(String NAME) {
+        switch (NAME) {
+            case (NICKNAME):
+                return GamePhases.NICKNAME;
+            case (PLAYERS):
+                return GamePhases.NUMBEROFPLAYERS;
+            case (LEADER_CARD):
+                return GamePhases.INITIALLEADERCARDSELECTION;
+            case (INITIAL_RESOURCES):
+                return GamePhases.INITIALRESOURCESELECTION;
+            default:
+                return GamePhases.IINITIALIZATION;
+        }
+    }
+
+    public Scene getOldScene(){
+        return oldScene;
+    }
+
+    public void setOldScene(Scene scene) {
+        oldScene=scene;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public ArrayList<SerializableLeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
+    public void setLeaderCards(ArrayList<SerializableLeaderCard> leaderCards) {
+        this.leaderCards = leaderCards;
+    }
+
+    public ArrayList<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(ArrayList<Resource> resources) {
+        this.resources = resources;
+    }
+
+    public GamePhases phase(Scene scene) {
+        return phases.get(scene);
+    }
+
+    public String getErrorFromServer() {
+        return errorFromServer;
+    }
+
+    public void setErrorFromServer(String errorFromServer) {
+        this.errorFromServer = errorFromServer;
+    }
+
+    public boolean isAckArrived() {
+        return isAckArrived;
+    }
+
+    public void setAckArrived(boolean ackArrived) {
+        isAckArrived = ackArrived;
+    }
+
+    public boolean isNackArrived() {
+        return isNackArrived;
+    }
+
+    public void setNackArrived(boolean nackArrived) {
+        isNackArrived = nackArrived;
     }
 
     public void setSocket(String address, int port) throws IOException {
@@ -124,39 +238,5 @@ public class GUI extends Application {
 
     public void setClientSocket(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
-    }
-
-    public void changeScene() {
-        Platform.runLater(()->{
-                currentStage.setScene(currentScene);
-                currentStage.show();
-        });
-    }
-
-    public GamePhases phase(Scene scene) {
-        return phases.get(scene);
-    }
-
-    public String getErrorFromServer() {
-        return errorFromServer;
-    }
-
-    public void setErrorFromServer(String errorFromServer) {
-        this.errorFromServer = errorFromServer;
-    }
-
-    private GamePhases linkFXMLPageToPhase(String NAME) {
-        switch (NAME) {
-            case (NICKNAME):
-                return GamePhases.NICKNAME;
-            case (PLAYERS):
-                return GamePhases.NUMBEROFPLAYERS;
-            case (LEADER_CARD):
-                return GamePhases.INITIALLEADERCARDSELECTION;
-            case (INITIAL_RESOURCES):
-                return GamePhases.INITIALRESOURCESELECTION;
-            default:
-                return GamePhases.IINITIALIZATION;
-        }
     }
 }
