@@ -2,14 +2,11 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
-import it.polimi.ingsw.client.GUI.controllers.IpPortConfigurationController;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.View;
-import it.polimi.ingsw.model.game.Resource;
-import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -18,98 +15,148 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class GUI extends Application {
 
+    //list of file .fxml
+    public static final String IP_PORT = "ip_port_configuration.fxml";
+    public static final String NICKNAME = "nickname_configuration.fxml";
+    public static final String PLAYERS = "players_configuration.fxml";
+    public static final String LEADER_CARD = "leader_cards_configuration.fxml";
+    public static final String INITIAL_RESOURCES = "initial_resources.fxml";
+    public static final String WAITING_ROOM = "waiting.fxml";
+
+    private Scene currentScene;
+    private Stage currentStage;
+    private HashMap<String, Scene> scenes;
+    private HashMap<String, Controller> controllers;
+    private HashMap<Scene, GamePhases> phases;
+
     private View view;
     private ClientSocket clientSocket;
-    private GamePhases gamePhase;
-    private boolean isAckArrived;
-    private boolean isNackArrived;
-    private String nickname;
-    private int numberOfPlayers;
     private Socket socket;
-    private ArrayList<SerializableLeaderCard> leaderCards;
-    private ArrayList<Resource> resources;
-    private boolean serverIsUp;
+    private GamePhases gamePhase;
+    private String nickname;
+    private String errorFromServer;
 
-    public GUI(){
-        isNackArrived = false;
-        isAckArrived = false;
-        leaderCards = null;
-        resources = null;
+    public GUI() {
         gamePhase = GamePhases.IINITIALIZATION;
+        scenes = new HashMap<>();
+        controllers = new HashMap<>();
+        phases = new HashMap<>();
     }
-    public static void main(String[] args){
 
-        launch(args);
+    public void initializationFXMLParameter() {
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(IP_PORT, NICKNAME, PLAYERS, LEADER_CARD, INITIAL_RESOURCES, WAITING_ROOM));
+        try {
+            for (String path : fxmlFiles) {
+                URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
+                FXMLLoader loader = new FXMLLoader(url);
+                Scene scene = new Scene(loader.load());
+                scenes.put(path, scene);
+                Controller controller = loader.getController();
+                controller.setGui(this);
+                phases.put(scene, linkFXMLPageToPhase(path));
+                controllers.put(path, controller);
+            }
+        } catch (IOException e) {
+            // logger.log(Level.SEVERE, e.getMessage(), e);
+        }
+        currentScene = scenes.get(IP_PORT);
+    }
+
+    public static void main(String[] args) {
         new GUI();
+        launch(args);
     }
 
-    public Socket getSocket() {
-        return socket;
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.currentStage = primaryStage;
+        initializationFXMLParameter();
+        initializationStage();
+    }
+
+    public void initializationStage() {
+        currentStage.setTitle("Masters of Renaissance");
+        currentStage.setScene(currentScene);
+        currentStage.show();
     }
 
     public void setSocket(String address, int port) throws IOException {
         socket = new Socket(address, port);
     }
 
-    public ClientSocket getClientSocket() {
-        return clientSocket;
-    }
-
     public void setClientSocket() {
         try {
             clientSocket = new ClientSocket(this, socket);
         } catch (IOException e) {
-            e.printStackTrace();
+            clientSocket = null;
         }
     }
 
-    public boolean isAckArrived() {
-        return isAckArrived;
+    public void setGamePhase(GamePhases fase) {
+        gamePhase = fase;
     }
 
-    public void setAckArrived(boolean ackArrived) {
-        isAckArrived = ackArrived;
+    public Scene getCurrentScene() {
+        return currentScene;
     }
 
-    public boolean isNackArrived() {
-        return isNackArrived;
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
     }
 
-    public void setNackArrived(boolean nackArrived) {
-        isNackArrived = nackArrived;
+    public Scene getScene(String NAME) {
+        return scenes.get(NAME);
     }
 
-    public String getNickname() {
-        return nickname;
+    public Controller getController(String NAME) {
+        return controllers.get(NAME);
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public ClientSocket getClientSocket() {
+        return clientSocket;
     }
 
-    public GamePhases getGamePhase() {
-        return gamePhase;
+    public void setClientSocket(ClientSocket clientSocket) {
+        this.clientSocket = clientSocket;
     }
 
-    public void setGamePhase(GamePhases gamePhase) {
-        this.gamePhase = gamePhase;
+    public void changeScene() {
+        Platform.runLater(()->{
+                currentStage.setScene(currentScene);
+                currentStage.show();
+        });
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
+    public GamePhases phase(Scene scene) {
+        return phases.get(scene);
+    }
 
-        //Controller ipPortConfigurationController = new IpPortConfigurationController();
+    public String getErrorFromServer() {
+        return errorFromServer;
+    }
 
-        URL url = new File("src/main/resources/fxml/ip_port_configuration.fxml").toURI().toURL();
-        FXMLLoader loader = new FXMLLoader(url);
-        stage.setTitle("Masters of Renaissance");
-        stage.setScene(new Scene(loader.load()));
-        Controller ipPortConfigurationController = loader.getController();
-        ipPortConfigurationController.setGui(this);
-        stage.show();
+    public void setErrorFromServer(String errorFromServer) {
+        this.errorFromServer = errorFromServer;
+    }
+
+    private GamePhases linkFXMLPageToPhase(String NAME) {
+        switch (NAME) {
+            case (NICKNAME):
+                return GamePhases.NICKNAME;
+            case (PLAYERS):
+                return GamePhases.NUMBEROFPLAYERS;
+            case (LEADER_CARD):
+                return GamePhases.INITIALLEADERCARDSELECTION;
+            case (INITIAL_RESOURCES):
+                return GamePhases.INITIALRESOURCESELECTION;
+            default:
+                return GamePhases.IINITIALIZATION;
+        }
     }
 }
