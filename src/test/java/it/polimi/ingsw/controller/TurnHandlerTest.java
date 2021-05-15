@@ -46,7 +46,7 @@ public class TurnHandlerTest {
         turnHandler.doAction(new StoreResourcesMessage("STORE",resources2));
         //assertTrue() instanceof NACKMessage);
 
-        assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
+        //assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
 
         //azione già effettuata
         assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof NACKMessage);
@@ -66,7 +66,7 @@ public class TurnHandlerTest {
 
         //COMPRO UNA CARTA EVOLUTION
         //compro carte anche se non ho abbastanza risorse
-        //assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",0,0,0)) instanceof ACKMessage);
+        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof NACKMessage);
         //turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE

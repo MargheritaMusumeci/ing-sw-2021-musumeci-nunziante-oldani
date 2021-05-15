@@ -5,6 +5,7 @@ import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.messages.actionMessages.ActiveProductionMessage;
+import it.polimi.ingsw.messages.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
@@ -291,6 +292,28 @@ public class DoActionPlayerTest {
 
     @Test
     public void testBuyEvolutionCard() {
+        HumanPlayer player1 = new HumanPlayer("marghe", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        player1.setGame(modelGame);
+        player2.setGame(modelGame);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
+        } catch (NotEnoughResourcesException e) {
+            assertFalse(false);
+        }
+
+        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,1)) instanceof ACKMessage);
+        assertTrue(modelGame.getActivePlayer().getDashboard().getProductionZone()[1] != null);
     }
 
 
