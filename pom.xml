@@ -3,12 +3,8 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- The groupId must be the same for everybody -->
     <groupId>it.polimi.ingsw</groupId>
-    <!-- Change the artifactId depending on your group number
-         (example: group 99 will have artifactId PSP99 -->
     <artifactId>PSP01</artifactId>
-    
     <version>1.0-SNAPSHOT</version>
     <name>MastersOfRenaissance</name>
 
@@ -27,6 +23,11 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
+            <version>11.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
             <version>11.0.2</version>
         </dependency>
 
@@ -64,5 +65,13 @@
             </plugin>
 
         </plugins>
+        <!-- Maybe useless -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
+
+
 </project>
