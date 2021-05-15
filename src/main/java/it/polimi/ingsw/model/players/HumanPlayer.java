@@ -200,29 +200,7 @@ public class HumanPlayer extends Player{
                 }
                 break;
 
-            case TWOEVOLUTIONCOLOR:
-                boolean colorPresent;
-                for(CardColor color : cardColor){
-                    colorPresent = false;
-                    for(int i = 0 ; i < productionZones.length ; i++){
-                        if(productionZones[i].getCardList() == null)
-                            continue;
-                        for(int  j = 0 ; j < productionZones[i].getCardList().size() ; j++){
-                            if(((EvolutionCard) productionZones[i].getCardList().get(j)).getColor().equals(color)){
-                                colorPresent = true;
-                                break;
-                            }
-                        }
-                        if(colorPresent)
-                            break;
-                    }
-                    if(!colorPresent)
-                        throw new ActiveLeaderCardException("Requires not satisfied");
-                }
-                break;
-
-            case THREEEVOLUTIONCOLOR:
-                //Variable that counts how many colors are present -> stop when it's equal to color.length
+            case TWOEVOLUTIONCOLOR: case THREEEVOLUTIONCOLOR:
                 int numberOfColorPresent = 0;
                 HashMap<CardColor , Integer> totalNumberOfColors = new HashMap<CardColor , Integer>();
                 for(CardColor color : cardColor){
@@ -243,7 +221,7 @@ public class HumanPlayer extends Player{
                     System.out.println("Color: " + color + " , quantity found: " + totalNumberOfColors.get(color));
 
                 for(CardColor color : cardColor){
-                    if(totalNumberOfColors.get(color) - 1 < 0)
+                    if(totalNumberOfColors.get(color) == null || totalNumberOfColors.get(color) - 1 < 0)
                         throw new ActiveLeaderCardException("Requires not satisfied");
                     else
                         totalNumberOfColors.put(color , totalNumberOfColors.get(color) - 1);
