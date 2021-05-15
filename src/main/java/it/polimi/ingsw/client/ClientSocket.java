@@ -28,10 +28,12 @@ public class ClientSocket implements Runnable{
         this.socket = socket;
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
-        messageHandler = new MessageHandler(cli, this);
+        messageHandler = new MessageHandlerCLI(cli, this);
         isActive = true;
 
     }
+
+    //just for testing GUI --> we need to distinguish between network interface and graphic interface
 
     public ClientSocket(GUI gui, Socket socket) throws IOException {
         this.cli = null;
@@ -39,7 +41,7 @@ public class ClientSocket implements Runnable{
         this.socket = socket;
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
-        messageHandler = new MessageHandler(cli, this);
+        messageHandler = new MessageHandlerGUI(gui, this);
         isActive = true;
     }
 
