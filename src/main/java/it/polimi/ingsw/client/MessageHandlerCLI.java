@@ -118,6 +118,9 @@ public class MessageHandlerCLI extends MessageHandler{
             }else{
                 //allora è il tuno dei miei avversari
                 cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+                synchronized (cli){
+                    cli.notifyAll();
+                }
             }
         }
 

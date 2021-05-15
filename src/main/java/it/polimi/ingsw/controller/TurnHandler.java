@@ -82,8 +82,12 @@ public abstract class TurnHandler {
                     return new ACKMessage("OK");
                 }catch (InvalidPlaceException e){
                     return new NACKMessage("Wrong position");
-                }catch (Exception e) {
+                }catch(BadParametersException e) {
                     return new NACKMessage("Can't buy this card");
+                }catch(NotEnoughResourcesException e) {
+                    return new NACKMessage("Not enough resources exception");
+                } catch (ExcessOfPositionException e) {
+                    return new NACKMessage("Wrong position 2");
                 }
             }
 
@@ -100,6 +104,7 @@ public abstract class TurnHandler {
                             ((ActiveProductionMessage) message).isActiveBasic() ,
                             ((ActiveProductionMessage) message).getResourcesRequires() ,
                             ((ActiveProductionMessage) message).getResourcesEnsures());
+                    return new ACKMessage("OK");
                 } catch (NonCompatibleResourceException e) {
                     return new NACKMessage("Too many or too few resources for the activation of the basic production");
                 } catch (ExcessOfPositionException e) {

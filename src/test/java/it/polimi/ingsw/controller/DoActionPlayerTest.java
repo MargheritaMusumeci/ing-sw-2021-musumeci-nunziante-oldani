@@ -258,7 +258,7 @@ public class DoActionPlayerTest {
         ensures.add(Resource.ROCK);
 
         ArrayList<Integer> empty= null;
-        Message message = new ActiveProductionMessage("active",empty);
+        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires);
         ((ActiveProductionMessage)message).setActiveBasic(true);
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);

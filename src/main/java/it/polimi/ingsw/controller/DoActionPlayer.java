@@ -183,14 +183,19 @@ public class DoActionPlayer {
                 !((HumanPlayer)modelGame.getActivePlayer()).getActionChose().equals(Action.ACTIVE_PRODUCTION))
             throw new ActionAlreadyDoneException("Cannot do an other action");
 
-        //Check if the position are valid and if there isn't equal position
-        for(int i = 0 ; i < positions.size() ; i++){
-            if(positions.get(i) < 0 || positions.get(i) >= (modelGame.getActivePlayer().getDashboard().getProductionZone().length)
-                + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size())
-                throw new ExcessOfPositionException("Position not valid");
-            for(int j = 0; j < positions.size() ; j++){
-                if(i != j && positions.get(i).equals(positions.get(j)))
-                    throw new BadParametersException("Cannot activate the same production zone twice");
+        if(positions == null && !activeBasic)
+            throw new BadParametersException("No production zone specified");
+
+        if(positions != null){
+            //Check if the position are valid and if there isn't equal position
+            for(int i = 0 ; i < positions.size() ; i++){
+                if(positions.get(i) < 0 || positions.get(i) >= (modelGame.getActivePlayer().getDashboard().getProductionZone().length)
+                        + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size())
+                    throw new ExcessOfPositionException("Position not valid");
+                for(int j = 0; j < positions.size() ; j++){
+                    if(i != j && positions.get(i).equals(positions.get(j)))
+                        throw new BadParametersException("Cannot activate the same production zone twice");
+                }
             }
         }
 
@@ -217,16 +222,18 @@ public class DoActionPlayer {
             }
         }
 
-        //Sum all the requires
-        for(int i = 0 ; i < positions.size() ; i++){
-            if(modelGame.getActivePlayer().getDashboard().getProductionZone()[i] == null)
-                throw new BadParametersException("This production zone is empty");
+        if(positions != null){
+            //Sum all the requires
+            for(int i = 0 ; i < positions.size() ; i++){
+                if(modelGame.getActivePlayer().getDashboard().getProductionZone()[i] == null)
+                    throw new BadParametersException("This production zone is empty");
 
-            Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
-            HashMap<Resource , Integer> cardRequires = card.getRequires();
+                Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+                HashMap<Resource , Integer> cardRequires = card.getRequires();
 
-            for(Resource resource : cardRequires.keySet()){
-                totalRequires.put(resource , (totalRequires.get(resource) + cardRequires.get(resource)));
+                for(Resource resource : cardRequires.keySet()){
+                    totalRequires.put(resource , (totalRequires.get(resource) + cardRequires.get(resource)));
+                }
             }
         }
 
@@ -239,8 +246,16 @@ public class DoActionPlayer {
 
         //Here the player can activate all the production he specified
 
+        //Set the action at the player
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
+
         //Active the base production -> can I do this operation here without call a method?
         activeBasicProduction(resourcesRequires , resourcesEnsures);
+
+        //If the player activated only the basic production zone
+        if(positions == null){
+            return;
+        }
 
         //Active the production zone
         for(int i = 0 ; i < positions.size() ; i++){
@@ -272,8 +287,6 @@ public class DoActionPlayer {
             else
                 ((LeaderCard) card).setUsed(true);
         }
-        //Set the action at the player
-        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
     }
 
     /**
@@ -282,11 +295,12 @@ public class DoActionPlayer {
      * @param col column of the evolutionSection
      * @param position is in which productionZone the player wants to place the card
      */
-    public void buyEvolutionCard(int row, int col , int position) throws Exception, InvalidPlaceException {
+    public void buyEvolutionCard(int row, int col , int position) throws InvalidPlaceException , BadParametersException ,
+                NotEnoughResourcesException , ExcessOfPositionException{
 
         //Check if the player can buy this card
         if(!(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col])) {
-            throw new Exception("wrong parameters");
+            throw new BadParametersException("Cannot buy this card");
         }
 
         //Check if the position is valid

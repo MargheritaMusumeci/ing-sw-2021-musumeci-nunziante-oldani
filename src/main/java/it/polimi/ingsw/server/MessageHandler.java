@@ -148,19 +148,20 @@ public class MessageHandler {
     private void handleActionMessages(ActionMessage actionMessage, ServerClientConnection scc){
         if (scc.getGamePhase() != GamePhases.GAME){
             scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
-        }
-
-        if (actionMessage instanceof RequestResourcesBoughtFromMarketMessage){
-            scc.send(new SendResourcesBoughtFromMarket("",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
             return;
         }
+
         //controllo che la richiesta mi viene fatta dal player attivo
         if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
             scc.send(new NACKMessage("Error! It's not your turn"));
             return;
         }
 
-        scc.send(scc.getGameHandler().getTurnHandler().doAction(actionMessage));
+        if (actionMessage instanceof RequestResourcesBoughtFromMarketMessage){
+            scc.send(new SendResourcesBoughtFromMarket("",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
+            return;
+        }
 
+        scc.send(scc.getGameHandler().getTurnHandler().doAction(actionMessage));
     }
 }

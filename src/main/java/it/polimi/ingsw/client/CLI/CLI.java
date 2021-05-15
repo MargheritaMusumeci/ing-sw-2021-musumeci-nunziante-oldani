@@ -775,6 +775,129 @@ public class CLI implements Runnable {
         isNackArrived = false;
     }
 
+    private void activeProductionZones(){
+        int position = 0;
+        boolean activeBasic = false;
+        boolean exit = false;
+        ArrayList<Integer> productionZones =new ArrayList<Integer>();
+        ArrayList<Resource> resourcesRequires = new ArrayList<Resource>();
+        ArrayList<Resource> resourcesEnsures = new ArrayList<Resource>();
+
+        printProductionZones();
+
+        System.out.println("Which production zone do you want to activate? \n" +
+                "You can choose between 0 , 1 and 2 \n" +
+                "Insert -1 to end");
+        do{
+            //Insert the position
+            do{
+                position = scanner.nextInt();
+                if(position < -1 || position > 2)
+                    System.out.println("Position not valid, insert an other position");
+            }while(position < -1 || position > 2);
+
+            //If the player ended his choice
+            if(position == -1){
+                exit = true;
+                break;
+            }
+
+            //Add the production if the position is valid
+            if(!productionZones.contains(position))
+                productionZones.add(position);
+            else
+                System.out.println("Position already chose");
+
+        }while(!exit && productionZones.size() <= 3);
+
+        //Now the array with the position is ready
+
+        System.out.println("Do you want to activate the basic production zone? Y/N");
+
+        do{
+            exit = true;
+            String input = scanner.next();
+            if(input.equals("Y")){
+                activeBasic = true;
+            }
+            else if(input.equals("N")){
+                activeBasic = false;
+            }
+            else{
+                System.out.println("Wrong parameter, try again");
+                exit = false;
+            }
+        }while(!exit);
+
+        //If the player wants to active the basic production
+        if(activeBasic){
+            System.out.println("Choose 2 resource types to use in basic production:");
+            System.out.println("1) COIN");
+            System.out.println("2) ROCK");
+            System.out.println("3) SHIELD");
+            System.out.println("4) SERVANT");
+
+            while(resourcesRequires.size() < 2){
+                fillArrayList(resourcesRequires);
+            }
+
+            System.out.println("Choose 1 resource type to obtain from basic production:");
+            System.out.println("1) COIN");
+            System.out.println("2) ROCK");
+            System.out.println("3) SHIELD");
+            System.out.println("4) SERVANT");
+
+            while(resourcesEnsures.size() < 1){
+                fillArrayList(resourcesEnsures);
+            }
+        }
+
+        //Send activeProductionMessage to the server
+        clientSocket.send(new ActiveProductionMessage("Active production zones" , productionZones ,
+                activeBasic , resourcesRequires , resourcesEnsures));
+
+        //Wait for a response
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            isActionBeenDone = true;
+            System.out.println("Production zones activated");
+        }else{
+            System.out.println("Something goes wrong, try again");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+    }
+
+    /**
+     * Private method that fills the arrayList passed as parameter with a resource type accordin
+     *      to the number specified by the user
+     * @param resources is the arrayList where put the resource the user chose
+     */
+    private void fillArrayList(ArrayList<Resource> resources){
+        int position = 0;
+        position = scanner.nextInt();
+        if(position < 1 || position > 4){
+            System.out.println("Wrong resources , try again");
+            return;
+        }
+        if(position == 1)
+            resources.add(Resource.COIN);
+        else if(position == 2)
+            resources.add(Resource.ROCK);
+        else if(position == 3)
+            resources.add(Resource.SHIELD);
+        else
+            resources.add(Resource.SERVANT);
+    }
+
 
     public void setIsAckArrived(boolean value){
         isAckArrived = value;
@@ -867,8 +990,13 @@ public class CLI implements Runnable {
 
                         switch (action) {
                             case 0:
-                                endTurnSelected = true;
-                                clientSocket.send(new EndTurnMessage("turno finito"));
+                                if(!isActionBeenDone){
+                                    System.out.println("Cannot end turn without do an action");
+                                }
+                                else{
+                                    endTurnSelected = true;
+                                    clientSocket.send(new EndTurnMessage("Turn ended"));
+                                }
                                 break;
                             case 1:
                                 printLeaderCards();
@@ -905,7 +1033,11 @@ public class CLI implements Runnable {
                                 }
                                 break;
                             case 11:
-                                //to be implemented
+                                if(!isActionBeenDone){
+                                    activeProductionZones();
+                                }else {
+                                    System.out.println("You have already make an action, yuo should end your turn now!");
+                                }
                                 break;
                             case 12:
                                 if (!isActionBeenDone){
