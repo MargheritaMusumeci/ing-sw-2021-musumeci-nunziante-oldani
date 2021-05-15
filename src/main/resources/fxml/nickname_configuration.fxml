@@ -8,18 +8,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.NicknameConfigurationController">
+<?import javafx.scene.control.TextArea?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.NicknameConfigurationController">
    <children>
-       
-      <TextField fx:id="nicknameField" layoutX="203.0" layoutY="134.0" promptText="Nickname" />
-      <Text layoutX="144.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Masters of Renaissance">
+      <Text layoutX="164.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Masters of Renaissance">
          <font>
             <Font size="26.0" />
          </font>
       </Text>
-      <Button fx:id="loginButton" layoutX="255.0" layoutY="263.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
-      <Text layoutX="221.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
-      <Label fx:id="error" layoutX="54.0" layoutY="223.0" textFill="RED" />
-      <ProgressIndicator fx:id="loading" disable="true" layoutX="251.0" layoutY="249.0" visible="false" />
+      <Button fx:id="loginButton" layoutX="275.0" layoutY="283.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
+      <Text layoutX="242.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
+      <Label fx:id="error" layoutX="74.0" layoutY="243.0" textFill="RED" />
+      <ProgressIndicator fx:id="loading" disable="true" layoutX="271.0" layoutY="269.0" visible="false" />
+      <TextField fx:id="nicknameField" layoutX="226.0" layoutY="200.0" promptText="nickname"/>
    </children>
 </Pane>

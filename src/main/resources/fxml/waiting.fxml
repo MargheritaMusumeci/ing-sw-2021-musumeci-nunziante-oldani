@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:controller="it.polimi.ingsw.client.GUI.controllers.WaintingController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ProgressIndicator layoutX="274.0" layoutY="187.0" />
       <Text layoutX="176.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wait for enemies:">
