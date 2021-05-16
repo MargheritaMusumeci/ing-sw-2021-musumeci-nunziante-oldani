@@ -6,7 +6,10 @@ import it.polimi.ingsw.messages.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.messages.actionMessages.*;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.LeaderCardSet;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
@@ -29,7 +32,38 @@ public class TurnHandlerTest {
         Game modelGame = new Game(players);
         player1.setGame(modelGame);
         player2.setGame(modelGame);
+
         TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+        LeaderCardSet leaderCardSet = new LeaderCardSet();
+
+        ArrayList<LeaderCard>leaderCards=new ArrayList<LeaderCard>();
+        for(int i=1; i< leaderCardSet.getLeaderCardSet().size();i++){
+            if(leaderCardSet.getLeaderCardSet().get(i).getRequiresForActiveLeaderCards()== LeaderCardRequires.NUMBEROFRESOURSE){
+                leaderCards.add(leaderCardSet.getLeaderCard(i));
+                break;
+            }
+        }
+        leaderCards.add(leaderCardSet.getLeaderCard(0));
+
+        //COMPRO UNA CARTA EVOLUTION
+        //compro carte anche se non ho abbastanza risorse
+        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof NACKMessage);
+        turnHandler.endTurn();
+
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
+        } catch (NotEnoughResourcesException e) {
+            assertFalse(false);
+        }
+
+
+        modelGame.getPlayers().get(0).getDashboard().setLeaderCards(leaderCards);
+        modelGame.getPlayers().get(1).getDashboard().setLeaderCards(leaderCards);
+
 
         //COMPRO DAL MERCATO
 
@@ -43,34 +77,43 @@ public class TurnHandlerTest {
         resources2.add(Resource.ROCK);
 
         //risorse sbagliate
-        turnHandler.doAction(new StoreResourcesMessage("STORE",resources2));
-        //assertTrue() instanceof NACKMessage);
+        assertTrue( turnHandler.doAction(new StoreResourcesMessage("STORE",resources2)) instanceof NACKMessage);
 
-        //assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
+        //risorse corrette
+        assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
 
         //azione già effettuata
-        //assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
+        assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof NACKMessage);
         turnHandler.endTurn();
 
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
+        } catch (NotEnoughResourcesException e) {
+            assertFalse(false);
+        }
+
         //ATTIVO UNA LEADER CARD
-       // assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",0)) instanceof ACKMessage);
+        assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",0)) instanceof ACKMessage);
 
         //carta non presente
         assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",7)) instanceof NACKMessage);
 
         //carta già attiva
-        //assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",0)) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction(new ActiveLeaderCardMessage("ACTIVE",0)) instanceof NACKMessage);
 
         //SCARTO UNA LEADER CARD
         assertTrue(turnHandler.doAction(new DiscardLeaderCardMessage("DISCARD",1)) instanceof ACKMessage);
 
         //COMPRO UNA CARTA EVOLUTION
-        //compro carte anche se non ho abbastanza risorse
-        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof NACKMessage);
-        //turnHandler.endTurn();
+        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof ACKMessage);
+        turnHandler.endTurn();
+        turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE
-        //assertTrue(turnHandler.doAction(new ActiveProductionMessage("ACTIVE",new ArrayList<Integer>(){{add(0);}})) instanceof ACKMessage);
+        assertTrue(  turnHandler.doAction(new ActiveProductionMessage("ACTIVE",new ArrayList<Integer>(){{add(0);}},false,null,null))instanceof ACKMessage);
         turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE BASE
@@ -92,7 +135,7 @@ public class TurnHandlerTest {
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
-        //assertTrue(turnHandler.doAction(message) instanceof ACKMessage);
+        assertTrue(turnHandler.doAction(message) instanceof ACKMessage);
 
     }
 

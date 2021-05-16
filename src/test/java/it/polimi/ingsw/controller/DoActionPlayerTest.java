@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.messages.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.messages.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
 import it.polimi.ingsw.model.game.Resource;
@@ -137,46 +138,59 @@ public class DoActionPlayerTest {
         players.add(player1);
         players.add(player2);
         Game modelGame = new Game(players);
+        player1.setGame(modelGame);
+        player2.setGame(modelGame);
 
         TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
         DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
         LeaderCardSet leaderCardSet = new LeaderCardSet();
+
         ArrayList<LeaderCard>leaderCards=new ArrayList<LeaderCard>();
-        leaderCards.add(leaderCardSet.getLeaderCard(0));
+        for(int i=0; i< leaderCardSet.getLeaderCardSet().size();i++){
+            if(leaderCardSet.getLeaderCardSet().get(i).getRequiresForActiveLeaderCards()== LeaderCardRequires.NUMBEROFRESOURSE){
+                leaderCards.add(leaderCardSet.getLeaderCard(i));
+                break;
+            }
+        }
+
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
+        } catch (NotEnoughResourcesException e) {
+            assertFalse(false);
+        }
+
+
         modelGame.getPlayers().get(0).getDashboard().setLeaderCards(leaderCards);
         modelGame.getPlayers().get(1).getDashboard().setLeaderCards(leaderCards);
-        /**
-         * UPDATE LEADER CARD
+
         try {
             doActionPlayer.activeLeaderCard(0);
         } catch (OutOfBandException | LeaderCardAlreadyUsedException | ActiveLeaderCardException e) {
             assertFalse(false);
         }
-        assertTrue(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isActive());
+        boolean b = modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isActive();
+        assertTrue(b);
 
         try {
             doActionPlayer.activeLeaderCard(1);
         } catch (OutOfBandException e) {
             System.out.println("eccezione lanciata 1");
             assertTrue(true);
-        } catch (LeaderCardAlreadyUsedException e) {
-            assertFalse(false);
-        } catch (ActiveLeaderCardException e) {
+        } catch (LeaderCardAlreadyUsedException | ActiveLeaderCardException e) {
             assertFalse(false);
         }
 
         try {
             doActionPlayer.activeLeaderCard(0);
-        } catch (OutOfBandException e) {
+        } catch (OutOfBandException | ActiveLeaderCardException e) {
             assertFalse(false);
         } catch (LeaderCardAlreadyUsedException e) {
             System.out.println("eccezione lanciata 2");
             assertTrue(true);
-        }catch (ActiveLeaderCardException e){
-            assertFalse(false);
         }
-         */
-
     }
 
     @Test
@@ -185,19 +199,36 @@ public class DoActionPlayerTest {
 
         //check if correctly set use leader card --> only if is active
         //check if correctly throw exeptions
-
         HumanPlayer player1 = new HumanPlayer("marghe", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
         Game modelGame = new Game(players);
+        player1.setGame(modelGame);
+        player2.setGame(modelGame);
 
         TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
         DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
         LeaderCardSet leaderCardSet = new LeaderCardSet();
+
         ArrayList<LeaderCard>leaderCards=new ArrayList<LeaderCard>();
-        leaderCards.add(leaderCardSet.getLeaderCard(0));
+        for(int i=0; i< leaderCardSet.getLeaderCardSet().size();i++){
+            if(leaderCardSet.getLeaderCardSet().get(i).getRequiresForActiveLeaderCards()== LeaderCardRequires.NUMBEROFRESOURSE){
+                leaderCards.add(leaderCardSet.getLeaderCard(i));
+                break;
+            }
+        }
+
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
+        } catch (NotEnoughResourcesException e) {
+            assertFalse(false);
+        }
+
         modelGame.getPlayers().get(0).getDashboard().setLeaderCards(leaderCards);
         modelGame.getPlayers().get(1).getDashboard().setLeaderCards(leaderCards);
 
@@ -206,13 +237,10 @@ public class DoActionPlayerTest {
         }catch (LeaderCardAlreadyUsedException e) {
             System.out.println("eccezione 1 lanciata");
            assertTrue(true);
-        } catch (OutOfBandException e) {
-            assertFalse(false);
-        } catch (ActiveLeaderCardException e){
+        } catch (OutOfBandException | ActiveLeaderCardException e) {
             assertFalse(false);
         }
-        /**
-         * UPDATE LEADER CARD
+
         assertFalse(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
 
         try {
@@ -225,7 +253,7 @@ public class DoActionPlayerTest {
 
         try {
             doActionPlayer.useLeaderCard(0);
-        }catch (LeaderCardAlreadyUsedException | OutOfBandException e) {
+        }catch (LeaderCardAlreadyUsedException | OutOfBandException | ActiveLeaderCardException e) {
             assertFalse(false);
         }
         assertTrue(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
@@ -237,8 +265,9 @@ public class DoActionPlayerTest {
             assertTrue(true);
         } catch (LeaderCardAlreadyUsedException e) {
             assertFalse(false);
+        } catch (ActiveLeaderCardException e) {
+            e.printStackTrace();
         }
-         */
     }
 
     @Test
