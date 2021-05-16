@@ -84,18 +84,25 @@ public class MessageHandlerGUI extends MessageHandler {
         }
 
         if (message instanceof SendViewMessage) {
-            /*
-            clientSocket.setView(((SendViewMessage) message).getView());
 
-            if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
+            clientSocket.setView(((SendViewMessage) message).getView());
+            gui.setView(((SendViewMessage) message).getView());
+            gui.setGamePhase(GamePhases.STARTGAME);
+            gui.setOldScene(gui.getCurrentScene());
+            gui.setCurrentScene(gui.getScene(GUI.START_GAME));
+            gui.changeScene();
+
+           /* if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
                 gui.setGamePhase(GamePhases.MYTURN);
             } else gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+
+           */
 
             synchronized (gui) {
                 gui.notifyAll();
             }
 
-           */
+
         }
 
         if (message instanceof SendResourcesBoughtFromMarket) {

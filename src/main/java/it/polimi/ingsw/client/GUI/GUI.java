@@ -36,6 +36,7 @@ public class GUI extends Application {
     public static final String LEADER_CARD = "leader_cards_configuration.fxml";
     public static final String INITIAL_RESOURCES = "initial_resources_configuration.fxml";
     public static final String WAITING_ROOM = "waiting.fxml";
+    public static final String START_GAME = "view.fxml";
 
     private Scene currentScene;
     private Scene oldScene;
@@ -63,7 +64,7 @@ public class GUI extends Application {
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM,NICKNAME,INITIAL_RESOURCES));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME, PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM,NICKNAME,INITIAL_RESOURCES));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -135,6 +136,10 @@ public class GUI extends Application {
                 return GamePhases.INITIALLEADERCARDSELECTION;
             case (INITIAL_RESOURCES):
                 return GamePhases.INITIALRESOURCESELECTION;
+            case (START_GAME):
+                return GamePhases.STARTGAME;
+            case (WAITING_ROOM):
+                return GamePhases.WAITINGOTHERPLAYERS;
             default:
                 return GamePhases.IINITIALIZATION;
         }
@@ -238,5 +243,13 @@ public class GUI extends Application {
 
     public void setClientSocket(ClientSocket clientSocket) {
         this.clientSocket = clientSocket;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 }

@@ -49,7 +49,7 @@ public class TurnHandlerTest {
         //assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
 
         //azione già effettuata
-        assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
+        //assertTrue(turnHandler.doAction(new StoreResourcesMessage("STORE",resources)) instanceof ACKMessage);
         turnHandler.endTurn();
 
         //ATTIVO UNA LEADER CARD

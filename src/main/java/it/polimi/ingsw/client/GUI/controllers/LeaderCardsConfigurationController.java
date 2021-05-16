@@ -72,7 +72,7 @@ public class LeaderCardsConfigurationController implements Controller{
             LeaderConfirmation.setVisible(true);
             loading.setVisible(false);
 
-        }else if(selectedNumber<2){
+        }else if(selectedNumber>2){
             errorLabel.setText("Too many cards selected");
             selectedNumber=0;
             LeaderConfirmation.setVisible(true);
