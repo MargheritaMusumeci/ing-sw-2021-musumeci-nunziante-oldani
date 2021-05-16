@@ -112,6 +112,9 @@ public class MessageHandler {
                         }
                     }
                     scc.getGameHandler().handleInitialResourcesSettings();
+
+                    if(scc.getGameHandler().getNumberOfPlayers() == 1)
+                        scc.getGameHandler().initializationView();
                 }
 
                 else

@@ -36,7 +36,7 @@ public class SerializableDashboard implements Serializable {
 
         for (NormalProductionZone normalPZ:dashboard.getProductionZone()) {
             SerializableProductionZone serializableProductionZone = new SerializableProductionZone(normalPZ);
-            this.serializableProductionZones[i]=serializableProductionZone;
+            this.serializableProductionZones[i] = serializableProductionZone;
             i++;
         }
 

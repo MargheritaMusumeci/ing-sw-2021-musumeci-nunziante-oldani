@@ -66,8 +66,14 @@ public class GameHandler implements Runnable{
             playersForGame.add(new LorenzoPlayer(playersForGame.get(0).getPopeTrack(), playersForGame.get(0).getDashboard()));
         }
 
-        //creo il game
+        //Create the game
         game = new Game(playersForGame);
+
+        //I've done this directly in Game
+        //Set the game in each player
+        /*for(HumanPlayer player : playersInGame.values()){
+            player.setGame(game);
+        }*/
 
         //qui posso mandare le carte perchè sono nel player
         for(ServerClientConnection scc : playerSockets) {
@@ -95,8 +101,9 @@ public class GameHandler implements Runnable{
 
         for(ServerClientConnection scc : playerSockets){
             ArrayList<Resource> resources = initializationHandler.prepareInitialResources(getPlayersInGame().get(scc));
-            scc.send(new InitialResourcesMessage("Risorse iniziali" , resources));
-            scc.send(new StartGameMessage("Inizio"));
+            scc.send(new InitialResourcesMessage("Initial resources" , resources));
+            //The following message is useless
+            //scc.send(new StartGameMessage("Start"));
         }
 
         new Thread(this).start();
@@ -150,9 +157,6 @@ public class GameHandler implements Runnable{
             scc.setGamePhase(GamePhases.GAME);
         }
     }
-
-
-
 
     public TurnHandler getTurnHandler() {
         return turnHandler;

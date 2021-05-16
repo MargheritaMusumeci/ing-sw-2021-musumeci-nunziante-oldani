@@ -8,8 +8,10 @@ public class UseLeaderCardMessage extends ActionMessage{
 
     private int position;
 
-    public UseLeaderCardMessage(String message) {
+    public UseLeaderCardMessage(String message , int position) {
+
         super(message);
+        this.position = position;
     }
 
     public int getPosition() {

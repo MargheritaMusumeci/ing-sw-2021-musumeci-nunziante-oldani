@@ -271,7 +271,8 @@ public class CLI implements Runnable {
                 "6: Show market           |\r\n| 7: Show evolutionSection |\r\n| " +
                 "8: Active Leader cards   |\r\n| 9: Discard Leader cards  |\r\n| " +
                 "10: Buy from Market      |\r\n| 11: Active Production    |\r\n| " +
-                "12: Buy Evolution card   |\r\n+--------------------------+\r\n\r\n");
+                "12: Buy Evolution card   |\r\n| 13: Use Leader card      " +
+                "|\r\n+--------------------------+\r\n\r\n");
     }
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
@@ -565,7 +566,7 @@ public class CLI implements Runnable {
                 clientSocket.send(new BuyFromMarketMessage("buy from market", row, true));
 
             }
-            if(scelta ==2){
+            if(scelta == 2){
                 int col = 0;
                 do{
                     System.out.println("Inserire la colonna che si vuole acquistare: (0,1,2,3)");
@@ -576,10 +577,12 @@ public class CLI implements Runnable {
             }
         }while (scelta != 1 && scelta != 2);
 
-        //ho acquistato, devo aspettare un ack
+        System.out.println("Message sent");
+        //Resources bought, waiting for ack/nack
         synchronized (this){
             try {
                 wait();
+                System.out.println("I've been woke up");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -599,6 +602,7 @@ public class CLI implements Runnable {
 
         synchronized (this){
             try {
+                System.out.println("Waiting for resources bought");
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -686,9 +690,10 @@ public class CLI implements Runnable {
         }while ((row<0 || row > 2) || (col <0 || col>3) || (pos != 0 && pos != 1 && pos != 2));
 
         clientSocket.send(new BuyEvolutionCardMessage("buy evolution card", row, col, pos));
-
+        System.out.println("Message sent");
         synchronized (this){
             try {
+                System.out.println("Waiting for ack/nack");
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -733,8 +738,7 @@ public class CLI implements Runnable {
             }
         }
 
-        boolean controllo;
-        controllo = false;
+        boolean controllo = false;
         int number;
         do{
             System.out.println("Choose the leader card to be discard (type the id): ");
@@ -773,6 +777,91 @@ public class CLI implements Runnable {
 
         isAckArrived = false;
         isNackArrived = false;
+    }
+
+    private void useLeaderCard(){
+
+        //Check if the player has leader card
+        if(clientSocket.getView().getLeaderCards().size() == 0){
+            System.out.println("You don't have leader card");
+            return;
+        }
+
+        //Check if there are active cards
+        boolean check = false;
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(serializableLeaderCard.isActive()){
+                check = true;
+            }
+        }
+
+        if (!check){
+            //Player doesn't have leader card
+            System.out.println("You don't have active card");
+            return;
+        }
+
+        //Check if there is a card not already used
+        check = false;
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(serializableLeaderCard.isActive()){
+                check = true;
+            }
+        }
+
+        if (!check){
+            //Player doesn't have leader card
+            System.out.println("You've already used all your leader card");
+            return;
+        }
+
+        //Print card the player can use
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(!serializableLeaderCard.isUsed() && serializableLeaderCard.isActive()){
+                printSingleLeaderCard(serializableLeaderCard);
+            }
+        }
+
+        boolean control = false;
+        int number;
+        do{
+            System.out.println("Choose the leader card to be activated (type the id): ");
+            number = scanner.nextInt();
+
+            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
+                if(lCard.getId() == number && !lCard.isUsed() && lCard.isActive()){
+                    control = true;
+                }
+            }
+        }while(!control);
+
+        //Find the position of the card chose in the set
+        int pos = 0;
+        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
+            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
+                pos = i;
+            }
+        }
+
+        //Send the message and wait the answer
+        clientSocket.send(new UseLeaderCardMessage("Use leader card", pos));
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            System.out.println("Leader card correctly used");
+        }else{
+            System.out.println("Error in the activation of the power");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+
     }
 
     private void activeProductionZones(){
@@ -980,9 +1069,9 @@ public class CLI implements Runnable {
                     break;
                 case MYTURN:
 
-                    isActionBeenDone = false;
                     System.out.println("It's your turn");
                     boolean endTurnSelected = false;
+                    isActionBeenDone = false;
                     while(!endTurnSelected) {
                         printMenu();
 
@@ -1047,6 +1136,10 @@ public class CLI implements Runnable {
                                 }
                                 break;
 
+                            case 13:
+                                useLeaderCard();
+                                break;
+
                             default:
                                 System.out.println("This action doesn't exist");
                                 break;
@@ -1055,7 +1148,7 @@ public class CLI implements Runnable {
 
 
                 case OTHERPLAYERSTURN:
-                    System.out.println("non tocca a te!");
+                    System.out.println("It's not your turn!");
                     synchronized (this){
                         try {
                             wait();

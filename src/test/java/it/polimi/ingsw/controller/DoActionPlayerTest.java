@@ -208,6 +208,8 @@ public class DoActionPlayerTest {
            assertTrue(true);
         } catch (OutOfBandException e) {
             assertFalse(false);
+        } catch (ActiveLeaderCardException e){
+            assertFalse(false);
         }
         /**
          * UPDATE LEADER CARD

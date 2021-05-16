@@ -349,8 +349,10 @@ public class HumanPlayer extends Player{
         return actionChose;
     }
 
-    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
+    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
         if(position < 0 || position >= dashboard.getLeaderCards().size() ) throw new OutOfBandException("Invalid position");
+
+        if(!dashboard.getLeaderCards().get(position).isActive()) throw new ActiveLeaderCardException("Leader card is not active");
 
         if(dashboard.getLeaderCards().get(position).isUsed()) throw new LeaderCardAlreadyUsedException("This leader card is already used");
 

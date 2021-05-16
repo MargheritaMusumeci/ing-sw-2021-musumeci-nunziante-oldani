@@ -250,7 +250,9 @@ public class DoActionPlayer {
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
 
         //Active the base production -> can I do this operation here without call a method?
-        activeBasicProduction(resourcesRequires , resourcesEnsures);
+        if(activeBasic){
+            activeBasicProduction(resourcesRequires , resourcesEnsures);
+        }
 
         //If the player activated only the basic production zone
         if(positions == null){
@@ -466,7 +468,7 @@ public class DoActionPlayer {
      * PRODUCTION,MARKET AND SALE --> could be chose
      * @param position position
      */
-    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException {
+    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
             ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
     }
 

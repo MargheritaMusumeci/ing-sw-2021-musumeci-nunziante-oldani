@@ -24,9 +24,10 @@ public class SerializableProductionZone implements Serializable {
     }
 
     public ArrayList<EvolutionCard> getCards() {
-        ArrayList<EvolutionCard> evolutionCards = null;
         if(cards == null)
             return null;
+
+        ArrayList<EvolutionCard> evolutionCards = new ArrayList<EvolutionCard>();
         for (Card card:cards) {
             evolutionCards.add((EvolutionCard) card);
         }

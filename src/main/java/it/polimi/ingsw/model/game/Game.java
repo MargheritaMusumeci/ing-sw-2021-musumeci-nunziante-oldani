@@ -21,6 +21,12 @@ public class Game {
         this.activePlayer = players.get(0);
 
         assignLeaderCards();
+
+        //Set the game in each player
+        for(Player player : players){
+            if(player instanceof HumanPlayer)
+                ((HumanPlayer) player).setGame(this);
+        }
     }
 
     private void assignLeaderCards() {

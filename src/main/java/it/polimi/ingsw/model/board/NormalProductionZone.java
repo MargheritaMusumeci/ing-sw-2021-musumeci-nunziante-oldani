@@ -45,7 +45,7 @@ public class NormalProductionZone extends ProductionZone{
     public void addCard(Card card) throws InvalidPlaceException {
         EvolutionCard evolutionCard = (EvolutionCard) card;
         if (isFull() ||
-                (!(cards.isEmpty()) && ( compare(cards.get(0).getLevel())!= (compare(evolutionCard.getLevel()) - 1))) ||
+                (!(cards.isEmpty()) && ( cards.get(0).getLevel().getValue() != evolutionCard.getLevel().getValue() - 1)) ||
                 ((cards.isEmpty()) && (evolutionCard.getLevel()!= LevelEnum.FIRST))) {
             throw new InvalidPlaceException("Invalid Position for adding the card");
         }
@@ -70,6 +70,7 @@ public class NormalProductionZone extends ProductionZone{
     }
 
     /**
+     * Added a getValue method in the enum
      * Method added just for simplify checks in addCard
      * @param levelEnum enum variable
      * @return int represent level

@@ -192,6 +192,8 @@ public abstract class TurnHandler {
                 return new NACKMessage("Leader Card not present");
             } catch (LeaderCardAlreadyUsedException e) {
                 return new NACKMessage("Leader Card has already used");
+            } catch (ActiveLeaderCardException e){
+                return new NACKMessage("Leader card is not active");
             }
         }
 

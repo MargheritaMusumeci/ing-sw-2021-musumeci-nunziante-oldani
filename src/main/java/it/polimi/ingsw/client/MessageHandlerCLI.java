@@ -47,7 +47,6 @@ public class MessageHandlerCLI extends MessageHandler{
             synchronized (cli){
                 cli.notifyAll();
             }
-
             return;
         }
 
@@ -110,17 +109,15 @@ public class MessageHandlerCLI extends MessageHandler{
         if (message instanceof UpdateActivePlayerMessage){
             clientSocket.getView().setActivePlayer(message.getMessage());
             if(clientSocket.getView().getNickname().equals(clientSocket.getView().getActivePlayer())){
-                //allora è il mio turno
+                //It's my turn
                 cli.setGamePhase(GamePhases.MYTURN);
-                synchronized (cli){
-                    cli.notifyAll();
-                }
             }else{
-                //allora è il tuno dei miei avversari
+                //It's my enemies turn
                 cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-                synchronized (cli){
-                    cli.notifyAll();
-                }
+            }
+
+            synchronized (cli){
+                cli.notifyAll();
             }
         }
 
@@ -132,8 +129,6 @@ public class MessageHandlerCLI extends MessageHandler{
             clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
         }
 
-
     }
-
 
 }
