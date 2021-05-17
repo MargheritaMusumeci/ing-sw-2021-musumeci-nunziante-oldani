@@ -45,9 +45,21 @@ Generali:
 
 DOMANDE TUTORATO:
 
+CONTROLLARE MAVEN --> DOVREBBE BASTARE AVER INSERITO LA DEPENDENCY JAVAFX
+
+sistemi più puliti per lo switch --> state pattern
+action o command pattern
+
+cambiare anche gli instanceof dei messaggi
+
+cambiare switch solo game -->
 
 --- devo dare la possibilità all'utente di fare il riordino dello stock se in realà è una cosa autogestita?
+no non necessaria se ho gia fatto un manage automatico
+
 --- resilienza alle disconnessioni per partita single player
+
+tento una riconnessione e in caso termino
 
 
 

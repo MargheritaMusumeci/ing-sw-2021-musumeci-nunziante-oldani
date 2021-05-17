@@ -58,4 +58,12 @@ public class PlayersConfigurationController implements Controller {
     public void setGui(GUI gui) {
         this.gui=gui;
     }
+
+    @Override
+    public void init() {
+        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
+
+            error.setText(gui.getErrorFromServer());
+        }
+    }
 }

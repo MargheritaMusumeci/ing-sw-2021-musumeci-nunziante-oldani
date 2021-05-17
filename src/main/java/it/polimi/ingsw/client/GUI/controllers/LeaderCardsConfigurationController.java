@@ -44,8 +44,12 @@ public class LeaderCardsConfigurationController implements Controller{
 
     ArrayList<SerializableLeaderCard> leaderCards;
 
-
+    @Override
     public void init(){
+
+        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
+            errorLabel.setText(gui.getErrorFromServer());
+        }
 
         leaderCards= gui.getLeaderCards();
         cardId1.setText("Leader id: " + String.valueOf(leaderCards.get(0).getId()));

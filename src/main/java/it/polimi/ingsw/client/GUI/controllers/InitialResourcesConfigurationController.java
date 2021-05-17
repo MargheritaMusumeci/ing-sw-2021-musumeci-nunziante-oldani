@@ -56,7 +56,13 @@ public class InitialResourcesConfigurationController implements Controller {
 
     private ArrayList<Resource> resources;
 
+    @Override
     public void init(){
+
+        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
+            errorMessage.setText(gui.getErrorFromServer());
+        }
+
        resources= gui.getResources();
 
        //se null sono il primo giocatore e non devo scegliere risorse

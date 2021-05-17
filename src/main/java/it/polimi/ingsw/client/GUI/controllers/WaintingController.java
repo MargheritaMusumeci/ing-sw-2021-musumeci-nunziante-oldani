@@ -10,4 +10,9 @@ public class WaintingController implements Controller{
     public void setGui(GUI gui) {
         this.gui = gui;
     }
+
+    @Override
+    public void init() {
+
+    }
 }

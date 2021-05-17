@@ -47,7 +47,7 @@ public class MessageHandlerGUI extends MessageHandler {
 
             synchronized (gui) {
                 gui.setNackArrived(true);
-                gui.setErrorFromServer(message.toString());
+                gui.setErrorFromServer(message.getMessage());
                 gui.setGamePhase(gui.phase(gui.getOldScene()));
                 gui.setCurrentScene(gui.getOldScene());
                 gui.changeScene();
@@ -85,6 +85,7 @@ public class MessageHandlerGUI extends MessageHandler {
 
         if (message instanceof SendViewMessage) {
 
+            System.out.println("start game");
             clientSocket.setView(((SendViewMessage) message).getView());
             gui.setView(((SendViewMessage) message).getView());
             gui.setGamePhase(GamePhases.STARTGAME);
@@ -96,13 +97,10 @@ public class MessageHandlerGUI extends MessageHandler {
                 gui.setGamePhase(GamePhases.MYTURN);
             } else gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
 
-           */
-
             synchronized (gui) {
                 gui.notifyAll();
             }
-
-
+           */
         }
 
         if (message instanceof SendResourcesBoughtFromMarket) {

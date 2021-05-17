@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.GUI;
 
-import com.sun.java.accessibility.util.GUIInitializedListener;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.InitialResourcesConfigurationController;
@@ -12,14 +11,11 @@ import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,6 +40,7 @@ public class GUI extends Application {
     private HashMap<String, Scene> scenes;
     private HashMap<String, Controller> controllers;
     private HashMap<Scene, GamePhases> phases;
+    private HashMap<GamePhases,String> fxmls;
 
     private View view;
     private ClientSocket clientSocket;
@@ -61,6 +58,8 @@ public class GUI extends Application {
         scenes = new HashMap<>();
         controllers = new HashMap<>();
         phases = new HashMap<>();
+        fxmls = new HashMap<>();
+        errorFromServer="";
     }
 
     public void initializationFXMLParameter() {
@@ -75,6 +74,7 @@ public class GUI extends Application {
                 controller.setGui(this);
                 controllers.put(path, controller);
                 phases.put(scene, linkFXMLPageToPhase(path));
+                fxmls.put(linkFXMLPageToPhase(path),path);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,18 +105,11 @@ public class GUI extends Application {
         Platform.runLater(()->{
                 isAckArrived=false;
                 isNackArrived=false;
-
                 currentStage.setScene(currentScene);
 
-                if(currentScene.equals(scenes.get(LEADER_CARD))){
-                    LeaderCardsConfigurationController controller = (LeaderCardsConfigurationController)  controllers.get(LEADER_CARD);
-                    controller.init();
-                }
-                if(currentScene.equals(scenes.get(INITIAL_RESOURCES))){
-                    InitialResourcesConfigurationController controller = (InitialResourcesConfigurationController)  controllers.get(INITIAL_RESOURCES);
-                    controller.init();
-                }
-
+                Controller controller = controllers.get(fxmls.get(gamePhase));
+                controller.init();
+                errorFromServer="";
                 currentStage.show();
         });
     }

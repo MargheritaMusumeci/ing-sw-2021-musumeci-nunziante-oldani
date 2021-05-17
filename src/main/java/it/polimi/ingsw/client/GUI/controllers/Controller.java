@@ -5,4 +5,6 @@ import it.polimi.ingsw.client.GUI.GUI;
 public interface Controller {
 
     void setGui(GUI gui);
+
+    void init();
 }

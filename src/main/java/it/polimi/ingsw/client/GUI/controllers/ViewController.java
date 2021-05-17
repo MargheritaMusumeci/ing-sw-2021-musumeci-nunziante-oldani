@@ -10,4 +10,9 @@ public class ViewController implements Controller{
     public void setGui(GUI gui) {
         this.gui=gui;
     }
+
+    @Override
+    public void init() {
+
+    }
 }
