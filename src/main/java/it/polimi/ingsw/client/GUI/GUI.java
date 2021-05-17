@@ -37,10 +37,10 @@ public class GUI extends Application {
     private Scene currentScene;
     private Scene oldScene;
     private Stage currentStage;
-    private HashMap<String, Scene> scenes;
-    private HashMap<String, Controller> controllers;
-    private HashMap<Scene, GamePhases> phases;
-    private HashMap<GamePhases,String> fxmls;
+    private final HashMap<String, Scene> scenes;
+    private final HashMap<String, Controller> controllers;
+    private final HashMap<Scene, GamePhases> phases;
+    private final HashMap<GamePhases,String> fxmls;
 
     private View view;
     private ClientSocket clientSocket;
@@ -63,7 +63,7 @@ public class GUI extends Application {
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME, PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM,NICKNAME,INITIAL_RESOURCES));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME, PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -103,10 +103,11 @@ public class GUI extends Application {
     public void changeScene() {
 
         Platform.runLater(()->{
+
+                //ack e nack inutili
                 isAckArrived=false;
                 isNackArrived=false;
                 currentStage.setScene(currentScene);
-
                 Controller controller = controllers.get(fxmls.get(gamePhase));
                 controller.init();
                 errorFromServer="";
@@ -210,8 +211,8 @@ public class GUI extends Application {
         }
     }
 
-    public void setGamePhase(GamePhases fase) {
-        gamePhase = fase;
+    public void setGamePhase(GamePhases phase) {
+        gamePhase = phase;
     }
 
     public Scene getCurrentScene() {
@@ -232,10 +233,6 @@ public class GUI extends Application {
 
     public ClientSocket getClientSocket() {
         return clientSocket;
-    }
-
-    public void setClientSocket(ClientSocket clientSocket) {
-        this.clientSocket = clientSocket;
     }
 
     public View getView() {

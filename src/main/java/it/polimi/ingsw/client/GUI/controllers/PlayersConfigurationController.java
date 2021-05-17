@@ -61,8 +61,8 @@ public class PlayersConfigurationController implements Controller {
 
     @Override
     public void init() {
-        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
 
+        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
             error.setText(gui.getErrorFromServer());
         }
     }

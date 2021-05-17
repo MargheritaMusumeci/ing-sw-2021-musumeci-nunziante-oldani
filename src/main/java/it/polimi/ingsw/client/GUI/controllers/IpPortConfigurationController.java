@@ -26,11 +26,13 @@ public class IpPortConfigurationController implements Controller{
     @FXML
     private ProgressIndicator loading;
 
+
     @FXML
     public void connectionInitialization() {
 
         //disabilito il bottone di connessione
         //mostro il loading
+
         connect.setVisible(false);
         loading.setVisible(true);
 
@@ -41,6 +43,7 @@ public class IpPortConfigurationController implements Controller{
             return;
         }
 
+        //attenzione all'eccezione se non è effettivamente un intero
         int portServer = Integer.parseInt(port.getText());
         String addressServer = ip.getText();
 
@@ -49,6 +52,8 @@ public class IpPortConfigurationController implements Controller{
             connect.setVisible(true);
             loading.setVisible(false);
         }else {
+
+            //mettere insieme socket e client?
 
             try {
                 gui.setSocket(addressServer, portServer);

@@ -2,7 +2,6 @@ Musumeci:
 
 - connessione al ping
 - wait until ack
-- ho uno stage e un metodo che mi cambia la scene in base alla fase del gioco in cui mi trovo ?
 
 - controllare e sistemare il test Active Basic Production
 - do tests Do action --> catch exception
@@ -11,6 +10,9 @@ Musumeci:
 ???? creo i giocatori --> creo il gioco --> assegno il gioco ai giocatori
 ???? abbiamo controllato che l'inkwell lo abbia solo un giocatore
 ???? dobbiamo testare i messaggi per la copertura del codice
+
+???? a volte non passo il test checkendgame di solo game
+???? a volte non passo il test store resources
 
 Nunziante:
 - abbellire cli

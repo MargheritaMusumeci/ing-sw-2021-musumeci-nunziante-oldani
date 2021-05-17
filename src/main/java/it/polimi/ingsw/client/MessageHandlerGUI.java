@@ -52,7 +52,6 @@ public class MessageHandlerGUI extends MessageHandler {
                 gui.setCurrentScene(gui.getOldScene());
                 gui.changeScene();
             }
-
             return;
         }
 
@@ -68,6 +67,10 @@ public class MessageHandlerGUI extends MessageHandler {
 
             synchronized (gui) {
                 gui.setLeaderCards(((FourLeaderCardsMessage) message).getLeaderCards());
+                System.out.println(gui.getLeaderCards().get(0).getId());
+                System.out.println(gui.getLeaderCards().get(1).getId());
+                System.out.println(gui.getLeaderCards().get(2).getId());
+                System.out.println(gui.getLeaderCards().get(3).getId());
                 gui.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
                 gui.setOldScene(gui.getCurrentScene());
                 gui.setCurrentScene(gui.getScene(GUI.LEADER_CARD));
@@ -76,11 +79,15 @@ public class MessageHandlerGUI extends MessageHandler {
         }
 
         if (message instanceof InitialResourcesMessage) {
-            gui.setResources(((InitialResourcesMessage) message).getResources());
-            gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
-            gui.setOldScene(gui.getCurrentScene());
-            gui.setCurrentScene(gui.getScene(GUI.INITIAL_RESOURCES));
-            gui.changeScene();
+
+            synchronized (gui) {
+                gui.setResources(((InitialResourcesMessage) message).getResources());
+                gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
+                gui.setOldScene(gui.getCurrentScene());
+                gui.setCurrentScene(gui.getScene(GUI.INITIAL_RESOURCES));
+                gui.changeScene();
+            }
+
         }
 
         if (message instanceof SendViewMessage) {
