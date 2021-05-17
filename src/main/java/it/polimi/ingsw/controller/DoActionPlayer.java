@@ -119,6 +119,18 @@ public class DoActionPlayer {
             discardResource.remove(saveResource);
         }
 
+        if(discardResource!=null && discardResource.size() != 0) {
+            //just for prevent errors
+            ArrayList<Resource> resourcesCopy = new ArrayList<>();
+            resourcesCopy.addAll(discardResource);
+
+            for (Resource resource : resourcesCopy) {
+                if (resource.equals(Resource.FAITH)) discardResource.remove(Resource.FAITH);
+                if (resource.equals(Resource.WISH)) discardResource.remove(Resource.WISH);
+                if (resource.equals(Resource.NOTHING)) discardResource.remove(Resource.NOTHING);
+            }
+
+        }
         //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
         List<Player> players = new ArrayList<>();
 
