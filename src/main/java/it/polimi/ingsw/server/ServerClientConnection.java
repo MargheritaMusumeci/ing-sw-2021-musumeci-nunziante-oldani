@@ -37,11 +37,11 @@ public class ServerClientConnection implements Runnable{
         executorService = Executors.newCachedThreadPool();
         nickname = null;
         messageHandler = new MessageHandler(this.server);
-        System.out.println("trying to create streams for socket: " + socket);
+        //System.out.println("trying to create streams for socket: " + socket);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-        System.out.println("output stream created");
+        //System.out.println("output stream created");
         inputStream = new ObjectInputStream(socket.getInputStream());
-        System.out.println("input stream created");
+        //System.out.println("input stream created");
         isActive = true;
         ps = new PingSender(this);
         gamePhase = GamePhases.CONFIGURATION;
@@ -54,13 +54,14 @@ public class ServerClientConnection implements Runnable{
             outputStream.writeObject(message);
             outputStream.flush();
         } catch (IOException e) {
+            e.printStackTrace();
             close();
         }
     }
 
     public void close(){
         //method that delete the socket and if the socket was in a game calls the method to save the satus in order to accept a reconnection
-        System.out.println(nickname + ": disconnesso");
+        System.out.println(nickname + ": disconnesso, close() chiamata");
     }
 
     @Override
@@ -72,12 +73,17 @@ public class ServerClientConnection implements Runnable{
             while (isActive){
                 //leggo i messaggi in arrivo e li eseguo
                 Message input = (Message) inputStream.readObject();
-                if(! (input instanceof PingMessage))
+                if(! (input instanceof PingMessage)){
                     System.out.println("Messaggio letto: " + input.getMessage());
-                messageHandler.handleMessage(input, this);
+                    messageHandler.handleMessage(input, this);
+                }else{
+                   ps.pingRecived();
+                }
+
+
             }
         }catch (IOException e){
-            System.out.println(nickname + ": disconnesso");
+            System.out.println(nickname + ": disconnesso nel readObject");
         }catch (ClassNotFoundException e){
             System.out.println("message sent was not correct");
         }
