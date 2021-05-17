@@ -1,18 +1,19 @@
 package it.polimi.ingsw.server.virtualView;
 
 import it.polimi.ingsw.messages.updateMessages.UpdateDashBoardMessage;
+import it.polimi.ingsw.messages.updateMessages.UpdateEvolutionSectionMessage;
 import it.polimi.ingsw.messages.updateMessages.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.messages.updateMessages.UpdateMarketMessage;
 import it.polimi.ingsw.model.board.Dashboard;
+import it.polimi.ingsw.model.board.ProductionZone;
+import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Market;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.listeners.*;
 import it.polimi.ingsw.model.players.HumanPlayer;
-import it.polimi.ingsw.serializableModel.SerializableDashboard;
-import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
-import it.polimi.ingsw.serializableModel.SerializableMarket;
+import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.server.ServerClientConnection;
 
 import java.util.ArrayList;
@@ -94,6 +95,28 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
         this.personalDashboard = dashboard;
         SerializableDashboard serializableDashboard = new SerializableDashboard(dashboard);
         System.out.println("sono nella virtual view e dovrei madnare il messaggio per aggiornare la dashboead");
+
+        /*stampo le serializable production zones
+        try{
+            System.out.println("stampo le real production zones");
+            for(int i=0; i<personalDashboard.getProductionZone().length; i++){
+                for (int j = 0; j< personalDashboard.getProductionZone()[i].getCardList().size(); j++){
+                    System.out.println("c'è una carta in quella vera");
+                }
+            }
+            for(SerializableProductionZone serializableProductionZone: serializableDashboard.getSerializableProductionZones()){
+                for(Card card: serializableProductionZone.getCards()){
+                    System.out.println("C'è una carta");
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+         */
+
+
         scc.send(new UpdateDashBoardMessage("new dashboard", serializableDashboard));
 
         //mando anche il messsaggio per aggiornare le leader cards
@@ -107,9 +130,14 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
     @Override
     public void update(EvolutionSection evolutionSection) {
         this.evolutionSection = evolutionSection;
-        //SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(evolutionSection);
 
-        //l'evolution section aggiornata devo mandarla a tutti i player nella partita
+        //per ogni player devo creare la sua serializable evolutionsection
+        for(ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()){
+
+           SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(scc.getGameHandler().getGame().getEvolutionSection(),
+                   scc.getGameHandler().getPlayersInGame().get(serverClientConnection));
+           scc.send(new UpdateEvolutionSectionMessage("update della evolutuon section", serializableEvolutionSection));
+        }
     }
 
     @Override

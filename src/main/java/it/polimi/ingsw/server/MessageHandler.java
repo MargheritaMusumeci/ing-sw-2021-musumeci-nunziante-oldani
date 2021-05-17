@@ -19,7 +19,7 @@ public class MessageHandler {
     public void handleMessage(Message message, ServerClientConnection scc){
 
         if(message instanceof PingMessage){
-            scc.getPingSender().pingRecived();
+
         }
         if(message instanceof ConfigurationMessage){
             handleConfigurationMessages((ConfigurationMessage) message, scc);
