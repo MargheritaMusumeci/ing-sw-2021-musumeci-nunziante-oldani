@@ -10,9 +10,7 @@ public class LeaderProductionZone extends ProductionZone{
 
     private LeaderCard leaderCard;
 
-    public LeaderProductionZone(LeaderCard leaderCard){
-        this.leaderCard = leaderCard;
-    }
+    public LeaderProductionZone(LeaderCard leaderCard){ this.leaderCard = leaderCard; }
 
     @Override
     public Card getCard() {
