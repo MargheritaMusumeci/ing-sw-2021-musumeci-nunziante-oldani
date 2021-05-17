@@ -129,7 +129,6 @@ public class DoActionPlayer {
                 if (resource.equals(Resource.WISH)) discardResource.remove(Resource.WISH);
                 if (resource.equals(Resource.NOTHING)) discardResource.remove(Resource.NOTHING);
             }
-
         }
         //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
         List<Player> players = new ArrayList<>();

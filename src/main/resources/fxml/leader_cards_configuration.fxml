@@ -12,14 +12,13 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController">
    <children>
-      <HBox layoutX="40.0" layoutY="136.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
+      <HBox fx:id="images" layoutX="40.0" layoutY="136.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
          <children>
-            <ImageView fx:id="leaderCard1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="leaderCard1" fitHeight="150.0" fitWidth="100.0" onMouseClicked="#selected" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard3" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard4" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </HBox>
+         </children></HBox>
       <HBox layoutX="36.0" layoutY="254.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
          <children>
             <CheckBox fx:id="cardId1" mnemonicParsing="false" text="Leader Card 1" />

@@ -43,9 +43,8 @@ public class PlayersConfigurationController implements Controller {
             error.setText("Invalid number of player");
             loginButton.setVisible(true);
             loading.setVisible(false);
-            return;
 
-        }else{
+       }else{
 
            gui.setOldScene(gui.getCurrentScene());
            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
@@ -62,7 +61,7 @@ public class PlayersConfigurationController implements Controller {
     @Override
     public void init() {
 
-        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
+        if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
         }
     }

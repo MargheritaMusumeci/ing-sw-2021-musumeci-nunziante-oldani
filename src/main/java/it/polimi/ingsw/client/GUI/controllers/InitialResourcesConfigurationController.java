@@ -5,19 +5,11 @@ import it.polimi.ingsw.messages.configurationMessages.SelectedInitialResourceMes
 import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class InitialResourcesConfigurationController implements Controller {
@@ -54,19 +46,17 @@ public class InitialResourcesConfigurationController implements Controller {
     int shield=0;
     int servant=0;
 
-    private ArrayList<Resource> resources;
-
     @Override
     public void init(){
 
-        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
+        if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             errorMessage.setText(gui.getErrorFromServer());
         }
 
-       resources= gui.getResources();
+        ArrayList<Resource> resources = gui.getResources();
 
        //se null sono il primo giocatore e non devo scegliere risorse
-       if(resources!=null){
+       if(resources !=null){
 
            //se sono il secondo o il terzo giocatore posso scegliere solo una risorsa
           if(resources.size()==4){
@@ -78,7 +68,7 @@ public class InitialResourcesConfigurationController implements Controller {
        }
     }
 
-    public void confermation(ActionEvent actionEvent) {
+    public void confirmation() {
 
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
         RadioButton radio2 = (RadioButton) resources2.getSelectedToggle();

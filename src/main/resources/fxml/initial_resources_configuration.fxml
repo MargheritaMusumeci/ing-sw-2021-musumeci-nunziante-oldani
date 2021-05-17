@@ -28,7 +28,7 @@
       <RadioButton fx:id="shield2" layoutX="310.0" layoutY="200.0" mnemonicParsing="false" text="Shield" toggleGroup="$resources2" />
       <RadioButton fx:id="servant1" layoutX="391.0" layoutY="151.0" mnemonicParsing="false" text="Servant" toggleGroup="$resources1" />
       <RadioButton fx:id="servant2" layoutX="391.0" layoutY="200.0" mnemonicParsing="false" text="Servant" toggleGroup="$resources2" />
-      <Button fx:id="confirm" layoutX="271.0" layoutY="297.0" mnemonicParsing="false" onAction="#confermation" text="Confirm" />
+      <Button fx:id="confirm" layoutX="271.0" layoutY="297.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
       <Label fx:id="errorMessage" layoutX="296.0" layoutY="250.0" />
    </children>
 </Pane>

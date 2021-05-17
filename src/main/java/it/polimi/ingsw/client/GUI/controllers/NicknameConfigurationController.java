@@ -3,15 +3,8 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.configurationMessages.NickNameMessage;
-import it.polimi.ingsw.messages.configurationMessages.NumberOfPlayerMessage;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
 
 public class NicknameConfigurationController implements Controller{
 
@@ -27,7 +20,7 @@ public class NicknameConfigurationController implements Controller{
     private GUI gui;
 
     @FXML
-    public void doLogin(ActionEvent actionEvent) {
+    public void doLogin() {
 
         loginButton.setVisible(false);
         loading.setVisible(true);
@@ -36,7 +29,6 @@ public class NicknameConfigurationController implements Controller{
             error.setText("Nickname is required...");
             loginButton.setVisible(true);
             loading.setVisible(false);
-            return;
 
         }else{
 
@@ -60,7 +52,7 @@ public class NicknameConfigurationController implements Controller{
     @Override
     public void init() {
 
-        if(gui.getErrorFromServer() !=null && gui.getErrorFromServer() !=""){
+        if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
         }
     }
