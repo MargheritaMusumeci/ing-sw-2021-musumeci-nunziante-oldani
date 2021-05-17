@@ -14,12 +14,12 @@
    <children>
       <ImageView fitHeight="357.0" fitWidth="582.0" layoutX="219.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Masters%20of%20Renaissance_PlayerBoard%20(11_2020)-1.png" />
+            <Image url="@../images/board.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="255.0" fitWidth="213.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/plancia%20portabiglie.png" />
+            <Image url="@../images/market.png" />
          </image>
       </ImageView>
       <RadioButton fx:id="zerozero" disable="true" layoutX="51.0" layoutY="41.0" mnemonicParsing="false" />
