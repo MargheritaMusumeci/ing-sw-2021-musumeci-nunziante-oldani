@@ -153,6 +153,7 @@ public class CLI implements Runnable {
         clientSocket.send(new LeaderCardChoiceMessage("Leader card scelte" , lCards));
 
         try {
+            System.out.println("Waiting for ack");
             synchronized (this){
                 wait();
             }
@@ -161,6 +162,7 @@ public class CLI implements Runnable {
         } catch (IllegalMonitorStateException e){
             e.printStackTrace();
         }
+        System.out.println("Ack arrived");
 
         if(isAckArrived){
             gamePhase = GamePhases.INITIALRESOURCESELECTION;
@@ -382,9 +384,9 @@ public class CLI implements Runnable {
     //A problem because the attribute cards in SerializableProductionZone is null
     public void printProductionZones(){
         SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
-        System.out.println("production zones: ");
+        System.out.println("Production zones: ");
         for(int i = 0 ; i < productionZones.length ; i++) {
-            System.out.println("production zone " + i + ": ");
+            System.out.println("Production zone " + i + ": ");
             SerializableProductionZone productionZone = productionZones[i];
             ArrayList<EvolutionCard> evolutionCards = productionZone.getCards();
             if (evolutionCards != null) {
@@ -399,12 +401,27 @@ public class CLI implements Runnable {
                     printEvolutionCard(evolutionCard);
                     System.out.println("#################################################################");
                 }
-            }
-            else {
+            } else {
                 System.out.println("    none");
                 System.out.println("#################################################################");
             }
         }
+        SerializableLeaderProductionZone[] leaderProductionZones = clientSocket.getView().getDashboard().getSerializableLeaderProductionZones();
+        if(leaderProductionZones == null || leaderProductionZones.length == 0)
+            return;
+        System.out.println("Leader production zones");
+        for(int i = 0 ; i < leaderProductionZones.length ; i++){
+            SerializableLeaderProductionZone leaderProductionZone = leaderProductionZones[i];
+            if(leaderProductionZone != null){
+                SerializableLeaderCard leaderCard = leaderProductionZone.getCard();
+                System.out.println("Production zone number " + productionZones.length + i);
+                printSingleLeaderCard(leaderCard);
+            }else {
+                System.out.println("    none");
+            }
+            System.out.println("#################################################################");
+        }
+
     }
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
@@ -864,6 +881,7 @@ public class CLI implements Runnable {
 
     }
 
+    //Need to handle the active leader production zones
     private void activeProductionZones(){
         int position = 0;
         boolean activeBasic = false;

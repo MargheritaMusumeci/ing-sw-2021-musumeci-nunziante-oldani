@@ -12,7 +12,8 @@ import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
 import java.util.ArrayList;
 
-public class Dashboard extends DashboardObservable implements LockBoxListener, PopeTrackListener, ProductionZoneListener, StockListener {
+public class Dashboard extends DashboardObservable implements LockBoxListener, PopeTrackListener,
+            ProductionZoneListener, LeaderProductionZoneListener, StockListener {
 
     private String nickName;
     private int totalScore;
@@ -215,4 +216,8 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
 
     }
 
+    @Override
+    public void update(LeaderProductionZone leaderProductionZone) {
+        notifyDashboardListener(this);
+    }
 }

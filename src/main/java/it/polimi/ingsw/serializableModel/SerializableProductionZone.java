@@ -1,9 +1,11 @@
 package it.polimi.ingsw.serializableModel;
 
+import it.polimi.ingsw.model.board.LeaderProductionZone;
 import it.polimi.ingsw.model.board.NormalProductionZone;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class SerializableProductionZone implements Serializable {
 
     public SerializableProductionZone(NormalProductionZone productionZone) {
 
-        cards = productionZone.getCardList();
+            cards = ((NormalProductionZone) productionZone).getCardList();
     }
 
     public ArrayList<EvolutionCard> getCards() {

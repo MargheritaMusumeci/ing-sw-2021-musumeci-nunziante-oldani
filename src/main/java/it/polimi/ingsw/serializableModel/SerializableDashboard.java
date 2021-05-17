@@ -1,7 +1,9 @@
 package it.polimi.ingsw.serializableModel;
 
 import it.polimi.ingsw.model.board.Dashboard;
+import it.polimi.ingsw.model.board.LeaderProductionZone;
 import it.polimi.ingsw.model.board.NormalProductionZone;
+import it.polimi.ingsw.model.board.ProductionZone;
 
 import java.io.Serializable;
 
@@ -15,6 +17,8 @@ public class SerializableDashboard implements Serializable {
     private SerializableStock serializableStock;
     private SerializablePopeTack serializablePopeTack;
     private SerializableProductionZone[] serializableProductionZones;
+
+    private SerializableLeaderProductionZone[] serializableLeaderProductionZones;
     private String nickname;
     private boolean inkwell;
 
@@ -34,9 +38,18 @@ public class SerializableDashboard implements Serializable {
         int i = 0;
         this.serializableProductionZones = new SerializableProductionZone[dashboard.getProductionZone().length];
 
+        //Set the normal production zone
         for (NormalProductionZone normalPZ:dashboard.getProductionZone()) {
             SerializableProductionZone serializableProductionZone = new SerializableProductionZone(normalPZ);
             this.serializableProductionZones[i] = serializableProductionZone;
+            i++;
+        }
+
+        //Set the leader production zone
+        i = 0;
+        for(LeaderProductionZone productionZone : dashboard.getLeaderProductionZones()){
+            SerializableLeaderProductionZone serializableLeaderProductionZone = new SerializableLeaderProductionZone(productionZone);
+            this.serializableLeaderProductionZones[i] = serializableLeaderProductionZone;
             i++;
         }
 
@@ -74,6 +87,14 @@ public class SerializableDashboard implements Serializable {
 
     public void setSerializableProductionZones(SerializableProductionZone[] serializableProductionZones) {
         this.serializableProductionZones = serializableProductionZones;
+    }
+
+    public SerializableLeaderProductionZone[] getSerializableLeaderProductionZones() {
+        return serializableLeaderProductionZones;
+    }
+
+    public void setSerializableLeaderProductionZones(SerializableLeaderProductionZone[] serializableLeaderProductionZones) {
+        this.serializableLeaderProductionZones = serializableLeaderProductionZones;
     }
 
     public String getNickname() {
