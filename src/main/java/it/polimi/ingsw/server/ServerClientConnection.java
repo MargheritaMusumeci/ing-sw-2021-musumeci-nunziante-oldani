@@ -37,7 +37,7 @@ public class ServerClientConnection implements Runnable{
         isActive = true;
         executorService = Executors.newCachedThreadPool();
         nickname = null;
-        messageHandler = new MessageHandler(this.server);
+        messageHandler = new MessageHandler(this.server, this);
         //System.out.println("trying to create streams for socket: " + socket);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         //System.out.println("output stream created");
@@ -77,12 +77,14 @@ public class ServerClientConnection implements Runnable{
                 if(input == null)
                     System.out.println("Input stream rotto!!!!");
                 input = (Message) inputStream.readObject();
+
                 if(! (input instanceof PingMessage)){
                     System.out.println("Message read: " + input.getMessage());
-                    messageHandler.handleMessage(input, this);
+                    ((ClientMessage) input).handle(messageHandler);
                 }else{
                     ps.pingRecived();
                 }
+
             }
         }catch (IOException e){
             System.out.println(nickname + ": disconnesso nel readObject");

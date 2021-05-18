@@ -1,11 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.messages.ACKMessage;
+
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.NACKMessage;
-import it.polimi.ingsw.messages.actionMessages.ActiveProductionMessage;
-import it.polimi.ingsw.messages.actionMessages.BuyEvolutionCardMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
+import it.polimi.ingsw.messages.sentByServer.ACKMessage;
+import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardRequires;
