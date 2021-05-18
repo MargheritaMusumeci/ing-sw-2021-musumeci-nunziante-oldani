@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<Pane fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewController" prefHeight="639.0" prefWidth="938.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="639.0" prefWidth="938.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewController">
    <children>
       <ImageView fitHeight="357.0" fitWidth="582.0" layoutX="219.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,31 +22,65 @@
             <Image url="@../images/market.png" />
          </image>
       </ImageView>
-      <RadioButton fx:id="zerozero" disable="true" layoutX="51.0" layoutY="41.0" mnemonicParsing="false" />
-      <RadioButton fx:id="onezero" disable="true" layoutX="51.0" layoutY="75.0" mnemonicParsing="false" />
-      <RadioButton fx:id="twozero" disable="true" layoutX="51.0" layoutY="111.0" mnemonicParsing="false" />
-      <RadioButton fx:id="zeroone" disable="true" layoutX="77.0" layoutY="41.0" mnemonicParsing="false" />
-      <RadioButton fx:id="oneone" disable="true" layoutX="77.0" layoutY="75.0" mnemonicParsing="false" />
-      <RadioButton fx:id="twoone" disable="true" layoutX="77.0" layoutY="111.0" mnemonicParsing="false" />
-      <RadioButton fx:id="zerotwo" disable="true" layoutX="105.0" layoutY="41.0" mnemonicParsing="false" />
-      <RadioButton fx:id="onetwo" disable="true" layoutX="105.0" layoutY="75.0" mnemonicParsing="false" />
-      <RadioButton fx:id="twotwo" disable="true" layoutX="105.0" layoutY="111.0" mnemonicParsing="false" />
-      <RadioButton fx:id="zerothree" disable="true" layoutX="131.0" layoutY="41.0" mnemonicParsing="false" />
-      <RadioButton fx:id="onethree" disable="true" layoutX="131.0" layoutY="75.0" mnemonicParsing="false" />
-      <RadioButton fx:id="twothree" disable="true" layoutX="131.0" layoutY="111.0" mnemonicParsing="false" />
       <Text layoutX="340.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Masters of Renaissance">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <Label fx:id="leaderCard1" layoutX="741.0" layoutY="141.0" text="Leader Card 1: " />
-      <Label fx:id="leaderCard2" layoutX="837.0" layoutY="141.0" text="Leader Card 2: " />
-      <Button fx:id="Active" layoutX="755.0" layoutY="171.0" mnemonicParsing="false" text="Active" />
-      <Button fx:id="discard" layoutX="755.0" layoutY="208.0" mnemonicParsing="false" text="Discard" />
-      <Button fx:id="Use" layoutX="755.0" layoutY="171.0" mnemonicParsing="false" text="Use" visible="false" />
-      <Button fx:id="Active1" layoutX="849.0" layoutY="171.0" mnemonicParsing="false" text="Active" />
-      <Button fx:id="discard1" layoutX="849.0" layoutY="208.0" mnemonicParsing="false" text="Discard" />
-      <Button fx:id="Use1" layoutX="849.0" layoutY="171.0" mnemonicParsing="false" text="Use" visible="false" />
-      <Button fx:id="endTurn" layoutX="436.0" layoutY="556.0" mnemonicParsing="false" text="End Turn" />
+      <Button fx:id="endTurn" layoutX="437.0" layoutY="555.0" mnemonicParsing="false" text="End Turn" />
+      <HBox layoutX="724.0" layoutY="205.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <VBox fx:id="LeaderBox1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+               <children>
+                  <ImageView fx:id="leader1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="use1" mnemonicParsing="false" text="Use" visible="false" />
+                  <Button fx:id="active1" mnemonicParsing="false" text="Active" />
+                  <Button fx:id="discard1" mnemonicParsing="false" text="Discard" />
+               </children>
+            </VBox>
+            <VBox fx:id="LeaderBox2" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+               <children>
+                  <ImageView fx:id="leader2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="use2" mnemonicParsing="false" text="Use" visible="false" />
+                  <Button fx:id="active2" mnemonicParsing="false" text="Active" />
+                  <Button fx:id="discard2" mnemonicParsing="false" text="Discard" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox fx:id="Market" layoutX="44.0" layoutY="53.0" prefHeight="77.0" prefWidth="109.0" spacing="10.0">
+         <children>
+            <VBox fx:id="col0" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
+               <children>
+                  <Circle fx:id="zerozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="unozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="duezero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </VBox>
+            <VBox fx:id="con1" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
+               <children>
+                  <Circle fx:id="zerouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="unouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="dueuno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </VBox>
+            <VBox fx:id="con2" prefHeight="100.0" prefWidth="17.0" spacing="10.0">
+               <children>
+                  <Circle fx:id="zerodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="unodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="duedue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </VBox>
+            <VBox fx:id="col3" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Circle fx:id="zerotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="unotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="duetre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button fx:id="market" layoutX="73.0" layoutY="277.0" mnemonicParsing="false" onAction="#showMarket" text="Market" />
+      <Circle fx:id="external" fill="DODGERBLUE" layoutX="155.0" layoutY="131.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </Pane>

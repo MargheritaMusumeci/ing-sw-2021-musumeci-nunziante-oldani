@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+
+<AnchorPane fx:controller="it.polimi.ingsw.client.GUI.controllers.MarketController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="357.0" fitWidth="415.0" layoutX="149.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/market.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="223.0" layoutY="94.0" prefHeight="107.0" prefWidth="128.0">
+         <children>
+            <HBox fx:id="Market" prefHeight="77.0" prefWidth="109.0" spacing="10.0">
+               <children>
+                  <VBox fx:id="col0" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
+                     <children>
+                        <Circle fx:id="zerozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="unozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="duezero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="con1" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
+                     <children>
+                        <Circle fx:id="zerouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="unouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="dueuno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="con2" prefHeight="100.0" prefWidth="17.0" spacing="10.0">
+                     <children>
+                        <Circle fx:id="zerodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="unodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="duedue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="col3" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Circle fx:id="zerotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="unotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="duetre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <RadioButton fx:id="Riga0" mnemonicParsing="false">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="selection" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="Riga1" mnemonicParsing="false" toggleGroup="$selection" />
+                        <RadioButton fx:id="Riga2" mnemonicParsing="false" toggleGroup="$selection" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="128.0" spacing="13.0">
+               <children>
+                  <RadioButton fx:id="Colonna0" mnemonicParsing="false" toggleGroup="$selection" />
+                  <RadioButton fx:id="Colonna1" mnemonicParsing="false" toggleGroup="$selection" />
+                  <RadioButton fx:id="Colonna2" mnemonicParsing="false" toggleGroup="$selection" />
+                  <RadioButton fx:id="Colonna3" mnemonicParsing="false" toggleGroup="$selection" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button fx:id="confirm" layoutX="485.0" layoutY="227.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Button fx:id="cancel" layoutX="489.0" layoutY="266.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Circle fx:id="external" fill="DODGERBLUE" layoutX="354.0" layoutY="202.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label fx:id="error" layoutX="501.0" layoutY="158.0" />
+   </children>
+</AnchorPane>
