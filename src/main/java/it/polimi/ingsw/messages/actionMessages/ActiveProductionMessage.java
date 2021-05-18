@@ -23,7 +23,7 @@ public class ActiveProductionMessage extends ActionMessage{
         this.positions = positions;
         this.resourcesRequires = resourcesRequires;
         this.resourcesEnsures = resourcesEnsures;
-        this.activeBasic = false;
+        this.activeBasic = activeBasic;
     }
 
     public ArrayList<Integer> getPositions() {

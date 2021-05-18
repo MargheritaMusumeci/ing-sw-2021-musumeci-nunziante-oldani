@@ -6,6 +6,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.NACKMessage;
 import it.polimi.ingsw.messages.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.messages.actionMessages.BuyEvolutionCardMessage;
+import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;
@@ -16,6 +17,7 @@ import it.polimi.ingsw.model.players.Player;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -317,8 +319,190 @@ public class DoActionPlayerTest {
     public void testDiscardLeaderCard() {
     }
 
+    /**
+     * Need to verify the activation of a leader production zone
+     */
     @Test
     public void testActiveProductionZone() {
+        HumanPlayer player = new HumanPlayer("marghe", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        EvolutionCard[][] evolutionCards = modelGame.getEvolutionSection().canBuy();
+
+        try {
+            System.out.println("Color: " + evolutionCards[2][0].getColor() + ", level: " + evolutionCards[2][0].getLevel());
+            player.getDashboard().getProductionZone()[2].addCard(modelGame.getEvolutionSection().buy(2 ,0));
+
+            EvolutionCard card = (EvolutionCard) player.getDashboard().getProductionZone()[2].getCard();
+            HashMap<Resource , Integer> requires = card.getRequires();
+            HashMap<Resource , Integer> production = card.getProduction();
+
+            System.out.println("Show requirements");//1 Coin
+            for(Resource resource : requires.keySet()){
+                System.out.println("Resource: " + resource + ", quantity: " + requires.get(resource));
+            }
+            System.out.println("Show production");// 1 Faith
+            for(Resource resource : production.keySet()){
+                System.out.println("Resource: " + resource + ", quantity: " + production.get(resource));
+            }
+        } catch (InvalidPlaceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        }
+
+        try {
+            doActionPlayer.activeProductionZones(null , false , null , null);
+            fail();
+        }catch (BadParametersException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        ArrayList<Integer> positions = new ArrayList<>();
+        positions.add(-1);
+        positions.add(1);
+
+        try {
+            doActionPlayer.activeProductionZones(positions , false , null , null);
+            fail();
+        }catch (ExcessOfPositionException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            doActionPlayer.activeProductionZones(null , true , null , null);
+            fail();
+        }catch (BadParametersException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            ArrayList<Resource> resourcesRequire = new ArrayList<>();
+            resourcesRequire.add(Resource.COIN);
+            ArrayList<Resource> resourcesEnsures = new ArrayList<>();
+            resourcesRequire.add(Resource.SERVANT);
+
+            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures);
+            fail();
+        }catch (NonCompatibleResourceException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            ArrayList<Resource> resourcesRequire = new ArrayList<>();
+            resourcesRequire.add(Resource.COIN);
+            resourcesRequire.add(Resource.COIN);
+            ArrayList<Resource> resourcesEnsures = new ArrayList<>();
+
+            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures);
+            fail();
+        }catch (NonCompatibleResourceException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            ArrayList<Resource> resourcesRequire = new ArrayList<>();
+            resourcesRequire.add(Resource.COIN);
+            resourcesRequire.add(Resource.COIN);
+            resourcesRequire.add(Resource.COIN);
+            ArrayList<Resource> resourcesEnsures = new ArrayList<>();
+
+            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures);
+            fail();
+        }catch (NonCompatibleResourceException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(1);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null);
+            fail();
+        }catch (BadParametersException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(2);
+            positions.add(2);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null);
+            fail();
+        }catch (BadParametersException e){
+            assertTrue(true);
+        }catch (Exception e){
+            fail();
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(2);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null);
+            fail();
+        }catch (NotEnoughResourcesException e){
+            assertTrue(true);
+        } catch (NonCompatibleResourceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        } catch (ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            System.out.println(e.getLocalizedMessage());
+            fail();
+        }
+
+        try{
+            positions = new ArrayList<>();
+            positions.add(2);
+            assertEquals(0 , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
+            player.getDashboard().getLockBox().setAmountOf(Resource.COIN , 1);
+            doActionPlayer.activeProductionZones(positions , false , null , null);
+            assertEquals(1 , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
+            assertEquals(0 , player.getDashboard().getLockBox().getAmountOf(Resource.COIN));
+            assertTrue(player.getDashboard().getProductionZone()[2].getCard().isActive());
+
+        } catch (NonCompatibleResourceException e) {
+            System.out.println(e.getLocalizedMessage());
+            fail();
+        } catch (ExcessOfPositionException e) {
+            System.out.println(e.getLocalizedMessage());
+            fail();
+        } catch (NotEnoughResourcesException e) {
+            System.out.println(e.getLocalizedMessage());
+            fail();
+        } catch (ActionAlreadyDoneException e) {
+            System.out.println(e.getLocalizedMessage());
+            fail();
+        } catch (BadParametersException e) {
+            System.out.println(e.getLocalizedMessage());
+            fail();
+        }
+
     }
 
     @Test
@@ -349,3 +533,20 @@ public class DoActionPlayerTest {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

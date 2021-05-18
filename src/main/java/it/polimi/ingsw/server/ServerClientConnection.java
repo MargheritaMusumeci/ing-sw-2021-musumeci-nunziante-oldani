@@ -69,18 +69,19 @@ public class ServerClientConnection implements Runnable{
 
         try{
             new Thread(ps).start();
-            System.out.println("inizio con il socket" + socket);
+            System.out.println("Start with socket: " + socket);
+            Message input = null;
             while (isActive){
-                //leggo i messaggi in arrivo e li eseguo
-                Message input = (Message) inputStream.readObject();
+                //Read input messages and execute them
+                if(input == null)
+                    System.out.println("Input stream rotto!!!!");
+                input = (Message) inputStream.readObject();
                 if(! (input instanceof PingMessage)){
-                    System.out.println("Messaggio letto: " + input.getMessage());
+                    System.out.println("Message read: " + input.getMessage());
                     messageHandler.handleMessage(input, this);
                 }else{
-                   ps.pingRecived();
+                    ps.pingRecived();
                 }
-
-
             }
         }catch (IOException e){
             System.out.println(nickname + ": disconnesso nel readObject");

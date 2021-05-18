@@ -177,6 +177,7 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
      * @throws NotEnoughResourcesException
      */
     public void activeBasicProduction(Resource requires1, Resource requires2, Resource ensures) throws NotEnoughResourcesException {
+
         if(personalStock.getTotalQuantitiesOf(requires1) > 0){
             personalStock.useResources(1, requires1);
         }else{

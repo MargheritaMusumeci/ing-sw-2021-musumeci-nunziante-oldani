@@ -244,10 +244,10 @@ public class DoActionPlayer {
             for(int i = 0 ; i < positions.size() ; i++){
                 //If a standard production zone
                 if(positions.get(i) < 3){
-                    if(modelGame.getActivePlayer().getDashboard().getProductionZone()[i] == null)
+                    if(modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard() == null)
                         throw new BadParametersException("This production zone is empty");
 
-                    card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+                    card = modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard();
                 }
                 //If a leader production zone
                 else{
@@ -289,7 +289,7 @@ public class DoActionPlayer {
         //Active the production zone
         for(int i = 0 ; i < positions.size() ; i++){
             if(positions.get(i) < 3)
-                card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+                card = modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard();
             else
                 card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
 
@@ -505,6 +505,7 @@ public class DoActionPlayer {
 
     public void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
 
+        System.out.println("In activeBasicProduction in controller");
         if(requires == null || ensures == null || requires.size()!=2 || ensures.size()!=1) throw new NonCompatibleResourceException("Too many or too few resources");
         modelGame.getActivePlayer().getDashboard().activeBasicProduction(requires.get(0),requires.get(1),ensures.get(0));
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
