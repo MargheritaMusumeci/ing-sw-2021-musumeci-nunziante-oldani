@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.messages.sentByServer.ACKMessage;
+
 import it.polimi.ingsw.messages.Message;
+
+import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.EvolutionCard;
@@ -160,20 +162,22 @@ public class DoActionPlayer {
      * @param position is the leader card the activePlayer wants to discard
      */
     public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException{
-            ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
-            //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
-            //                                      we need to check if the player arrived in a popePosition or
-            //                                      in new point position in order to increase the score
-            //To do so, moveCross should have as parameters: player , increment
-            for(Player player : modelGame.getPlayers()){
-                if(!player.equals(modelGame.getActivePlayer()))
-                    moveCross(1,new ArrayList<Player>(){{add(player);}});
-            }
+        ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
+        //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
+        //                                      we need to check if the player arrived in a popePosition or
+        //                                      in new point position in order to increase the score
+        //To do so, moveCross should have as parameters: player , increment
+        for(Player player : modelGame.getPlayers()){
+            if(!player.equals(modelGame.getActivePlayer()))
+                moveCross(1,new ArrayList<Player>(){{add(player);}});
+        }
     }
 
     /**
      * Method that check if a series of production zone can be activated and activate it if possible
-     * @param positions is an array list that contains the position of the production zone the player wants to activate
+     * @param positions is an array list that contains the position of the production zone the player wants to activate.
+     *                  It contains: 0,1 and 2 for the standard production zone
+     *                               3 and 4 for the leader production zone
      * @param activeBasic is true if the player wants to activate the basic production zone
      * @param resourcesRequires is an array list that contains the resources to use in the basic production
      * @param resourcesEnsures is an array list that contains the new resources the player wants after the basic production
@@ -185,8 +189,8 @@ public class DoActionPlayer {
      */
     public void activeProductionZones(ArrayList<Integer> positions , boolean activeBasic ,
                                       ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures)
-                                        throws NotEnoughResourcesException , ExcessOfPositionException , BadParametersException ,
-                                                NonCompatibleResourceException , ActionAlreadyDoneException{
+            throws NotEnoughResourcesException , ExcessOfPositionException , BadParametersException ,
+            NonCompatibleResourceException , ActionAlreadyDoneException{
 
         //Check if the player can do this action
         if(!((HumanPlayer)modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING) &&
@@ -196,11 +200,13 @@ public class DoActionPlayer {
         if(positions == null && !activeBasic)
             throw new BadParametersException("No production zone specified");
 
+        int numOfProductionZones = modelGame.getActivePlayer().getDashboard().getProductionZone().length
+                + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size();
+
         if(positions != null){
             //Check if the position are valid and if there isn't equal position
             for(int i = 0 ; i < positions.size() ; i++){
-                if(positions.get(i) < 0 || positions.get(i) >= (modelGame.getActivePlayer().getDashboard().getProductionZone().length)
-                        + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size())
+                if(positions.get(i) < 0 || positions.get(i) >= numOfProductionZones)
                     throw new ExcessOfPositionException("Position not valid");
                 for(int j = 0; j < positions.size() ; j++){
                     if(i != j && positions.get(i).equals(positions.get(j)))
@@ -232,13 +238,25 @@ public class DoActionPlayer {
             }
         }
 
+        Card card;
+
         if(positions != null){
             //Sum all the requires
             for(int i = 0 ; i < positions.size() ; i++){
-                if(modelGame.getActivePlayer().getDashboard().getProductionZone()[i] == null)
-                    throw new BadParametersException("This production zone is empty");
+                //If a standard production zone
+                if(positions.get(i) < 3){
+                    if(modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard() == null)
+                        throw new BadParametersException("This production zone is empty");
 
-                Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+                    card = modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard();
+                }
+                //If a leader production zone
+                else{
+                    if(modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)) == null)
+                        throw new BadParametersException("This production zone is empty");
+                    card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
+                }
+
                 HashMap<Resource , Integer> cardRequires = card.getRequires();
 
                 for(Resource resource : cardRequires.keySet()){
@@ -250,7 +268,7 @@ public class DoActionPlayer {
         //Check if the resources are enough
         for(Resource resource : totalRequires.keySet()){
             if(totalRequires.get(resource) > (modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource)
-                + modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource)))
+                    + modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource)))
                 throw new NotEnoughResourcesException("Resources are not enough");
         }
 
@@ -271,7 +289,11 @@ public class DoActionPlayer {
 
         //Active the production zone
         for(int i = 0 ; i < positions.size() ; i++){
-            Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+            if(positions.get(i) < 3)
+                card = modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard();
+            else
+                card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
+
             HashMap<Resource , Integer> cardRequires = card.getRequires();
             HashMap<Resource , Integer> cardProduction = card.getProduction();
 
@@ -295,7 +317,7 @@ public class DoActionPlayer {
                 }
             }
             if(card instanceof EvolutionCard)
-                 card.setActive(true);
+                card.setActive(true);
             else
                 ((LeaderCard) card).setUsed(true);
         }
@@ -308,7 +330,7 @@ public class DoActionPlayer {
      * @param position is in which productionZone the player wants to place the card
      */
     public void buyEvolutionCard(int row, int col , int position) throws InvalidPlaceException , BadParametersException ,
-                NotEnoughResourcesException , ExcessOfPositionException{
+            NotEnoughResourcesException , ExcessOfPositionException{
 
         //Check if the player can buy this card
         if(!(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col])) {
@@ -436,7 +458,7 @@ public class DoActionPlayer {
         }
         ArrayList<Resource> resourceList = new ArrayList<>();
         Collections.addAll(resourceList,resources);
-                //(ArrayList<Resource>) Arrays.asList(resources);
+        //(ArrayList<Resource>) Arrays.asList(resources);
         return (ArrayList<Resource>) resourceList;
     }
 
@@ -479,11 +501,12 @@ public class DoActionPlayer {
      * @param position position
      */
     public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
-            ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
+        ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
     }
 
     public void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
 
+        System.out.println("In activeBasicProduction in controller");
         if(requires == null || ensures == null || requires.size()!=2 || ensures.size()!=1) throw new NonCompatibleResourceException("Too many or too few resources");
         modelGame.getActivePlayer().getDashboard().activeBasicProduction(requires.get(0),requires.get(1),ensures.get(0));
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);

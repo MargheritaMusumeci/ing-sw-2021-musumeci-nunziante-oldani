@@ -17,7 +17,6 @@ public class SerializableDashboard implements Serializable {
     private SerializableStock serializableStock;
     private SerializablePopeTack serializablePopeTack;
     private SerializableProductionZone[] serializableProductionZones;
-
     private SerializableLeaderProductionZone[] serializableLeaderProductionZones;
     private String nickname;
     private boolean inkwell;
@@ -37,6 +36,7 @@ public class SerializableDashboard implements Serializable {
 
         int i = 0;
         this.serializableProductionZones = new SerializableProductionZone[dashboard.getProductionZone().length];
+        this.serializableLeaderProductionZones = new SerializableLeaderProductionZone[dashboard.getLeaderProductionZones().size()];
 
         //Set the normal production zone
         for (NormalProductionZone normalPZ:dashboard.getProductionZone()) {

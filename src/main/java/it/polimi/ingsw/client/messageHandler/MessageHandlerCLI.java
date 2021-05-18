@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.ClientSocket;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.gamePhases.InitialLeaderCardSelectionPhase;
+import it.polimi.ingsw.client.gamePhases.InitialResourcesSelection;
+import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
+import it.polimi.ingsw.client.gamePhases.OtherPlayersTurnPhase;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
@@ -25,8 +28,8 @@ public class MessageHandlerCLI extends MessageHandler{
     @Override
     public void handleMessage(ACKMessage message) {
         cli.setIsAckArrived(true);
-        synchronized (cli){
-            cli.notifyAll();
+        synchronized (cli.getGamePhase()){
+            cli.getGamePhase().notifyAll();
         }
     }
 
@@ -34,8 +37,8 @@ public class MessageHandlerCLI extends MessageHandler{
     public void handleMessage(NACKMessage message) {
         cli.setIsNackArrived(true);
 
-        synchronized (cli){
-            cli.notifyAll();
+        synchronized (cli.getGamePhase()){
+            cli.getGamePhase().notifyAll();
         }
     }
 
@@ -47,17 +50,19 @@ public class MessageHandlerCLI extends MessageHandler{
     @Override
     public void handleMessage(StartGameMessage message) {
         System.out.println("gioco iniziato");
-        cli.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
+        cli.setGamePhase(new InitialResourcesSelection());
+        new Thread(cli).start();
     }
 
     @Override
     public void handleMessage(FourLeaderCardsMessage message) {
         System.out.println("Leader card ricevute");
         cli.setLeaderCards(message.getLeaderCards());
-        cli.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
+        cli.setGamePhase(new InitialLeaderCardSelectionPhase());
+        new Thread(cli).start();
 
-        synchronized (cli){
-            cli.notifyAll();
+        synchronized (cli.getGamePhase()){
+            cli.getGamePhase().notifyAll();
         }
     }
 
@@ -75,19 +80,22 @@ public class MessageHandlerCLI extends MessageHandler{
         clientSocket.setView(message.getView());
 
         if(clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())){
-            cli.setGamePhase(GamePhases.MYTURN);
-        }else cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+            cli.setGamePhase(new MyTurnPhase());
+        }else {
+            cli.setGamePhase(new OtherPlayersTurnPhase());
+        }
+        new Thread(cli).start();
 
-        synchronized (cli){
-            cli.notifyAll();
+        synchronized (cli.getGamePhase()){
+            cli.getGamePhase().notifyAll();
         }
     }
 
     @Override
     public void handleMessage(SendResourcesBoughtFromMarket message) {
         clientSocket.getView().setResourcesBoughtFromMarker(message.getResources());
-        synchronized (cli){
-            cli.notifyAll();
+        synchronized (cli.getGamePhase()){
+            cli.getGamePhase().notifyAll();
         }
     }
 
@@ -104,16 +112,17 @@ public class MessageHandlerCLI extends MessageHandler{
     @Override
     public void handleUpdateMessage(UpdateActivePlayerMessage message) {
         clientSocket.getView().setActivePlayer(message.getMessage());
+        cli.setActionBeenDone(false);
         if(clientSocket.getView().getNickname().equals(clientSocket.getView().getActivePlayer())){
             //It's my turn
-            cli.setGamePhase(GamePhases.MYTURN);
-        }else{
-            //It's my enemies turn
-            cli.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+            cli.setGamePhase(new MyTurnPhase());
+        }else {
+            cli.setGamePhase(new OtherPlayersTurnPhase());
         }
+        new Thread(cli).start();
 
-        synchronized (cli){
-            cli.notifyAll();
+        synchronized (cli.getGamePhase()){
+            cli.getGamePhase().notifyAll();
         }
     }
 
