@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.sentByClient.ClientMessage;
 import it.polimi.ingsw.model.game.Game;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class ServerClientConnection implements Runnable{
         isActive = true;
         executorService = Executors.newCachedThreadPool();
         nickname = null;
-        messageHandler = new MessageHandler(this.server);
+        messageHandler = new MessageHandler(this.server, this);
         //System.out.println("trying to create streams for socket: " + socket);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         //System.out.println("output stream created");
@@ -75,7 +76,7 @@ public class ServerClientConnection implements Runnable{
                 Message input = (Message) inputStream.readObject();
                 if(! (input instanceof PingMessage)){
                     System.out.println("Messaggio letto: " + input.getMessage());
-                    messageHandler.handleMessage(input, this);
+                    ((ClientMessage) input).handle(messageHandler);
                 }else{
                    ps.pingRecived();
                 }

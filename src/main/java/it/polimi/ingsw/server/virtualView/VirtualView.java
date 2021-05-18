@@ -1,12 +1,10 @@
 package it.polimi.ingsw.server.virtualView;
 
-import it.polimi.ingsw.messages.updateMessages.UpdateDashBoardMessage;
-import it.polimi.ingsw.messages.updateMessages.UpdateEvolutionSectionMessage;
-import it.polimi.ingsw.messages.updateMessages.UpdateLeaderCardsMessage;
-import it.polimi.ingsw.messages.updateMessages.UpdateMarketMessage;
+import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateDashBoardMessage;
+import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateEvolutionSectionMessage;
+import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateLeaderCardsMessage;
+import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateMarketMessage;
 import it.polimi.ingsw.model.board.Dashboard;
-import it.polimi.ingsw.model.board.ProductionZone;
-import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Market;

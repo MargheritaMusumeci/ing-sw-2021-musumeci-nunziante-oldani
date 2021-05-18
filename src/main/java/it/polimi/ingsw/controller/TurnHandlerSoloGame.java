@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.messages.updateMessages.UpdateActivePlayerMessage;
+import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;

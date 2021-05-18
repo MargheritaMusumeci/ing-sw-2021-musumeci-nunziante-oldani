@@ -1,17 +1,15 @@
 package it.polimi.ingsw.client.CLI;
 
-import com.google.gson.stream.JsonToken;
-import com.sun.jdi.ArrayReference;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
-import it.polimi.ingsw.messages.EndTurnMessage;
-import it.polimi.ingsw.messages.actionMessages.*;
-import it.polimi.ingsw.messages.configurationMessages.*;
+import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
-import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.utils.Constants;
 
@@ -50,6 +48,7 @@ public class CLI implements Runnable {
     /**
      * method that ask for ip and port of the server and creates the socket between client and server
      */
+    //metodi pre game start
     private void connectionInitialization(){
 
         int port;
@@ -123,11 +122,9 @@ public class CLI implements Runnable {
     }
     public void chooseLeaderCards(){
 
-        clientSocket.send(new RequestLeaderCardMessage("Request leader card"));
-
         while(leaderCards == null){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -153,7 +150,6 @@ public class CLI implements Runnable {
         clientSocket.send(new LeaderCardChoiceMessage("Leader card scelte" , lCards));
 
         try {
-            System.out.println("Waiting for ack");
             synchronized (this){
                 wait();
             }
@@ -162,7 +158,6 @@ public class CLI implements Runnable {
         } catch (IllegalMonitorStateException e){
             e.printStackTrace();
         }
-        System.out.println("Ack arrived");
 
         if(isAckArrived){
             gamePhase = GamePhases.INITIALRESOURCESELECTION;
@@ -242,7 +237,484 @@ public class CLI implements Runnable {
             System.err.println("Error while setting the initial resources, retry");
         }
     }
+    //metodi per le azioni di gioco
+    private void activeLeaderCards() {
 
+        //check if there is a leader card to be activated
+        int possibleLeaderCards = 0;
+        for (SerializableLeaderCard leaderCard : clientSocket.getView().getLeaderCards()){
+            if (!leaderCard.isActive()){
+                possibleLeaderCards++;
+            }
+        }
+
+        if(possibleLeaderCards == 0){
+            System.out.println("You have already activated all your cards!");
+            return;
+        }
+
+        for (SerializableLeaderCard leaderCard : clientSocket.getView().getLeaderCards()){
+            if (!leaderCard.isActive()){
+                printSingleLeaderCard(leaderCard);
+            }
+        }
+
+        boolean control;
+        control = false;
+        int number;
+        do{
+            System.out.println("Choose the leader card to be activated (type the id): ");
+            number = scanner.nextInt();
+
+            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
+                if(lCard.getId() == number && !lCard.isActive()){
+                    control = true;
+                }
+            }
+        }while(!control);
+
+        //trovo la posizione a cui si trova la leader card nel mio set
+        int pos = 0;
+        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
+            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
+                pos = i;
+            }
+        }
+
+        //devo mandare il messsaggio di attivazione
+        clientSocket.send(new ActiveLeaderCardMessage("active leader card", pos));
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            System.out.println("Leader card correctly activated");
+        }else{
+            System.out.println("Error while activating the leader card");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+
+    }
+    private void buyFromMarket() {
+        printMarket();
+        int scelta = 0;
+        do {
+            System.out.println("Inserire 1 per scegliere una riga o 2 per scelgiere una colonna:");
+            System.out.print(">");
+
+            scelta = scanner.nextInt();
+
+            if(scelta == 1){
+                int row = 0;
+                do{
+                    System.out.println("Inserire la riga che si vuole acquistare: (0,1,2)");
+                    row = scanner.nextInt();
+                }while (row <0 || row > 2);
+
+                clientSocket.send(new BuyFromMarketMessage("buy from market", row, true));
+
+            }
+            if(scelta == 2){
+                int col = 0;
+                do{
+                    System.out.println("Inserire la colonna che si vuole acquistare: (0,1,2,3)");
+                    col = scanner.nextInt();
+                }while (col <0 || col > 3);
+
+                clientSocket.send(new BuyFromMarketMessage("buy from market", col, false));
+            }
+        }while (scelta != 1 && scelta != 2);
+
+        System.out.println("Message sent");
+        //Resources bought, waiting for ack/nack
+        synchronized (this){
+            try {
+                wait();
+                System.out.println("I've been woke up");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(isAckArrived){
+            System.out.println("Risosrse dal mercato prese in modo corretto");
+            isAckArrived = false;
+            isActionBeenDone = true;
+        }else{
+            System.out.println("Errore durante l'acquisto delle risorse");
+            isNackArrived = false;
+        }
+
+        //chiedo le risorse
+        clientSocket.send(new RequestResourcesBoughtFromMarketMessage(""));
+
+        synchronized (this){
+            try {
+                System.out.println("Waiting for resources bought");
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //controllo se tra le risorse ottunute ho solo nothing, in quel caso mando un messaggio e termino
+        int countNotnull = 0;
+        for (Resource resource: clientSocket.getView().getResourcesBoughtFromMarker()){
+            if(resource != Resource.NOTHING){
+                countNotnull++;
+            }
+        }
+
+        //erano tutto nulle
+        if(countNotnull == 0){
+            clientSocket.send(new StoreResourcesMessage("salva risorse", clientSocket.getView().getResourcesBoughtFromMarker()));
+            return;
+        }
+
+
+        do{
+            //stampo le risorse ottenute
+            int i =0;
+            System.out.println("seleziona le risorse da inserire nello stock, -1 per terminare e 5 per sceglierle tutte");
+            for (Resource resource: clientSocket.getView().getResourcesBoughtFromMarker()){
+                System.out.println(i + ") "+resource);
+                i++;
+            }
+            ArrayList<Integer> positions = new ArrayList<>();
+            int positionSelected;
+
+            do{
+                positionSelected = scanner.nextInt();
+                if(positionSelected >= 0 &&
+                        positionSelected < clientSocket.getView().getResourcesBoughtFromMarker().size() &&
+                        !positions.contains(positionSelected)){
+                    System.out.println("prova if");
+                    positions.add(positionSelected);
+                }else{
+                    if(positionSelected == 5){
+                        positions = new ArrayList<>();
+                        for (int j=0; j<clientSocket.getView().getResourcesBoughtFromMarker().size(); j++){
+                            positions.add(j);
+                        }
+                        break;
+                    }
+                }
+            }while(positionSelected != -1);
+
+            ArrayList<Resource> resourcesToSend = new ArrayList<>();
+            for(Integer integer: positions){
+                resourcesToSend.add(clientSocket.getView().getResourcesBoughtFromMarker().get(integer));
+            }
+            clientSocket.send(new StoreResourcesMessage("salva risorse selezionate", resourcesToSend));
+
+            synchronized (this){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }while(!isAckArrived);
+
+        isAckArrived = false;
+        isNackArrived = false;
+
+    }
+    private void buyEvolutionCard(){
+        printEvolutionSection();
+
+        int row, col, pos;
+
+        do{
+            System.out.println("Inserisci la riga e la colonna della carta da comprare");
+            System.out.print("riga > ");
+            row = scanner.nextInt();
+            System.out.print("colonna > ");
+            col = scanner.nextInt();
+            System.out.println("inserisci in quale production zone inserire la carta: (0,1,2)");
+            System.out.print("> ");
+            pos = scanner.nextInt();
+        }while ((row<0 || row > 2) || (col <0 || col>3) || (pos != 0 && pos != 1 && pos != 2));
+
+        clientSocket.send(new BuyEvolutionCardMessage("buy evolution card", row, col, pos));
+        System.out.println("Message sent");
+        synchronized (this){
+            try {
+                System.out.println("Waiting for ack/nack");
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(isAckArrived){
+            System.out.println("Carta inserita correttamente");
+            isAckArrived = false;
+            isActionBeenDone = true;
+        }else{
+            System.out.println("Errore durante l'acquisto della carta dalla evolution section");
+            isNackArrived = false;
+        }
+
+    }
+    private void discardLeaderCard(){
+
+        if(clientSocket.getView().getLeaderCards().size() == 0){
+            System.out.println("Non hai leader card!");
+            return;
+        }
+
+        //controllo che ci siano ancora carte non attivate
+        boolean check = false;
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(!serializableLeaderCard.isActive()){
+                check = true;
+            }
+        }
+        if (!check){
+            //non ho carte non attive
+            System.out.println("Tutte le tue carte sono attivate, non puoi scartarle");
+            return;
+        }
+
+        //stampo le carte scartabili
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(!serializableLeaderCard.isActive()){
+                printSingleLeaderCard(serializableLeaderCard);
+            }
+        }
+
+        boolean controllo = false;
+        int number;
+        do{
+            System.out.println("Choose the leader card to be discard (type the id): ");
+            number = scanner.nextInt();
+
+            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
+                if(lCard.getId() == number && !lCard.isActive()){
+                    controllo = true;
+                }
+            }
+        }while(!controllo);
+
+        //trovo la posizione a cui si trova la leader card nel mio set
+        int pos = 0;
+        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
+            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
+                pos = i;
+            }
+        }
+
+        //devo mandare il messsaggio di scarto carta
+        clientSocket.send(new DiscardLeaderCardMessage("discard leader card", pos));
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            System.out.println("Leader card correctly discarded");
+        }else{
+            System.out.println("Error while discarding the leader card");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+    }
+    private void useLeaderCard(){
+
+        //Check if the player has leader card
+        if(clientSocket.getView().getLeaderCards().size() == 0){
+            System.out.println("You don't have leader card");
+            return;
+        }
+
+        //Check if there are active cards
+        boolean check = false;
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(serializableLeaderCard.isActive()){
+                check = true;
+            }
+        }
+
+        if (!check){
+            //Player doesn't have leader card
+            System.out.println("You don't have active card");
+            return;
+        }
+
+        //Check if there is a card not already used
+        check = false;
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(serializableLeaderCard.isActive()){
+                check = true;
+            }
+        }
+
+        if (!check){
+            //Player doesn't have leader card
+            System.out.println("You've already used all your leader card");
+            return;
+        }
+
+        //Print card the player can use
+        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
+            if(!serializableLeaderCard.isUsed() && serializableLeaderCard.isActive()){
+                printSingleLeaderCard(serializableLeaderCard);
+            }
+        }
+
+        boolean control = false;
+        int number;
+        do{
+            System.out.println("Choose the leader card to be activated (type the id): ");
+            number = scanner.nextInt();
+
+            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
+                if(lCard.getId() == number && !lCard.isUsed() && lCard.isActive()){
+                    control = true;
+                }
+            }
+        }while(!control);
+
+        //Find the position of the card chose in the set
+        int pos = 0;
+        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
+            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
+                pos = i;
+            }
+        }
+
+        //Send the message and wait the answer
+        clientSocket.send(new UseLeaderCardMessage("Use leader card", pos));
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            System.out.println("Leader card correctly used");
+        }else{
+            System.out.println("Error in the activation of the power");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+
+    }
+    private void activeProductionZones(){
+        int position = 0;
+        boolean activeBasic = false;
+        boolean exit = false;
+        ArrayList<Integer> productionZones =new ArrayList<Integer>();
+        ArrayList<Resource> resourcesRequires = new ArrayList<Resource>();
+        ArrayList<Resource> resourcesEnsures = new ArrayList<Resource>();
+
+        printProductionZones();
+
+        System.out.println("Which production zone do you want to activate? \n" +
+                "You can choose between 0 , 1 and 2 \n" +
+                "Insert -1 to end");
+        do{
+            //Insert the position
+            do{
+                position = scanner.nextInt();
+                if(position < -1 || position > 2)
+                    System.out.println("Position not valid, insert an other position");
+            }while(position < -1 || position > 2);
+
+            //If the player ended his choice
+            if(position == -1){
+                exit = true;
+                break;
+            }
+
+            //Add the production if the position is valid
+            if(!productionZones.contains(position))
+                productionZones.add(position);
+            else
+                System.out.println("Position already chose");
+
+        }while(!exit && productionZones.size() <= 3);
+
+        //Now the array with the position is ready
+
+        System.out.println("Do you want to activate the basic production zone? Y/N");
+
+        do{
+            exit = true;
+            String input = scanner.next();
+            if(input.equals("Y")){
+                activeBasic = true;
+            }
+            else if(input.equals("N")){
+                activeBasic = false;
+            }
+            else{
+                System.out.println("Wrong parameter, try again");
+                exit = false;
+            }
+        }while(!exit);
+
+        //If the player wants to active the basic production
+        if(activeBasic){
+            System.out.println("Choose 2 resource types to use in basic production:");
+            System.out.println("1) COIN");
+            System.out.println("2) ROCK");
+            System.out.println("3) SHIELD");
+            System.out.println("4) SERVANT");
+
+            while(resourcesRequires.size() < 2){
+                fillArrayList(resourcesRequires);
+            }
+
+            System.out.println("Choose 1 resource type to obtain from basic production:");
+            System.out.println("1) COIN");
+            System.out.println("2) ROCK");
+            System.out.println("3) SHIELD");
+            System.out.println("4) SERVANT");
+
+            while(resourcesEnsures.size() < 1){
+                fillArrayList(resourcesEnsures);
+            }
+        }
+
+        //Send activeProductionMessage to the server
+        clientSocket.send(new ActiveProductionMessage("Active production zones" , productionZones ,
+                activeBasic , resourcesRequires , resourcesEnsures));
+
+        //Wait for a response
+        synchronized (this){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isAckArrived){
+            isActionBeenDone = true;
+            System.out.println("Production zones activated");
+        }else{
+            System.out.println("Something goes wrong, try again");
+        }
+
+        isAckArrived = false;
+        isNackArrived = false;
+    }
+    //metodi per stampare le componenti del gioco
     private void printTitle(){
         System.out.println(Constants.ANSI_RED + "\n" +
                 "                     _                               \n" +
@@ -384,9 +856,9 @@ public class CLI implements Runnable {
     //A problem because the attribute cards in SerializableProductionZone is null
     public void printProductionZones(){
         SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
-        System.out.println("Production zones: ");
+        System.out.println("production zones: ");
         for(int i = 0 ; i < productionZones.length ; i++) {
-            System.out.println("Production zone " + i + ": ");
+            System.out.println("production zone " + i + ": ");
             SerializableProductionZone productionZone = productionZones[i];
             ArrayList<EvolutionCard> evolutionCards = productionZone.getCards();
             if (evolutionCards != null) {
@@ -401,27 +873,12 @@ public class CLI implements Runnable {
                     printEvolutionCard(evolutionCard);
                     System.out.println("#################################################################");
                 }
-            } else {
+            }
+            else {
                 System.out.println("    none");
                 System.out.println("#################################################################");
             }
         }
-        SerializableLeaderProductionZone[] leaderProductionZones = clientSocket.getView().getDashboard().getSerializableLeaderProductionZones();
-        if(leaderProductionZones == null || leaderProductionZones.length == 0)
-            return;
-        System.out.println("Leader production zones");
-        for(int i = 0 ; i < leaderProductionZones.length ; i++){
-            SerializableLeaderProductionZone leaderProductionZone = leaderProductionZones[i];
-            if(leaderProductionZone != null){
-                SerializableLeaderCard leaderCard = leaderProductionZone.getCard();
-                System.out.println("Production zone number " + productionZones.length + i);
-                printSingleLeaderCard(leaderCard);
-            }else {
-                System.out.println("    none");
-            }
-            System.out.println("#################################################################");
-        }
-
     }
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
@@ -500,488 +957,7 @@ public class CLI implements Runnable {
         System.out.println("#################################################################");
     }
 
-    private void activeLeaderCards() {
 
-        //check if there is a leader card to be activated
-        int possibleLeaderCards = 0;
-        for (SerializableLeaderCard leaderCard : clientSocket.getView().getLeaderCards()){
-            if (!leaderCard.isActive()){
-                possibleLeaderCards++;
-            }
-        }
-
-        if(possibleLeaderCards == 0){
-            System.out.println("You have already activated all your cards!");
-            return;
-        }
-
-        for (SerializableLeaderCard leaderCard : clientSocket.getView().getLeaderCards()){
-            if (!leaderCard.isActive()){
-                printSingleLeaderCard(leaderCard);
-            }
-        }
-
-        boolean control;
-        control = false;
-        int number;
-        do{
-            System.out.println("Choose the leader card to be activated (type the id): ");
-            number = scanner.nextInt();
-
-            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
-                if(lCard.getId() == number && !lCard.isActive()){
-                    control = true;
-                }
-            }
-        }while(!control);
-
-        //trovo la posizione a cui si trova la leader card nel mio set
-        int pos = 0;
-        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
-            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
-                pos = i;
-            }
-        }
-
-        //devo mandare il messsaggio di attivazione
-        clientSocket.send(new ActiveLeaderCardMessage("active leader card", pos));
-        synchronized (this){
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (isAckArrived){
-            System.out.println("Leader card correctly activated");
-        }else{
-            System.out.println("Error while activating the leader card");
-        }
-
-        isAckArrived = false;
-        isNackArrived = false;
-
-    }
-
-    private void buyFromMarket() {
-        printMarket();
-        int scelta = 0;
-        do {
-            System.out.println("Inserire 1 per scegliere una riga o 2 per scelgiere una colonna:");
-            System.out.print(">");
-
-            scelta = scanner.nextInt();
-
-            if(scelta == 1){
-                int row = 0;
-                do{
-                   System.out.println("Inserire la riga che si vuole acquistare: (0,1,2)");
-                   row = scanner.nextInt();
-                }while (row <0 || row > 2);
-
-                clientSocket.send(new BuyFromMarketMessage("buy from market", row, true));
-
-            }
-            if(scelta == 2){
-                int col = 0;
-                do{
-                    System.out.println("Inserire la colonna che si vuole acquistare: (0,1,2,3)");
-                    col = scanner.nextInt();
-                }while (col <0 || col > 3);
-
-                clientSocket.send(new BuyFromMarketMessage("buy from market", col, false));
-            }
-        }while (scelta != 1 && scelta != 2);
-
-        System.out.println("Message sent");
-        //Resources bought, waiting for ack/nack
-        synchronized (this){
-            try {
-                wait();
-                System.out.println("I've been woke up");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(isAckArrived){
-            System.out.println("Risosrse dal mercato prese in modo corretto");
-            isAckArrived = false;
-            isActionBeenDone = true;
-        }else{
-            System.out.println("Errore durante l'acquisto delle risorse");
-            isNackArrived = false;
-        }
-
-        //chiedo le risorse
-        clientSocket.send(new RequestResourcesBoughtFromMarketMessage(""));
-
-        synchronized (this){
-            try {
-                System.out.println("Waiting for resources bought");
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //controllo se tra le risorse ottunute ho solo nothing, in quel caso mando un messaggio e termino
-        int countNotnull = 0;
-        for (Resource resource: clientSocket.getView().getResourcesBoughtFromMarker()){
-           if(resource != Resource.NOTHING){
-               countNotnull++;
-           }
-        }
-
-        //erano tutto nulle
-        if(countNotnull == 0){
-            clientSocket.send(new StoreResourcesMessage("salva risorse", clientSocket.getView().getResourcesBoughtFromMarker()));
-            return;
-        }
-
-
-        do{
-            //stampo le risorse ottenute
-            int i =0;
-            System.out.println("seleziona le risorse da inserire nello stock, -1 per terminare e 5 per sceglierle tutte");
-            for (Resource resource: clientSocket.getView().getResourcesBoughtFromMarker()){
-                System.out.println(i + ") "+resource);
-                i++;
-            }
-            ArrayList<Integer> positions = new ArrayList<>();
-            int positionSelected;
-
-            do{
-                positionSelected = scanner.nextInt();
-                if(positionSelected >= 0 &&
-                        positionSelected < clientSocket.getView().getResourcesBoughtFromMarker().size() &&
-                        !positions.contains(positionSelected)){
-                    System.out.println("prova if");
-                    positions.add(positionSelected);
-                }else{
-                    if(positionSelected == 5){
-                        positions = new ArrayList<>();
-                        for (int j=0; j<clientSocket.getView().getResourcesBoughtFromMarker().size(); j++){
-                            positions.add(j);
-                        }
-                        break;
-                    }
-                }
-            }while(positionSelected != -1);
-
-            ArrayList<Resource> resourcesToSend = new ArrayList<>();
-            for(Integer integer: positions){
-                resourcesToSend.add(clientSocket.getView().getResourcesBoughtFromMarker().get(integer));
-            }
-            clientSocket.send(new StoreResourcesMessage("salva risorse selezionate", resourcesToSend));
-
-            synchronized (this){
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }while(!isAckArrived);
-
-        isAckArrived = false;
-        isNackArrived = false;
-
-    }
-
-    private void buyEvolutionCard(){
-        printEvolutionSection();
-
-        int row, col, pos;
-
-        do{
-            System.out.println("Inserisci la riga e la colonna della carta da comprare");
-            System.out.print("riga > ");
-            row = scanner.nextInt();
-            System.out.print("colonna > ");
-            col = scanner.nextInt();
-            System.out.println("inserisci in quale production zone inserire la carta: (0,1,2)");
-            System.out.print("> ");
-            pos = scanner.nextInt();
-        }while ((row<0 || row > 2) || (col <0 || col>3) || (pos != 0 && pos != 1 && pos != 2));
-
-        clientSocket.send(new BuyEvolutionCardMessage("buy evolution card", row, col, pos));
-        System.out.println("Message sent");
-        synchronized (this){
-            try {
-                System.out.println("Waiting for ack/nack");
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(isAckArrived){
-            System.out.println("Carta inserita correttamente");
-            isAckArrived = false;
-            isActionBeenDone = true;
-        }else{
-            System.out.println("Errore durante l'acquisto della carta dalla evolution section");
-            isNackArrived = false;
-        }
-
-    }
-
-    private void discardLeaderCard(){
-
-        if(clientSocket.getView().getLeaderCards().size() == 0){
-            System.out.println("Non hai leader card!");
-            return;
-        }
-
-        //controllo che ci siano ancora carte non attivate
-        boolean check = false;
-        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
-            if(!serializableLeaderCard.isActive()){
-                check = true;
-            }
-        }
-        if (!check){
-            //non ho carte non attive
-            System.out.println("Tutte le tue carte sono attivate, non puoi scartarle");
-            return;
-        }
-
-        //stampo le carte scartabili
-        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
-            if(!serializableLeaderCard.isActive()){
-                printSingleLeaderCard(serializableLeaderCard);
-            }
-        }
-
-        boolean controllo = false;
-        int number;
-        do{
-            System.out.println("Choose the leader card to be discard (type the id): ");
-            number = scanner.nextInt();
-
-            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
-                if(lCard.getId() == number && !lCard.isActive()){
-                    controllo = true;
-                }
-            }
-        }while(!controllo);
-
-        //trovo la posizione a cui si trova la leader card nel mio set
-        int pos = 0;
-        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
-            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
-                pos = i;
-            }
-        }
-
-        //devo mandare il messsaggio di scarto carta
-        clientSocket.send(new DiscardLeaderCardMessage("discard leader card", pos));
-        synchronized (this){
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (isAckArrived){
-            System.out.println("Leader card correctly discarded");
-        }else{
-            System.out.println("Error while discarding the leader card");
-        }
-
-        isAckArrived = false;
-        isNackArrived = false;
-    }
-
-    private void useLeaderCard(){
-
-        //Check if the player has leader card
-        if(clientSocket.getView().getLeaderCards().size() == 0){
-            System.out.println("You don't have leader card");
-            return;
-        }
-
-        //Check if there are active cards
-        boolean check = false;
-        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
-            if(serializableLeaderCard.isActive()){
-                check = true;
-            }
-        }
-
-        if (!check){
-            //Player doesn't have leader card
-            System.out.println("You don't have active card");
-            return;
-        }
-
-        //Check if there is a card not already used
-        check = false;
-        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
-            if(serializableLeaderCard.isActive()){
-                check = true;
-            }
-        }
-
-        if (!check){
-            //Player doesn't have leader card
-            System.out.println("You've already used all your leader card");
-            return;
-        }
-
-        //Print card the player can use
-        for (SerializableLeaderCard serializableLeaderCard : clientSocket.getView().getLeaderCards()){
-            if(!serializableLeaderCard.isUsed() && serializableLeaderCard.isActive()){
-                printSingleLeaderCard(serializableLeaderCard);
-            }
-        }
-
-        boolean control = false;
-        int number;
-        do{
-            System.out.println("Choose the leader card to be activated (type the id): ");
-            number = scanner.nextInt();
-
-            for(SerializableLeaderCard lCard : clientSocket.getView().getLeaderCards()){
-                if(lCard.getId() == number && !lCard.isUsed() && lCard.isActive()){
-                    control = true;
-                }
-            }
-        }while(!control);
-
-        //Find the position of the card chose in the set
-        int pos = 0;
-        for (int i=0; i<clientSocket.getView().getLeaderCards().size(); i++){
-            if(clientSocket.getView().getLeaderCards().get(i).getId() == number){
-                pos = i;
-            }
-        }
-
-        //Send the message and wait the answer
-        clientSocket.send(new UseLeaderCardMessage("Use leader card", pos));
-        synchronized (this){
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (isAckArrived){
-            System.out.println("Leader card correctly used");
-        }else{
-            System.out.println("Error in the activation of the power");
-        }
-
-        isAckArrived = false;
-        isNackArrived = false;
-
-    }
-
-    //Need to handle the active leader production zones
-    private void activeProductionZones(){
-        int position = 0;
-        boolean activeBasic = false;
-        boolean exit = false;
-        ArrayList<Integer> productionZones =new ArrayList<Integer>();
-        ArrayList<Resource> resourcesRequires = new ArrayList<Resource>();
-        ArrayList<Resource> resourcesEnsures = new ArrayList<Resource>();
-
-        printProductionZones();
-
-        System.out.println("Which production zone do you want to activate? \n" +
-                "You can choose between 0 , 1 and 2 \n" +
-                "Insert -1 to end");
-        do{
-            //Insert the position
-            do{
-                position = scanner.nextInt();
-                if(position < -1 || position > 2)
-                    System.out.println("Position not valid, insert an other position");
-            }while(position < -1 || position > 2);
-
-            //If the player ended his choice
-            if(position == -1){
-                exit = true;
-                break;
-            }
-
-            //Add the production if the position is valid
-            if(!productionZones.contains(position))
-                productionZones.add(position);
-            else
-                System.out.println("Position already chose");
-
-        }while(!exit && productionZones.size() <= 3);
-
-        //Now the array with the position is ready
-
-        System.out.println("Do you want to activate the basic production zone? Y/N");
-
-        do{
-            exit = true;
-            String input = scanner.next();
-            if(input.equals("Y")){
-                activeBasic = true;
-            }
-            else if(input.equals("N")){
-                activeBasic = false;
-            }
-            else{
-                System.out.println("Wrong parameter, try again");
-                exit = false;
-            }
-        }while(!exit);
-
-        //If the player wants to active the basic production
-        if(activeBasic){
-            System.out.println("Choose 2 resource types to use in basic production:");
-            System.out.println("1) COIN");
-            System.out.println("2) ROCK");
-            System.out.println("3) SHIELD");
-            System.out.println("4) SERVANT");
-
-            while(resourcesRequires.size() < 2){
-                fillArrayList(resourcesRequires);
-            }
-
-            System.out.println("Choose 1 resource type to obtain from basic production:");
-            System.out.println("1) COIN");
-            System.out.println("2) ROCK");
-            System.out.println("3) SHIELD");
-            System.out.println("4) SERVANT");
-
-            while(resourcesEnsures.size() < 1){
-                fillArrayList(resourcesEnsures);
-            }
-        }
-
-        //Send activeProductionMessage to the server
-        clientSocket.send(new ActiveProductionMessage("Active production zones" , productionZones ,
-                activeBasic , resourcesRequires , resourcesEnsures));
-
-        //Wait for a response
-        synchronized (this){
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (isAckArrived){
-            isActionBeenDone = true;
-            System.out.println("Production zones activated");
-        }else{
-            System.out.println("Something goes wrong, try again");
-        }
-
-        isAckArrived = false;
-        isNackArrived = false;
-    }
 
     /**
      * Private method that fills the arrayList passed as parameter with a resource type accordin

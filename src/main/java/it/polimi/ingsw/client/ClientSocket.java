@@ -2,8 +2,12 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.messageHandler.MessageHandler;
+import it.polimi.ingsw.client.messageHandler.MessageHandlerCLI;
+import it.polimi.ingsw.client.messageHandler.MessageHandlerGUI;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.sentByServer.ServerMessage;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -82,9 +86,13 @@ public class ClientSocket implements Runnable{
             //leggo i messaggi in arrivo e li eseguo
             try {
                 Message input = (Message) inputStream.readObject();
-                if(! (input instanceof PingMessage))
+                if(! (input instanceof PingMessage)){
                     System.out.println("Messaggio letto: " + input.getMessage());
-                messageHandler.handleMessage(input);
+                    ((ServerMessage) input).handle(messageHandler);
+                }else{
+                    send(new PingMessage("Ping response"));
+                }
+
             } catch (EOFException e){
                 System.out.println("Server disconnected, retry later");
                 return;
