@@ -50,7 +50,7 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(StartGameMessage message) {
 
-        gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
+        //gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class MessageHandlerGUI extends MessageHandler {
 
         clientSocket.getView().setResourcesBoughtFromMarker(message.getResources());
         synchronized (gui) {
-            gui.notifyAll();
+            gui.changeScene();
         }
     }
 
@@ -148,6 +148,6 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleUpdateMessage(UpdateMarketMessage message) {
-        //clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
+        clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
     }
 }
