@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.sentByClient.ClientMessage;
 import it.polimi.ingsw.model.game.Game;
 
 import java.io.IOException;

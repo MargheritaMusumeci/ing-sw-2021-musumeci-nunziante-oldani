@@ -17,7 +17,6 @@ public class SerializableDashboard implements Serializable {
     private SerializableStock serializableStock;
     private SerializablePopeTack serializablePopeTack;
     private SerializableProductionZone[] serializableProductionZones;
-
     private SerializableLeaderProductionZone[] serializableLeaderProductionZones;
     private String nickname;
     private boolean inkwell;

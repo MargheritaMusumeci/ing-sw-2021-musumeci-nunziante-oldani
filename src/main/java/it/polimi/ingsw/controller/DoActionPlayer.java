@@ -1,10 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.messages.ACKMessage;
+
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.NACKMessage;
-import it.polimi.ingsw.messages.actionMessages.RequestResourcesBoughtFromMarketMessage;
+
+import it.polimi.ingsw.messages.sentByServer.ACKMessage;
+import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
@@ -161,15 +162,15 @@ public class DoActionPlayer {
      * @param position is the leader card the activePlayer wants to discard
      */
     public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException{
-            ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
-            //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
-            //                                      we need to check if the player arrived in a popePosition or
-            //                                      in new point position in order to increase the score
-            //To do so, moveCross should have as parameters: player , increment
-            for(Player player : modelGame.getPlayers()){
-                if(!player.equals(modelGame.getActivePlayer()))
-                    moveCross(1,new ArrayList<Player>(){{add(player);}});
-            }
+        ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
+        //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
+        //                                      we need to check if the player arrived in a popePosition or
+        //                                      in new point position in order to increase the score
+        //To do so, moveCross should have as parameters: player , increment
+        for(Player player : modelGame.getPlayers()){
+            if(!player.equals(modelGame.getActivePlayer()))
+                moveCross(1,new ArrayList<Player>(){{add(player);}});
+        }
     }
 
     /**
@@ -188,8 +189,8 @@ public class DoActionPlayer {
      */
     public void activeProductionZones(ArrayList<Integer> positions , boolean activeBasic ,
                                       ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures)
-                                        throws NotEnoughResourcesException , ExcessOfPositionException , BadParametersException ,
-                                                NonCompatibleResourceException , ActionAlreadyDoneException{
+            throws NotEnoughResourcesException , ExcessOfPositionException , BadParametersException ,
+            NonCompatibleResourceException , ActionAlreadyDoneException{
 
         //Check if the player can do this action
         if(!((HumanPlayer)modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING) &&
@@ -267,7 +268,7 @@ public class DoActionPlayer {
         //Check if the resources are enough
         for(Resource resource : totalRequires.keySet()){
             if(totalRequires.get(resource) > (modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource)
-                + modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource)))
+                    + modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource)))
                 throw new NotEnoughResourcesException("Resources are not enough");
         }
 
@@ -316,7 +317,7 @@ public class DoActionPlayer {
                 }
             }
             if(card instanceof EvolutionCard)
-                 card.setActive(true);
+                card.setActive(true);
             else
                 ((LeaderCard) card).setUsed(true);
         }
@@ -329,7 +330,7 @@ public class DoActionPlayer {
      * @param position is in which productionZone the player wants to place the card
      */
     public void buyEvolutionCard(int row, int col , int position) throws InvalidPlaceException , BadParametersException ,
-                NotEnoughResourcesException , ExcessOfPositionException{
+            NotEnoughResourcesException , ExcessOfPositionException{
 
         //Check if the player can buy this card
         if(!(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col])) {
@@ -457,7 +458,7 @@ public class DoActionPlayer {
         }
         ArrayList<Resource> resourceList = new ArrayList<>();
         Collections.addAll(resourceList,resources);
-                //(ArrayList<Resource>) Arrays.asList(resources);
+        //(ArrayList<Resource>) Arrays.asList(resources);
         return (ArrayList<Resource>) resourceList;
     }
 
@@ -500,7 +501,7 @@ public class DoActionPlayer {
      * @param position position
      */
     public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
-            ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
+        ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
     }
 
     public void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {

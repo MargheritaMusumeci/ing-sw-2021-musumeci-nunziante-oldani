@@ -2,10 +2,10 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.NotEnoughResourcesException;
-import it.polimi.ingsw.messages.ACKMessage;
+import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.NACKMessage;
-import it.polimi.ingsw.messages.actionMessages.*;
+import it.polimi.ingsw.messages.sentByServer.NACKMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;

@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.InitialResourcesConfigurationController;
 import it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController;
 import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
@@ -23,7 +24,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class GUI extends Application {
+public class GUI extends Application implements UI {
 
     //list of file .fxml
     public static final String IP_PORT = "ip_port_configuration.fxml";

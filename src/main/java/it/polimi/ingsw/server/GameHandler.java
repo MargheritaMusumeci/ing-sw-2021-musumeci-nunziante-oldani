@@ -5,10 +5,9 @@ import it.polimi.ingsw.controller.InitializationHandler;
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.controller.TurnHandlerMultiPlayer;
 import it.polimi.ingsw.controller.TurnHandlerSoloGame;
-import it.polimi.ingsw.messages.configurationMessages.FourLeaderCardsMessage;
-import it.polimi.ingsw.messages.configurationMessages.InitialResourcesMessage;
-import it.polimi.ingsw.messages.configurationMessages.SendViewMessage;
-import it.polimi.ingsw.messages.configurationMessages.StartGameMessage;
+import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.FourLeaderCardsMessage;
+import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.InitialResourcesMessage;
+import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
@@ -20,7 +19,6 @@ import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.serializableModel.SerializableMarket;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
-import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.HashMap;
 
