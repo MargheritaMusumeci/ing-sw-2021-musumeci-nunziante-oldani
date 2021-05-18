@@ -37,6 +37,7 @@ public class SerializableDashboard implements Serializable {
 
         int i = 0;
         this.serializableProductionZones = new SerializableProductionZone[dashboard.getProductionZone().length];
+        this.serializableLeaderProductionZones = new SerializableLeaderProductionZone[dashboard.getLeaderProductionZones().size()];
 
         //Set the normal production zone
         for (NormalProductionZone normalPZ:dashboard.getProductionZone()) {
