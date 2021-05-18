@@ -174,7 +174,9 @@ public class DoActionPlayer {
 
     /**
      * Method that check if a series of production zone can be activated and activate it if possible
-     * @param positions is an array list that contains the position of the production zone the player wants to activate
+     * @param positions is an array list that contains the position of the production zone the player wants to activate.
+     *                  It contains: 0,1 and 2 for the standard production zone
+     *                               3 and 4 for the leader production zone
      * @param activeBasic is true if the player wants to activate the basic production zone
      * @param resourcesRequires is an array list that contains the resources to use in the basic production
      * @param resourcesEnsures is an array list that contains the new resources the player wants after the basic production
@@ -197,11 +199,13 @@ public class DoActionPlayer {
         if(positions == null && !activeBasic)
             throw new BadParametersException("No production zone specified");
 
+        int numOfProductionZones = modelGame.getActivePlayer().getDashboard().getProductionZone().length
+                + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size();
+
         if(positions != null){
             //Check if the position are valid and if there isn't equal position
             for(int i = 0 ; i < positions.size() ; i++){
-                if(positions.get(i) < 0 || positions.get(i) >= (modelGame.getActivePlayer().getDashboard().getProductionZone().length)
-                        + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size())
+                if(positions.get(i) < 0 || positions.get(i) >= numOfProductionZones)
                     throw new ExcessOfPositionException("Position not valid");
                 for(int j = 0; j < positions.size() ; j++){
                     if(i != j && positions.get(i).equals(positions.get(j)))
@@ -233,13 +237,25 @@ public class DoActionPlayer {
             }
         }
 
+        Card card;
+
         if(positions != null){
             //Sum all the requires
             for(int i = 0 ; i < positions.size() ; i++){
-                if(modelGame.getActivePlayer().getDashboard().getProductionZone()[i] == null)
-                    throw new BadParametersException("This production zone is empty");
+                //If a standard production zone
+                if(positions.get(i) < 3){
+                    if(modelGame.getActivePlayer().getDashboard().getProductionZone()[i] == null)
+                        throw new BadParametersException("This production zone is empty");
 
-                Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+                    card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+                }
+                //If a leader production zone
+                else{
+                    if(modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)) == null)
+                        throw new BadParametersException("This production zone is empty");
+                    card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
+                }
+
                 HashMap<Resource , Integer> cardRequires = card.getRequires();
 
                 for(Resource resource : cardRequires.keySet()){
@@ -272,7 +288,11 @@ public class DoActionPlayer {
 
         //Active the production zone
         for(int i = 0 ; i < positions.size() ; i++){
-            Card card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+            if(positions.get(i) < 3)
+                card = modelGame.getActivePlayer().getDashboard().getProductionZone()[i].getCard();
+            else
+                card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
+
             HashMap<Resource , Integer> cardRequires = card.getRequires();
             HashMap<Resource , Integer> cardProduction = card.getProduction();
 

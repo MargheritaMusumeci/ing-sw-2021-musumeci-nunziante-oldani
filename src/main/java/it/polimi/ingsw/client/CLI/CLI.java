@@ -889,19 +889,21 @@ public class CLI implements Runnable {
         ArrayList<Integer> productionZones =new ArrayList<Integer>();
         ArrayList<Resource> resourcesRequires = new ArrayList<Resource>();
         ArrayList<Resource> resourcesEnsures = new ArrayList<Resource>();
+        int numPZ = clientSocket.getView().getDashboard().getSerializableProductionZones().length +
+                    clientSocket.getView().getDashboard().getSerializableLeaderProductionZones().length;
 
         printProductionZones();
 
         System.out.println("Which production zone do you want to activate? \n" +
-                "You can choose between 0 , 1 and 2 \n" +
+                "You can choose between 0 , 1 , 2 and 3 , 4 (if you have an active leader production zone)\n" +
                 "Insert -1 to end");
         do{
             //Insert the position
             do{
                 position = scanner.nextInt();
-                if(position < -1 || position > 2)
+                if(position < -1 || position > numPZ)
                     System.out.println("Position not valid, insert an other position");
-            }while(position < -1 || position > 2);
+            }while(position < -1 || position > numPZ);
 
             //If the player ended his choice
             if(position == -1){
@@ -915,7 +917,7 @@ public class CLI implements Runnable {
             else
                 System.out.println("Position already chose");
 
-        }while(!exit && productionZones.size() <= 3);
+        }while(!exit && productionZones.size() <= numPZ);
 
         //Now the array with the position is ready
 
