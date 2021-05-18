@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -14,21 +19,75 @@
          <font>
             <Font size="32.0" />
          </font></Text>
-      <RadioButton fx:id="rock1" layoutX="155.0" layoutY="151.0" mnemonicParsing="false" text="Rock">
-         <toggleGroup>
-            <ToggleGroup fx:id="resources1" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="rock2" layoutX="155.0" layoutY="200.0" mnemonicParsing="false" text="Rock">
-         <toggleGroup>
-            <ToggleGroup fx:id="resources2" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="coin1" layoutX="236.0" layoutY="151.0" mnemonicParsing="false" text="Coin" toggleGroup="$resources1" />
-      <RadioButton fx:id="coin2" layoutX="236.0" layoutY="200.0" mnemonicParsing="false" text="Coin" toggleGroup="$resources2" />
-      <RadioButton fx:id="shield1" layoutX="310.0" layoutY="151.0" mnemonicParsing="false" text="Shield" toggleGroup="$resources1" />
-      <RadioButton fx:id="shield2" layoutX="310.0" layoutY="200.0" mnemonicParsing="false" text="Shield" toggleGroup="$resources2" />
-      <RadioButton fx:id="servant1" layoutX="391.0" layoutY="151.0" mnemonicParsing="false" text="Servant" toggleGroup="$resources1" />
-      <RadioButton fx:id="servant2" layoutX="391.0" layoutY="200.0" mnemonicParsing="false" text="Servant" toggleGroup="$resources2" />
       <Button fx:id="confirm" layoutX="271.0" layoutY="297.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
       <Label fx:id="errorMessage" layoutX="296.0" layoutY="250.0" />
+      <ProgressIndicator fx:id="loading" layoutX="274.0" layoutY="283.0" visible="false" />
+      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="81.0" layoutY="110.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+         <children>
+            <RadioButton fx:id="rock1" mnemonicParsing="false">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resources1" />
+               </toggleGroup>
+            </RadioButton>
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/stone.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="coin1" mnemonicParsing="false" toggleGroup="$resources1" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/coin.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="shield1" mnemonicParsing="false" toggleGroup="$resources1" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/shield.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="servant1" mnemonicParsing="false" toggleGroup="$resources1" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/servant.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="82.0" layoutY="183.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+         <children>
+            <RadioButton fx:id="rock2" mnemonicParsing="false">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resources2" />
+               </toggleGroup>
+            </RadioButton>
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/stone.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="coin2" mnemonicParsing="false" toggleGroup="$resources2" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/coin.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="shield2" mnemonicParsing="false" toggleGroup="$resources2" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/shield.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="servant2" mnemonicParsing="false" toggleGroup="$resources2" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/servant.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </Pane>

@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 
 public class NicknameConfigurationController implements Controller{
 
+    private GUI gui;
+
     @FXML
     private TextField nicknameField;
     @FXML
@@ -16,8 +18,6 @@ public class NicknameConfigurationController implements Controller{
     private ProgressIndicator loading;
     @FXML
     private Button loginButton;
-
-    private GUI gui;
 
     @FXML
     public void doLogin() {
@@ -51,10 +51,8 @@ public class NicknameConfigurationController implements Controller{
 
     @Override
     public void init() {
-
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
         }
     }
-
 }

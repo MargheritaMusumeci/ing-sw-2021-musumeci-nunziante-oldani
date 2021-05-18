@@ -2,8 +2,6 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
-import it.polimi.ingsw.client.GUI.controllers.InitialResourcesConfigurationController;
-import it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.View;
@@ -34,10 +32,13 @@ public class GUI extends Application implements UI {
     public static final String INITIAL_RESOURCES = "initial_resources_configuration.fxml";
     public static final String WAITING_ROOM = "waiting.fxml";
     public static final String START_GAME = "view.fxml";
+    public static final String MARKET = "market.fxml";
+    public static final String STORE_RESOURCES = "store_resources.fxml";
 
     private Scene currentScene;
     private Scene oldScene;
     private Stage currentStage;
+    private Stage marketStage;
     private final HashMap<String, Scene> scenes;
     private final HashMap<String, Controller> controllers;
     private final HashMap<Scene, GamePhases> phases;
@@ -64,7 +65,7 @@ public class GUI extends Application implements UI {
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME, PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME,MARKET,STORE_RESOURCES, PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -135,6 +136,10 @@ public class GUI extends Application implements UI {
                 return GamePhases.STARTGAME;
             case (WAITING_ROOM):
                 return GamePhases.WAITINGOTHERPLAYERS;
+            case(MARKET):
+                return GamePhases.BUYFROMMARKET;
+            case(STORE_RESOURCES):
+                return GamePhases.STORERESOURCES;
             default:
                 return GamePhases.IINITIALIZATION;
         }
@@ -242,5 +247,13 @@ public class GUI extends Application implements UI {
 
     public void setView(View view) {
         this.view = view;
+    }
+
+    public Stage getMarketStage() {
+        return marketStage;
+    }
+
+    public void setMarketStage(Stage marketStage) {
+        this.marketStage = marketStage;
     }
 }

@@ -19,6 +19,10 @@ import java.util.ArrayList;
 
 public class LeaderCardsConfigurationController implements Controller{
 
+    private int selectedNumber=0;
+    private GUI gui;
+    private ArrayList<SerializableLeaderCard> leaderCards;
+
     @FXML
     private Button LeaderConfirmation;
     @FXML
@@ -41,12 +45,6 @@ public class LeaderCardsConfigurationController implements Controller{
     private Label errorLabel;
     @FXML
     private ProgressIndicator loading;
-
-    int selectedNumber=0;
-
-    private GUI gui;
-
-    ArrayList<SerializableLeaderCard> leaderCards;
 
     @Override
     public void init(){
@@ -169,8 +167,8 @@ public class LeaderCardsConfigurationController implements Controller{
                 }
                 leaderCardsChosen.add(pos);}
 
-            gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
-            gui.setCurrentScene(gui.getScene(GUI.INITIAL_RESOURCES));
+            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
+            gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
             gui.setOldScene(gui.getScene(GUI.LEADER_CARD));
 
             gui.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , leaderCardsChosen));

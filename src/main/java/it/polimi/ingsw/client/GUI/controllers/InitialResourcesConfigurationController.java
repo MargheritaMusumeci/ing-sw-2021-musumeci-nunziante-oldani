@@ -4,46 +4,50 @@ import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
 public class InitialResourcesConfigurationController implements Controller {
 
-    @FXML
-    ToggleGroup resources1;
-    @FXML
-    ToggleGroup resources2;
-    @FXML
-    RadioButton rock1;
-    @FXML
-    RadioButton coin1;
-    @FXML
-    RadioButton shield1;
-    @FXML
-    RadioButton servant1;
-    @FXML
-    RadioButton rock2;
-    @FXML
-    RadioButton coin2;
-    @FXML
-    RadioButton shield2;
-    @FXML
-    RadioButton servant2;
-    @FXML
-    Label errorMessage;
-    @FXML
-    Button confirm;
-
     private GUI gui;
+    private ArrayList<Resource> resources;
+    private int coin=0;
+    private int rock=0;
+    private int shield=0;
+    private int servant=0;
 
-    int coin=0;
-    int rock=0;
-    int shield=0;
-    int servant=0;
+    @FXML
+    private ToggleGroup resources1;
+    @FXML
+    private ToggleGroup resources2;
+    @FXML
+    private RadioButton rock1;
+    @FXML
+    private RadioButton coin1;
+    @FXML
+    private RadioButton shield1;
+    @FXML
+    private RadioButton servant1;
+    @FXML
+    private RadioButton rock2;
+    @FXML
+    private RadioButton coin2;
+    @FXML
+    private RadioButton shield2;
+    @FXML
+    private RadioButton servant2;
+    @FXML
+    private HBox resourcesBox1;
+    @FXML
+    private HBox resourcesBox2;
+    @FXML
+    private Label errorMessage;
+    @FXML
+    private Button confirm;
+    @FXML
+    private ProgressIndicator loading;
 
     @Override
     public void init(){
@@ -52,23 +56,27 @@ public class InitialResourcesConfigurationController implements Controller {
             errorMessage.setText(gui.getErrorFromServer());
         }
 
-        ArrayList<Resource> resources = gui.getResources();
+        resources = gui.getResources();
 
-       //se null sono il primo giocatore e non devo scegliere risorse
-       if(resources !=null){
+        if(resources == null || resources.isEmpty()){
+           resourcesBox1.setVisible(false);
+           resourcesBox2.setVisible(false);
+            errorMessage.setText("Nothing to choose, just wait other players");
+            confirm.setVisible(false);
+            loading.setVisible(true);
 
+        }else{
            //se sono il secondo o il terzo giocatore posso scegliere solo una risorsa
           if(resources.size()==4){
-              servant2.setVisible(false);
-              shield2.setVisible(false);
-              rock2.setVisible(false);
-              coin2.setVisible(false);
+              resourcesBox2.setVisible(false);
           }
        }
     }
 
     public void confirmation() {
 
+        confirm.setVisible(false);
+        loading.setVisible(true);
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
         RadioButton radio2 = (RadioButton) resources2.getSelectedToggle();
 
@@ -90,7 +98,6 @@ public class InitialResourcesConfigurationController implements Controller {
             servant++;
             selected.add(Resource.ROCK);
         }
-
         if(radio == coin2){
             coin++;
             selected.add(Resource.COIN);
@@ -108,13 +115,15 @@ public class InitialResourcesConfigurationController implements Controller {
             selected.add(Resource.ROCK);
         }
 
-        if(coin+rock+shield+servant == 2){
-
+        if(resources.size()==8 && coin+rock+shield+servant == 2){
             gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
-
+        }else if(resources.size()==4 && coin+rock+shield+servant == 1){
+            gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
         } else{
             selected.clear();
-            errorMessage.setText("Something goes wrong :(");
+            errorMessage.setText("Error while setting the initial resources, retry...");
+            confirm.setVisible(true);
+            loading.setVisible(false);
         }
     }
 

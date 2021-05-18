@@ -9,6 +9,9 @@ import javafx.scene.control.*;
 
 public class PlayersConfigurationController implements Controller {
 
+    private Integer player=0;
+    private GUI gui;
+
     @FXML
     private MenuButton playerField;
     @FXML
@@ -17,9 +20,6 @@ public class PlayersConfigurationController implements Controller {
     private ProgressIndicator loading;
     @FXML
     private Button loginButton;
-
-    private Integer player=0;
-    private GUI gui;
 
     @FXML
     public void choosePlayer(ActionEvent actionEvent){
@@ -60,7 +60,6 @@ public class PlayersConfigurationController implements Controller {
 
     @Override
     public void init() {
-
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
         }
