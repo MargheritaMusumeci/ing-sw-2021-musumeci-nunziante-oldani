@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.CLI;
 
+import it.polimi.ingsw.client.CLI.componentPrinter.LeaderCardsPrinter;
 import it.polimi.ingsw.client.CLI.componentPrinter.MarketPrinter;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
@@ -136,6 +137,8 @@ public class CLI implements UI, Runnable {
     }
     public void printLeaderCards(){
         ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
+        LeaderCardsPrinter.print(leaderCards);
+        /*
         System.out.println("Your leader card are: ");
         for(int i = 0 ; i < leaderCards.size() ; i++){
             SerializableLeaderCard leaderCard = leaderCards.get(i);
@@ -177,7 +180,9 @@ public class CLI implements UI, Runnable {
                 System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
             }
             System.out.println("#################################################################");
-        }
+
+
+        }*/
     }
     public void printProductionZones(){
         SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();

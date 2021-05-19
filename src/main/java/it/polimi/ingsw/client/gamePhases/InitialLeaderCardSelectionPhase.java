@@ -1,10 +1,13 @@
 package it.polimi.ingsw.client.gamePhases;
 
 import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.CLI.componentPrinter.LeaderCardsPrinter;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
+import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InitialLeaderCardSelectionPhase extends Phase{
@@ -21,21 +24,28 @@ public class InitialLeaderCardSelectionPhase extends Phase{
         int index = 0;
         ArrayList<Integer> lCards = new ArrayList<>();
 
-        System.out.println("Chose 2 cards");
+
+        LeaderCardsPrinter.print(cli.getLeaderCards());
         System.out.println();
-        for(int i = 0 ; i < cli.getLeaderCards().size() ; i++){
-            System.out.println("Card " + i + ": " + cli.getLeaderCards().get(i).getRequiresForActiveLeaderCards() + " , " + cli.getLeaderCards().get(i).getAbilityType() + "\n");
-        }
+        System.out.println(Constants.ANSI_CYAN + "Chose 2 cards" + Constants.ANSI_RESET);
+
         for(int i = 0; i < 2; i++){
-            index = scanner.nextInt();
-            if(index < cli.getLeaderCards().size() && index >= 0){
+            System.out.print(Constants.ANSI_CYAN + "> " +Constants.ANSI_RESET);
+            try{
+                index = scanner.nextInt();
+            }catch (InputMismatchException e){
+                index = 6;
+                scanner.nextLine();
+            }
+            if(index < cli.getLeaderCards().size() && index >= 0 && !lCards.contains(index)){
                 lCards.add(index);
             }
             else{
                 i--;
-                System.out.println("Carta scelta non valida");
+                System.out.println(Constants.ANSI_RED + "Error! Card selected is not valid" + Constants.ANSI_RESET);
             }
         }
+
         cli.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , lCards));
 
         try {
@@ -54,7 +64,7 @@ public class InitialLeaderCardSelectionPhase extends Phase{
             new Thread(cli).start();
         }else{
             cli.setIsNackArrived(false);
-            System.err.println("Error while setting the initial leader card, retry");
+            System.err.println(Constants.ANSI_RED + "Error while setting the initial leader card, retry" + Constants.ANSI_RESET);
         }
     }
 }

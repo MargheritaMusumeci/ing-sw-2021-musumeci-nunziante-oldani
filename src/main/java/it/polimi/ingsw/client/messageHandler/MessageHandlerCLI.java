@@ -51,14 +51,14 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(StartGameMessage message) {
-        System.out.println("gioco iniziato");
+
         cli.setGamePhase(new InitialResourcesSelection());
         new Thread(cli).start();
     }
 
     @Override
     public void handleMessage(FourLeaderCardsMessage message) {
-        System.out.println("Leader card ricevute");
+
         cli.setLeaderCards(message.getLeaderCards());
         cli.setGamePhase(new InitialLeaderCardSelectionPhase());
         new Thread(cli).start();
