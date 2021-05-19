@@ -53,6 +53,7 @@ public class GUI extends Application implements UI {
     private boolean isAckArrived;
     private boolean isNackArrived;
     private String errorFromServer;
+    private int players;
 
     public GUI() {
         gamePhase = GamePhases.IINITIALIZATION;
@@ -61,6 +62,7 @@ public class GUI extends Application implements UI {
         phases = new HashMap<>();
         fxmls = new HashMap<>();
         errorFromServer="";
+        players=0;
     }
 
     public void initializationFXMLParameter() {
@@ -250,5 +252,13 @@ public class GUI extends Application implements UI {
 
     public GamePhases getGamePhase() {
         return gamePhase;
+    }
+
+    public int getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(int players) {
+        this.players = players;
     }
 }

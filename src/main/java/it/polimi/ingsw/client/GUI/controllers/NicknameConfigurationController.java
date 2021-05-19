@@ -51,6 +51,10 @@ public class NicknameConfigurationController implements Controller{
 
     @Override
     public void init() {
+
+        loginButton.setVisible(true);
+        loading.setVisible(false);
+
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
         }

@@ -56,6 +56,9 @@ public class InitialResourcesConfigurationController implements Controller {
             errorMessage.setText(gui.getErrorFromServer());
         }
 
+        confirm.setVisible(true);
+        loading.setVisible(false);
+
         resources = gui.getResources();
 
         if(resources == null || resources.isEmpty()){

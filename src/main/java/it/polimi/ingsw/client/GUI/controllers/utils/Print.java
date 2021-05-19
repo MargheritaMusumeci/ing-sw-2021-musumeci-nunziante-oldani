@@ -55,6 +55,7 @@ public class Print {
         }
         return new Image(String.valueOf(url));
     }
+
     public Color colorFromResource(Resource resource){
         switch(resource){
             case COIN : return Color.YELLOW;
@@ -76,4 +77,26 @@ public class Print {
         }
         return null;
     }
+
+
+    public Image togetherPopePosition() {
+        URL url = null;
+        try {
+            url = new File("src/main/resources/images/popeTrack/croce_nera.png").toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return new Image(String.valueOf(url));
+    }
+
+    public Image lorenzoPopePosition() {
+        URL url = null;
+        try {
+            url = new File("src/main/resources/images/popeTrack/croci.png").toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return new Image(String.valueOf(url));
+    }
+
 }

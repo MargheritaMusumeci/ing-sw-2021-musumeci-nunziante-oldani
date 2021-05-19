@@ -3,6 +3,7 @@ Musumeci:
 -modificare i circle del market in sphere
 - segnalino della croce troppo piccolo--> aumento le dimensioni dell'ImageView a 33-36
 
+-nella gui vanno fatti i controlli tipo chiedo di attivare la leader card giusta?
 
 - connessione al ping
 - wait until ack

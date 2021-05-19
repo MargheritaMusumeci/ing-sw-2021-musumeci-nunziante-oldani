@@ -218,5 +218,14 @@
          </children>
       </HBox>
       <ImageView fx:id="stockBox1" fitHeight="25.0" fitWidth="22.0" layoutX="274.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production1" fitHeight="143.0" fitWidth="83.0" layoutX="414.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production2" fitHeight="143.0" fitWidth="83.0" layoutX="414.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production3" fitHeight="143.0" fitWidth="83.0" layoutX="414.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production11" fitHeight="143.0" fitWidth="83.0" layoutX="512.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production21" fitHeight="143.0" fitWidth="83.0" layoutX="512.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production31" fitHeight="143.0" fitWidth="83.0" layoutX="512.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production12" fitHeight="143.0" fitWidth="83.0" layoutX="607.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production22" fitHeight="143.0" fitWidth="83.0" layoutX="607.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production32" fitHeight="143.0" fitWidth="83.0" layoutX="607.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

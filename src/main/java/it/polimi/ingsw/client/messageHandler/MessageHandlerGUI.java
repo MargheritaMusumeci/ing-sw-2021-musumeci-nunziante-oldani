@@ -84,7 +84,7 @@ public class MessageHandlerGUI extends MessageHandler {
         clientSocket.setView(message.getView());
         gui.setView(message.getView());
         gui.setGamePhase(GamePhases.STARTGAME);
-        gui.setOldScene(gui.getCurrentScene());
+        gui.setOldScene(gui.getScene(GUI.START_GAME));
         gui.setCurrentScene(gui.getScene(GUI.START_GAME));
         gui.changeScene();
 
@@ -109,8 +109,10 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
-
-        // clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
+        clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
+        if(gui.getGamePhase()==GamePhases.STARTGAME){
+            gui.changeScene();
+        }
     }
 
     @Override

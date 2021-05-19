@@ -8,6 +8,7 @@ import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import java.util.Scanner;
 
 public class ActiveLeaderCardPhase extends Phase {
+
     @Override
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);

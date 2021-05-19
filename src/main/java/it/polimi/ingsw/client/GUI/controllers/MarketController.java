@@ -93,6 +93,7 @@ public class MarketController implements Controller {
     public void init() {
 
         confirm.setVisible(true);
+        cancel.setVisible(true);
         initMarket();
     }
 
@@ -108,6 +109,7 @@ public class MarketController implements Controller {
     public void confirm(ActionEvent actionEvent) {
 
         confirm.setVisible(false);
+        cancel.setVisible(false);
 
         int position = -1;
         boolean row = false;
@@ -143,14 +145,16 @@ public class MarketController implements Controller {
 
         if (position == -1) {
             error.setText("Choose a row/col...");
+            confirm.setVisible(false);
+            cancel.setVisible(false);
+        } else {
+            gui.getClientSocket().send(new BuyFromMarketMessage("BUY", position, row));
+            gui.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage(""));
+            gui.setCurrentScene(gui.getScene(GUI.STORE_RESOURCES));
+            gui.setOldScene(gui.getScene(GUI.MARKET));
+            gui.setGamePhase(GamePhases.STORERESOURCES);
         }
-        gui.getClientSocket().send(new BuyFromMarketMessage("BUY", position, row));
-        gui.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage(""));
-        gui.setCurrentScene(gui.getScene(GUI.STORE_RESOURCES));
-        gui.setOldScene(gui.getScene(GUI.MARKET));
-        gui.setGamePhase(GamePhases.STORERESOURCES);
     }
-
     public void cancel(ActionEvent actionEvent) {
         gui.setCurrentScene(gui.getScene(GUI.START_GAME));
         gui.setOldScene(gui.getScene(GUI.START_GAME));
