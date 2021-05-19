@@ -21,6 +21,18 @@ public class Constants {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+    public static final String faith = "\u001b[31m●\u001b[0m";
+    public static final String servant = "\u001b[35m●\u001b[0m";
+    public static final String rock = "\u001b[37m●\u001b[0m";
+    public static final String coin = "\u001b[33m●\u001b[0m";
+    public static final String shield = "\u001b[34m●\u001b[0m";
+    public static final String nothing = "\u001b[0m●\u001b[0m";
+
+    public static final String blue = "\u001b[34m●\u001b[0m";
+    public static final String green = "\u001b[32m●\u001b[0m";
+    public static final String yellow = "\u001b[33m●\u001b[0m";
+    public static final String purple = "\u001b[35m●\u001b[0m";
+
     //example of usage
     // System.out.println(ANSI_RED + "This text is red!" + ANSI_RESET);
 }
