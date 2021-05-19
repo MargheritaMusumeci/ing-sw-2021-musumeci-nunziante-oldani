@@ -30,6 +30,22 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    /**
+     * Take the correct evolutionCard
+     * @param id of the card
+     * @return the image of the card
+     */
+    public Image fromPathToImageEvolution(int id){
+        URL url = null;
+        try {
+            String path = String.valueOf(id);
+            url = new File("src/main/resources/images/evolutionCards/" + path).toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return new Image(String.valueOf(url));
+    }
+
     public Image popePosition(){
         URL url = null;
         try {
