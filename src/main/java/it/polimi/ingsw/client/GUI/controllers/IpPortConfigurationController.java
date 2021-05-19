@@ -87,6 +87,9 @@ public class IpPortConfigurationController implements Controller{
     @Override
     public void init() {
 
+        connect.setVisible(true);
+        loading.setVisible(false);
+
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
         }

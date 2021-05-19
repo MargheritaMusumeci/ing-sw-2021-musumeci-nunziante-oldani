@@ -322,6 +322,7 @@ public class DoActionPlayerTest {
 
     /**
      * Need to verify the activation of a leader production zone
+     * Need to verify the activation of a base production zone -> only the activation
      */
     @Test
     public void testActiveProductionZone() {

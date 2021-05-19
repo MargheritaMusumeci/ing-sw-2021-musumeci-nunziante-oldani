@@ -22,15 +22,14 @@ public class EvolutionCard implements Card, Serializable {
     private boolean isActive;
 
     /**
-     *
+     * !!!!!!!!Need to initialize the id in the Json!!!!!!!!!!!
      * @param color represent the card color
      * @param level represent the card level
      * @param point represent the card point
      * @param cost  represent the card cost
      * @param requires array of resources required to activate the card in the order rock, shield, coins, servants
-     * @param products   array of the resource produced by the productioon in the order rock, shield, coins, servants, faith
+     * @param products   array of the resource produced by the production in the order rock, shield, coins, servants, faith
      */
-
     public EvolutionCard(CardColor color, LevelEnum level, int point,  HashMap<Resource, Integer> cost,
                          HashMap<Resource, Integer> requires, HashMap<Resource, Integer> products){
         this.color = color;
@@ -76,5 +75,7 @@ public class EvolutionCard implements Card, Serializable {
     public void setActive(boolean value){
         isActive = value;
     }
+
+    public int getId(){ return id; }
 
 }

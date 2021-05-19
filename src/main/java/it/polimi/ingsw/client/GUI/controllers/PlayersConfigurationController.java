@@ -49,6 +49,7 @@ public class PlayersConfigurationController implements Controller {
            gui.setOldScene(gui.getCurrentScene());
            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
            gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
+           gui.setPlayers(player);
            gui.getClientSocket().send(new NumberOfPlayerMessage(String.valueOf(player)));
         }
     }
@@ -60,6 +61,10 @@ public class PlayersConfigurationController implements Controller {
 
     @Override
     public void init() {
+
+        loginButton.setVisible(true);
+        loading.setVisible(false);
+
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
         }

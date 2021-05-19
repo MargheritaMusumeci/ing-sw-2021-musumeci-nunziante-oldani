@@ -3,22 +3,17 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
-import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+
 import javafx.scene.image.ImageView;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.model.game.Resource.COIN;
 import static it.polimi.ingsw.model.game.Resource.NOTHING;
 
 public class StoreResourcesController implements Controller {

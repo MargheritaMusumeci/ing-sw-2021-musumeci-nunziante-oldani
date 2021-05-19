@@ -38,7 +38,6 @@ public class GUI extends Application implements UI {
     private Scene currentScene;
     private Scene oldScene;
     private Stage currentStage;
-    private Stage marketStage;
     private final HashMap<String, Scene> scenes;
     private final HashMap<String, Controller> controllers;
     private final HashMap<Scene, GamePhases> phases;
@@ -54,6 +53,7 @@ public class GUI extends Application implements UI {
     private boolean isAckArrived;
     private boolean isNackArrived;
     private String errorFromServer;
+    private int players;
 
     public GUI() {
         gamePhase = GamePhases.IINITIALIZATION;
@@ -62,10 +62,11 @@ public class GUI extends Application implements UI {
         phases = new HashMap<>();
         fxmls = new HashMap<>();
         errorFromServer="";
+        players=0;
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME,MARKET,STORE_RESOURCES, PLAYERS, IP_PORT, LEADER_CARD, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME,MARKET,STORE_RESOURCES, PLAYERS, IP_PORT, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -249,11 +250,15 @@ public class GUI extends Application implements UI {
         this.view = view;
     }
 
-    public Stage getMarketStage() {
-        return marketStage;
+    public GamePhases getGamePhase() {
+        return gamePhase;
     }
 
-    public void setMarketStage(Stage marketStage) {
-        this.marketStage = marketStage;
+    public int getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(int players) {
+        this.players = players;
     }
 }

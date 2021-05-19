@@ -3,8 +3,13 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.DiscardLeaderCardMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.UseLeaderCardMessage;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -12,12 +17,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class ViewController implements Controller{
+
     private GUI gui;
     private Print printer;
+    private ArrayList<Integer> stockLeaderCardInUse;
+    private ArrayList<ImageView> popeTrackPositions;
 
     //market
     //riga 0
@@ -52,8 +63,8 @@ public class ViewController implements Controller{
     @FXML private VBox LeaderBox2;
     @FXML private Button active1;
     @FXML private Button active2;
-    @FXML private Button Use1;
-    @FXML private Button Use2;
+    @FXML private Button use1;
+    @FXML private Button use2;
     @FXML private Button discard1;
     @FXML private Button discard2;
     @FXML private Button market;
@@ -89,12 +100,43 @@ public class ViewController implements Controller{
     @FXML private ImageView popeCard2;
     @FXML private ImageView popeCard3;
 
+    //stock
+    @FXML private ImageView stockBox1;
+    @FXML private ImageView stockBox21;
+    @FXML private ImageView stockBox22;
+    @FXML private ImageView stockBox31;
+    @FXML private ImageView stockBox32;
+    @FXML private ImageView stockBox33;
+    @FXML private ImageView stockPlus11;
+    @FXML private ImageView stockPlus12;
+    @FXML private ImageView stockPlus21;
+    @FXML private ImageView stockPlus22;
+
+    //lockbox
+    @FXML private Text coinQuantity;
+    @FXML private Text shieldQuantity;
+    @FXML private Text rockQuantity;
+    @FXML private Text servantQuantity;
+
+    //produczion zones
+    @FXML private ImageView production1;
+    @FXML private ImageView production2;
+    @FXML private ImageView production3;
+    @FXML private ImageView production11;
+    @FXML private ImageView production21;
+    @FXML private ImageView production31;
+    @FXML private ImageView production12;
+    @FXML private ImageView production22;
+    @FXML private ImageView production33;
+
     public ViewController(){
         this.printer = new Print();
+        stockLeaderCardInUse= new ArrayList<>();
+        popeTrackPositions = new ArrayList<>(Arrays.asList(pos0,pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,pos10,pos11,pos12,pos13,pos14,pos15,pos16,pos17,pos18,pos19,pos20,pos21,pos22,pos23,pos24));
     }
+
     @FXML
     private void showMarket(){
-
         gui.setCurrentScene(gui.getScene(GUI.MARKET));
         gui.setOldScene(gui.getScene(GUI.START_GAME));
         gui.setGamePhase(GamePhases.BUYFROMMARKET);
@@ -114,19 +156,19 @@ public class ViewController implements Controller{
             if(leaderCards.get(0).isActive()){
                 discard1.setVisible(false);
                 active1.setVisible(false);
-                Use1.setVisible(true);
+                use1.setVisible(true);
             }
 
-            if(leaderCards.size()>1){
+            if(leaderCards.size()>1) {
                 path = String.valueOf(leaderCards.get(1).getId());
                 leader2.setImage(printer.fromPathToImageLeader(path));
                 leader2.setCache(true);
-            }
 
-            if(leaderCards.get(1).isActive()){
-                discard1.setVisible(false);
-                active1.setVisible(false);
-                Use1.setVisible(true);
+                if (leaderCards.get(1).isActive()) {
+                    discard1.setVisible(false);
+                    active1.setVisible(false);
+                    use1.setVisible(true);
+                }
             }
         }
     }
@@ -162,115 +204,204 @@ public class ViewController implements Controller{
 
     private void initPopeTrack(){
 
+        for (ImageView image:popeTrackPositions) {
+            image.setImage(null);
+        }
+
         int position = gui.getView().getDashboard().getSerializablePopeTack().getPosition();
-        //come dico che è un solo gae?
-        /*
-        if(gui.getView().){
-            lorenzoPosition=gui.getView().getDashboard().getSerializablePopeTack().getLorenzoPosition();
+
+        if(gui.getPlayers()==1){
+            int lorenzoPosition = gui.getView().getDashboard().getSerializablePopeTack().getLorenzoPosition();
+            if(position==lorenzoPosition){
+                popeTrackPositions.get(lorenzoPosition).setImage(printer.togetherPopePosition());
+            }
+            popeTrackPositions.get(lorenzoPosition).setImage(printer.lorenzoPopePosition());
         }
-         */
-        switch (position) {
-            case 0: {
-                pos0.setImage(printer.popePosition());
-                break;
+        popeTrackPositions.get(position).setImage(printer.popePosition());
+    }
+
+    private void initStock() {
+
+        Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
+
+        if (box1[0] != null) {
+            String path = printer.pathFromResource(box1[0]);
+            stockBox1.setImage(printer.fromPathToImageResource(path));
+        }
+
+        Resource[] box2 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(1);
+
+        if (box2[0] != null) {
+            String path = printer.pathFromResource(box2[0]);
+            stockBox21.setImage(printer.fromPathToImageResource(path));
+        }
+        if (box2[1] != null) {
+            String path = printer.pathFromResource(box2[1]);
+            stockBox22.setImage(printer.fromPathToImageResource(path));
+        }
+
+        Resource[] box3 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(2);
+
+        if (box3[0] != null) {
+            String path = printer.pathFromResource(box3[0]);
+            stockBox31.setImage(printer.fromPathToImageResource(path));
+        }
+        if (box3[1] != null) {
+            String path = printer.pathFromResource(box3[1]);
+            stockBox32.setImage(printer.fromPathToImageResource(path));
+        }
+        if (box3[2] != null) {
+            String path = printer.pathFromResource(box3[3]);
+            stockBox33.setImage(printer.fromPathToImageResource(path));
+        }
+
+        if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
+            int leaderPosition = stockLeaderCardInUse.get(0);
+
+            //Resource resource = gui.getView().getDashboard().getSerializableStock().getResourcesPlus().get(0);
+
+            //devo controllare che in una data carta leader posso mettere effettivamente la risorsa ?
+
+            if (leaderPosition == 1) {
+                //devo mettere le risorse dello stockbox plus sulla prima leader card
+                if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
+                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
+                        String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                        stockPlus11.setImage(printer.fromPathToImageResource(path));
+                    }
+                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
+                        String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                        stockPlus21.setImage(printer.fromPathToImageResource(path));
+                    }
+                } else {
+                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
+                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
+                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                            stockPlus11.setImage(printer.fromPathToImageResource(path));
+                        }
+                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
+                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                            stockPlus22.setImage(printer.fromPathToImageResource(path));
+                        }
+                    }
+                }
             }
-            case 1: {
-                pos1.setImage(printer.popePosition());
-                break;
+            if (stockLeaderCardInUse.size() > 1) {
+                leaderPosition = stockLeaderCardInUse.get(1);
+
+                if (leaderPosition == 1) {
+                    //devo mettere le risorse dello stockbox plus sulla prima leader card
+                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
+                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
+                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                            stockPlus11.setImage(printer.fromPathToImageResource(path));
+                        }
+                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
+                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                            stockPlus21.setImage(printer.fromPathToImageResource(path));
+                        }
+                    } else {
+                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
+                            if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
+                                String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                                stockPlus11.setImage(printer.fromPathToImageResource(path));
+                            }
+                            if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
+                                String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
+                                stockPlus22.setImage(printer.fromPathToImageResource(path));
+                            }
+                        }
+                    }
+                }
             }
-            case 2: {
-                pos2.setImage(printer.popePosition());
-                break;
-            }
-            case 3: {
-                pos3.setImage(printer.popePosition());
-            }
-            case 4: {
-                pos4.setImage(printer.popePosition());
-            }
-            case 5: {
-                pos5.setImage(printer.popePosition());
-                break;
-            }
-            case 6: {
-                pos6.setImage(printer.popePosition());
-                break;
-            }
-            case 7: {
-                pos7.setImage(printer.popePosition());
-                break;
-            }
-            case 8: {
-                pos8.setImage(printer.popePosition());
-                break;
-            }
-            case 9: {
-                pos9.setImage(printer.popePosition());
-                break;
-            }
-            case 10: {
-                pos10.setImage(printer.popePosition());
-                break;
-            }
-            case 11: {
-                pos11.setImage(printer.popePosition());
-                break;
-            }
-            case 12: {
-                pos12.setImage(printer.popePosition());
-                break;
-            }
-            case 13: {
-                pos13.setImage(printer.popePosition());
-                break;
-            }
-            case 14: {
-                pos14.setImage(printer.popePosition());
-                break;
-            }
-            case 15: {
-                pos15.setImage(printer.popePosition());
-                break;
-            }
-            case 16: {
-                pos16.setImage(printer.popePosition());
-                break;
-            }
-            case 17: {
-                pos17.setImage(printer.popePosition());
-                break;
-            }
-            case 18: {
-                pos18.setImage(printer.popePosition());
-                break;
-            }
-            case 19: {
-                pos19.setImage(printer.popePosition());
-                break;
-            }
-            case 20: {
-                pos20.setImage(printer.popePosition());
-                break;
-            }
-            case 21: {
-                pos21.setImage(printer.popePosition());
-                break;
-            }
-            case 22: {
-                pos22.setImage(printer.popePosition());
-                break;
-            }
-            case 23: {
-                pos23.setImage(printer.popePosition());
-                break;
-            }
-            case 24: {
-                pos24.setImage(printer.popePosition());
-                break;
-            }
+        }
+    }
+
+    private void initLockBox(){
+        HashMap<Resource,Integer> lockbox = gui.getView().getDashboard().getSerializableLockBox().getResources();
+        coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
+        shieldQuantity.setText(String.valueOf(lockbox.get(Resource.SHIELD)));
+        servantQuantity.setText(String.valueOf(lockbox.get(Resource.SERVANT)));
+        rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
+    }
 
 
+    public void useLeader(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
+
+        if(button.equals(use1)){
+            gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 0));
+
+        }else{
+            if (gui.getView().getLeaderCards().size()==1){
+                gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 0));
+            }else {
+                gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 1));
+            }
         }
+    }
+
+    //controllare che effettivamente si possa attivare
+    //lo faccio con il nack
+
+    public void activeLeader(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
+
+        if(button.equals(active1)){
+            active1.setVisible(false);
+            discard1.setVisible(false);
+            use1.setVisible(true);
+            gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
+
+            if(gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                stockLeaderCardInUse.add(1);
+                use1.setVisible(false);
+            }
+
+        }else{
+            active2.setVisible(false);
+            discard2.setVisible(false);
+            use2.setVisible(false);
+            if (gui.getView().getLeaderCards().size()==1){
+                gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
+                if(gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                    stockLeaderCardInUse.add(2);
+                    use2.setVisible(false);
+                }
+            }else {
+                gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
+                if(gui.getClientSocket().getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                    stockLeaderCardInUse.add(2);
+                    use1.setVisible(false);
+                }
+            }
+
+        }
+    }
+
+    public void discardLeader(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
+
+        if(button.equals(discard1)){
+            active1.setVisible(false);
+            discard1.setVisible(false);
+            leader1.setVisible(false);
+            gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 0));
+
+        }else{
+            active2.setVisible(false);
+            discard2.setVisible(false);
+            leader2.setVisible(false);
+            if (gui.getView().getLeaderCards().size()==1){
+                gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 0));
+            }else {
+                gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 1));
+            }
+        }
+    }
+
+    private void initProductionZone(){
+
     }
 
     @Override
@@ -284,6 +415,9 @@ public class ViewController implements Controller{
         initMarket();
         initLeaderCards();
         initInkwell();
-
+        initPopeTrack();
+        initLockBox();
+        initStock();
+        initProductionZone();
     }
 }

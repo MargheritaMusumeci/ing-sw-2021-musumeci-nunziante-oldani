@@ -54,6 +54,9 @@ public class LeaderCardsConfigurationController implements Controller{
         LeaderConfirmation.setVisible(true);
         loading.setVisible(false);
 
+        LeaderConfirmation.setVisible(true);
+        loading.setVisible(false);
+
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             errorLabel.setText(gui.getErrorFromServer());
         }
