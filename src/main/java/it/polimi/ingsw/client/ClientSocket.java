@@ -87,7 +87,7 @@ public class ClientSocket implements Runnable{
             try {
                 Message input = (Message) inputStream.readObject();
                 if(! (input instanceof PingMessage)){
-                    System.out.println("Messaggio letto: " + input.getMessage());
+                    //System.out.println("Messaggio letto: " + input.getMessage());
                     ((ServerMessage) input).handle(messageHandler);
                 }else{
                     send(new PingMessage("Ping response"));
