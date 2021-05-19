@@ -10,6 +10,13 @@ public class LockBox extends LockBoxObservable {
     private int rock;
     private int shield;
 
+
+    public LockBox(){
+        coin =0;
+        servant=0;
+        shield=0;
+        rock=0;
+    }
     /**
      * Return the amount of coins in the LockBox
      * @return

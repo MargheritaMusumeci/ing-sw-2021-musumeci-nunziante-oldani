@@ -33,7 +33,7 @@ public class Print {
     public Image popePosition(){
         URL url = null;
         try {
-            url = new File(" src/main/resources/images/popeTrack/croce.png").toURI().toURL();
+            url = new File("src/main/resources/images/popeTrack/croce_giocatore.png").toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

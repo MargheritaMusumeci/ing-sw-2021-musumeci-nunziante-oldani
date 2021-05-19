@@ -12,8 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ViewController implements Controller{
     private GUI gui;
@@ -89,12 +91,26 @@ public class ViewController implements Controller{
     @FXML private ImageView popeCard2;
     @FXML private ImageView popeCard3;
 
+    //stock
+    @FXML private ImageView stockBox1;
+    @FXML private ImageView stockBox21;
+    @FXML private ImageView stockBox22;
+    @FXML private ImageView stockBox31;
+    @FXML private ImageView stockBox32;
+    @FXML private ImageView stockBox33;
+
+    //lockbox
+    @FXML private Text coinQuantity;
+    @FXML private Text shieldQuantity;
+    @FXML private Text rockQuantity;
+    @FXML private Text servantQuantity;
+
     public ViewController(){
         this.printer = new Print();
     }
+
     @FXML
     private void showMarket(){
-
         gui.setCurrentScene(gui.getScene(GUI.MARKET));
         gui.setOldScene(gui.getScene(GUI.START_GAME));
         gui.setGamePhase(GamePhases.BUYFROMMARKET);
@@ -163,6 +179,7 @@ public class ViewController implements Controller{
     private void initPopeTrack(){
 
         int position = gui.getView().getDashboard().getSerializablePopeTack().getPosition();
+        System.out.println(position);
         //come dico che è un solo gae?
         /*
         if(gui.getView().){
@@ -273,6 +290,50 @@ public class ViewController implements Controller{
         }
     }
 
+    private void initStock(){
+
+        Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
+
+        if(box1[0]!=null){
+            String path = printer.pathFromResource(box1[0]);
+            stockBox1.setImage(printer.fromPathToImageResource(path));
+        }
+
+        Resource[] box2 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(1);
+
+        if(box2[0]!=null){
+            String path = printer.pathFromResource(box2[0]);
+            stockBox21.setImage(printer.fromPathToImageResource(path));
+        }
+        if(box2[1]!=null){
+            String path = printer.pathFromResource(box2[1]);
+            stockBox22.setImage(printer.fromPathToImageResource(path));
+        }
+
+        Resource[] box3 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(2);
+
+        if(box3[0]!=null){
+            String path = printer.pathFromResource(box3[0]);
+            stockBox31.setImage(printer.fromPathToImageResource(path));
+        }
+        if(box3[1]!=null){
+            String path = printer.pathFromResource(box3[1]);
+            stockBox32.setImage(printer.fromPathToImageResource(path));
+        }
+        if(box3[2]!=null){
+            String path = printer.pathFromResource(box3[3]);
+            stockBox33.setImage(printer.fromPathToImageResource(path));
+        }
+    }
+
+    private void initLockBox(){
+        HashMap<Resource,Integer> lockbox = gui.getView().getDashboard().getSerializableLockBox().getResources();
+        coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
+        shieldQuantity.setText(String.valueOf(lockbox.get(Resource.SHIELD)));
+        servantQuantity.setText(String.valueOf(lockbox.get(Resource.SERVANT)));
+        rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
+    }
+
     @Override
     public void setGui(GUI gui) {
         this.gui=gui;
@@ -284,6 +345,8 @@ public class ViewController implements Controller{
         initMarket();
         initLeaderCards();
         initInkwell();
-
+        initPopeTrack();
+        initLockBox();
+        initStock();
     }
 }

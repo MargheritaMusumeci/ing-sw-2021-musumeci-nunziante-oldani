@@ -58,10 +58,6 @@ public class MessageHandlerGUI extends MessageHandler {
 
         synchronized (gui) {
             gui.setLeaderCards(message.getLeaderCards());
-            System.out.println(gui.getLeaderCards().get(0).getId());
-            System.out.println(gui.getLeaderCards().get(1).getId());
-            System.out.println(gui.getLeaderCards().get(2).getId());
-            System.out.println(gui.getLeaderCards().get(3).getId());
             gui.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
             gui.setOldScene(gui.getCurrentScene());
             gui.setCurrentScene(gui.getScene(GUI.LEADER_CARD));
@@ -119,8 +115,10 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleUpdateMessage(UpdateDashBoardMessage message) {
-
-        //clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
+        clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
+        if(gui.getGamePhase()==GamePhases.STARTGAME){
+            gui.changeScene();
+        }
     }
 
     @Override
@@ -142,12 +140,14 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleUpdateMessage(UpdateEvolutionSectionMessage message) {
-
-        // clientSocket.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
+        //clientSocket.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
     }
 
     @Override
     public void handleUpdateMessage(UpdateMarketMessage message) {
         clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
+        if(gui.getGamePhase()==GamePhases.STARTGAME){
+            gui.changeScene();
+        }
     }
 }

@@ -1,11 +1,11 @@
 Musumeci:
 
+-modificare i circle del market in sphere
+- segnalino della croce troppo piccolo--> aumento le dimensioni dell'ImageView a 33-36
+
+
 - connessione al ping
 - wait until ack
-
-- controllare e sistemare il test Active Basic Production
-- do tests Do action --> catch exception
-- iniziare gui in parallelo alla cli
 
 ???? creo i giocatori --> creo il gioco --> assegno il gioco ai giocatori
 ???? abbiamo controllato che l'inkwell lo abbia solo un giocatore
