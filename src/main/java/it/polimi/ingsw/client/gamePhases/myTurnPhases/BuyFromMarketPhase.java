@@ -1,14 +1,19 @@
 package it.polimi.ingsw.client.gamePhases.myTurnPhases;
 
+
 import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.CLI.componentPrinter.ResourcesBoughtPrinter;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BuyFromMarketPhase extends Phase {
@@ -18,16 +23,26 @@ public class BuyFromMarketPhase extends Phase {
         cli.printMarket();
         int scelta = 0;
         do {
-            System.out.println("Inserire 1 per scegliere una riga o 2 per scelgiere una colonna:");
-            System.out.print(">");
+            System.out.print(Constants.ANSI_CYAN + "Type 1 to pick a row or 2 for a column: " + Constants.ANSI_RESET);
+            try{
+                scelta = scanner.nextInt();
+            }catch (InputMismatchException e){
+                scelta = 6;
+                scanner.nextLine();
+            }
 
-            scelta = scanner.nextInt();
 
             if(scelta == 1){
                 int row = 0;
                 do{
-                    System.out.println("Inserire la riga che si vuole acquistare: (0,1,2)");
-                    row = scanner.nextInt();
+                    System.out.print(Constants.ANSI_CYAN + "Insert the row that you want to buy (0,1,2): " + Constants.ANSI_RESET);
+                    try{
+                        row = scanner.nextInt();
+                    }catch (InputMismatchException e){
+                        row = 6;
+                        scanner.nextLine();
+                    }
+
                 }while (row <0 || row > 2);
 
                 cli.getClientSocket().send(new BuyFromMarketMessage("buy from market", row, true));
@@ -36,31 +51,35 @@ public class BuyFromMarketPhase extends Phase {
             if(scelta == 2){
                 int col = 0;
                 do{
-                    System.out.println("Inserire la colonna che si vuole acquistare: (0,1,2,3)");
-                    col = scanner.nextInt();
+                    System.out.print(Constants.ANSI_CYAN + "Insert the columns that you want to buy (0,1,2,3): " + Constants.ANSI_RESET);
+                    try{
+                        col = scanner.nextInt();
+                    }catch (InputMismatchException e){
+                        col = 6;
+                        scanner.nextLine();
+                    }
                 }while (col <0 || col > 3);
 
                 cli.getClientSocket().send(new BuyFromMarketMessage("buy from market", col, false));
             }
         }while (scelta != 1 && scelta != 2);
 
-        System.out.println("Message sent");
+        //System.out.println("Message sent");
         //Resources bought, waiting for ack/nack
         synchronized (this){
             try {
                 wait();
-                System.out.println("I've been woke up");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
         if(cli.isAckArrived()){
-            System.out.println("Risosrse dal mercato prese in modo corretto");
+            //System.out.println("Risosrse dal mercato prese in modo corretto");
             cli.setIsAckArrived(false);
             cli.setActionBeenDone(true);
         }else{
-            System.out.println("Errore durante l'acquisto delle risorse");
+            System.out.println(Constants.ANSI_RED + "Error while buying the resources from market!" + Constants.ANSI_RESET);
             cli.setIsNackArrived(false);
         }
 
@@ -69,7 +88,7 @@ public class BuyFromMarketPhase extends Phase {
 
         synchronized (this){
             try {
-                System.out.println("Waiting for resources bought");
+                //System.out.println("Waiting for resources bought");
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -87,6 +106,7 @@ public class BuyFromMarketPhase extends Phase {
         //erano tutto nulle
         if(countNotnull == 0){
             cli.getClientSocket().send(new StoreResourcesMessage("salva risorse", cli.getClientSocket().getView().getResourcesBoughtFromMarker()));
+            System.out.println(Constants.ANSI_GREEN + "You have bought only white resources" + Constants.ANSI_RESET);
             cli.setGamePhase(new MyTurnPhase());
             new Thread(cli).start();
             return;
@@ -95,21 +115,24 @@ public class BuyFromMarketPhase extends Phase {
 
         do{
             //stampo le risorse ottenute
-            int i =0;
-            System.out.println("seleziona le risorse da inserire nello stock, -1 per terminare e 5 per sceglierle tutte");
-            for (Resource resource: cli.getClientSocket().getView().getResourcesBoughtFromMarker()){
-                System.out.println(i + ") "+resource);
-                i++;
-            }
+            ResourcesBoughtPrinter.print(cli.getClientSocket().getView().getResourcesBoughtFromMarker());
+            System.out.println(Constants.ANSI_CYAN + "Choose the resources that you want to save in your stock. " +
+                    "You can type 5 to save all the resources or -1 when you have finished." + Constants.ANSI_RESET);
+
             ArrayList<Integer> positions = new ArrayList<>();
             int positionSelected;
 
             do{
-                positionSelected = scanner.nextInt();
+                System.out.print(Constants.ANSI_CYAN + "> ");
+                try{
+                    positionSelected = scanner.nextInt();
+                }catch (InputMismatchException e){
+                    positionSelected = 6;
+                    scanner.nextLine();
+                }
                 if(positionSelected >= 0 &&
                         positionSelected < cli.getClientSocket().getView().getResourcesBoughtFromMarker().size() &&
                         !positions.contains(positionSelected)){
-                    System.out.println("prova if");
                     positions.add(positionSelected);
                 }else{
                     if(positionSelected == 5){
@@ -118,6 +141,9 @@ public class BuyFromMarketPhase extends Phase {
                             positions.add(j);
                         }
                         break;
+                    }else{
+                        if(positionSelected != -1)
+                            System.out.println(Constants.ANSI_RED + "Error! The resources that you have chosen doesn't exist!" + Constants.ANSI_RESET);
                     }
                 }
             }while(positionSelected != -1);
@@ -136,6 +162,8 @@ public class BuyFromMarketPhase extends Phase {
                 }
             }
         }while(!cli.isAckArrived());
+
+        System.out.println(Constants.ANSI_GREEN + "Resources correctly saved in stock! \n\n" + Constants.ANSI_RESET);
 
         cli.setIsAckArrived(false);
         cli.setIsNackArrived(false);

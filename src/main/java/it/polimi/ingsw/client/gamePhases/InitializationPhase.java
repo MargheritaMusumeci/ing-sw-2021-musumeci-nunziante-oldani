@@ -4,9 +4,11 @@ import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.UI;
+import it.polimi.ingsw.utils.Constants;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InitializationPhase extends Phase{
@@ -19,16 +21,27 @@ public class InitializationPhase extends Phase{
 
         cli.printTitle();
 
-        System.out.print("Enter the ip address of the Server: ");
+        System.out.print(Constants.ANSI_CYAN + "Enter the ip address of the Server: " + Constants.ANSI_RESET);
         address = scanner.next();
 
-        System.out.print("Enter the port: ");
-        port = scanner.nextInt();
+        System.out.print(Constants.ANSI_CYAN + "Enter the port: " + Constants.ANSI_RESET);
+
+        try{
+            port = scanner.nextInt();
+        }catch (InputMismatchException e){
+            port = 6;
+            scanner.nextLine();
+        }
 
         while(port < 1025 || port > 65535){
-            System.out.println("Invalid port number. Pick a porta in range 1025-65535");
-            System.out.print("Enter the port: ");
-            port = scanner.nextInt();
+            System.out.println(Constants.ANSI_RED + "Invalid port number. Pick a porta in range 1025-65535" + Constants.ANSI_RESET);
+            System.out.print(Constants.ANSI_CYAN + "Enter the port: " + Constants.ANSI_RESET);
+            try{
+                port = scanner.nextInt();
+            }catch (InputMismatchException e){
+                port = 6;
+                scanner.nextLine();
+            }
         }
 
         try {
@@ -36,8 +49,8 @@ public class InitializationPhase extends Phase{
             cli.setClientSocket(new ClientSocket(cli, cli.getSocket()));
         } catch (IOException e) {
             cli.setClientSocket(null);
-            System.out.println("There was a problem with the server. Please chek if the ip address and port number" +
-                    "are correct and if the server is up and running ");
+            System.out.println(Constants.ANSI_RED + "There was a problem with the server. Please chek if the ip address and port number" +
+                    "are correct and if the server is up and running " + Constants.ANSI_RESET);
             //probabilemte qui c'è un errore con il server (o con i dati inseriti ip/port)
         }
 
