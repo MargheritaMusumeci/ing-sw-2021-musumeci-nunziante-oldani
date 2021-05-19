@@ -30,6 +30,15 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    public Image popePosition(){
+        URL url = null;
+        try {
+            url = new File(" src/main/resources/images/popeTrack/croce.png").toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return new Image(String.valueOf(url));
+    }
     public Color colorFromResource(Resource resource){
         switch(resource){
             case COIN : return Color.YELLOW;

@@ -12,10 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import javafx.scene.paint.Color;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.util.ArrayList;
 
 public class ViewController implements Controller{
@@ -47,6 +44,8 @@ public class ViewController implements Controller{
     @FXML private HBox Market;
     @FXML private Circle external;
 
+
+    //leader card
     @FXML private ImageView leader1;
     @FXML private ImageView leader2;
     @FXML private VBox LeaderBox1;
@@ -58,6 +57,37 @@ public class ViewController implements Controller{
     @FXML private Button discard1;
     @FXML private Button discard2;
     @FXML private Button market;
+    @FXML private ImageView inkwell;
+
+    //popeTrack
+    @FXML private ImageView pos0;
+    @FXML private ImageView pos1;
+    @FXML private ImageView pos2;
+    @FXML private ImageView pos3;
+    @FXML private ImageView pos4;
+    @FXML private ImageView pos5;
+    @FXML private ImageView pos6;
+    @FXML private ImageView pos7;
+    @FXML private ImageView pos8;
+    @FXML private ImageView pos9;
+    @FXML private ImageView pos10;
+    @FXML private ImageView pos11;
+    @FXML private ImageView pos12;
+    @FXML private ImageView pos13;
+    @FXML private ImageView pos14;
+    @FXML private ImageView pos15;
+    @FXML private ImageView pos16;
+    @FXML private ImageView pos17;
+    @FXML private ImageView pos18;
+    @FXML private ImageView pos19;
+    @FXML private ImageView pos20;
+    @FXML private ImageView pos21;
+    @FXML private ImageView pos22;
+    @FXML private ImageView pos23;
+    @FXML private ImageView pos24;
+    @FXML private ImageView popeCard1;
+    @FXML private ImageView popeCard2;
+    @FXML private ImageView popeCard3;
 
     public ViewController(){
         this.printer = new Print();
@@ -124,6 +154,125 @@ public class ViewController implements Controller{
         external.setFill(printer.colorFromResource(gui.getView().getMarket().getExternalResource()));
     }
 
+    private void initInkwell(){
+        if(gui.getView().getDashboard().isInkwell()){
+            inkwell.setVisible(true);
+        }
+    }
+
+    private void initPopeTrack(){
+
+        int position = gui.getView().getDashboard().getSerializablePopeTack().getPosition();
+        //come dico che è un solo gae?
+        /*
+        if(gui.getView().){
+            lorenzoPosition=gui.getView().getDashboard().getSerializablePopeTack().getLorenzoPosition();
+        }
+         */
+        switch (position) {
+            case 0: {
+                pos0.setImage(printer.popePosition());
+                break;
+            }
+            case 1: {
+                pos1.setImage(printer.popePosition());
+                break;
+            }
+            case 2: {
+                pos2.setImage(printer.popePosition());
+                break;
+            }
+            case 3: {
+                pos3.setImage(printer.popePosition());
+            }
+            case 4: {
+                pos4.setImage(printer.popePosition());
+            }
+            case 5: {
+                pos5.setImage(printer.popePosition());
+                break;
+            }
+            case 6: {
+                pos6.setImage(printer.popePosition());
+                break;
+            }
+            case 7: {
+                pos7.setImage(printer.popePosition());
+                break;
+            }
+            case 8: {
+                pos8.setImage(printer.popePosition());
+                break;
+            }
+            case 9: {
+                pos9.setImage(printer.popePosition());
+                break;
+            }
+            case 10: {
+                pos10.setImage(printer.popePosition());
+                break;
+            }
+            case 11: {
+                pos11.setImage(printer.popePosition());
+                break;
+            }
+            case 12: {
+                pos12.setImage(printer.popePosition());
+                break;
+            }
+            case 13: {
+                pos13.setImage(printer.popePosition());
+                break;
+            }
+            case 14: {
+                pos14.setImage(printer.popePosition());
+                break;
+            }
+            case 15: {
+                pos15.setImage(printer.popePosition());
+                break;
+            }
+            case 16: {
+                pos16.setImage(printer.popePosition());
+                break;
+            }
+            case 17: {
+                pos17.setImage(printer.popePosition());
+                break;
+            }
+            case 18: {
+                pos18.setImage(printer.popePosition());
+                break;
+            }
+            case 19: {
+                pos19.setImage(printer.popePosition());
+                break;
+            }
+            case 20: {
+                pos20.setImage(printer.popePosition());
+                break;
+            }
+            case 21: {
+                pos21.setImage(printer.popePosition());
+                break;
+            }
+            case 22: {
+                pos22.setImage(printer.popePosition());
+                break;
+            }
+            case 23: {
+                pos23.setImage(printer.popePosition());
+                break;
+            }
+            case 24: {
+                pos24.setImage(printer.popePosition());
+                break;
+            }
+
+
+        }
+    }
+
     @Override
     public void setGui(GUI gui) {
         this.gui=gui;
@@ -134,6 +283,7 @@ public class ViewController implements Controller{
 
         initMarket();
         initLeaderCards();
+        initInkwell();
 
     }
 }
