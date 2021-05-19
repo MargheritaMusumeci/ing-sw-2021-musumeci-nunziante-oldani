@@ -15,6 +15,7 @@ import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.Initial
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
+import it.polimi.ingsw.utils.Constants;
 
 public class MessageHandlerCLI extends MessageHandler{
 
@@ -35,6 +36,7 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(NACKMessage message) {
+        System.out.println(Constants.ANSI_RED + message.getMessage() + Constants.ANSI_RESET);
         cli.setIsNackArrived(true);
 
         synchronized (cli.getGamePhase()){
