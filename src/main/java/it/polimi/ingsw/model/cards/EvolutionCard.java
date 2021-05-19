@@ -8,6 +8,10 @@ import java.util.HashMap;
 
 public class EvolutionCard implements Card, Serializable {
 
+    /**
+     * unique id for every leader card
+     */
+    private int id;
     private CardColor color;
     private LevelEnum level;
     private HashMap<Resource, Integer> cost;

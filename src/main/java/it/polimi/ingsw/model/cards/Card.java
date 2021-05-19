@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.game.Resource;
 import java.util.HashMap;
 
 public interface Card {
+
      int point = 0;
      HashMap<Resource, Integer> requires = null;
      HashMap<Resource, Integer> products = null;

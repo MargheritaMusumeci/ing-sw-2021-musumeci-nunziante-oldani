@@ -1,5 +1,6 @@
 [
   {
+    "id":1,
     "color": 1,
     "level": 3,
     "point": 9,
@@ -25,6 +26,7 @@
     "isActive" : false
   },
   {
+    "id":2,
     "color": 1,
     "level": 3,
     "point": 10,
@@ -50,6 +52,7 @@
     "isActive" : false
   },
   {
+    "id":3,
     "color": 1,
     "level": 3,
     "point": 11,
@@ -75,6 +78,7 @@
     "isActive" : false
   },
   {
+    "id":4,
     "color": 1,
     "level": 3,
     "point": 12,
@@ -100,6 +104,7 @@
     "isActive" : false
   },
   {
+    "id": 5,
     "color": 3,
     "level": 3,
     "point": 9,
@@ -125,6 +130,7 @@
     "isActive" : false
   },
   {
+    "id":6,
     "color": 3,
     "level": 3,
     "point": 10,
@@ -150,6 +156,7 @@
     "isActive" : false
   },
   {
+    "id":7,
     "color": 3,
     "level": 3,
     "point": 11,
@@ -175,6 +182,7 @@
     "isActive" : false
   },
   {
+    "id":8,
     "color": 3,
     "level": 3,
     "point": 12,
@@ -200,6 +208,7 @@
     "isActive" : false
   },
   {
+    "id":9,
     "color": 2,
     "level": 3,
     "point": 9,
@@ -225,6 +234,7 @@
     "isActive" : false
   },
   {
+    "id":10,
     "color": 2,
     "level": 3,
     "point": 10,
@@ -250,6 +260,7 @@
     "isActive" : false
   },
   {
+    "id":11,
     "color": 2,
     "level": 3,
     "point": 11,
@@ -275,6 +286,7 @@
     "isActive" : false
   },
   {
+    "id":12,
     "color": 2,
     "level": 3,
     "point": 12,
@@ -300,6 +312,7 @@
     "isActive" : false
   },
   {
+    "id":13,
     "color": 4,
     "level": 3,
     "point": 9,
@@ -325,6 +338,7 @@
     "isActive" : false
   },
   {
+    "id":14,
     "color": 4,
     "level": 3,
     "point": 10,
@@ -350,6 +364,7 @@
     "isActive" : false
   },
   {
+    "id":15,
     "color": 4,
     "level": 3,
     "point": 11,
@@ -375,6 +390,7 @@
     "isActive" : false
   },
   {
+    "id":16,
     "color": 4,
     "level": 3,
     "point": 12,
@@ -400,6 +416,7 @@
     "isActive" : false
   },
   {
+    "id":17,
     "color": 1,
     "level": 2,
     "point": 5,
@@ -425,6 +442,7 @@
     "isActive" : false
   },
   {
+    "id":18,
     "color": 1,
     "level": 2,
     "point": 6,
@@ -450,6 +468,7 @@
     "isActive" : false
   },
   {
+    "id":19,
     "color": 1,
     "level": 2,
     "point": 7,
@@ -475,6 +494,7 @@
     "isActive" : false
   },
   {
+    "id":20,
     "color": 1,
     "level": 2,
     "point": 8,
@@ -500,6 +520,7 @@
     "isActive" : false
   },
   {
+    "id":21,
     "color": 3,
     "level": 2,
     "point": 5,
@@ -525,6 +546,7 @@
     "isActive" : false
   },
   {
+    "id":22,
     "color": 3,
     "level": 2,
     "point": 6,
@@ -550,6 +572,7 @@
     "isActive" : false
   },
   {
+    "id":23,
     "color": 3,
     "level": 2,
     "point": 7,
@@ -575,6 +598,7 @@
     "isActive" : false
   },
   {
+    "id":24,
     "color": 3,
     "level": 2,
     "point": 8,
@@ -600,6 +624,7 @@
     "isActive" : false
   },
   {
+    "id":25,
     "color": 2,
     "level": 2,
     "point": 5,
@@ -625,6 +650,7 @@
     "isActive" : false
   },
   {
+    "id":26,
     "color": 2,
     "level": 2,
     "point": 6,
@@ -650,6 +676,7 @@
     "isActive" : false
   },
   {
+    "id":27,
     "color": 2,
     "level": 2,
     "point": 7,
@@ -675,6 +702,7 @@
     "isActive" : false
   },
   {
+    "id":28,
     "color": 2,
     "level": 2,
     "point": 8,
@@ -700,6 +728,7 @@
     "isActive" : false
   },
   {
+    "id":29,
     "color": 4,
     "level": 2,
     "point": 5,
@@ -725,6 +754,7 @@
     "isActive" : false
   },
   {
+    "id":30,
     "color": 4,
     "level": 2,
     "point": 6,
@@ -750,6 +780,7 @@
     "isActive" : false
   },
   {
+    "id":31,
     "color": 4,
     "level": 2,
     "point": 7,
@@ -775,6 +806,7 @@
     "isActive" : false
   },
   {
+    "id":32,
     "color": 4,
     "level": 2,
     "point": 8,
@@ -800,6 +832,7 @@
     "isActive" : false
   },
   {
+    "id":33,
     "color": 1,
     "level": 1,
     "point": 1,
@@ -825,6 +858,7 @@
     "isActive" : false
   },
   {
+    "id":34,
     "color": 1,
     "level": 1,
     "point": 2,
@@ -850,6 +884,7 @@
     "isActive" : false
   },
   {
+    "id":35,
     "color": 1,
     "level": 1,
     "point": 3,
@@ -875,6 +910,7 @@
     "isActive" : false
   },
   {
+    "id":36,
     "color": 1,
     "level": 1,
     "point": 4,
@@ -900,6 +936,7 @@
     "isActive" : false
   },
   {
+    "id":37,
     "color": 3,
     "level": 1,
     "point": 1,
@@ -925,6 +962,7 @@
     "isActive" : false
   },
   {
+    "id":38,
     "color": 3,
     "level": 1,
     "point": 2,
@@ -950,6 +988,7 @@
     "isActive" : false
   },
   {
+    "id":39,
     "color": 3,
     "level": 1,
     "point": 3,
@@ -975,6 +1014,7 @@
     "isActive" : false
   },
   {
+    "id":40,
     "color": 3,
     "level": 1,
     "point": 4,
@@ -1000,6 +1040,7 @@
     "isActive" : false
   },
   {
+    "id":41,
     "color": 2,
     "level": 1,
     "point": 1,
@@ -1025,6 +1066,7 @@
     "isActive" : false
   },
   {
+    "id":42,
     "color": 2,
     "level": 1,
     "point": 2,
@@ -1050,6 +1092,7 @@
     "isActive" : false
   },
   {
+    "id":43,
     "color": 2,
     "level": 1,
     "point": 3,
@@ -1075,6 +1118,7 @@
     "isActive" : false
   },
   {
+    "id":44,
     "color": 2,
     "level": 1,
     "point": 4,
@@ -1100,6 +1144,7 @@
     "isActive" : false
   },
   {
+    "id":45,
     "color": 4,
     "level": 1,
     "point": 1,
@@ -1125,6 +1170,7 @@
     "isActive" : false
   },
   {
+    "id":46,
     "color": 4,
     "level": 1,
     "point": 2,
@@ -1150,6 +1196,7 @@
     "isActive" : false
   },
   {
+    "id":47,
     "color": 4,
     "level": 1,
     "point": 3,
@@ -1175,6 +1222,7 @@
     "isActive" : false
   },
   {
+    "id":48,
     "color": 4,
     "level": 1,
     "point": 4,
