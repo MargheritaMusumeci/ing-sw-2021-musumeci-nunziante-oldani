@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 public class MarketController implements Controller {
 
     private GUI gui;
+    private Print printer;
     //market
     //riga 0
     @FXML
@@ -62,38 +64,29 @@ public class MarketController implements Controller {
     @FXML private RadioButton Colonna3;
     @FXML private Label error;
 
-    private Color colorMarketBall(Resource resource){
-
-        switch(resource){
-            case COIN : return Color.YELLOW;
-            case ROCK: return Color.GRAY;
-            case FAITH: return Color.RED;
-            case SHIELD: return Color.BLUE;
-            case SERVANT: return Color.PURPLE;
-            default: return Color.WHITE;
-        }
+    public MarketController(){
+        this.printer= new Print();
     }
-
     private void initMarket(){
 
         //initialize market balls
         Resource[][] market = gui.getView().getMarket().getMarket();
-        zerozero.setFill(colorMarketBall(market[0][0]));
-        zerouno.setFill(colorMarketBall(market[0][1]));
-        zerodue.setFill(colorMarketBall(market[0][2]));
-        zerotre.setFill(colorMarketBall(market[0][3]));
+        zerozero.setFill(printer.colorFromResource(market[0][0]));
+        zerouno.setFill(printer.colorFromResource(market[0][1]));
+        zerodue.setFill(printer.colorFromResource(market[0][2]));
+        zerotre.setFill(printer.colorFromResource(market[0][3]));
 
-        unozero.setFill(colorMarketBall(market[1][0]));
-        unouno.setFill(colorMarketBall(market[1][1]));
-        unodue.setFill(colorMarketBall(market[1][2]));
-        unotre.setFill(colorMarketBall(market[1][3]));
+        unozero.setFill(printer.colorFromResource(market[1][0]));
+        unouno.setFill(printer.colorFromResource(market[1][1]));
+        unodue.setFill(printer.colorFromResource(market[1][2]));
+        unotre.setFill(printer.colorFromResource(market[1][3]));
 
-        duezero.setFill(colorMarketBall(market[2][0]));
-        dueuno.setFill(colorMarketBall(market[2][1]));
-        duedue.setFill(colorMarketBall(market[2][2]));
-        duetre.setFill(colorMarketBall(market[2][3]));
+        duezero.setFill(printer.colorFromResource(market[2][0]));
+        dueuno.setFill(printer.colorFromResource(market[2][1]));
+        duedue.setFill(printer.colorFromResource(market[2][2]));
+        duetre.setFill(printer.colorFromResource(market[2][3]));
 
-        external.setFill(colorMarketBall(gui.getView().getMarket().getExternalResource()));
+        external.setFill(printer.colorFromResource(gui.getView().getMarket().getExternalResource()));
     }
 
     @Override

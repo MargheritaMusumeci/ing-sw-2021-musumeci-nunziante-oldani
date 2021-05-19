@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;
@@ -23,6 +24,7 @@ import static it.polimi.ingsw.model.game.Resource.NOTHING;
 public class StoreResourcesController implements Controller {
     private GUI  gui;
     private ArrayList<Resource> resource;
+    private Print printer;
 
     @FXML private ImageView resource1;
     @FXML private ImageView resource2;
@@ -36,15 +38,9 @@ public class StoreResourcesController implements Controller {
 
     @FXML private Label whiteballs;
 
-    private String path(Resource resource){
 
-        switch (resource) {
-            case COIN: return "coin.png";
-            case ROCK: return "stone.png";
-            case SHIELD: return "shield.png";
-            case SERVANT: return "servant.png";
-        }
-        return null;
+    public StoreResourcesController(){
+        this.printer=new Print();
     }
 
     @Override
@@ -72,55 +68,29 @@ public class StoreResourcesController implements Controller {
             whiteballs.setText("You bought only white balls127.0.0");
         }else{
             if(resource.size()>0){
-                resource1Check.setVisible(true);
 
-                String path = path(resource.get(0));
-                URL url = null;
-                try {
-                    url = new File("src/main/resources/images/resources/" + path ).toURI().toURL();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                resource1.setImage(new Image(String.valueOf(url)));
+                resource1Check.setVisible(true);
+                String path = printer.pathFromResource(resource.get(0));
+                resource1.setImage(printer.fromPathToImageResource(path));
                 resource1.setCache(true);
             }
             if(resource.size()>1){
-                resource2Check.setVisible(true);
 
-                String path = path(resource.get(1));
-                URL url = null;
-                try {
-                    url = new File("src/main/resources/images/resources/" + path ).toURI().toURL();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                resource2.setImage(new Image(String.valueOf(url)));
+                resource2Check.setVisible(true);
+                String path = printer.pathFromResource(resource.get(1));
+                resource2.setImage(printer.fromPathToImageResource(path));
                 resource2.setCache(true);
             }
             if(resource.size()>2){
                 resource3Check.setVisible(true);
-
-                String path = path(resource.get(2));
-                URL url = null;
-                try {
-                    url = new File("src/main/resources/images/resources/" + path ).toURI().toURL();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                resource3.setImage(new Image(String.valueOf(url)));
+                String path = printer.pathFromResource(resource.get(2));
+                resource3.setImage(printer.fromPathToImageResource(path));
                 resource3.setCache(true);
             }
             if(resource.size()>3){
                 resource4Check.setVisible(true);
-
-                String path = path(resource.get(3));
-                URL url = null;
-                try {
-                    url = new File("src/main/resources/images/resources/" + path ).toURI().toURL();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                resource4.setImage(new Image(String.valueOf(url)));
+                String path = printer.pathFromResource(resource.get(3));
+                resource4.setImage(printer.fromPathToImageResource(path));
                 resource4.setCache(true);
             }
         }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
@@ -9,12 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class LeaderCardsConfigurationController implements Controller{
@@ -22,6 +19,7 @@ public class LeaderCardsConfigurationController implements Controller{
     private int selectedNumber=0;
     private GUI gui;
     private ArrayList<SerializableLeaderCard> leaderCards;
+    private Print printer;
 
     @FXML
     private Button LeaderConfirmation;
@@ -46,6 +44,10 @@ public class LeaderCardsConfigurationController implements Controller{
     @FXML
     private ProgressIndicator loading;
 
+    public LeaderCardsConfigurationController(){
+        printer = new Print();
+    }
+
     @Override
     public void init(){
 
@@ -58,43 +60,19 @@ public class LeaderCardsConfigurationController implements Controller{
         leaderCards= gui.getLeaderCards();
 
         String path = String.valueOf(leaderCards.get(0).getId());
-        URL url = null;
-        try {
-            url = new File("src/main/resources/images/leaderCards/" + path + ".png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        leaderCard1.setImage(new Image(String.valueOf(url)));
+        leaderCard1.setImage(printer.fromPathToImageLeader(path));
         leaderCard1.setCache(true);
 
         path = String.valueOf(leaderCards.get(1).getId());
-        url = null;
-        try {
-            url = new File("src/main/resources/images/leaderCards/" + path + ".png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        leaderCard2.setImage(new Image(String.valueOf(url)));
+        leaderCard2.setImage(printer.fromPathToImageLeader(path));
         leaderCard2.setCache(true);
 
         path = String.valueOf(leaderCards.get(2).getId());
-        url = null;
-        try {
-            url = new File("src/main/resources/images/leaderCards/" + path + ".png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        leaderCard3.setImage(new Image(String.valueOf(url)));
+        leaderCard3.setImage(printer.fromPathToImageLeader(path));
         leaderCard3.setCache(true);
 
         path = String.valueOf(leaderCards.get(3).getId());
-     url = null;
-        try {
-            url = new File("src/main/resources/images/leaderCards/" + path + ".png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        leaderCard4.setImage(new Image(String.valueOf(url)));
+        leaderCard4.setImage(printer.fromPathToImageLeader(path));
         leaderCard4.setCache(true);
 
         cardId1.setText("Leader id: " + leaderCards.get(0).getId());
@@ -131,41 +109,17 @@ public class LeaderCardsConfigurationController implements Controller{
 
             ArrayList<Integer> leaderCardsChosen = new ArrayList<>();
 
-            if(cardId1.isSelected()){
-                int pos = 0;
-                for (int i=0; i<gui.getLeaderCards().size(); i++){
-                    if(gui.getLeaderCards().get(i).getId() == leaderCards.get(0).getId()){
-                        pos = i;
-                    }
-                }
-                leaderCardsChosen.add(pos);
-            }
+            if(cardId1.isSelected()){leaderCardsChosen.add(getPosition(leaderCards.get(0).getId()));}
+
             if(cardId2.isSelected()){
-                int pos = 0;
-                for (int i=0; i<gui.getLeaderCards().size(); i++){
-                    if(gui.getLeaderCards().get(i).getId() == leaderCards.get(1).getId()){
-                        pos = i;
-                    }
-                }
-                leaderCardsChosen.add(pos);
+                leaderCardsChosen.add(getPosition(leaderCards.get(1).getId()));
             }
             if(cardId3.isSelected()){
-                int pos = 0;
-                for (int i=0; i<gui.getLeaderCards().size(); i++){
-                    if(gui.getLeaderCards().get(i).getId() == leaderCards.get(2).getId()){
-                        pos = i;
-                    }
-                }
-                leaderCardsChosen.add(pos);
+                leaderCardsChosen.add(getPosition(leaderCards.get(2).getId()));
             }
             if(cardId4.isSelected()){
-                int pos = 0;
-                for (int i=0; i<gui.getLeaderCards().size(); i++){
-                    if(gui.getLeaderCards().get(i).getId() == leaderCards.get(3).getId()){
-                        pos = i;
-                    }
-                }
-                leaderCardsChosen.add(pos);}
+                leaderCardsChosen.add(getPosition(leaderCards.get(3).getId()));
+            }
 
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
             gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
@@ -173,6 +127,16 @@ public class LeaderCardsConfigurationController implements Controller{
 
             gui.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , leaderCardsChosen));
         }
+    }
+
+    private int getPosition(int id){
+        int pos = 0;
+        for (int i=0; i<gui.getLeaderCards().size(); i++) {
+            if (gui.getLeaderCards().get(i).getId() == id) {
+                pos = i;
+            }
+        }
+        return pos;
     }
 
     @Override

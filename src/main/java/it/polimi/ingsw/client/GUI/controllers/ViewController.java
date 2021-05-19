@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 public class ViewController implements Controller{
     private GUI gui;
+    private Print printer;
 
     //market
     //riga 0
@@ -57,6 +59,9 @@ public class ViewController implements Controller{
     @FXML private Button discard2;
     @FXML private Button market;
 
+    public ViewController(){
+        this.printer = new Print();
+    }
     @FXML
     private void showMarket(){
 
@@ -73,13 +78,7 @@ public class ViewController implements Controller{
         if(leaderCards!= null && leaderCards.size()>0){
 
             String path = String.valueOf(leaderCards.get(0).getId());
-            URL url = null;
-            try {
-                url = new File("src/main/resources/images/leaderCards/" + path + ".png").toURI().toURL();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            leader1.setImage(new Image(String.valueOf(url)));
+            leader1.setImage(printer.fromPathToImageLeader(path));
             leader1.setCache(true);
 
             if(leaderCards.get(0).isActive()){
@@ -90,13 +89,7 @@ public class ViewController implements Controller{
 
             if(leaderCards.size()>1){
                 path = String.valueOf(leaderCards.get(1).getId());
-                url = null;
-                try {
-                    url = new File("src/main/resources/images/leaderCards/" + path + ".png").toURI().toURL();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                leader2.setImage(new Image(String.valueOf(url)));
+                leader2.setImage(printer.fromPathToImageLeader(path));
                 leader2.setCache(true);
             }
 
@@ -107,39 +100,28 @@ public class ViewController implements Controller{
             }
         }
     }
-    private Color colorMarketBall(Resource resource){
-
-        switch(resource){
-            case COIN : return Color.YELLOW;
-            case ROCK: return Color.GRAY;
-            case FAITH: return Color.RED;
-            case SHIELD: return Color.BLUE;
-            case SERVANT: return Color.PURPLE;
-            default: return Color.WHITE;
-        }
-    }
 
     private void initMarket(){
 
         //initialize market balls
 
         Resource[][] market = gui.getView().getMarket().getMarket();
-        zerozero.setFill(colorMarketBall(market[0][0]));
-        zerouno.setFill(colorMarketBall(market[0][1]));
-        zerodue.setFill(colorMarketBall(market[0][2]));
-        zerotre.setFill(colorMarketBall(market[0][3]));
+        zerozero.setFill(printer.colorFromResource(market[0][0]));
+        zerouno.setFill(printer.colorFromResource(market[0][1]));
+        zerodue.setFill(printer.colorFromResource(market[0][2]));
+        zerotre.setFill(printer.colorFromResource(market[0][3]));
 
-        unozero.setFill(colorMarketBall(market[1][0]));
-        unouno.setFill(colorMarketBall(market[1][1]));
-        unodue.setFill(colorMarketBall(market[1][2]));
-        unotre.setFill(colorMarketBall(market[1][3]));
+        unozero.setFill(printer.colorFromResource(market[1][0]));
+        unouno.setFill(printer.colorFromResource(market[1][1]));
+        unodue.setFill(printer.colorFromResource(market[1][2]));
+        unotre.setFill(printer.colorFromResource(market[1][3]));
 
-        duezero.setFill(colorMarketBall(market[2][0]));
-        dueuno.setFill(colorMarketBall(market[2][1]));
-        duedue.setFill(colorMarketBall(market[2][2]));
-        duetre.setFill(colorMarketBall(market[2][3]));
+        duezero.setFill(printer.colorFromResource(market[2][0]));
+        dueuno.setFill(printer.colorFromResource(market[2][1]));
+        duedue.setFill(printer.colorFromResource(market[2][2]));
+        duetre.setFill(printer.colorFromResource(market[2][3]));
 
-        external.setFill(colorMarketBall(gui.getView().getMarket().getExternalResource()));
+        external.setFill(printer.colorFromResource(gui.getView().getMarket().getExternalResource()));
     }
 
     @Override
