@@ -82,5 +82,66 @@
       </HBox>
       <Button fx:id="market" layoutX="73.0" layoutY="277.0" mnemonicParsing="false" onAction="#showMarket" text="Market" />
       <Circle fx:id="external" fill="DODGERBLUE" layoutX="155.0" layoutY="131.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fx:id="inkwell" fitHeight="77.0" fitWidth="100.0" layoutX="6.0" layoutY="553.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../../../../Downloads/calamaio.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="284.0" layoutY="163.0" prefHeight="25.0" prefWidth="151.0">
+         <children>
+            <ImageView fx:id="pos4" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos5" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos6" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos7" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos8" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos9" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox layoutX="408.0" layoutY="212.0" prefHeight="25.0" prefWidth="151.0">
+         <children>
+            <ImageView fx:id="pos11" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos12" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos13" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos14" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos15" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos16" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox layoutX="529.0" layoutY="163.0" prefHeight="25.0" prefWidth="151.0">
+         <children>
+            <ImageView fx:id="pos18" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos19" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos20" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos21" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos22" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos23" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos24" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <ImageView fx:id="pos3" fitHeight="23.0" fitWidth="24.0" layoutX="284.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pos10" fitHeight="23.0" fitWidth="24.0" layoutX="408.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pos17" fitHeight="23.0" fitWidth="24.0" layoutX="529.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox layoutX="240.0" layoutY="212.0" prefHeight="25.0" prefWidth="63.0">
+         <children>
+            <ImageView fx:id="pos0" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos1" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pos2" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <ImageView fx:id="cardPope1" fitHeight="41.0" fitWidth="42.0" layoutX="339.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato%20giallo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cardPope2" fitHeight="41.0" fitWidth="42.0" layoutX="463.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato%20arancione.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cardPope3" fitHeight="41.0" fitWidth="42.0" layoutX="607.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato%20rosso.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
