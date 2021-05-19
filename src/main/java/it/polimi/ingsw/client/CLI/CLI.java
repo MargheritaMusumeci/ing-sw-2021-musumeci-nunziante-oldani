@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.CLI;
 
+import it.polimi.ingsw.client.CLI.componentPrinter.MarketPrinter;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.UI;
@@ -51,25 +52,23 @@ public class CLI implements UI, Runnable {
 
     //metodi per stampare le componenti del gioco
     public void printTitle(){
+
         System.out.println(Constants.ANSI_RED + "\n" +
-                "                     _                               \n" +
-                " _ __ ___   __ _ ___| |_ ___ _ __                    \n" +
-                "| '_ ` _ \\ / _` / __| __/ _ \\ '__|                   \n" +
-                "| | | | | | (_| \\__ \\ ||  __/ |                      \n" +
-                "|_| |_| |_|\\__,_|___/\\__\\___|_|                      \n" +
-                "                                                     \n" +
-                "        __                                           \n" +
-                "  ___  / _|                                          \n" +
-                " / _ \\| |_                                           \n" +
-                "| (_) |  _|                                          \n" +
-                " \\___/|_|                                            \n" +
-                "                                                     \n" +
-                "                      _                              \n" +
-                " _ __ ___ _ __   __ _(_)___ ___  __ _ _ __   ___ ___ \n" +
-                "| '__/ _ \\ '_ \\ / _` | / __/ __|/ _` | '_ \\ / __/ _ \\\n" +
-                "| | |  __/ | | | (_| | \\__ \\__ \\ (_| | | | | (_|  __/\n" +
-                "|_|  \\___|_| |_|\\__,_|_|___/___/\\__,_|_| |_|\\___\\___|\n" +
-                "                                                     \n" + Constants.ANSI_RESET);
+                "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗      ██████╗ ███████╗              \n" +
+                "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ██╔═══██╗██╔════╝              \n" +
+                "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝    ██║   ██║█████╗                \n" +
+                "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ██║   ██║██╔══╝                \n" +
+                "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║    ╚██████╔╝██║                   \n" +
+                "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝                   \n" +
+                "                                                                                       \n" +
+                "██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n" +
+                "██╔══██╗██╔════╝████╗  ██║██╔══██╗██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝\n" +
+                "██████╔╝█████╗  ██╔██╗ ██║███████║██║███████╗███████╗███████║██╔██╗ ██║██║     █████╗  \n" +
+                "██╔══██╗██╔══╝  ██║╚██╗██║██╔══██║██║╚════██║╚════██║██╔══██║██║╚██╗██║██║     ██╔══╝  \n" +
+                "██║  ██║███████╗██║ ╚████║██║  ██║██║███████║███████║██║  ██║██║ ╚████║╚██████╗███████╗\n" +
+                "╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝\n" +
+                "                                                                                       \n" +
+                Constants.ANSI_RESET);
     }
     public void printMenu(){
         System.out.println("+--------------------------+\r\n|     " +
@@ -114,17 +113,9 @@ public class CLI implements UI, Runnable {
     }
     public void printMarket(){
         SerializableMarket market = clientSocket.getView().getMarket();
-        System.out.println("Market: ");
-        System.out.println("External resource: " + market.getExternalResource());
-        for(int i = 0 ; i < market.getMarket().length ; i++){
-            System.out.println("Line:" + i);
-            for(int j = 0 ; j < market.getMarket()[i].length ; j++){
-                //System.out.println("Column j:");
-                System.out.println(market.getMarket()[i][j]);
-            }
-        }
-        System.out.println("#################################################################");
+        MarketPrinter.print(market);
     }
+
     public void printPopeTrack(){
         SerializablePopeTack popeTack = clientSocket.getView().getDashboard().getSerializablePopeTack();
         boolean atLeastOneCard = false;
