@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.cards;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum LevelEnum {
+import java.io.Serializable;
+
+public enum LevelEnum implements Serializable {
     @SerializedName("1")
     FIRST,
     @SerializedName("2")

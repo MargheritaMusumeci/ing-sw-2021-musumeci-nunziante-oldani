@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.game;
 
-public enum Resource {
+import java.io.Serializable;
+
+public enum Resource implements Serializable {
     COIN("\u001b[33m●\u001b[0m"),
     SHIELD("\u001b[34m●\u001b[0m"),
     ROCK("\u001b[37m●\u001b[0m"),
