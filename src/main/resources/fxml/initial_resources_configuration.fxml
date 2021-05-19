@@ -13,16 +13,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.InitialResourcesConfigurationController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="854.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.InitialResourcesConfigurationController">
    <children>
-      <Text layoutX="103.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your initial resources:">
+      <ImageView fitHeight="600.0" fitWidth="860.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/background.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="229.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your initial resources:">
          <font>
             <Font size="32.0" />
          </font></Text>
-      <Button fx:id="confirm" layoutX="271.0" layoutY="297.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
-      <Label fx:id="errorMessage" layoutX="296.0" layoutY="250.0" />
-      <ProgressIndicator fx:id="loading" layoutX="274.0" layoutY="283.0" visible="false" />
-      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="81.0" layoutY="110.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+      <Button fx:id="confirm" layoutX="396.0" layoutY="489.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
+      <Label fx:id="errorMessage" layoutX="421.0" layoutY="442.0" />
+      <ProgressIndicator fx:id="loading" layoutX="399.0" layoutY="475.0" visible="false" />
+      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="206.0" layoutY="302.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
             <RadioButton fx:id="rock1" mnemonicParsing="false">
                <toggleGroup>
@@ -54,7 +59,7 @@
             </ImageView>
          </children>
       </HBox>
-      <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="82.0" layoutY="183.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+      <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="207.0" layoutY="375.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
             <RadioButton fx:id="rock2" mnemonicParsing="false">
                <toggleGroup>

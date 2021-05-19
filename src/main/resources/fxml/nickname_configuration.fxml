@@ -7,19 +7,23 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="573.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.NicknameConfigurationController">
+<Pane prefHeight="600.0" prefWidth="848.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.NicknameConfigurationController">
    <children>
-      <ImageView fitHeight="573.0" fitWidth="775.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="855.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
          <image>
-               <Image url="@../images/Masters%20of%20Renaissance_Rules_EN.png"/>
+               <Image url="@../images/background.png" />
          </image>
       </ImageView>
-      <Button fx:id="loginButton" layoutX="276.0" layoutY="444.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
-      <Text fill="WHITE" layoutX="243.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
-      <Label fx:id="error" layoutX="75.0" layoutY="404.0" textFill="RED" />
-      <ProgressIndicator fx:id="loading" disable="true" layoutX="272.0" layoutY="430.0" visible="false" />
-      <TextField fx:id="nicknameField" layoutX="223.0" layoutY="315.0" promptText="nickname" />
+      <Button fx:id="loginButton" layoutX="405.0" layoutY="444.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
+      <Text fill="WHITE" layoutX="369.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
+      <Label fx:id="error" layoutX="286.0" layoutY="391.0" prefHeight="65.0" prefWidth="219.0" textFill="RED">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <ProgressIndicator fx:id="loading" disable="true" layoutX="427.0" layoutY="429.0" visible="false" />
+      <TextField fx:id="nicknameField" layoutX="345.0" layoutY="316.0" promptText="nickname" />
    </children>
 </Pane>

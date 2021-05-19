@@ -11,15 +11,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-
-<AnchorPane fx:controller="it.polimi.ingsw.client.GUI.controllers.MarketController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.MarketController">
    <children>
-      <ImageView fitHeight="357.0" fitWidth="415.0" layoutX="149.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="357.0" fitWidth="415.0" layoutX="229.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/market.png" />
          </image>
       </ImageView>
-      <VBox layoutX="223.0" layoutY="94.0" prefHeight="107.0" prefWidth="128.0">
+      <VBox layoutX="303.0" layoutY="196.0" prefHeight="107.0" prefWidth="128.0">
          <children>
             <HBox fx:id="Market" prefHeight="77.0" prefWidth="109.0" spacing="10.0">
                <children>
@@ -74,9 +73,9 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="confirm" layoutX="485.0" layoutY="227.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <Button fx:id="cancel" layoutX="489.0" layoutY="266.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-      <Circle fx:id="external" fill="DODGERBLUE" layoutX="354.0" layoutY="202.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label fx:id="error" layoutX="501.0" layoutY="158.0" />
+      <Button fx:id="confirm" layoutX="565.0" layoutY="329.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Button fx:id="cancel" layoutX="569.0" layoutY="368.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Circle fx:id="external" fill="DODGERBLUE" layoutX="434.0" layoutY="304.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label fx:id="error" layoutX="581.0" layoutY="260.0" />
    </children>
 </AnchorPane>
