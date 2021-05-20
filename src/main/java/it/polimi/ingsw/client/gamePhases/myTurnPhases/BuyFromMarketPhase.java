@@ -115,7 +115,7 @@ public class BuyFromMarketPhase extends Phase {
 
         do{
             //stampo le risorse ottenute
-            ResourcesBoughtPrinter.print(cli.getClientSocket().getView().getResourcesBoughtFromMarker());
+            ResourcesBoughtPrinter.print(cli.getClientSocket().getView().getResourcesBoughtFromMarker(), 0);
             System.out.println(Constants.ANSI_CYAN + "Choose the resources that you want to save in your stock. " +
                     "You can type 5 to save all the resources or -1 when you have finished." + Constants.ANSI_RESET);
 

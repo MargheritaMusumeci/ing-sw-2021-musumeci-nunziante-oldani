@@ -17,6 +17,8 @@ import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGa
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.utils.Constants;
 
+import java.util.ArrayList;
+
 public class MessageHandlerCLI extends MessageHandler{
 
     private CLI cli;
@@ -71,14 +73,13 @@ public class MessageHandlerCLI extends MessageHandler{
     @Override
     public void handleMessage(InitialResourcesMessage message) {
 
-        System.out.println("Risorse iniziali ricevute");
         cli.setResources(message.getResources());
+
     }
 
     @Override
     public void handleMessage(SendViewMessage message) {
 
-        System.out.println("ricevo la view iniziale");
         clientSocket.setView(message.getView());
 
         if(clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())){

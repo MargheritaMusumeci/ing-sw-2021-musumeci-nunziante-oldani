@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.CLI;
 
+import it.polimi.ingsw.client.CLI.componentPrinter.EvolutionSectionPrinter;
 import it.polimi.ingsw.client.CLI.componentPrinter.LeaderCardsPrinter;
 import it.polimi.ingsw.client.CLI.componentPrinter.MarketPrinter;
 import it.polimi.ingsw.client.ClientSocket;
@@ -72,16 +73,22 @@ public class CLI implements UI, Runnable {
                 Constants.ANSI_RESET);
     }
     public void printMenu(){
-        System.out.println("+--------------------------+\r\n|     " +
-                "Possible action:     |\r\n+==========================+\r\n| " +
-                "0: END TURN              |\r\n| 1: Show leaderCards      |\r\n| " +
-                "2: Show stock            |\r\n| 3: Show lockBox          |\r\n| " +
-                "4: Show popeTrack        |\r\n| 5: Show productionZones  |\r\n| " +
-                "6: Show market           |\r\n| 7: Show evolutionSection |\r\n| " +
-                "8: Active Leader cards   |\r\n| 9: Discard Leader cards  |\r\n| " +
-                "10: Buy from Market      |\r\n| 11: Active Production    |\r\n| " +
-                "12: Buy Evolution card   |\r\n| 13: Use Leader card      " +
-                "|\r\n+--------------------------+\r\n\r\n");
+        System.out.println("\n" +
+                "+--------------------------+---------------------------+\n" +
+                "|                  Possible Actions:                   |\n" +
+                "+--------------------------+---------------------------+\n" +
+                "| Actions                  | Print                     |\n" +
+                "| 0: END TURN              | 1:Show Leader Cards       |\n" +
+                "| 8: Activate Leader Cards | 2: Show Stock             |\n" +
+                "| 9: Discard Leader Cards  | 3: Show Lock Box          |\n" +
+                "| 10: Buy From Market      | 4: Show Pope Track        |\n" +
+                "| 11: Active Production    | 5: Sho Production Zones   |\n" +
+                "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
+                "| 13: Use Leader Cards     | 7: Show Evolution section |\n" +
+                "+--------------------------+---------------------------+\n" +
+                "\n");
+
+        System.out.println("");
     }
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
@@ -138,51 +145,7 @@ public class CLI implements UI, Runnable {
     public void printLeaderCards(){
         ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
         LeaderCardsPrinter.print(leaderCards);
-        /*
-        System.out.println("Your leader card are: ");
-        for(int i = 0 ; i < leaderCards.size() ; i++){
-            SerializableLeaderCard leaderCard = leaderCards.get(i);
-            System.out.println("Leader card id: " + leaderCard.getId());
-            System.out.println("Required color: ");
-            if(leaderCard.getRequiresColor() != null) {
-                for (int j = 0; j < leaderCard.getRequiresColor().length; j++) {
-                    System.out.println("    " + leaderCard.getRequiresColor()[j]);
-                }
-            }
-            else {
-                System.out.println("    none");
-            }
-            System.out.println("Required level: ");
-            if(leaderCard.getRequiresLevel() != null) {
-                for (int j = 0; j < leaderCard.getRequiresLevel().length; j++) {
-                    System.out.println("    " + leaderCard.getRequiresLevel()[j]);
-                }
-            }
-            else {
-                System.out.println("    none");
-            }
-            System.out.println("Require for activation: " + leaderCard.getRequiresForActiveLeaderCards());
-            System.out.println("Ability: " + leaderCard.getAbilityType());
-            System.out.println("point: " + leaderCard.getPoint());
-            System.out.println("Is active: " + leaderCard.isActive());
-            System.out.println("Is used: " + leaderCard.isUsed());
-            System.out.println("Requires: ");
-            if(leaderCard.getRequires() != null) {
-                for (Resource resource : leaderCard.getRequires().keySet()) {
-                    System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getRequires().get(resource));
-                }
-            }
-            else{
-                System.out.println("    none");
-            }
-            System.out.println("Ability resources: ");
-            for(Resource resource : leaderCard.getAbilityResource().keySet()){
-                System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
-            }
-            System.out.println("#################################################################");
 
-
-        }*/
     }
     public void printProductionZones(){
         SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
@@ -212,20 +175,7 @@ public class CLI implements UI, Runnable {
     }
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
-        System.out.println("Evolution section: ");
-        for(int i = 0 ; i < evolutionSection.getEvolutionCards().length ; i++){
-            for(int j = 0 ; j < evolutionSection.getEvolutionCards()[i].length ; j++){
-                System.out.println("Card in position " + i + " " + j);
-                EvolutionCard evolutionCard = evolutionSection.getEvolutionCards()[i][j];
-                if(evolutionCard == null){
-                    System.out.println("    Empty");
-                    continue;
-                }
-                printEvolutionCard(evolutionCard);
-                System.out.println("#################################################################");
-            }
-
-        }
+        EvolutionSectionPrinter.print(evolutionSection);
     }
     private void printEvolutionCard(EvolutionCard evolutionCard){
         System.out.println("Color: " + evolutionCard.getColor());
