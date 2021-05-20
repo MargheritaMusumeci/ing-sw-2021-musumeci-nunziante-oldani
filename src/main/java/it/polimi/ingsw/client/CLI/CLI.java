@@ -13,6 +13,7 @@ import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNam
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.utils.Constants;
@@ -76,11 +77,11 @@ public class CLI implements UI, Runnable {
                 "|                  Possible Actions:                   |\n" +
                 "+--------------------------+---------------------------+\n" +
                 "| Actions                  | Print                     |\n" +
-                "| 0: END TURN              | 1:Show Leader Cards       |\n" +
+                "| 0: END TURN              | 1: Show Leader Cards      |\n" +
                 "| 8: Activate Leader Cards | 2: Show Stock             |\n" +
                 "| 9: Discard Leader Cards  | 3: Show Lock Box          |\n" +
                 "| 10: Buy From Market      | 4: Show Pope Track        |\n" +
-                "| 11: Active Production    | 5: Sho Production Zones   |\n" +
+                "| 11: Active Production    | 5: Show Production Zones  |\n" +
                 "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
                 "| 13: Use Leader Cards     | 7: Show Evolution section |\n" +
                 "+--------------------------+---------------------------+\n" +
@@ -91,39 +92,11 @@ public class CLI implements UI, Runnable {
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
         LockBoxPrinter.print(lockBox);
-        /*
-        System.out.println("LockBox: ");
-        for(Resource resource : lockBox.getResources().keySet()){
-            System.out.println("Resource: " + resource + " , quantity: " + lockBox.getResources().get(resource));
-        }
-        System.out.println("#################################################################");
 
-         */
     }
     public void printStock(){
         SerializableStock stock = clientSocket.getView().getDashboard().getSerializableStock();
         StockPrinter.print(stock);
-        /*
-        int i = 0;
-        System.out.println("Stock: ");
-        for(i = 0 ; i < stock.getBoxes().size() ; i++){
-            System.out.println("Box number " + i);
-            for(int j = 0 ; j < stock.getBoxes().get(i).length ; j++){
-                System.out.println(stock.getBoxes().get(i)[j]);
-            }
-            System.out.println("#################################################################");
-        }
-        if(stock.getBoxPlus() != null){
-            for(int j = 0 ; j < stock.getBoxPlus().size() ; j++){
-                System.out.println("Box number " + i+j);
-                for(int k = 0 ; k < stock.getBoxPlus().get(i).length ; k++){
-                    System.out.println(stock.getBoxes().get(j)[k]);
-                }
-                System.out.println("#################################################################");
-            }
-        }
-
-         */
     }
     public void printMarket(){
         SerializableMarket market = clientSocket.getView().getMarket();
@@ -154,6 +127,8 @@ public class CLI implements UI, Runnable {
 
     }
     public void printProductionZones(){
+        ProductionSectionPrinter.print(clientSocket.getView().getDashboard());
+        /*
         SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
         System.out.println("production zones: ");
         for(int i = 0 ; i < productionZones.length ; i++) {
@@ -178,6 +153,8 @@ public class CLI implements UI, Runnable {
                 System.out.println("#################################################################");
             }
         }
+
+         */
     }
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
@@ -201,7 +178,10 @@ public class CLI implements UI, Runnable {
             System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getProduction().get(resource));
         }
     }
-    public void printSingleLeaderCard(SerializableLeaderCard leaderCard){
+    public void printSetOfLeaderCard(ArrayList<SerializableLeaderCard> leaderCards){
+
+        LeaderCardsPrinter.print(leaderCards);
+        /*
         System.out.println("#################################################################");
         System.out.println("Leader card id: " + leaderCard.getId());
         System.out.println("Required color: ");
@@ -241,6 +221,8 @@ public class CLI implements UI, Runnable {
             System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
         }
         System.out.println("#################################################################");
+
+         */
     }
 
 

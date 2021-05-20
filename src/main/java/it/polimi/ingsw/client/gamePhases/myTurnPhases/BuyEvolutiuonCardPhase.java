@@ -3,7 +3,9 @@ package it.polimi.ingsw.client.gamePhases.myTurnPhases;
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
+import it.polimi.ingsw.utils.Constants;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BuyEvolutiuonCardPhase extends Phase {
@@ -15,21 +17,33 @@ public class BuyEvolutiuonCardPhase extends Phase {
         int row, col, pos;
 
         do{
-            System.out.println("Inserisci la riga e la colonna della carta da comprare");
-            System.out.print("riga > ");
-            row = scanner.nextInt();
-            System.out.print("colonna > ");
-            col = scanner.nextInt();
-            System.out.println("inserisci in quale production zone inserire la carta: (0,1,2)");
-            System.out.print("> ");
-            pos = scanner.nextInt();
+            System.out.println(Constants.ANSI_CYAN + "Insert the row and the column of the Evolution Card that you want to buy:"+ Constants.ANSI_RESET);
+            System.out.print(Constants.ANSI_CYAN + "Row > " + Constants.ANSI_RESET);
+            try{
+                row = scanner.nextInt();
+            }catch (InputMismatchException e){
+                row = 6;
+                scanner.nextLine();
+            }
+            System.out.print(Constants.ANSI_CYAN + "Column > " + Constants.ANSI_RESET);
+            try{
+                col = scanner.nextInt();
+            }catch (InputMismatchException e){
+                col = 6;
+                scanner.nextLine();
+            }
+            System.out.println(Constants.ANSI_CYAN + "Choose in which production zone you want to place the card (0,1,2): " + Constants.ANSI_RESET);
+            try{
+                pos = scanner.nextInt();
+            }catch (InputMismatchException e){
+                pos = 6;
+                scanner.nextLine();
+            }
         }while ((row<0 || row > 2) || (col <0 || col>3) || (pos != 0 && pos != 1 && pos != 2));
 
         cli.getClientSocket().send(new BuyEvolutionCardMessage("buy evolution card", row, col, pos));
-        System.out.println("Message sent");
         synchronized (this){
             try {
-                System.out.println("Waiting for ack/nack");
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -37,11 +51,10 @@ public class BuyEvolutiuonCardPhase extends Phase {
         }
 
         if(cli.isAckArrived()){
-            System.out.println("Carta inserita correttamente");
+            System.out.println(Constants.ANSI_GREEN + "The card has been correctly bought and inserted" + Constants.ANSI_RESET);
             cli.setIsAckArrived(false);
             cli.setActionBeenDone(true);
         }else{
-            System.out.println("Errore durante l'acquisto della carta dalla evolution section");
             cli.setIsNackArrived(false);
         }
 

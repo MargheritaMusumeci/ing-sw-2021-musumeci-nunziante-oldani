@@ -44,7 +44,7 @@ public class EvolutionSectionPrinter {
         }
     }
 
-    private static ArrayList<String>[] createEvolutionCard(EvolutionCard evolutionCard){
+    public static ArrayList<String>[] createEvolutionCard(EvolutionCard evolutionCard){
 
         String color = "Color:";
         String level = "Level:";
