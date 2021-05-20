@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.CLI;
 
-import it.polimi.ingsw.client.CLI.componentPrinter.EvolutionSectionPrinter;
-import it.polimi.ingsw.client.CLI.componentPrinter.LeaderCardsPrinter;
-import it.polimi.ingsw.client.CLI.componentPrinter.MarketPrinter;
+import it.polimi.ingsw.client.CLI.componentPrinter.*;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.UI;
@@ -92,14 +90,20 @@ public class CLI implements UI, Runnable {
     }
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
+        LockBoxPrinter.print(lockBox);
+        /*
         System.out.println("LockBox: ");
         for(Resource resource : lockBox.getResources().keySet()){
             System.out.println("Resource: " + resource + " , quantity: " + lockBox.getResources().get(resource));
         }
         System.out.println("#################################################################");
+
+         */
     }
     public void printStock(){
         SerializableStock stock = clientSocket.getView().getDashboard().getSerializableStock();
+        StockPrinter.print(stock);
+        /*
         int i = 0;
         System.out.println("Stock: ");
         for(i = 0 ; i < stock.getBoxes().size() ; i++){
@@ -118,6 +122,8 @@ public class CLI implements UI, Runnable {
                 System.out.println("#################################################################");
             }
         }
+
+         */
     }
     public void printMarket(){
         SerializableMarket market = clientSocket.getView().getMarket();

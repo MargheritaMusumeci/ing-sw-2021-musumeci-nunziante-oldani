@@ -80,7 +80,7 @@ public class EvolutionSectionPrinter {
         //third line
         card[2].add(fiveSpaces);
         card[2].add(level);
-        card[2].add(String.valueOf(evolutionCard.getLevel()));
+        card[2].add(String.valueOf(evolutionCard.getLevel().ordinal()+1));
         card[2].add(fiveSpaces);
         card[2].add(vertical);
 
