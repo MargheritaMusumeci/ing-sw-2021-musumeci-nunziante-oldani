@@ -143,6 +143,9 @@ public class ViewController implements Controller{
     @FXML private CheckBox activeProduction3;
     @FXML private Button activeProductions;
     @FXML private Button basicProduction;
+    @FXML private ImageView basicRequires1;
+    @FXML private ImageView basicRequires2;
+    @FXML private ImageView basicEnsure;
 
 
     public ViewController(){
@@ -503,6 +506,13 @@ public class ViewController implements Controller{
                 }
             }
         }
+
+        if(activeBasic && gui.getBasicRequires()!=null && gui.getBasicEnsures()!=null){
+            basicRequires1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(0))));
+            basicRequires2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(1))));
+            basicEnsure.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure())));
+        }
+
     }
 
     @Override
