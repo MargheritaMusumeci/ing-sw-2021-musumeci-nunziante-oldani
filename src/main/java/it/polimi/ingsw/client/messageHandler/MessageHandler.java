@@ -30,5 +30,6 @@ public abstract class MessageHandler {
     public abstract void handleUpdateMessage(UpdateActivePlayerMessage message);
     public abstract void handleUpdateMessage(UpdateEvolutionSectionMessage message);
     public abstract void handleUpdateMessage(UpdateMarketMessage message);
+    public abstract void handleUpdateMessage(UpdateOtherPlayerViewMessage message);
 }
 

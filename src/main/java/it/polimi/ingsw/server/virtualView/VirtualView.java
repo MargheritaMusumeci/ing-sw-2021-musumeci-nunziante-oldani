@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.virtualView;
 
-import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateDashBoardMessage;
-import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateEvolutionSectionMessage;
-import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateLeaderCardsMessage;
-import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateMarketMessage;
+import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
@@ -94,27 +91,6 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
         SerializableDashboard serializableDashboard = new SerializableDashboard(dashboard);
         System.out.println("sono nella virtual view e dovrei madnare il messaggio per aggiornare la dashboead");
 
-        /*stampo le serializable production zones
-        try{
-            System.out.println("stampo le real production zones");
-            for(int i=0; i<personalDashboard.getProductionZone().length; i++){
-                for (int j = 0; j< personalDashboard.getProductionZone()[i].getCardList().size(); j++){
-                    System.out.println("c'è una carta in quella vera");
-                }
-            }
-            for(SerializableProductionZone serializableProductionZone: serializableDashboard.getSerializableProductionZones()){
-                for(Card card: serializableProductionZone.getCards()){
-                    System.out.println("C'è una carta");
-                }
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-         */
-
-
         scc.send(new UpdateDashBoardMessage("new dashboard", serializableDashboard));
 
         //mando anche il messsaggio per aggiornare le leader cards
@@ -123,6 +99,16 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
             newSetOfLeaderCards.add(new SerializableLeaderCard(leaderCard));
         }
         scc.send(new UpdateLeaderCardsMessage("new set of leader cards", newSetOfLeaderCards));
+
+        //avendo aggiornato la mia dashboad devo avvisare tutti gli altri player di questo aggiornamento e quindi mando
+        //a tutti il messaggio che devono aggiornare la view dei nemici
+        for(ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
+            if (!scc.equals(serverClientConnection)) {
+                serverClientConnection.send(new UpdateOtherPlayerViewMessage("Update other player view",
+                        scc.getGameHandler().createView(this), scc.getNickname()));
+            }
+        }
+
     }
 
     @Override

@@ -84,10 +84,28 @@ public class CLI implements UI, Runnable {
                 "| 11: Active Production    | 5: Show Production Zones  |\n" +
                 "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
                 "| 13: Use Leader Cards     | 7: Show Evolution section |\n" +
+                "|               15: Print Enemy DashBoard              |\n" +
                 "+--------------------------+---------------------------+\n" +
                 "\n");
 
-        System.out.println("");
+        System.out.print(Constants.ANSI_CYAN + "Choose your action: " + Constants.ANSI_RESET);
+    }
+    public void printMenuOtherTurn(){
+        System.out.println("\n" +
+                "+---------------------------+\n" +
+                "|     Possible Actions      |\n" +
+                "+---------------------------+\n" +
+                "| 1: Show Leader Cards      |\n" +
+                "| 2: Show Stock             |\n" +
+                "| 3: Show Lockbox           |\n" +
+                "| 4: Show Pope Track        |\n" +
+                "| 5: Show Production Zones  |\n" +
+                "| 6: Show Market            |\n" +
+                "| 7: Show Evolution Section |\n" +
+                "| 8: Print Enemy Dashboard  |\n" +
+                "+---------------------------+\n" +
+                "\n");
+        System.out.print(Constants.ANSI_CYAN + "Choose your action: " + Constants.ANSI_RESET);
     }
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();

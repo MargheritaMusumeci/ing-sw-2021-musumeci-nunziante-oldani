@@ -107,7 +107,7 @@ public class GameHandler implements Runnable{
         new Thread(this).start();
     }
 
-    private View createView(VirtualView virtualView){
+    public View createView(VirtualView virtualView){
         SerializableDashboard serializableDashboard = new SerializableDashboard(virtualView.getPersonalDashboard());
         SerializableMarket serializableMarket = new SerializableMarket(virtualView.getMarket());
         SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(virtualView.getEvolutionSection(), playersInGame.get(virtualView.getScc()));
@@ -118,11 +118,11 @@ public class GameHandler implements Runnable{
             serializableLeaderCards.add(serializableLeaderCard);
         }
 
-        ArrayList<SerializableDashboard> serializableDashboards = new ArrayList<>();
+        HashMap<String, SerializableDashboard> serializableDashboards = new HashMap<>();
 
         for(Player player: virtualView.getOtherPlayersView().keySet()) {
             SerializableDashboard serializableDashboardEnemy = new SerializableDashboard(virtualView.getOtherPlayersView().get(player).getPersonalDashboard());
-            serializableDashboards.add(serializableDashboardEnemy);
+            serializableDashboards.put(player.getNickName(), serializableDashboardEnemy);
         }
 
 
@@ -140,10 +140,14 @@ public class GameHandler implements Runnable{
             playerSockets.put((HumanPlayer) player, virtualView);
         }
 
+        //do ad ogni player la virtual view di tutti e dovrei registrarli come listeners
         for(Player player: playersInGame.values()){
             HashMap<HumanPlayer,VirtualView> otherPlayers = (HashMap<HumanPlayer, VirtualView>) playerSockets.clone();
-            otherPlayers.remove(player);
+            VirtualView myVirtuaView = otherPlayers.remove(player);
             playerSockets.get(player).setOtherPlayersView(otherPlayers);
+            for (VirtualView virtualView: otherPlayers.values()){
+                virtualView.addVirtualViewListener(myVirtuaView);
+            }
             View view = createView(playerSockets.get(player));
             sccRelateToPlayer.get(player).send(new SendViewMessage("View",view));
             System.out.println("inviato il messaggio per: " + player.getNickName());
