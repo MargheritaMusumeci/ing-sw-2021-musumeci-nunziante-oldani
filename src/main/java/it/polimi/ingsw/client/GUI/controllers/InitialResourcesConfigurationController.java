@@ -97,23 +97,23 @@ public class InitialResourcesConfigurationController implements Controller {
             rock++;
             selected.add(Resource.ROCK);
         }
-        if(radio == servant1){
+        if(radio2 == servant1){
             servant++;
             selected.add(Resource.ROCK);
         }
-        if(radio == coin2){
+        if(radio2 == coin2){
             coin++;
             selected.add(Resource.COIN);
         }
-        if(radio == shield2){
+        if(radio2 == shield2){
             shield++;
             selected.add(Resource.SHIELD);
         }
-        if(radio == rock2){
+        if(radio2 == rock2){
             rock++;
             selected.add(Resource.ROCK);
         }
-        if(radio == servant2){
+        if(radio2 == servant2){
             servant++;
             selected.add(Resource.ROCK);
         }

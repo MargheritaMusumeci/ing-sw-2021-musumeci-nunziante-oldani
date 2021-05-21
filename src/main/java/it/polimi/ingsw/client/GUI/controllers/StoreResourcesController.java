@@ -16,6 +16,9 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.model.game.Resource.NOTHING;
 
+/**
+ * Class linked to market controller for allowing users to chose which resources store in stock
+ */
 public class StoreResourcesController implements Controller {
     private GUI  gui;
     private ArrayList<Resource> resource;
@@ -33,7 +36,6 @@ public class StoreResourcesController implements Controller {
 
     @FXML private Label whiteballs;
 
-
     public StoreResourcesController(){
         this.printer=new Print();
     }
@@ -47,6 +49,7 @@ public class StoreResourcesController implements Controller {
     public void init() {
 
         resource = gui.getView().getResourcesBoughtFromMarker();
+        whiteballs.setText(null);
 
         //tolgo le bianche
         ArrayList<Resource> resourcesCopy = (ArrayList<Resource>) resource.clone();
@@ -60,7 +63,7 @@ public class StoreResourcesController implements Controller {
         }
 
         if(resource.size()==0) {
-            whiteballs.setText("You bought only white balls127.0.0");
+            whiteballs.setText("You bought only white balls");
         }else{
             if(resource.size()>0){
 

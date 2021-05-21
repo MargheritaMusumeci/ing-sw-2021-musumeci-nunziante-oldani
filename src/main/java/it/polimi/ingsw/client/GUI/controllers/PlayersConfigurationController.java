@@ -7,6 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+/**
+ * Class that contains methods and attributes related to the selection of number of players in game
+ */
 public class PlayersConfigurationController implements Controller {
 
     private Integer player=0;
@@ -21,6 +24,10 @@ public class PlayersConfigurationController implements Controller {
     @FXML
     private Button loginButton;
 
+    /**
+     * method need for change Menuitem selection and show the result
+     * @param actionEvent
+     */
     @FXML
     public void choosePlayer(ActionEvent actionEvent){
         MenuItem menuItem = (MenuItem) actionEvent.getSource();
@@ -33,12 +40,16 @@ public class PlayersConfigurationController implements Controller {
         }
     }
 
+    /**
+     * method called when user press login button
+     */
     @FXML
     public void doLogin() {
 
         loginButton.setVisible(false);
         loading.setVisible(true);
 
+        //not selected player
        if (player == 0){
             error.setText("Invalid number of player");
             loginButton.setVisible(true);

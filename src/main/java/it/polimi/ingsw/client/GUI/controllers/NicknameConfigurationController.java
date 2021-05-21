@@ -6,6 +6,9 @@ import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNam
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+/**
+ * Class that contains methods and attributes related to Nickname choose scene.
+ */
 public class NicknameConfigurationController implements Controller{
 
     private GUI gui;
@@ -19,12 +22,16 @@ public class NicknameConfigurationController implements Controller{
     @FXML
     private Button loginButton;
 
+    /**
+     * method calls when user push login button
+     */
     @FXML
     public void doLogin() {
 
         loginButton.setVisible(false);
         loading.setVisible(true);
 
+        //error --> not fill nickname field before pushing button
         if(nicknameField==null || nicknameField.getText().equals("")){
             error.setText("Nickname is required...");
             loginButton.setVisible(true);

@@ -4,14 +4,19 @@ import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.DiscardLeaderCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.UseLeaderCardMessage;
+import it.polimi.ingsw.model.board.ProductionZone;
+import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -29,6 +34,11 @@ public class ViewController implements Controller{
     private Print printer;
     private ArrayList<Integer> stockLeaderCardInUse;
     private ArrayList<ImageView> popeTrackPositions;
+    private int leaderWaitForAck;
+    private ArrayList<ImageView>[] productionZones;
+    private boolean[] marketLeaderActive;
+    private boolean activeBasic;
+    private ArrayList<Integer> productionPositions;
 
     //market
     //riga 0
@@ -127,12 +137,22 @@ public class ViewController implements Controller{
     @FXML private ImageView production31;
     @FXML private ImageView production12;
     @FXML private ImageView production22;
-    @FXML private ImageView production33;
+    @FXML private ImageView production32;
+    @FXML private CheckBox activeProduction1;
+    @FXML private CheckBox activeProduction2;
+    @FXML private CheckBox activeProduction3;
+    @FXML private Button activeProductions;
+    @FXML private Button basicProduction;
+
 
     public ViewController(){
         this.printer = new Print();
         stockLeaderCardInUse= new ArrayList<>();
-        popeTrackPositions = new ArrayList<>(Arrays.asList(pos0,pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,pos10,pos11,pos12,pos13,pos14,pos15,pos16,pos17,pos18,pos19,pos20,pos21,pos22,pos23,pos24));
+        marketLeaderActive = new boolean[2];
+        marketLeaderActive[0]=false;
+        marketLeaderActive[1]=false;
+        activeBasic=false;
+        productionPositions=new ArrayList<>();
     }
 
     @FXML
@@ -171,6 +191,14 @@ public class ViewController implements Controller{
                 }
             }
         }
+        if(gui.getGamePhase()==GamePhases.ASKACTIVELEADER && gui.isAckArrived()){
+            activeLeaderACK();
+            gui.setGamePhase(GamePhases.STARTGAME);
+        }
+        //NOTIFICO SE è ARRIVATO IL NACK?
+        /*
+        gui.getGamePhase()==GamePhases.ASKACTIVELEADER && gui.isAckArrived()
+         */
     }
 
     private void initMarket(){
@@ -202,9 +230,14 @@ public class ViewController implements Controller{
         }
     }
 
+    /**
+     * clear position, set gamer position and if is a solo game set also lorenzo position
+     */
     private void initPopeTrack(){
 
-        for (ImageView image:popeTrackPositions) {
+        popeTrackPositions = new ArrayList<>(Arrays.asList(pos0,pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,pos10,pos11,pos12,pos13,pos14,pos15,pos16,pos17,pos18,pos19,pos20,pos21,pos22,pos23,pos24));
+
+        for (ImageView image: popeTrackPositions) {
             image.setImage(null);
         }
 
@@ -220,6 +253,9 @@ public class ViewController implements Controller{
         popeTrackPositions.get(position).setImage(printer.popePosition());
     }
 
+    /**
+     * if stock boxes are not empty fill them with the correct type of resource
+     */
     private void initStock() {
 
         Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
@@ -317,6 +353,9 @@ public class ViewController implements Controller{
         }
     }
 
+    /**
+     * set the amount of each resource contained in lockbox
+     */
     private void initLockBox(){
         HashMap<Resource,Integer> lockbox = gui.getView().getDashboard().getSerializableLockBox().getResources();
         coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
@@ -325,58 +364,95 @@ public class ViewController implements Controller{
         rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
     }
 
-
     public void useLeader(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
+        //stockbox plus --> always in use
+        //sale--> set in use and modify evolution section --> maybe show your sale?
+        //production zone --> if ypu click in use, include that position in active production
+        //market--> if in use modify white balls
+
         if(button.equals(use1)){
             gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 0));
+            if(gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.NOMOREWHITE)){
+                marketLeaderActive[0]=true;
+            }
+            if(gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                productionPositions.add(3);
+            }
 
         }else{
+            //se ho scartato la prima leader card, la seconda slitta in prima posizione
             if (gui.getView().getLeaderCards().size()==1){
                 gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 0));
+
+                if(gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.NOMOREWHITE)){
+                    marketLeaderActive[0]=true;
+                }
+                if(gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                   productionPositions.add(3);
+                }
             }else {
                 gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 1));
+                if(gui.getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.NOMOREWHITE)){
+                    marketLeaderActive[1]=true;
+                }
+                if(gui.getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                    productionPositions.add(4);
+                }
             }
         }
     }
 
-    //controllare che effettivamente si possa attivare
-    //lo faccio con il nack
+    /**
+     * user ask to active a leader card.
+     * If server answer with ACK means that user effectively have necessary resources for the activation and so
+     * parameter could be update.
+     */
+    public void activeLeaderACK() {
+        if (leaderWaitForAck==1) {
+            active1.setVisible(false);
+            discard1.setVisible(false);
+            use1.setVisible(true);
+            if (gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+                stockLeaderCardInUse.add(1);
+                use1.setVisible(false);
+            }
+
+        } else {
+            active2.setVisible(false);
+            discard2.setVisible(false);
+            use2.setVisible(false);
+            if (gui.getView().getLeaderCards().size() == 1) {
+                if (gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+                    stockLeaderCardInUse.add(2);
+                    use2.setVisible(false);
+                }
+            } else {
+                if (gui.getClientSocket().getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+                    stockLeaderCardInUse.add(2);
+                    use1.setVisible(false);
+                }
+            }
+        }
+    }
 
     public void activeLeader(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
         if(button.equals(active1)){
-            active1.setVisible(false);
-            discard1.setVisible(false);
-            use1.setVisible(true);
+            leaderWaitForAck=1;
             gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
-
-            if(gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                stockLeaderCardInUse.add(1);
-                use1.setVisible(false);
-            }
-
         }else{
-            active2.setVisible(false);
-            discard2.setVisible(false);
-            use2.setVisible(false);
+            leaderWaitForAck=2;
             if (gui.getView().getLeaderCards().size()==1){
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
-                if(gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                    stockLeaderCardInUse.add(2);
-                    use2.setVisible(false);
-                }
             }else {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
-                if(gui.getClientSocket().getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                    stockLeaderCardInUse.add(2);
-                    use1.setVisible(false);
-                }
             }
-
         }
+
+        gui.setGamePhase(GamePhases.ASKACTIVELEADER);
     }
 
     public void discardLeader(ActionEvent actionEvent) {
@@ -400,8 +476,32 @@ public class ViewController implements Controller{
         }
     }
 
-    private void initProductionZone(){
+    private void initProductionZone() {
 
+        productionZones = new ArrayList[3];
+        for (int i = 0; i < productionZones.length; i++) {
+            productionZones[i] = new ArrayList<>();
+        }
+        productionZones[0].addAll(Arrays.asList(production1, production2, production3));
+        productionZones[1].addAll(Arrays.asList(production11, production21, production31));
+        productionZones[2].addAll(Arrays.asList(production12, production22, production32));
+
+        SerializableProductionZone[] serializableProductionZones = gui.getView().getDashboard().getSerializableProductionZones();
+
+        for (int i = 0; i < serializableProductionZones.length; i++) {
+            SerializableProductionZone serializableProductionZone = serializableProductionZones[i];
+            if (serializableProductionZone.getCards() != null && serializableProductionZone.getCards().size() > 0) {
+                for (EvolutionCard evolutionCard : serializableProductionZone.getCards()) {
+                    if (evolutionCard.getLevel().getValue() == 1) {
+                        productionZones[i].get(0).setImage(printer.fromPathToImageEvolution(evolutionCard.getId()));
+                    } else if (evolutionCard.getLevel().getValue() == 2) {
+                        productionZones[i].get(1).setImage(printer.fromPathToImageEvolution(evolutionCard.getId()));
+                    } else {
+                        productionZones[i].get(2).setImage(printer.fromPathToImageEvolution(evolutionCard.getId()));
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -419,5 +519,32 @@ public class ViewController implements Controller{
         initLockBox();
         initStock();
         initProductionZone();
+    }
+
+    public void activeProduction(ActionEvent actionEvent) {
+
+        if(activeProduction1.isSelected())productionPositions.add(0);
+        if(activeProduction2.isSelected())productionPositions.add(1);
+        if(activeProduction3.isSelected())productionPositions.add(2);
+
+        if(productionPositions.size()!=0 || activeBasic) {
+            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures()));
+        }
+        //gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
+        //SE SONO IN QUESTA FASE E ARRIVA IL NACK FACCIO VEDERE UN MESSAGGIO??
+
+        activeBasic=false;
+        productionPositions.clear();
+        gui.setBasicRequires(null);
+        gui.setBasicEnsures(null);
+        gui.setLeaderEnsure(null);
+    }
+
+    public void chooseBasicProduction(ActionEvent actionEvent) {
+        activeBasic=true;
+        gui.setCurrentScene(gui.getScene(GUI.BASIC_PRODUCTION));
+        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.changeScene();
     }
 }
