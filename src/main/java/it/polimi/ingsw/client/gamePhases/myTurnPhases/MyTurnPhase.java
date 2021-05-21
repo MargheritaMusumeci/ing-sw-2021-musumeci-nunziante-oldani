@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.utils.Constants;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MyTurnPhase extends Phase {
@@ -16,7 +17,13 @@ public class MyTurnPhase extends Phase {
 
         cli.printMenu();
 
-        int action = scanner.nextInt();
+        int action;
+        try{
+            action = scanner.nextInt();
+        }catch (InputMismatchException e){
+            action = 100;
+            scanner.nextLine();
+        }
 
         switch (action) {
             case 0:
@@ -25,6 +32,7 @@ public class MyTurnPhase extends Phase {
                     new Thread(cli).start();
                     return;
                 } else {
+                    cli.setActionBeenDone(false);
                     cli.getClientSocket().send(new EndTurnMessage("Turn ended"));
                 }
                 break;
@@ -96,7 +104,10 @@ public class MyTurnPhase extends Phase {
                 cli.setGamePhase(new UseLeaderCardPhase());
                 new Thread(cli).start();;
                 break;
-
+            case 14:
+                cli.setGamePhase(new ShowOtherPlayersViewPhase());
+                new Thread(cli).start();
+                break;
             default:
                 System.out.println("This action doesn't exist");
                 new Thread(cli).start();

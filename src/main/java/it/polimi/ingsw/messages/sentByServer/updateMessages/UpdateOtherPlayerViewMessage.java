@@ -1,6 +1,9 @@
 package it.polimi.ingsw.messages.sentByServer.updateMessages;
 
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.messageHandler.MessageHandler;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.io.Serializable;
@@ -10,25 +13,32 @@ import java.io.Serializable;
  */
 public class UpdateOtherPlayerViewMessage extends UpdateMessage implements Serializable {
 
-    private VirtualView virtualView;
+    private View view;
     private String nickname;
 
-    public UpdateOtherPlayerViewMessage(String message, VirtualView virtualView, String nickname) {
+    public UpdateOtherPlayerViewMessage(String message, View view, String nickname) {
         super(message);
         this.nickname = nickname;
-        this.virtualView = virtualView;
+        this.view = view;
+
+        //sistemo le view togliendo le leder card che non potrei vedere
+        for(SerializableLeaderCard serializableLeaderCard : view.getLeaderCards()){
+            if(!serializableLeaderCard.isActive()){
+                view.getLeaderCards().remove(serializableLeaderCard);
+            }
+        }
     }
 
     public String getNickname() {
         return nickname;
     }
 
-    public VirtualView getVirtualView() {
-        return virtualView;
+    public View getView() {
+        return view;
     }
 
     @Override
     public void handle(MessageHandler messageHandler) {
-
+        messageHandler.handleUpdateMessage(this);
     }
 }

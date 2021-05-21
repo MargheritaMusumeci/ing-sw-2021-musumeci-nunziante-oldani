@@ -153,4 +153,9 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.changeScene();
         }
     }
+
+    @Override
+    public void handleUpdateMessage(UpdateOtherPlayerViewMessage message) {
+
+    }
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.board.Dashboard;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
 
@@ -14,7 +12,7 @@ public class View implements Serializable {
     private String activePlayer;
     private String nickname;
     private SerializableDashboard dashboard;
-    private ArrayList<SerializableDashboard> enemiesDashboard;
+    private HashMap<String, SerializableDashboard> enemiesDashboard;
     private HashMap<SerializableDashboard, ArrayList<SerializableLeaderCard>> enemiesActivatedLeaderCards;
     private SerializableMarket market;
     private SerializableEvolutionSection evolutionSection;
@@ -22,7 +20,7 @@ public class View implements Serializable {
     private int score;
     private ArrayList<Resource> resourcesBoughtFromMarker;
 
-    public View(String activePlayer, String nickname, SerializableDashboard dashboard, ArrayList<SerializableDashboard> enemiesDashboard,
+    public View(String activePlayer, String nickname, SerializableDashboard dashboard, HashMap<String, SerializableDashboard> enemiesDashboard,
                 SerializableMarket market, SerializableEvolutionSection evolutionSection, ArrayList<SerializableLeaderCard> leaderCards, int score) {
         this.activePlayer=activePlayer;
         this.nickname = nickname;
@@ -35,7 +33,7 @@ public class View implements Serializable {
         resourcesBoughtFromMarker = new ArrayList<>();
         enemiesActivatedLeaderCards = new HashMap<>();
         for (SerializableDashboard enemyDashboard :
-                enemiesDashboard) {
+                enemiesDashboard.values()) {
             enemiesActivatedLeaderCards.put(enemyDashboard, new ArrayList<>());
         }
     }
@@ -92,12 +90,20 @@ public class View implements Serializable {
         this.score = score;
     }
 
-    public ArrayList<SerializableDashboard> getEnemiesDashboard() {
+    public HashMap<String, SerializableDashboard> getEnemiesDashboard() {
         return enemiesDashboard;
     }
 
-    public void setEnemiesDashboard(ArrayList<SerializableDashboard> enemiesDashboard) {
+    public void setEnemiesDashboard(HashMap<String, SerializableDashboard> enemiesDashboard) {
         this.enemiesDashboard = enemiesDashboard;
+    }
+
+    public void setEnemyActivatedLeaderCards(SerializableDashboard dashboard, ArrayList<SerializableLeaderCard> enemyActivatedLeaderCards) {
+        this.enemiesActivatedLeaderCards.put(dashboard, enemyActivatedLeaderCards);
+    }
+
+    public void setEnemyDashboard(SerializableDashboard dashboard, String nickname){
+        enemiesDashboard.put(nickname, dashboard);
     }
 
     public HashMap<SerializableDashboard, ArrayList<SerializableLeaderCard>> getEnemiesActivatedLeaderCards() {

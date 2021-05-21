@@ -139,5 +139,13 @@ public class MessageHandlerCLI extends MessageHandler{
         clientSocket.getView().setMarket(message.getMarket());
     }
 
+    @Override
+    public void handleUpdateMessage(UpdateOtherPlayerViewMessage message){
+        clientSocket.getView().setEnemyDashboard(message.getView().getDashboard(), message.getNickname());
+        clientSocket.getView().setEnemyActivatedLeaderCards(message.getView().getDashboard(), message.getView().getLeaderCards());
+
+        System.out.println("Ho aggioranto la view di un nemico");
+    }
+
 
 }

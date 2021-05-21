@@ -49,6 +49,9 @@ public class LeaderCardsPrinter {
             }
         }
 
+        if(!(deck != null && deck.size() > 0)){
+            return;
+        }
         for (int i=0; i< deck.get(0).length; i++){
             for(int k=0; k<deck.size(); k++){
                 for (int j=0; j<deck.get(k)[i].size(); j++){
