@@ -32,7 +32,7 @@ public class EvolutionSectionPrinter {
             ArrayList<ArrayList<String>[]> line = createLines(serializableEvolutionSection.getEvolutionCards()[x]);
             for (int i=0; i< line.get(0).length; i++){
                 for(int k=0; k<line.size(); k++){
-                    for (int j=0; j<line.get(0)[i].size(); j++){
+                    for (int j=0; j<line.get(k)[i].size(); j++){
 
                         System.out.print(line.get(k)[i].get(j));
                     }
@@ -183,7 +183,12 @@ public class EvolutionSectionPrinter {
         card[13].add(fourSpaces);
         card[13].add(points);
         card[13].add(String.valueOf(evolutionCard.getPoint()));
-        card[13].add(fourSpaces);
+        if(evolutionCard.getPoint() < 10){
+            card[13].add(fourSpaces);
+        }else{
+            card[13].add(threespaces);
+        }
+
         card[13].add(vertical);
 
         return card;
@@ -192,8 +197,32 @@ public class EvolutionSectionPrinter {
     private static  ArrayList<ArrayList<String>[]> createLines(EvolutionCard[] evolutionCards){
         ArrayList<ArrayList<String>[]> line = new ArrayList<>();
         for(int i = 0; i<evolutionCards.length; i++){
-            line.add(createEvolutionCard(evolutionCards[i]));
+            if(evolutionCards[1] != null){
+                line.add(createEvolutionCard(evolutionCards[i]));
+            }else{
+                line.add(createEmptyCard());
+            }
+
         }
         return line;
+    }
+
+    private static ArrayList<String>[] createEmptyCard(){
+        String firstLine = "╔═════════════════╗";
+        String lastLine = "╚═════════════════╝";
+        String emptyLine = "║                 ║";
+        ArrayList<String>[] card = new ArrayList[15];
+        for (int i= 0; i< card.length; i++){
+            card[i] = new ArrayList<>();
+        }
+
+        card[0].add(firstLine);
+        card[14].add(lastLine);
+
+        for (int i=1; i<14; i++){
+            card[1].add(emptyLine);
+        }
+
+        return card;
     }
 }
