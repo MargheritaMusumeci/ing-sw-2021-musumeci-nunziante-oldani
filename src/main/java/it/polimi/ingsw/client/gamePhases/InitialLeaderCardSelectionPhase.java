@@ -27,7 +27,7 @@ public class InitialLeaderCardSelectionPhase extends Phase{
 
         LeaderCardsPrinter.print(cli.getLeaderCards());
         System.out.println();
-        System.out.println(Constants.ANSI_CYAN + "Chose 2 cards" + Constants.ANSI_RESET);
+        System.out.println(Constants.ANSI_CYAN + "Choose 2 cards" + Constants.ANSI_RESET);
 
         for(int i = 0; i < 2; i++){
             System.out.print(Constants.ANSI_CYAN + "> " +Constants.ANSI_RESET);
