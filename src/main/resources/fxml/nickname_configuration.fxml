@@ -9,14 +9,16 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="573.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.NicknameConfigurationController">
+<Pane prefHeight="600.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.NicknameConfigurationController">
    <children>
-      <ImageView fitHeight="573.0" fitWidth="775.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
-      </ImageView>
-      <Button fx:id="loginButton" layoutX="276.0" layoutY="444.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
-      <Text fill="WHITE" layoutX="243.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
-      <Label fx:id="error" layoutX="75.0" layoutY="404.0" textFill="RED" />
-      <ProgressIndicator fx:id="loading" disable="true" layoutX="272.0" layoutY="430.0" visible="false" />
-      <TextField fx:id="nicknameField" layoutX="223.0" layoutY="315.0" promptText="nickname" />
+      <ImageView fitHeight="600.0" fitWidth="885.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/background.png" />
+         </image></ImageView>
+      <Button fx:id="loginButton" layoutX="406.0" layoutY="438.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
+      <Text fill="WHITE" layoutX="373.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
+      <Label fx:id="error" layoutX="205.0" layoutY="398.0" textFill="RED" />
+      <ProgressIndicator fx:id="loading" disable="true" layoutX="402.0" layoutY="424.0" visible="false" />
+      <TextField fx:id="nicknameField" layoutX="353.0" layoutY="309.0" promptText="nickname" />
    </children>
 </Pane>
