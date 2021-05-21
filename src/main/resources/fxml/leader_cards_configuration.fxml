@@ -4,42 +4,36 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="855.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/background.png" />
-         </image>
-      </ImageView>
-      <Text fill="WHITE" layoutX="243.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Card:">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Text>
-      <HBox fx:id="images" layoutX="166.0" layoutY="311.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
+      <HBox fx:id="images" layoutX="40.0" layoutY="136.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
          <children>
             <ImageView fx:id="leaderCard1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard3" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard4" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
          </children></HBox>
-      <HBox layoutX="166.0" layoutY="420.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
+      <HBox layoutX="36.0" layoutY="254.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
          <children>
-            <CheckBox fx:id="cardId1" mnemonicParsing="false" text="Leader Card 1" textFill="WHITE" />
-            <CheckBox fx:id="cardId2" mnemonicParsing="false" text="Leader Card 2" textFill="WHITE" />
+            <CheckBox fx:id="cardId1" mnemonicParsing="false" text="Leader Card 1" />
+            <CheckBox fx:id="cardId2" mnemonicParsing="false" text="Leader Card 2" />
             <CheckBox fx:id="cardId3" mnemonicParsing="false" text="Leader Card 3" />
-            <CheckBox fx:id="cardId4" mnemonicParsing="false" text="Leader Card 4" textFill="WHITE" />
+            <CheckBox fx:id="cardId4" mnemonicParsing="false" text="Leader Card 4" />
          </children>
       </HBox>
-      <Label fx:id="errorLabel" layoutX="231.0" layoutY="269.0" prefWidth="19.0" />
-      <Button fx:id="LeaderConfirmation" layoutX="380.0" layoutY="508.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm" />
+      <Text layoutX="108.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Card:">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Label fx:id="errorLabel" layoutX="231.0" layoutY="269.0" />
+      <Button fx:id="LeaderConfirmation" layoutX="272.0" layoutY="341.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm" />
       <ProgressIndicator fx:id="loading" layoutX="275.0" layoutY="333.0" visible="false" />
    </children>
 </Pane>

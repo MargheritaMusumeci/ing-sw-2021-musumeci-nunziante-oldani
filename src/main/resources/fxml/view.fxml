@@ -129,21 +129,6 @@
             <ImageView fx:id="pos2" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <ImageView fx:id="cardPope1" fitHeight="34.0" fitWidth="36.0" layoutX="342.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/popeTrack/quadrato_giallo.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="cardPope2" fitHeight="34.0" fitWidth="36.0" layoutX="465.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/popeTrack/quadrato_arancione.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="cardPope3" fitHeight="34.0" fitWidth="36.0" layoutX="612.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/popeTrack/quadrato_rosso.png" />
-         </image>
-      </ImageView>
       <HBox alignment="CENTER" layoutX="243.0" layoutY="355.0" prefHeight="25.0" prefWidth="83.0" spacing="5.0">
          <children>
             <ImageView fx:id="stockBox31" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
@@ -232,8 +217,22 @@
       <CheckBox fx:id="activeProduction3" layoutX="641.0" layoutY="511.0" mnemonicParsing="false" />
       <Button fx:id="activeProductions" layoutX="499.0" layoutY="541.0" mnemonicParsing="false" onAction="#activeProduction" text="Active Production" />
       <Button fx:id="basicProduction" layoutX="269.0" layoutY="507.0" mnemonicParsing="false" onAction="#chooseBasicProduction" text="Choose Basic Production" />
-      <ImageView fx:id="basicrequiers1" fitHeight="25.0" fitWidth="22.0" layoutX="348.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="basicRequires1" fitHeight="25.0" fitWidth="22.0" layoutX="348.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="basicRequires2" fitHeight="25.0" fitWidth="22.0" layoutX="348.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="basicEnsure" fitHeight="25.0" fitWidth="22.0" layoutX="376.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox alignment="CENTER" layoutX="850.0" layoutY="319.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
+         <children>
+            <ImageView fx:id="stockPlus21" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="stockPlus22" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="741.0" layoutY="321.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
+         <children>
+            <ImageView fx:id="stockPlus11" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="stockPlus12" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="771.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="883.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

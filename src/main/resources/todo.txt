@@ -1,9 +1,9 @@
 Musumeci:
 
--modificare i circle del market in sphere
+- modificare i circle del market in sphere
+- modificare sfondi e dimensioni
+- modificare la label di errore
 - segnalino della croce troppo piccolo--> aumento le dimensioni dell'ImageView a 33-36
-
--nella gui vanno fatti i controlli tipo chiedo di attivare la leader card giusta?
 
 - connessione al ping
 - wait until ack
@@ -43,10 +43,14 @@ Generali:
 - attenzione: gli altri player non devono vedere le leader card fino a quando non vengono attivate
 - come viene gestita la produzione plus?
 
-
-
-
 DOMANDE TUTORATO:
+
+0-7 AZIONI
+
+8-15 PRINT e facciamo due switch più piccoli
+
+faith track mancano delle informazioni --> posizioni del pope section
+print fa un file di testo --> reader
 
 CONTROLLARE MAVEN --> DOVREBBE BASTARE AVER INSERITO LA DEPENDENCY JAVAFX
 

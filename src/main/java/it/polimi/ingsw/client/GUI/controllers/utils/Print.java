@@ -82,7 +82,7 @@ public class Print {
     public Image togetherPopePosition() {
         URL url = null;
         try {
-            url = new File("src/main/resources/images/popeTrack/croce_nera.png").toURI().toURL();
+            url = new File("src/main/resources/images/popeTrack/croci.png").toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -92,11 +92,39 @@ public class Print {
     public Image lorenzoPopePosition() {
         URL url = null;
         try {
-            url = new File("src/main/resources/images/popeTrack/croci.png").toURI().toURL();
+            url = new File("src/main/resources/images/popeTrack/croce_nera.png").toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return new Image(String.valueOf(url));
+    }
+
+    public Image fromPathToPopeCard(String path){
+        URL url = null;
+        try {
+            url = new File("src/main/resources/images/popeTrack/" + path).toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return new Image(String.valueOf(url));
+    }
+
+    public String fromPositionToDiscardPope(Integer position){
+        switch(position){
+            case 0: return "quadrato_giallo.fxml";
+            case 1: return "quadrato_arancione.fxml";
+            case 2: return "quadrato_rosso.fxml";
+        }
+        return null;
+    }
+
+    public String fromPositionToActivePope(Integer position){
+        switch(position){
+            case 0: return "punti_giallo.fxml";
+            case 1: return "punti_arancione.fxml";
+            case 2: return "punti_rosso.fxml";
+        }
+        return null;
     }
 
 }

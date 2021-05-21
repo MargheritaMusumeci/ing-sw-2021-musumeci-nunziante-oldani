@@ -530,7 +530,6 @@ public class StockTest extends TestCase {
         assertEquals(stock2.getQuantities(2),3);
         assertEquals(stock2.getQuantities(1),1);
         assertEquals(stock2.getQuantities(0),1);
-
     }
 
     public void testCheRompeManageStock(){
@@ -555,7 +554,7 @@ public class StockTest extends TestCase {
         ArrayList<Resource> coins = new ArrayList<>();
         coins.add(Resource.COIN);
         coins.add(Resource.COIN);
-        stock.manageStock(coins);
+        //stock.manageStock(coins);
         assertTrue(stock.manageStock(coins));
     }
 
