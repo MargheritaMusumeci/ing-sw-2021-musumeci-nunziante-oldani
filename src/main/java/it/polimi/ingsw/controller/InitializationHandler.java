@@ -44,7 +44,7 @@ public class InitializationHandler {
 
         ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
         for(int i = 0 ; i < 2 ; i++)
-            leaderCards.add(lCards.get(i));
+            leaderCards.add(lCards.get(posLeaderCards.get(i)));
 
         player.getDashboard().setLeaderCards(leaderCards);
         return true;
