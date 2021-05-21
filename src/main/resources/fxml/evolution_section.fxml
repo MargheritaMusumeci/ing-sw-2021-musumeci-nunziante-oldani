@@ -17,7 +17,7 @@
             <Font size="17.0" />
          </font>
       </Text>
-      <HBox layoutX="39.0" layoutY="75.0" prefHeight="141.0" prefWidth="684.0">
+      <HBox layoutX="47.0" layoutY="74.0" prefHeight="141.0" prefWidth="684.0">
          <children>
             <ImageView fx:id="eCard_00" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_01" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />

@@ -263,11 +263,11 @@ public class ViewController implements Controller{
     private void initEvolutionSection(){
         eCards = new ArrayList<>();
         ArrayList<ImageView> cards1 = new ArrayList<>(Arrays.asList(eCardView_00 , eCardView_01 , eCardView_02 , eCardView_03));
-        eCards.set(0 , cards1);
+        eCards.add(0 , cards1);
         ArrayList<ImageView> cards2 = new ArrayList<>(Arrays.asList(eCardView_10 , eCardView_11 , eCardView_12 , eCardView_13));
-        eCards.set(1 , cards2);
+        eCards.add(1 , cards2);
         ArrayList<ImageView> cards3 = new ArrayList<>(Arrays.asList(eCardView_20 , eCardView_21 , eCardView_22 , eCardView_23));
-        eCards.set(2 , cards3);
+        eCards.add(2 , cards3);
 
         showCards.setVisible(true);
 
@@ -280,6 +280,7 @@ public class ViewController implements Controller{
                 if(evolutionSection.getEvolutionCards()[i][j] != null){
                     eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
                     eCards.get(i).get(j).setVisible(true);
+                    eCards.get(i).get(j).setCache(true);
                 }
                 else{
                     eCards.get(i).get(j).setVisible(false);
