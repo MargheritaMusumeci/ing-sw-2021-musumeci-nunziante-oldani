@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane fx:controller="it.polimi.ingsw.client.GUI.controllers.BasicProductionController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="96.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resources do you want to use ?">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Button fx:id="confirm" layoutX="270.0" layoutY="361.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="79.0" layoutY="56.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+         <children>
+            <RadioButton fx:id="rock1" mnemonicParsing="false">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resources1" />
+               </toggleGroup>
+            </RadioButton>
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/stone.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="coin1" mnemonicParsing="false" toggleGroup="$resources1" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/coin.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="shield1" mnemonicParsing="false" toggleGroup="$resources1" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/shield.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="servant1" mnemonicParsing="false" toggleGroup="$resources1" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/servant.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="80.0" layoutY="129.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+         <children>
+            <RadioButton fx:id="rock2" mnemonicParsing="false">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resources2" />
+               </toggleGroup>
+            </RadioButton>
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/stone.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="coin2" mnemonicParsing="false" toggleGroup="$resources2" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/coin.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="shield2" mnemonicParsing="false" toggleGroup="$resources2" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/shield.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="servant2" mnemonicParsing="false" toggleGroup="$resources2" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/servant.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <Text layoutX="80.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resources do you want to receive?">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <HBox fx:id="resourcesBox3" alignment="CENTER" layoutX="85.0" layoutY="253.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+         <children>
+            <RadioButton fx:id="rock3" mnemonicParsing="false">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resources3" />
+               </toggleGroup>
+            </RadioButton>
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/stone.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="coin3" mnemonicParsing="false" toggleGroup="$resources3" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/coin.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="shield3" mnemonicParsing="false" toggleGroup="$resources3" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/shield.png" />
+               </image>
+            </ImageView>
+            <RadioButton fx:id="servant3" mnemonicParsing="false" toggleGroup="$resources3" />
+            <ImageView fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/resources/servant.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+   </children>
+</Pane>
