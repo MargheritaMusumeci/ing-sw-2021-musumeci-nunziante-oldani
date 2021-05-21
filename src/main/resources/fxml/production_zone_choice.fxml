@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ProductionZoneChoiceController">
    <children>
       <Text layoutX="230.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a production zone">
          <font>
@@ -32,7 +32,7 @@
          </children>
       </HBox>
       <Label fx:id="error" layoutX="275.0" layoutY="383.0" />
-      <Button fx:id="confirm" layoutX="277.0" layoutY="419.0" mnemonicParsing="false" text="Confirm" />
-      <Button fx:id="cancel" layoutX="379.0" layoutY="419.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="confirmPosition" layoutX="277.0" layoutY="419.0" mnemonicParsing="false" onAction="#confirmPositionChoice" text="Confirm" />
+      <Button fx:id="cancel" layoutX="379.0" layoutY="419.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
    </children>
 </AnchorPane>
