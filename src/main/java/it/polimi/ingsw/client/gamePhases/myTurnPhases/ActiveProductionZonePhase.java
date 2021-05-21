@@ -1,11 +1,14 @@
 package it.polimi.ingsw.client.gamePhases.myTurnPhases;
 
 import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.CLI.componentPrinter.ResourcesBoughtPrinter;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ActiveProductionZonePhase extends Phase {
@@ -19,20 +22,26 @@ public class ActiveProductionZonePhase extends Phase {
         ArrayList<Integer> productionZones =new ArrayList<Integer>();
         ArrayList<Resource> resourcesRequires = new ArrayList<Resource>();
         ArrayList<Resource> resourcesEnsures = new ArrayList<Resource>();
+
         int numPZ = cli.getClientSocket().getView().getDashboard().getSerializableProductionZones().length +
                 cli.getClientSocket().getView().getDashboard().getSerializableLeaderProductionZones().length;
 
         cli.printProductionZones();
 
-        System.out.println("Which production zone do you want to activate? \n" +
+        System.out.println(Constants.ANSI_CYAN + "Insert which production zone do you want to activate \n" +
                 "You can choose between 0 , 1 , 2 and 3 , 4 (if you have an active leader production zone)\n" +
-                "Insert -1 to end");
+                "Insert -1 to end" + Constants.ANSI_RESET);
         do{
             //Insert the position
             do{
-                position = scanner.nextInt();
+                try{
+                    position = scanner.nextInt();
+                }catch (InputMismatchException e){
+                    position = 6;
+                    scanner.nextLine();
+                }
                 if(position < -1 || position > numPZ)
-                    System.out.println("Position not valid, insert an other position");
+                    System.out.println(Constants.ANSI_RED + "Error! Position not valid, insert another position" + Constants.ANSI_RESET);
             }while(position < -1 || position > numPZ);
 
             //If the player ended his choice
@@ -45,46 +54,46 @@ public class ActiveProductionZonePhase extends Phase {
             if(!productionZones.contains(position))
                 productionZones.add(position);
             else
-                System.out.println("Position already chose");
+                System.out.println(Constants.ANSI_RED + "Position already chose" + Constants.ANSI_RESET);
 
         }while(!exit && productionZones.size() <= numPZ);
 
         //Now the array with the position is ready
 
-        System.out.println("Do you want to activate the basic production zone? Y/N");
+        System.out.println(Constants.ANSI_CYAN + "Do you want to activate the basic production zone? Y/N" + Constants.ANSI_RESET);
 
         do{
             exit = true;
             String input = scanner.next();
-            if(input.equals("Y")){
+            if(input.equals("Y") || input.equals("y")){
                 activeBasic = true;
             }
-            else if(input.equals("N")){
+            else if(input.equals("N") || input.equals("n")){
                 activeBasic = false;
             }
             else{
-                System.out.println("Wrong parameter, try again");
+                System.out.println(Constants.ANSI_RED + "Wrong parameter, try again" + Constants.ANSI_RESET);
                 exit = false;
             }
         }while(!exit);
 
         //If the player wants to active the basic production
         if(activeBasic){
-            System.out.println("Choose 2 resource types to use in basic production:");
-            System.out.println("1) COIN");
-            System.out.println("2) ROCK");
-            System.out.println("3) SHIELD");
-            System.out.println("4) SERVANT");
+            ArrayList<Resource> resources = new ArrayList<>();
+            resources.add(Resource.COIN);
+            resources.add(Resource.ROCK);
+            resources.add(Resource.SHIELD);
+            resources.add(Resource.SERVANT);
+            ResourcesBoughtPrinter.print(resources, 0);
+            System.out.println(Constants.ANSI_CYAN + "Choose 2 resource types to use in basic production:" + Constants.ANSI_RESET);
+
 
             while(resourcesRequires.size() < 2){
                 fillArrayList(resourcesRequires);
             }
 
-            System.out.println("Choose 1 resource type to obtain from basic production:");
-            System.out.println("1) COIN");
-            System.out.println("2) ROCK");
-            System.out.println("3) SHIELD");
-            System.out.println("4) SERVANT");
+            ResourcesBoughtPrinter.print(resources, 0);
+            System.out.print(Constants.ANSI_CYAN + "Choose 1 resource type to obtain from basic production: "+Constants.ANSI_RESET);
 
             while(resourcesEnsures.size() < 1){
                 fillArrayList(resourcesEnsures);
@@ -106,9 +115,7 @@ public class ActiveProductionZonePhase extends Phase {
 
         if (cli.isAckArrived()){
             cli.setActionBeenDone(true);
-            System.out.println("Production zones activated");
-        }else{
-            System.out.println("Something goes wrong, try again");
+            System.out.println(Constants.ANSI_GREEN + "Production zones activated" + Constants.ANSI_RESET);
         }
 
         cli.setIsAckArrived(false);
@@ -121,16 +128,23 @@ public class ActiveProductionZonePhase extends Phase {
     private void fillArrayList(ArrayList<Resource> resources){
         Scanner scanner = new Scanner(System.in);
         int position = 0;
-        position = scanner.nextInt();
-        if(position < 1 || position > 4){
-            System.out.println("Wrong resources , try again");
+
+        try{
+            position = scanner.nextInt();
+        }catch (InputMismatchException e){
+            position = 6;
+            scanner.nextLine();
+        }
+
+        if(position < 0 || position > 3){
+            System.out.println(Constants.ANSI_RED + "Wrong resources, try again" + Constants.ANSI_RESET);
             return;
         }
-        if(position == 1)
+        if(position == 0)
             resources.add(Resource.COIN);
-        else if(position == 2)
+        else if(position == 1)
             resources.add(Resource.ROCK);
-        else if(position == 3)
+        else if(position == 2)
             resources.add(Resource.SHIELD);
         else
             resources.add(Resource.SERVANT);
