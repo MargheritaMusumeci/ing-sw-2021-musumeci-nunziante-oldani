@@ -84,7 +84,7 @@ public class CLI implements UI, Runnable {
                 "| 11: Active Production    | 5: Show Production Zones  |\n" +
                 "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
                 "| 13: Use Leader Cards     | 7: Show Evolution section |\n" +
-                "|               15: Print Enemy DashBoard              |\n" +
+                "|               14: Print Enemy DashBoard              |\n" +
                 "+--------------------------+---------------------------+\n" +
                 "\n");
 

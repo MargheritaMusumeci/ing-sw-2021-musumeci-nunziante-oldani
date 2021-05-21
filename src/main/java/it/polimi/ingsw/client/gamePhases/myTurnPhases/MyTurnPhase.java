@@ -105,6 +105,10 @@ public class MyTurnPhase extends Phase {
                 new Thread(cli).start();;
                 break;
             case 14:
+                if(cli.getNumberOfPlayers() == 1){
+                    System.out.println(Constants.ANSI_RED + "You are the only player!" +  Constants.ANSI_RESET);
+                    break;
+                }
                 cli.setGamePhase(new ShowOtherPlayersViewPhase());
                 new Thread(cli).start();
                 break;

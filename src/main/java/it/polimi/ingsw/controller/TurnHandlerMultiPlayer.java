@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.LeaderAbility;
@@ -9,6 +11,7 @@ import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class that contains all turn and game management commands for multiplayer match
@@ -94,7 +97,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
      * @return
      */
     @Override
-    public UpdateActivePlayerMessage endTurn() {
+    public Message endTurn() {
         //Set NOTHING the action chose by the player
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
         //Set isActive = false in the eCards on the top of each productionZone
@@ -114,12 +117,30 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
         //Update the active player for the next turn
         modelGame.updateActivePlayer();
 
+        if (isTheLastTurn && modelGame.getActivePlayer().getDashboard().getInkwell()) {
+            isTheEnd = true;
+            return endGame();
+        }
+
         return new UpdateActivePlayerMessage(modelGame.getActivePlayer().getNickName());
     }
 
     @Override
-    public void endGame(){
+    public Message endGame(){
         checkWinner();
-        //end do other stuffs
+        ArrayList<String> winners = new ArrayList<>();
+
+        HashMap<String, Integer> scores = new HashMap<>();
+
+        for (Player player : modelGame.getPlayers()){
+            if(player.isWinner()){
+                winners.add(player.getNickName());
+            }
+            scores.put(player.getNickName(), player.getDashboard().getScore());
+        }
+
+        return new EndGameMessage("The game is edned", winners, scores);
+
+
     }
 }

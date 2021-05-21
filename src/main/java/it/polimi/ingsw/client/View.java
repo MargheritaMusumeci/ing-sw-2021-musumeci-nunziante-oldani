@@ -19,6 +19,8 @@ public class View implements Serializable {
     private ArrayList<SerializableLeaderCard> leaderCards;
     private int score;
     private ArrayList<Resource> resourcesBoughtFromMarker;
+    private ArrayList<String> winners;
+    private HashMap<String, Integer> scores;
 
     public View(String activePlayer, String nickname, SerializableDashboard dashboard, HashMap<String, SerializableDashboard> enemiesDashboard,
                 SerializableMarket market, SerializableEvolutionSection evolutionSection, ArrayList<SerializableLeaderCard> leaderCards, int score) {
@@ -36,6 +38,8 @@ public class View implements Serializable {
                 enemiesDashboard.values()) {
             enemiesActivatedLeaderCards.put(enemyDashboard, new ArrayList<>());
         }
+        this.winners = new ArrayList<>();
+        this.scores = new HashMap<>();
     }
 
     public String getActivePlayer() {
@@ -120,5 +124,25 @@ public class View implements Serializable {
 
     public void setResourcesBoughtFromMarker(ArrayList<Resource> resourcesBoughtFromMarker) {
         this.resourcesBoughtFromMarker = resourcesBoughtFromMarker;
+    }
+
+    public void setEnemiesActivatedLeaderCards(HashMap<SerializableDashboard, ArrayList<SerializableLeaderCard>> enemiesActivatedLeaderCards) {
+        this.enemiesActivatedLeaderCards = enemiesActivatedLeaderCards;
+    }
+
+    public ArrayList<String> getWinners() {
+        return winners;
+    }
+
+    public void setWinners(ArrayList<String> winners) {
+        this.winners = winners;
+    }
+
+    public HashMap<String, Integer> getScores() {
+        return scores;
+    }
+
+    public void setScores(HashMap<String, Integer> scores) {
+        this.scores = scores;
     }
 }

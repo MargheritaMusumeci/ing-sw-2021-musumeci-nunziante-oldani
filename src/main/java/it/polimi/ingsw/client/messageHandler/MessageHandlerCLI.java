@@ -2,11 +2,13 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.ClientSocket;
+import it.polimi.ingsw.client.gamePhases.EndGamePhase;
 import it.polimi.ingsw.client.gamePhases.InitialLeaderCardSelectionPhase;
 import it.polimi.ingsw.client.gamePhases.InitialResourcesSelection;
 import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
 import it.polimi.ingsw.client.gamePhases.OtherPlayersTurnPhase;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
@@ -100,6 +102,14 @@ public class MessageHandlerCLI extends MessageHandler{
         synchronized (cli.getGamePhase()){
             cli.getGamePhase().notifyAll();
         }
+    }
+
+    @Override
+    public void handleMessage(EndGameMessage message) {
+        cli.getClientSocket().getView().setScores(message.getScores());
+        cli.getClientSocket().getView().setWinners(message.getWinners());
+        cli.setGamePhase(new EndGamePhase());
+        new Thread(cli).start();
     }
 
     @Override

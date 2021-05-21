@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
@@ -106,6 +107,11 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.changeScene();
         }
+    }
+
+    @Override
+    public void handleMessage(EndGameMessage message) {
+
     }
 
     @Override

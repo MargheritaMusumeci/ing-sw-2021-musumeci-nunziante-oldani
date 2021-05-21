@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActionMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
@@ -183,11 +184,18 @@ public class MessageHandler {
     public void handleMessage(EndTurnMessage message){
         if(scc.getGamePhase() == GamePhases.GAME){
             //per ongi player mando il messaggio che è cambiato il turno
-            UpdateActivePlayerMessage updateActivePlayerMessage= scc.getGameHandler().getTurnHandler().endTurn();
-
-            for (ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
-                serverClientConnection.send(updateActivePlayerMessage);
+            Message messageEndTurn = scc.getGameHandler().getTurnHandler().endTurn();
+            if( messageEndTurn instanceof UpdateActivePlayerMessage) {
+                for (ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
+                    serverClientConnection.send((UpdateActivePlayerMessage)messageEndTurn);
+                }
+            }else if (messageEndTurn instanceof EndGameMessage){
+                for (ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
+                    serverClientConnection.send((EndGameMessage)messageEndTurn);
+                }
             }
+
+
         }else{
             scc.send(new NACKMessage("KO"));
         }

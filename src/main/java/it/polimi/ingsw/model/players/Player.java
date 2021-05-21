@@ -40,4 +40,7 @@ public abstract class Player extends PlayerObservable {
         this.isWinner = true;
     }
 
+    public boolean isWinner() {
+        return isWinner;
+    }
 }

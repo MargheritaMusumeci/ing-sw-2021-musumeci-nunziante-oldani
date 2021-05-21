@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.LeaderAbility;
@@ -148,7 +149,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
      * @return
      */
     @Override
-    public UpdateActivePlayerMessage endTurn() {
+    public Message endTurn() {
         //If it was a player turn
         if(modelGame.getActivePlayer() instanceof HumanPlayer){
             //Set NOTHING the action chose by the player
@@ -186,9 +187,11 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
     /**
      * Method that ends the game
+     * @return
      */
     @Override
-    public void endGame(){
+    public Message endGame(){
         checkWinner();
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
@@ -24,6 +25,7 @@ public abstract class MessageHandler {
     public abstract void handleMessage(InitialResourcesMessage message);
     public abstract void handleMessage(SendViewMessage message);
     public abstract void handleMessage(SendResourcesBoughtFromMarket message);
+    public abstract void handleMessage(EndGameMessage message);
 
     public abstract void handleUpdateMessage(UpdateLeaderCardsMessage message);
     public abstract void handleUpdateMessage(UpdateDashBoardMessage message);

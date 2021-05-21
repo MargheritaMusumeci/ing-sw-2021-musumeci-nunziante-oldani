@@ -2,12 +2,15 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
 import it.polimi.ingsw.exception.NotEnoughResourcesException;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Market;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.listeners.*;
 import it.polimi.ingsw.model.osservables.DashboardObservable;
+import it.polimi.ingsw.model.popeTrack.PopeCard;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
 import java.util.ArrayList;
@@ -83,7 +86,37 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
      * @return the score of the player who owns the dashboard
      */
     public int getScore() {
-        return totalScore;
+
+        try{
+            //get total resource
+            int totalResources = personalStock.getTotalNumberOfResources() + personalStock.getTotalNumberOfResources();
+            totalScore = totalResources/5;
+
+            //leader cards
+            for(LeaderCard leaderCard: leaderCards){
+                totalScore += leaderCard.getPoint();
+            }
+
+            //production zones
+            for(NormalProductionZone productionZone : personalProductionZones){
+                for (Card evolutionCard : productionZone.getCardList()){
+                    totalScore += evolutionCard.getPoint();
+                }
+            }
+
+            totalScore += personalPopeTrack.getGamerPosition().getPoint();
+            for (PopeCard popeCard: personalPopeTrack.getPopeCard()){
+                if(popeCard.isUsed()){
+                    totalScore += popeCard.getPoint();
+                }
+            }
+
+            return totalScore;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
     }
 
     /**

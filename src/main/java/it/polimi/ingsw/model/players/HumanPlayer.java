@@ -367,4 +367,6 @@ public class HumanPlayer extends Player{
         this.position = position;
     }
 
+
+
 }
