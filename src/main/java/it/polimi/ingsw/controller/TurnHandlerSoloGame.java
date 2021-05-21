@@ -73,6 +73,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
                     for (int j = 2; j >= 0; j--) {
                         if (modelGame.getEvolutionSection().getEvolutionSection()[j][positionCol]!=null){
                             modelGame.getEvolutionSection().buy(j,positionCol);
+                            break;
                         }
                     }
                 }
