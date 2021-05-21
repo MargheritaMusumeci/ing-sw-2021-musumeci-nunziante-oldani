@@ -53,6 +53,7 @@ public class ProductionZoneChoiceController implements Controller{
         for(int i = 0 ; i < productionZones.length ; i++){
             if(productionZones[i] != null && productionZones[i].getCards().get(i) != null){
                 eCards.get(i).setImage(printer.fromPathToImageEvolution(productionZones[i].getCards().get(i).getId()));
+                eCards.get(i).setVisible(true);
             }
             else{
                 //Don't show the card

@@ -70,6 +70,7 @@ public class EvolutionSectionController implements Controller {
             for(int j = 0 ; j < 4 ; j++){
                 if(evolutionSection.getEvolutionCards()[i][j] != null){
                     eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
+                    eCards.get(i).get(j).setVisible(true);
                 }
                 else{
                     eCards.get(i).get(j).setVisible(false);
@@ -110,7 +111,7 @@ public class EvolutionSectionController implements Controller {
         initEvolutionSection();
     }
 
-    void confirmCardSelection(){
+    public void confirmCardSelection(){
         int row = -1;
         int column = -1;
 
