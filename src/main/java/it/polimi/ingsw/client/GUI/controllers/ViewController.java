@@ -474,6 +474,7 @@ public class ViewController implements Controller{
                 gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 1));
             }
         }
+        initPopeTrack();
     }
 
     private void initProductionZone() {
