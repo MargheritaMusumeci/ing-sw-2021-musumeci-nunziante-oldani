@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.popeTrack.PopeCard;
+import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 import javafx.event.ActionEvent;
@@ -149,6 +150,23 @@ public class ViewController implements Controller{
     @FXML private ImageView leaderEnsure1;
     @FXML private ImageView leaderEnsure2;
 
+    @FXML private ImageView eCardView_00;//row 0 , column 0
+    @FXML private ImageView eCardView_01;//row 0 , column 1
+    @FXML private ImageView eCardView_02;//row 0 , column 2
+    @FXML private ImageView eCardView_03;//row 0 , column 3
+    @FXML private ImageView eCardView_10;//row 1 , column 0
+    @FXML private ImageView eCardView_11;//row 1 , column 1
+    @FXML private ImageView eCardView_12;//row 1 , column 2
+    @FXML private ImageView eCardView_13;//row 1 , column 3
+    @FXML private ImageView eCardView_20;//row 2 , column 0
+    @FXML private ImageView eCardView_21;//row 2 , column 1
+    @FXML private ImageView eCardView_22;//row 2 , column 2
+    @FXML private ImageView eCardView_23;//row 2 , column 3
+
+    @FXML private ArrayList<ArrayList<ImageView>> eCards;
+
+    @FXML private Button showCards;//show the evolution section
+
     public ViewController(){
         this.printer = new Print();
         stockLeaderCardInUse= new ArrayList<>();
@@ -164,6 +182,14 @@ public class ViewController implements Controller{
         gui.setCurrentScene(gui.getScene(GUI.MARKET));
         gui.setOldScene(gui.getScene(GUI.START_GAME));
         gui.setGamePhase(GamePhases.BUYFROMMARKET);
+        gui.changeScene();
+    }
+
+    @FXML
+    private void showEvolutionSection(){
+        gui.setCurrentScene(gui.getScene(GUI.EVOLUTION_SECTION));
+        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setGamePhase(GamePhases.BUYEVOLUTIONCARD);
         gui.changeScene();
     }
 
@@ -232,6 +258,34 @@ public class ViewController implements Controller{
         duetre.setFill(printer.colorFromResource(market[2][3]));
 
         external.setFill(printer.colorFromResource(gui.getView().getMarket().getExternalResource()));
+    }
+
+    private void initEvolutionSection(){
+        eCards = new ArrayList<>();
+        ArrayList<ImageView> cards1 = new ArrayList<>(Arrays.asList(eCardView_00 , eCardView_01 , eCardView_02 , eCardView_03));
+        eCards.set(0 , cards1);
+        ArrayList<ImageView> cards2 = new ArrayList<>(Arrays.asList(eCardView_10 , eCardView_11 , eCardView_12 , eCardView_13));
+        eCards.set(1 , cards2);
+        ArrayList<ImageView> cards3 = new ArrayList<>(Arrays.asList(eCardView_20 , eCardView_21 , eCardView_22 , eCardView_23));
+        eCards.set(2 , cards3);
+
+        showCards.setVisible(true);
+
+        //Take the card on the top of each positions
+        SerializableEvolutionSection evolutionSection = gui.getView().getEvolutionSection();
+
+        //Set the images of the cards in the position
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j < 4 ; j++){
+                if(evolutionSection.getEvolutionCards()[i][j] != null){
+                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
+                    eCards.get(i).get(j).setVisible(true);
+                }
+                else{
+                    eCards.get(i).get(j).setVisible(false);
+                }
+            }
+        }
     }
 
     private void initInkwell(){
@@ -547,6 +601,7 @@ public class ViewController implements Controller{
         initLockBox();
         initStock();
         initProductionZone();
+        initEvolutionSection();
     }
 
     private void initPopeCards() {

@@ -100,13 +100,11 @@ public class ProductionZoneChoiceController implements Controller{
             return;
         }
 
-        //Send the message -> need to add 2 attributes in gui
-        //gui.getClientSocket().send(new BuyEvolutionCardMessage("Card bought" , gui.getRow() , gui.getColumn()));
-        //If ack -> set that the action has been chosen
+        gui.getClientSocket().send(new BuyEvolutionCardMessage("Card bought" , gui.getCardRow() , gui.getCardColumn() , position));
 
         //Turn back to the start game scene
         gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));//Maybe this will be change -> now there isn't this scene
+        gui.setOldScene(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE));
         gui.setGamePhase(GamePhases.STARTGAME);
     }
 

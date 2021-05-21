@@ -234,5 +234,30 @@
       </HBox>
       <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="771.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="883.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox layoutX="1.0" layoutY="331.0" prefHeight="54.0" prefWidth="210.0">
+         <children>
+            <ImageView fx:id="eCardView_00" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_01" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_02" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_03" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox layoutX="1.0" layoutY="387.0" prefHeight="54.0" prefWidth="210.0">
+         <children>
+            <ImageView fx:id="eCardView_10" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_11" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_12" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_13" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox layoutX="1.0" layoutY="447.0" prefHeight="54.0" prefWidth="210.0">
+         <children>
+            <ImageView fx:id="eCardView_20" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_21" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_22" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_23" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <Button fx:id="showCards" layoutX="46.0" layoutY="520.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
    </children>
 </Pane>

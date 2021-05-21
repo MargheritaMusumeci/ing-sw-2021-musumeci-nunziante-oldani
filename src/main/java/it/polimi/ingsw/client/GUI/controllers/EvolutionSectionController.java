@@ -133,10 +133,15 @@ public class EvolutionSectionController implements Controller {
             return;
         }
 
-        /**
-         * Save the evolution section chose (row and column) in an attribute in gui and change the scene to ask the
-         *  player in which production zone he wanna put the new card
-         */
+        //Set the position of the card the player wants to buy
+        gui.setCardRow(row);
+        gui.setCardColumn(column);
+
+        //Change the scene to let the player choose in which production zone put the card
+        gui.setCurrentScene(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE));
+        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setGamePhase(GamePhases.PRODUCTIONZONECHOICE);
+        gui.changeScene();
     }
 
     /**
