@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.CLI;
 
-import it.polimi.ingsw.client.CLI.componentPrinter.LeaderCardsPrinter;
-import it.polimi.ingsw.client.CLI.componentPrinter.MarketPrinter;
+import it.polimi.ingsw.client.CLI.componentPrinter.*;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.UI;
@@ -14,6 +13,7 @@ import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNam
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.utils.Constants;
@@ -72,45 +72,31 @@ public class CLI implements UI, Runnable {
                 Constants.ANSI_RESET);
     }
     public void printMenu(){
-        System.out.println("+--------------------------+\r\n|     " +
-                "Possible action:     |\r\n+==========================+\r\n| " +
-                "0: END TURN              |\r\n| 1: Show leaderCards      |\r\n| " +
-                "2: Show stock            |\r\n| 3: Show lockBox          |\r\n| " +
-                "4: Show popeTrack        |\r\n| 5: Show productionZones  |\r\n| " +
-                "6: Show market           |\r\n| 7: Show evolutionSection |\r\n| " +
-                "8: Active Leader cards   |\r\n| 9: Discard Leader cards  |\r\n| " +
-                "10: Buy from Market      |\r\n| 11: Active Production    |\r\n| " +
-                "12: Buy Evolution card   |\r\n| 13: Use Leader card      " +
-                "|\r\n+--------------------------+\r\n\r\n");
+        System.out.println("\n" +
+                "+--------------------------+---------------------------+\n" +
+                "|                  Possible Actions:                   |\n" +
+                "+--------------------------+---------------------------+\n" +
+                "| Actions                  | Print                     |\n" +
+                "| 0: END TURN              | 1: Show Leader Cards      |\n" +
+                "| 8: Activate Leader Cards | 2: Show Stock             |\n" +
+                "| 9: Discard Leader Cards  | 3: Show Lock Box          |\n" +
+                "| 10: Buy From Market      | 4: Show Pope Track        |\n" +
+                "| 11: Active Production    | 5: Show Production Zones  |\n" +
+                "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
+                "| 13: Use Leader Cards     | 7: Show Evolution section |\n" +
+                "+--------------------------+---------------------------+\n" +
+                "\n");
+
+        System.out.println("");
     }
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
-        System.out.println("LockBox: ");
-        for(Resource resource : lockBox.getResources().keySet()){
-            System.out.println("Resource: " + resource + " , quantity: " + lockBox.getResources().get(resource));
-        }
-        System.out.println("#################################################################");
+        LockBoxPrinter.print(lockBox);
+
     }
     public void printStock(){
         SerializableStock stock = clientSocket.getView().getDashboard().getSerializableStock();
-        int i = 0;
-        System.out.println("Stock: ");
-        for(i = 0 ; i < stock.getBoxes().size() ; i++){
-            System.out.println("Box number " + i);
-            for(int j = 0 ; j < stock.getBoxes().get(i).length ; j++){
-                System.out.println(stock.getBoxes().get(i)[j]);
-            }
-            System.out.println("#################################################################");
-        }
-        if(stock.getBoxPlus() != null){
-            for(int j = 0 ; j < stock.getBoxPlus().size() ; j++){
-                System.out.println("Box number " + i+j);
-                for(int k = 0 ; k < stock.getBoxPlus().get(i).length ; k++){
-                    System.out.println(stock.getBoxes().get(j)[k]);
-                }
-                System.out.println("#################################################################");
-            }
-        }
+        StockPrinter.print(stock);
     }
     public void printMarket(){
         SerializableMarket market = clientSocket.getView().getMarket();
@@ -138,53 +124,11 @@ public class CLI implements UI, Runnable {
     public void printLeaderCards(){
         ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
         LeaderCardsPrinter.print(leaderCards);
-        /*
-        System.out.println("Your leader card are: ");
-        for(int i = 0 ; i < leaderCards.size() ; i++){
-            SerializableLeaderCard leaderCard = leaderCards.get(i);
-            System.out.println("Leader card id: " + leaderCard.getId());
-            System.out.println("Required color: ");
-            if(leaderCard.getRequiresColor() != null) {
-                for (int j = 0; j < leaderCard.getRequiresColor().length; j++) {
-                    System.out.println("    " + leaderCard.getRequiresColor()[j]);
-                }
-            }
-            else {
-                System.out.println("    none");
-            }
-            System.out.println("Required level: ");
-            if(leaderCard.getRequiresLevel() != null) {
-                for (int j = 0; j < leaderCard.getRequiresLevel().length; j++) {
-                    System.out.println("    " + leaderCard.getRequiresLevel()[j]);
-                }
-            }
-            else {
-                System.out.println("    none");
-            }
-            System.out.println("Require for activation: " + leaderCard.getRequiresForActiveLeaderCards());
-            System.out.println("Ability: " + leaderCard.getAbilityType());
-            System.out.println("point: " + leaderCard.getPoint());
-            System.out.println("Is active: " + leaderCard.isActive());
-            System.out.println("Is used: " + leaderCard.isUsed());
-            System.out.println("Requires: ");
-            if(leaderCard.getRequires() != null) {
-                for (Resource resource : leaderCard.getRequires().keySet()) {
-                    System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getRequires().get(resource));
-                }
-            }
-            else{
-                System.out.println("    none");
-            }
-            System.out.println("Ability resources: ");
-            for(Resource resource : leaderCard.getAbilityResource().keySet()){
-                System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
-            }
-            System.out.println("#################################################################");
 
-
-        }*/
     }
     public void printProductionZones(){
+        ProductionSectionPrinter.print(clientSocket.getView().getDashboard());
+        /*
         SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
         System.out.println("production zones: ");
         for(int i = 0 ; i < productionZones.length ; i++) {
@@ -209,23 +153,12 @@ public class CLI implements UI, Runnable {
                 System.out.println("#################################################################");
             }
         }
+
+         */
     }
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
-        System.out.println("Evolution section: ");
-        for(int i = 0 ; i < evolutionSection.getEvolutionCards().length ; i++){
-            for(int j = 0 ; j < evolutionSection.getEvolutionCards()[i].length ; j++){
-                System.out.println("Card in position " + i + " " + j);
-                EvolutionCard evolutionCard = evolutionSection.getEvolutionCards()[i][j];
-                if(evolutionCard == null){
-                    System.out.println("    Empty");
-                    continue;
-                }
-                printEvolutionCard(evolutionCard);
-                System.out.println("#################################################################");
-            }
-
-        }
+        EvolutionSectionPrinter.print(evolutionSection);
     }
     private void printEvolutionCard(EvolutionCard evolutionCard){
         System.out.println("Color: " + evolutionCard.getColor());
@@ -245,7 +178,10 @@ public class CLI implements UI, Runnable {
             System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getProduction().get(resource));
         }
     }
-    public void printSingleLeaderCard(SerializableLeaderCard leaderCard){
+    public void printSetOfLeaderCard(ArrayList<SerializableLeaderCard> leaderCards){
+
+        LeaderCardsPrinter.print(leaderCards);
+        /*
         System.out.println("#################################################################");
         System.out.println("Leader card id: " + leaderCard.getId());
         System.out.println("Required color: ");
@@ -285,6 +221,8 @@ public class CLI implements UI, Runnable {
             System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
         }
         System.out.println("#################################################################");
+
+         */
     }
 
 

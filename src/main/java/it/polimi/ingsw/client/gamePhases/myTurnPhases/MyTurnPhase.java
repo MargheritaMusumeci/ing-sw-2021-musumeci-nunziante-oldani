@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gamePhases.myTurnPhases;
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
+import it.polimi.ingsw.utils.Constants;
 
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class MyTurnPhase extends Phase {
     public void makeAction(CLI cli) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("It's your turn");
+        System.out.println(Constants.ANSI_YELLOW + "It's your turn" + Constants.ANSI_RESET);
 
         cli.printMenu();
 

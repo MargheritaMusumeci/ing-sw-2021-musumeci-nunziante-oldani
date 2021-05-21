@@ -127,25 +127,27 @@ public class MessageHandler {
         if(scc.getGamePhase() == GamePhases.INITIALIZATION){
             if (scc.getGameHandler().getInitializationHandler().setInitialResources(scc.getGameHandler().getPlayersInGame().get(scc),
                     message.getResources())) {
+
                 scc.send(new ACKMessage("OK"));
                 for (Player player : scc.getGameHandler().getPlayersInGame().values()) {
                     if (!player.getDashboard().getInkwell() && player.getDashboard().getStock().stockIsEmpty()) {
-                        //System.out.println("non dovrei entrare in questo if");
+                        System.out.println("non dovrei entrare in questo if");
                         return;
                     }
 
                     //le risorse sono settate devo creare le view e mandarle
-                    //System.out.println("ho chiamato il metodo che inizializza le view");
+
 
                     //System.out.println("ho finito il metodo per l'invio delle view");
                 }
+                //System.out.println("ho chiamato il metodo che inizializza le view");
                 scc.getGameHandler().initializationView();
+            }else{
+                scc.send(new NACKMessage("KO-1"));
             }
-            else
-                scc.send(new NACKMessage("KO"));
 
         }else{
-            scc.send(new NACKMessage("KO"));
+            scc.send(new NACKMessage("KO-2"));
         }
     }
 

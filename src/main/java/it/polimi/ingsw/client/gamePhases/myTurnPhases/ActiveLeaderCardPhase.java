@@ -4,7 +4,10 @@ import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import it.polimi.ingsw.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ActiveLeaderCardPhase extends Phase {
@@ -21,29 +24,40 @@ public class ActiveLeaderCardPhase extends Phase {
         }
 
         if(possibleLeaderCards == 0){
-            System.out.println("You have already activated all your cards!");
+            System.out.println(Constants.ANSI_RED + "You have already activated all your cards!" + Constants.ANSI_RESET);
             cli.setGamePhase(new MyTurnPhase());
             new Thread(cli).start();
             return;
         }
 
+        ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<>();
         for (SerializableLeaderCard leaderCard : cli.getClientSocket().getView().getLeaderCards()){
             if (!leaderCard.isActive()){
-                cli.printSingleLeaderCard(leaderCard);
+                serializableLeaderCards.add(leaderCard);
             }
         }
+
+        cli.printSetOfLeaderCard(serializableLeaderCards);
 
         boolean control;
         control = false;
         int number;
         do{
-            System.out.println("Choose the leader card to be activated (type the id): ");
-            number = scanner.nextInt();
+            System.out.print(Constants.ANSI_CYAN + "Choose the leader card to be activated (type the id): " + Constants.ANSI_RESET);
+            try{
+                number = scanner.nextInt();
+            }catch (InputMismatchException e){
+                number = 100;
+                scanner.nextLine();
+            }
 
             for(SerializableLeaderCard lCard : cli.getClientSocket().getView().getLeaderCards()){
                 if(lCard.getId() == number && !lCard.isActive()){
                     control = true;
                 }
+            }
+            if(!control){
+                System.out.println(Constants.ANSI_RED + "Error! There's no leader card with that id" + Constants.ANSI_RESET);
             }
         }while(!control);
 
@@ -66,9 +80,7 @@ public class ActiveLeaderCardPhase extends Phase {
         }
 
         if (cli.isAckArrived()){
-            System.out.println("Leader card correctly activated");
-        }else{
-            System.out.println("Error while activating the leader card");
+            System.out.println(Constants.ANSI_GREEN + "Leader card correctly activated" + Constants.ANSI_RESET);
         }
 
         cli.setIsAckArrived(false);

@@ -21,16 +21,26 @@ public class InitializationHandler {
         //lCards contains 4 cards that can be chose by the player
         ArrayList<LeaderCard> lCards = player.getDashboard().getLeaderCards();
         //If the player chose more than 2 cards
-        if(!(posLeaderCards.size() == 2))
+        if(!(posLeaderCards.size() == 2)){
+            System.out.println("return 1");
             return false;
+        }
+
+
         //If the cards are not valid
         for(Integer i : posLeaderCards){
-            if(i < 0 || i > 3)
+            if(i < 0 || i > 3){
+                System.out.println("return 2");
                 return false;
+            }
+
         }
         //If the player chose the same card
-        if(posLeaderCards.get(0) == posLeaderCards.get(1))
+        if(posLeaderCards.get(0) == posLeaderCards.get(1)){
+            System.out.println("return 3");
             return false;
+        }
+
 
         ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
         for(int i = 0 ; i < 2 ; i++)
@@ -83,12 +93,19 @@ public class InitializationHandler {
      */
     public boolean setInitialResources(HumanPlayer player, ArrayList<Resource> resources){
         int playerPosition = player.getPosition();
-        if(playerPosition == 0)
+        if(playerPosition == 1){
+            System.out.println("resource return 1");
             return false;
-        if( (playerPosition == 1 || playerPosition == 2) && resources.size() != 1 )
+        }
+
+        if( (playerPosition == 2 || playerPosition == 3) && resources.size() != 1 ){
+            System.out.println("resource return 2");
             return false;
-        if(playerPosition == 3 && resources.size() != 2)
+        }
+        if(playerPosition == 4 && resources.size() != 2){
+            System.out.println("resource return 3");
             return false;
+        }
 
         //The stock is empty now
         player.getDashboard().getStock().manageStock(resources);

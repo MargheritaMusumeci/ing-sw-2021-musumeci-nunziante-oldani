@@ -49,6 +49,7 @@ public class InitialLeaderCardSelectionPhase extends Phase{
         cli.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , lCards));
 
         try {
+            System.out.println(Constants.ANSI_GREEN + "Wait for other players to choose their leader cards" + Constants.ANSI_RESET);
             synchronized (this){
                 wait();
             }

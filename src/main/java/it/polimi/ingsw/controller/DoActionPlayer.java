@@ -356,6 +356,29 @@ public class DoActionPlayer {
         //Read the cost of  n  eCard
         HashMap<Resource, Integer> cost = eCard.getCost();
 
+        //Reduce resources if Leader card sales is active
+        ArrayList<LeaderCard> leaderCards = modelGame.getActivePlayer().getDashboard().getLeaderCards();
+
+        if(leaderCards.size() > 0){
+            for(LeaderCard leaderCard : leaderCards){
+                if(leaderCard.isUsed() && leaderCard.getAbilityType() == LeaderAbility.SALES){
+                    HashMap<Resource , Integer> sales = leaderCard.getAbilityResource();
+                    for(Resource resource : sales.keySet()){
+                        int numResource  = cost.get(resource);//resource required by the evolution card
+                        if(numResource > 0){
+                            int numSale = sales.get(resource);//num of resources of sale (it's a negative number)
+                            if(numSale < 0){
+                                if(numResource + numSale > 0)
+                                    cost.put(resource , numResource + numSale);
+                                else
+                                    cost.put(resource , 0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         //Take resources from Stock and then from LockBox
         takeResources(cost);
 

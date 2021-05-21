@@ -4,7 +4,10 @@ import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.DiscardLeaderCardMessage;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import it.polimi.ingsw.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DiscardLeaderCardPhase extends Phase{
@@ -13,7 +16,7 @@ public class DiscardLeaderCardPhase extends Phase{
         Scanner scanner = new Scanner(System.in);
 
         if(cli.getClientSocket().getView().getLeaderCards().size() == 0){
-            System.out.println("Non hai leader card!");
+            System.out.println(Constants.ANSI_RED + "There aren't leader cards available!" + Constants.ANSI_RESET);
             cli.setGamePhase(new MyTurnPhase());
             new Thread(cli).start();
             return;
@@ -28,30 +31,43 @@ public class DiscardLeaderCardPhase extends Phase{
         }
         if (!check){
             //non ho carte non attive
-            System.out.println("Tutte le tue carte sono attivate, non puoi scartarle");
+            System.out.println(Constants.ANSI_RED + "All the leader cards has already ben activate" + Constants.ANSI_RESET);
             cli.setGamePhase(new MyTurnPhase());
             new Thread(cli).start();
             return;
         }
 
         //stampo le carte scartabili
-        for (SerializableLeaderCard serializableLeaderCard : cli.getClientSocket().getView().getLeaderCards()){
-            if(!serializableLeaderCard.isActive()){
-                cli.printSingleLeaderCard(serializableLeaderCard);
+        ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<>();
+        for (SerializableLeaderCard leaderCard : cli.getClientSocket().getView().getLeaderCards()){
+            if (!leaderCard.isActive()){
+                serializableLeaderCards.add(leaderCard);
             }
         }
+
+        cli.printSetOfLeaderCard(serializableLeaderCards);
 
         boolean controllo = false;
         int number;
         do{
-            System.out.println("Choose the leader card to be discard (type the id): ");
-            number = scanner.nextInt();
+            System.out.print(Constants.ANSI_CYAN + "Choose the leader card to be discard (type the id): " + Constants.ANSI_RESET);
+            try{
+                number = scanner.nextInt();
+            }catch (InputMismatchException e){
+                number = 100;
+                scanner.nextLine();
+            }
 
             for(SerializableLeaderCard lCard : cli.getClientSocket().getView().getLeaderCards()){
                 if(lCard.getId() == number && !lCard.isActive()){
                     controllo = true;
                 }
             }
+
+            if(!controllo){
+                System.out.println(Constants.ANSI_RED + "Error! There's no leader card with that id" + Constants.ANSI_RESET);
+            }
+
         }while(!controllo);
 
         //trovo la posizione a cui si trova la leader card nel mio set
@@ -73,9 +89,7 @@ public class DiscardLeaderCardPhase extends Phase{
         }
 
         if (cli.isAckArrived()){
-            System.out.println("Leader card correctly discarded");
-        }else{
-            System.out.println("Error while discarding the leader card");
+            System.out.println(Constants.ANSI_GREEN + "Leader card correctly discarded" + Constants.ANSI_RESET);
         }
 
         cli.setIsAckArrived(false);
