@@ -13,6 +13,8 @@ import java.io.Serializable;
 public class SerializablePopeTack implements Serializable {
 
     private boolean[] activeCards;
+    private boolean[] discardCards;
+
     private int position;
     private int lorenzoPosition;
 
@@ -21,6 +23,9 @@ public class SerializablePopeTack implements Serializable {
         activeCards = new boolean[popeTrack.getPopeCard().size()];
         for (int i = 0; i < popeTrack.getPopeCard().size();i++) {
             activeCards[i]= popeTrack.getPopeCard().get(i).isUsed();
+        }
+        for (int i = 0; i < popeTrack.getPopeCard().size();i++) {
+            discardCards[i]= popeTrack.getPopeCard().get(i).isDiscard();
         }
         this.position = popeTrack.getGamerPosition().getIndex();
         this.lorenzoPosition = popeTrack.getLorenzoPosition().getIndex();
@@ -48,5 +53,13 @@ public class SerializablePopeTack implements Serializable {
 
     public void setLorenzoPosition(int lorenzoPosition) {
         this.lorenzoPosition = lorenzoPosition;
+    }
+
+    public boolean[] getDiscardCards() {
+        return discardCards;
+    }
+
+    public void setDiscardCards(boolean[] discardCards) {
+        this.discardCards = discardCards;
     }
 }

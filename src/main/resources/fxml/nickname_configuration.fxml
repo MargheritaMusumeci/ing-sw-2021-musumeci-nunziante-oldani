@@ -13,7 +13,6 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="885.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/background.png" />
          </image></ImageView>
       <Button fx:id="loginButton" layoutX="406.0" layoutY="438.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
       <Text fill="WHITE" layoutX="373.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />

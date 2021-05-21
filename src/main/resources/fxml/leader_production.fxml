@@ -20,7 +20,7 @@
             <Font size="32.0" />
          </font>
       </Text>
-      <Button fx:id="confirm" layoutX="271.0" layoutY="297.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
+      <Button fx:id="confirm" layoutX="271.0" layoutY="297.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
       <Label fx:id="errorMessage" layoutX="296.0" layoutY="250.0" />
       <ProgressIndicator fx:id="loading" layoutX="274.0" layoutY="283.0" visible="false" />
       <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="81.0" layoutY="110.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">

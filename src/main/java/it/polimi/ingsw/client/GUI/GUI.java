@@ -13,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.management.BadAttributeValueExpException;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
@@ -60,7 +59,8 @@ public class GUI extends Application implements UI {
 
     private ArrayList<Resource> basicRequires;
     private ArrayList<Resource> basicEnsures;
-    private Resource leaderEnsure;
+    private HashMap<Integer,Resource> leaderEnsure;
+    private Integer leaderPosition;
 
     public GUI() {
         gamePhase = GamePhases.IINITIALIZATION;
@@ -69,11 +69,29 @@ public class GUI extends Application implements UI {
         phases = new HashMap<>();
         fxmls = new HashMap<>();
         errorFromServer="";
+        leaderEnsure = new HashMap<>();
         players=0;
     }
 
+    public static void main(String[] args) {
+        new GUI();
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.currentStage = primaryStage;
+        initializationFXMLParameter();
+        initializationStage();
+    }
+
+    @Override
+    public void stop() {
+        System.exit(0);
+    }
+
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(BASIC_PRODUCTION,START_GAME,MARKET,STORE_RESOURCES, PLAYERS, IP_PORT, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(IP_PORT,BASIC_PRODUCTION, LEADER_PRODUCTION, START_GAME,MARKET,STORE_RESOURCES, PLAYERS, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -90,18 +108,6 @@ public class GUI extends Application implements UI {
             e.printStackTrace();
         }
         currentScene = scenes.get(IP_PORT);
-    }
-
-    public static void main(String[] args) {
-        new GUI();
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.currentStage = primaryStage;
-        initializationFXMLParameter();
-        initializationStage();
     }
 
     public void initializationStage() {
@@ -123,11 +129,6 @@ public class GUI extends Application implements UI {
                 errorFromServer="";
                 currentStage.show();
         });
-    }
-
-    @Override
-    public void stop() {
-        System.exit(0);
     }
 
     private GamePhases linkFXMLPageToPhase(String NAME) {
@@ -157,6 +158,7 @@ public class GUI extends Application implements UI {
         }
     }
 
+    //GETTER AND SETTER
     public Scene getOldScene(){
         return oldScene;
     }
@@ -293,11 +295,19 @@ public class GUI extends Application implements UI {
         this.basicEnsures = basicEnsures;
     }
 
-    public Resource getLeaderEnsure() {
+    public Integer getLeaderPosition() {
+        return leaderPosition;
+    }
+
+    public void setLeaderPosition(Integer leaderPosition) {
+        this.leaderPosition = leaderPosition;
+    }
+
+    public HashMap<Integer,Resource> getLeaderEnsure() {
         return leaderEnsure;
     }
 
-    public void setLeaderEnsure(Resource leaderEnsure) {
+    public void setLeaderEnsure(HashMap<Integer,Resource> leaderEnsure) {
         this.leaderEnsure = leaderEnsure;
     }
 }

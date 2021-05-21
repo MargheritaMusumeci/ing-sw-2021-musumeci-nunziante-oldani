@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.popeTrack.PopeCard;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 import javafx.event.ActionEvent;
@@ -64,7 +65,6 @@ public class ViewController implements Controller{
 
     @FXML private HBox Market;
     @FXML private Circle external;
-
 
     //leader card
     @FXML private ImageView leader1;
@@ -146,7 +146,8 @@ public class ViewController implements Controller{
     @FXML private ImageView basicRequires1;
     @FXML private ImageView basicRequires2;
     @FXML private ImageView basicEnsure;
-
+    @FXML private ImageView leaderEnsure1;
+    @FXML private ImageView leaderEnsure2;
 
     public ViewController(){
         this.printer = new Print();
@@ -180,6 +181,9 @@ public class ViewController implements Controller{
                 discard1.setVisible(false);
                 active1.setVisible(false);
                 use1.setVisible(true);
+                if(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure()!=null){
+                    leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(0))));
+                }
             }
 
             if(leaderCards.size()>1) {
@@ -191,6 +195,9 @@ public class ViewController implements Controller{
                     discard1.setVisible(false);
                     active1.setVisible(false);
                     use1.setVisible(true);
+                    if(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure()!=null){
+                        leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
+                    }
                 }
             }
         }
@@ -250,6 +257,7 @@ public class ViewController implements Controller{
             int lorenzoPosition = gui.getView().getDashboard().getSerializablePopeTack().getLorenzoPosition();
             if(position==lorenzoPosition){
                 popeTrackPositions.get(lorenzoPosition).setImage(printer.togetherPopePosition());
+                return;
             }
             popeTrackPositions.get(lorenzoPosition).setImage(printer.lorenzoPopePosition());
         }
@@ -367,6 +375,7 @@ public class ViewController implements Controller{
         rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
     }
 
+    @FXML
     public void useLeader(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
@@ -382,6 +391,7 @@ public class ViewController implements Controller{
             }
             if(gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 productionPositions.add(3);
+                showLeaderProduction();
             }
 
         }else{
@@ -393,7 +403,10 @@ public class ViewController implements Controller{
                     marketLeaderActive[0]=true;
                 }
                 if(gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
-                   productionPositions.add(3);
+                   //oppure 3 se ho eliminato la prima leader?
+                    productionPositions.add(4);
+                    gui.setLeaderPosition(0);
+                    showLeaderProduction();
                 }
             }else {
                 gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 1));
@@ -401,10 +414,19 @@ public class ViewController implements Controller{
                     marketLeaderActive[1]=true;
                 }
                 if(gui.getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                    gui.setLeaderPosition(1);
                     productionPositions.add(4);
+                    showLeaderProduction();
                 }
             }
         }
+    }
+
+    private void showLeaderProduction() {
+        gui.setCurrentScene(gui.getScene(GUI.LEADER_PRODUCTION));
+        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setGamePhase(GamePhases.LEADERPRODUCTION);
+        gui.changeScene();
     }
 
     /**
@@ -417,7 +439,7 @@ public class ViewController implements Controller{
             active1.setVisible(false);
             discard1.setVisible(false);
             use1.setVisible(true);
-            if (gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+            if (gui.getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 stockLeaderCardInUse.add(1);
                 use1.setVisible(false);
             }
@@ -426,20 +448,14 @@ public class ViewController implements Controller{
             active2.setVisible(false);
             discard2.setVisible(false);
             use2.setVisible(false);
-            if (gui.getView().getLeaderCards().size() == 1) {
-                if (gui.getClientSocket().getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                    stockLeaderCardInUse.add(2);
-                    use2.setVisible(false);
-                }
-            } else {
-                if (gui.getClientSocket().getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                    stockLeaderCardInUse.add(2);
-                    use1.setVisible(false);
-                }
+            if (gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+                stockLeaderCardInUse.add(2);
+                use2.setVisible(false);
             }
         }
     }
 
+    @FXML
     public void activeLeader(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
@@ -458,6 +474,7 @@ public class ViewController implements Controller{
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
     }
 
+    @FXML
     public void discardLeader(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
@@ -510,9 +527,8 @@ public class ViewController implements Controller{
         if(activeBasic && gui.getBasicRequires()!=null && gui.getBasicEnsures()!=null){
             basicRequires1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(0))));
             basicRequires2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(1))));
-            basicEnsure.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure())));
+            basicEnsure.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicEnsures().get(0))));
         }
-
     }
 
     @Override
@@ -527,11 +543,29 @@ public class ViewController implements Controller{
         initLeaderCards();
         initInkwell();
         initPopeTrack();
+        initPopeCards();
         initLockBox();
         initStock();
         initProductionZone();
     }
 
+    private void initPopeCards() {
+
+        ArrayList<ImageView> popeCards = new ArrayList<>(Arrays.asList(popeCard1,popeCard2,popeCard3));
+        boolean[] popeCardActive = gui.getView().getDashboard().getSerializablePopeTack().getActiveCards();
+        boolean[] popeCardDiscarded = gui.getView().getDashboard().getSerializablePopeTack().getDiscardCards();
+
+        for (int i = 0; i < 3; i++) {
+            if(popeCardActive[i]==true){
+                popeCards.get(i).setImage(printer.fromPathToPopeCard(printer.fromPositionToActivePope(i)));
+            }
+            if(popeCardDiscarded[i]==true){
+                popeCards.get(i).setImage(printer.fromPathToPopeCard(printer.fromPositionToDiscardPope(i)));
+            }
+        }
+    }
+
+    @FXML
     public void activeProduction(ActionEvent actionEvent) {
 
         if(activeProduction1.isSelected())productionPositions.add(0);
@@ -539,8 +573,12 @@ public class ViewController implements Controller{
         if(activeProduction3.isSelected())productionPositions.add(2);
 
         if(productionPositions.size()!=0 || activeBasic) {
+            gui.setCurrentScene(gui.getScene(GUI.START_GAME));
+            gui.setOldScene(gui.getScene(GUI.START_GAME));
+            gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
             gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures()));
         }
+
         //gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
         //SE SONO IN QUESTA FASE E ARRIVA IL NACK FACCIO VEDERE UN MESSAGGIO??
 
@@ -549,8 +587,10 @@ public class ViewController implements Controller{
         gui.setBasicRequires(null);
         gui.setBasicEnsures(null);
         gui.setLeaderEnsure(null);
+
     }
 
+    @FXML
     public void chooseBasicProduction(ActionEvent actionEvent) {
         activeBasic=true;
         gui.setCurrentScene(gui.getScene(GUI.BASIC_PRODUCTION));

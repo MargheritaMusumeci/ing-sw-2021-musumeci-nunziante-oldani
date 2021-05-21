@@ -114,23 +114,29 @@ public class LeaderCardsConfigurationController implements Controller{
         }else{
 
             ArrayList<Integer> leaderCardsChosen = new ArrayList<>();
+            ArrayList<SerializableLeaderCard> leaderCardsToSave = new ArrayList<>();
 
-            if(cardId1.isSelected()){leaderCardsChosen.add(getPosition(leaderCards.get(0).getId()));}
+            if(cardId1.isSelected()){leaderCardsChosen.add(getPosition(leaderCards.get(0).getId()));
+                leaderCardsToSave.add(leaderCards.get(0));}
 
             if(cardId2.isSelected()){
                 leaderCardsChosen.add(getPosition(leaderCards.get(1).getId()));
+                leaderCardsToSave.add(leaderCards.get(1));
             }
             if(cardId3.isSelected()){
                 leaderCardsChosen.add(getPosition(leaderCards.get(2).getId()));
+                leaderCardsToSave.add(leaderCards.get(2));
             }
             if(cardId4.isSelected()){
                 leaderCardsChosen.add(getPosition(leaderCards.get(3).getId()));
+                leaderCardsToSave.add(leaderCards.get(3));
             }
 
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
             gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
             gui.setOldScene(gui.getScene(GUI.LEADER_CARD));
             gui.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , leaderCardsChosen));
+            gui.setLeaderCards(leaderCardsToSave);
         }
     }
 
