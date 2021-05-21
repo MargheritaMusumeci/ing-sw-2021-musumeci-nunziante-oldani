@@ -310,7 +310,7 @@ public class DoActionPlayer {
                         //Increment the pope track position
                         ArrayList<Player> player = new ArrayList<Player>();
                         player.add(((Player) modelGame.getActivePlayer()));
-                        moveCross(1 , player);
+                        moveCross(cardProduction.get(Resource.FAITH) , player);
                     }
                 }catch (NotEnoughResourcesException e){
                     //Impossible be here
