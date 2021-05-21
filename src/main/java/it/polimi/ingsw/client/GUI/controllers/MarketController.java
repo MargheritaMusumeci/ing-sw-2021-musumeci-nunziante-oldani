@@ -19,6 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+/**
+ * Class that show market and allow user to purchase resources
+ */
 public class MarketController implements Controller {
 
     private GUI gui;

@@ -14,6 +14,9 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
+/**
+ * Class that contains methods and attributes for choosing leader cards
+ */
 public class LeaderCardsConfigurationController implements Controller{
 
     private int selectedNumber=0;
@@ -127,7 +130,6 @@ public class LeaderCardsConfigurationController implements Controller{
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
             gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
             gui.setOldScene(gui.getScene(GUI.LEADER_CARD));
-
             gui.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , leaderCardsChosen));
         }
     }

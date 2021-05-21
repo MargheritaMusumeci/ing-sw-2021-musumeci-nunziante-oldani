@@ -39,7 +39,7 @@ public class Print {
         URL url = null;
         try {
             String path = String.valueOf(id);
-            url = new File("src/main/resources/images/evolutionCards/" + path).toURI().toURL();
+            url = new File("src/main/resources/images/evolutionCards/" + path + ".png").toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

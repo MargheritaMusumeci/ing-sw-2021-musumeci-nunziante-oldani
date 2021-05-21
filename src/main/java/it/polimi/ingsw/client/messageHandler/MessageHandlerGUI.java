@@ -36,6 +36,7 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setNackArrived(true);
             gui.setErrorFromServer(message.getMessage());
+            //if leadercard fase, replace it with startgame
             gui.setGamePhase(gui.phase(gui.getOldScene()));
             gui.setCurrentScene(gui.getOldScene());
             gui.changeScene();

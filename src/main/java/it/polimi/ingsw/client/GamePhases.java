@@ -14,5 +14,7 @@ public enum GamePhases {
 
     BUYFROMMARKET,
     STORERESOURCES,
+    ASKACTIVELEADER,
+    ASKACTIVEPRODUCTION,
 
 }

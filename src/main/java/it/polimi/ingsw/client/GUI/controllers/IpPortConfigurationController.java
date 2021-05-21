@@ -11,6 +11,10 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
+/**
+ * Class that contains all methods and attributes related to the scene in which users insert
+ * ip port and address of the server
+ */
 public class IpPortConfigurationController implements Controller{
 
     private GUI gui;
@@ -26,16 +30,16 @@ public class IpPortConfigurationController implements Controller{
     @FXML
     private ProgressIndicator loading;
 
-
+    /**
+     * method called when user push "connect" button
+     */
     @FXML
     public void connectionInitialization() {
-
-        //disabilito il bottone di connessione
-        //mostro il loading
 
         connect.setVisible(false);
         loading.setVisible(true);
 
+        //error --> users push button before fill form fields
         if(port.getText()==null || ip.getText()==null || port.getText().equals("") || ip.getText().equals("")){
             error.setText("Missing some necessary arguments...");
             connect.setVisible(true);
@@ -43,18 +47,28 @@ public class IpPortConfigurationController implements Controller{
             return;
         }
 
-        //attenzione all'eccezione se non è effettivamente un intero
-        int portServer = Integer.parseInt(port.getText());
+        int portServer=0;
+
+        //error --> insert a string not an int
+        try {
+            portServer = Integer.parseInt(port.getText());
+        } catch (NumberFormatException e) {
+           error.setText("Invalid type port");
+            connect.setVisible(true);
+            loading.setVisible(false);
+            return;
+        }
+
         String addressServer = ip.getText();
 
+        //error --> insert a not valid port
         if (portServer < 1025 || portServer > 65535) {
             error.setText("Invalid port number. Pick a port in range 1025-65535...");
             connect.setVisible(true);
             loading.setVisible(false);
         }else {
 
-            //mettere insieme socket e client?
-
+            //error --> server not reachable
             try {
                 gui.setSocket(addressServer, portServer);
             } catch (IOException e) {
@@ -66,6 +80,7 @@ public class IpPortConfigurationController implements Controller{
 
             gui.setClientSocket();
 
+            //error --> server not reachable
             if(gui.getClientSocket()==null) {
                 error.setText("Server not reachable - client ");
                 connect.setVisible(true);

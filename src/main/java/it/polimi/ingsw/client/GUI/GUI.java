@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.management.BadAttributeValueExpException;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
@@ -34,6 +35,8 @@ public class GUI extends Application implements UI {
     public static final String START_GAME = "view.fxml";
     public static final String MARKET = "market.fxml";
     public static final String STORE_RESOURCES = "store_resources.fxml";
+    public static final String BASIC_PRODUCTION = "basic_production.fxml";
+    public static final String LEADER_PRODUCTION = "leader_production.fxml";
 
     private Scene currentScene;
     private Scene oldScene;
@@ -55,6 +58,10 @@ public class GUI extends Application implements UI {
     private String errorFromServer;
     private int players;
 
+    private ArrayList<Resource> basicRequires;
+    private ArrayList<Resource> basicEnsures;
+    private Resource leaderEnsure;
+
     public GUI() {
         gamePhase = GamePhases.IINITIALIZATION;
         scenes = new HashMap<>();
@@ -66,7 +73,7 @@ public class GUI extends Application implements UI {
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(START_GAME,MARKET,STORE_RESOURCES, PLAYERS, IP_PORT, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(BASIC_PRODUCTION,START_GAME,MARKET,STORE_RESOURCES, PLAYERS, IP_PORT, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -141,6 +148,10 @@ public class GUI extends Application implements UI {
                 return GamePhases.BUYFROMMARKET;
             case(STORE_RESOURCES):
                 return GamePhases.STORERESOURCES;
+            case(BASIC_PRODUCTION):
+                return GamePhases.ASKACTIVEPRODUCTION;
+            case(LEADER_PRODUCTION):
+                return GamePhases.ASKACTIVELEADER;
             default:
                 return GamePhases.IINITIALIZATION;
         }
@@ -260,5 +271,33 @@ public class GUI extends Application implements UI {
 
     public void setPlayers(int players) {
         this.players = players;
+    }
+
+    public static String getIpPort() {
+        return IP_PORT;
+    }
+
+    public ArrayList<Resource> getBasicRequires() {
+        return basicRequires;
+    }
+
+    public void setBasicRequires(ArrayList<Resource> basicRequires) {
+        this.basicRequires = basicRequires;
+    }
+
+    public ArrayList<Resource> getBasicEnsures() {
+        return basicEnsures;
+    }
+
+    public void setBasicEnsures(ArrayList<Resource> basicEnsures) {
+        this.basicEnsures = basicEnsures;
+    }
+
+    public Resource getLeaderEnsure() {
+        return leaderEnsure;
+    }
+
+    public void setLeaderEnsure(Resource leaderEnsure) {
+        this.leaderEnsure = leaderEnsure;
     }
 }
