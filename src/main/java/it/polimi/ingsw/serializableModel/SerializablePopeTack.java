@@ -21,6 +21,7 @@ public class SerializablePopeTack implements Serializable {
     public SerializablePopeTack(PopeTrack popeTrack) {
 
         activeCards = new boolean[popeTrack.getPopeCard().size()];
+        discardCards = new boolean[popeTrack.getPopeCard().size()];
         for (int i = 0; i < popeTrack.getPopeCard().size();i++) {
             activeCards[i]= popeTrack.getPopeCard().get(i).isUsed();
         }
