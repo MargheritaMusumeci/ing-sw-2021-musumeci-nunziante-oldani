@@ -363,15 +363,15 @@ public class Stock extends StockObservable {
                 while (space > 0) {
 
                     int boxPlusDimension = this.boxPlus.get(i).length;
-                    Resource[] resourcesPlus = new Resource[boxPlusDimension];
+                    Resource[] resourcesPlusManage = new Resource[boxPlusDimension];
                     resourceType = this.resourcesPlus.get(i);
                     int boxIndex = 0;
-                    while (totalResources.get(resourceType) >= boxPlusDimension && boxPlusDimension > boxIndex) {
-                        resourcesPlus[boxIndex] = resourceType;
+                    while (totalResources.get(resourceType) >=0 && boxPlusDimension > boxIndex) {
+                        resourcesPlusManage[boxIndex] = resourceType;
                         boxIndex++;
                         totalResources.merge(resourceType, -1, Integer::sum);
                     }
-                    boxPlus2.add(resourcesPlus);
+                    boxPlus2.add(resourcesPlusManage);
                     if (totalResources.get(resourceType) < 1) totalResources.remove(resourceType);
                     space--;
                     i++;
