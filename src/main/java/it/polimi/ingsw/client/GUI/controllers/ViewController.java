@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.DiscardLeaderCardMessage;
@@ -653,5 +654,16 @@ public class ViewController implements Controller{
         gui.setOldScene(gui.getScene(GUI.START_GAME));
         gui.setGamePhase(GamePhases.STARTGAME);
         gui.changeScene();
+    }
+
+    /**
+     * For now when the player isn't the active player put him in the waiting room
+     */
+    public void endTurn(){
+        gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+        //gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
+        //gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
+        //gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
+        //gui.changeScene();
     }
 }
