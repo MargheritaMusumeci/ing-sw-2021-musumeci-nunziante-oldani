@@ -696,4 +696,15 @@ public class ViewController implements Controller {
             showCardsButton.setDisable(false);
         }
     }
+
+    /**
+     * For now when the player isn't the active player put him in the waiting room
+     */
+    public void endTurn(){
+        gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+        //gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
+        //gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
+        //gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
+        //gui.changeScene();
+    }
 }
