@@ -58,13 +58,13 @@ public class GUI extends Application implements UI {
     private boolean isNackArrived;
     private String errorFromServer;
     private int players;
+    private boolean actionDone;
 
     /**
      * To set which evolution card the player wants to buy
      */
     private int cardRow;
     private int cardColumn;
-
 
     private ArrayList<Resource> basicRequires;
     private ArrayList<Resource> basicEnsures;
@@ -334,4 +334,11 @@ public class GUI extends Application implements UI {
 
     public void setCardColumn(int cardColumn) { this.cardColumn = cardColumn; }
 
+    public boolean isActionDone() {
+        return actionDone;
+    }
+
+    public void setActionDone(boolean actionDone) {
+        this.actionDone = actionDone;
+    }
 }

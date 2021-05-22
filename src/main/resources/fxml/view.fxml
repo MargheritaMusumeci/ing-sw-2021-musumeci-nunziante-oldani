@@ -29,7 +29,7 @@
             <Font size="25.0" />
          </font>
       </Text>
-      <Button fx:id="endTurn" layoutX="797.0" layoutY="541.0" mnemonicParsing="false" text="End Turn" />
+      <Button fx:id="endTurn" layoutX="797.0" layoutY="541.0" mnemonicParsing="false" onAction="#endTurn" text="End Turn" />
       <HBox layoutX="724.0" layoutY="205.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <VBox fx:id="LeaderBox1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
@@ -82,7 +82,7 @@
             </VBox>
          </children>
       </HBox>
-      <Button fx:id="market" layoutX="73.0" layoutY="277.0" mnemonicParsing="false" onAction="#showMarket" text="Market" />
+      <Button fx:id="marketButton" layoutX="73.0" layoutY="277.0" mnemonicParsing="false" onAction="#showMarket" text="Market" />
       <Circle fx:id="external" fill="DODGERBLUE" layoutX="155.0" layoutY="131.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
       <ImageView fx:id="inkwell" fitHeight="77.0" fitWidth="100.0" layoutX="6.0" layoutY="553.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
@@ -215,8 +215,8 @@
       <CheckBox fx:id="activeProduction1" layoutX="448.0" layoutY="511.0" mnemonicParsing="false" />
       <CheckBox fx:id="activeProduction2" layoutX="545.0" layoutY="511.0" mnemonicParsing="false" />
       <CheckBox fx:id="activeProduction3" layoutX="641.0" layoutY="511.0" mnemonicParsing="false" />
-      <Button fx:id="activeProductions" layoutX="499.0" layoutY="541.0" mnemonicParsing="false" onAction="#activeProduction" text="Active Production" />
-      <Button fx:id="basicProduction" layoutX="269.0" layoutY="507.0" mnemonicParsing="false" onAction="#chooseBasicProduction" text="Choose Basic Production" />
+      <Button fx:id="activeProductionsButton" layoutX="499.0" layoutY="541.0" mnemonicParsing="false" onAction="#activeProduction" text="Active Production" />
+      <Button fx:id="basicProductionButton" layoutX="269.0" layoutY="507.0" mnemonicParsing="false" onAction="#chooseBasicProduction" text="Choose Basic Production" />
       <ImageView fx:id="basicRequires1" fitHeight="25.0" fitWidth="22.0" layoutX="348.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="basicRequires2" fitHeight="25.0" fitWidth="22.0" layoutX="348.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="basicEnsure" fitHeight="25.0" fitWidth="22.0" layoutX="376.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true" />
@@ -258,6 +258,6 @@
             <ImageView fx:id="eCardView_23" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Button fx:id="showCards" layoutX="46.0" layoutY="520.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
+      <Button fx:id="showCardsButton" layoutX="46.0" layoutY="520.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
    </children>
 </Pane>
