@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exception.*;
 
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
@@ -297,8 +298,8 @@ public class DoActionPlayerTest {
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
-        turnHandler.doAction(message);
-        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
+        turnHandler.doAction((ActiveLeaderCardMessage) message);
+        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof NACKMessage);
 
         try {
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
@@ -309,11 +310,11 @@ public class DoActionPlayerTest {
 
         requires.add(Resource.COIN);
 
-        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof NACKMessage);
 
         ensures.add(Resource.ROCK);
 
-        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof NACKMessage);
     }
 
     @Test

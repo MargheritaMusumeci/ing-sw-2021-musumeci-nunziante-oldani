@@ -58,145 +58,109 @@ public abstract class TurnHandler {
      * @param message
      * @return
      */
-    public Message doAction(Message message){
+    public Message doAction(BuyFromMarketMessage message){
 
-        //Actions that client can perform only once in his turn
-        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)){
-            //Client asks to receive resources from market
-            //Resources are stored in his dashboard not in his stock
-            if (message instanceof BuyFromMarketMessage) {
-                try {
-                    actionHandler.buyFromMarket(((BuyFromMarketMessage) message).getPosition(), ((BuyFromMarketMessage) message).isRow());
-                    return new ACKMessage("OK");
-                } catch (ExcessOfPositionException e) {
-                    return new NACKMessage("Position not found");
-                }
-            }
-
-            //Client asks to buy a evolution card
-            //one at a time
-            if (message instanceof BuyEvolutionCardMessage) {
-                try {
-                    actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(), ((BuyEvolutionCardMessage) message).getCol(), ((BuyEvolutionCardMessage) message).getPosition());
-                    return new ACKMessage("OK");
-                }catch (InvalidPlaceException e){
-                    return new NACKMessage("Wrong position");
-                }catch(BadParametersException e) {
-                    return new NACKMessage("Can't buy this card");
-                }catch(NotEnoughResourcesException e) {
-                    return new NACKMessage("Not enough resources exception");
-                } catch (ExcessOfPositionException e) {
-                    return new NACKMessage("Wrong position 2");
-                }
-            }
-
-            //Client asks to active production zones
-            if (message instanceof ActiveProductionMessage) {
-
-                //nel messaggio sono presenti dei campi che indicano se è attiva la production zone basic
-                //momentaneamente ho lasciato separati i metodi basic e normal
-                //vedi te se vuoi unificarli o si unificano a livello di model perchè entrambi andranno ad agire sul fake stock e fake lockbox
-
-
-                try {
-                    actionHandler.activeProductionZones(((ActiveProductionMessage) message).getPositions() ,
-                            ((ActiveProductionMessage) message).isActiveBasic() ,
-                            ((ActiveProductionMessage) message).getResourcesRequires() ,
-                            ((ActiveProductionMessage) message).getResourcesEnsures());
-                    return new ACKMessage("OK");
-                } catch (NonCompatibleResourceException e) {
-                    return new NACKMessage("Too many or too few resources for the activation of the basic production");
-                } catch (ExcessOfPositionException e) {
-                    return new NACKMessage("Position not valid");
-                } catch (NotEnoughResourcesException e) {
-                    return new NACKMessage("Resources are not enough");
-                } catch (ActionAlreadyDoneException e) {
-                    return new NACKMessage("Cannot do an other action");
-                } catch (BadParametersException e) {
-                    return new NACKMessage("Empty production zone / same production zone specified twice / " +
-                            "requires or ensures not specified");
-                }
-
-                /*if (((ActiveProductionMessage) message).isActiveBasic()) {
-                    try {
-                        actionHandler.activeBasicProduction(((ActiveProductionMessage) message).getResourcesRequires(), ((ActiveProductionMessage) message).getResourcesEnsures());
-                    } catch (NonCompatibleResourceException e) {
-                        return new NACKMessage("Too many or too few resources required or ensured");
-                    } catch (NotEnoughResourcesException e) {
-                        return new NACKMessage("Not enough resources");
-                    }
-                }*/
-
-                //controllo fatto perchè se un giocatore vuole attivare solo la basic, passa un array vuoto
-
-                /*if (((ActiveProductionMessage) message).getPositions() != null) {
-                    ArrayList<Integer> positions = ((ActiveProductionMessage) message).getPositions();
-                    for (int position : positions) {
-                        try {
-                            actionHandler.activeProductionZone(position);
-                        } catch (NotEnoughResourcesException e) {
-                            return new NACKMessage("Not enough resources");
-                        }
-                    }
-                    return new ACKMessage("OK");
-                }*/
-            }
-        }
-
-        //Action that client can perform only after buying from market
-        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.BUY_FROM_MARKET)){
-
-            //Client chooses which resources store in his stock and asks controller to do that
-            //this question will be asked until client asks for storing a correct number and type of resources
-            if(message instanceof StoreResourcesMessage){
-                return (actionHandler.storeResourcesBought(((StoreResourcesMessage) message).getSaveResources()));
-            }
-        }
-
-        //Client asks to active his leader card
-        //one at a time
-        if (message instanceof ActiveLeaderCardMessage){
+        //Client asks to receive resources from market
+        //Resources are stored in his dashboard not in his stock
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)) {
             try {
-                actionHandler.activeLeaderCard(((ActiveLeaderCardMessage) message).getPosition());
+                actionHandler.buyFromMarket(((BuyFromMarketMessage) message).getPosition(), ((BuyFromMarketMessage) message).isRow());
                 return new ACKMessage("OK");
-            } catch (OutOfBandException e) {
-               return new NACKMessage("Leader Card not present");
-            } catch (LeaderCardAlreadyUsedException e) {
-                return new NACKMessage("Leader Card has already used");
-            } catch (ActiveLeaderCardException e){
-                return new NACKMessage("Activation requires are not satisfied");
+            } catch (ExcessOfPositionException e) {
+                return new NACKMessage("Position not found");
             }
         }
+        return new NACKMessage("Action has already been performed");
+    }
 
-        //Client asks to discard his leader card
+    public Message doAction(BuyEvolutionCardMessage message){
+        //Client asks to buy a evolution card
         //one at a time
-        if (message instanceof DiscardLeaderCardMessage){
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)) {
             try {
-                actionHandler.discardLeaderCard(((DiscardLeaderCardMessage) message).getPosition());
+                actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(), ((BuyEvolutionCardMessage) message).getCol(), ((BuyEvolutionCardMessage) message).getPosition());
                 return new ACKMessage("OK");
-            } catch (OutOfBandException e) {
-                return new NACKMessage("Leader Card not present");
-            } catch (LeaderCardAlreadyUsedException e) {
-                return new NACKMessage("Leader Card has already discarded");
+            } catch (InvalidPlaceException e) {
+                return new NACKMessage("Wrong position");
+            } catch (BadParametersException e) {
+                return new NACKMessage("Can't buy this card");
+            } catch (NotEnoughResourcesException e) {
+                return new NACKMessage("Not enough resources exception");
+            } catch (ExcessOfPositionException e) {
+                return new NACKMessage("Wrong position 2");
             }
         }
+        return new NACKMessage("Action has already been performed");
+    }
 
-        //Client asks to use his leader card
-        //one at a time
-        if (message instanceof UseLeaderCardMessage) {
+    public Message doAction(ActiveProductionMessage message){
+
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)) {
+
             try {
-                actionHandler.useLeaderCard(((UseLeaderCardMessage) message).getPosition());
+                actionHandler.activeProductionZones(message.getPositions(),
+                        (message).isActiveBasic(),
+                        (message).getResourcesRequires(),
+                        (message).getResourcesEnsures());
                 return new ACKMessage("OK");
-            } catch (OutOfBandException e) {
-                return new NACKMessage("Leader Card not present");
-            } catch (LeaderCardAlreadyUsedException e) {
-                return new NACKMessage("Leader Card has already used");
-            } catch (ActiveLeaderCardException e){
-                return new NACKMessage("Leader card is not active");
+            } catch (NonCompatibleResourceException e) {
+                return new NACKMessage("Too many or too few resources for the activation of the basic production");
+            } catch (ExcessOfPositionException e) {
+                return new NACKMessage("Position not valid");
+            } catch (NotEnoughResourcesException e) {
+                return new NACKMessage("Resources are not enough");
+            } catch (ActionAlreadyDoneException e) {
+                return new NACKMessage("Cannot do an other action");
+            } catch (BadParametersException e) {
+                return new NACKMessage("Empty production zone / same production zone specified twice / " +
+                        "requires or ensures not specified");
             }
         }
+        return new NACKMessage("Action has already been performed");
+    }
 
-        return new NACKMessage("Action not found");
+    public Message doAction(StoreResourcesMessage message){
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.BUY_FROM_MARKET)) {
+            return (actionHandler.storeResourcesBought(((StoreResourcesMessage) message).getSaveResources()));
+        }
+        return new NACKMessage("Before storing resources buying them");
+    }
+
+    public Message doAction(ActiveLeaderCardMessage message){
+        try {
+            actionHandler.activeLeaderCard(((ActiveLeaderCardMessage) message).getPosition());
+            return new ACKMessage("OK");
+        } catch (OutOfBandException e) {
+            return new NACKMessage("Leader Card not present");
+        } catch (LeaderCardAlreadyUsedException e) {
+            return new NACKMessage("Leader Card has already used");
+        } catch (ActiveLeaderCardException e){
+            return new NACKMessage("Activation requires are not satisfied");
+        }
+    }
+
+    public Message doAction(DiscardLeaderCardMessage message){
+        try {
+            actionHandler.discardLeaderCard((message).getPosition());
+            return new ACKMessage("OK");
+        } catch (OutOfBandException e) {
+            return new NACKMessage("Leader Card not present");
+        } catch (LeaderCardAlreadyUsedException e) {
+            return new NACKMessage("Leader Card has already discarded");
+        }
+    }
+
+    public Message doAction(UseLeaderCardMessage message){
+        try {
+            actionHandler.useLeaderCard((message).getPosition());
+            return new ACKMessage("OK");
+        } catch (OutOfBandException e) {
+            return new NACKMessage("Leader Card not present");
+        } catch (LeaderCardAlreadyUsedException e) {
+            return new NACKMessage("Leader Card has already used");
+        } catch (ActiveLeaderCardException e){
+            return new NACKMessage("Leader card is not active");
+        }
     }
 
     /**

@@ -135,7 +135,7 @@ public class TurnHandlerTest {
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
-        assertTrue(turnHandler.doAction(message) instanceof ACKMessage);
+        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof ACKMessage);
 
     }
 
