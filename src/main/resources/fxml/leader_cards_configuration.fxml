@@ -10,16 +10,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.LeaderCardsConfigurationController">
    <children>
-      <HBox fx:id="images" layoutX="40.0" layoutY="136.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
+      <HBox fx:id="images" layoutX="168.0" layoutY="281.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
          <children>
             <ImageView fx:id="leaderCard1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard3" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="leaderCard4" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
          </children></HBox>
-      <HBox layoutX="36.0" layoutY="254.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
+      <HBox layoutX="164.0" layoutY="416.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
          <children>
             <CheckBox fx:id="cardId1" mnemonicParsing="false" text="Leader Card 1" />
             <CheckBox fx:id="cardId2" mnemonicParsing="false" text="Leader Card 2" />
@@ -27,13 +27,17 @@
             <CheckBox fx:id="cardId4" mnemonicParsing="false" text="Leader Card 4" />
          </children>
       </HBox>
-      <Text layoutX="108.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Card:">
+      <Text layoutX="236.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Card:">
          <font>
             <Font size="36.0" />
          </font>
       </Text>
-      <Label fx:id="errorLabel" layoutX="231.0" layoutY="269.0" />
-      <Button fx:id="LeaderConfirmation" layoutX="272.0" layoutY="341.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm" />
-      <ProgressIndicator fx:id="loading" layoutX="275.0" layoutY="333.0" visible="false" />
+      <Button fx:id="LeaderConfirmation" layoutX="400.0" layoutY="541.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm" />
+      <ProgressIndicator fx:id="loading" layoutX="403.0" layoutY="533.0" visible="false" />
+      <Label fx:id="errorLabel" layoutX="212.0" layoutY="506.0" text="ERROR:" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

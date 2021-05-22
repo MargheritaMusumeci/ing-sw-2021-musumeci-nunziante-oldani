@@ -27,7 +27,11 @@
       <Button fx:id="connect" layoutX="400.0" layoutY="475.0" mnemonicParsing="false" onAction="#connectionInitialization" text="Connect" />
       <Text fill="WHITE" layoutX="340.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the ip address of the Server: " />
       <Text fill="WHITE" layoutX="394.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the port:" />
-      <Label fx:id="error" layoutX="301.0" layoutY="444.0" prefWidth="0.0" textFill="RED" />
       <ProgressIndicator fx:id="loading" disable="true" layoutX="406.0" layoutY="461.0" visible="false" />
+      <Label fx:id="errorMessage" layoutX="217.0" layoutY="451.0" text="ERROR:" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

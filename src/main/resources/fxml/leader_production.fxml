@@ -13,17 +13,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:controller="it.polimi.ingsw.client.GUI.controllers.LeaderProductionController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" >
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.LeaderProductionController">
    <children>
-      <Text layoutX="20.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resource do you want to receive?">
+      <Text layoutX="146.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resource do you want to receive?">
          <font>
             <Font size="32.0" />
          </font>
       </Text>
-      <Button fx:id="confirm" layoutX="271.0" layoutY="297.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <Label fx:id="errorMessage" layoutX="296.0" layoutY="250.0" />
-      <ProgressIndicator fx:id="loading" layoutX="274.0" layoutY="283.0" visible="false" />
-      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="81.0" layoutY="110.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+      <Button fx:id="confirm" layoutX="397.0" layoutY="497.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Label fx:id="errorMessage" layoutX="207.0" layoutY="441.0" text="ERROR:" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font></Label>
+      <ProgressIndicator fx:id="loading" layoutX="400.0" layoutY="483.0" visible="false" />
+      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="207.0" layoutY="310.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
             <RadioButton fx:id="rock1" mnemonicParsing="false">
                <toggleGroup>
