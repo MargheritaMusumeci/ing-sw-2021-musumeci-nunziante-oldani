@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActionMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
@@ -174,7 +175,7 @@ public class MessageHandler {
             return;
         }
 
-        scc.send(scc.getGameHandler().getTurnHandler().doAction(actionMessage));
+        scc.send(scc.getGameHandler().getTurnHandler().doAction((ActiveLeaderCardMessage) actionMessage));
     }
 
     /**

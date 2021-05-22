@@ -13,6 +13,7 @@ import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.Initial
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
+import it.polimi.ingsw.model.game.Game;
 
 public class MessageHandlerGUI extends MessageHandler {
 
@@ -28,6 +29,13 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setAckArrived(true);
             gui.changeScene();
+
+            if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)
+                    ||gui.getGamePhase().equals(GamePhases.STORERESOURCES)
+                    || gui.getGamePhase().equals(GamePhases.PRODUCTIONZONECHOICE)){
+                gui.setActionDone(true);
+                gui.setGamePhase(GamePhases.STARTGAME);
+            }
         }
     }
 

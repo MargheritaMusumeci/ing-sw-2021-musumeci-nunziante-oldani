@@ -260,14 +260,7 @@ public class ViewController implements Controller {
         productionPositions = new ArrayList<>();
     }
 
-    @FXML
-    private void endTurn() {
 
-        if (gui.isActionDone()) {
-            gui.setActionDone(false);
-            gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
-        }
-    }
 
     @FXML
     private void showMarket() {
@@ -706,5 +699,18 @@ public class ViewController implements Controller {
         //gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
         //gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
         //gui.changeScene();
+
+        /*
+        ahahahha stavo scrivendo anche io quel metodo, guarda come lo avrei fatto
+             @FXML
+            private void endTurn() {
+
+             if (gui.isActionDone()) {
+                gui.setActionDone(false);
+                gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+              }
+            }
+
+         */
     }
 }
