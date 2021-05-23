@@ -12,9 +12,6 @@ public abstract class ActionMessage extends ClientMessage {
         super(message);
     }
 
-    public void handle(MessageHandler messageHandler){
-        messageHandler.handleMessage(this);
-    }
 }
 
 

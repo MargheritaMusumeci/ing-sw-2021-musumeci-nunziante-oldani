@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.sentByClient.actionMessages;
 
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.server.MessageHandler;
 
 import java.util.ArrayList;
 
@@ -54,4 +55,8 @@ public class ActiveProductionMessage extends ActionMessage{
         this.resourcesEnsures = resourcesEnsures;
     }
 
+
+    public void handle(MessageHandler messageHandler){
+        messageHandler.handleActionMessage(this);
+    }
 }

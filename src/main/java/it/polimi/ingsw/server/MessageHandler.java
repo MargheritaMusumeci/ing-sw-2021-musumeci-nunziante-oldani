@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.messages.sentByClient.actionMessages.ActionMessage;
-import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
@@ -152,11 +151,58 @@ public class MessageHandler {
         }
     }
 
+
+    public void handleActionMessage(BuyFromMarketMessage message){
+           if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+    }
+
+    public void handleActionMessage(StoreResourcesMessage message){
+        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+    }
+
+    public void handleActionMessage(BuyEvolutionCardMessage message){
+        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+    }
+
+    public void handleActionMessage(ActiveProductionMessage message){
+        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+    }
+    public void handleActionMessage(ActiveLeaderCardMessage message){
+        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+    }
+
+    public void handleActionMessage(DiscardLeaderCardMessage message){
+        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+    }
+    public void handleActionMessage(UseLeaderCardMessage message){
+        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
+    }
+
+    public void handleActionMessage(RequestResourcesBoughtFromMarketMessage message){
+        if(checkAction()) scc.send(new SendResourcesBoughtFromMarket("Risorse",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
+    }
+
+    private boolean checkAction(){
+        if (scc.getGamePhase() != GamePhases.GAME){
+            scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
+            return false;
+        }
+
+        //controllo che la richiesta mi viene fatta dal player attivo
+        if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
+            scc.send(new NACKMessage("Error! It's not your turn"));
+            return false;
+        }
+        return true;
+    }
+
+    /*
+
     /**
      * method that handle every action message. It is the controller in charge of identify the action and
      * call the correct method
      * @param actionMessage contains the action made by the player and the information needed to pursue that action
-     */
+
     public void handleMessage(ActionMessage actionMessage){
         if (scc.getGamePhase() != GamePhases.GAME){
             scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
@@ -176,7 +222,7 @@ public class MessageHandler {
 
         scc.send(scc.getGameHandler().getTurnHandler().doAction(actionMessage));
     }
-
+ */
     /**
      * method able to notify all the player that the active player has changed because someone has ended his turn
      *

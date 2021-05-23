@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.sentByClient.actionMessages;
 
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.server.MessageHandler;
 
 import java.util.ArrayList;
 
@@ -18,5 +19,9 @@ public class StoreResourcesMessage extends ActionMessage{
 
     public ArrayList<Resource> getSaveResources() {
         return saveResources;
+    }
+
+    public void handle(MessageHandler messageHandler){
+        messageHandler.handleActionMessage(this);
     }
 }

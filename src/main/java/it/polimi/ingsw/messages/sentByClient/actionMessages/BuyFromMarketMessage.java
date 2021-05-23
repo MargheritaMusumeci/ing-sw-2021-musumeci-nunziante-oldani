@@ -1,5 +1,7 @@
 package it.polimi.ingsw.messages.sentByClient.actionMessages;
 
+import it.polimi.ingsw.server.MessageHandler;
+
 /**
  * Message sent by client for doing the action specified in the name of the message class
  *
@@ -21,6 +23,10 @@ public class BuyFromMarketMessage extends ActionMessage{
 
     public boolean isRow() {
         return isRow;
+    }
+
+    public void handle(MessageHandler messageHandler){
+        messageHandler.handleActionMessage(this);
     }
 
 }
