@@ -36,6 +36,8 @@ public class GUI extends Application implements UI {
     public static final String STORE_RESOURCES = "store_resources.fxml";
     public static final String BASIC_PRODUCTION = "basic_production.fxml";
     public static final String LEADER_PRODUCTION = "leader_production.fxml";
+    public static final String EVOLUTION_SECTION = "evolution_section.fxml";
+    public static final String PRODUCTION_ZONE_CHOICE = "production_zone_choice.fxml";
 
     private Scene currentScene;
     private Scene oldScene;
@@ -56,6 +58,13 @@ public class GUI extends Application implements UI {
     private boolean isNackArrived;
     private String errorFromServer;
     private int players;
+    private boolean actionDone;
+
+    /**
+     * To set which evolution card the player wants to buy
+     */
+    private int cardRow;
+    private int cardColumn;
 
     private ArrayList<Resource> basicRequires;
     private ArrayList<Resource> basicEnsures;
@@ -91,7 +100,9 @@ public class GUI extends Application implements UI {
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(IP_PORT,BASIC_PRODUCTION, LEADER_PRODUCTION, START_GAME,MARKET,STORE_RESOURCES, PLAYERS, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD));
+        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(IP_PORT,BASIC_PRODUCTION, LEADER_PRODUCTION, START_GAME,
+                MARKET,STORE_RESOURCES, PLAYERS, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD,
+                EVOLUTION_SECTION, PRODUCTION_ZONE_CHOICE));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -153,6 +164,10 @@ public class GUI extends Application implements UI {
                 return GamePhases.ASKACTIVEPRODUCTION;
             case(LEADER_PRODUCTION):
                 return GamePhases.ASKACTIVELEADER;
+            case (EVOLUTION_SECTION):
+                return GamePhases.BUYEVOLUTIONCARD;
+            case (PRODUCTION_ZONE_CHOICE):
+                return GamePhases.PRODUCTIONZONECHOICE;
             default:
                 return GamePhases.IINITIALIZATION;
         }
@@ -309,5 +324,21 @@ public class GUI extends Application implements UI {
 
     public void setLeaderEnsure(HashMap<Integer,Resource> leaderEnsure) {
         this.leaderEnsure = leaderEnsure;
+    }
+
+    public int getCardRow() { return cardRow; }
+
+    public void setCardRow(int cardRow) { this.cardRow = cardRow; }
+
+    public int getCardColumn() { return cardColumn; }
+
+    public void setCardColumn(int cardColumn) { this.cardColumn = cardColumn; }
+
+    public boolean isActionDone() {
+        return actionDone;
+    }
+
+    public void setActionDone(boolean actionDone) {
+        this.actionDone = actionDone;
     }
 }

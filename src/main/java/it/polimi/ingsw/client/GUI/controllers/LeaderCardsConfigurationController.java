@@ -135,7 +135,7 @@ public class LeaderCardsConfigurationController implements Controller{
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
             gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
             gui.setOldScene(gui.getScene(GUI.LEADER_CARD));
-            gui.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , leaderCardsChosen));
+            gui.getClientSocket().send(new LeaderCardChoiceMessage("Leader card chose" , leaderCardsChosen));
             gui.setLeaderCards(leaderCardsToSave);
         }
     }

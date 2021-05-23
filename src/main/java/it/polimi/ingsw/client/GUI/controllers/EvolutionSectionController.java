@@ -32,7 +32,7 @@ public class EvolutionSectionController implements Controller {
     @FXML private ImageView eCard_22;//row 2 , column 2
     @FXML private ImageView eCard_23;//row 2 , column 3
 
-    @FXML private ArrayList<ArrayList<ImageView>> eCards;
+    private ArrayList<ArrayList<ImageView>> eCards;
 
     @FXML private Button confirmCard;//card is been chose
     @FXML private Button cancel;//turn back to startGame
@@ -52,7 +52,7 @@ public class EvolutionSectionController implements Controller {
 
     @FXML private Label error;
 
-    public EvolutionSectionController(GUI gui){
+    public EvolutionSectionController(){
         this.printer = new Print();
     }
 
@@ -88,11 +88,11 @@ public class EvolutionSectionController implements Controller {
 
         eCards = new ArrayList<ArrayList<ImageView>>();
         ArrayList<ImageView> cards1 = new ArrayList<>(Arrays.asList(eCard_00 , eCard_01 , eCard_02 , eCard_03));
-        eCards.set(0 , cards1);
+        eCards.add(0 , cards1);
         ArrayList<ImageView> cards2 = new ArrayList<>(Arrays.asList(eCard_10 , eCard_11 , eCard_12 , eCard_13));
-        eCards.set(1 , cards2);
+        eCards.add(1 , cards2);
         ArrayList<ImageView> cards3 = new ArrayList<>(Arrays.asList(eCard_20 , eCard_21 , eCard_22 , eCard_23));
-        eCards.set(2 , cards3);
+        eCards.add(2 , cards3);
 
         rowButtons = new ArrayList<RadioButton>(Arrays.asList(row0 , row1 , row2));
         columnButtons = new ArrayList<RadioButton>(Arrays.asList(column0 , column1 , column2 , column3));
@@ -133,10 +133,15 @@ public class EvolutionSectionController implements Controller {
             return;
         }
 
-        /**
-         * Save the evolution section chose (row and column) in an attribute in gui and change the scene to ask the
-         *  player in which production zone he wanna put the new card
-         */
+        //Set the position of the card the player wants to buy
+        gui.setCardRow(row);
+        gui.setCardColumn(column);
+
+        //Change the scene to let the player choose in which production zone put the card
+        gui.setCurrentScene(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE));
+        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setGamePhase(GamePhases.PRODUCTIONZONECHOICE);
+        gui.changeScene();
     }
 
     /**

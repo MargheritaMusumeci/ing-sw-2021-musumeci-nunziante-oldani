@@ -51,7 +51,7 @@ public class ProductionZoneChoiceController implements Controller{
 
         //Take the top cards not null and fill the view with the images
         for(int i = 0 ; i < productionZones.length ; i++){
-            if(productionZones[i] != null && productionZones[i].getCards().get(i) != null){
+            if(productionZones[i] != null && productionZones[i].getCards() != null && productionZones[i].getCards().get(i) != null){
                 eCards.get(i).setImage(printer.fromPathToImageEvolution(productionZones[i].getCards().get(i).getId()));
                 eCards.get(i).setVisible(true);
             }
@@ -100,13 +100,11 @@ public class ProductionZoneChoiceController implements Controller{
             return;
         }
 
-        //Send the message -> need to add 2 attributes in gui
-        //gui.getClientSocket().send(new BuyEvolutionCardMessage("Card bought" , gui.getRow() , gui.getColumn()));
-        //If ack -> set that the action has been chosen
+        gui.getClientSocket().send(new BuyEvolutionCardMessage("Card bought" , gui.getCardRow() , gui.getCardColumn() , position));
 
         //Turn back to the start game scene
         gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));//Maybe this will be change -> now there isn't this scene
+        gui.setOldScene(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE));
         gui.setGamePhase(GamePhases.STARTGAME);
     }
 

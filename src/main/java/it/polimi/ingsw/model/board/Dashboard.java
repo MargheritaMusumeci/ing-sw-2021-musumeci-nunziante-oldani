@@ -99,8 +99,10 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
 
             //production zones
             for(NormalProductionZone productionZone : personalProductionZones){
-                for (Card evolutionCard : productionZone.getCardList()){
-                    totalScore += evolutionCard.getPoint();
+                if(productionZone.getCardList() != null){
+                    for (Card evolutionCard : productionZone.getCardList()){
+                        totalScore += evolutionCard.getPoint();
+                    }
                 }
             }
 

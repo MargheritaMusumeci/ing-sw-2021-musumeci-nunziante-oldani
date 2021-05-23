@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
 
-public class WaintingController implements Controller{
+public class WaitingController implements Controller{
 
     private GUI gui;
     
