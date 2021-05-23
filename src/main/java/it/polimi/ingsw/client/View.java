@@ -123,7 +123,7 @@ public class View implements Serializable {
     }
 
     public void setResourcesBoughtFromMarker(ArrayList<Resource> resourcesBoughtFromMarker) {
-        this.resourcesBoughtFromMarker = resourcesBoughtFromMarker;
+        this.resourcesBoughtFromMarker = (ArrayList<Resource>) resourcesBoughtFromMarker.clone();
     }
 
     public void setEnemiesActivatedLeaderCards(HashMap<SerializableDashboard, ArrayList<SerializableLeaderCard>> enemiesActivatedLeaderCards) {

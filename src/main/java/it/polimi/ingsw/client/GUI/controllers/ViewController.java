@@ -258,9 +258,8 @@ public class ViewController implements Controller {
         marketLeaderActive = new boolean[2];
         activeBasic = false;
         productionPositions = new ArrayList<>();
+        leaderWaitForAck=-1;
     }
-
-
 
     @FXML
     private void showMarket() {
@@ -380,7 +379,7 @@ public class ViewController implements Controller {
                 use1.setVisible(false);
             }
 
-        } else {
+        } if(leaderWaitForAck == 2){
             active2.setVisible(false);
             discard2.setVisible(false);
             use2.setVisible(false);
@@ -389,6 +388,7 @@ public class ViewController implements Controller {
                 use2.setVisible(false);
             }
         }
+        leaderWaitForAck=-1;
     }
 
     @FXML
@@ -406,8 +406,9 @@ public class ViewController implements Controller {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
             }
         }
-
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
+        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        System.out.println("active leader");
     }
 
     @FXML
@@ -549,7 +550,7 @@ public class ViewController implements Controller {
             }
         }
 
-        if (gui.getGamePhase() == GamePhases.ASKACTIVELEADER && gui.isAckArrived()) {
+        if (gui.getGamePhase() == GamePhases.ASKACTIVELEADER) {
             activeLeaderACK();
             gui.setGamePhase(GamePhases.STARTGAME);
         }
@@ -694,7 +695,13 @@ public class ViewController implements Controller {
      * For now when the player isn't the active player put him in the waiting room
      */
     public void endTurn(){
-        gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+        if (gui.isActionDone()) {
+            gui.setActionDone(false);
+            gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+        }
+
+        //gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+
         //gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
         //gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
         //gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);

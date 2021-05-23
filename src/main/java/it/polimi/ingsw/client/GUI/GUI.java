@@ -138,6 +138,7 @@ public class GUI extends Application implements UI {
                 Controller controller = controllers.get(fxmls.get(gamePhase));
                 controller.init();
                 errorFromServer="";
+                System.out.println("show scene " + phases.get(currentScene));
                 currentStage.show();
         });
     }

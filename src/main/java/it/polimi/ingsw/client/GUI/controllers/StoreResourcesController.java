@@ -48,7 +48,14 @@ public class StoreResourcesController implements Controller {
     @Override
     public void init() {
 
+        System.out.println("sono all'inizio");
         resource = gui.getView().getResourcesBoughtFromMarker();
+
+        for (Resource res:resource) {
+            System.out.println(res.name());
+        }
+
+
         whiteballs.setText(null);
 
         //tolgo le bianche
@@ -62,6 +69,7 @@ public class StoreResourcesController implements Controller {
             }
         }
 
+        System.out.println("2");
         if(resource.size()==0) {
             whiteballs.setText("You bought only white balls");
         }else{

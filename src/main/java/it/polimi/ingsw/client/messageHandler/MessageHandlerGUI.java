@@ -14,6 +14,7 @@ import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendVie
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.Resource;
 
 public class MessageHandlerGUI extends MessageHandler {
 
@@ -34,8 +35,9 @@ public class MessageHandlerGUI extends MessageHandler {
                     ||gui.getGamePhase().equals(GamePhases.STORERESOURCES)
                     || gui.getGamePhase().equals(GamePhases.PRODUCTIONZONECHOICE)){
                 gui.setActionDone(true);
-                gui.setGamePhase(GamePhases.STARTGAME);
+                //gui.setGamePhase(GamePhases.STARTGAME);
             }
+            System.out.println("ack");
         }
     }
 
@@ -45,7 +47,7 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setNackArrived(true);
             gui.setErrorFromServer(message.getMessage());
-            //if leadercard fase, replace it with startgame
+           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) gui.setGamePhase(GamePhases.STARTGAME);
             gui.setGamePhase(gui.phase(gui.getOldScene()));
             gui.setCurrentScene(gui.getOldScene());
             gui.changeScene();
@@ -124,9 +126,14 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(SendResourcesBoughtFromMarket message) {
 
-        clientSocket.getView().setResourcesBoughtFromMarker(message.getResources());
+
         synchronized (gui) {
+            clientSocket.getView().setResourcesBoughtFromMarker(message.getResources());
             gui.changeScene();
+            System.out.println("risorse");
+            for (Resource res:clientSocket.getView().getResourcesBoughtFromMarker()) {
+                System.out.println(res.name());
+            }
         }
     }
 

@@ -151,7 +151,6 @@ public class MessageHandler {
         }
     }
 
-
     public void handleActionMessage(BuyFromMarketMessage message){
            if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
