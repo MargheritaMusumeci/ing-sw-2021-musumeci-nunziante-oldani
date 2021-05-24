@@ -168,8 +168,10 @@ public class DoActionPlayer {
         //                                      in new point position in order to increase the score
         //To do so, moveCross should have as parameters: player , increment
         for(Player player : modelGame.getPlayers()){
-            if(!player.equals(modelGame.getActivePlayer()))
-                moveCross(1,new ArrayList<Player>(){{add(player);}});
+            if(player.equals(modelGame.getActivePlayer())) {
+                moveCross(1, new ArrayList<Player>() {{add(player);}});
+                return;
+            }
         }
     }
 

@@ -51,29 +51,14 @@ public class TurnHandlerSoloGame extends TurnHandler{
             //Discard 2 evolution cards
             if (lorenzoActionCard.getActionType() == LorenzoAction.DISCARDEVOLUTION) {
 
-                int positionCol;
-                switch (lorenzoActionCard.getActionColor().get()) {
-                    case GREEN:
-                        positionCol = 0;
-                        break;
-                    case BLUE:
-                        positionCol = 1;
-                        break;
-                    case YELLOW:
-                        positionCol = 2;
-                        break;
-                    case PURPLE:
-                        positionCol = 3;
-                        break;
-                    default:
-                        positionCol=-1;
-                        break;
-                }
+                System.out.println("sto scartando una carta");
+                int positionCol = lorenzoActionCard.getActionColor().get().ordinal();
 
                 for (int i = 0; i < lorenzoActionCard.getNum().get(); i++) {
                     for (int j = 2; j >= 0; j--) {
                         if (modelGame.getEvolutionSection().getEvolutionSection()[j][positionCol]!=null){
                             modelGame.getEvolutionSection().buy(j,positionCol);
+                            System.out.println("scartata la posizione" + j + positionCol);
                             break;
                         }
                     }
