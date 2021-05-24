@@ -5,6 +5,9 @@ Musumeci:
 - modificare la label di errore
 - segnalino della croce troppo piccolo--> aumento le dimensioni dell'ImageView a 33-36
 
+-evolution section non si aggiorna
+-pope track aumento della posizione
+
 - connessione al ping
 - wait until ack
 

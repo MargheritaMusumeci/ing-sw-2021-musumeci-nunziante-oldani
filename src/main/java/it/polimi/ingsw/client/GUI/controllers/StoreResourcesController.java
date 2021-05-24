@@ -48,7 +48,15 @@ public class StoreResourcesController implements Controller {
     @Override
     public void init() {
 
-        System.out.println("sono all'inizio");
+        resource1.setImage(null);
+        resource2.setImage(null);
+        resource3.setImage(null);
+        resource4.setImage(null);
+        resource1Check.setVisible(false);
+        resource2Check.setVisible(false);
+        resource3Check.setVisible(false);
+        resource4Check.setVisible(false);
+
         resource = gui.getView().getResourcesBoughtFromMarker();
 
         for (Resource res:resource) {

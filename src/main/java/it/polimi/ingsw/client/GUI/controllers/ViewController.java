@@ -27,7 +27,7 @@ import java.util.HashMap;
 public class ViewController implements Controller {
 
     private GUI gui;
-    private Print printer;
+    private final Print printer;
     private ArrayList<Integer> stockLeaderCardInUse;
     private ArrayList<ImageView> popeTrackPositions;
     private int leaderWaitForAck;
@@ -286,6 +286,7 @@ public class ViewController implements Controller {
         if (activeProduction3.isSelected()) productionPositions.add(2);
 
         if (productionPositions.size() != 0 || activeBasic) {
+            System.out.println("attivo la produzione");
             gui.setCurrentScene(gui.getScene(GUI.START_GAME));
             gui.setOldScene(gui.getScene(GUI.START_GAME));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
@@ -297,6 +298,8 @@ public class ViewController implements Controller {
         gui.setBasicRequires(null);
         gui.setBasicEnsures(null);
         gui.setLeaderEnsure(null);
+        initBasicProduction();
+        initButtons();
 
     }
 
@@ -573,6 +576,10 @@ public class ViewController implements Controller {
             basicRequires1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(0))));
             basicRequires2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(1))));
             basicEnsure.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicEnsures().get(0))));
+        }else{
+            basicRequires1.setImage(null);
+            basicRequires2.setImage(null);
+            basicEnsure.setImage(null);
         }
     }
 
@@ -585,7 +592,6 @@ public class ViewController implements Controller {
     }
 
     private void initStock() {
-
         Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
 
         if (box1[0] != null) {
@@ -699,25 +705,5 @@ public class ViewController implements Controller {
             gui.setActionDone(false);
             gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
         }
-
-        //gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
-
-        //gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
-        //gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
-        //gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
-        //gui.changeScene();
-
-        /*
-        ahahahha stavo scrivendo anche io quel metodo, guarda come lo avrei fatto
-             @FXML
-            private void endTurn() {
-
-             if (gui.isActionDone()) {
-                gui.setActionDone(false);
-                gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
-              }
-            }
-
-         */
     }
 }
