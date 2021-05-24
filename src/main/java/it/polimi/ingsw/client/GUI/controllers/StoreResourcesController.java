@@ -57,6 +57,11 @@ public class StoreResourcesController implements Controller {
         resource3Check.setVisible(false);
         resource4Check.setVisible(false);
 
+        resource1Check.setSelected(false);
+        resource2Check.setSelected(false);
+        resource3Check.setSelected(false);
+        resource4Check.setSelected(false);
+
         resource = gui.getView().getResourcesBoughtFromMarker();
 
         for (Resource res:resource) {

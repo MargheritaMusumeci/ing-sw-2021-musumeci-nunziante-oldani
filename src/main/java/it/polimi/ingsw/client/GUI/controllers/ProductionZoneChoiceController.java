@@ -51,8 +51,8 @@ public class ProductionZoneChoiceController implements Controller{
 
         //Take the top cards not null and fill the view with the images
         for(int i = 0 ; i < productionZones.length ; i++){
-            if(productionZones[i] != null && productionZones[i].getCards() != null && productionZones[i].getCards().get(i) != null){
-                eCards.get(i).setImage(printer.fromPathToImageEvolution(productionZones[i].getCards().get(i).getId()));
+            if(productionZones[i] != null && productionZones[i].getCards() != null && productionZones[i].getCards().get(0) != null){
+                eCards.get(i).setImage(printer.fromPathToImageEvolution(productionZones[i].getCards().get(0).getId()));
                 eCards.get(i).setVisible(true);
             }
             else{

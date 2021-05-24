@@ -33,10 +33,14 @@ public class MessageHandlerGUI extends MessageHandler {
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)
                     ||gui.getGamePhase().equals(GamePhases.STORERESOURCES)
-                    || gui.getGamePhase().equals(GamePhases.PRODUCTIONZONECHOICE)){
+                    || gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
                 gui.setActionDone(true);
                 //gui.setGamePhase(GamePhases.STARTGAME);
             }
+            if(gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
+
+            }
+            System.out.println(gui.isActionDone());
             System.out.println("ack");
         }
     }
@@ -145,7 +149,7 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
         clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
-        if(gui.getGamePhase()==GamePhases.STARTGAME){
+        if(gui.getCurrentScene() == gui.getScene("START_GAME")){
             gui.changeScene();
         }
     }
@@ -153,9 +157,10 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleUpdateMessage(UpdateDashBoardMessage message) {
         clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
-        if(gui.getGamePhase()==GamePhases.STARTGAME){
+        //if(gui.getCurrentScene() == gui.getScene("START_GAME")){
             gui.changeScene();
-        }
+            System.out.println("Stock box 3: " + clientSocket.getView().getDashboard().getSerializableStock().getBoxes().get(2).length);
+        //}
     }
 
     @Override
@@ -190,13 +195,16 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleUpdateMessage(UpdateEvolutionSectionMessage message) {
-        //clientSocket.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
+        clientSocket.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
+        if(gui.getCurrentScene() == gui.getScene("START_GAME")){
+            gui.changeScene();
+        }
     }
 
     @Override
     public void handleUpdateMessage(UpdateMarketMessage message) {
         clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
-        if(gui.getGamePhase()==GamePhases.STARTGAME){
+        if(gui.getCurrentScene() == gui.getScene("START_GAME")){
             gui.changeScene();
         }
     }

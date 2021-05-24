@@ -259,5 +259,20 @@
          </children>
       </HBox>
       <Button fx:id="showCardsButton" layoutX="46.0" layoutY="520.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
+      <ImageView fx:id="popeCard1" fitHeight="43.0" fitWidth="36.0" layoutX="342.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="popeCard2" fitHeight="43.0" fitWidth="36.0" layoutX="466.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="popeCard3" fitHeight="43.0" fitWidth="36.0" layoutX="613.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

@@ -171,6 +171,10 @@ public class ViewController implements Controller {
     @FXML
     private ImageView stockPlus22;
 
+    private ArrayList<ImageView> stockPlus1;
+    private ArrayList<ImageView> stockPlus2;
+    private ArrayList<ArrayList<ImageView>> stockPlus;
+
     //lockbox
     @FXML
     private Text coinQuantity;
@@ -385,7 +389,7 @@ public class ViewController implements Controller {
         } if(leaderWaitForAck == 2){
             active2.setVisible(false);
             discard2.setVisible(false);
-            use2.setVisible(false);
+            use2.setVisible(true);
             if (gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 stockLeaderCardInUse.add(2);
                 use2.setVisible(false);
@@ -400,9 +404,11 @@ public class ViewController implements Controller {
 
         if (button.equals(active1)) {
             leaderWaitForAck = 1;
+            System.out.println("Active leader card 1");
             gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
         } else {
             leaderWaitForAck = 2;
+            System.out.println("Active leader card 2");
             if (gui.getView().getLeaderCards().size() == 1) {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
             } else {
@@ -412,6 +418,7 @@ public class ViewController implements Controller {
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
         gui.setOldScene(gui.getScene(GUI.START_GAME));
         System.out.println("active leader");
+        initLeaderCards();
     }
 
     @FXML
@@ -469,11 +476,18 @@ public class ViewController implements Controller {
         popeTrackPositions = new ArrayList<>(Arrays.asList(pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12, pos13, pos14, pos15, pos16, pos17, pos18, pos19, pos20, pos21, pos22, pos23, pos24));
         ArrayList<ImageView> popeCards = new ArrayList<>(Arrays.asList(popeCard1, popeCard2, popeCard3));
 
+
         initializer.initPopeTrack(popeTrackPositions);
         initializer.initPopeCards(popeCards);
 
         //initialize lockbox
         initLockBox();
+
+        stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
+        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
+        stockPlus = new ArrayList<>();
+        stockPlus.add(stockPlus1);
+        stockPlus.add(stockPlus2);
 
         //initialize stock
         initStock();
@@ -523,15 +537,28 @@ public class ViewController implements Controller {
             leader1.setImage(printer.fromPathToImageLeader(path));
 
             if (leaderCards.get(0).isActive()) {
-                discard1.setVisible(false);
-                active1.setVisible(false);
+                if(leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()){
+                    discard1.setVisible(false);
+                    active1.setVisible(false);
 
-                //se è stockbox plus non posso decidere se attivarla o meno
-                if (!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use1.setVisible(true);
+                    //se è stockbox plus non posso decidere se attivarla o meno
+                    if (!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use1.setVisible(true);
 
-                //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
-                    leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(0))));
+                    //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
+                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
+                        leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(0))));
+                    }
+                }else{
+                    discard2.setVisible(false);
+                    active2.setVisible(false);
+
+                    //se è stockbox plus non posso decidere se attivarla o meno
+                    if (!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use2.setVisible(true);
+
+                    //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
+                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
+                        leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
+                    }
                 }
             }
 
@@ -539,7 +566,7 @@ public class ViewController implements Controller {
                 path = String.valueOf(leaderCards.get(1).getId());
                 leader2.setImage(printer.fromPathToImageLeader(path));
 
-                if (leaderCards.get(1).isActive()) {
+                if (leaderCards.get(1).isActive() && leaderCards.get(1).getId() == gui.getLeaderCards().get(1).getId()) {
                     discard1.setVisible(false);
                     active1.setVisible(false);
 
@@ -625,57 +652,16 @@ public class ViewController implements Controller {
             stockBox33.setImage(printer.fromPathToImageResource(path));
         }
 
+        //Initialize leader stock
         if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
-            int leaderPosition = stockLeaderCardInUse.get(0);
+            for(int i = 0 ; i < stockLeaderCardInUse.size() ; i++){
+                int leaderPosition = stockLeaderCardInUse.get(i);
 
-            if (leaderPosition == 1) {
-                //devo mettere le risorse dello stockbox plus sulla prima leader card
-                if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
-                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
-                        String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                        stockPlus11.setImage(printer.fromPathToImageResource(path));
-                    }
-                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
-                        String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                        stockPlus21.setImage(printer.fromPathToImageResource(path));
-                    }
-                } else {
-                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
-                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
-                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                            stockPlus11.setImage(printer.fromPathToImageResource(path));
-                        }
-                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
-                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                            stockPlus22.setImage(printer.fromPathToImageResource(path));
-                        }
-                    }
-                }
-            }
-            if (stockLeaderCardInUse.size() > 1) {
-                leaderPosition = stockLeaderCardInUse.get(1);
-
-                if (leaderPosition == 1) {
-                    //devo mettere le risorse dello stockbox plus sulla prima leader card
-                    if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
-                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
-                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                            stockPlus11.setImage(printer.fromPathToImageResource(path));
-                        }
-                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
-                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                            stockPlus21.setImage(printer.fromPathToImageResource(path));
-                        }
-                    } else {
-                        if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0).length != 0) {
-                            if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0] != null) {
-                                String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                                stockPlus11.setImage(printer.fromPathToImageResource(path));
-                            }
-                            if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[1] != null) {
-                                String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(0)[0]);
-                                stockPlus22.setImage(printer.fromPathToImageResource(path));
-                            }
+                if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
+                    for(int j = 0 ; j < gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
+                        if(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
+                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
+                            stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
                         }
                     }
                 }
