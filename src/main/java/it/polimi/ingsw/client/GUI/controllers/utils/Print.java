@@ -111,18 +111,18 @@ public class Print {
 
     public String fromPositionToDiscardPope(Integer position){
         switch(position){
-            case 0: return "quadrato_giallo.fxml";
-            case 1: return "quadrato_arancione.fxml";
-            case 2: return "quadrato_rosso.fxml";
+            case 0: return "quadrato_giallo.png";
+            case 1: return "quadrato_arancione.png";
+            case 2: return "quadrato_rosso.png";
         }
         return null;
     }
 
     public String fromPositionToActivePope(Integer position){
         switch(position){
-            case 0: return "punti_giallo.fxml";
-            case 1: return "punti_arancione.fxml";
-            case 2: return "punti_rosso.fxml";
+            case 0: return "punti_giallo.png";
+            case 1: return "punti_arancione.png";
+            case 2: return "punti_rosso.png";
         }
         return null;
     }
