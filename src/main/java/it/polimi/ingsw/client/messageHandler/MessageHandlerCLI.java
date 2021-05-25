@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.gamePhases.InitialResourcesSelection;
 import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
 import it.polimi.ingsw.client.gamePhases.OtherPlayersTurnPhase;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
@@ -110,6 +111,8 @@ public class MessageHandlerCLI extends MessageHandler{
         cli.getClientSocket().getView().setWinners(message.getWinners());
         cli.setGamePhase(new EndGamePhase());
         new Thread(cli).start();
+
+        cli.getClientSocket().send(new ExitGameMessage("exit game"));
     }
 
     @Override

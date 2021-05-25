@@ -141,6 +141,5 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
 
         return new EndGameMessage("The game is edned", winners, scores);
 
-
     }
 }

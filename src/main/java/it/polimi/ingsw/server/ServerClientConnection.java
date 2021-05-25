@@ -146,4 +146,12 @@ public class ServerClientConnection implements Runnable{
     public Socket getSocket() {
         return socket;
     }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
 }

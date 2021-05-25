@@ -19,6 +19,7 @@ import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.serializableModel.SerializableMarket;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -188,7 +189,15 @@ public class GameHandler implements Runnable{
         return initializationHandler;
     }
 
-
+    public void endGame(ServerClientConnection scc){
+        scc.getServer().removeTakeNickname(scc.getNickname());
+        try {
+            scc.getSocket().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error while closing the socket");
+        }
+    }
 
 
 

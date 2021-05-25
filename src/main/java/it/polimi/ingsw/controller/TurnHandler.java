@@ -8,6 +8,7 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
+import it.polimi.ingsw.server.GameHandler;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,11 @@ public abstract class TurnHandler {
      *      first one or if this section is already been discovered by an other player
      */
     protected int lastSection;
+
+    /**
+     * This attribute is needed because the game handler is the only one able to call the endGame method to
+     * update the server.
+     */
 
     public TurnHandler(Game modelGame){
         this.modelGame = modelGame;

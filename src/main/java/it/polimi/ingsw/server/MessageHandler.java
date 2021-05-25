@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
@@ -244,5 +245,9 @@ public class MessageHandler {
         }else{
             scc.send(new NACKMessage("KO"));
         }
+    }
+
+    public void handleMessage(ExitGameMessage exitGameMessage) {
+        scc.getGameHandler().endGame(scc);
     }
 }

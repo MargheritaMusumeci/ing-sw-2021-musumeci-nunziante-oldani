@@ -182,6 +182,10 @@ public class Server {
         }
     }
 
+    public void removeTakeNickname(String nickname){
+        listOfTakenNicknames.remove(nickname);
+    }
+
     public void addWaitingForReconnection(ServerClientConnection scc){
         waitingForReconnection.put(scc.getNickname(), scc);
     }
