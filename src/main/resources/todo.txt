@@ -1,9 +1,14 @@
 Musumeci:
 
+-fine gioco
+-turno degli avversari
+-visualizzare dashbord degli avversari
+
 - modificare i circle del market in sphere
 - modificare sfondi e dimensioni
 - modificare la label di errore
 - segnalino della croce troppo piccolo--> aumento le dimensioni dell'ImageView a 33-36
+
 
 - connessione al ping
 - wait until ack

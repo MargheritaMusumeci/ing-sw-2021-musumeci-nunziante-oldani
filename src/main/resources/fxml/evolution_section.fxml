@@ -18,14 +18,14 @@
             <Font size="17.0" />
          </font>
       </Text>
-      <HBox layoutX="47.0" layoutY="74.0" prefHeight="141.0" prefWidth="684.0">
+      <HBox layoutX="47.0" layoutY="74.0" prefHeight="150.0" prefWidth="521.0">
          <children>
             <ImageView fx:id="eCard_00" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_01" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_02" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_03" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
          </children></HBox>
-      <HBox alignment="CENTER" layoutX="34.0" layoutY="548.0" prefHeight="34.0" prefWidth="666.0" spacing="150.0">
+      <HBox alignment="CENTER_LEFT" layoutX="85.0" layoutY="548.0" prefHeight="34.0" prefWidth="363.0" spacing="85.0">
          <children>
             <RadioButton fx:id="column0" alignment="BOTTOM_LEFT" mnemonicParsing="false">
                <toggleGroup>
@@ -37,17 +37,18 @@
          </children>
       </HBox>
       <Label fx:id="error" layoutX="353.0" layoutY="583.0" />
-      <VBox alignment="CENTER_LEFT" layoutX="790.0" layoutY="106.0" prefHeight="382.0" prefWidth="50.0" spacing="150.0">
+      <VBox alignment="CENTER_LEFT" layoutX="650.0" layoutY="135.0" prefHeight="382.0" prefWidth="50.0" spacing="150.0">
          <children>
             <RadioButton fx:id="row0" mnemonicParsing="false">
                <toggleGroup>
                   <ToggleGroup fx:id="row" />
-               </toggleGroup></RadioButton>
+               </toggleGroup>
+            </RadioButton>
             <RadioButton fx:id="row1" mnemonicParsing="false" toggleGroup="$row" />
             <RadioButton fx:id="row2" mnemonicParsing="false" toggleGroup="$row" />
          </children>
       </VBox>
-      <HBox layoutX="47.0" layoutY="225.0" prefHeight="141.0" prefWidth="684.0">
+      <HBox layoutX="47.0" layoutY="225.0" prefHeight="150.0" prefWidth="442.0">
          <children>
             <ImageView fx:id="eCard_10" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_11" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
@@ -55,9 +56,9 @@
             <ImageView fx:id="eCard_13" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox layoutX="47.0" layoutY="375.0" prefHeight="141.0" prefWidth="684.0">
+      <HBox layoutX="47.0" layoutY="375.0" prefHeight="150.0" prefWidth="414.0">
          <children>
-            <ImageView fx:id="eCard_20" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCard_20" fitHeight="150.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_21" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_22" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCard_23" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />

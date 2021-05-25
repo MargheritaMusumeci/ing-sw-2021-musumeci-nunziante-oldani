@@ -38,6 +38,7 @@ public class GUI extends Application implements UI {
     public static final String LEADER_PRODUCTION = "leader_production.fxml";
     public static final String EVOLUTION_SECTION = "evolution_section.fxml";
     public static final String PRODUCTION_ZONE_CHOICE = "production_zone_choice.fxml";
+    public static final String ENDGAME = "end_game.fxml";
 
     private Scene currentScene;
     private Scene oldScene;
@@ -59,6 +60,7 @@ public class GUI extends Application implements UI {
     private String errorFromServer;
     private int players;
     private boolean actionDone;
+    private boolean activeLeader;
 
     /**
      * To set which evolution card the player wants to buy
@@ -102,7 +104,7 @@ public class GUI extends Application implements UI {
     public void initializationFXMLParameter() {
         List<String> fxmlFiles = new ArrayList<>(Arrays.asList(IP_PORT,BASIC_PRODUCTION, LEADER_PRODUCTION, START_GAME,
                 MARKET,STORE_RESOURCES, PLAYERS, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD,
-                EVOLUTION_SECTION, PRODUCTION_ZONE_CHOICE));
+                EVOLUTION_SECTION, PRODUCTION_ZONE_CHOICE, ENDGAME));
         try {
             for (String path : fxmlFiles) {
                 URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
@@ -169,6 +171,8 @@ public class GUI extends Application implements UI {
                 return GamePhases.BUYEVOLUTIONCARD;
             case (PRODUCTION_ZONE_CHOICE):
                 return GamePhases.PRODUCTIONZONECHOICE;
+            case(ENDGAME):
+                return GamePhases.ENDGAME;
             default:
                 return GamePhases.IINITIALIZATION;
         }
@@ -341,5 +345,21 @@ public class GUI extends Application implements UI {
 
     public void setActionDone(boolean actionDone) {
         this.actionDone = actionDone;
+    }
+
+    public boolean isActiveLeader() {
+        return activeLeader;
+    }
+
+    public void setActiveLeader(boolean activeLeader) {
+        this.activeLeader = activeLeader;
+    }
+
+    public Stage getCurrentStage() {
+        return currentStage;
+    }
+
+    public void setCurrentStage(Stage currentStage) {
+        this.currentStage = currentStage;
     }
 }

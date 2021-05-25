@@ -283,10 +283,6 @@ public class HumanPlayer extends Player{
         if(dashboard.getLeaderCards().get(position).isActive()) throw new LeaderCardAlreadyUsedException("This leader card is already been used");
 
         dashboard.getLeaderCards().remove(position);
-
-        //I should do this in the controller
-        popeTrack.updateGamerPosition(1);
-
     }
 
     /**

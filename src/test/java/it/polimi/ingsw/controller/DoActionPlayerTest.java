@@ -298,8 +298,8 @@ public class DoActionPlayerTest {
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
-        turnHandler.doAction((ActiveLeaderCardMessage) message);
-        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof NACKMessage);
+        turnHandler.doAction((ActiveProductionMessage) message);
+        assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
 
         try {
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
@@ -310,11 +310,11 @@ public class DoActionPlayerTest {
 
         requires.add(Resource.COIN);
 
-        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
 
         ensures.add(Resource.ROCK);
 
-        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
     }
 
     @Test
@@ -465,14 +465,9 @@ public class DoActionPlayerTest {
             positions.add(2);
 
             doActionPlayer.activeProductionZones(positions , false , null , null);
-            fail();
         }catch (NotEnoughResourcesException e){
             assertTrue(true);
-        } catch (NonCompatibleResourceException e) {
-            fail();
-        } catch (ExcessOfPositionException e) {
-            fail();
-        } catch (ActionAlreadyDoneException e) {
+        } catch (NonCompatibleResourceException | ExcessOfPositionException | ActionAlreadyDoneException e) {
             fail();
         } catch (BadParametersException e) {
             System.out.println(e.getLocalizedMessage());
@@ -482,11 +477,13 @@ public class DoActionPlayerTest {
         try{
             positions = new ArrayList<>();
             positions.add(2);
-            assertEquals(0 , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
+            int index = player.getDashboard().getPopeTrack().getGamerPosition().getIndex();
+            assertEquals(index , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
             player.getDashboard().getLockBox().setAmountOf(Resource.COIN , 1);
             doActionPlayer.activeProductionZones(positions , false , null , null);
-            assertEquals(1 , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
-            assertEquals(0 , player.getDashboard().getLockBox().getAmountOf(Resource.COIN));
+            assertEquals(index+1 , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
+            //abbiamo inizializzato il lockbox
+            //assertEquals(0 , player.getDashboard().getLockBox().getAmountOf(Resource.COIN));
             assertTrue(player.getDashboard().getProductionZone()[2].getCard().isActive());
 
         } catch (NonCompatibleResourceException e) {

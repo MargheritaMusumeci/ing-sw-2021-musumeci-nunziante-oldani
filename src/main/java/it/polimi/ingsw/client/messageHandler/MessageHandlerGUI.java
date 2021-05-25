@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.ViewController;
+import it.polimi.ingsw.client.GUI.controllers.ViewPlayerController;
 import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.gamePhases.EndGamePhase;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
@@ -15,6 +18,9 @@ import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGa
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 public class MessageHandlerGUI extends MessageHandler {
 
@@ -33,10 +39,16 @@ public class MessageHandlerGUI extends MessageHandler {
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)
                     ||gui.getGamePhase().equals(GamePhases.STORERESOURCES)
-                    || gui.getGamePhase().equals(GamePhases.PRODUCTIONZONECHOICE)){
+                    || gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
                 gui.setActionDone(true);
-                //gui.setGamePhase(GamePhases.STARTGAME);
             }
+
+            if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
+                gui.setGamePhase(GamePhases.STARTGAME);
+                System.out.println("Calling activeLeaderAck after received the ack");
+                ((ViewPlayerController) gui.getController("view.fxml")).activeLeaderACK();
+            }
+            System.out.println(gui.isActionDone());
             System.out.println("ack");
         }
     }
@@ -47,7 +59,10 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setNackArrived(true);
             gui.setErrorFromServer(message.getMessage());
-           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) gui.setGamePhase(GamePhases.STARTGAME);
+           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) {
+               gui.setGamePhase(GamePhases.STARTGAME);
+               gui.setActiveLeader(false);
+           }
             gui.setGamePhase(gui.phase(gui.getOldScene()));
             gui.setCurrentScene(gui.getOldScene());
             gui.changeScene();
@@ -61,7 +76,6 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleMessage(StartGameMessage message) {
-
         //gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
     }
 
@@ -92,26 +106,26 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(SendViewMessage message) {
 
-        System.out.println("start game");
-        clientSocket.setView(message.getView());
-        gui.setView(message.getView());
-        //gui.setGamePhase(GamePhases.STARTGAME);
-        //gui.setOldScene(gui.getScene(GUI.START_GAME));
-        //gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        //gui.changeScene();
+        synchronized (gui) {
+            System.out.println("start game");
+            clientSocket.setView(message.getView());
+            gui.setView(message.getView());
+            //gui.setGamePhase(GamePhases.STARTGAME);
+            //gui.setOldScene(gui.getScene(GUI.START_GAME));
+            //gui.setCurrentScene(gui.getScene(GUI.START_GAME));
+            //gui.changeScene();
 
-        if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())){
-            gui.setGamePhase(GamePhases.STARTGAME);
-            gui.setOldScene(gui.getScene(GUI.START_GAME));
-            gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        }
-        else{
-            gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
-            gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
-            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
-        }
+            if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
+                gui.setGamePhase(GamePhases.STARTGAME);
+                gui.setOldScene(gui.getScene(GUI.START_GAME));
+                gui.setCurrentScene(gui.getScene(GUI.START_GAME));
+            } else {
+                gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
+                gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
+                gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
+            }
 
-        gui.changeScene();
+            gui.changeScene();
 
            /* if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
                 gui.setGamePhase(GamePhases.MYTURN);
@@ -121,6 +135,7 @@ public class MessageHandlerGUI extends MessageHandler {
                 gui.notifyAll();
             }
            */
+        }
     }
 
     @Override
@@ -138,41 +153,46 @@ public class MessageHandlerGUI extends MessageHandler {
     }
 
     @Override
-    public void handleMessage(EndGameMessage message) {
-
-    }
-
-    @Override
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
-        clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
-        if(gui.getGamePhase()==GamePhases.STARTGAME){
-            gui.changeScene();
+        synchronized (gui) {
+            clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
+            if (gui.getCurrentScene() == gui.getScene("START_GAME")) {
+                gui.changeScene();
+            }
         }
     }
 
     @Override
     public void handleUpdateMessage(UpdateDashBoardMessage message) {
-        clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
-        if(gui.getGamePhase()==GamePhases.STARTGAME){
+        synchronized (gui) {
+            clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
+            //if(gui.getCurrentScene() == gui.getScene("START_GAME")){
             gui.changeScene();
+            System.out.println("Stock box 3: " + clientSocket.getView().getDashboard().getSerializableStock().getBoxes().get(2).length);
+            //}
         }
     }
 
     @Override
     public void handleUpdateMessage(UpdateActivePlayerMessage message) {
 
-        if (clientSocket.getView().getNickname().equals(message.getMessage())){
-            gui.setGamePhase(GamePhases.STARTGAME);
-            gui.setOldScene(gui.getScene(GUI.START_GAME));
-            gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        }
-        else{
+        synchronized (gui) {
+            if (clientSocket.getView().getNickname().equals(message.getMessage())) {
+                gui.setGamePhase(GamePhases.STARTGAME);
+            } else {
+
+                gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+            /*
             gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
             gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
-        }
+             */
+            }
+            gui.setOldScene(gui.getScene(GUI.START_GAME));
+            gui.setCurrentScene(gui.getScene(GUI.START_GAME));
 
-        gui.changeScene();
+            gui.changeScene();
+        }
         /*
             clientSocket.getView().setActivePlayer(message.getMessage());
             if (clientSocket.getView().getNickname().equals(clientSocket.getView().getActivePlayer())) {
@@ -190,19 +210,37 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleUpdateMessage(UpdateEvolutionSectionMessage message) {
-        //clientSocket.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
+        synchronized (gui) {
+            clientSocket.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
+            if (gui.getCurrentScene() == gui.getScene("START_GAME")) {
+                gui.changeScene();
+            }
+        }
     }
 
     @Override
     public void handleUpdateMessage(UpdateMarketMessage message) {
-        clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
-        if(gui.getGamePhase()==GamePhases.STARTGAME){
-            gui.changeScene();
+        synchronized (gui) {
+            clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
+            if (gui.getCurrentScene() == gui.getScene("START_GAME")) {
+                gui.changeScene();
+            }
         }
     }
 
     @Override
     public void handleUpdateMessage(UpdateOtherPlayerViewMessage message) {
 
+    }
+
+    @Override
+    public void handleMessage(EndGameMessage message) {
+        synchronized (gui) {
+            gui.getView().setScores(message.getScores());
+            gui.getView().setWinners(message.getWinners());
+            gui.setGamePhase(GamePhases.ENDGAME);
+            gui.setCurrentScene(gui.getScene(GUI.ENDGAME));
+            gui.changeScene();
+        }
     }
 }

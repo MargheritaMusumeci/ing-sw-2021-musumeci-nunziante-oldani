@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="720.0" prefWidth="1026.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewController">
+<Pane prefHeight="720.0" prefWidth="1026.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewPlayerController">
    <children>
       <ImageView fitHeight="357.0" fitWidth="582.0" layoutX="219.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -259,5 +259,20 @@
          </children>
       </HBox>
       <Button fx:id="showCardsButton" layoutX="46.0" layoutY="520.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
+      <ImageView fx:id="popeCard1" fitHeight="43.0" fitWidth="36.0" layoutX="342.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="popeCard2" fitHeight="43.0" fitWidth="36.0" layoutX="466.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="popeCard3" fitHeight="43.0" fitWidth="36.0" layoutX="613.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
