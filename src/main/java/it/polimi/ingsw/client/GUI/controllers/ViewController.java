@@ -378,6 +378,7 @@ public class ViewController implements Controller {
      */
     public void activeLeaderACK() {
         if (leaderWaitForAck == 1) {
+            System.out.println("In active leader ack 1");
             active1.setVisible(false);
             discard1.setVisible(false);
             use1.setVisible(true);
@@ -387,6 +388,7 @@ public class ViewController implements Controller {
             }
 
         } if(leaderWaitForAck == 2){
+            System.out.println("In active leader ack 2");
             active2.setVisible(false);
             discard2.setVisible(false);
             use2.setVisible(true);
@@ -411,14 +413,16 @@ public class ViewController implements Controller {
             System.out.println("Active leader card 2");
             if (gui.getView().getLeaderCards().size() == 1) {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
+                System.out.println("Activated card 0 in model");
             } else {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
+                System.out.println("Activated card 1 in model");
             }
         }
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
         gui.setOldScene(gui.getScene(GUI.START_GAME));
-        System.out.println("active leader");
-        initLeaderCards();
+        System.out.println("Active leader");
+        //initLeaderCards();
     }
 
     @FXML
@@ -562,28 +566,29 @@ public class ViewController implements Controller {
                 }
             }
 
+
             if (leaderCards.size() > 1) {
                 path = String.valueOf(leaderCards.get(1).getId());
                 leader2.setImage(printer.fromPathToImageLeader(path));
 
                 if (leaderCards.get(1).isActive() && leaderCards.get(1).getId() == gui.getLeaderCards().get(1).getId()) {
-                    discard1.setVisible(false);
-                    active1.setVisible(false);
+                    discard2.setVisible(false);
+                    active2.setVisible(false);
 
                     if (!leaderCards.get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use1.setVisible(true);
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                    if (leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
-                        leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
+                    if (leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
+                        leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                     }
                 }
             }
         }
 
-        if (gui.getGamePhase() == GamePhases.ASKACTIVELEADER) {
+        /*if (gui.getGamePhase() == GamePhases.ASKACTIVELEADER) {
             activeLeaderACK();
             gui.setGamePhase(GamePhases.STARTGAME);
-        }
+        }*/
     }
 
     private void fillProductionZone(ArrayList<ImageView>[] productionZones) {
