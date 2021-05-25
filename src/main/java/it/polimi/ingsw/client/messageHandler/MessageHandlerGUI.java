@@ -35,7 +35,6 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(ACKMessage message) {
         synchronized (gui) {
             gui.setAckArrived(true);
-            gui.changeScene();
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)
                     ||gui.getGamePhase().equals(GamePhases.STORERESOURCES)
@@ -48,6 +47,8 @@ public class MessageHandlerGUI extends MessageHandler {
                 System.out.println("Calling activeLeaderAck after received the ack");
                 ((ViewPlayerController) gui.getController("view.fxml")).activeLeaderACK();
             }
+
+            gui.changeScene();
             System.out.println(gui.isActionDone());
             System.out.println("ack");
         }
@@ -156,7 +157,8 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
         synchronized (gui) {
             clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
-            if (gui.getCurrentScene() == gui.getScene("START_GAME")) {
+            if(gui.getCurrentScene() == gui.getScene("START_GAME")) {
+                gui.setGamePhase(GamePhases.STARTGAME);
                 gui.changeScene();
             }
         }
@@ -167,8 +169,8 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
             //if(gui.getCurrentScene() == gui.getScene("START_GAME")){
+            gui.setGamePhase(GamePhases.STARTGAME);
             gui.changeScene();
-            System.out.println("Stock box 3: " + clientSocket.getView().getDashboard().getSerializableStock().getBoxes().get(2).length);
             //}
         }
     }

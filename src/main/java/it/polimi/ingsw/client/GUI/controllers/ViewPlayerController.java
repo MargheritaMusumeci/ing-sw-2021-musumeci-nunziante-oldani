@@ -221,6 +221,8 @@ public class ViewPlayerController extends ViewController {
     @Override
     public void init() {
 
+        initializer.setDashboard(gui.getView().getDashboard());
+
         super.init();
 
         //initialize leader cards
@@ -232,6 +234,18 @@ public class ViewPlayerController extends ViewController {
         //initialize basic production
         initBasicProduction();
         initButtons();
+
+        //initialize lockbox
+        initLockBox();
+
+        stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
+        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
+        stockPlus = new ArrayList<>();
+        stockPlus.add(stockPlus1);
+        stockPlus.add(stockPlus2);
+
+        //initialize stock
+        initStock();
     }
 
     private void initLeaderCards() {
@@ -252,7 +266,7 @@ public class ViewPlayerController extends ViewController {
                     if (!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use1.setVisible(true);
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
+                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(0) != null) {
                         leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(0))));
                     }
                 } else {
@@ -263,7 +277,7 @@ public class ViewPlayerController extends ViewController {
                     if (!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use2.setVisible(true);
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
+                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
                         leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                     }
                 }
@@ -314,6 +328,86 @@ public class ViewPlayerController extends ViewController {
             initializer.visibleButton(buttons,false);
             ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3));
             initializer.ableDisableChrckBoxes(checkBoxes,gui.isActionDone());
+        }
+    }
+
+    protected void initLockBox() {
+        HashMap<Resource, Integer> lockbox = gui.getView().getDashboard().getSerializableLockBox().getResources();
+        coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
+        shieldQuantity.setText(String.valueOf(lockbox.get(Resource.SHIELD)));
+        servantQuantity.setText(String.valueOf(lockbox.get(Resource.SERVANT)));
+        rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
+    }
+
+    protected void initStock() {
+        Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
+
+        if (box1[0] != null) {
+            String path = printer.pathFromResource(box1[0]);
+            stockBox1.setImage(printer.fromPathToImageResource(path));
+        }
+        else{
+            stockBox1.setImage(null);
+        }
+
+        Resource[] box2 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(1);
+
+        if (box2[0] != null) {
+            String path = printer.pathFromResource(box2[0]);
+            stockBox21.setImage(printer.fromPathToImageResource(path));
+        }
+        else{
+            stockBox21.setImage(null);
+        }
+        if (box2[1] != null) {
+            String path = printer.pathFromResource(box2[1]);
+            stockBox22.setImage(printer.fromPathToImageResource(path));
+        }
+        else{
+            stockBox22.setImage(null);
+        }
+
+        Resource[] box3 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(2);
+
+        if (box3[0] != null) {
+            String path = printer.pathFromResource(box3[0]);
+            stockBox31.setImage(printer.fromPathToImageResource(path));
+        }
+        else{
+            stockBox31.setImage(null);
+        }
+        if (box3[1] != null) {
+            String path = printer.pathFromResource(box3[1]);
+            stockBox32.setImage(printer.fromPathToImageResource(path));
+        }
+        else{
+            stockBox32.setImage(null);
+        }
+        if (box3[2] != null) {
+            String path = printer.pathFromResource(box3[3]);
+            stockBox33.setImage(printer.fromPathToImageResource(path));
+        }
+        else{
+            stockBox33.setImage(null);
+        }
+
+        //Initialize leader stock
+        if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
+            for(int i = 0 ; i < stockLeaderCardInUse.size() ; i++){
+                int leaderPosition = stockLeaderCardInUse.get(i);
+
+                if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
+                    for(int j = 0 ; j < gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
+                        if(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
+                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
+                            stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
+                        }
+                        else{
+                            stockPlus.get(leaderPosition - 1).get(j).setImage(null);
+                        }
+                    }
+                }
+            }
         }
     }
 

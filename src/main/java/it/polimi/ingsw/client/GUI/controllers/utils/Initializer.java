@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.GUI.controllers.utils;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableDashboard;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 
 public class Initializer {
 
+    private SerializableDashboard dashboard;
     private Print printer;
     private GUI gui;
 
@@ -23,9 +25,6 @@ public class Initializer {
         this.gui = gui;
     }
 
-    public void initLeaderCards(){
-
-    }
 
     public void initMarket(Circle[][] market,Circle external) {
 
@@ -59,7 +58,7 @@ public class Initializer {
     }
 
     public void initInkwell(ImageView inkwell){
-        if(gui.getView().getDashboard().isInkwell()){
+        if(dashboard.isInkwell()){
             inkwell.setVisible(true);
         }
 
@@ -71,10 +70,10 @@ public class Initializer {
             image.setImage(null);
         }
 
-        int position = gui.getView().getDashboard().getSerializablePopeTack().getPosition();
+        int position = dashboard.getSerializablePopeTack().getPosition();
 
         if(gui.getPlayers()==1){
-            int lorenzoPosition = gui.getView().getDashboard().getSerializablePopeTack().getLorenzoPosition();
+            int lorenzoPosition = dashboard.getSerializablePopeTack().getLorenzoPosition();
             if(position==lorenzoPosition){
                 popeTrackPositions.get(lorenzoPosition).setImage(printer.togetherPopePosition());
                 return;
@@ -87,8 +86,8 @@ public class Initializer {
 
     public void initPopeCards(ArrayList<ImageView> popeCards) {
 
-        boolean[] popeCardActive = gui.getView().getDashboard().getSerializablePopeTack().getActiveCards();
-        boolean[] popeCardDiscarded = gui.getView().getDashboard().getSerializablePopeTack().getDiscardCards();
+        boolean[] popeCardActive = dashboard.getSerializablePopeTack().getActiveCards();
+        boolean[] popeCardDiscarded = dashboard.getSerializablePopeTack().getDiscardCards();
 
         for (int i = 0; i < 3; i++) {
             if(popeCardActive[i]==true){
@@ -102,7 +101,7 @@ public class Initializer {
 
     public void initProductionZone(ArrayList<ImageView>[] productionZones) {
 
-        SerializableProductionZone[] serializableProductionZones = gui.getView().getDashboard().getSerializableProductionZones();
+        SerializableProductionZone[] serializableProductionZones = dashboard.getSerializableProductionZones();
 
         for (int i = 0; i < serializableProductionZones.length; i++) {
             SerializableProductionZone serializableProductionZone = serializableProductionZones[i];
@@ -136,5 +135,13 @@ public class Initializer {
         for(Button button: buttons){
             button.setVisible(b);
         }
+    }
+
+    public SerializableDashboard getDashboard() {
+        return dashboard;
+    }
+
+    public void setDashboard(SerializableDashboard dashboard) {
+        this.dashboard = dashboard;
     }
 }

@@ -133,6 +133,7 @@ public class GUI extends Application implements UI {
 
         Platform.runLater(()->{
 
+            System.out.println("Phase is: " + gamePhase);
                 //ack e nack inutili
                 isAckArrived=false;
                 isNackArrived=false;
@@ -155,8 +156,8 @@ public class GUI extends Application implements UI {
                 return GamePhases.INITIALLEADERCARDSELECTION;
             case (INITIAL_RESOURCES):
                 return GamePhases.INITIALRESOURCESELECTION;
-            case (START_GAME):
-                return GamePhases.STARTGAME;
+            case (IP_PORT):
+                return GamePhases.IINITIALIZATION;
             case (WAITING_ROOM):
                 return GamePhases.WAITINGOTHERPLAYERS;
             case(MARKET):
@@ -166,7 +167,7 @@ public class GUI extends Application implements UI {
             case(BASIC_PRODUCTION):
                 return GamePhases.ASKACTIVEPRODUCTION;
             case(LEADER_PRODUCTION):
-                return GamePhases.ASKACTIVELEADER;
+                return GamePhases.LEADERPRODUCTION;
             case (EVOLUTION_SECTION):
                 return GamePhases.BUYEVOLUTIONCARD;
             case (PRODUCTION_ZONE_CHOICE):
@@ -174,7 +175,7 @@ public class GUI extends Application implements UI {
             case(ENDGAME):
                 return GamePhases.ENDGAME;
             default:
-                return GamePhases.IINITIALIZATION;
+                return GamePhases.STARTGAME;
         }
     }
 

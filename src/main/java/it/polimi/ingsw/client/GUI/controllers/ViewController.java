@@ -232,6 +232,12 @@ public class ViewController implements Controller {
     @FXML
     protected Button showCardsButton;//show the evolution section
 
+    @FXML protected Button enemy0;
+    @FXML protected Button enemy1;
+    @FXML protected Button enemy2;
+    @FXML protected Button enemy3;
+
+
     public ViewController(){
          this.printer = new Print();
          stockLeaderCardInUse = new ArrayList<>();
@@ -269,22 +275,32 @@ public class ViewController implements Controller {
         initializer.initPopeTrack(popeTrackPositions);
         initializer.initPopeCards(popeCards);
 
-        //initialize lockbox
-        initLockBox();
 
-        stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
-        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
-        stockPlus = new ArrayList<>();
-        stockPlus.add(stockPlus1);
-        stockPlus.add(stockPlus2);
-
-        //initialize stock
-        initStock();
 
         //initialize production zone
         productionZones = new ArrayList[3];
         fillProductionZone(productionZones);
         initializer.initProductionZone(productionZones);
+
+
+        initEnemiesButton();
+
+    }
+
+    protected void initEnemiesButton(){
+
+        ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0 , enemy1 , enemy2 , enemy3));
+
+        if(gui.getPlayers() > 1){
+            enemyButtons.get(0).setText(gui.getNickname());
+            enemyButtons.get(0).setVisible(true);
+        }
+        int index = 0;
+        for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
+            enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
+            enemyButtons.get(index).setVisible(true);
+            index++;
+        }
     }
 
     protected void fillMarket(Circle[][] market) {
@@ -324,62 +340,5 @@ public class ViewController implements Controller {
 
     }
 
-    protected void initLockBox() {
-        HashMap<Resource, Integer> lockbox = gui.getView().getDashboard().getSerializableLockBox().getResources();
-        coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
-        shieldQuantity.setText(String.valueOf(lockbox.get(Resource.SHIELD)));
-        servantQuantity.setText(String.valueOf(lockbox.get(Resource.SERVANT)));
-        rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
-    }
 
-    protected void initStock() {
-        Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
-
-        if (box1[0] != null) {
-            String path = printer.pathFromResource(box1[0]);
-            stockBox1.setImage(printer.fromPathToImageResource(path));
-        }
-
-        Resource[] box2 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(1);
-
-        if (box2[0] != null) {
-            String path = printer.pathFromResource(box2[0]);
-            stockBox21.setImage(printer.fromPathToImageResource(path));
-        }
-        if (box2[1] != null) {
-            String path = printer.pathFromResource(box2[1]);
-            stockBox22.setImage(printer.fromPathToImageResource(path));
-        }
-
-        Resource[] box3 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(2);
-
-        if (box3[0] != null) {
-            String path = printer.pathFromResource(box3[0]);
-            stockBox31.setImage(printer.fromPathToImageResource(path));
-        }
-        if (box3[1] != null) {
-            String path = printer.pathFromResource(box3[1]);
-            stockBox32.setImage(printer.fromPathToImageResource(path));
-        }
-        if (box3[2] != null) {
-            String path = printer.pathFromResource(box3[3]);
-            stockBox33.setImage(printer.fromPathToImageResource(path));
-        }
-
-        //Initialize leader stock
-        if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
-            for(int i = 0 ; i < stockLeaderCardInUse.size() ; i++){
-                int leaderPosition = stockLeaderCardInUse.get(i);
-
-                if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
-                    for(int j = 0 ; j < gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
-                        if(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
-                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
-                            stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
