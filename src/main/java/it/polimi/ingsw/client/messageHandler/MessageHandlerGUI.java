@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.ViewController;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.gamePhases.EndGamePhase;
 import it.polimi.ingsw.messages.*;
@@ -16,6 +17,9 @@ import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGa
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 public class MessageHandlerGUI extends MessageHandler {
 
@@ -38,7 +42,15 @@ public class MessageHandlerGUI extends MessageHandler {
                 gui.setActionDone(true);
                 //gui.setGamePhase(GamePhases.STARTGAME);
             }
-           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) gui.setActiveLeader(true);
+
+            if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
+                gui.setGamePhase(GamePhases.STARTGAME);
+                System.out.println("Calling activeLeaderAck after received the ack");
+                ((ViewController) gui.getController("view.fxml")).activeLeaderACK();
+            }
+            if(gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
+
+            }
             System.out.println(gui.isActionDone());
             System.out.println("ack");
         }
