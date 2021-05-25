@@ -16,13 +16,13 @@
             <Font name="System Italic" size="41.0" />
          </font>
       </Text>
-      <Button fx:id="exitButton" layoutX="401.0" layoutY="526.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
-      <Button fx:id="playButton" layoutX="381.0" layoutY="561.0" mnemonicParsing="false" onAction="#play" text="Play Again " />
-      <Label fx:id="messageLabel" layoutX="338.0" layoutY="327.0" textFill="RED">
+      <Button fx:id="exitButton" layoutX="399.0" layoutY="500.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+      <Button fx:id="playButton" layoutX="379.0" layoutY="537.0" mnemonicParsing="false" onAction="#play" text="Play Again " />
+      <Label fx:id="messageLabel" layoutX="371.0" layoutY="303.0" prefWidth="114.0" textFill="RED">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Label>
-      <ListView fx:id="winnes" editable="true" layoutX="321.0" layoutY="367.0" prefHeight="153.0" prefWidth="191.0" />
+      <ListView fx:id="winnes" editable="true" layoutX="321.0" layoutY="331.0" prefHeight="153.0" prefWidth="191.0" />
    </children>
 </Pane>

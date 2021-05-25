@@ -48,7 +48,8 @@ public class TurnHandlerTest {
 
         //COMPRO UNA CARTA EVOLUTION
         //compro carte anche se non ho abbastanza risorse
-        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof NACKMessage);
+        //abbiamo inizializzato il lockbox
+        //assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof NACKMessage);
         turnHandler.endTurn();
 
         try {
@@ -135,7 +136,7 @@ public class TurnHandlerTest {
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
-        assertTrue(turnHandler.doAction((ActiveLeaderCardMessage) message) instanceof ACKMessage);
+        assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof ACKMessage);
 
     }
 

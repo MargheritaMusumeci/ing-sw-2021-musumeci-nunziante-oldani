@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.messageHandler;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.ViewController;
+import it.polimi.ingsw.client.GUI.controllers.ViewPlayerController;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.gamePhases.EndGamePhase;
 import it.polimi.ingsw.messages.*;
@@ -40,16 +41,12 @@ public class MessageHandlerGUI extends MessageHandler {
                     ||gui.getGamePhase().equals(GamePhases.STORERESOURCES)
                     || gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
                 gui.setActionDone(true);
-                //gui.setGamePhase(GamePhases.STARTGAME);
             }
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
                 gui.setGamePhase(GamePhases.STARTGAME);
                 System.out.println("Calling activeLeaderAck after received the ack");
-                ((ViewController) gui.getController("view.fxml")).activeLeaderACK();
-            }
-            if(gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
-
+                ((ViewPlayerController) gui.getController("view.fxml")).activeLeaderACK();
             }
             System.out.println(gui.isActionDone());
             System.out.println("ack");

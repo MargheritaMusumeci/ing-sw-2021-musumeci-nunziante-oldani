@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class ViewPlayerController extends ViewController{
+public class ViewPlayerController extends ViewController {
 
     private int leaderWaitForAck;
     private boolean activeBasic;
@@ -32,7 +32,7 @@ public class ViewPlayerController extends ViewController{
     public ViewPlayerController() {
         super();
         activeBasic = false;
-        leaderWaitForAck=-1;
+        leaderWaitForAck = -1;
     }
 
     @FXML
@@ -147,6 +147,7 @@ public class ViewPlayerController extends ViewController{
      * parameter could be update.
      */
     public void activeLeaderACK() {
+
         if (leaderWaitForAck == 1) {
             active1.setVisible(false);
             discard1.setVisible(false);
@@ -156,7 +157,8 @@ public class ViewPlayerController extends ViewController{
                 use1.setVisible(false);
             }
 
-        } if(leaderWaitForAck == 2){
+        }
+        if (leaderWaitForAck == 2) {
             active2.setVisible(false);
             discard2.setVisible(false);
             use2.setVisible(true);
@@ -165,11 +167,11 @@ public class ViewPlayerController extends ViewController{
                 use2.setVisible(false);
             }
         }
-        leaderWaitForAck=-1;
+        leaderWaitForAck = -1;
     }
 
-    @FXML
     public void activeLeader(ActionEvent actionEvent) {
+
         Button button = (Button) actionEvent.getSource();
 
         if (button.equals(active1)) {
@@ -181,15 +183,17 @@ public class ViewPlayerController extends ViewController{
             System.out.println("Active leader card 2");
             if (gui.getView().getLeaderCards().size() == 1) {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
+                System.out.println("Activated card 0 in model");
             } else {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
+                System.out.println("Activated card 1 in model");
             }
         }
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
         gui.setOldScene(gui.getScene(GUI.START_GAME));
-        System.out.println("active leader");
-        initLeaderCards();
+        System.out.println("Active leader");
     }
+
 
     @FXML
     public void discardLeader(ActionEvent actionEvent) {
@@ -240,7 +244,7 @@ public class ViewPlayerController extends ViewController{
             leader1.setImage(printer.fromPathToImageLeader(path));
 
             if (leaderCards.get(0).isActive()) {
-                if(leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()){
+                if (leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()) {
                     discard1.setVisible(false);
                     active1.setVisible(false);
 
@@ -251,7 +255,7 @@ public class ViewPlayerController extends ViewController{
                     if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
                         leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(0))));
                     }
-                }else{
+                } else {
                     discard2.setVisible(false);
                     active2.setVisible(false);
 
@@ -270,27 +274,21 @@ public class ViewPlayerController extends ViewController{
                 leader2.setImage(printer.fromPathToImageLeader(path));
 
                 if (leaderCards.get(1).isActive() && leaderCards.get(1).getId() == gui.getLeaderCards().get(1).getId()) {
-                    discard1.setVisible(false);
-                    active1.setVisible(false);
+                    discard2.setVisible(false);
+                    active2.setVisible(false);
 
                     if (!leaderCards.get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use1.setVisible(true);
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                    if (leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null) {
-                        leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
+                    if (leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
+                        leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                     }
                 }
             }
         }
-
-        if (gui.getGamePhase() == GamePhases.ASKACTIVELEADER && leaderWaitForAck!=-1 && gui.isActiveLeader()) {
-            activeLeaderACK();
-            gui.setGamePhase(GamePhases.STARTGAME);
-            gui.setActiveLeader(false);
-        }
     }
 
-    private void initBasicProduction() {
+    private void initBasicProduction(){
 
         if (activeBasic && gui.getBasicRequires() != null && gui.getBasicEnsures() != null) {
             basicRequires1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(0))));
