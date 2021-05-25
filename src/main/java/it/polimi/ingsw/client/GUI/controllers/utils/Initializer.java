@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableProductionZone;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 
@@ -115,6 +117,24 @@ public class Initializer {
                     }
                 }
             }
+        }
+    }
+
+    public void ableDisableButtons(ArrayList<Button> buttons, boolean b) {
+        for(Button button: buttons){
+            button.setDisable(b);
+        }
+    }
+
+    public void ableDisableChrckBoxes(ArrayList<CheckBox> checkBoxes, boolean b) {
+        for(CheckBox checkBox: checkBoxes){
+            checkBox.setDisable(b);
+        }
+    }
+
+    public void visibleButton(ArrayList<Button> buttons, boolean b) {
+        for(Button button: buttons){
+            button.setVisible(b);
         }
     }
 }
