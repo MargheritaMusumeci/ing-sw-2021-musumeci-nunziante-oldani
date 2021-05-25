@@ -123,6 +123,8 @@ public class CLI implements UI, Runnable {
 
     public void printPopeTrack(){
         SerializablePopeTack popeTack = clientSocket.getView().getDashboard().getSerializablePopeTack();
+        PopeTrackPrinter.print(popeTack);
+        /*
         boolean atLeastOneCard = false;
         System.out.println("Pope track: ");
         System.out.println("your current position is: " + popeTack.getPosition());
@@ -138,6 +140,8 @@ public class CLI implements UI, Runnable {
         if(popeTack.getLorenzoPosition() > 0)
             System.out.println("Position of Lorenzo is: " + popeTack.getLorenzoPosition());
         System.out.println("#################################################################");
+
+         */
     }
     public void printLeaderCards(){
         ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
