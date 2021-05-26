@@ -35,8 +35,8 @@ public class TurnHandlerSoloGame extends TurnHandler{
      */
     @Override
     public void startTurn() {
-        if(isTheLastTurn){
-            isTheEnd = true;
+        if(isTheEnd){
+            //isTheEnd = true;
             endGame();
         }
     }
@@ -83,10 +83,12 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
     /**
      * Method that check who is the winner
+     *
      */
     @Override
     protected ArrayList<Player> checkWinner() {
        ArrayList<Player> winners = new ArrayList<>(Arrays.asList(winner));
+       System.out.println("Check winner done");
        return winners;
     }
 
@@ -102,12 +104,15 @@ public class TurnHandlerSoloGame extends TurnHandler{
             if (modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex() == 24) {
                 isTheEnd = true;
                 winner = modelGame.getActivePlayer();
+                endGame();
             }
 
             //active player bought 7 Evolution Cards
-            if (!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() > 6) {
+            if (!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() > 1) {//TODO re-put 6
                 isTheEnd = true;
+                System.out.println("Bought enough cards to win Lorenzo");
                 winner = modelGame.getActivePlayer();
+                endGame();
             }
 
         } else {
@@ -132,6 +137,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
             if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getIndex() == 24) {
                 isTheEnd = true;
                 winner = modelGame.getActivePlayer();
+                endGame();
             }
         }
     }
@@ -163,16 +169,22 @@ public class TurnHandlerSoloGame extends TurnHandler{
         //Update the active player for the next turn
         modelGame.updateActivePlayer();
 
-        //prima di terminare il turno effettuo una mossa di lorenzo
-        if(modelGame.getActivePlayer() instanceof LorenzoPlayer) {
-            try {
-                doActionLorenzo();
-            } catch (ExcessOfPositionException e) {
-                //messaggio --> carta che cerca di comprare lorenzo non presente
+        if(!isTheEnd){
+            //prima di terminare il turno effettuo una mossa di lorenzo
+            if(modelGame.getActivePlayer() instanceof LorenzoPlayer) {
+                try {
+                    doActionLorenzo();
+                } catch (ExcessOfPositionException e) {
+                    //messaggio --> carta che cerca di comprare lorenzo non presente
+                }
             }
+
+            checkEndGame();
+
+            //probabilemte va aggiunto perchè anche lorenzo ha fatto la sua mossa
+            modelGame.updateActivePlayer();
         }
-        //probabilemte va aggiunto perchè anche lorenzo ha fatto la sua mossa
-        modelGame.updateActivePlayer();
+
 
         return new UpdateActivePlayerMessage(modelGame.getActivePlayer().getNickName());
     }
@@ -184,6 +196,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
     @Override
     public Message endGame(){
 
+        System.out.println("In end game");
         ArrayList<Player> winnersPlayer = checkWinner();
 
         HashMap<String, Integer> scores = new HashMap<>();
@@ -192,6 +205,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
         }else{
             scores.put(modelGame.getPlayers().get(1).getNickName(),modelGame.getPlayers().get(1).getDashboard().getScore());
         }
+
         return new EndGameMessage("The game is ended", new ArrayList<>(){{add(winnersPlayer.get(0).getNickName());}}, scores);
     }
 }

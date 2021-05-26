@@ -107,6 +107,7 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(EndGameMessage message) {
+        System.out.println("End game message received");
         cli.getClientSocket().getView().setScores(message.getScores());
         cli.getClientSocket().getView().setWinners(message.getWinners());
         cli.setGamePhase(new EndGamePhase());

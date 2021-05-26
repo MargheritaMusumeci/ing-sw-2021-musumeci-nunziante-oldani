@@ -197,7 +197,7 @@ public class EvolutionSectionPrinter {
     private static  ArrayList<ArrayList<String>[]> createLines(EvolutionCard[] evolutionCards){
         ArrayList<ArrayList<String>[]> line = new ArrayList<>();
         for(int i = 0; i<evolutionCards.length; i++){
-            if(evolutionCards[1] != null){
+            if(evolutionCards[i] != null){
                 line.add(createEvolutionCard(evolutionCards[i]));
             }else{
                 line.add(createEmptyCard());

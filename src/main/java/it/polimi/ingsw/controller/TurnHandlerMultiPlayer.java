@@ -139,7 +139,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
             scores.put(player.getNickName(), player.getDashboard().getScore());
         }
 
-        return new EndGameMessage("The game is edned", winners, scores);
+        return new EndGameMessage("The game is ended", winners, scores);
 
     }
 }
