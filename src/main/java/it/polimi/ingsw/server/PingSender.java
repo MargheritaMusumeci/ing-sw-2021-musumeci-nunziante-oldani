@@ -29,7 +29,7 @@ public class PingSender implements Runnable{
             isActive = false;
 
             try {
-                Thread.sleep(1000*3);
+                Thread.sleep(1000*10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

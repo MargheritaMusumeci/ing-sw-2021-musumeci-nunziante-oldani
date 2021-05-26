@@ -14,8 +14,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Sphere?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewEnemyController">
    <children>
       <ImageView fitHeight="255.0" fitWidth="213.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -120,5 +119,30 @@
             <GaussianBlur />
          </effect>
       </Sphere>
+      <HBox layoutX="56.0" layoutY="385.0" prefHeight="54.0" prefWidth="210.0">
+         <children>
+            <ImageView fx:id="eCardView_00" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_01" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_02" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_03" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox layoutX="56.0" layoutY="446.0" prefHeight="54.0" prefWidth="210.0">
+         <children>
+            <ImageView fx:id="eCardView_10" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_11" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_12" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_13" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <HBox layoutX="56.0" layoutY="506.0" prefHeight="54.0" prefWidth="210.0">
+         <children>
+            <ImageView fx:id="eCardView_20" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_21" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_22" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="eCardView_23" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <Button fx:id="showCardsButton" layoutX="101.0" layoutY="579.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
    </children>
 </Pane>

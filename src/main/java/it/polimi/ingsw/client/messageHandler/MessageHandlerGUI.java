@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.ViewController;
 import it.polimi.ingsw.client.GUI.controllers.ViewPlayerController;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.gamePhases.EndGamePhase;
 import it.polimi.ingsw.messages.*;
@@ -38,7 +39,7 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.setAckArrived(true);
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)
-                    || gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
+                    || gui.getOldScene().equals(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s))){
                 gui.setActionDone(true);
             }
 
@@ -90,7 +91,7 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.setLeaderCards(message.getLeaderCards());
             gui.setGamePhase(GamePhases.INITIALLEADERCARDSELECTION);
             gui.setOldScene(gui.getCurrentScene());
-            gui.setCurrentScene(gui.getScene(GUI.LEADER_CARD));
+            gui.setCurrentScene(gui.getScene(GameFxml.LEADER_CARD.s));
             gui.changeScene();
         }
     }
@@ -102,7 +103,7 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.setResources(message.getResources());
             gui.setGamePhase(GamePhases.INITIALRESOURCESELECTION);
             gui.setOldScene(gui.getCurrentScene());
-            gui.setCurrentScene(gui.getScene(GUI.INITIAL_RESOURCES));
+            gui.setCurrentScene(gui.getScene(GameFxml.INITIAL_RESOURCES.s));
             gui.changeScene();
         }
     }
@@ -121,11 +122,11 @@ public class MessageHandlerGUI extends MessageHandler {
 
             if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
                 gui.setGamePhase(GamePhases.STARTGAME);
-                gui.setOldScene(gui.getScene(GUI.START_GAME));
-                gui.setCurrentScene(gui.getScene(GUI.START_GAME));
+                gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+                gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
             } else {
-                gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
-                gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
+                gui.setCurrentScene(gui.getScene(GameFxml.WAITING_ROOM.s));
+                gui.setOldScene(gui.getScene(GameFxml.WAITING_ROOM.s));
                 gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
             }
 
@@ -192,8 +193,8 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
              */
             }
-            gui.setOldScene(gui.getScene(GUI.START_GAME));
-            gui.setCurrentScene(gui.getScene(GUI.START_GAME));
+            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
 
             gui.changeScene();
         }
@@ -243,7 +244,7 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.getView().setScores(message.getScores());
             gui.getView().setWinners(message.getWinners());
             gui.setGamePhase(GamePhases.ENDGAME);
-            gui.setCurrentScene(gui.getScene(GUI.ENDGAME));
+            gui.setCurrentScene(gui.getScene(GameFxml.ENDGAME.s));
             gui.changeScene();
         }
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
@@ -133,8 +134,8 @@ public class LeaderCardsConfigurationController implements Controller{
             }
 
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
-            gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
-            gui.setOldScene(gui.getScene(GUI.LEADER_CARD));
+            gui.setCurrentScene(gui.getScene(GameFxml.WAITING_ROOM.s));
+            gui.setOldScene(gui.getScene(GameFxml.LEADER_CARD.s));
             gui.getClientSocket().send(new LeaderCardChoiceMessage("Leader card chose" , leaderCardsChosen));
             gui.setLeaderCards(leaderCardsToSave);
         }

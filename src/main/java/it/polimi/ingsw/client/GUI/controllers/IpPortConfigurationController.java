@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -88,7 +89,7 @@ public class IpPortConfigurationController implements Controller{
             }else{
                 new Thread(gui.getClientSocket()).start();
                 gui.setGamePhase(GamePhases.NICKNAME);
-                gui.setCurrentScene(gui.getScene(GUI.NICKNAME));
+                gui.setCurrentScene(gui.getScene(GameFxml.NICKNAME.s));
                 gui.changeScene();
             }
         }

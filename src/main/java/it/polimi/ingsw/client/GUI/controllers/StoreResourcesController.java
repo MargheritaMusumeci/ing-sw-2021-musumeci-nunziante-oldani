@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;
 import it.polimi.ingsw.model.game.Resource;
@@ -132,8 +133,8 @@ public class StoreResourcesController implements Controller {
             resourcesToBeSend.add(resource.get(3));
         }
         gui.getClientSocket().send(new StoreResourcesMessage("Save",resourcesToBeSend));
-        gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.STORE_RESOURCES));
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
         gui.setGamePhase(GamePhases.STARTGAME);
     }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 
 public class GUI extends Application implements UI {
 
+    /*
     //list of file .fxml
     public static final String IP_PORT = "ip_port_configuration.fxml";
     public static final String NICKNAME = "nickname_configuration.fxml";
@@ -37,6 +38,8 @@ public class GUI extends Application implements UI {
     public static final String EVOLUTION_SECTION = "evolution_section.fxml";
     public static final String PRODUCTION_ZONE_CHOICE = "production_zone_choice.fxml";
     public static final String ENDGAME = "end_game.fxml";
+
+     */
 
     private Scene currentScene;
     private Scene oldScene;
@@ -115,7 +118,7 @@ public class GUI extends Application implements UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        currentScene = scenes.get(IP_PORT);
+        currentScene = scenes.get(GameFxml.IP_PORT);
     }
 
     public void initializationStage() {
@@ -254,10 +257,6 @@ public class GUI extends Application implements UI {
 
     public void setPlayers(int players) {
         this.players = players;
-    }
-
-    public static String getIpPort() {
-        return IP_PORT;
     }
 
     public ArrayList<Resource> getBasicRequires() {

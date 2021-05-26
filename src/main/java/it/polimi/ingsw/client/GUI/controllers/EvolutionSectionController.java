@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 
@@ -138,8 +139,8 @@ public class EvolutionSectionController implements Controller {
         gui.setCardColumn(column);
 
         //Change the scene to let the player choose in which production zone put the card
-        gui.setCurrentScene(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setCurrentScene(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.PRODUCTIONZONECHOICE);
         gui.changeScene();
     }
@@ -148,8 +149,8 @@ public class EvolutionSectionController implements Controller {
      * Turn back to START_GAME scene
      */
     public void cancel() {
-        gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.STARTGAME);
         gui.changeScene();
     }

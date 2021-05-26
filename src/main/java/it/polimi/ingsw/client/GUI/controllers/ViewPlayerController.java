@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
@@ -37,16 +38,16 @@ public class ViewPlayerController extends ViewController {
 
     @FXML
     private void showMarket() {
-        gui.setCurrentScene(gui.getScene(GUI.MARKET));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setCurrentScene(gui.getScene(GameFxml.MARKET.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.BUYFROMMARKET);
         gui.changeScene();
     }
 
     @FXML
     private void showEvolutionSection() {
-        gui.setCurrentScene(gui.getScene(GUI.EVOLUTION_SECTION));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setCurrentScene(gui.getScene(GameFxml.EVOLUTION_SECTION.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.BUYEVOLUTIONCARD);
         gui.changeScene();
     }
@@ -60,8 +61,8 @@ public class ViewPlayerController extends ViewController {
 
         if (productionPositions.size() != 0 || activeBasic) {
             System.out.println("attivo la produzione");
-            gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-            gui.setOldScene(gui.getScene(GUI.START_GAME));
+            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
             gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures()));
         }
@@ -80,8 +81,8 @@ public class ViewPlayerController extends ViewController {
     public void chooseBasicProduction(ActionEvent actionEvent) {
 
         activeBasic = true;
-        gui.setCurrentScene(gui.getScene(GUI.BASIC_PRODUCTION));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setCurrentScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.STARTGAME);
         gui.changeScene();
     }
@@ -135,8 +136,8 @@ public class ViewPlayerController extends ViewController {
 
     @FXML
     private void showLeaderProduction() {
-        gui.setCurrentScene(gui.getScene(GUI.LEADER_PRODUCTION));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setCurrentScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.LEADERPRODUCTION);
         gui.changeScene();
     }
@@ -190,7 +191,7 @@ public class ViewPlayerController extends ViewController {
             }
         }
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         System.out.println("Active leader");
     }
 

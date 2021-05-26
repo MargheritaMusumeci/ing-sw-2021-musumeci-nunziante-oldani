@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
 import javafx.event.ActionEvent;
@@ -59,7 +60,7 @@ public class PlayersConfigurationController implements Controller {
 
            gui.setOldScene(gui.getCurrentScene());
            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
-           gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
+           gui.setCurrentScene(gui.getScene(GameFxml.WAITING_ROOM.s));
            gui.setPlayers(player);
            gui.getClientSocket().send(new NumberOfPlayerMessage(String.valueOf(player)));
         }

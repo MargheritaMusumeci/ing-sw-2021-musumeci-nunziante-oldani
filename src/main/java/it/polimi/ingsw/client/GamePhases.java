@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.GUI.GUI;
 
-import static it.polimi.ingsw.client.GUI.GUI.IP_PORT;
 
 public enum GamePhases {
 
@@ -24,32 +23,5 @@ public enum GamePhases {
     BUYEVOLUTIONCARD,
     PRODUCTIONZONECHOICE,
     ENDGAME,
-    ;
-
-    private String fxml;
-
-    static{
-        IINITIALIZATION.fxml= GUI.IP_PORT;
-        NICKNAME.fxml = GUI.NICKNAME;
-        NUMBEROFPLAYERS.fxml = GUI.PLAYERS;
-        WAITINGOTHERPLAYERS.fxml = GUI.WAITING_ROOM;
-        INITIALLEADERCARDSELECTION.fxml = GUI.LEADER_CARD;
-        INITIALRESOURCESELECTION.fxml = GUI.INITIAL_RESOURCES;
-        //MYTURN.fxml = GUI.START_GAME;
-        OTHERPLAYERSTURN.fxml = GUI.START_GAME;
-        STARTGAME.fxml = GUI.START_GAME;
-        BUYFROMMARKET.fxml = GUI.MARKET;
-        STORERESOURCES.fxml = GUI.STORE_RESOURCES;
-        ASKACTIVELEADER.fxml = GUI.START_GAME;
-        ASKACTIVEPRODUCTION.fxml = GUI.START_GAME;
-        LEADERPRODUCTION.fxml = GUI.LEADER_PRODUCTION;
-        BUYEVOLUTIONCARD.fxml= GUI.EVOLUTION_SECTION;
-        PRODUCTIONZONECHOICE.fxml = GUI.PRODUCTION_ZONE_CHOICE;
-        ENDGAME.fxml = GUI.ENDGAME;
-    }
-
-    public String getFxml(){
-        return this.fxml;
-    }
 
 }

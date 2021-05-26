@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.fxml.FXML;
@@ -46,8 +47,8 @@ public class LeaderProductionController implements Controller {
             leaderEnsure.put(gui.getLeaderPosition(),Resource.SERVANT);
         }
         gui.setLeaderEnsure(leaderEnsure);
-        gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.LEADER_PRODUCTION));
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
         gui.setGamePhase(GamePhases.STARTGAME);
         gui.changeScene();
     }

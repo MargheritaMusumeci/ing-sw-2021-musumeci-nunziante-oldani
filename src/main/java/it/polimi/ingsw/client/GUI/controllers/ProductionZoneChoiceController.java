@@ -2,8 +2,10 @@ package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -103,8 +105,8 @@ public class ProductionZoneChoiceController implements Controller{
         gui.getClientSocket().send(new BuyEvolutionCardMessage("Card bought" , gui.getCardRow() , gui.getCardColumn() , position));
 
         //Turn back to the start game scene
-        gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE));
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s));
         gui.setGamePhase(GamePhases.STARTGAME);
     }
 
@@ -112,8 +114,8 @@ public class ProductionZoneChoiceController implements Controller{
      * Turn back to START_GAME scene
      */
     public void cancel() {
-        gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.START_GAME));
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.STARTGAME);
         gui.changeScene();
     }

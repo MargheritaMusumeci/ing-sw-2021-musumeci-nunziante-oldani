@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
 import javafx.fxml.FXML;
@@ -43,8 +44,8 @@ public class NicknameConfigurationController implements Controller{
             gui.getClientSocket().send(new NickNameMessage(nickname));
 
             gui.setGamePhase(GamePhases.NUMBEROFPLAYERS);
-            gui.setCurrentScene(gui.getScene(GUI.PLAYERS));
-            gui.setOldScene(gui.getScene(GUI.NICKNAME));
+            gui.setCurrentScene(gui.getScene(GameFxml.PLAYERS.s));
+            gui.setOldScene(gui.getScene(GameFxml.NICKNAME.s));
 
             //overwrite in case of error
             gui.setNickname(nickname);

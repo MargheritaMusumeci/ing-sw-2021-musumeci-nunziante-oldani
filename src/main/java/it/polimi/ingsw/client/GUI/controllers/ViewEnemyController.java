@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableDashboard;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.util.ArrayList;
@@ -127,5 +128,8 @@ public class ViewEnemyController extends ViewController{
         else{
             //Door closed image
         }
+    }
+
+    public void showMarket(ActionEvent actionEvent) {
     }
 }

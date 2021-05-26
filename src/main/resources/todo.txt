@@ -4,14 +4,8 @@ Musumeci:
 -turno degli avversari
 -visualizzare dashbord degli avversari
 
-- modificare i circle del market in sphere
 - modificare sfondi e dimensioni
 - modificare la label di errore
-- segnalino della croce troppo piccolo--> aumento le dimensioni dell'ImageView a 33-36
-
-
-- connessione al ping
-- wait until ack
 
 ???? creo i giocatori --> creo il gioco --> assegno il gioco ai giocatori
 ???? abbiamo controllato che l'inkwell lo abbia solo un giocatore
@@ -21,15 +15,19 @@ Musumeci:
 ???? a volte non passo il test store resources
 
 Nunziante:
-- abbellire cli
+
+-fine gioco
+-turno degli avversari
+-visualizzare dashbord degli avversari
+
 - add comments to methods
-- do tests
+
 
 Oldani:
 
 - sistemare la lobby da 3 da 4 e da 1
 - add comments to methods
-- do tests
+
 
 
 - modificare la signature di updateMarket nell'uml
