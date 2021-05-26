@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -28,25 +29,25 @@ public class ViewController implements Controller {
 
     //Market
     //riga 0
-    @FXML protected Circle zerozero;
-    @FXML protected Circle zerouno;
-    @FXML protected Circle zerodue;
-    @FXML protected Circle zerotre;
+    @FXML protected Sphere zerozero;
+    @FXML protected Sphere zerouno;
+    @FXML protected Sphere zerodue;
+    @FXML protected Sphere zerotre;
     //riga 1
-    @FXML protected Circle unozero;
-    @FXML protected Circle unouno;
-    @FXML protected Circle unodue;
-    @FXML protected Circle unotre;
+    @FXML protected Sphere unozero;
+    @FXML protected Sphere unouno;
+    @FXML protected Sphere unodue;
+    @FXML protected Sphere unotre;
     //riga 2
-    @FXML protected Circle duezero;
-    @FXML protected Circle dueuno;
+    @FXML protected Sphere duezero;
+    @FXML protected Sphere dueuno;
     @FXML
-    protected Circle duedue;
+    protected Sphere duedue;
     @FXML
-    protected Circle duetre;
+    protected Sphere duetre;
 
     @FXML
-    protected Circle external;
+    protected Sphere external;
     @FXML
     protected Button marketButton;
 
@@ -255,7 +256,7 @@ public class ViewController implements Controller {
     public void init() {
 
         //initialize market
-        Circle[][] market = new Circle[3][4];
+        Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
         initializer.initMarket(market, external);
 
@@ -303,7 +304,7 @@ public class ViewController implements Controller {
         }
     }
 
-    protected void fillMarket(Circle[][] market) {
+    protected void fillMarket(Sphere[][] market) {
         market[0][0] = zerozero;
         market[0][1] = zerouno;
         market[0][2] = zerodue;

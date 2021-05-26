@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.View;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.application.Application;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import static it.polimi.ingsw.client.GamePhases.getGamePhaseFromPath;
 
 public class GUI extends Application implements UI {
 
@@ -60,7 +63,6 @@ public class GUI extends Application implements UI {
     private String errorFromServer;
     private int players;
     private boolean actionDone;
-    private boolean activeLeader;
 
     /**
      * To set which evolution card the player wants to buy
@@ -114,7 +116,7 @@ public class GUI extends Application implements UI {
                 Controller controller = loader.getController();
                 controller.setGui(this);
                 controllers.put(path, controller);
-                phases.put(scene, linkFXMLPageToPhase(path));
+                phases.put(scene,linkFXMLPageToPhase(path));
                 fxmls.put(linkFXMLPageToPhase(path),path);
             }
         } catch (IOException e) {
@@ -140,9 +142,9 @@ public class GUI extends Application implements UI {
                 currentStage.setScene(currentScene);
                 Controller controller = controllers.get(fxmls.get(gamePhase));
                 controller.init();
-                errorFromServer="";
                 System.out.println("show scene " + phases.get(currentScene));
                 currentStage.show();
+                errorFromServer="";
         });
     }
 
@@ -348,19 +350,8 @@ public class GUI extends Application implements UI {
         this.actionDone = actionDone;
     }
 
-    public boolean isActiveLeader() {
-        return activeLeader;
-    }
-
-    public void setActiveLeader(boolean activeLeader) {
-        this.activeLeader = activeLeader;
-    }
-
     public Stage getCurrentStage() {
         return currentStage;
     }
 
-    public void setCurrentStage(Stage currentStage) {
-        this.currentStage = currentStage;
-    }
 }

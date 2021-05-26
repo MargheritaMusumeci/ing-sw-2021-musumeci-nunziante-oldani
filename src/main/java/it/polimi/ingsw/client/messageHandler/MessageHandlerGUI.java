@@ -60,10 +60,7 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setNackArrived(true);
             gui.setErrorFromServer(message.getMessage());
-           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) {
-               gui.setGamePhase(GamePhases.STARTGAME);
-               gui.setActiveLeader(false);
-           }
+           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) gui.setGamePhase(GamePhases.STARTGAME);
             gui.setGamePhase(gui.phase(gui.getOldScene()));
             gui.setCurrentScene(gui.getOldScene());
             gui.changeScene();

@@ -233,6 +233,7 @@ public class ViewPlayerController extends ViewController {
 
         //initialize basic production
         initBasicProduction();
+
         initButtons();
 
         //initialize lockbox

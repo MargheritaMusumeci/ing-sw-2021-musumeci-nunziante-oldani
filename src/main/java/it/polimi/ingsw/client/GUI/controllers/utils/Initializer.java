@@ -10,9 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Sphere;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Initializer {
 
@@ -26,15 +26,15 @@ public class Initializer {
     }
 
 
-    public void initMarket(Circle[][] market,Circle external) {
+    public void initMarket(Sphere[][] market, Sphere external) {
 
         Resource[][] marketModel = gui.getView().getMarket().getMarket();
         for(int i = 0; i<3; i++){
             for(int j = 0; j<4; j++){
-                market[i][j].setFill(printer.colorFromResource(marketModel[i][j]));
+                market[i][j].setMaterial(printer.colorFromResource(marketModel[i][j]));
             }
         }
-        external.setFill(printer.colorFromResource(gui.getView().getMarket().getExternalResource()));
+        external.setMaterial(printer.colorFromResource(gui.getView().getMarket().getExternalResource()));
     }
 
     public void initEvolutionSection(ArrayList<ArrayList<ImageView>> eCards) {

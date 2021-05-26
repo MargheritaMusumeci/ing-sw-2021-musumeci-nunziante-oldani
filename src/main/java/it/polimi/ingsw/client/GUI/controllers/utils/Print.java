@@ -3,6 +3,8 @@ package it.polimi.ingsw.client.GUI.controllers.utils;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Material;
+import javafx.scene.paint.PhongMaterial;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -56,14 +58,40 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
-    public Color colorFromResource(Resource resource){
-        switch(resource){
-            case COIN : return Color.YELLOW;
-            case ROCK: return Color.GRAY;
-            case FAITH: return Color.RED;
-            case SHIELD: return Color.BLUE;
-            case SERVANT: return Color.PURPLE;
-            default: return Color.WHITE;
+    public Material colorFromResource(Resource resource) {
+
+        PhongMaterial material = new PhongMaterial();
+        switch (resource) {
+            case COIN: {
+                material.setDiffuseColor(Color.rgb(247, 210, 57));
+                material.setSpecularColor(Color.BLACK);
+                return material;
+            }
+            case ROCK: {
+                material.setDiffuseColor(Color.rgb(137, 135, 130));
+                material.setSpecularColor(Color.BLACK);
+                return material;
+            }
+            case FAITH: {
+                material.setDiffuseColor(Color.rgb(225, 79, 53));
+                material.setSpecularColor(Color.BLACK);
+                return material;
+            }
+            case SHIELD: {
+                material.setDiffuseColor(Color.rgb(32, 178, 227));
+                material.setSpecularColor(Color.BLACK);
+                return material;
+            }
+            case SERVANT: {
+                material.setDiffuseColor(Color.rgb(110, 98, 162));
+                material.setSpecularColor(Color.BLACK);
+                return material;
+            }
+            default: {
+                material.setDiffuseColor(Color.WHITE);
+                material.setSpecularColor(Color.BLACK);
+                return material;
+            }
         }
     }
 

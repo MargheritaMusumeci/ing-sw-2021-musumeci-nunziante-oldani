@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Sphere;
 
 /**
  * Class that show market and allow user to purchase resources
@@ -21,22 +22,22 @@ public class MarketController implements Controller {
 
     //riga 0
     @FXML
-    private Circle zerozero;
-    @FXML private Circle zerouno;
-    @FXML private Circle zerodue;
-    @FXML private Circle zerotre;
+    private Sphere zerozero;
+    @FXML private Sphere zerouno;
+    @FXML private Sphere zerodue;
+    @FXML private Sphere zerotre;
     //riga 1
-    @FXML private Circle unozero;
-    @FXML private Circle unouno;
-    @FXML private Circle unodue;
-    @FXML private Circle unotre;
+    @FXML private Sphere unozero;
+    @FXML private Sphere unouno;
+    @FXML private Sphere unodue;
+    @FXML private Sphere unotre;
     //riga 2
-    @FXML private Circle duezero;
-    @FXML private Circle dueuno;
-    @FXML private Circle duedue;
-    @FXML private Circle duetre;
+    @FXML private Sphere duezero;
+    @FXML private Sphere dueuno;
+    @FXML private Sphere duedue;
+    @FXML private Sphere duetre;
 
-    @FXML private Circle external;
+    @FXML private Sphere external;
 
     @FXML private Button confirm;
     @FXML private Button cancel;
@@ -61,7 +62,7 @@ public class MarketController implements Controller {
 
         this.initializer = new Initializer(gui);
 
-        Circle[][] market = new Circle[3][4];
+        Sphere[][] market = new Sphere[3][4];
         fill(market);
         initializer.initMarket(market,external);
     }
@@ -131,7 +132,7 @@ public class MarketController implements Controller {
         gui.changeScene();
     }
 
-    private void fill(Circle[][] market){
+    private void fill(Sphere[][] market){
         market[0][0] = zerozero;
         market[0][1] = zerouno;
         market[0][2] = zerodue;
