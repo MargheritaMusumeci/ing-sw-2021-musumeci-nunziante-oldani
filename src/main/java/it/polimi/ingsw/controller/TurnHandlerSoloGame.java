@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.LeaderAbility;
@@ -13,7 +14,10 @@ import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Class that contains all turn and game management commands for solitaire game
@@ -82,7 +86,8 @@ public class TurnHandlerSoloGame extends TurnHandler{
      */
     @Override
     protected ArrayList<Player> checkWinner() {
-        return null;
+       ArrayList<Player> winners = new ArrayList<>(Arrays.asList(winner));
+       return winners;
     }
 
     /**
@@ -95,19 +100,21 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
             //active player reached the end of the track
             if (modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex() == 24) {
-                isTheLastTurn = true;
+                isTheEnd = true;
+                winner = modelGame.getActivePlayer();
             }
 
             //active player bought 7 Evolution Cards
             if (!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() > 6) {
-                isTheLastTurn = true;
+                isTheEnd = true;
+                winner = modelGame.getActivePlayer();
             }
 
         } else {
             //A evolution cards type is no longer available
             //4 is the number of type (color) of evolution cards
             int index=0;
-           while(index<4 && !isTheLastTurn){
+           while(index<4 && !isTheEnd){
 
              int typeEvolution = 0;
                for(int i = 0 ; i<3; i ++){
@@ -115,7 +122,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
                    typeEvolution=(modelGame.getEvolutionSection().getEvolutionSection()[i][index].size());
                }
                if(typeEvolution==0) {
-                   isTheLastTurn=true;
+                   isTheEnd = true;
                    winner = modelGame.getActivePlayer();
                }
                index++;
@@ -123,7 +130,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
             //Lorenzo arrived to the end of the PopeTrack
             if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getIndex() == 24) {
-                isTheLastTurn = true;
+                isTheEnd = true;
                 winner = modelGame.getActivePlayer();
             }
         }
@@ -176,7 +183,15 @@ public class TurnHandlerSoloGame extends TurnHandler{
      */
     @Override
     public Message endGame(){
-        checkWinner();
-        return null;
+
+        ArrayList<Player> winnersPlayer = checkWinner();
+
+        HashMap<String, Integer> scores = new HashMap<>();
+        if(modelGame.getPlayers().get(0) instanceof HumanPlayer){
+            scores.put(modelGame.getPlayers().get(0).getNickName(),modelGame.getPlayers().get(0).getDashboard().getScore());
+        }else{
+            scores.put(modelGame.getPlayers().get(1).getNickName(),modelGame.getPlayers().get(1).getDashboard().getScore());
+        }
+        return new EndGameMessage("The game is ended", new ArrayList<>(){{add(winnersPlayer.get(0).getNickName());}}, scores);
     }
 }
