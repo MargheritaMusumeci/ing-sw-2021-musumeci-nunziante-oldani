@@ -45,18 +45,6 @@ public class Server {
         return socketServer;
     }
 
-    public List<ServerClientConnection> getLobby4players() {
-        return lobby4players;
-    }
-
-    public List<ServerClientConnection> getLobby3players() {
-        return lobby3players;
-    }
-
-    public List<ServerClientConnection> getLobby2players() {
-        return lobby2players;
-    }
-
     public List<ServerClientConnection> getQueue(){ return queue; }
 
     public HashMap<ServerClientConnection, GameHandler> getGames() { return games; }
@@ -183,11 +171,16 @@ public class Server {
     }
 
     public void removeTakeNickname(String nickname){
-        listOfTakenNicknames.remove(nickname);
+        synchronized (listOfTakenNicknames){
+            listOfTakenNicknames.remove(nickname);
+        }
     }
 
     public void addWaitingForReconnection(ServerClientConnection scc){
-        waitingForReconnection.put(scc.getNickname(), scc);
+        synchronized (waitingForReconnection){
+            waitingForReconnection.put(scc.getNickname(), scc);
+        }
+
     }
 
     public void removeWaitForReconnection(ServerClientConnection scc) {
@@ -202,9 +195,10 @@ public class Server {
 
         do {
             System.out.println(">Insert the port which server will listen on.");
-            System.out.print(">");
+            System.out.print("> 2222");
             try {
-                port = scanner.nextInt();
+                //port = scanner.nextInt();
+                port= 2223;
             } catch (InputMismatchException e) {
                 System.err.println("Numeric format requested, retry...");
             }
