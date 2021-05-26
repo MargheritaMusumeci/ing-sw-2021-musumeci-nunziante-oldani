@@ -119,7 +119,6 @@ public class MarketController implements Controller {
             cancel.setVisible(false);
         } else {
             gui.getClientSocket().send(new BuyFromMarketMessage("BUY", position, row));
-            gui.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage(""));
             gui.setCurrentScene(gui.getScene(GUI.STORE_RESOURCES));
             gui.setOldScene(gui.getScene(GUI.MARKET));
             gui.setGamePhase(GamePhases.STORERESOURCES);

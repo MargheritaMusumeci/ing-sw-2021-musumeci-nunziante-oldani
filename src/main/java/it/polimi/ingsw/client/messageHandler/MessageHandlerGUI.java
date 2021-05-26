@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.GUI.controllers.ViewPlayerController;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.gamePhases.EndGamePhase;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
@@ -37,9 +38,14 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.setAckArrived(true);
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)
-                    ||gui.getGamePhase().equals(GamePhases.STORERESOURCES)
                     || gui.getOldScene().equals(gui.getScene(GUI.PRODUCTION_ZONE_CHOICE))){
                 gui.setActionDone(true);
+            }
+
+            if(gui.getGamePhase().equals(GamePhases.STORERESOURCES)){
+                gui.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage(""));
+                gui.setActionDone(true);
+                return;
             }
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
@@ -138,7 +144,6 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleMessage(SendResourcesBoughtFromMarket message) {
-
 
         synchronized (gui) {
             clientSocket.getView().setResourcesBoughtFromMarker(message.getResources());

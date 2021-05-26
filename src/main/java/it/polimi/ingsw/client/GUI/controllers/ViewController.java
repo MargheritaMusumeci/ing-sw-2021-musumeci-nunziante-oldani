@@ -238,7 +238,6 @@ public class ViewController implements Controller {
     @FXML protected Button enemy2;
     @FXML protected Button enemy3;
 
-
     public ViewController(){
          this.printer = new Print();
          stockLeaderCardInUse = new ArrayList<>();
@@ -276,13 +275,10 @@ public class ViewController implements Controller {
         initializer.initPopeTrack(popeTrackPositions);
         initializer.initPopeCards(popeCards);
 
-
-
         //initialize production zone
         productionZones = new ArrayList[3];
         fillProductionZone(productionZones);
         initializer.initProductionZone(productionZones);
-
 
         initEnemiesButton();
 
@@ -340,6 +336,5 @@ public class ViewController implements Controller {
         productionZones[2].addAll(Arrays.asList(production12, production22, production32));
 
     }
-
 
 }

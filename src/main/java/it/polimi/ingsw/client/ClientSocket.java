@@ -34,7 +34,6 @@ public class ClientSocket implements Runnable{
         inputStream = new ObjectInputStream(socket.getInputStream());
         messageHandler = new MessageHandlerCLI(cli, this);
         isActive = true;
-
     }
 
     //just for testing GUI --> we need to distinguish between network interface and graphic interface
@@ -92,7 +91,6 @@ public class ClientSocket implements Runnable{
                 }else{
                     send(new PingMessage("Ping response"));
                 }
-
             } catch (EOFException e){
                 System.out.println("Server disconnected, retry later");
                 return;
@@ -104,7 +102,6 @@ public class ClientSocket implements Runnable{
                 System.out.println("Server corrupted, retry later");
                 return;
             }
-
         }
     }
 }

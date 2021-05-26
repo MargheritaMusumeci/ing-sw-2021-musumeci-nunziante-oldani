@@ -39,7 +39,6 @@ public class CLI implements UI, Runnable {
     private boolean serverIsUp;
     private boolean isActionBeenDone;
 
-
     public CLI(){
         scanner = new Scanner(System.in);
         isNackArrived = false;
@@ -325,12 +324,10 @@ public class CLI implements UI, Runnable {
         new CLI();
     }
 
-
     @Override
     public void run() {
         gamePhase.makeAction(this);
     }
-
 
     public void setSocket(Socket socket) {
         this.socket = socket;

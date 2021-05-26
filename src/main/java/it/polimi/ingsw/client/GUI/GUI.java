@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.GUI;
 
-import it.polimi.ingsw.client.ClientSocket;
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
-import it.polimi.ingsw.client.GamePhases;
-import it.polimi.ingsw.client.UI;
-import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
@@ -22,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import static it.polimi.ingsw.client.GamePhases.getGamePhaseFromPath;
 
 public class GUI extends Application implements UI {
 
@@ -104,20 +99,18 @@ public class GUI extends Application implements UI {
     }
 
     public void initializationFXMLParameter() {
-        List<String> fxmlFiles = new ArrayList<>(Arrays.asList(IP_PORT,BASIC_PRODUCTION, LEADER_PRODUCTION, START_GAME,
-                MARKET,STORE_RESOURCES, PLAYERS, WAITING_ROOM, NICKNAME, INITIAL_RESOURCES,LEADER_CARD,
-                EVOLUTION_SECTION, PRODUCTION_ZONE_CHOICE, ENDGAME));
+        List<GameFxml> fxmlFiles = new ArrayList<>(Arrays.asList(GameFxml.values()));
         try {
-            for (String path : fxmlFiles) {
-                URL url = new File("src/main/resources/fxml/" + path).toURI().toURL();
+            for (GameFxml path : fxmlFiles) {
+                URL url = new File("src/main/resources/fxml/" + path.s).toURI().toURL();
                 FXMLLoader loader = new FXMLLoader(url);
                 Scene scene = new Scene(loader.load());
-                scenes.put(path, scene);
+                scenes.put(path.s, scene);
                 Controller controller = loader.getController();
                 controller.setGui(this);
-                controllers.put(path, controller);
-                phases.put(scene,linkFXMLPageToPhase(path));
-                fxmls.put(linkFXMLPageToPhase(path),path);
+                controllers.put(path.s, controller);
+                phases.put(scene,path.getGamePhases());
+                fxmls.put(path.getGamePhases(),path.s);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -134,51 +127,16 @@ public class GUI extends Application implements UI {
     public void changeScene() {
 
         Platform.runLater(()->{
-
             System.out.println("Phase is: " + gamePhase);
-                //ack e nack inutili
-                isAckArrived=false;
-                isNackArrived=false;
-                currentStage.setScene(currentScene);
-                Controller controller = controllers.get(fxmls.get(gamePhase));
-                controller.init();
-                System.out.println("show scene " + phases.get(currentScene));
-                currentStage.show();
-                errorFromServer="";
+            //ack e nack inutili
+            isAckArrived=false;
+            isNackArrived=false;
+            currentStage.setScene(currentScene);
+            controllers.get(fxmls.get(gamePhase)).init();
+            System.out.println("show scene " + phases.get(currentScene));
+            currentStage.show();
+            errorFromServer="";
         });
-    }
-
-    private GamePhases linkFXMLPageToPhase(String NAME) {
-        switch (NAME) {
-            case (NICKNAME):
-                return GamePhases.NICKNAME;
-            case (PLAYERS):
-                return GamePhases.NUMBEROFPLAYERS;
-            case (LEADER_CARD):
-                return GamePhases.INITIALLEADERCARDSELECTION;
-            case (INITIAL_RESOURCES):
-                return GamePhases.INITIALRESOURCESELECTION;
-            case (IP_PORT):
-                return GamePhases.IINITIALIZATION;
-            case (WAITING_ROOM):
-                return GamePhases.WAITINGOTHERPLAYERS;
-            case(MARKET):
-                return GamePhases.BUYFROMMARKET;
-            case(STORE_RESOURCES):
-                return GamePhases.STORERESOURCES;
-            case(BASIC_PRODUCTION):
-                return GamePhases.ASKACTIVEPRODUCTION;
-            case(LEADER_PRODUCTION):
-                return GamePhases.LEADERPRODUCTION;
-            case (EVOLUTION_SECTION):
-                return GamePhases.BUYEVOLUTIONCARD;
-            case (PRODUCTION_ZONE_CHOICE):
-                return GamePhases.PRODUCTIONZONECHOICE;
-            case(ENDGAME):
-                return GamePhases.ENDGAME;
-            default:
-                return GamePhases.STARTGAME;
-        }
     }
 
     //GETTER AND SETTER
