@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -21,20 +22,20 @@
          </children></HBox>
       <HBox layoutX="164.0" layoutY="416.0" prefHeight="100.0" prefWidth="523.0" style="-fx-alignment: center; -fx-spacing: 20px;">
          <children>
-            <CheckBox fx:id="cardId1" mnemonicParsing="false" text="Leader Card 1" />
-            <CheckBox fx:id="cardId2" mnemonicParsing="false" text="Leader Card 2" />
-            <CheckBox fx:id="cardId3" mnemonicParsing="false" text="Leader Card 3" />
-            <CheckBox fx:id="cardId4" mnemonicParsing="false" text="Leader Card 4" />
+            <CheckBox fx:id="cardId1" mnemonicParsing="false" text="Leader Card 1" textFill="WHITE" />
+            <CheckBox fx:id="cardId2" mnemonicParsing="false" text="Leader Card 2" textFill="WHITE" />
+            <CheckBox fx:id="cardId3" mnemonicParsing="false" text="Leader Card 3" textFill="WHITE" />
+            <CheckBox fx:id="cardId4" mnemonicParsing="false" text="Leader Card 4" textFill="WHITE" />
          </children>
       </HBox>
-      <Text layoutX="236.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Card:">
+      <Text fill="WHITE" layoutX="245.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Card:">
          <font>
-            <Font size="36.0" />
+            <Font size="35.0" />
          </font>
       </Text>
-      <Button fx:id="LeaderConfirmation" layoutX="400.0" layoutY="541.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm" />
+      <Button fx:id="LeaderConfirmation" layoutX="400.0" layoutY="521.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm" />
       <ProgressIndicator fx:id="loading" layoutX="403.0" layoutY="533.0" visible="false" />
-      <Label fx:id="errorLabel" layoutX="212.0" layoutY="506.0" text="ERROR:" textFill="RED">
+      <Label fx:id="errorLabel" layoutX="212.0" layoutY="506.0" text="ERROR:" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

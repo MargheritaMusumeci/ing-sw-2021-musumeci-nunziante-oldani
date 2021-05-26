@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.effect.ColorInput?>
 <?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="720.0" prefWidth="1026.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewPlayerController">
+<Pane prefHeight="720.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewPlayerController">
    <children>
-      <ImageView fitHeight="357.0" fitWidth="582.0" layoutX="219.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="357.0" fitWidth="582.0" layoutX="300.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/board.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="255.0" fitWidth="213.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/market.png" />
          </image>
       </ImageView>
       <Text layoutX="340.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Masters of Renaissance">
@@ -29,8 +30,8 @@
             <Font size="25.0" />
          </font>
       </Text>
-      <Button fx:id="endTurn" layoutX="797.0" layoutY="541.0" mnemonicParsing="false" onAction="#endTurn" text="End Turn" />
-      <HBox layoutX="724.0" layoutY="205.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <Button fx:id="endTurn" layoutX="878.0" layoutY="575.0" mnemonicParsing="false" onAction="#endTurn" text="End Turn" />
+      <HBox layoutX="805.0" layoutY="239.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <VBox fx:id="LeaderBox1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                <children>
@@ -50,45 +51,11 @@
             </VBox>
          </children>
       </HBox>
-      <HBox fx:id="Market" layoutX="44.0" layoutY="53.0" prefHeight="77.0" prefWidth="109.0" spacing="10.0">
-         <children>
-            <VBox fx:id="col0" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
-               <children>
-                  <Circle fx:id="zerozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="unozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="duezero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-               </children>
-            </VBox>
-            <VBox fx:id="con1" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
-               <children>
-                  <Circle fx:id="zerouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="unouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="dueuno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-               </children>
-            </VBox>
-            <VBox fx:id="con2" prefHeight="100.0" prefWidth="17.0" spacing="10.0">
-               <children>
-                  <Circle fx:id="zerodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="unodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="duedue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-               </children>
-            </VBox>
-            <VBox fx:id="col3" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-               <children>
-                  <Circle fx:id="zerotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="unotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="duetre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <Button fx:id="marketButton" layoutX="73.0" layoutY="277.0" mnemonicParsing="false" onAction="#showMarket" text="Market" />
-      <Circle fx:id="external" fill="DODGERBLUE" layoutX="155.0" layoutY="131.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
-      <ImageView fx:id="inkwell" fitHeight="77.0" fitWidth="100.0" layoutX="6.0" layoutY="553.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="inkwell" fitHeight="36.0" fitWidth="39.0" layoutX="6.0" layoutY="678.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
          </image>
       </ImageView>
-      <HBox layoutX="284.0" layoutY="163.0" prefHeight="25.0" prefWidth="151.0">
+      <HBox layoutX="365.0" layoutY="197.0" prefHeight="25.0" prefWidth="151.0">
          <children>
             <ImageView fx:id="pos4" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="pos5" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
@@ -98,7 +65,7 @@
             <ImageView fx:id="pos9" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox layoutX="408.0" layoutY="212.0" prefHeight="25.0" prefWidth="151.0">
+      <HBox layoutX="489.0" layoutY="246.0" prefHeight="25.0" prefWidth="151.0">
          <children>
             <ImageView fx:id="pos11" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="pos12" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
@@ -108,7 +75,7 @@
             <ImageView fx:id="pos16" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox layoutX="529.0" layoutY="163.0" prefHeight="25.0" prefWidth="151.0">
+      <HBox layoutX="610.0" layoutY="197.0" prefHeight="25.0" prefWidth="151.0">
          <children>
             <ImageView fx:id="pos18" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="pos19" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
@@ -119,122 +86,122 @@
             <ImageView fx:id="pos24" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <ImageView fx:id="pos3" fitHeight="23.0" fitWidth="24.0" layoutX="284.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="pos10" fitHeight="23.0" fitWidth="24.0" layoutX="408.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="pos17" fitHeight="23.0" fitWidth="24.0" layoutX="529.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox layoutX="240.0" layoutY="212.0" prefHeight="25.0" prefWidth="63.0">
+      <ImageView fx:id="pos3" fitHeight="23.0" fitWidth="24.0" layoutX="365.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pos10" fitHeight="23.0" fitWidth="24.0" layoutX="489.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="pos17" fitHeight="23.0" fitWidth="24.0" layoutX="610.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox layoutX="321.0" layoutY="246.0" prefHeight="25.0" prefWidth="63.0">
          <children>
             <ImageView fx:id="pos0" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="pos1" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="pos2" fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="243.0" layoutY="355.0" prefHeight="25.0" prefWidth="83.0" spacing="5.0">
+      <HBox alignment="CENTER" layoutX="324.0" layoutY="389.0" prefHeight="25.0" prefWidth="83.0" spacing="5.0">
          <children>
             <ImageView fx:id="stockBox31" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="stockBox32" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="stockBox33" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Circle fill="#dadada" layoutX="294.0" layoutY="462.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
+      <Circle fill="#dadada" layoutX="375.0" layoutY="496.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
          <effect>
             <GaussianBlur radius="4.75" />
          </effect>
       </Circle>
-      <Circle fill="#dadada" layoutX="241.0" layoutY="462.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
+      <Circle fill="#dadada" layoutX="322.0" layoutY="496.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
          <effect>
             <GaussianBlur radius="4.75" />
          </effect>
       </Circle>
-      <Circle fill="#dadada" layoutX="296.0" layoutY="415.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
+      <Circle fill="#dadada" layoutX="377.0" layoutY="449.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
          <effect>
             <GaussianBlur radius="4.75" />
          </effect>
       </Circle>
-      <Text fx:id="coinQuantity" layoutX="237.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <Text fx:id="coinQuantity" layoutX="318.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="239.0" layoutY="464.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="320.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/resources/coin.png" />
          </image>
       </ImageView>
-      <Circle fill="#dadada" layoutX="242.0" layoutY="415.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
+      <Circle fill="#dadada" layoutX="323.0" layoutY="449.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
          <effect>
             <GaussianBlur radius="4.75" />
          </effect>
       </Circle>
-      <Text fx:id="servantQuantity" layoutX="238.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <Text fx:id="servantQuantity" layoutX="319.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="239.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="320.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/resources/servant.png" />
          </image>
       </ImageView>
-      <Text fx:id="rockQuantity" layoutX="290.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <Text fx:id="rockQuantity" layoutX="371.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="292.0" layoutY="462.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="373.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/resources/stone.png" />
          </image>
       </ImageView>
-      <Text fx:id="shieldQuantity" layoutX="291.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <Text fx:id="shieldQuantity" layoutX="372.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="376.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/resources/shield.png" />
          </image>
       </ImageView>
-      <HBox alignment="CENTER" layoutX="251.0" layoutY="325.0" prefHeight="25.0" prefWidth="66.0" spacing="5.0">
+      <HBox alignment="CENTER" layoutX="332.0" layoutY="359.0" prefHeight="25.0" prefWidth="66.0" spacing="5.0">
          <children>
             <ImageView fx:id="stockBox21" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="stockBox22" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <ImageView fx:id="stockBox1" fitHeight="25.0" fitWidth="22.0" layoutX="274.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production1" fitHeight="143.0" fitWidth="83.0" layoutX="414.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production2" fitHeight="143.0" fitWidth="83.0" layoutX="414.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production3" fitHeight="143.0" fitWidth="83.0" layoutX="414.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production11" fitHeight="143.0" fitWidth="83.0" layoutX="512.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production21" fitHeight="143.0" fitWidth="83.0" layoutX="512.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production31" fitHeight="143.0" fitWidth="83.0" layoutX="512.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production12" fitHeight="143.0" fitWidth="83.0" layoutX="607.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production22" fitHeight="143.0" fitWidth="83.0" layoutX="607.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="production32" fitHeight="143.0" fitWidth="83.0" layoutX="607.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
-      <CheckBox fx:id="activeProduction1" layoutX="448.0" layoutY="511.0" mnemonicParsing="false" />
-      <CheckBox fx:id="activeProduction2" layoutX="545.0" layoutY="511.0" mnemonicParsing="false" />
-      <CheckBox fx:id="activeProduction3" layoutX="641.0" layoutY="511.0" mnemonicParsing="false" />
-      <Button fx:id="activeProductionsButton" layoutX="499.0" layoutY="541.0" mnemonicParsing="false" onAction="#activeProduction" text="Active Production" />
-      <Button fx:id="basicProductionButton" layoutX="269.0" layoutY="507.0" mnemonicParsing="false" onAction="#chooseBasicProduction" text="Choose Basic Production" />
-      <ImageView fx:id="basicRequires1" fitHeight="25.0" fitWidth="22.0" layoutX="348.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="basicRequires2" fitHeight="25.0" fitWidth="22.0" layoutX="348.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="basicEnsure" fitHeight="25.0" fitWidth="22.0" layoutX="376.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox alignment="CENTER" layoutX="850.0" layoutY="319.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
+      <ImageView fx:id="stockBox1" fitHeight="25.0" fitWidth="22.0" layoutX="355.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production1" fitHeight="143.0" fitWidth="83.0" layoutX="495.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production2" fitHeight="143.0" fitWidth="83.0" layoutX="495.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production3" fitHeight="143.0" fitWidth="83.0" layoutX="495.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production11" fitHeight="143.0" fitWidth="83.0" layoutX="593.0" layoutY="338.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production21" fitHeight="143.0" fitWidth="83.0" layoutX="593.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production31" fitHeight="143.0" fitWidth="83.0" layoutX="593.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production12" fitHeight="143.0" fitWidth="83.0" layoutX="688.0" layoutY="338.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production22" fitHeight="143.0" fitWidth="83.0" layoutX="688.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="production32" fitHeight="143.0" fitWidth="83.0" layoutX="688.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true" />
+      <CheckBox fx:id="activeProduction1" layoutX="529.0" layoutY="545.0" mnemonicParsing="false" />
+      <CheckBox fx:id="activeProduction2" layoutX="626.0" layoutY="545.0" mnemonicParsing="false" />
+      <CheckBox fx:id="activeProduction3" layoutX="722.0" layoutY="545.0" mnemonicParsing="false" />
+      <Button fx:id="activeProductionsButton" layoutX="580.0" layoutY="575.0" mnemonicParsing="false" onAction="#activeProduction" text="Active Production" />
+      <Button fx:id="basicProductionButton" layoutX="350.0" layoutY="541.0" mnemonicParsing="false" onAction="#chooseBasicProduction" text="Choose Basic Production" />
+      <ImageView fx:id="basicRequires1" fitHeight="25.0" fitWidth="22.0" layoutX="429.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="basicRequires2" fitHeight="25.0" fitWidth="22.0" layoutX="429.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="basicEnsure" fitHeight="25.0" fitWidth="22.0" layoutX="457.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox alignment="CENTER" layoutX="931.0" layoutY="353.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
          <children>
             <ImageView fx:id="stockPlus21" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="stockPlus22" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="741.0" layoutY="321.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="822.0" layoutY="355.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
          <children>
             <ImageView fx:id="stockPlus11" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="stockPlus12" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="771.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="883.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox layoutX="1.0" layoutY="331.0" prefHeight="54.0" prefWidth="210.0">
+      <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="852.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="964.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox layoutX="46.0" layoutY="375.0" prefHeight="54.0" prefWidth="210.0">
          <children>
             <ImageView fx:id="eCardView_00" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCardView_01" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
@@ -242,7 +209,7 @@
             <ImageView fx:id="eCardView_03" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox layoutX="1.0" layoutY="387.0" prefHeight="54.0" prefWidth="210.0">
+      <HBox layoutX="46.0" layoutY="436.0" prefHeight="54.0" prefWidth="210.0">
          <children>
             <ImageView fx:id="eCardView_10" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCardView_11" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
@@ -250,7 +217,7 @@
             <ImageView fx:id="eCardView_13" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox layoutX="1.0" layoutY="447.0" prefHeight="54.0" prefWidth="210.0">
+      <HBox layoutX="46.0" layoutY="496.0" prefHeight="54.0" prefWidth="210.0">
          <children>
             <ImageView fx:id="eCardView_20" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="eCardView_21" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
@@ -258,25 +225,128 @@
             <ImageView fx:id="eCardView_23" fitHeight="55.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Button fx:id="showCardsButton" layoutX="46.0" layoutY="520.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
-      <ImageView fx:id="popeCard1" fitHeight="43.0" fitWidth="36.0" layoutX="342.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="showCardsButton" layoutX="91.0" layoutY="569.0" mnemonicParsing="false" onAction="#showEvolutionSection" text="EvolutionSection" />
+      <ImageView fx:id="popeCard1" fitHeight="43.0" fitWidth="36.0" layoutX="423.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/popeTrack/quadrato_giallo.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="popeCard2" fitHeight="43.0" fitWidth="36.0" layoutX="466.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="popeCard2" fitHeight="43.0" fitWidth="36.0" layoutX="545.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+            <Image url="@../images/popeTrack/quadrato_arancione.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="popeCard3" fitHeight="43.0" fitWidth="36.0" layoutX="613.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="popeCard3" fitHeight="43.0" fitWidth="36.0" layoutX="692.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/popeTrack/quadrato_giallo.png" />
+            <Image url="@../images/popeTrack/quadrato_rosso.png" />
          </image>
       </ImageView>
       <Button fx:id="enemy1" layoutX="463.0" layoutY="648.0" mnemonicParsing="false" text="Nickname" visible="false" />
       <Button fx:id="enemy2" layoutX="344.0" layoutY="648.0" mnemonicParsing="false" text="Nickname" visible="false" />
       <Button fx:id="enemy3" layoutX="573.0" layoutY="648.0" mnemonicParsing="false" text="Nickname" visible="false" />
-      <Button fx:id="enemy0" layoutX="715.0" layoutY="648.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="enemy0" layoutX="715.0" layoutY="648.0" mnemonicParsing="false" text="Nick" visible="false" />
+      <ImageView fitHeight="255.0" fitWidth="213.0" layoutX="52.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/market.png" />
+         </image>
+      </ImageView>
+      <HBox fx:id="Market" alignment="CENTER_LEFT" layoutX="84.0" layoutY="68.0" prefHeight="112.0" prefWidth="135.0" spacing="10.0">
+         <children>
+            <VBox fx:id="col0" alignment="CENTER" prefHeight="112.0" prefWidth="0.0" spacing="10.0">
+               <children>
+                  <Sphere fx:id="zerozero" radius="11.0">
+                     <effect>
+                        <ColorInput>
+                           <paint>
+                              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </RadialGradient>
+                           </paint>
+                        </ColorInput>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="SW_RESIZE" />
+                     </cursor>
+                  </Sphere>
+                  <Sphere fx:id="unozero" radius="11.0" />
+                  <Sphere fx:id="duezero" radius="11.0" />
+               </children>
+            </VBox>
+            <VBox fx:id="con1" alignment="CENTER" prefHeight="112.0" prefWidth="6.0" spacing="10.0">
+               <children>
+                  <Sphere fx:id="zerouno" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+                  <Sphere fx:id="unouno" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+                  <Sphere fx:id="dueuno" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+               </children>
+            </VBox>
+            <VBox fx:id="con2" alignment="CENTER" prefHeight="112.0" prefWidth="3.0" spacing="10.0">
+               <children>
+                  <Sphere fx:id="zerodue" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+                  <Sphere fx:id="unodue" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+                  <Sphere fx:id="duedue" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+               </children>
+            </VBox>
+            <VBox fx:id="col3" alignment="CENTER" prefHeight="112.0" prefWidth="4.0" spacing="10.0">
+               <children>
+                  <Sphere fx:id="zerotre" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+                  <Sphere fx:id="unotre" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+                  <Sphere fx:id="duetre" radius="11.0">
+                     <effect>
+                        <GaussianBlur />
+                     </effect>
+                  </Sphere>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button fx:id="marketButton" layoutX="125.0" layoutY="314.0" mnemonicParsing="false" onAction="#showMarket" text="Market" />
+      <Sphere fx:id="external" layoutX="209.0" layoutY="171.0" radius="7.0">
+         <effect>
+            <GaussianBlur />
+         </effect>
+      </Sphere>
    </children>
 </Pane>

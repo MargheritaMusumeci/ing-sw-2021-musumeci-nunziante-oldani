@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.ColorInput?>
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.MarketController">
@@ -20,39 +26,99 @@
             <Image url="@../images/market.png" />
          </image>
       </ImageView>
-      <VBox layoutX="303.0" layoutY="196.0" prefHeight="107.0" prefWidth="128.0">
+      <VBox alignment="CENTER" layoutX="288.0" layoutY="168.0" prefHeight="143.0" prefWidth="164.0">
          <children>
-            <HBox fx:id="Market" prefHeight="77.0" prefWidth="109.0" spacing="10.0">
+            <HBox fx:id="Market" alignment="CENTER" prefHeight="77.0" prefWidth="109.0" spacing="10.0">
                <children>
-                  <VBox fx:id="col0" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
+                  <VBox fx:id="col01" alignment="CENTER" prefHeight="112.0" prefWidth="0.0" spacing="10.0">
                      <children>
-                        <Circle fx:id="zerozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="unozero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="duezero" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Sphere fx:id="zerozero" radius="11.0">
+                           <effect>
+                              <ColorInput>
+                                 <paint>
+                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </RadialGradient>
+                                 </paint>
+                              </ColorInput>
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="SW_RESIZE" />
+                           </cursor>
+                        </Sphere>
+                        <Sphere fx:id="unozero" radius="11.0" />
+                        <Sphere fx:id="duezero" radius="11.0" />
                      </children>
                   </VBox>
-                  <VBox fx:id="con1" prefHeight="100.0" prefWidth="15.0" spacing="10.0">
+                  <VBox fx:id="con11" alignment="CENTER" prefHeight="112.0" prefWidth="6.0" spacing="10.0">
                      <children>
-                        <Circle fx:id="zerouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="unouno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="dueuno" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Sphere fx:id="zerouno" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
+                        <Sphere fx:id="unouno" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
+                        <Sphere fx:id="dueuno" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
                      </children>
                   </VBox>
-                  <VBox fx:id="con2" prefHeight="100.0" prefWidth="17.0" spacing="10.0">
+                  <VBox fx:id="con21" alignment="CENTER" prefHeight="112.0" prefWidth="3.0" spacing="10.0">
                      <children>
-                        <Circle fx:id="zerodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="unodue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="duedue" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Sphere fx:id="zerodue" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
+                        <Sphere fx:id="unodue" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
+                        <Sphere fx:id="duedue" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
                      </children>
                   </VBox>
-                  <VBox fx:id="col3" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                  <VBox fx:id="col31" alignment="CENTER" prefHeight="112.0" prefWidth="4.0" spacing="10.0">
                      <children>
-                        <Circle fx:id="zerotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="unotre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="duetre" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Sphere fx:id="zerotre" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
+                        <Sphere fx:id="unotre" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
+                        <Sphere fx:id="duetre" radius="11.0">
+                           <effect>
+                              <GaussianBlur />
+                           </effect>
+                        </Sphere>
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                  <VBox alignment="CENTER" prefHeight="109.0" prefWidth="36.0" spacing="15.0">
                      <children>
                         <RadioButton fx:id="Riga0" mnemonicParsing="false">
                            <toggleGroup>
@@ -65,24 +131,29 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="128.0" spacing="13.0">
-               <children>
-                  <RadioButton fx:id="Colonna0" mnemonicParsing="false" toggleGroup="$selection" />
-                  <RadioButton fx:id="Colonna1" mnemonicParsing="false" toggleGroup="$selection" />
-                  <RadioButton fx:id="Colonna2" mnemonicParsing="false" toggleGroup="$selection" />
-                  <RadioButton fx:id="Colonna3" mnemonicParsing="false" toggleGroup="$selection" />
-               </children>
-            </HBox>
          </children>
       </VBox>
       <Button fx:id="confirm" layoutX="565.0" layoutY="329.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
       <Button fx:id="cancel" layoutX="569.0" layoutY="368.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-      <Circle fx:id="external" fill="DODGERBLUE" layoutX="434.0" layoutY="304.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Label fx:id="error" layoutX="125.0" layoutY="519.0" text="ERROR:" textFill="RED">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
       <ProgressIndicator fx:id="loading" layoutX="569.0" layoutY="315.0" visible="false" />
+      <HBox fx:id="Market1" alignment="CENTER_LEFT" layoutX="52.0" layoutY="51.0" prefHeight="112.0" prefWidth="135.0" spacing="10.0" />
+      <Sphere fx:id="external" layoutX="433.0" layoutY="308.0" radius="11.0">
+         <effect>
+            <GaussianBlur />
+         </effect>
+      </Sphere>
+      <HBox alignment="CENTER" layoutX="292.0" layoutY="293.0" prefHeight="26.0" prefWidth="91.0" spacing="17.0">
+         <children>
+            <RadioButton fx:id="Colonna0" mnemonicParsing="false" toggleGroup="$selection" />
+            <RadioButton fx:id="Colonna1" mnemonicParsing="false" toggleGroup="$selection" />
+            <RadioButton fx:id="Colonna2" mnemonicParsing="false" toggleGroup="$selection" />
+            <RadioButton fx:id="Colonna3" mnemonicParsing="false" prefHeight="2.0" prefWidth="12.0" toggleGroup="$selection" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

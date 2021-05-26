@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -11,14 +12,16 @@
 
 <Pane prefHeight="600.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.NicknameConfigurationController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="885.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="855.0" pickOnBounds="true" preserveRatio="true">
          <image>
-         </image></ImageView>
-      <Button fx:id="loginButton" layoutX="406.0" layoutY="438.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
-      <Text fill="WHITE" layoutX="373.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
+            <Image url="@../images/background.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="loginButton" layoutX="404.0" layoutY="360.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
+      <Text fill="WHITE" layoutX="373.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
       <ProgressIndicator fx:id="loading" disable="true" layoutX="402.0" layoutY="424.0" visible="false" />
-      <TextField fx:id="nicknameField" layoutX="353.0" layoutY="309.0" promptText="nickname" />
-      <Label layoutX="226.0" layoutY="512.0" text="ERROR:" textFill="RED">
+      <TextField fx:id="nicknameField" layoutX="353.0" layoutY="303.0" promptText="nickname" />
+      <Label layoutX="226.0" layoutY="512.0" prefHeight="20.0" prefWidth="464.0" text="ERROR:" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

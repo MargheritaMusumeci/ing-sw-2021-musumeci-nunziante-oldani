@@ -19,7 +19,7 @@
          <font>
             <Font size="32.0" />
          </font></Text>
-      <Button fx:id="confirm" layoutX="393.0" layoutY="547.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
+      <Button fx:id="confirm" layoutX="392.0" layoutY="534.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
       <ProgressIndicator fx:id="loading" layoutX="396.0" layoutY="533.0" visible="false" />
       <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="207.0" layoutY="343.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
@@ -85,7 +85,7 @@
             </ImageView>
          </children>
       </HBox>
-      <Label fx:id="errorMessage" layoutX="229.0" layoutY="514.0" text="ERROR:" textFill="RED">
+      <Label fx:id="errorMessage" layoutX="229.0" layoutY="514.0" text="ERROR:" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
