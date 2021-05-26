@@ -3,15 +3,12 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
-import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
-import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
+import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
-import it.polimi.ingsw.messages.sentByServer.ACKMessage;
-import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.players.Player;
 
@@ -31,15 +28,22 @@ public class MessageHandler {
      */
     public void handleMessage(NickNameMessage message){
         if(scc.getGamePhase() == GamePhases.CONFIGURATION){
+            //controllo che non sia il nome speciale riservato per lorezon
+            if(message.getMessage().equals("LorenzoIlMagnifico")){
+                scc.send(new NACKMessage("KO! This nickname cannot be used because is reserved for the unique and magnificent Lorenzo"));
+                return;
+            }
             //controllo che il giocatore non sia gia un giocatore di quelli che attendevano di riconnettersi
             if(server.checkDisconnectedPlayer(message.getMessage()) != null){
+
                 //gestisco la riconnessione
                 ServerClientConnection scc_temp = server.checkDisconnectedPlayer(message.getMessage());
-                scc_temp.reconnect(scc.getSocket());
+                scc_temp.reconnect(scc.getSocket(), scc.getInputStream(), scc.getOutputStream());
                 //dovrei elimanre dalla hashmap questa virtual view
                 server.removeWaitForReconnection(scc_temp);
                 //send reconnection Message
-                scc_temp.send(new ReconnectionMessage("Re-entering the game"));
+                //
+                //scc_temp.send(new ReconnectionMessage("Re-entering the game"));
                 return;
             }
             if(!server.checkNickname(message.getMessage())){
@@ -135,13 +139,7 @@ public class MessageHandler {
                         System.out.println("non dovrei entrare in questo if");
                         return;
                     }
-
-                    //le risorse sono settate devo creare le view e mandarle
-
-
-                    //System.out.println("ho finito il metodo per l'invio delle view");
                 }
-                //System.out.println("ho chiamato il metodo che inizializza le view");
                 scc.getGameHandler().initializationView();
             }else{
                 scc.send(new NACKMessage("KO-1"));
@@ -167,6 +165,7 @@ public class MessageHandler {
     public void handleActionMessage(ActiveProductionMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
+
     public void handleActionMessage(ActiveLeaderCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
@@ -174,6 +173,7 @@ public class MessageHandler {
     public void handleActionMessage(DiscardLeaderCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
+
     public void handleActionMessage(UseLeaderCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }

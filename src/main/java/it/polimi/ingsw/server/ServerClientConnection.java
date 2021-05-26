@@ -2,14 +2,13 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.sentByServer.ReconnectionMessage;
 import it.polimi.ingsw.messages.sentByClient.ClientMessage;
-import it.polimi.ingsw.model.game.Game;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.SQLOutput;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -74,8 +73,6 @@ public class ServerClientConnection implements Runnable{
             Message input = null;
             while (isActive){
                 //Read input messages and execute them
-                if(input == null)
-                    System.out.println("Input stream rotto!!!!");
                 input = (Message) inputStream.readObject();
 
                 if(! (input instanceof PingMessage)){
@@ -121,22 +118,27 @@ public class ServerClientConnection implements Runnable{
 
     public boolean isActive(){return isActive;}
 
+    public void setActive(boolean value){
+        this.isActive = value;
+    }
+
     public void disconnect(){
-        if(nickname != null){
+
+        //se il nickname non era scelto o sono nel fine gioco non devo aggiungerlo alla lista di chi si vuole riconnettere
+        if(nickname != null && gamePhase!= GamePhases.ENDGAME) {
             server.addWaitingForReconnection(this);
             isActive = false;
         }
     }
 
-    public boolean reconnect(Socket socket){
+    public boolean reconnect(Socket socket, ObjectInputStream inputStream, ObjectOutputStream outputStream){
         this.socket = socket;
-        try {
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
-            inputStream = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            System.out.println("error while restarting scc");
-            return false;
-        }
+        this.outputStream = outputStream;
+        this.inputStream = inputStream;
+
+        //devo mandare la virtual view al giocatore per "aggiornarlo"
+
+        send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this)))));
         //vede se gestire qui la riattivazione del game handler corrispondente
         isActive = true;
         new Thread(this).start();
@@ -153,5 +155,21 @@ public class ServerClientConnection implements Runnable{
 
     public void setServer(Server server) {
         this.server = server;
+    }
+
+    public ObjectInputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(ObjectInputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    public ObjectOutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    public void setOutputStream(ObjectOutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 }

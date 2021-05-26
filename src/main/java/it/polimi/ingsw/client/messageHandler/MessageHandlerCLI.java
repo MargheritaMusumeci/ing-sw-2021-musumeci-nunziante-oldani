@@ -7,20 +7,14 @@ import it.polimi.ingsw.client.gamePhases.InitialLeaderCardSelectionPhase;
 import it.polimi.ingsw.client.gamePhases.InitialResourcesSelection;
 import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
 import it.polimi.ingsw.client.gamePhases.OtherPlayersTurnPhase;
-import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
-import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
-import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
-import it.polimi.ingsw.messages.sentByServer.ACKMessage;
-import it.polimi.ingsw.messages.sentByServer.NACKMessage;
+import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.FourLeaderCardsMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.InitialResourcesMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.utils.Constants;
-
-import java.util.ArrayList;
 
 public class MessageHandlerCLI extends MessageHandler{
 
@@ -51,7 +45,18 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(ReconnectionMessage message) {
+        System.out.println("reconnection message arrivato");
+        cli.getClientSocket().setView(message.getView());
+        if(message.getView().getActivePlayer().equals(cli.getNickname())){
+            cli.setGamePhase(new MyTurnPhase());
+        }else{
+            cli.setGamePhase(new OtherPlayersTurnPhase());
+        }
 
+        //devo vedere se ho tutto settato ma penso di si
+        //forse manca solo il number of players
+
+        new Thread(cli).start();
     }
 
     @Override

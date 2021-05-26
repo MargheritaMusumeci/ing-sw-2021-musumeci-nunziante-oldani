@@ -14,8 +14,7 @@ public class PopeTrackPrinter {
 
         File file = new File("src/main/resources/popeTrack.txt");
         ArrayList<char[]> popeTrack = new ArrayList<>();
-
-        System.out.println(file);
+        boolean lorenzoInTheSamePosition = false;
 
         System.out.println(Constants.ANSI_BLUE + "\n" +
                 "  _____                   _______             _    \n" +
@@ -32,7 +31,7 @@ public class PopeTrackPrinter {
             String string;
             while (s.hasNextLine()){
                 string = s.nextLine();
-                char[] riga = new char[string.length()];
+                char[] riga;
                 riga = string.toCharArray();
 
                 for (int i=0; i<riga.length;i++){
@@ -42,6 +41,14 @@ public class PopeTrackPrinter {
                             riga[i] = 'x';
                         }else{
                             riga[i] = ' ';
+                        }
+
+                        if(x == serializablePopeTack.getLorenzoPosition()){
+                            if(serializablePopeTack.getPosition() == serializablePopeTack.getLorenzoPosition()){
+                                lorenzoInTheSamePosition = true;
+                            }else{
+                                riga[i] = 'L';
+                            }
                         }
 
                     }
@@ -95,6 +102,10 @@ public class PopeTrackPrinter {
                 System.out.print(c);
             }
             System.out.println();
+        }
+
+        if(lorenzoInTheSamePosition){
+            System.out.println(Constants.ANSI_GREEN + "Lorenzo is in your position!" + Constants.ANSI_RESET);
         }
     }
 }

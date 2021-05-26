@@ -17,7 +17,7 @@ public class LorenzoPlayer extends Player {
      * @param dashboard is the dashboard of the player
      */
     public LorenzoPlayer(PopeTrack popeTrack , Dashboard dashboard){
-        this.nickName = "Lorenzo";
+        this.nickName = "LorenzoIlMagnifico";
         this.popeTrack = popeTrack;
         this.dashboard = dashboard;
         this.isWinner = false;

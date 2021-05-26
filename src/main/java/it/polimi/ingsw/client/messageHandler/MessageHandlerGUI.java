@@ -2,27 +2,17 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.GUI.controllers.ViewController;
 import it.polimi.ingsw.client.GUI.controllers.ViewPlayerController;
 import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
-import it.polimi.ingsw.client.gamePhases.EndGamePhase;
-import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
-import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
-import it.polimi.ingsw.messages.sentByServer.SendResourcesBoughtFromMarket;
-import it.polimi.ingsw.messages.sentByServer.ACKMessage;
-import it.polimi.ingsw.messages.sentByServer.NACKMessage;
+import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.FourLeaderCardsMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.InitialResourcesMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
-
-import java.io.File;
-import java.net.MalformedURLException;
 
 public class MessageHandlerGUI extends MessageHandler {
 
