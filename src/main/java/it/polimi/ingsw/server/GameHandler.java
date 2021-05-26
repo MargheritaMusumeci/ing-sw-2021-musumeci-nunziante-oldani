@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GameHandler implements Runnable{
+public class GameHandler{
 
     private int numberOfPlayers;
     private Game game; //the instance of the game
@@ -104,8 +104,6 @@ public class GameHandler implements Runnable{
             //The following message is useless
             //scc.send(new StartGameMessage("Start"));
         }
-
-        new Thread(this).start();
     }
 
     public View createView(VirtualView virtualView){
@@ -190,30 +188,27 @@ public class GameHandler implements Runnable{
     }
 
     public void endGame(ServerClientConnection scc){
-        scc.getServer().removeTakeNickname(scc.getNickname());
-        try {
-            scc.getSocket().close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error while closing the socket");
-        }
-    }
-
-
-
-    @Override
-    public void run() {
-        while(true){
-            //System.out.println("Partita da " + numberOfPlayers +" giocatori: ");
-            for (ServerClientConnection scc :
-                    playersInGame.keySet()) {
-                //System.out.println(scc.getNickname() + scc.isActive());
-            }
+        synchronized (this){
+            scc.setGamePhase(GamePhases.ENDGAME);
+            scc.setActive(false);
             try {
-                Thread.sleep(5*1000);
-            } catch (InterruptedException e) {
+                scc.getSocket().close();
+            } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("Error while closing the socket");
+            }
+            scc.getServer().removeTakeNickname(scc.getNickname());
+
+            //removing all the inactive players' nickname from the taken niknames
+            for (ServerClientConnection serverClientConnection: playersInGame.keySet()){
+                if(!scc.equals(serverClientConnection)){
+                    if(!serverClientConnection.isActive()){
+                        scc.getServer().removeTakeNickname(serverClientConnection.getNickname());
+                    }
+                }
             }
         }
+
     }
+
 }
