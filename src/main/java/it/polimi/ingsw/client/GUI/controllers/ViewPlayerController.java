@@ -232,6 +232,8 @@ public class ViewPlayerController extends ViewController {
 
         super.init();
 
+        initButtons();
+
         //initialize leader cards
         initLeaderCards();
 
@@ -240,8 +242,6 @@ public class ViewPlayerController extends ViewController {
 
         //initialize basic production
         initBasicProduction();
-
-        initButtons();
 
         //initialize lockbox
         initLockBox();
@@ -326,13 +326,15 @@ public class ViewPlayerController extends ViewController {
     private void initButtons() {
 
         if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton));
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn,active1,active2,discard1,discard2,use1,use2));
+            initializer.visibleButton(buttons , true);
+            buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton));
             initializer.ableDisableButtons(buttons, gui.isActionDone());
             ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3));
             initializer.ableDisableChrckBoxes(checkBoxes,gui.isActionDone());
 
         }else{
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,use1,use2));
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,use1,use2,endTurn));
             initializer.visibleButton(buttons,false);
             ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3));
             initializer.ableDisableChrckBoxes(checkBoxes,gui.isActionDone());
@@ -392,7 +394,7 @@ public class ViewPlayerController extends ViewController {
             stockBox32.setImage(null);
         }
         if (box3[2] != null) {
-            String path = printer.pathFromResource(box3[3]);
+            String path = printer.pathFromResource(box3[2]);
             stockBox33.setImage(printer.fromPathToImageResource(path));
         }
         else{
@@ -434,9 +436,12 @@ public class ViewPlayerController extends ViewController {
         Button button = (Button) actionEvent.getSource();
 
         gui.setOtherView(button.getText());
-        gui.setGamePhase(GamePhases.SEEOTHERVIEW);
-        gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.changeScene();
+
+        if(!gui.getOtherView().equals(gui.getNickname())){
+            gui.setGamePhase(GamePhases.SEEOTHERVIEW);
+            gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
+            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.changeScene();
+        }
     }
 }

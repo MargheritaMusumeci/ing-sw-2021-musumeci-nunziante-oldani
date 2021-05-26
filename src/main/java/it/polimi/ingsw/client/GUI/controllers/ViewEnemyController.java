@@ -22,9 +22,10 @@ public class ViewEnemyController extends ViewController{
         super.init();
         initLockBox();
         initStock();
+        initLeaderCards();
     }
 
-    protected void initLockBox() {
+    private void initLockBox() {
         HashMap<Resource, Integer> lockbox = gui.getView().getEnemiesDashboard().get(nickName).getSerializableLockBox().getResources();
         coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
         shieldQuantity.setText(String.valueOf(lockbox.get(Resource.SHIELD)));
@@ -32,7 +33,7 @@ public class ViewEnemyController extends ViewController{
         rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
     }
 
-    protected void initStock() {
+    private void initStock() {
         Resource[] box1 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(0);
 
         if (box1[0] != null) {
@@ -104,7 +105,7 @@ public class ViewEnemyController extends ViewController{
         }
     }
 
-    public void initLeaderCards() {
+    private void initLeaderCards() {
 
         //set leader card
         ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getEnemiesActivatedLeaderCards().get(gui.getView().getEnemiesDashboard().get(nickName));
@@ -113,24 +114,18 @@ public class ViewEnemyController extends ViewController{
             String path = String.valueOf(leaderCards.get(0).getId());
             leader1.setImage(printer.fromPathToImageLeader(path));
 
-            if(leaderCards.size() > 1) {
+            if (leaderCards.size() > 1) {
                 path = String.valueOf(leaderCards.get(1).getId());
                 leader2.setImage(printer.fromPathToImageLeader(path));
-            }
-            else{
+            } else {
                 leader2.setImage(printer.fromPathToImageLeader("back_door"));
             }
-        }
-        else{
+        } else {
             leader1.setImage(printer.fromPathToImageLeader("back_door"));
         }
     }
 
-    public void showMarket(ActionEvent actionEvent) {
-    }
 
-    public void showEvolutionSection(ActionEvent actionEvent) {
-    }
 
     public void setNickname(String nickName) {
         this.nickName = nickName;

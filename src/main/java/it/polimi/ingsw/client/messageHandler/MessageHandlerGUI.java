@@ -168,10 +168,14 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleUpdateMessage(UpdateDashBoardMessage message) {
         synchronized (gui) {
+
             clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
             //if(gui.getCurrentScene() == gui.getScene("START_GAME")){
-            gui.setGamePhase(GamePhases.STARTGAME);
-            gui.changeScene();
+            if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
+            if(!gui.getGamePhase().equals(GamePhases.STORERESOURCES)){
+                gui.setGamePhase(GamePhases.STARTGAME);
+                gui.changeScene();
+            }
             //}
         }
     }
@@ -233,7 +237,8 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleUpdateMessage(UpdateOtherPlayerViewMessage message) {
-
+        gui.getView().setEnemyDashboard(message.getView().getDashboard(), message.getNickname());
+        gui.getView().setEnemyActivatedLeaderCards(message.getView().getDashboard(), message.getView().getLeaderCards());
     }
 
     @Override

@@ -16,6 +16,7 @@ public enum GameFxml {
     EVOLUTION_SECTION("evolution_section.fxml"),
     PRODUCTION_ZONE_CHOICE("production_zone_choice.fxml"),
     ENDGAME("end_game.fxml"),
+    OTHERTURN("view.fxml"),
     OTHERVIEW("enemyView.fxml");
 
     private GamePhases gamePhases;
@@ -37,6 +38,7 @@ public enum GameFxml {
         PRODUCTION_ZONE_CHOICE.gamePhases=GamePhases.PRODUCTIONZONECHOICE;
         ENDGAME.gamePhases=GamePhases.ENDGAME;
         OTHERVIEW.gamePhases=GamePhases.SEEOTHERVIEW;
+        OTHERTURN.gamePhases = GamePhases.OTHERPLAYERSTURN;
     }
 
     public GamePhases getGamePhases(){

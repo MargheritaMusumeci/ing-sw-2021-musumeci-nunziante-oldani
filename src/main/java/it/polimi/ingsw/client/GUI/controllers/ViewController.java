@@ -238,6 +238,8 @@ public class ViewController implements Controller {
     @FXML protected Button enemy2;
     @FXML protected Button enemy3;
 
+    @FXML protected Button endTurn;
+
     public ViewController(){
          this.printer = new Print();
          stockLeaderCardInUse = new ArrayList<>();
@@ -292,7 +294,7 @@ public class ViewController implements Controller {
             enemyButtons.get(0).setText(gui.getNickname());
             enemyButtons.get(0).setVisible(true);
         }
-        int index = 0;
+        int index = 1;
         for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
             enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
             enemyButtons.get(index).setVisible(true);
