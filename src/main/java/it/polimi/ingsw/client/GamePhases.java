@@ -14,7 +14,6 @@ public enum GamePhases {
     MYTURN,
     OTHERPLAYERSTURN,
     STARTGAME,
-
     BUYFROMMARKET,
     STORERESOURCES,
     ASKACTIVELEADER,
@@ -23,5 +22,6 @@ public enum GamePhases {
     BUYEVOLUTIONCARD,
     PRODUCTIONZONECHOICE,
     ENDGAME,
+    SEEOTHERVIEW,
 
 }

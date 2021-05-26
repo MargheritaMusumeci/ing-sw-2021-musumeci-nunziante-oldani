@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.game.Resource;
@@ -107,8 +108,8 @@ public class BasicProductionController implements Controller {
 
         gui.setBasicEnsures(basicEnsures);
         gui.setBasicRequires(basicRequires);
-        gui.setCurrentScene(gui.getScene(GUI.START_GAME));
-        gui.setOldScene(gui.getScene(GUI.BASIC_PRODUCTION));
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
         gui.setGamePhase(GamePhases.STARTGAME);
         gui.changeScene();
     }

@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
-import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.client.GUI.controllers.ViewEnemyController;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.application.Application;
@@ -22,25 +22,6 @@ import java.util.List;
 
 public class GUI extends Application implements UI {
 
-    /*
-    //list of file .fxml
-    public static final String IP_PORT = "ip_port_configuration.fxml";
-    public static final String NICKNAME = "nickname_configuration.fxml";
-    public static final String PLAYERS = "players_configuration.fxml";
-    public static final String LEADER_CARD = "leader_cards_configuration.fxml";
-    public static final String INITIAL_RESOURCES = "initial_resources_configuration.fxml";
-    public static final String WAITING_ROOM = "waiting.fxml";
-    public static final String START_GAME = "view.fxml";
-    public static final String MARKET = "market.fxml";
-    public static final String STORE_RESOURCES = "store_resources.fxml";
-    public static final String BASIC_PRODUCTION = "basic_production.fxml";
-    public static final String LEADER_PRODUCTION = "leader_production.fxml";
-    public static final String EVOLUTION_SECTION = "evolution_section.fxml";
-    public static final String PRODUCTION_ZONE_CHOICE = "production_zone_choice.fxml";
-    public static final String ENDGAME = "end_game.fxml";
-
-     */
-
     private Scene currentScene;
     private Scene oldScene;
     private Stage currentStage;
@@ -56,11 +37,10 @@ public class GUI extends Application implements UI {
     private ArrayList<SerializableLeaderCard> leaderCards;
     private ArrayList<Resource> resources;
     private String nickname;
-    private boolean isAckArrived;
-    private boolean isNackArrived;
     private String errorFromServer;
     private int players;
     private boolean actionDone;
+    private String otherView;
 
     /**
      * To set which evolution card the player wants to buy
@@ -118,7 +98,7 @@ public class GUI extends Application implements UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        currentScene = scenes.get(GameFxml.IP_PORT);
+        currentScene = scenes.get(GameFxml.IP_PORT.s);
     }
 
     public void initializationStage() {
@@ -131,10 +111,8 @@ public class GUI extends Application implements UI {
 
         Platform.runLater(()->{
             System.out.println("Phase is: " + gamePhase);
-            //ack e nack inutili
-            isAckArrived=false;
-            isNackArrived=false;
             currentStage.setScene(currentScene);
+            if(gamePhase.equals(GamePhases.SEEOTHERVIEW)) ((ViewEnemyController) controllers.get(fxmls.get(gamePhase))).setNickname(otherView);
             controllers.get(fxmls.get(gamePhase)).init();
             System.out.println("show scene " + phases.get(currentScene));
             currentStage.show();
@@ -185,22 +163,6 @@ public class GUI extends Application implements UI {
 
     public void setErrorFromServer(String errorFromServer) {
         this.errorFromServer = errorFromServer;
-    }
-
-    public boolean isAckArrived() {
-        return isAckArrived;
-    }
-
-    public void setAckArrived(boolean ackArrived) {
-        isAckArrived = ackArrived;
-    }
-
-    public boolean isNackArrived() {
-        return isNackArrived;
-    }
-
-    public void setNackArrived(boolean nackArrived) {
-        isNackArrived = nackArrived;
     }
 
     public void setSocket(String address, int port) throws IOException {
@@ -311,4 +273,11 @@ public class GUI extends Application implements UI {
         return currentStage;
     }
 
+    public String getOtherView() {
+        return otherView;
+    }
+
+    public void setOtherView(String otherView) {
+        this.otherView = otherView;
+    }
 }

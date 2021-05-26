@@ -15,7 +15,8 @@ public enum GameFxml {
     LEADER_PRODUCTION("leader_production.fxml"),
     EVOLUTION_SECTION("evolution_section.fxml"),
     PRODUCTION_ZONE_CHOICE("production_zone_choice.fxml"),
-    ENDGAME("end_game.fxml");
+    ENDGAME("end_game.fxml"),
+    OTHERVIEW("enemyView.fxml");
 
     private GamePhases gamePhases;
     public final String s;
@@ -35,6 +36,7 @@ public enum GameFxml {
         EVOLUTION_SECTION.gamePhases=GamePhases.BUYEVOLUTIONCARD;
         PRODUCTION_ZONE_CHOICE.gamePhases=GamePhases.PRODUCTIONZONECHOICE;
         ENDGAME.gamePhases=GamePhases.ENDGAME;
+        OTHERVIEW.gamePhases=GamePhases.SEEOTHERVIEW;
     }
 
     public GamePhases getGamePhases(){

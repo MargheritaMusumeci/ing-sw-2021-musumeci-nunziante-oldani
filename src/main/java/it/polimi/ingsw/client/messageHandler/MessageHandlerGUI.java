@@ -36,7 +36,6 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(ACKMessage message) {
         synchronized (gui) {
-            gui.setAckArrived(true);
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)
                     || gui.getOldScene().equals(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s))){
@@ -65,7 +64,6 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(NACKMessage message) {
 
         synchronized (gui) {
-            gui.setNackArrived(true);
             gui.setErrorFromServer(message.getMessage());
            if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) gui.setGamePhase(GamePhases.STARTGAME);
             gui.setGamePhase(gui.phase(gui.getOldScene()));

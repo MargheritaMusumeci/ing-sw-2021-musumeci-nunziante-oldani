@@ -17,10 +17,6 @@ public class ViewEnemyController extends ViewController{
 
     private String nickName;
 
-    public ViewEnemyController(String nickName){
-        this.nickName = nickName;
-    }
-
     public void init(){
         initializer.setDashboard(gui.getView().getEnemiesDashboard().get(nickName));
         super.init();
@@ -122,14 +118,26 @@ public class ViewEnemyController extends ViewController{
                 leader2.setImage(printer.fromPathToImageLeader(path));
             }
             else{
-                //Door closed image
+                leader2.setImage(printer.fromPathToImageLeader("back_door"));
             }
         }
         else{
-            //Door closed image
+            leader1.setImage(printer.fromPathToImageLeader("back_door"));
         }
     }
 
     public void showMarket(ActionEvent actionEvent) {
     }
+
+    public void showEvolutionSection(ActionEvent actionEvent) {
+    }
+
+    public void setNickname(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
 }

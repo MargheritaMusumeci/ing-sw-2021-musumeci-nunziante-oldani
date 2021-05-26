@@ -15,12 +15,18 @@ import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -422,5 +428,15 @@ public class ViewPlayerController extends ViewController {
             gui.setActionDone(false);
             gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
         }
+    }
+
+    public void showEnemy(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
+
+        gui.setOtherView(button.getText());
+        gui.setGamePhase(GamePhases.SEEOTHERVIEW);
+        gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.changeScene();
     }
 }
