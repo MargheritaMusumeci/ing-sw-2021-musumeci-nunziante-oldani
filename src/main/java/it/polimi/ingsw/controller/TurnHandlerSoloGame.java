@@ -104,15 +104,12 @@ public class TurnHandlerSoloGame extends TurnHandler{
             if (modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex() == 24) {
                 isTheEnd = true;
                 winner = modelGame.getActivePlayer();
-                endGame();
             }
 
             //active player bought 7 Evolution Cards
-            if (!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() > 1) {//TODO re-put 6
+            if (!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() > 6) {
                 isTheEnd = true;
-                System.out.println("Bought enough cards to win Lorenzo");
                 winner = modelGame.getActivePlayer();
-                endGame();
             }
 
         } else {
@@ -137,7 +134,6 @@ public class TurnHandlerSoloGame extends TurnHandler{
             if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getIndex() == 24) {
                 isTheEnd = true;
                 winner = modelGame.getActivePlayer();
-                endGame();
             }
         }
     }
@@ -166,6 +162,10 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
         checkEndGame();
 
+        if(isTheEnd){
+            return endGame();
+        }
+
         //Update the active player for the next turn
         modelGame.updateActivePlayer();
 
@@ -180,6 +180,9 @@ public class TurnHandlerSoloGame extends TurnHandler{
             }
 
             checkEndGame();
+            if(isTheEnd){
+               return endGame();
+            }
 
             //probabilemte va aggiunto perchè anche lorenzo ha fatto la sua mossa
             modelGame.updateActivePlayer();
@@ -196,7 +199,6 @@ public class TurnHandlerSoloGame extends TurnHandler{
     @Override
     public Message endGame(){
 
-        System.out.println("In end game");
         ArrayList<Player> winnersPlayer = checkWinner();
 
         HashMap<String, Integer> scores = new HashMap<>();
@@ -205,7 +207,9 @@ public class TurnHandlerSoloGame extends TurnHandler{
         }else{
             scores.put(modelGame.getPlayers().get(1).getNickName(),modelGame.getPlayers().get(1).getDashboard().getScore());
         }
+        ArrayList<String> winnersName = new ArrayList<>();
+        winnersName.add(winner.getNickName());
+        return new EndGameMessage("The game is ended", winnersName, scores);
 
-        return new EndGameMessage("The game is ended", new ArrayList<>(){{add(winnersPlayer.get(0).getNickName());}}, scores);
     }
 }
