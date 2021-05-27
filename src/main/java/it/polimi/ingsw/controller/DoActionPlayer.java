@@ -363,7 +363,7 @@ public class DoActionPlayer {
 
         if(leaderCards.size() > 0){
             for(LeaderCard leaderCard : leaderCards){
-                if(leaderCard.isUsed() && leaderCard.getAbilityType() == LeaderAbility.SALES){
+                if(leaderCard.isActive() && leaderCard.getAbilityType() == LeaderAbility.SALES){
                     HashMap<Resource , Integer> sales = leaderCard.getAbilityResource();
                     for(Resource resource : sales.keySet()){
                         int numResource  = cost.get(resource);//resource required by the evolution card
@@ -523,11 +523,11 @@ public class DoActionPlayer {
      * there is a difference between active and use leaderCard
      * STOK-> always active
      * PRODUCTION,MARKET AND SALE --> could be chose
-     * @param position position
+     * position
      */
-    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
+    /*public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
         ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
-    }
+    }*/
 
     public void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
 

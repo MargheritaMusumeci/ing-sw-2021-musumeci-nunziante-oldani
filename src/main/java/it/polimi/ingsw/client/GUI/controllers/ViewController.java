@@ -64,10 +64,6 @@ public class ViewController implements Controller {
     @FXML
     protected Button active2;
     @FXML
-    protected Button use1;
-    @FXML
-    protected Button use2;
-    @FXML
     protected Button discard1;
     @FXML
     protected Button discard2;
@@ -192,6 +188,10 @@ public class ViewController implements Controller {
     protected CheckBox activeProduction2;
     @FXML
     protected CheckBox activeProduction3;
+    @FXML
+    protected CheckBox activeProduction4;
+    @FXML
+    protected CheckBox activeProduction5;
     @FXML
     protected Button activeProductionsButton;
     @FXML

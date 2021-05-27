@@ -125,7 +125,7 @@ public class Initializer {
         }
     }
 
-    public void ableDisableChrckBoxes(ArrayList<CheckBox> checkBoxes, boolean b) {
+    public void ableDisableCheckBoxes(ArrayList<CheckBox> checkBoxes, boolean b) {
         for(CheckBox checkBox: checkBoxes){
             checkBox.setDisable(b);
         }

@@ -11,6 +11,7 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMess
 import it.polimi.ingsw.messages.sentByClient.actionMessages.DiscardLeaderCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.UseLeaderCardMessage;
 import it.polimi.ingsw.model.cards.LeaderAbility;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.event.ActionEvent;
@@ -70,7 +71,8 @@ public class ViewPlayerController extends ViewController {
             gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
-            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures()));
+            //TODO add the code below
+            //gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures()));
         }
 
         activeBasic = false;
@@ -93,8 +95,8 @@ public class ViewPlayerController extends ViewController {
         gui.changeScene();
     }
 
-    @FXML
-    public void useLeader(ActionEvent actionEvent) {
+    //@FXML
+    /*public void useLeader(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
         //stockbox plus --> always in use
@@ -138,7 +140,7 @@ public class ViewPlayerController extends ViewController {
                 }
             }
         }
-    }
+    }*/
 
     @FXML
     private void showLeaderProduction() {
@@ -158,20 +160,22 @@ public class ViewPlayerController extends ViewController {
         if (leaderWaitForAck == 1) {
             active1.setVisible(false);
             discard1.setVisible(false);
-            use1.setVisible(true);
             if (gui.getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 stockLeaderCardInUse.add(1);
-                use1.setVisible(false);
+            }
+            if(gui.getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                activeProduction4.setVisible(true);
             }
 
         }
         if (leaderWaitForAck == 2) {
             active2.setVisible(false);
             discard2.setVisible(false);
-            use2.setVisible(true);
             if (gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 stockLeaderCardInUse.add(2);
-                use2.setVisible(false);
+            }
+            if(gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                activeProduction5.setVisible(true);
             }
         }
         leaderWaitForAck = -1;
@@ -270,8 +274,6 @@ public class ViewPlayerController extends ViewController {
                     discard1.setVisible(false);
                     active1.setVisible(false);
 
-                    //se è stockbox plus non posso decidere se attivarla o meno
-                    if (!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use1.setVisible(true);
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
                     if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(0) != null) {
@@ -280,9 +282,6 @@ public class ViewPlayerController extends ViewController {
                 } else {
                     discard2.setVisible(false);
                     active2.setVisible(false);
-
-                    //se è stockbox plus non posso decidere se attivarla o meno
-                    if (!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use2.setVisible(true);
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
                     if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
@@ -298,8 +297,6 @@ public class ViewPlayerController extends ViewController {
                 if (leaderCards.get(1).isActive() && leaderCards.get(1).getId() == gui.getLeaderCards().get(1).getId()) {
                     discard2.setVisible(false);
                     active2.setVisible(false);
-
-                    if (!leaderCards.get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) use1.setVisible(true);
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
                     if (leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
@@ -326,18 +323,18 @@ public class ViewPlayerController extends ViewController {
     private void initButtons() {
 
         if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn,active1,active2,discard1,discard2,use1,use2));
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn,active1,active2,discard1,discard2));
             initializer.visibleButton(buttons , true);
             buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton));
             initializer.ableDisableButtons(buttons, gui.isActionDone());
             ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3));
-            initializer.ableDisableChrckBoxes(checkBoxes,gui.isActionDone());
+            initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
 
         }else{
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,use1,use2,endTurn));
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,endTurn));
             initializer.visibleButton(buttons,false);
             ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3));
-            initializer.ableDisableChrckBoxes(checkBoxes,gui.isActionDone());
+            initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
         }
     }
 

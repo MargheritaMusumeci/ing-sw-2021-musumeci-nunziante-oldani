@@ -156,7 +156,7 @@ public abstract class TurnHandler {
         }
     }
 
-    public Message doAction(UseLeaderCardMessage message){
+    /*public Message doAction(UseLeaderCardMessage message){
         try {
             actionHandler.useLeaderCard((message).getPosition());
             return new ACKMessage("OK");
@@ -167,7 +167,7 @@ public abstract class TurnHandler {
         } catch (ActiveLeaderCardException e){
             return new NACKMessage("Leader card is not active");
         }
-    }
+    }*/
 
     /**
      * Method the checks the score/the number of resources of each player and create an arrayList with the winners

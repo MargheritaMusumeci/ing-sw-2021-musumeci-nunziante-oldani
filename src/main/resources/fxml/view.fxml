@@ -36,7 +36,6 @@
             <VBox fx:id="LeaderBox1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                <children>
                   <ImageView fx:id="leader1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="use1" mnemonicParsing="false" onAction="#useLeader" text="Use" visible="false" />
                   <Button fx:id="active1" mnemonicParsing="false" onAction="#activeLeader" text="Active" />
                   <Button fx:id="discard1" mnemonicParsing="false" onAction="#discardLeader" text="Discard" />
                </children>
@@ -44,7 +43,6 @@
             <VBox fx:id="LeaderBox2" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                <children>
                   <ImageView fx:id="leader2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="use2" mnemonicParsing="false" onAction="#useLeader" text="Use" visible="false" />
                   <Button fx:id="active2" mnemonicParsing="false" onAction="#activeLeader" text="Active" />
                   <Button fx:id="discard2" mnemonicParsing="false" onAction="#discardLeader" text="Discard" />
                </children>
@@ -348,5 +346,7 @@
             <GaussianBlur />
          </effect>
       </Sphere>
+      <CheckBox fx:id="activeProduction4" layoutX="844.0" layoutY="545.0" mnemonicParsing="false" />
+      <CheckBox fx:id="activeProduction5" layoutX="956.0" layoutY="545.0" mnemonicParsing="false" />
    </children>
 </Pane>

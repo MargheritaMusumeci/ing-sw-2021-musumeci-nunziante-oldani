@@ -106,11 +106,11 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
                 pZone.getCard().setActive(false);
         }
 
-        for (LeaderCard leaderCard: modelGame.getActivePlayer().getDashboard().getLeaderCards()) {
+        /*for (LeaderCard leaderCard: modelGame.getActivePlayer().getDashboard().getLeaderCards()) {
             if (!leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 leaderCard.setUsed(false);
             }
-        }
+        }*/
 
         if(!isTheLastTurn) checkEndGame();
 
