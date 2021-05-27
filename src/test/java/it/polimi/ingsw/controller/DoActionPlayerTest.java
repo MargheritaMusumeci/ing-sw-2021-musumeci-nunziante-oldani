@@ -197,6 +197,7 @@ public class DoActionPlayerTest {
         }
     }
 
+    /*
     @Test
     public void testUseLeaderCard() {
 
@@ -274,6 +275,9 @@ public class DoActionPlayerTest {
         }
     }
 
+     */
+
+    /* TODO
     @Test
     public void testActiveBasicProduction(){
         HumanPlayer player1 = new HumanPlayer("marghe", true);
@@ -293,13 +297,17 @@ public class DoActionPlayerTest {
         ensures.add(Resource.ROCK);
 
         ArrayList<Integer> empty= null;
+
         Message message = new ActiveProductionMessage("active",empty,true,ensures,requires);
         ((ActiveProductionMessage)message).setActiveBasic(true);
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
+
         turnHandler.doAction((ActiveProductionMessage) message);
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
+
+
 
         try {
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
@@ -316,6 +324,8 @@ public class DoActionPlayerTest {
 
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
     }
+
+     */
 
     @Test
     public void testDiscardLeaderCard() {

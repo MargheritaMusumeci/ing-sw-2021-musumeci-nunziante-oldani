@@ -25,6 +25,6 @@ public class UseLeaderCardMessage extends ActionMessage{
     }
 
     public void handle(MessageHandler messageHandler){
-        messageHandler.handleActionMessage(this);
+        //messageHandler.handleActionMessage(this);
     }
 }
