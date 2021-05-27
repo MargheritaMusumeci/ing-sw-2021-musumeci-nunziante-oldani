@@ -17,14 +17,17 @@ public class ActiveProductionMessage extends ActionMessage{
 
     private ArrayList<Resource> resourcesRequires;
     private ArrayList<Resource> resourcesEnsures;
+    private ArrayList<Resource> leaderResources;
 
     public ActiveProductionMessage(String message,ArrayList<Integer> positions , boolean activeBasic ,
-                                   ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures) {
+                                   ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures,
+                                   ArrayList<Resource> leaderResources) {
         super(message);
         this.positions = positions;
         this.resourcesRequires = resourcesRequires;
         this.resourcesEnsures = resourcesEnsures;
         this.activeBasic = activeBasic;
+        this.leaderResources = leaderResources;
     }
 
     public ArrayList<Integer> getPositions() {
