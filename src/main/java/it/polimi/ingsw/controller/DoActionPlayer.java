@@ -55,6 +55,40 @@ public class DoActionPlayer {
             resourceList.remove(Resource.FAITH);
         }
 
+        //remove white ball if NOMOREWHITE leader card is active
+        int leaderCardActived =0;
+        Resource resource = null;
+
+        for(int i = 0; i<humanPlayer.getDashboard().getLeaderCards().size();i++) {
+
+            //per ogni leader card controllo se ha il potere richiesto e se è attiva
+            if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
+                    humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
+
+                leaderCardActived++;
+                HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityResource();
+
+                //se è attiva salvo la risorsa in cui devo trasformarla
+                for (Resource res : resourcesWhite.keySet()) {
+                    if (resourcesWhite.get(res) == 0) {
+                        resource = res;
+                    }
+                }
+            }
+        }
+
+        if(leaderCardActived==1){
+            ArrayList<Resource> resourcesCopy = new ArrayList<>();
+            resourcesCopy.addAll(resourceList);
+
+            for (Resource res : resourcesCopy) {
+                if (res.equals(Resource.NOTHING)){
+                    resourceList.remove(Resource.NOTHING);
+                    resourceList.add(resource);
+                }
+            }
+        }
+
         humanPlayer.setResources(resourceList);
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
     }
@@ -91,28 +125,69 @@ public class DoActionPlayer {
         int rockOld=0;
         int shieldOld=0;
         int servantOld=0;
+        int nothingOld=0;
 
         for(int i =0; i<resourceList.size();i++){
             if(resourceList.get(i).equals(Resource.COIN)){coinOld++;}
             if(resourceList.get(i).equals(Resource.SHIELD)){shieldOld++;}
             if(resourceList.get(i).equals(Resource.ROCK)){rockOld++;}
             if(resourceList.get(i).equals(Resource.SERVANT)){servantOld++;}
+            if(resourceList.get(i).equals(Resource.NOTHING)){nothingOld++;}
         }
 
-        //only if the player chooses resources from the ones he receives
-        if(coinOld>=coin && rockOld>=rock & shieldOld>=shield && servantOld>=servant) {
+        //if two leader cards are activated
+        int leaderCardActived =0;
+        Resource resourceOne = null;
+        Resource resourceTwo = null;
 
-            //only if the player chooses a correct number of resources to insert
-            if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
+        for(int i = 0; i<humanPlayer.getDashboard().getLeaderCards().size();i++) {
 
-                //reestablish original resources
-                humanPlayer.setResources(resourceList);
-
-                //notify error
-                return new NACKMessage("Not enough space for store resources - try again");
+            //per ogni leader card controllo se ha il potere richiesto e se è attiva
+            if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
+                    humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
+                leaderCardActived++;
             }
-            //notify error
-        }else return new NACKMessage("They are not purchased resources");
+        }
+        if(leaderCardActived==2){
+
+            HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(0).getAbilityResource();
+
+            //salvo la risorsa in cui devo trasformarla
+            for (Resource res : resourcesWhite.keySet()) {
+                if (resourcesWhite.get(res) == 0) {
+                    resourceOne = res;
+                }
+            }
+
+            resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(1).getAbilityResource();
+
+            //salvo la risorsa in cui devo trasformarla
+            for (Resource res : resourcesWhite.keySet()) {
+                if (resourcesWhite.get(res) == 0) {
+                    resourceTwo = res;
+                }
+            }
+
+            if()
+
+
+        }else {
+
+            //only if the player chooses resources from the ones he receives
+            if (coinOld >= coin && rockOld >= rock & shieldOld >= shield && servantOld >= servant) {
+
+                //only if the player chooses a correct number of resources to insert
+                if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
+
+                    //reestablish original resources
+                    humanPlayer.setResources(resourceList);
+
+                    //notify error
+                    return new NACKMessage("Not enough space for store resources - try again");
+                }
+                //notify error
+            } else return new NACKMessage("They are not purchased resources");
+        }
 
         ArrayList<Resource> discardResource = (ArrayList<Resource>) resourceList.clone();
 
@@ -519,15 +594,18 @@ public class DoActionPlayer {
 
     }
 
+
+    /*
     /**
      * there is a difference between active and use leaderCard
      * STOK-> always active
      * PRODUCTION,MARKET AND SALE --> could be chose
-     * @param position position
-     */
+     * @param  position
+
     public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
         ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
     }
+     */
 
     public void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
 
