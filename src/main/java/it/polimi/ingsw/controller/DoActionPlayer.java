@@ -16,6 +16,7 @@ import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -109,11 +110,31 @@ public class DoActionPlayer {
             System.out.println("resourceList is null!");
         }
 
+        /*
         int coin =0;
         int rock=0;
         int shield=0;
         int servant=0;
 
+         */
+
+        HashMap<Resource, Integer> oldResources = new HashMap<>();
+        HashMap<Resource, Integer> newResources = new HashMap<>();
+
+        oldResources.put(Resource.COIN, 0);
+        oldResources.put(Resource.SERVANT, 0);
+        oldResources.put(Resource.SHIELD, 0);
+        oldResources.put(Resource.ROCK, 0);
+        oldResources.put(Resource.NOTHING, 0);
+
+        newResources.put(Resource.COIN, 0);
+        newResources.put(Resource.SERVANT, 0);
+        newResources.put(Resource.SHIELD, 0);
+        newResources.put(Resource.ROCK, 0);
+        newResources.put(Resource.NOTHING, 0);
+
+
+        /*
         for(int i =0; i<saveResources.size();i++){
             if(saveResources.get(i).equals(Resource.COIN)){coin++;}
             if(saveResources.get(i).equals(Resource.SHIELD)){shield++;}
@@ -121,6 +142,16 @@ public class DoActionPlayer {
             if(saveResources.get(i).equals(Resource.SERVANT)){servant++;}
         }
 
+         */
+
+        for (Resource r : saveResources){
+            newResources.put(r, newResources.get(r) + 1);
+        }
+        for (Resource r: resourceList){
+            oldResources.put(r, newResources.get(r) + 1);
+        }
+
+        /*
         int coinOld =0;
         int rockOld=0;
         int shieldOld=0;
@@ -134,6 +165,8 @@ public class DoActionPlayer {
             if(resourceList.get(i).equals(Resource.SERVANT)){servantOld++;}
             if(resourceList.get(i).equals(Resource.NOTHING)){nothingOld++;}
         }
+
+         */
 
         //if two leader cards are activated
         int leaderCardActived =0;
@@ -168,25 +201,44 @@ public class DoActionPlayer {
                 }
             }
 
-            if()
+            if(!(oldResources.get(resourceOne) + oldResources.get(Resource.NOTHING)>= newResources.get(resourceOne) &&
+            oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceTwo) &&
+            oldResources.get(resourceOne) + oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne)+ newResources.get(resourceTwo))){
+                return new NACKMessage("White resources conversion is wrong");
+            }
+
+            //controllare che le cose vecchie non modificabili non siano state modificate
+            if (    (oldResources.get(Resource.COIN) != newResources.get(Resource.COIN) || resourceOne==Resource.COIN || resourceTwo == Resource.COIN) &&
+                    (oldResources.get(Resource.ROCK) != newResources.get(Resource.ROCK) || resourceOne==Resource.ROCK || resourceTwo == Resource.ROCK)&&
+                    (oldResources.get(Resource.SHIELD) != newResources.get(Resource.SHIELD) || resourceOne==Resource.SHIELD || resourceTwo == Resource.SHIELD) &&
+                    (oldResources.get(Resource.SERVANT) != newResources.get(Resource.SERVANT) || resourceOne==Resource.SERVANT || resourceTwo == Resource.SERVANT) ) {
+
+                return new NACKMessage("They are not purchased resources");
+                //notify error
+            }
 
 
         }else {
 
             //only if the player chooses resources from the ones he receives
-            if (coinOld >= coin && rockOld >= rock & shieldOld >= shield && servantOld >= servant) {
+            if (!(oldResources.get(Resource.COIN) >= newResources.get(Resource.COIN) &&
+                    oldResources.get(Resource.ROCK) >= newResources.get(Resource.ROCK) &&
+                    oldResources.get(Resource.SHIELD) >= newResources.get(Resource.SHIELD) &&
+                    oldResources.get(Resource.SERVANT) >= oldResources.get(Resource.SERVANT))) {
 
-                //only if the player chooses a correct number of resources to insert
-                if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
-
-                    //reestablish original resources
-                    humanPlayer.setResources(resourceList);
-
-                    //notify error
-                    return new NACKMessage("Not enough space for store resources - try again");
-                }
+                return new NACKMessage("They are not purchased resources");
                 //notify error
-            } else return new NACKMessage("They are not purchased resources");
+            }
+        }
+
+        //only if the player chooses a correct number of resources to insert
+        if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
+
+            //reestablish original resources
+            humanPlayer.setResources(resourceList);
+
+            //notify error
+            return new NACKMessage("Not enough space for store resources - try again");
         }
 
         ArrayList<Resource> discardResource = (ArrayList<Resource>) resourceList.clone();
@@ -438,7 +490,7 @@ public class DoActionPlayer {
 
         if(leaderCards.size() > 0){
             for(LeaderCard leaderCard : leaderCards){
-                if(leaderCard.isUsed() && leaderCard.getAbilityType() == LeaderAbility.SALES){
+                if(leaderCard.isActive() && leaderCard.getAbilityType() == LeaderAbility.SALES){
                     HashMap<Resource , Integer> sales = leaderCard.getAbilityResource();
                     for(Resource resource : sales.keySet()){
                         int numResource  = cost.get(resource);//resource required by the evolution card
