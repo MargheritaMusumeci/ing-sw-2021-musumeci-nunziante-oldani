@@ -197,8 +197,9 @@ public class DoActionPlayerTest {
         }
     }
 
-    //@Test
-    /*public void testUseLeaderCard() {
+    /*
+    @Test
+    public void testUseLeaderCard() {
 
 
         //check if correctly set use leader card --> only if is active
@@ -245,7 +246,7 @@ public class DoActionPlayerTest {
             assertFalse(false);
         }
 
-        /*assertFalse(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
+        assertFalse(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
 
         try {
             doActionPlayer.activeLeaderCard(0);
@@ -272,8 +273,11 @@ public class DoActionPlayerTest {
         } catch (ActiveLeaderCardException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
+     */
+
+    /* TODO
     @Test
     public void testActiveBasicProduction(){
         HumanPlayer player1 = new HumanPlayer("marghe", true);
@@ -293,13 +297,17 @@ public class DoActionPlayerTest {
         ensures.add(Resource.ROCK);
 
         ArrayList<Integer> empty= null;
-        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires,null);
+
+        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires);
         ((ActiveProductionMessage)message).setActiveBasic(true);
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
+
         turnHandler.doAction((ActiveProductionMessage) message);
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
+
+
 
         try {
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
@@ -316,6 +324,8 @@ public class DoActionPlayerTest {
 
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
     }
+
+     */
 
     @Test
     public void testDiscardLeaderCard() {

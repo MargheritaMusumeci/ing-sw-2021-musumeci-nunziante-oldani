@@ -66,15 +66,17 @@ public class ViewPlayerController extends ViewController {
         if (activeProduction2.isSelected()) productionPositions.add(1);
         if (activeProduction3.isSelected()) productionPositions.add(2);
 
-        //TODO fill the array below with leader production resources
-        ArrayList<Resource> leaderResources = new ArrayList<>();
-
         if (productionPositions.size() != 0 || activeBasic) {
             System.out.println("attivo la produzione");
             gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
-            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures() , leaderResources));
+
+            ArrayList<Resource> leaderEnsure = new ArrayList<>();
+            for(int i=0; i<gui.getLeaderEnsure().size();i++){
+                leaderEnsure.add(gui.getLeaderEnsure().get(i));
+            }
+            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures() , leaderEnsure));
         }
 
         activeBasic = false;

@@ -9,7 +9,9 @@ import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
@@ -95,6 +97,44 @@ public class BuyFromMarketPhase extends Phase {
             }
         }
 
+        //se ho due leader card no more white attive allora devo trasformare ongi bianca
+        if(cli.getClientSocket().getView().getLeaderCards().get(0).getAbilityType() == LeaderAbility.NOMOREWHITE &&
+                cli.getClientSocket().getView().getLeaderCards().get(0).isActive() &&
+                cli.getClientSocket().getView().getLeaderCards().get(1).getAbilityType() == LeaderAbility.NOMOREWHITE &&
+                cli.getClientSocket().getView().getLeaderCards().get(1).isActive()){
+            //devo prendere le risorse che no more white ti da
+            ArrayList<Resource> noMoreWhite = new ArrayList<>();
+            for (SerializableLeaderCard serializableLeaderCard: cli.getClientSocket().getView().getLeaderCards()){
+                for (Resource r : serializableLeaderCard.getAbilityResource().keySet()){
+                    if(serializableLeaderCard.getAbilityResource().get(r) != 0){
+                        noMoreWhite.add(r);
+                    }
+                }
+            }
+            //stampo la richeista di conversione
+            for (Resource resource:cli.getClientSocket().getView().getResourcesBoughtFromMarker()){
+                if(resource == Resource.NOTHING){
+                    int choice;
+                    do{
+
+                        System.out.println("Convert "+Resource.NOTHING.label+" in: ");
+                        System.out.println("1) "+noMoreWhite.get(0).label+"\t 2) " + noMoreWhite.get(1).label);
+
+                        try{
+                            choice = scanner.nextInt();
+                        }catch (InputMismatchException e){
+                            choice = 6;
+                            System.out.println(Constants.ANSI_RED +"Error! Cannot find you resources" + Constants.ANSI_RESET);
+                        }
+
+                    }while (choice!= 2 && choice!=1);
+
+                    cli.getClientSocket().getView().getResourcesBoughtFromMarker().remove(resource);
+                    cli.getClientSocket().getView().getResourcesBoughtFromMarker().remove(noMoreWhite.get(choice-1));
+
+                }
+            }
+        }
         //controllo se tra le risorse ottunute ho solo nothing, in quel caso mando un messaggio e termino
         int countNotnull = 0;
         for (Resource resource: cli.getClientSocket().getView().getResourcesBoughtFromMarker()){
