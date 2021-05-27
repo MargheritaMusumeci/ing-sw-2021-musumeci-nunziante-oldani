@@ -98,7 +98,7 @@ public class HumanPlayer extends Player{
         //Search if there are leader card with ability sales -> the only ability that matter now
         if(numLeaderCard > 0){
             for(int i = 0; i < numLeaderCard; i++){
-                if(dashboard.getLeaderCards().get(i).isUsed() &&
+                if(dashboard.getLeaderCards().get(i).isActive() &&
                         dashboard.getLeaderCards().get(i).getAbilityType() == LeaderAbility.SALES){
                     leaderSaleOn[i] = true;
                 }
@@ -256,7 +256,6 @@ public class HumanPlayer extends Player{
 
         //Only in case of new box I have to create it here
         if(dashboard.getLeaderCards().get(position).getAbilityType() == LeaderAbility.STOCKPLUS){
-            dashboard.getLeaderCards().get(position).setUsed(true);
             HashMap<Resource , Integer> resourceBoxType = dashboard.getLeaderCards().get(position).getAbilityResource();
             for (Resource res : resourceBoxType.keySet()) {
                 if(resourceBoxType.get(res) != 0){
@@ -345,15 +344,6 @@ public class HumanPlayer extends Player{
         return actionChose;
     }
 
-    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
-        if(position < 0 || position >= dashboard.getLeaderCards().size() ) throw new OutOfBandException("Invalid position");
-
-        if(!dashboard.getLeaderCards().get(position).isActive()) throw new ActiveLeaderCardException("Leader card is not active");
-
-        if(dashboard.getLeaderCards().get(position).isUsed()) throw new LeaderCardAlreadyUsedException("This leader card is already used");
-
-        dashboard.getLeaderCards().get(position).setUsed(true);
-    }
 
     public int getPosition() {
         return position;
