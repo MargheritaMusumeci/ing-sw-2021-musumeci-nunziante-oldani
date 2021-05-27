@@ -159,11 +159,15 @@ public class ViewPlayerController extends ViewController {
      */
     public void activeLeaderACK() {
 
+        System.out.println("In active leader ack");
+
         if (leaderWaitForAck == 1) {
             active1.setVisible(false);
             discard1.setVisible(false);
+            System.out.println("Received activeLeaderAck and I'm in 1");
             if (gui.getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 stockLeaderCardInUse.add(1);
+                System.out.println("Activated stock leader ability");
             }
             if(gui.getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 activeProduction4.setVisible(true);
@@ -173,11 +177,13 @@ public class ViewPlayerController extends ViewController {
         if (leaderWaitForAck == 2) {
             active2.setVisible(false);
             discard2.setVisible(false);
+            System.out.println("Received activeLeaderAck and I'm in 2");
             if (gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 stockLeaderCardInUse.add(2);
             }
             if(gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 activeProduction5.setVisible(true);
+                System.out.println("Activated stock leader ability");
             }
         }
         leaderWaitForAck = -1;
@@ -276,6 +282,13 @@ public class ViewPlayerController extends ViewController {
                     discard1.setVisible(false);
                     active1.setVisible(false);
 
+                    if(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                        activeProduction4.setVisible(true);
+                    }
+                    else{
+                        activeProduction4.setVisible(false);
+                    }
+
 
                     //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
                     if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(0) != null) {
@@ -289,7 +302,18 @@ public class ViewPlayerController extends ViewController {
                     if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
                         leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                     }
+
+                    if(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                        activeProduction4.setVisible(true);
+                    }
+                    else{
+                        activeProduction4.setVisible(false);
+                    }
                 }
+            }
+            else{
+                active1.setVisible(true);
+                discard1.setVisible(true);
             }
 
             if (leaderCards.size() > 1) {
@@ -304,6 +328,17 @@ public class ViewPlayerController extends ViewController {
                     if (leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
                         leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                     }
+
+                    if(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                        activeProduction4.setVisible(true);
+                    }
+                    else{
+                        activeProduction4.setVisible(false);
+                    }
+                }
+                else{
+                    active2.setVisible(true);
+                    discard2.setVisible(true);
                 }
             }
         }
@@ -325,17 +360,17 @@ public class ViewPlayerController extends ViewController {
     private void initButtons() {
 
         if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn,active1,active2,discard1,discard2));
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));//active1,active2,discard1,discard2
             initializer.visibleButton(buttons , true);
             buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton));
             initializer.ableDisableButtons(buttons, gui.isActionDone());
-            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3));
+            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3,activeProduction4,activeProduction5));
             initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
 
         }else{
             ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,endTurn));
             initializer.visibleButton(buttons,false);
-            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3));
+            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3,activeProduction4,activeProduction5));
             initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
         }
     }
@@ -401,9 +436,12 @@ public class ViewPlayerController extends ViewController {
         }
 
         //Initialize leader stock
+        System.out.println("There are " + stockLeaderCardInUse.size() + " stock leader card in use");
         if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
-            for(int i = 0 ; i < stockLeaderCardInUse.size() ; i++){
+            for(int i = 0 ; i < gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().size() ; i++){//stockLeaderCardInUse.size()
                 int leaderPosition = stockLeaderCardInUse.get(i);
+
+                System.out.println("Initializing stock plus");
 
                 if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
                     for(int j = 0 ; j < gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){

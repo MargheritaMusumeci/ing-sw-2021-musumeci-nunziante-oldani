@@ -168,7 +168,6 @@ public class DoActionPlayer {
                 }
             }
 
-            if()
 
 
         }else {

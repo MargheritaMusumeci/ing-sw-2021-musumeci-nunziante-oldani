@@ -163,9 +163,16 @@ public class MessageHandlerGUI extends MessageHandler {
             //if(gui.getCurrentScene() == gui.getScene("START_GAME")){
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
             if(!gui.getGamePhase().equals(GamePhases.STORERESOURCES)){
+
+                if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
+                    gui.setGamePhase(GamePhases.STARTGAME);
+                    System.out.println("Calling activeLeaderAck after received the ack");
+                    ((ViewPlayerController) gui.getController("view.fxml")).activeLeaderACK();
+                }
                 gui.setGamePhase(GamePhases.STARTGAME);
                 gui.changeScene();
             }
+
             //}
         }
     }

@@ -197,8 +197,8 @@ public class DoActionPlayerTest {
         }
     }
 
-    @Test
-    public void testUseLeaderCard() {
+    //@Test
+    /*public void testUseLeaderCard() {
 
 
         //check if correctly set use leader card --> only if is active
@@ -245,7 +245,7 @@ public class DoActionPlayerTest {
             assertFalse(false);
         }
 
-        assertFalse(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
+        /*assertFalse(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
 
         try {
             doActionPlayer.activeLeaderCard(0);
@@ -272,7 +272,7 @@ public class DoActionPlayerTest {
         } catch (ActiveLeaderCardException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Test
     public void testActiveBasicProduction(){
@@ -293,7 +293,7 @@ public class DoActionPlayerTest {
         ensures.add(Resource.ROCK);
 
         ArrayList<Integer> empty= null;
-        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires);
+        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires,null);
         ((ActiveProductionMessage)message).setActiveBasic(true);
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);

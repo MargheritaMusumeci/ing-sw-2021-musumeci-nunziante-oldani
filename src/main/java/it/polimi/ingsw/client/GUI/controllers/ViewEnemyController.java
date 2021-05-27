@@ -121,7 +121,9 @@ public class ViewEnemyController extends ViewController{
                 leader2.setImage(printer.fromPathToImageLeader("back_door"));
             }
         } else {
+            //TODO what should I do in case of dicard leader card?Show the door in any case?
             leader1.setImage(printer.fromPathToImageLeader("back_door"));
+            leader2.setImage(printer.fromPathToImageLeader("back_door"));
         }
     }
 

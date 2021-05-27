@@ -114,7 +114,7 @@ public class TurnHandlerTest {
         turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE
-        assertTrue(  turnHandler.doAction(new ActiveProductionMessage("ACTIVE",new ArrayList<Integer>(){{add(0);}},false,null,null))instanceof ACKMessage);
+        assertTrue(  turnHandler.doAction(new ActiveProductionMessage("ACTIVE",new ArrayList<Integer>(){{add(0);}},false,null,null,null))instanceof ACKMessage);
         turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE BASE
@@ -131,7 +131,7 @@ public class TurnHandlerTest {
         ensures.add(Resource.ROCK);
 
         ArrayList<Integer> empty= null;
-        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires);
+        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires,null);
         ((ActiveProductionMessage)message).setActiveBasic(true);
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);

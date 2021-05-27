@@ -102,7 +102,7 @@ public class ActiveProductionZonePhase extends Phase {
 
         //Send activeProductionMessage to the server
         cli.getClientSocket().send(new ActiveProductionMessage("Active production zones" , productionZones ,
-                activeBasic , resourcesRequires , resourcesEnsures));
+                activeBasic , resourcesRequires , resourcesEnsures , null));
 
         //Wait for a response
         synchronized (this){
