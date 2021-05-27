@@ -24,7 +24,7 @@ import java.util.*;
  */
 public class DoActionPlayer {
 
-    private Game modelGame;
+    private final Game modelGame;
     private  ArrayList<Resource> resourceList;
     TurnHandler turnHandler;
 
@@ -52,7 +52,9 @@ public class DoActionPlayer {
 
         //Increase PopeTrackPosition if player got a faith ball
         if (resourceList.contains(Resource.FAITH)) {
-            moveCross(1,new ArrayList<Player>(){{add(modelGame.getActivePlayer());}});
+            moveCross(1, new ArrayList<>() {{
+                add(modelGame.getActivePlayer());
+            }});
             resourceList.remove(Resource.FAITH);
         }
 
@@ -71,7 +73,7 @@ public class DoActionPlayer {
 
                 //se è attiva salvo la risorsa in cui devo trasformarla
                 for (Resource res : resourcesWhite.keySet()) {
-                    if (resourcesWhite.get(res) == 0) {
+                    if (resourcesWhite.get(res) == 1) {
                         resource = res;
                     }
                 }
@@ -187,7 +189,7 @@ public class DoActionPlayer {
 
             //salvo la risorsa in cui devo trasformarla
             for (Resource res : resourcesWhite.keySet()) {
-                if (resourcesWhite.get(res) == 0) {
+                if (resourcesWhite.get(res) == 1) {
                     resourceOne = res;
                 }
             }
@@ -196,7 +198,7 @@ public class DoActionPlayer {
 
             //salvo la risorsa in cui devo trasformarla
             for (Resource res : resourcesWhite.keySet()) {
-                if (resourcesWhite.get(res) == 0) {
+                if (resourcesWhite.get(res) == 1) {
                     resourceTwo = res;
                 }
             }
