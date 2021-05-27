@@ -130,8 +130,7 @@ public class BuyFromMarketPhase extends Phase {
                     }while (choice!= 2 && choice!=1);
 
                     cli.getClientSocket().getView().getResourcesBoughtFromMarker().remove(resource);
-                    cli.getClientSocket().getView().getResourcesBoughtFromMarker().remove(noMoreWhite.get(choice-1));
-
+                    cli.getClientSocket().getView().getResourcesBoughtFromMarker().add(noMoreWhite.get(choice-1));
                 }
             }
         }
