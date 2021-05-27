@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gamePhases.myTurnPhases;
 
+import com.google.gson.stream.JsonToken;
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.CLI.componentPrinter.ResourcesBoughtPrinter;
 import it.polimi.ingsw.client.gamePhases.Phase;
@@ -22,6 +23,7 @@ public class ActiveProductionZonePhase extends Phase {
         ArrayList<Integer> productionZones =new ArrayList<Integer>();
         ArrayList<Resource> resourcesRequires = new ArrayList<Resource>();
         ArrayList<Resource> resourcesEnsures = new ArrayList<Resource>();
+        ArrayList<Resource> leaderProduction = new ArrayList<>();
 
         int numPZ = cli.getClientSocket().getView().getDashboard().getSerializableProductionZones().length +
                 cli.getClientSocket().getView().getDashboard().getSerializableLeaderProductionZones().length;
@@ -36,6 +38,7 @@ public class ActiveProductionZonePhase extends Phase {
             do{
                 try{
                     position = scanner.nextInt();
+
                 }catch (InputMismatchException e){
                     position = 6;
                     scanner.nextLine();
@@ -51,8 +54,40 @@ public class ActiveProductionZonePhase extends Phase {
             }
 
             //Add the production if the position is valid
-            if(!productionZones.contains(position))
+            if(!productionZones.contains(position)){
                 productionZones.add(position);
+                if(position == 3 || position == 4){
+                    //chiedo la risorsa
+                    System.out.println(Constants.ANSI_CYAN + "Choose which resource will be produced: " + Constants.ANSI_RESET);
+                    System.out.println("1) "+Resource.COIN.label+"\t2) "+Resource.ROCK.label+"\t3) "+Resource.SERVANT.label+"\t4) "+Resource.SHIELD.label);
+                    System.out.print(Constants.ANSI_CYAN + "> " + Constants.ANSI_RESET);
+                    int resourceChoice;
+                    do{
+                        try{
+                            resourceChoice = scanner.nextInt();
+                        }catch (InputMismatchException e){
+                            resourceChoice = 6;
+                            System.out.println(Constants.ANSI_RED + "Error! Resources not found" + Constants.ANSI_RESET);
+                            System.out.print(Constants.ANSI_CYAN + "> " + Constants.ANSI_RESET);
+                        }
+                    }while (resourceChoice<1 || resourceChoice>4);
+                    //aggiungo le risorse alla lista da mandare
+                    switch (resourceChoice){
+                        case 1:
+                            leaderProduction.add(Resource.COIN);
+                            break;
+                        case 2:
+                            leaderProduction.add(Resource.ROCK);
+                            break;
+                        case 3:
+                            leaderProduction.add(Resource.SERVANT);
+                            break;
+                        case 4:
+                            leaderProduction.add(Resource.SHIELD);
+                            break;
+                    }
+                }
+            }
             else
                 System.out.println(Constants.ANSI_RED + "Position already chose" + Constants.ANSI_RESET);
 
@@ -102,7 +137,7 @@ public class ActiveProductionZonePhase extends Phase {
 
         //Send activeProductionMessage to the server
         cli.getClientSocket().send(new ActiveProductionMessage("Active production zones" , productionZones ,
-                activeBasic , resourcesRequires , resourcesEnsures));
+                activeBasic , resourcesRequires , resourcesEnsures, leaderProduction));
 
         //Wait for a response
         synchronized (this){
