@@ -16,13 +16,7 @@ public class StockPrinter {
         ArrayList<Resource[]> boxes = serializableStock.getBoxes();
 
         System.out.println(Constants.ANSI_GREEN + "\n" +
-                "   _____ _             _    \n" +
-                "  / ____| |           | |   \n" +
-                " | (___ | |_ ___   ___| | __\n" +
-                "  \\___ \\| __/ _ \\ / __| |/ /\n" +
-                "  ____) | || (_) | (__|   < \n" +
-                " |_____/ \\__\\___/ \\___|_|\\_\\\n" +
-                "                            \n" +
+                Constants.stockTitle +
                 Constants.ANSI_RESET);
 
         ArrayList<String>[] stock = new ArrayList[8];
