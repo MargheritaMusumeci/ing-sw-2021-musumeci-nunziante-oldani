@@ -125,4 +125,11 @@ public class BasicProductionController implements Controller {
         confirm.setVisible(true);
     }
 
+    public void cancel(ActionEvent actionEvent) {
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.changeScene();
+    }
+
 }

@@ -19,7 +19,7 @@
             <Font size="25.0" />
          </font>
       </Text>
-      <Button fx:id="confirm" layoutX="390.0" layoutY="561.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <Button fx:id="confirm" layoutX="391.0" layoutY="522.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
       <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="199.0" layoutY="205.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
             <RadioButton fx:id="rock1" mnemonicParsing="false">
@@ -127,5 +127,6 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
+      <Button fx:id="cancel" layoutX="395.0" layoutY="561.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
    </children>
 </Pane>
