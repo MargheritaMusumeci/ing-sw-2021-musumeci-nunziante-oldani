@@ -21,15 +21,7 @@ public class LeaderCardsPrinter {
 
     public static void print(ArrayList<SerializableLeaderCard> serializableLeaderCards){
 
-        System.out.println(Constants.ANSI_PURPLE + "\n" +
-                "  _                    _              _____              _     \n" +
-                " | |                  | |            / ____|            | |    \n" +
-                " | |     ___  __ _  __| | ___ _ __  | |     __ _ _ __ __| |___ \n" +
-                " | |    / _ \\/ _` |/ _` |/ _ \\ '__| | |    / _` | '__/ _` / __|\n" +
-                " | |___|  __/ (_| | (_| |  __/ |    | |___| (_| | | | (_| \\__ \\\n" +
-                " |______\\___|\\__,_|\\__,_|\\___|_|     \\_____\\__,_|_|  \\__,_|___/\n" +
-                "                                                               \n" +
-                Constants.ANSI_RESET);
+        System.out.println(Constants.ANSI_PURPLE + "\n" +  leaderCardTitle + Constants.ANSI_RESET);
 
         ArrayList<ArrayList<String>[]> deck = new ArrayList<>();
         for (SerializableLeaderCard serializableLeaderCard : serializableLeaderCards){

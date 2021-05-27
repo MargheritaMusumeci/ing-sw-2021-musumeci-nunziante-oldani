@@ -18,20 +18,7 @@ public class ProductionSectionPrinter {
         SerializableProductionZone[] serializableProductionZones = serializableDashboard.getSerializableProductionZones();
         SerializableLeaderProductionZone[] serializableLeaderProductionZone= serializableDashboard.getSerializableLeaderProductionZones();
 
-        System.out.println(Constants.ANSI_PURPLE + "\n" +
-                "  _____               _            _   _             \n" +
-                " |  __ \\             | |          | | (_)            \n" +
-                " | |__) | __ ___   __| |_   _  ___| |_ _  ___  _ __  \n" +
-                " |  ___/ '__/ _ \\ / _` | | | |/ __| __| |/ _ \\| '_ \\ \n" +
-                " | |   | | | (_) | (_| | |_| | (__| |_| | (_) | | | |\n" +
-                " |_|___|_|  \\___/ \\__,_|\\__,_|\\___|\\__|_|\\___/|_| |_|\n" +
-                " |___  /                                             \n" +
-                "    / / ___  _ __   ___                              \n" +
-                "   / / / _ \\| '_ \\ / _ \\                             \n" +
-                "  / /_| (_) | | | |  __/                             \n" +
-                " /_____\\___/|_| |_|\\___|                             \n" +
-                "                                                     \n" +
-                Constants.ANSI_RESET);
+        System.out.println(Constants.ANSI_PURPLE + "\n" + Constants.productionZoneTitle + Constants.ANSI_RESET);
         ArrayList<ArrayList<String>[]> setOfProductionZones = new ArrayList<>();
 
         //aggiungo tutte le carte che ci sono nelle evolution section

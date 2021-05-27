@@ -10,13 +10,7 @@ public class ResourcesBoughtPrinter {
 
         if(index == 0){
             System.out.println(Constants.ANSI_BLUE + "\n" +
-                    "  _____                                         \n" +
-                    " |  __ \\                                        \n" +
-                    " | |__) |___  ___  ___  _   _ _ __ ___ ___  ___ \n" +
-                    " |  _  // _ \\/ __|/ _ \\| | | | '__/ __/ _ \\/ __|\n" +
-                    " | | \\ \\  __/\\__ \\ (_) | |_| | | | (_|  __/\\__ \\\n" +
-                    " |_|  \\_\\___||___/\\___/ \\__,_|_|  \\___\\___||___/\n" +
-                    "                                                \n" +
+                    Constants.resourcesTitle +
                     Constants.ANSI_RESET);
         }
 

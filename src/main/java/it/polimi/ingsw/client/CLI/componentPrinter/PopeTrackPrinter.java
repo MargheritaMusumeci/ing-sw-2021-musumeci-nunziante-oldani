@@ -16,15 +16,7 @@ public class PopeTrackPrinter {
         ArrayList<char[]> popeTrack = new ArrayList<>();
         boolean lorenzoInTheSamePosition = false;
 
-        System.out.println(Constants.ANSI_BLUE + "\n" +
-                "  _____                   _______             _    \n" +
-                " |  __ \\                 |__   __|           | |   \n" +
-                " | |__) |__  _ __   ___     | |_ __ __ _  ___| | __\n" +
-                " |  ___/ _ \\| '_ \\ / _ \\    | | '__/ _` |/ __| |/ /\n" +
-                " | |  | (_) | |_) |  __/    | | | | (_| | (__|   < \n" +
-                " |_|   \\___/| .__/ \\___|    |_|_|  \\__,_|\\___|_|\\_\\\n" +
-                "            | |                                    \n" +
-               Constants.ANSI_RESET);
+        System.out.println(Constants.ANSI_BLUE + "\n" + Constants.popeTrackTitle + Constants.ANSI_RESET);
 
         try{
             Scanner s = new Scanner(file);

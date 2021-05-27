@@ -170,14 +170,7 @@ public class MarketPrinter {
         market[8].add(space);
         market[8].add(space);
 
-        System.out.println(ANSI_GREEN + "\n" +
-                        "  __  __            _        _   \n" +
-                        " |  \\/  |          | |      | |  \n" +
-                        " | \\  / | __ _ _ __| | _____| |_ \n" +
-                        " | |\\/| |/ _` | '__| |/ / _ \\ __|\n" +
-                        " | |  | | (_| | |  |   <  __/ |_ \n" +
-                        " |_|  |_|\\__,_|_|  |_|\\_\\___|\\__|\n" +
-                        ANSI_RESET);
+        System.out.println(ANSI_GREEN + "\n" + marketTitle + ANSI_RESET);
 
         for (int i=0; i< market.length; i++){
             for (int j=0; j<market[i].size(); j++){

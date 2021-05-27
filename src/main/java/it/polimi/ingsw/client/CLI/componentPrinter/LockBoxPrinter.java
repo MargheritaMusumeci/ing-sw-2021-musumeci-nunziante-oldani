@@ -15,13 +15,7 @@ public class LockBoxPrinter {
         String vertical = "║";
 
         System.out.println(Constants.ANSI_CYAN + "\n" +
-                "  _                _      ____            \n" +
-                " | |              | |    |  _ \\           \n" +
-                " | |     ___   ___| | __ | |_) | _____  __\n" +
-                " | |    / _ \\ / __| |/ / |  _ < / _ \\ \\/ /\n" +
-                " | |___| (_) | (__|   <  | |_) | (_) >  < \n" +
-                " |______\\___/ \\___|_|\\_\\ |____/ \\___/_/\\_\\\n" +
-                "                                          \n" +
+                Constants.lockBoxTitle +
                 Constants.ANSI_RESET);
 
         ArrayList<String>[] locBox = new ArrayList[3];

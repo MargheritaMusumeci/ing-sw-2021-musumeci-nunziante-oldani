@@ -12,21 +12,7 @@ import static it.polimi.ingsw.utils.Constants.*;
 public class EvolutionSectionPrinter {
 
     public static void print(SerializableEvolutionSection serializableEvolutionSection){
-        System.out.println(ANSI_YELLOW + "\n" +
-                "  ______          _       _   _             \n" +
-                " |  ____|        | |     | | (_)            \n" +
-                " | |____   _____ | |_   _| |_ _  ___  _ __  \n" +
-                " |  __\\ \\ / / _ \\| | | | | __| |/ _ \\| '_ \\ \n" +
-                " | |___\\ V / (_) | | |_| | |_| | (_) | | | |\n" +
-                " |______\\_/ \\___/|_|\\__,_|\\__|_|\\___/|_| |_|\n" +
-                "   _____           _   _                    \n" +
-                "  / ____|         | | (_)                   \n" +
-                " | (___   ___  ___| |_ _  ___  _ __         \n" +
-                "  \\___ \\ / _ \\/ __| __| |/ _ \\| '_ \\        \n" +
-                "  ____) |  __/ (__| |_| | (_) | | | |       \n" +
-                " |_____/ \\___|\\___|\\__|_|\\___/|_| |_|       \n" +
-                "                                            \n" +
-                ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\n" + evolutionSectionTitle + ANSI_RESET);
 
         for (int x=0; x<serializableEvolutionSection.getEvolutionCards().length; x++){
             ArrayList<ArrayList<String>[]> line = createLines(serializableEvolutionSection.getEvolutionCards()[x]);
