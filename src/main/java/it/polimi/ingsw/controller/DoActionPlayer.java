@@ -16,7 +16,6 @@ import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**

@@ -9,7 +9,6 @@ import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Sphere;
 
 import java.util.ArrayList;
@@ -31,10 +30,10 @@ public class Initializer {
         Resource[][] marketModel = gui.getView().getMarket().getMarket();
         for(int i = 0; i<3; i++){
             for(int j = 0; j<4; j++){
-                market[i][j].setMaterial(printer.colorFromResource(marketModel[i][j]));
+                market[i][j].setMaterial(printer.materialFromResource(marketModel[i][j]));
             }
         }
-        external.setMaterial(printer.colorFromResource(gui.getView().getMarket().getExternalResource()));
+        external.setMaterial(printer.materialFromResource(gui.getView().getMarket().getExternalResource()));
     }
 
     public void initEvolutionSection(ArrayList<ArrayList<ImageView>> eCards) {

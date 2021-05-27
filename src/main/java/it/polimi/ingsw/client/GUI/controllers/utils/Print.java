@@ -58,7 +58,7 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
-    public Material colorFromResource(Resource resource) {
+    public Material materialFromResource(Resource resource) {
 
         PhongMaterial material = new PhongMaterial();
         switch (resource) {
@@ -106,6 +106,25 @@ public class Print {
         return null;
     }
 
+    public Color colorFromResource(Resource resource){
+        switch (resource) {
+            case COIN: {
+               return (Color.rgb(247, 210, 57));
+            }
+            case ROCK: {
+                return (Color.rgb(137, 135, 130));
+            }
+            case SHIELD: {
+                return (Color.rgb(32, 178, 227));
+            }
+            case SERVANT: {
+                return (Color.rgb(110, 98, 162));
+            }
+            default: {
+              return Color.WHITE;
+            }
+        }
+    }
 
     public Image togetherPopePosition() {
         URL url = null;

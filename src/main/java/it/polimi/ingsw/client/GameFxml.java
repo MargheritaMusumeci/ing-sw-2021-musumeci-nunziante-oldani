@@ -17,6 +17,7 @@ public enum GameFxml {
     PRODUCTION_ZONE_CHOICE("production_zone_choice.fxml"),
     ENDGAME("end_game.fxml"),
     OTHERTURN("view.fxml"),
+    CHOOSEWHITERESOURCES("white_ball_choose.fxml"),
     OTHERVIEW("enemyView.fxml");
 
     private GamePhases gamePhases;
@@ -38,6 +39,7 @@ public enum GameFxml {
         PRODUCTION_ZONE_CHOICE.gamePhases=GamePhases.PRODUCTIONZONECHOICE;
         ENDGAME.gamePhases=GamePhases.ENDGAME;
         OTHERVIEW.gamePhases=GamePhases.SEEOTHERVIEW;
+        CHOOSEWHITERESOURCES.gamePhases=GamePhases.CHOOSEWHITEBALL;
         OTHERTURN.gamePhases = GamePhases.OTHERPLAYERSTURN;
     }
 

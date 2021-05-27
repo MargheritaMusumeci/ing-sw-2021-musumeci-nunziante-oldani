@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -119,9 +120,21 @@ public class MarketController implements Controller {
             confirm.setVisible(false);
             cancel.setVisible(false);
         } else {
+            int noMoreWhite=0;
+            for(int i = 0; i< gui.getView().getLeaderCards().size();i++){
+                if(gui.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) && gui.getView().getLeaderCards().get(i).isActive()){
+                noMoreWhite++;
+                }
+            }
+
             gui.getClientSocket().send(new BuyFromMarketMessage("BUY", position, row));
-            gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
             gui.setOldScene(gui.getScene(GameFxml.MARKET.s));
+
+            if(noMoreWhite==2){
+                gui.setCurrentScene(gui.getScene(GameFxml.CHOOSEWHITERESOURCES.s));
+                gui.setGamePhase(GamePhases.CHOOSEWHITEBALL);
+            }
+            gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
             gui.setGamePhase(GamePhases.STORERESOURCES);
         }
     }
