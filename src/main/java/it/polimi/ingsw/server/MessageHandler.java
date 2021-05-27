@@ -174,9 +174,11 @@ public class MessageHandler {
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
-    /*public void handleActionMessage(UseLeaderCardMessage message){
+    /*
+    public void handleActionMessage(UseLeaderCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
-    }*/
+    }
+     */
 
     public void handleActionMessage(RequestResourcesBoughtFromMarketMessage message){
         if(checkAction()) scc.send(new SendResourcesBoughtFromMarket("Risorse",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
