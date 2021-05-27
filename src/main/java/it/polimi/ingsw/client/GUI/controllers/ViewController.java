@@ -3,7 +3,10 @@ package it.polimi.ingsw.client.GUI.controllers;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
+import it.polimi.ingsw.client.GameFxml;
+import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.model.game.Resource;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -336,7 +339,24 @@ public class ViewController implements Controller {
         productionZones[0].addAll(Arrays.asList(production1, production2, production3));
         productionZones[1].addAll(Arrays.asList(production11, production21, production31));
         productionZones[2].addAll(Arrays.asList(production12, production22, production32));
-
     }
 
+    @FXML
+    public void showEnemy(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
+
+        gui.setOtherView(button.getText());
+
+        if(!gui.getOtherView().equals(gui.getNickname())){
+            gui.setGamePhase(GamePhases.SEEOTHERVIEW);
+            gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
+            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.changeScene();
+        }else{
+            gui.setGamePhase(GamePhases.STARTGAME);
+            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setOldScene(gui.getScene(GameFxml.OTHERVIEW.s));
+            gui.changeScene();
+        }
+    }
 }

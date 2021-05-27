@@ -1,5 +1,22 @@
 Musumeci:
 
+LEADER CARD:
+
+-NO MORE WHITE --> se solo una è attiva il controller restituisce l'array di resources già modificato
+    altrimenti restituisce le biglie pianche pescate e store resources non può
+    ricevere biglie bianche --> nack
+    ricevere un numero superiore di biglie
+    ricevere biglie diverse da quelle che potevo trasformare
+    -numero delle biglie x ammesse <= numero delle biglie x + bianche
+    -idem y
+    -x+y = x+y+bianche
+
+-SALES --> sempre attiva
+-STOCK --> sempre attiva
+
+-PRODUCTION --> la devo selezionare per attivarla
+
+
 -fine gioco
 -turno degli avversari
 -visualizzare dashbord degli avversari

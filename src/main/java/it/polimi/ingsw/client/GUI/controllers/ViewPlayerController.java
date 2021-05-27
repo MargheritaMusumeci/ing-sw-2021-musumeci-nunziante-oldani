@@ -431,17 +431,4 @@ public class ViewPlayerController extends ViewController {
             gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
         }
     }
-
-    public void showEnemy(ActionEvent actionEvent) {
-        Button button = (Button) actionEvent.getSource();
-
-        gui.setOtherView(button.getText());
-
-        if(!gui.getOtherView().equals(gui.getNickname())){
-            gui.setGamePhase(GamePhases.SEEOTHERVIEW);
-            gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
-            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-            gui.changeScene();
-        }
-    }
 }

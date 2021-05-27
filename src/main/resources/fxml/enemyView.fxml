@@ -227,10 +227,10 @@
             <Image url="@../images/popeTrack/quadrato_rosso.png" />
          </image>
       </ImageView>
-      <Button fx:id="enemy1" layoutX="463.0" layoutY="648.0" mnemonicParsing="false" text="Nickname" visible="false" />
-      <Button fx:id="enemy2" layoutX="344.0" layoutY="648.0" mnemonicParsing="false" text="Nickname" visible="false" />
-      <Button fx:id="enemy3" layoutX="573.0" layoutY="648.0" mnemonicParsing="false" text="Nickname" visible="false" />
-      <Button fx:id="enemy0" layoutX="715.0" layoutY="648.0" mnemonicParsing="false" text="Nickname" visible="false" />
+      <Button fx:id="enemy1" layoutX="463.0" layoutY="648.0" mnemonicParsing="false" onAction="#showEnemy" text="Nickname" visible="false" />
+      <Button fx:id="enemy2" layoutX="344.0" layoutY="648.0" mnemonicParsing="false" onAction="#showEnemy" text="Nickname" visible="false" />
+      <Button fx:id="enemy3" layoutX="573.0" layoutY="648.0" mnemonicParsing="false" onAction="#showEnemy" text="Nickname" visible="false" />
+      <Button fx:id="enemy0" layoutX="715.0" layoutY="648.0" mnemonicParsing="false" onAction="#showEnemy" text="Nickname" visible="false" />
       <ImageView fitHeight="255.0" fitWidth="213.0" layoutX="52.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/market.png" />
