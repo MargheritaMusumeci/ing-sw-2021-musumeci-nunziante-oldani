@@ -318,7 +318,8 @@ public class DoActionPlayer {
      * @throws ActionAlreadyDoneException if the player has already done an action in this turn
      */
     public void activeProductionZones(ArrayList<Integer> positions , boolean activeBasic ,
-                                      ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures)
+                                      ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures ,
+                                      ArrayList<Resource> leaderResources)
             throws NotEnoughResourcesException , ExcessOfPositionException , BadParametersException ,
             NonCompatibleResourceException , ActionAlreadyDoneException{
 
@@ -333,6 +334,8 @@ public class DoActionPlayer {
         int numOfProductionZones = modelGame.getActivePlayer().getDashboard().getProductionZone().length
                 + modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size();
 
+        int numOfLeaderProductionActivated = 0;
+
         if(positions != null){
             //Check if the position are valid and if there isn't equal position
             for(int i = 0 ; i < positions.size() ; i++){
@@ -342,6 +345,20 @@ public class DoActionPlayer {
                     if(i != j && positions.get(i).equals(positions.get(j)))
                         throw new BadParametersException("Cannot activate the same production zone twice");
                 }
+                if(positions.get(i) >  modelGame.getActivePlayer().getDashboard().getProductionZone().length){
+                    numOfLeaderProductionActivated++;
+                }
+            }
+        }
+
+        if(numOfLeaderProductionActivated > 0 && (leaderResources == null || leaderResources.size() == 0))
+            throw new BadParametersException("Error in association between leader production resources and active leader production");
+        if(numOfLeaderProductionActivated == 0 && leaderResources.size() > 0)
+            throw new BadParametersException("Error in association between leader production resources and active leader production");
+
+        if(leaderResources != null){
+            if(numOfLeaderProductionActivated != leaderResources.size()){
+                throw new BadParametersException("Error in association between leader production resources and active leader production");
             }
         }
 
@@ -425,31 +442,50 @@ public class DoActionPlayer {
                 card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
 
             HashMap<Resource , Integer> cardRequires = card.getRequires();
-            HashMap<Resource , Integer> cardProduction = card.getProduction();
+            HashMap<Resource , Integer> cardProduction;
 
             //Take resources from Stock and LockBox
             takeResources(cardRequires);
 
-            //Add the resources produced by the activation of this production zone in LockBox
-            for(Resource resource : cardProduction.keySet()){
-                try {
-                    if(!resource.equals(Resource.FAITH))
-                        //Add the resources
-                        modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , cardProduction.get(resource));
-                    else{
-                        //Increment the pope track position
-                        ArrayList<Player> player = new ArrayList<Player>();
-                        player.add(((Player) modelGame.getActivePlayer()));
-                        moveCross(cardProduction.get(Resource.FAITH) , player);
+            if(card instanceof EvolutionCard){
+                cardProduction = card.getProduction();
+
+                //Add the resources produced by the activation of this production zone in LockBox
+                for(Resource resource : cardProduction.keySet()){
+                    try {
+                        if(!resource.equals(Resource.FAITH))
+                            //Add the resources
+                            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , cardProduction.get(resource));
+                        else{
+                            //Increment the pope track position
+                            ArrayList<Player> player = new ArrayList<Player>();
+                            player.add(((Player) modelGame.getActivePlayer()));
+                            moveCross(cardProduction.get(Resource.FAITH) , player);
+                        }
+                    }catch (NotEnoughResourcesException e){
+                        //Impossible be here
                     }
-                }catch (NotEnoughResourcesException e){
-                    //Impossible be here
                 }
+                card.setActive(true);
             }
+
+            //TODO how say the leader production is been activated?
             if(card instanceof EvolutionCard)
                 card.setActive(true);
             else
                 ((LeaderCard) card).setUsed(true);
+        }
+
+        //If a leader production is been activated
+        if(numOfLeaderProductionActivated > 0){
+            //Increment the pope track position
+            ArrayList<Player> player = new ArrayList<Player>();
+            player.add(((Player) modelGame.getActivePlayer()));
+            moveCross(numOfLeaderProductionActivated , player);
+
+            for(Resource resource : leaderResources){
+                modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , 1);
+            }
         }
     }
 

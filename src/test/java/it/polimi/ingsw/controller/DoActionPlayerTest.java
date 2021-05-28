@@ -372,7 +372,7 @@ public class DoActionPlayerTest {
         }
 
         try {
-            doActionPlayer.activeProductionZones(null , false , null , null);
+            doActionPlayer.activeProductionZones(null , false , null , null , null);
             fail();
         }catch (BadParametersException e){
             assertTrue(true);
@@ -385,7 +385,7 @@ public class DoActionPlayerTest {
         positions.add(1);
 
         try {
-            doActionPlayer.activeProductionZones(positions , false , null , null);
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
             fail();
         }catch (ExcessOfPositionException e){
             assertTrue(true);
@@ -394,7 +394,7 @@ public class DoActionPlayerTest {
         }
 
         try {
-            doActionPlayer.activeProductionZones(null , true , null , null);
+            doActionPlayer.activeProductionZones(null , true , null , null , null);
             fail();
         }catch (BadParametersException e){
             assertTrue(true);
@@ -408,7 +408,7 @@ public class DoActionPlayerTest {
             ArrayList<Resource> resourcesEnsures = new ArrayList<>();
             resourcesRequire.add(Resource.SERVANT);
 
-            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures);
+            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures , null);
             fail();
         }catch (NonCompatibleResourceException e){
             assertTrue(true);
@@ -422,7 +422,7 @@ public class DoActionPlayerTest {
             resourcesRequire.add(Resource.COIN);
             ArrayList<Resource> resourcesEnsures = new ArrayList<>();
 
-            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures);
+            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures , null);
             fail();
         }catch (NonCompatibleResourceException e){
             assertTrue(true);
@@ -437,7 +437,7 @@ public class DoActionPlayerTest {
             resourcesRequire.add(Resource.COIN);
             ArrayList<Resource> resourcesEnsures = new ArrayList<>();
 
-            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures);
+            doActionPlayer.activeProductionZones(null , true , resourcesRequire , resourcesEnsures , null);
             fail();
         }catch (NonCompatibleResourceException e){
             assertTrue(true);
@@ -449,7 +449,7 @@ public class DoActionPlayerTest {
             positions = new ArrayList<>();
             positions.add(1);
 
-            doActionPlayer.activeProductionZones(positions , false , null , null);
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
             fail();
         }catch (BadParametersException e){
             assertTrue(true);
@@ -462,7 +462,7 @@ public class DoActionPlayerTest {
             positions.add(2);
             positions.add(2);
 
-            doActionPlayer.activeProductionZones(positions , false , null , null);
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
             fail();
         }catch (BadParametersException e){
             assertTrue(true);
@@ -474,7 +474,7 @@ public class DoActionPlayerTest {
             positions = new ArrayList<>();
             positions.add(2);
 
-            doActionPlayer.activeProductionZones(positions , false , null , null);
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
         }catch (NotEnoughResourcesException e){
             assertTrue(true);
         } catch (NonCompatibleResourceException | ExcessOfPositionException | ActionAlreadyDoneException e) {
@@ -490,7 +490,7 @@ public class DoActionPlayerTest {
             int index = player.getDashboard().getPopeTrack().getGamerPosition().getIndex();
             assertEquals(index , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
             player.getDashboard().getLockBox().setAmountOf(Resource.COIN , 1);
-            doActionPlayer.activeProductionZones(positions , false , null , null);
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
             assertEquals(index+1 , player.getDashboard().getPopeTrack().getGamerPosition().getIndex());
             //abbiamo inizializzato il lockbox
             //assertEquals(0 , player.getDashboard().getLockBox().getAmountOf(Resource.COIN));

@@ -107,7 +107,8 @@ public abstract class TurnHandler {
                 actionHandler.activeProductionZones(message.getPositions(),
                         (message).isActiveBasic(),
                         (message).getResourcesRequires(),
-                        (message).getResourcesEnsures());
+                        (message).getResourcesEnsures(),
+                        message.getLeaderResources());
                 return new ACKMessage("OK");
             } catch (NonCompatibleResourceException e) {
                 return new NACKMessage("Too many or too few resources for the activation of the basic production");

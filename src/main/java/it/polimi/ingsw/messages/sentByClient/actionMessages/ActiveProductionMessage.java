@@ -17,6 +17,7 @@ public class ActiveProductionMessage extends ActionMessage{
 
     private ArrayList<Resource> resourcesRequires;
     private ArrayList<Resource> resourcesEnsures;
+
     private ArrayList<Resource> leaderResources;
 
     public ActiveProductionMessage(String message,ArrayList<Integer> positions , boolean activeBasic ,
@@ -61,5 +62,13 @@ public class ActiveProductionMessage extends ActionMessage{
 
     public void handle(MessageHandler messageHandler){
         messageHandler.handleActionMessage(this);
+    }
+
+    public ArrayList<Resource> getLeaderResources() {
+        return leaderResources;
+    }
+
+    public void setLeaderResources(ArrayList<Resource> leaderResources) {
+        this.leaderResources = leaderResources;
     }
 }
