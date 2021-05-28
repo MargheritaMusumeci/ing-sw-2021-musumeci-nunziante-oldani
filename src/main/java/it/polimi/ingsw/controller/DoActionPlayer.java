@@ -311,6 +311,7 @@ public class DoActionPlayer {
      * @param activeBasic is true if the player wants to activate the basic production zone
      * @param resourcesRequires is an array list that contains the resources to use in the basic production
      * @param resourcesEnsures is an array list that contains the new resources the player wants after the basic production
+     * @param leaderResources is an array list that contains the production of the leader card zones the player wants
      * @throws NotEnoughResourcesException if the player cannot activate all the production zone specified
      * @throws ExcessOfPositionException if a position specified doesn't exist
      * @throws BadParametersException if there is a repetition of the same production zone in positions
@@ -329,6 +330,8 @@ public class DoActionPlayer {
             throw new ActionAlreadyDoneException("Cannot do an other action");
 
         if(positions == null && !activeBasic)
+            throw new BadParametersException("No production zone specified");
+        if(positions != null && positions.size() == 0 && !activeBasic)
             throw new BadParametersException("No production zone specified");
 
         int numOfProductionZones = modelGame.getActivePlayer().getDashboard().getProductionZone().length
@@ -433,6 +436,7 @@ public class DoActionPlayer {
 
         //Active the base production -> can I do this operation here without call a method?
         if(activeBasic){
+            //TODO call directly here the method in dashboard -> then add some tests in the test
             activeBasicProduction(resourcesRequires , resourcesEnsures);
         }
 
@@ -667,6 +671,7 @@ public class DoActionPlayer {
 
     /**
      * Private method that take the resources from Stock before and then from Stock automatically
+     * The controller calls this method only after checking if the resources required are enough
      * @param requires is an HashMap that contains the resources to remove
      */
     private void takeResources(HashMap<Resource , Integer> requires) throws NotEnoughResourcesException {
@@ -697,24 +702,10 @@ public class DoActionPlayer {
 
     }
 
+    //TODO this method can't be in activeProductionZones directly?
+    private void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
 
-    /*
-    /**
-     * there is a difference between active and use leaderCard
-     * STOK-> always active
-     * PRODUCTION,MARKET AND SALE --> could be chose
-     * @param  position
-
-    public void useLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException , ActiveLeaderCardException{
-        ((HumanPlayer) modelGame.getActivePlayer()).useLeaderCard(position);
-    }
-     */
-
-    public void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
-
-        System.out.println("In activeBasicProduction in controller");
-        if(requires == null || ensures == null || requires.size()!=2 || ensures.size()!=1) throw new NonCompatibleResourceException("Too many or too few resources");
+        if(requires == null || ensures == null || requires.size() != 2 || ensures.size() != 1) throw new NonCompatibleResourceException("Too many or too few resources");
         modelGame.getActivePlayer().getDashboard().activeBasicProduction(requires.get(0),requires.get(1),ensures.get(0));
-        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
     }
 }

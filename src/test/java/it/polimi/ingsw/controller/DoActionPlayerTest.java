@@ -8,6 +8,7 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMess
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
+import it.polimi.ingsw.model.board.NormalProductionZone;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -20,6 +21,7 @@ import it.polimi.ingsw.model.players.Player;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -194,10 +196,9 @@ public class DoActionPlayerTest {
         }
     }
 
-    /* TODO
     @Test
     public void testActiveBasicProduction(){
-        HumanPlayer player1 = new HumanPlayer("marghe", true);
+        HumanPlayer player1 = new HumanPlayer("margherita", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
@@ -215,7 +216,7 @@ public class DoActionPlayerTest {
 
         ArrayList<Integer> empty= null;
 
-        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires);
+        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires,null);
         ((ActiveProductionMessage)message).setActiveBasic(true);
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
@@ -241,8 +242,6 @@ public class DoActionPlayerTest {
 
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
     }
-
-     */
 
     @Test
     public void testDiscardLeaderCard() {
@@ -327,7 +326,6 @@ public class DoActionPlayerTest {
         assertEquals(1 , modelGame.getActivePlayer().getDashboard().getLeaderCards().size());
         assertEquals(actualPosition + 1 , modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex());
     }
-
 
     @Test
     public void testActiveProductionZone() {
@@ -703,7 +701,237 @@ public class DoActionPlayerTest {
         assertTrue(modelGame.getActivePlayer().getDashboard().getProductionZone()[1] != null);
     }
 
+    @Test
+    public void testTakeResources(){
+        HumanPlayer player = new HumanPlayer("margherita", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(player2);
+        Game modelGame = new Game(players);
 
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        try {
+            //Card 2 0 : requirement = 1 Coin
+            player.getDashboard().getProductionZone()[2].addCard(modelGame.getEvolutionSection().buy(2 ,0));
+            //Card 2 1 : requirement = 1 shield
+            player.getDashboard().getProductionZone()[1].addCard(modelGame.getEvolutionSection().buy(2 ,1));
+
+            //Case with all the resources in LockBox
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN , 1);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD , 1);
+
+            System.out.println("Number of resources in stock: " +
+                    modelGame.getActivePlayer().getDashboard().getStock().getTotalNumberOfResources());
+            System.out.println("Number of resources in lockBox: " +
+                    modelGame.getActivePlayer().getDashboard().getLockBox().getTotalAmountOfResources());
+        } catch (InvalidPlaceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        } catch (NotEnoughResourcesException e) {
+            fail();
+        }
+
+        HashMap<Resource , Integer> oldResources = new HashMap<>();
+        ArrayList<Resource> resourceTypes = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.SERVANT , Resource.SHIELD , Resource.ROCK));
+
+        //Save the quantity of resources before  the production
+        for(Resource resource : resourceTypes){
+            oldResources.put(resource , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource) +
+                    modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource));
+        }
+
+        try {
+            ArrayList<Integer> positions = new ArrayList<>(Arrays.asList(1 , 2));
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
+        }catch(Exception e){
+            fail();
+        }
+
+        //Calculate the resources after the activation of the production zones
+        //Take the requires
+        for(NormalProductionZone normalProductionZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
+            if(normalProductionZone != null && normalProductionZone.getCard() != null){
+                for(Resource resource : normalProductionZone.getCard().getRequires().keySet()){
+                    oldResources.put(resource , oldResources.get(resource) - normalProductionZone.getCard().getRequires().get(resource));
+                }
+            }
+        }
+        //Add the production
+        for(NormalProductionZone normalProductionZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
+            if(normalProductionZone != null && normalProductionZone.getCard() != null){
+                for(Resource resource : normalProductionZone.getCard().getRequires().keySet()){//Requires because in production there is the faith too
+                    oldResources.put(resource , oldResources.get(resource) + normalProductionZone.getCard().getProduction().get(resource));
+                }
+            }
+        }
+
+        //Verify that the resources taken from the stockBox and LockBox are right
+        for(Resource resource : resourceTypes){
+            assertEquals(oldResources.get(resource), (Integer) (modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource) + modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource)));
+        }
+    }
+
+    @Test
+    public void testTakeResources2(){
+        HumanPlayer player = new HumanPlayer("margherita", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        try {
+            //Card 2 0 : requirement = 1 Coin
+            player.getDashboard().getProductionZone()[2].addCard(modelGame.getEvolutionSection().buy(2 ,0));
+            //Card 2 1 : requirement = 1 shield
+            player.getDashboard().getProductionZone()[1].addCard(modelGame.getEvolutionSection().buy(2 ,1));
+
+            //Case with all the resources in Stock
+            modelGame.getActivePlayer().getDashboard().getStock().addResources( 0 , 1 , Resource.COIN);
+            modelGame.getActivePlayer().getDashboard().getStock().addResources( 1 , 1 , Resource.SHIELD);
+
+            System.out.println("Number of resources in stock: " +
+                    modelGame.getActivePlayer().getDashboard().getStock().getTotalNumberOfResources());
+            System.out.println("Number of resources in lockBox: " +
+                    modelGame.getActivePlayer().getDashboard().getLockBox().getTotalAmountOfResources());
+        } catch (InvalidPlaceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        }catch (ResourceAlreadyPresentException e) {
+            fail();
+        } catch (NotEnoughSpaceException e) {
+            fail();
+        } catch (OutOfBandException e) {
+            fail();
+        }
+
+        HashMap<Resource , Integer> oldResources = new HashMap<>();
+        ArrayList<Resource> resourceTypes = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.SERVANT , Resource.SHIELD , Resource.ROCK));
+
+        //Save the quantity of resources before  the production
+        for(Resource resource : resourceTypes){
+            oldResources.put(resource , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource) +
+                    modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource));
+        }
+
+        try {
+            ArrayList<Integer> positions = new ArrayList<>(Arrays.asList(1 , 2));
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
+        }catch(Exception e){
+            fail();
+        }
+
+        //Calculate the resources after the activation of the production zones
+        //Take the requires
+        for(NormalProductionZone normalProductionZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
+            if(normalProductionZone != null && normalProductionZone.getCard() != null){
+                for(Resource resource : normalProductionZone.getCard().getRequires().keySet()){
+                    oldResources.put(resource , oldResources.get(resource) - normalProductionZone.getCard().getRequires().get(resource));
+                }
+            }
+        }
+        //Add the production
+        for(NormalProductionZone normalProductionZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
+            if(normalProductionZone != null && normalProductionZone.getCard() != null){
+                for(Resource resource : normalProductionZone.getCard().getRequires().keySet()){//Requires because in production there is the faith too
+                    oldResources.put(resource , oldResources.get(resource) + normalProductionZone.getCard().getProduction().get(resource));
+                }
+            }
+        }
+
+        //Verify that the resources taken from the stockBox and LockBox are right
+        for(Resource resource : resourceTypes){
+            assertEquals(oldResources.get(resource), (Integer) (modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource) + modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource)));
+        }
+    }
+
+    @Test
+    public void testTakeResources3(){
+        HumanPlayer player = new HumanPlayer("margherita", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        try {
+            //Card 2 0 : requirement = 1 Coin
+            player.getDashboard().getProductionZone()[2].addCard(modelGame.getEvolutionSection().buy(2 ,0));
+            //Card 2 1 : requirement = 1 shield
+            player.getDashboard().getProductionZone()[1].addCard(modelGame.getEvolutionSection().buy(2 ,1));
+
+            //Case with all the resources in Stock
+            modelGame.getActivePlayer().getDashboard().getStock().addResources( 0 , 1 , Resource.COIN);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD , 1);
+
+            System.out.println("Number of resources in stock: " +
+                    modelGame.getActivePlayer().getDashboard().getStock().getTotalNumberOfResources());
+            System.out.println("Number of resources in lockBox: " +
+                    modelGame.getActivePlayer().getDashboard().getLockBox().getTotalAmountOfResources());
+        } catch (InvalidPlaceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        }catch (ResourceAlreadyPresentException e) {
+            fail();
+        } catch (NotEnoughSpaceException e) {
+            fail();
+        } catch (OutOfBandException e) {
+            fail();
+        } catch (NotEnoughResourcesException e) {
+            fail();
+        }
+
+        HashMap<Resource , Integer> oldResources = new HashMap<>();
+        ArrayList<Resource> resourceTypes = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.SERVANT , Resource.SHIELD , Resource.ROCK));
+
+        //Save the quantity of resources before  the production
+        for(Resource resource : resourceTypes){
+            oldResources.put(resource , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource) +
+                    modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource));
+        }
+
+        try {
+            ArrayList<Integer> positions = new ArrayList<>(Arrays.asList(1 , 2));
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
+        }catch(Exception e){
+            fail();
+        }
+
+        //Calculate the resources after the activation of the production zones
+        //Take the requires
+        for(NormalProductionZone normalProductionZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
+            if(normalProductionZone != null && normalProductionZone.getCard() != null){
+                for(Resource resource : normalProductionZone.getCard().getRequires().keySet()){
+                    oldResources.put(resource , oldResources.get(resource) - normalProductionZone.getCard().getRequires().get(resource));
+                }
+            }
+        }
+        //Add the production
+        for(NormalProductionZone normalProductionZone : modelGame.getActivePlayer().getDashboard().getProductionZone()){
+            if(normalProductionZone != null && normalProductionZone.getCard() != null){
+                for(Resource resource : normalProductionZone.getCard().getRequires().keySet()){//Requires because in production there is the faith too
+                    oldResources.put(resource , oldResources.get(resource) + normalProductionZone.getCard().getProduction().get(resource));
+                }
+            }
+        }
+
+        //Verify that the resources taken from the stockBox and LockBox are right
+        for(Resource resource : resourceTypes){
+            assertEquals(oldResources.get(resource), (Integer) (modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource) + modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource)));
+        }
+    }
 }
 
 
