@@ -9,6 +9,7 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMess
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;
@@ -132,10 +133,6 @@ public class DoActionPlayerTest {
 
     @Test
     public void testActiveLeaderCard() {
-
-        //check if correctly set active leader card
-        //check if correctly throw exceptions
-
         HumanPlayer player1 = new HumanPlayer("marghe", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
         ArrayList<Player> players = new ArrayList<>();
@@ -197,86 +194,6 @@ public class DoActionPlayerTest {
         }
     }
 
-    /*
-    @Test
-    public void testUseLeaderCard() {
-
-
-        //check if correctly set use leader card --> only if is active
-        //check if correctly throw exeptions
-        HumanPlayer player1 = new HumanPlayer("marghe", true);
-        HumanPlayer player2 = new HumanPlayer("matteo", false);
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-        Game modelGame = new Game(players);
-        player1.setGame(modelGame);
-        player2.setGame(modelGame);
-
-        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
-        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
-        LeaderCardSet leaderCardSet = new LeaderCardSet();
-
-        ArrayList<LeaderCard>leaderCards=new ArrayList<LeaderCard>();
-        for(int i=0; i< leaderCardSet.getLeaderCardSet().size();i++){
-            if(leaderCardSet.getLeaderCardSet().get(i).getRequiresForActiveLeaderCards()== LeaderCardRequires.NUMBEROFRESOURSE){
-                leaderCards.add(leaderCardSet.getLeaderCard(i));
-                break;
-            }
-        }
-
-        try {
-            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,100);
-            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD,100);
-            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT,100);
-            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK,100);
-        } catch (NotEnoughResourcesException e) {
-            assertFalse(false);
-        }
-
-        modelGame.getPlayers().get(0).getDashboard().setLeaderCards(leaderCards);
-        modelGame.getPlayers().get(1).getDashboard().setLeaderCards(leaderCards);
-
-        try {
-            doActionPlayer.useLeaderCard(0);
-        }catch (LeaderCardAlreadyUsedException e) {
-            System.out.println("eccezione 1 lanciata");
-           assertTrue(true);
-        } catch (OutOfBandException | ActiveLeaderCardException e) {
-            assertFalse(false);
-        }
-
-        assertFalse(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
-
-        try {
-            doActionPlayer.activeLeaderCard(0);
-        } catch (OutOfBandException | LeaderCardAlreadyUsedException | ActiveLeaderCardException e) {
-            assertFalse(false);
-        }
-
-        assertTrue(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isActive());
-
-        try {
-            doActionPlayer.useLeaderCard(0);
-        }catch (LeaderCardAlreadyUsedException | OutOfBandException | ActiveLeaderCardException e) {
-            assertFalse(false);
-        }
-        assertTrue(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).isUsed());
-
-        try {
-            doActionPlayer.useLeaderCard(1);
-        } catch (OutOfBandException e) {
-            System.out.println("eccezione lanciata 2");
-            assertTrue(true);
-        } catch (LeaderCardAlreadyUsedException e) {
-            assertFalse(false);
-        } catch (ActiveLeaderCardException e) {
-            e.printStackTrace();
-        }
-    }
-
-     */
-
     /* TODO
     @Test
     public void testActiveBasicProduction(){
@@ -329,15 +246,92 @@ public class DoActionPlayerTest {
 
     @Test
     public void testDiscardLeaderCard() {
+        HumanPlayer player1 = new HumanPlayer("margherita", true);
+        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+        player1.setGame(modelGame);
+        player2.setGame(modelGame);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+        LeaderCardSet leaderCardSet = new LeaderCardSet();
+
+        //Take a random leader card (0) and a random leader card with ability STOCK PLUS(id 10 or 11) and set them in the active player
+        ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
+        leaderCards.add(leaderCardSet.getLeaderCard(0));
+        for(int i = 1 ; i < leaderCardSet.getLeaderCardSet().size() ; i++){
+            if(leaderCardSet.getLeaderCard(i).getId() == 10 || leaderCardSet.getLeaderCard(i).getId() == 11){
+                leaderCards.add(leaderCardSet.getLeaderCard(i));
+                break;
+            }
+        }
+        modelGame.getActivePlayer().getDashboard().setLeaderCards(leaderCards);
+
+        //Set the resources to active the leader card stock ability
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT , 5);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK , 5);
+        }catch(Exception e){
+            fail();
+        }
+
+        assertEquals(2 , modelGame.getActivePlayer().getDashboard().getLeaderCards().size());
+
+        try{
+            doActionPlayer.discardLeaderCard(-1);
+            fail();
+        } catch (OutOfBandException e) {
+            assertTrue(true);
+        } catch (LeaderCardAlreadyUsedException e) {
+            fail();
+        }
+        try{
+            doActionPlayer.discardLeaderCard(2);
+            fail();
+        } catch (OutOfBandException e) {
+            assertTrue(true);
+        } catch (LeaderCardAlreadyUsedException e) {
+            fail();
+        }
+
+        try {
+            ((HumanPlayer) modelGame.getActivePlayer()).activeLeaderCard(1);
+        }catch (Exception e){
+            fail();
+        }
+
+        try{
+            doActionPlayer.discardLeaderCard(1);
+            fail();
+        } catch (OutOfBandException e) {
+            fail();
+        } catch (LeaderCardAlreadyUsedException e) {
+            assertTrue(true);
+        }
+
+        assertEquals(2 , modelGame.getActivePlayer().getDashboard().getLeaderCards().size());
+        int actualPosition = modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex();
+
+        try{
+            doActionPlayer.discardLeaderCard(0);
+            assertTrue(true);
+        } catch (OutOfBandException e) {
+            fail();
+        } catch (LeaderCardAlreadyUsedException e) {
+            fail();
+        }
+
+        assertEquals(1 , modelGame.getActivePlayer().getDashboard().getLeaderCards().size());
+        assertEquals(actualPosition + 1 , modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex());
     }
 
-    /**
-     * Need to verify the activation of a leader production zone
-     * Need to verify the activation of a base production zone -> only the activation
-     */
+
     @Test
     public void testActiveProductionZone() {
-        HumanPlayer player = new HumanPlayer("marghe", true);
+        HumanPlayer player = new HumanPlayer("margherita", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player);
@@ -398,7 +392,13 @@ public class DoActionPlayerTest {
             fail();
         }catch (BadParametersException e){
             assertTrue(true);
-        }catch (Exception e){
+        } catch (NonCompatibleResourceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        } catch (NotEnoughResourcesException e) {
+            fail();
+        } catch (ActionAlreadyDoneException e) {
             fail();
         }
 
@@ -511,6 +511,168 @@ public class DoActionPlayerTest {
         } catch (BadParametersException e) {
             System.out.println(e.getLocalizedMessage());
             fail();
+        }
+
+        //Testing the activation of a production leader card zone
+
+        LeaderCardSet leaderCardSet = new LeaderCardSet();
+
+        ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
+
+        //Take a leader card with Production Power ability : Color&level , Green , Second
+        //Take an other leader card with Stock Plus ability
+        for(int i = 0 ; i < leaderCardSet.getLeaderCardSet().size() ; i++){
+            if(leaderCardSet.getLeaderCard(i).getId() == 1){
+                leaderCards.add(leaderCardSet.getLeaderCard(i));
+                for(Resource resource : leaderCardSet.getLeaderCard(i).getAbilityResource().keySet())
+                    System.out.println("Resource: " + resource + ", quantity: " + leaderCardSet.getLeaderCard(i).getAbilityResource().get(resource));
+            }
+            if(leaderCardSet.getLeaderCard(i).getId() == 10){
+                leaderCards.add(leaderCardSet.getLeaderCard(i));
+            }
+        }
+
+        modelGame.getActivePlayer().getDashboard().setLeaderCards(leaderCards);
+
+        //Buy an other evolution card
+        try {
+            System.out.println("Color: " + evolutionCards[1][0].getColor() + ", level: " + evolutionCards[1][0].getLevel());
+            player.getDashboard().getProductionZone()[2].addCard(modelGame.getEvolutionSection().buy(1 ,0));
+
+            EvolutionCard card = (EvolutionCard) player.getDashboard().getProductionZone()[2].getCard();
+            HashMap<Resource , Integer> requires = card.getRequires();
+            HashMap<Resource , Integer> production = card.getProduction();
+
+            System.out.println("Show requirements");//1 Rock
+            for(Resource resource : requires.keySet()){
+                System.out.println("Resource: " + resource + ", quantity: " + requires.get(resource));
+            }
+            System.out.println("Show production");// 2 Faith
+            for(Resource resource : production.keySet()){
+                System.out.println("Resource: " + resource + ", quantity: " + production.get(resource));
+            }
+
+            //Set the resources needed to activate the evolution card
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK , 1);
+
+            //Active the leader card with the production power
+            if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).getId() == 1)
+                doActionPlayer.activeLeaderCard(0);
+            else
+                doActionPlayer.activeLeaderCard(1);
+
+            assertEquals(1 , modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().size());
+
+        } catch (InvalidPlaceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        } catch (Exception e){
+            fail();
+        }
+
+        ArrayList<Resource> leaderResources = new ArrayList<>();
+        try {
+            positions = new ArrayList<>();
+            positions.add(3);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
+            fail();
+        }catch (NotEnoughResourcesException e){
+            fail();
+        } catch (NonCompatibleResourceException | ExcessOfPositionException | ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            assertTrue(true);
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(3);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null , null);
+            fail();
+        }catch (NotEnoughResourcesException e){
+            fail();
+        } catch (NonCompatibleResourceException | ExcessOfPositionException | ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            assertTrue(true);
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(2);
+            leaderResources.add(Resource.COIN);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null , leaderResources);
+            fail();
+        }catch (NotEnoughResourcesException e){
+            fail();
+        } catch (NonCompatibleResourceException | ExcessOfPositionException | ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            assertTrue(true);
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(3);
+            leaderResources.add(Resource.COIN);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null , leaderResources);
+            fail();
+        }catch (NotEnoughResourcesException e){
+            fail();
+        } catch (NonCompatibleResourceException | ExcessOfPositionException | ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            assertTrue(true);
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(3);
+
+            leaderResources = new ArrayList<>();
+            leaderResources.add(Resource.SERVANT);
+
+            int oldPosition = modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex();
+            int oldNumberOfServant = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null , leaderResources);
+
+            assertEquals(oldNumberOfServant + 1 , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT));
+            assertEquals(oldPosition + 1 , modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex());
+
+        } catch (NonCompatibleResourceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        } catch (NotEnoughResourcesException e) {
+            fail();
+        } catch (ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            fail();
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(4);
+            leaderResources = new ArrayList<>();
+            leaderResources.add(Resource.COIN);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null , leaderResources);
+            fail();
+        }catch (NotEnoughResourcesException e){
+            fail();
+        } catch (NonCompatibleResourceException | ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            assertTrue(true);
+        } catch (ExcessOfPositionException e) {
+            assertTrue(true);
         }
 
     }

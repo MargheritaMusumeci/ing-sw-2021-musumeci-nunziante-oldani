@@ -345,18 +345,20 @@ public class DoActionPlayer {
                     if(i != j && positions.get(i).equals(positions.get(j)))
                         throw new BadParametersException("Cannot activate the same production zone twice");
                 }
-                if(positions.get(i) >  modelGame.getActivePlayer().getDashboard().getProductionZone().length){
+                if(positions.get(i) >=  modelGame.getActivePlayer().getDashboard().getProductionZone().length){
                     numOfLeaderProductionActivated++;
                 }
             }
         }
 
-        if(numOfLeaderProductionActivated > 0 && (leaderResources == null || leaderResources.size() == 0))
-            throw new BadParametersException("Error in association between leader production resources and active leader production");
-        if(numOfLeaderProductionActivated == 0 && leaderResources.size() > 0)
+        if(numOfLeaderProductionActivated > 0 && leaderResources == null)
             throw new BadParametersException("Error in association between leader production resources and active leader production");
 
         if(leaderResources != null){
+            if(numOfLeaderProductionActivated > 0 && leaderResources.size() == 0)
+                throw new BadParametersException("Error in association between leader production resources and active leader production");
+            if(numOfLeaderProductionActivated == 0 && leaderResources.size() > 0)
+                throw new BadParametersException("Error in association between leader production resources and active leader production");
             if(numOfLeaderProductionActivated != leaderResources.size()){
                 throw new BadParametersException("Error in association between leader production resources and active leader production");
             }
@@ -391,7 +393,7 @@ public class DoActionPlayer {
             //Sum all the requires
             for(int i = 0 ; i < positions.size() ; i++){
                 //If a standard production zone
-                if(positions.get(i) < 3){
+                if(positions.get(i) < modelGame.getActivePlayer().getDashboard().getProductionZone().length){
                     if(modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard() == null)
                         throw new BadParametersException("This production zone is empty");
 
@@ -399,12 +401,17 @@ public class DoActionPlayer {
                 }
                 //If a leader production zone
                 else{
-                    if(modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)) == null)
+                    //Theoretically the next if will never be true
+                    if(modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i) - 1) == null)
                         throw new BadParametersException("This production zone is empty");
-                    card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
+                    card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i) - 1).getCard();
                 }
 
-                HashMap<Resource , Integer> cardRequires = card.getRequires();
+                HashMap<Resource , Integer> cardRequires;
+                if(card instanceof EvolutionCard)
+                    cardRequires = card.getRequires();
+                else
+                    cardRequires = ((LeaderCard) card).getAbilityResource();
 
                 for(Resource resource : cardRequires.keySet()){
                     totalRequires.put(resource , (totalRequires.get(resource) + cardRequires.get(resource)));
@@ -436,20 +443,27 @@ public class DoActionPlayer {
 
         //Active the production zone
         for(int i = 0 ; i < positions.size() ; i++){
-            if(positions.get(i) < 3)
+            if(positions.get(i) < modelGame.getActivePlayer().getDashboard().getProductionZone().length)
                 card = modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard();
             else
-                card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i)).getCard();
+                card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i) - 1).getCard();
 
-            HashMap<Resource , Integer> cardRequires = card.getRequires();
+            HashMap<Resource , Integer> cardRequires;
             HashMap<Resource , Integer> cardProduction;
+
+            if(card instanceof EvolutionCard){
+                cardRequires = card.getRequires();
+            }
+            else {
+                cardRequires = ((LeaderCard) card).getAbilityResource();
+            }
 
             //Take resources from Stock and LockBox
             takeResources(cardRequires);
 
             if(card instanceof EvolutionCard){
-                cardProduction = card.getProduction();
 
+                cardProduction = card.getProduction();
                 //Add the resources produced by the activation of this production zone in LockBox
                 for(Resource resource : cardProduction.keySet()){
                     try {
