@@ -150,6 +150,11 @@ public class ViewController implements Controller {
     @FXML
     protected ImageView stockPlus22;
 
+    protected ArrayList<ImageView> box0;
+    protected ArrayList<ImageView> box1;
+    protected ArrayList<ImageView> box2;
+    protected ArrayList<ArrayList<ImageView>> stockBoxes;
+
     protected ArrayList<ImageView> stockPlus1;
     protected ArrayList<ImageView> stockPlus2;
     protected ArrayList<ArrayList<ImageView>> stockPlus;

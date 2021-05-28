@@ -72,6 +72,7 @@ public class ViewPlayerController extends ViewController {
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
 
+            //TODO error at line 77 -> it said getLeaderEnsure() return null
             ArrayList<Resource> leaderEnsure = new ArrayList<>();
             for(int i=0; i<gui.getLeaderEnsure().size();i++){
                 leaderEnsure.add(gui.getLeaderEnsure().get(i));
@@ -260,6 +261,13 @@ public class ViewPlayerController extends ViewController {
         //initialize lockbox
         initLockBox();
 
+        //Stock Images
+        box0 = new ArrayList<>(Arrays.asList(stockBox1));
+        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox21));
+        box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
+        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));
+
+        //Stock Plus Images
         stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
         stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
         stockPlus = new ArrayList<>();
@@ -386,6 +394,24 @@ public class ViewPlayerController extends ViewController {
     }
 
     protected void initStock() {
+        //Take the boxes of the simple stock
+        ArrayList<Resource[]> boxes = gui.getView().getDashboard().getSerializableStock().getBoxes();
+
+        for(int i = 0 ; i < boxes.size() ; i++){
+            if(boxes.get(i) != null){
+                for(int j = 0 ; j < boxes.get(i).length ; j++){
+                    if(boxes.get(i)[j] != null){
+                        String path = printer.pathFromResource(boxes.get(i)[j]);
+                        stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
+                    }
+                    else{
+                        stockBoxes.get(i).get(j).setImage(null);
+                    }
+                }
+            }
+        }
+
+        /*
         Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
 
         if (box1[0] != null) {
@@ -436,7 +462,10 @@ public class ViewPlayerController extends ViewController {
         else{
             stockBox33.setImage(null);
         }
+         */
 
+
+        //TODO it happened be here before the dashboard was updated -> after activated a stock plus leader card -> NullPointerException in row 449
         //Initialize leader stock
         System.out.println("There are " + stockLeaderCardInUse.size() + " stock leader card in use");
         if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
