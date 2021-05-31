@@ -49,6 +49,9 @@ public class ServerClientConnection implements Runnable{
     }
 
     public synchronized void send(Message message) {
+        if(!isActive){
+            return;
+        }
         try {
             outputStream.reset();
             outputStream.writeObject(message);
@@ -68,6 +71,7 @@ public class ServerClientConnection implements Runnable{
     public void run() {
 
         try{
+            ps.setActive(true);
             new Thread(ps).start();
             System.out.println("Start with socket: " + socket);
             Message input = null;
@@ -76,7 +80,12 @@ public class ServerClientConnection implements Runnable{
                 input = (Message) inputStream.readObject();
 
                 if(! (input instanceof PingMessage)){
-                    System.out.println("Message read: " + input.getMessage());
+                    System.out.println("Message read: " + input.getMessage() + " From: " + nickname);
+
+                    if(gameHandler != null && gameHandler.getPlayersInGame().get(this) != null){
+                        System.err.println(nickname + "is playing: " + gameHandler.getPlayersInGame().get(this).isPlaying());
+                    }
+
                     ((ClientMessage) input).handle(messageHandler);
                 }else{
                     ps.pingRecived();
@@ -85,6 +94,8 @@ public class ServerClientConnection implements Runnable{
             }
         }catch (IOException e){
             System.out.println(nickname + ": disconnesso nel readObject");
+            isActive = false;
+            ps.setActive(false);
         }catch (ClassNotFoundException e){
             System.out.println("message sent was not correct");
         }
@@ -128,6 +139,7 @@ public class ServerClientConnection implements Runnable{
         if(nickname != null && gamePhase!= GamePhases.ENDGAME) {
             server.addWaitingForReconnection(this);
             isActive = false;
+            gameHandler.getPlayersInGame().get(this).setPlaying(false);
         }
     }
 
@@ -137,10 +149,10 @@ public class ServerClientConnection implements Runnable{
         this.inputStream = inputStream;
 
         //devo mandare la virtual view al giocatore per "aggiornarlo"
-
+        isActive = true;
         send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this)))));
         //vede se gestire qui la riattivazione del game handler corrispondente
-        isActive = true;
+        gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
         return true;
     }
