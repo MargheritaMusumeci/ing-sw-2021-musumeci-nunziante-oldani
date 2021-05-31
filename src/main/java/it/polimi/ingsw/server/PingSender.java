@@ -42,4 +42,8 @@ public class PingSender implements Runnable{
     public void pingRecived() {
         isActive = true;
     }
+
+    public void setActive(boolean value){
+        isActive = value;
+    }
 }
