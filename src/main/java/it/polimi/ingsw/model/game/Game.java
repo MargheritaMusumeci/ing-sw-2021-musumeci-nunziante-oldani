@@ -13,6 +13,7 @@ public class Game {
     private Market market;
     private EvolutionSection evolutionSection;
     private Player activePlayer;
+    private boolean inPause;
 
     public Game(ArrayList<Player> players){
         this.players = players;
@@ -27,6 +28,8 @@ public class Game {
             if(player instanceof HumanPlayer)
                 ((HumanPlayer) player).setGame(this);
         }
+
+        inPause = false;
     }
 
     private void assignLeaderCards() {
@@ -57,17 +60,43 @@ public class Game {
      */
     public Player updateActivePlayer(){
 
-       for(int i=0; i<players.size(); i++){
-           if(activePlayer.equals(players.get(i))){
-               i++;
-               if(i>= players.size()){
-                   i = 0;
-               }
-               activePlayer = players.get(i);
-           }
+        //check if there is a at least an active player
+        boolean checkPlayers = false;
+        for (Player player:players){
+            if (player.isPlaying()){
+                //if the player is a lorenzo player it doesn't matter
+                if(player instanceof HumanPlayer){
+                    checkPlayers=true;
+                    System.err.println("ho trovato un plater attivo");
+                }
+            }
         }
 
-       return activePlayer;
+        if (!checkPlayers){
+            inPause = true;
+            activePlayer = null;
+            System.err.println("non ci sono player attivi");
+            return null;
+        }
+
+        int j =0;
+        for(int i=0; i<players.size(); i++){
+           j++;
+           if(activePlayer.equals(players.get(i))){
+               if(j>= players.size()){
+                   j = 0;
+               }
+               if(players.get(j).isPlaying()){
+                   System.err.println("ho aggiornato il player: i="+i+" j= "+j);
+                   activePlayer = players.get(j);
+                   return activePlayer;
+               }else{
+                   i--;
+               }
+
+           }
+        }
+        return activePlayer;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -86,4 +115,11 @@ public class Game {
         return activePlayer;
     }
 
+    public boolean isInPause() {
+        return inPause;
+    }
+
+    public void setInPause(boolean inPause) {
+        this.inPause = inPause;
+    }
 }
