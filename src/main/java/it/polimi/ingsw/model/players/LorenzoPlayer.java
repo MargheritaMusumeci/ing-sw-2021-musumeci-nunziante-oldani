@@ -21,6 +21,7 @@ public class LorenzoPlayer extends Player {
         this.popeTrack = popeTrack;
         this.dashboard = dashboard;
         this.isWinner = false;
+        isPlaying = true;
         lorenzoActionCardSet = new LorenzoActionCardSet();
     }
 

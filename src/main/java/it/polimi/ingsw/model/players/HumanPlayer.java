@@ -42,6 +42,7 @@ public class HumanPlayer extends Player{
         game = null;
         resources = new ArrayList<Resource>();
         position = 0;
+        isPlaying = true;
     }
 
     /**

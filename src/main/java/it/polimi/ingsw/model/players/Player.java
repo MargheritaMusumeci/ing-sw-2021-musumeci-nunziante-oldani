@@ -9,6 +9,7 @@ public abstract class Player extends PlayerObservable {
     protected String nickName;
     protected Dashboard dashboard;
     protected PopeTrack popeTrack;
+    protected boolean isPlaying;
     protected boolean isWinner;
 
     /**
@@ -42,5 +43,14 @@ public abstract class Player extends PlayerObservable {
 
     public boolean isWinner() {
         return isWinner;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+        System.err.println("SWET IS PLATING UPDATEDDDDDDDDDDDDDDDD");
     }
 }
