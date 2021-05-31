@@ -39,6 +39,7 @@ public class MessageHandler {
                 //gestisco la riconnessione
                 ServerClientConnection scc_temp = server.checkDisconnectedPlayer(message.getMessage());
                 scc_temp.reconnect(scc.getSocket(), scc.getInputStream(), scc.getOutputStream());
+                scc.setActive(false);
                 //dovrei elimanre dalla hashmap questa virtual view
                 server.removeWaitForReconnection(scc_temp);
                 //send reconnection Message
