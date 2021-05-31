@@ -99,7 +99,7 @@ public class InitialResourcesConfigurationController implements Controller {
         }
         if(radio == servant1){
             servant++;
-            selected.add(Resource.ROCK);
+            selected.add(Resource.SERVANT);
         }
         if(radio2 == coin2){
             coin++;
@@ -115,7 +115,7 @@ public class InitialResourcesConfigurationController implements Controller {
         }
         if(radio2 == servant2){
             servant++;
-            selected.add(Resource.ROCK);
+            selected.add(Resource.SERVANT);
         }
 
         if(resources.size()==8 && coin+rock+shield+servant == 2){

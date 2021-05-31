@@ -23,6 +23,6 @@
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Label>
-      <ListView fx:id="winnes" editable="true" layoutX="321.0" layoutY="331.0" prefHeight="153.0" prefWidth="191.0" />
+      <ListView fx:id="winners" editable="true" layoutX="321.0" layoutY="331.0" prefHeight="153.0" prefWidth="191.0" />
    </children>
 </Pane>

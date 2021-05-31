@@ -395,6 +395,7 @@ public class ViewPlayerController extends ViewController {
 
     protected void initStock() {
         //Take the boxes of the simple stock
+        /*
         ArrayList<Resource[]> boxes = gui.getView().getDashboard().getSerializableStock().getBoxes();
 
         for(int i = 0 ; i < boxes.size() ; i++){
@@ -409,9 +410,8 @@ public class ViewPlayerController extends ViewController {
                     }
                 }
             }
-        }
+        }*/
 
-        /*
         Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
 
         if (box1[0] != null) {
@@ -462,8 +462,6 @@ public class ViewPlayerController extends ViewController {
         else{
             stockBox33.setImage(null);
         }
-         */
-
 
         //TODO it happened be here before the dashboard was updated -> after activated a stock plus leader card -> NullPointerException in row 449
         //Initialize leader stock

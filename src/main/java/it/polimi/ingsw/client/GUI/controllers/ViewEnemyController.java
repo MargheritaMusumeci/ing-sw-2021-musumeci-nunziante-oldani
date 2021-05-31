@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ViewEnemyController extends ViewController{
@@ -34,6 +35,36 @@ public class ViewEnemyController extends ViewController{
     }
 
     private void initStock() {
+        //Stock Images
+        /*box0 = new ArrayList<>(Arrays.asList(stockBox1));
+        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox21));
+        box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
+        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));
+
+        //Stock Plus Images
+        /*stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
+        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
+        stockPlus = new ArrayList<>();
+        stockPlus.add(stockPlus1);
+        stockPlus.add(stockPlus2);
+
+        //Take the boxes of the simple stock
+        ArrayList<Resource[]> boxes = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes();
+
+        for(int i = 0 ; i < boxes.size() ; i++){
+            if(boxes.get(i) != null){
+                for(int j = 0 ; j < boxes.get(i).length ; j++){
+                    if(boxes.get(i)[j] != null){
+                        String path = printer.pathFromResource(boxes.get(i)[j]);
+                        stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
+                    }
+                    else{
+                        stockBoxes.get(i).get(j).setImage(null);
+                    }
+                }
+            }
+        }*/
+
         Resource[] box1 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(0);
 
         if (box1[0] != null) {
@@ -85,19 +116,21 @@ public class ViewEnemyController extends ViewController{
             stockBox33.setImage(null);
         }
 
+        ArrayList<SerializableLeaderCard> leaderCardsActivated = gui.getView().getEnemiesActivatedLeaderCards().get(nickName);
+
         //Initialize leader stock
-        if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
-            for(int i = 0 ; i < stockLeaderCardInUse.size() ; i++){
-                int leaderPosition = stockLeaderCardInUse.get(i);
+        if (leaderCardsActivated != null && leaderCardsActivated.size() != 0) {
+            for(int i = 0 ; i < leaderCardsActivated.size() ; i++){
+                int leaderPosition = i;
 
                 if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
                     for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length ; j++){
                         if(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j] != null){
                             String path = printer.pathFromResource(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j]);
-                            stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
+                            stockPlus.get(i).get(j).setImage(printer.fromPathToImageResource(path));
                         }
                         else{
-                            stockPlus.get(leaderPosition - 1).get(j).setImage(null);
+                            stockPlus.get(i).get(j).setImage(null);
                         }
                     }
                 }
@@ -121,7 +154,7 @@ public class ViewEnemyController extends ViewController{
                 leader2.setImage(printer.fromPathToImageLeader("back_door"));
             }
         } else {
-            //TODO what should I do in case of dicard leader card?Show the door in any case?
+            //TODO what should I do in case of discard leader card?Show the door in any case?
             leader1.setImage(printer.fromPathToImageLeader("back_door"));
             leader2.setImage(printer.fromPathToImageLeader("back_door"));
         }
