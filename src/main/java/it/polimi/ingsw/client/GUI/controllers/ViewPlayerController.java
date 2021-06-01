@@ -74,8 +74,10 @@ public class ViewPlayerController extends ViewController {
 
             //TODO error at line 77 -> it said getLeaderEnsure() return null
             ArrayList<Resource> leaderEnsure = new ArrayList<>();
-            for(int i=0; i<gui.getLeaderEnsure().size();i++){
-                leaderEnsure.add(gui.getLeaderEnsure().get(i));
+            if(gui.getLeaderEnsure() != null){
+                for(int i=0; i<gui.getLeaderEnsure().size();i++){
+                    leaderEnsure.add(gui.getLeaderEnsure().get(i));
+                }
             }
             gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures() , leaderEnsure));
         }
@@ -164,6 +166,20 @@ public class ViewPlayerController extends ViewController {
 
         System.out.println("In active leader ack");
 
+        if(leaderWaitForAck == 1 || leaderWaitForAck == 2){
+            int cardNumber = leaderWaitForAck - 1;
+            activeButtons.get(cardNumber).setVisible(false);
+            discardButtons.get(cardNumber).setVisible(false);
+            if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
+                stockLeaderCardInUse.add(leaderWaitForAck);
+                System.out.println("Activated stock leader ability");
+            }
+            if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                activeLeaderProduction.get(cardNumber).setVisible(true);
+            }
+        }
+
+        /*
         if (leaderWaitForAck == 1) {
             active1.setVisible(false);
             discard1.setVisible(false);
@@ -188,10 +204,12 @@ public class ViewPlayerController extends ViewController {
                 activeProduction5.setVisible(true);
                 System.out.println("Activated stock leader ability");
             }
-        }
+        }*/
+
         leaderWaitForAck = -1;
     }
 
+    @FXML
     public void activeLeader(ActionEvent actionEvent) {
 
         Button button = (Button) actionEvent.getSource();
@@ -215,7 +233,6 @@ public class ViewPlayerController extends ViewController {
         gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         System.out.println("Active leader");
     }
-
 
     @FXML
     public void discardLeader(ActionEvent actionEvent) {
@@ -327,10 +344,12 @@ public class ViewPlayerController extends ViewController {
             else if(gui.getLeaderCardsDiscarded().get(0)){
                 active1.setVisible(false);
                 discard1.setVisible(false);
+                activeProduction4.setVisible(false);
             }
             else{
                 active1.setVisible(true);
                 discard1.setVisible(true);
+                activeProduction4.setVisible(false);
             }
 
             if (leaderCards.size() > 1) {
@@ -347,15 +366,16 @@ public class ViewPlayerController extends ViewController {
                     }
 
                     if(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
-                        activeProduction4.setVisible(true);
+                        activeProduction5.setVisible(true);
                     }
                     else{
-                        activeProduction4.setVisible(false);
+                        activeProduction5.setVisible(false);
                     }
                 }
                 else{
                     active2.setVisible(true);
                     discard2.setVisible(true);
+                    activeProduction5.setVisible(false);
                 }
             }
         }
@@ -364,6 +384,8 @@ public class ViewPlayerController extends ViewController {
             discard1.setVisible(false);
             active2.setVisible(false);
             discard2.setVisible(false);
+            activeProduction4.setVisible(false);
+            activeProduction5.setVisible(false);
         }
     }
 
@@ -399,11 +421,11 @@ public class ViewPlayerController extends ViewController {
     }
 
     protected void initLockBox() {
-        HashMap<Resource, Integer> lockbox = gui.getView().getDashboard().getSerializableLockBox().getResources();
-        coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
-        shieldQuantity.setText(String.valueOf(lockbox.get(Resource.SHIELD)));
-        servantQuantity.setText(String.valueOf(lockbox.get(Resource.SERVANT)));
-        rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
+        HashMap<Resource, Integer> lockBox = gui.getView().getDashboard().getSerializableLockBox().getResources();
+        coinQuantity.setText(String.valueOf(lockBox.get(Resource.COIN)));
+        shieldQuantity.setText(String.valueOf(lockBox.get(Resource.SHIELD)));
+        servantQuantity.setText(String.valueOf(lockBox.get(Resource.SERVANT)));
+        rockQuantity.setText(String.valueOf(lockBox.get(Resource.ROCK)));
     }
 
     protected void initStock() {

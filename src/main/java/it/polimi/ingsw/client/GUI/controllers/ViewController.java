@@ -59,14 +59,23 @@ public class ViewController implements Controller {
     protected ImageView leader1;
     @FXML
     protected ImageView leader2;
+
+    protected ArrayList<ImageView> leaderImages;
+
     @FXML
     protected Button active1;
     @FXML
     protected Button active2;
+
+    protected ArrayList<Button> activeButtons;
+
     @FXML
     protected Button discard1;
     @FXML
     protected Button discard2;
+
+    protected ArrayList<Button> discardButtons;
+
     @FXML
     protected ImageView inkwell;
 
@@ -197,6 +206,9 @@ public class ViewController implements Controller {
     protected CheckBox activeProduction4;
     @FXML
     protected CheckBox activeProduction5;
+
+    protected ArrayList<CheckBox> activeLeaderProduction;
+
     @FXML
     protected Button activeProductionsButton;
     @FXML
@@ -289,6 +301,11 @@ public class ViewController implements Controller {
         productionZones = new ArrayList[3];
         fillProductionZone(productionZones);
         initializer.initProductionZone(productionZones);
+
+        leaderImages = new ArrayList<>(Arrays.asList(leader1 , leader2));
+        activeButtons = new ArrayList<>(Arrays.asList(active1 , active2));
+        discardButtons = new ArrayList<>(Arrays.asList(discard1 , discard2));
+        activeLeaderProduction = new ArrayList<>(Arrays.asList(activeProduction4 , activeProduction5));
 
         initEnemiesButton();
 
