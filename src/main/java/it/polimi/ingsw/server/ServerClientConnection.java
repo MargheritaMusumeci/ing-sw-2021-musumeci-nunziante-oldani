@@ -2,8 +2,10 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.ReconnectionMessage;
 import it.polimi.ingsw.messages.sentByClient.ClientMessage;
+import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -140,6 +142,28 @@ public class ServerClientConnection implements Runnable{
             server.addWaitingForReconnection(this);
             isActive = false;
             gameHandler.getPlayersInGame().get(this).setPlaying(false);
+
+            //check if the player was the current player
+            if(gameHandler.getGame().getActivePlayer().getNickName().equals(nickname)){
+                System.err.println("DEVO CAMBIARE TURNO");
+                //the player who was playing the turn has disconnected
+                /*TODO controllare che le risorse comprate dal  mercato non debbano essere resettate o in generale che l'azione
+                non debba essere pulita
+                */
+
+                //chiamo il metodo per terminare il turno in modo "artificioso"
+                Message messageEndTurn = getGameHandler().getTurnHandler().endTurn();
+
+                if( messageEndTurn instanceof UpdateActivePlayerMessage) {
+                    for (ServerClientConnection serverClientConnection: gameHandler.getPlayersInGame().keySet()){
+                        serverClientConnection.send((UpdateActivePlayerMessage)messageEndTurn);
+                    }
+                }else if (messageEndTurn instanceof EndGameMessage){
+                    for (ServerClientConnection serverClientConnection: gameHandler.getPlayersInGame().keySet()){
+                        serverClientConnection.send((EndGameMessage)messageEndTurn);
+                    }
+                }
+            }
         }
     }
 
