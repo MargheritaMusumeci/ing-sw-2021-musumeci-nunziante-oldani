@@ -8,7 +8,7 @@ public enum GameFxml {
     LEADER_CARD("leader_cards_configuration.fxml"),
     INITIAL_RESOURCES("initial_resources_configuration.fxml"),
     WAITING_ROOM("waiting.fxml"),
-    START_GAME("view.fxml"),
+    START_GAME("newView.fxml"),
     MARKET("market.fxml"),
     STORE_RESOURCES("store_resources.fxml"),
     BASIC_PRODUCTION("basic_production.fxml"),
@@ -16,7 +16,7 @@ public enum GameFxml {
     EVOLUTION_SECTION("evolution_section.fxml"),
     PRODUCTION_ZONE_CHOICE("production_zone_choice.fxml"),
     ENDGAME("end_game.fxml"),
-    OTHERTURN("view.fxml"),
+    OTHERTURN("newView.fxml"),
     CHOOSEWHITERESOURCES("white_ball_choose.fxml"),
     OTHERVIEW("enemyView.fxml");
 

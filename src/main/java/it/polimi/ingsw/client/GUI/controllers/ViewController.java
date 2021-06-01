@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class ViewController implements Controller {
@@ -31,6 +32,13 @@ public class ViewController implements Controller {
     protected ArrayList<ImageView> popeTrackPositions;
 
     //Market
+    @FXML protected Sphere coin;
+    @FXML protected Sphere shield;
+    @FXML protected Sphere rock;
+    @FXML protected Sphere servant;
+    @FXML protected Sphere faith;
+    @FXML protected Sphere nothing;
+
     //riga 0
     @FXML protected Sphere zerozero;
     @FXML protected Sphere zerouno;
@@ -253,10 +261,20 @@ public class ViewController implements Controller {
     @FXML
     protected Button showCardsButton;//show the evolution section
 
-    @FXML protected Button enemy0;
-    @FXML protected Button enemy1;
-    @FXML protected Button enemy2;
-    @FXML protected Button enemy3;
+    @FXML protected Button enemy0Button;
+    @FXML protected Button enemy1Button;
+    @FXML protected Button enemy2Button;
+    @FXML protected Button enemy3Button;
+
+    @FXML protected ImageView enemy0Image;
+    @FXML protected ImageView enemy1Image;
+    @FXML protected ImageView enemy2Image;
+    @FXML protected ImageView enemy3Image;
+
+    @FXML protected Text enemy0Text;
+    @FXML protected Text enemy1Text;
+    @FXML protected Text enemy2Text;
+    @FXML protected Text enemy3Text;
 
     @FXML protected Button endTurn;
 
@@ -280,6 +298,11 @@ public class ViewController implements Controller {
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
         initializer.initMarket(market, external);
+        coin.setMaterial(printer.materialFromResource(Resource.COIN));
+        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
+        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
+        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
+        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
 
         //init inkwell
         initializer.initInkwell(inkwell);
@@ -313,7 +336,9 @@ public class ViewController implements Controller {
 
     protected void initEnemiesButton(){
 
-        ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0 , enemy1 , enemy2 , enemy3));
+        ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0Button , enemy1Button , enemy2Button , enemy3Button));
+        ArrayList<ImageView> enemyImage = new ArrayList<>(Arrays.asList(enemy0Image,enemy1Image,enemy2Image,enemy3Image));
+        ArrayList<Text> enemyText = new ArrayList<>( Arrays.asList(enemy0Text,enemy1Text,enemy2Text,enemy3Text));
 
         if(gui.getPlayers() > 1){
             enemyButtons.get(0).setText(gui.getNickname());
