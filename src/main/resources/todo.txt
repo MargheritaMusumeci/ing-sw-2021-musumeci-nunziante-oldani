@@ -5,6 +5,7 @@ Musumeci:
 -visualizzare dashbord degli avversari --> costuire la view corretta
 -label di errore
 -controllare le biglie bianche
+-POPE CARD --> se supero la posizione non gira la carta
 
 - modificare sfondi e dimensioni
 - modificare la label di errore

@@ -22,7 +22,6 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewPlayerController">
    <children>
-      <Button fx:id="showCardsButton" layoutX="10.0" layoutY="291.0" mnemonicParsing="false" onAction="#showEvolutionSection" opacity="0.0" prefHeight="262.0" prefWidth="257.0" style="-fx-border-color: green;" text="EvolutionSection" />
       <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" layoutX="1090.0" layoutY="56.0" nodeOrientation="RIGHT_TO_LEFT" opacity="0.7" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/board.png" />
@@ -459,6 +458,7 @@
          </font>
       </Text>
       <Button fx:id="basicProductionButton" layoutX="444.0" layoutY="446.0" mnemonicParsing="false" onAction="#chooseBasicProduction" opacity="0.0" prefHeight="86.0" prefWidth="94.0" text="Choose Basic Production" />
+      <Button fx:id="showCardsButton" layoutX="10.0" layoutY="291.0" mnemonicParsing="false" onAction="#showEvolutionSection" opacity="0.0" prefHeight="262.0" prefWidth="257.0" style="-fx-border-color: green;" text="EvolutionSection" />
       <ImageView fx:id="inkwell" fitHeight="64.0" fitWidth="66.0" layoutX="830.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
