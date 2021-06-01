@@ -67,7 +67,7 @@ public class ViewPlayerController extends ViewController {
         if (activeProduction3.isSelected()) productionPositions.add(2);
 
         if (productionPositions.size() != 0 || activeBasic) {
-            System.out.println("attivo la produzione");
+            System.out.println("Active the production");
             gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
@@ -226,15 +226,17 @@ public class ViewPlayerController extends ViewController {
             discard1.setVisible(false);
             leader1.setVisible(false);
             gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 0));
-
+            gui.getLeaderCardsDiscarded().set(0 , true);
         } else {
             active2.setVisible(false);
             discard2.setVisible(false);
             leader2.setVisible(false);
             if (gui.getView().getLeaderCards().size() == 1) {
                 gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 0));
+                gui.getLeaderCardsDiscarded().set(0 , true);
             } else {
                 gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 1));
+                gui.getLeaderCardsDiscarded().set(1 , true);
             }
         }
         initializer.initPopeTrack(popeTrackPositions);
@@ -263,7 +265,7 @@ public class ViewPlayerController extends ViewController {
 
         //Stock Images
         box0 = new ArrayList<>(Arrays.asList(stockBox1));
-        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox21));
+        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox22));
         box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
         stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));
 
@@ -313,13 +315,18 @@ public class ViewPlayerController extends ViewController {
                         leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                     }
 
-                    if(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                    if(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                         activeProduction4.setVisible(true);
                     }
                     else{
                         activeProduction4.setVisible(false);
                     }
                 }
+            }
+            //if the card is been discarded
+            else if(gui.getLeaderCardsDiscarded().get(0)){
+                active1.setVisible(false);
+                discard1.setVisible(false);
             }
             else{
                 active1.setVisible(true);
@@ -351,6 +358,12 @@ public class ViewPlayerController extends ViewController {
                     discard2.setVisible(true);
                 }
             }
+        }
+        else{
+            active1.setVisible(false);
+            discard1.setVisible(false);
+            active2.setVisible(false);
+            discard2.setVisible(false);
         }
     }
 
@@ -395,7 +408,6 @@ public class ViewPlayerController extends ViewController {
 
     protected void initStock() {
         //Take the boxes of the simple stock
-        /*
         ArrayList<Resource[]> boxes = gui.getView().getDashboard().getSerializableStock().getBoxes();
 
         for(int i = 0 ; i < boxes.size() ; i++){
@@ -410,8 +422,9 @@ public class ViewPlayerController extends ViewController {
                     }
                 }
             }
-        }*/
+        }
 
+        /*
         Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
 
         if (box1[0] != null) {
@@ -462,7 +475,7 @@ public class ViewPlayerController extends ViewController {
         else{
             stockBox33.setImage(null);
         }
-
+         */
         //TODO it happened be here before the dashboard was updated -> after activated a stock plus leader card -> NullPointerException in row 449
         //Initialize leader stock
         System.out.println("There are " + stockLeaderCardInUse.size() + " stock leader card in use");

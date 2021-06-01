@@ -35,6 +35,11 @@ public class GUI extends Application implements UI {
     private Socket socket;
     private GamePhases gamePhase;
     private ArrayList<SerializableLeaderCard> leaderCards;
+
+    /**
+     * This array list contains the position of the leader cards discarded
+     */
+    private ArrayList<Boolean> leaderCardsDiscarded;
     private ArrayList<Resource> resources;
     private String nickname;
     private String errorFromServer;
@@ -62,6 +67,7 @@ public class GUI extends Application implements UI {
         errorFromServer="";
         leaderEnsure = new HashMap<>();
         players=0;
+        leaderCardsDiscarded = new ArrayList<>(Arrays.asList(false , false));
     }
 
     public static void main(String[] args) {
@@ -279,5 +285,9 @@ public class GUI extends Application implements UI {
 
     public void setOtherView(String otherView) {
         this.otherView = otherView;
+    }
+
+    public ArrayList<Boolean> getLeaderCardsDiscarded() {
+        return leaderCardsDiscarded;
     }
 }
