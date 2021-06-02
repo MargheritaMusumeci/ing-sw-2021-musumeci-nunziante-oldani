@@ -44,7 +44,7 @@
       </ImageView>
       <ImageView fitHeight="641.0" fitWidth="1310.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../Desktop/Progetto%20Ing.%20Software/background_cl2.png" />
+            <Image url="@../images/background_cl2.png" />
          </image>
       </ImageView>
       <Circle fill="#dadada" layoutX="379.0" layoutY="565.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">

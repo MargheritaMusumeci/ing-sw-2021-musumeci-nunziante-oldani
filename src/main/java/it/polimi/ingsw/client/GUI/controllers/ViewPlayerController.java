@@ -378,6 +378,15 @@ public class ViewPlayerController extends ViewController {
                     activeProduction5.setVisible(false);
                 }
             }
+            //If it's not my turn
+            if(gui.getGamePhase().equals(GamePhases.OTHERPLAYERSTURN)){
+                active1.setVisible(false);
+                discard1.setVisible(false);
+                active2.setVisible(false);
+                discard2.setVisible(false);
+                activeProduction4.setVisible(false);
+                activeProduction5.setVisible(false);
+            }
         }
         else{
             active1.setVisible(false);
