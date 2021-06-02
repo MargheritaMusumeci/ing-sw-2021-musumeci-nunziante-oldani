@@ -582,56 +582,58 @@ public class DoActionPlayer {
      * @param positions number of steps for each player to take
      * @param players player whose pope track should be increased
      */
-    private void moveCross(int positions, ArrayList<Player> players){
+    private void moveCross(int positions, ArrayList<Player> players) {
 
         //Increment Pope Track
-        for (Player player : players) {
+        for (int i = 0; i < positions; i++) {
+            for (Player player : players) {
 
-            if (player instanceof LorenzoPlayer) {
-                player.getPopeTrack().updateLorenzoPosition(positions);
-            } else {
-                player.getPopeTrack().updateGamerPosition(positions);
-            }
-        }
-
-        //Check Pope section
-        boolean popeMeeting = false;
-
-        for (Player player : players) {
-
-            //check that a player arrived in a PopeMeeting position
-            //check that no one has ever arrived in that position
-            if (player instanceof LorenzoPlayer) {
-                if (player.getPopeTrack().getLorenzoPosition().getPopePosition() &&
-                        turnHandler.getLastSection() < player.getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
-
-                    turnHandler.setLastSection(player.getPopeTrack().getLorenzoPosition().getNumPopeSection());
-                    player.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
-                    popeMeeting = true;
+                if (player instanceof LorenzoPlayer) {
+                    player.getPopeTrack().updateLorenzoPosition(1);
+                } else {
+                    player.getPopeTrack().updateGamerPosition(1);
                 }
             }
 
-            if (player instanceof HumanPlayer && !popeMeeting) {
-                if (player.getPopeTrack().getGamerPosition().getPopePosition() &&
-                        turnHandler.getLastSection() < player.getPopeTrack().getGamerPosition().getNumPopeSection()) {
+            //Check Pope section
+            boolean popeMeeting = false;
 
-                    turnHandler.setLastSection(player.getPopeTrack().getGamerPosition().getNumPopeSection());
-                    popeMeeting = true;
-                }
-            }
+            for (Player player : players) {
 
-            if (popeMeeting) {
-                for (Player player2 : players) {
-                    if (player instanceof HumanPlayer) {
-                        if (player2.getPopeTrack().getGamerPosition().getPopeSection() &&
-                                player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection()) {
-                            player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
-                        } else {
-                            player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection()).setIsDiscard();
-                        }
+                //check that a player arrived in a PopeMeeting position
+                //check that no one has ever arrived in that position
+                if (player instanceof LorenzoPlayer) {
+                    if (player.getPopeTrack().getLorenzoPosition().getPopePosition() &&
+                            turnHandler.getLastSection() < player.getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
+
+                        turnHandler.setLastSection(player.getPopeTrack().getLorenzoPosition().getNumPopeSection());
+                        player.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
+                        popeMeeting = true;
                     }
                 }
-                break;
+
+                if (player instanceof HumanPlayer && !popeMeeting) {
+                    if (player.getPopeTrack().getGamerPosition().getPopePosition() &&
+                            turnHandler.getLastSection() < player.getPopeTrack().getGamerPosition().getNumPopeSection()) {
+
+                        turnHandler.setLastSection(player.getPopeTrack().getGamerPosition().getNumPopeSection());
+                        popeMeeting = true;
+                    }
+                }
+
+                if (popeMeeting) {
+                    for (Player player2 : players) {
+                        if (player instanceof HumanPlayer) {
+                            if (player2.getPopeTrack().getGamerPosition().getPopeSection() &&
+                                    player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection()) {
+                                player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
+                            } else {
+                                player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection()).setIsDiscard();
+                            }
+                        }
+                    }
+                    break;
+                }
             }
         }
     }

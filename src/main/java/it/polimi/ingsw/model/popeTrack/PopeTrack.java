@@ -25,7 +25,8 @@ public class PopeTrack extends PopeTrackObservable {
         popeCard.add(new PopeCard(4 , 3));
 
         gamerPosition = track.getTrack()[0];
-        lorenzoPosition = track.getTrack()[0];
+        lorenzoPosition = null;
+
     }
 
     /**
@@ -101,5 +102,9 @@ public class PopeTrack extends PopeTrackObservable {
         lorenzoPosition = track.getTrack()[lorenzoPosition.getIndex() + increment];
 
         notifyPopeTrackListener(this);
+    }
+
+    public void setLorenzoPosition(){
+        lorenzoPosition = track.getTrack()[0];
     }
 }

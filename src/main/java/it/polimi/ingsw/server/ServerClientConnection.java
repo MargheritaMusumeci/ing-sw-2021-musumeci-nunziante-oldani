@@ -2,10 +2,12 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.sentByServer.AbortGameMessage;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.ReconnectionMessage;
 import it.polimi.ingsw.messages.sentByClient.ClientMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
+import it.polimi.ingsw.model.players.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -137,11 +139,31 @@ public class ServerClientConnection implements Runnable{
 
     public void disconnect(){
 
+        checkLobbyDisconnection();
+
+        if(gamePhase.equals(GamePhases.INITIALIZATION)){
+            abortGame();
+            return;
+        }
         //se il nickname non era scelto o sono nel fine gioco non devo aggiungerlo alla lista di chi si vuole riconnettere
         if(nickname != null && gamePhase!= GamePhases.ENDGAME) {
             server.addWaitingForReconnection(this);
             isActive = false;
             gameHandler.getPlayersInGame().get(this).setPlaying(false);
+
+            //check if there are other players playing in the game
+            boolean checkInGame = false;
+            for (Player player: gameHandler.getPlayersInGame().values()){
+                if (player.isPlaying()){
+                    checkInGame = true;
+                    break;
+                }
+            }
+
+            if(!checkInGame){
+                gameHandler.getGame().setInPause(true);
+                return;
+            }
 
             //check if the player was the current player
             if(gameHandler.getGame().getActivePlayer().getNickName().equals(nickname)){
@@ -167,10 +189,60 @@ public class ServerClientConnection implements Runnable{
         }
     }
 
+    /**
+     * if a player disconnect while the game is in the initialization phase, the game ends for
+     * all the players
+     */
+    private void abortGame() {
+        //send abort message to every player
+        for (ServerClientConnection serverClientConnection: gameHandler.getPlayersInGame().keySet()){
+            serverClientConnection.send(new AbortGameMessage("The game is ended due to an early disconnection" +
+                    "of a player"));
+        }
+
+        //set game in pause
+        gameHandler.getGame().setInPause(true);
+
+        //remove the taken nicknames from the arrayList
+        for (Player nickname : gameHandler.getPlayersInGame().values()){
+            server.removeTakeNickname(nickname.getNickName());
+        }
+    }
+
+    /**
+     * check if the player that has disconnected was waiting in lobby, in that case removes him
+     */
+    private void checkLobbyDisconnection() {
+        for (ServerClientConnection serverClientConnection : server.getLobby2players()){
+            if (serverClientConnection.equals(this)){
+                server.removeToLobby2Players(this);
+                return;
+            }
+        }
+
+        for (ServerClientConnection serverClientConnection : server.getLobby3players()){
+            if (serverClientConnection.equals(this)){
+                server.removeToLobby3Players(this);
+                return;
+            }
+        }
+
+        for (ServerClientConnection serverClientConnection : server.getLobby4players()){
+            if (serverClientConnection.equals(this)){
+                server.removeToLobby4Players(this);
+                return;
+            }
+        }
+    }
+
     public boolean reconnect(Socket socket, ObjectInputStream inputStream, ObjectOutputStream outputStream){
         this.socket = socket;
         this.outputStream = outputStream;
         this.inputStream = inputStream;
+
+        if(gameHandler.getGame().isInPause()){
+            return reconnectFirstPlayer();
+        }
 
         //devo mandare la virtual view al giocatore per "aggiornarlo"
         isActive = true;
@@ -178,6 +250,17 @@ public class ServerClientConnection implements Runnable{
         //vede se gestire qui la riattivazione del game handler corrispondente
         gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
+        return true;
+    }
+
+    private boolean reconnectFirstPlayer() {
+        isActive = true;
+        gameHandler.getGame().setInPause(false);
+        send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this)))));
+        gameHandler.getPlayersInGame().get(this).setPlaying(true);
+        new Thread(this).start();
+        gameHandler.getGame().updateActivePlayer();
+        send(new UpdateActivePlayerMessage(nickname));
         return true;
     }
 

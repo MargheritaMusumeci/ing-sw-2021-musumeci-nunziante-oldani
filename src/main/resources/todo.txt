@@ -1,21 +1,21 @@
 Musumeci:
 
 //TODO
--fine gioco --> sistemare looser
+
+da fare:
 -visualizzare dashbord degli avversari --> costuire la view corretta
 -label di errore
+-far vedere il mercato e l'evolution section prima
+-controllare multigame (otherplayer turn)
+
+in atto:
 -controllare le biglie bianche
+-controllare attivazione/disattivazione leader
+
+fatto:
+-fine gioco --> sistemare looser --> dovrebbe andare
 -POPE CARD --> se supero la posizione non gira la carta
-
-- modificare sfondi e dimensioni
-- modificare la label di errore
-
-???? creo i giocatori --> creo il gioco --> assegno il gioco ai giocatori
-???? abbiamo controllato che l'inkwell lo abbia solo un giocatore
-???? dobbiamo testare i messaggi per la copertura del codice
-
-???? a volte non passo il test checkendgame di solo game
-???? a volte non passo il test store resources
+-basic production da controllare
 
 Nunziante:
 
@@ -172,3 +172,9 @@ RISPOSTE TUTORATO:
     oppure dire che è il turno di lorenzo
 
 
+???? creo i giocatori --> creo il gioco --> assegno il gioco ai giocatori
+???? abbiamo controllato che l'inkwell lo abbia solo un giocatore
+???? dobbiamo testare i messaggi per la copertura del codice
+
+???? a volte non passo il test checkendgame di solo game
+???? a volte non passo il test store resources

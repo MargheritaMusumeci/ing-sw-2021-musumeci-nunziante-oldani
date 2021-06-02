@@ -59,6 +59,11 @@ public class MarketController implements Controller {
     @Override
     public void init() {
 
+        //Show the error if present
+        if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
+            error.setText(gui.getErrorFromServer());
+        }
+
         confirm.setVisible(true);
         cancel.setVisible(true);
 
@@ -117,25 +122,28 @@ public class MarketController implements Controller {
 
         if (position == -1) {
             error.setText("Choose a row/col...");
-            confirm.setVisible(false);
-            cancel.setVisible(false);
+            confirm.setVisible(true);
+            cancel.setVisible(true);
         } else {
-            int noMoreWhite=0;
-            for(int i = 0; i< gui.getView().getLeaderCards().size();i++){
-                if(gui.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) && gui.getView().getLeaderCards().get(i).isActive()){
-                noMoreWhite++;
+            int noMoreWhite = 0;
+            for (int i = 0; i < gui.getView().getLeaderCards().size(); i++) {
+                if (gui.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) && gui.getView().getLeaderCards().get(i).isActive()) {
+                    noMoreWhite++;
                 }
             }
+            System.out.println(noMoreWhite);
 
             gui.getClientSocket().send(new BuyFromMarketMessage("BUY", position, row));
             gui.setOldScene(gui.getScene(GameFxml.MARKET.s));
 
-            if(noMoreWhite==2){
+            if (noMoreWhite == 2) {
                 gui.setCurrentScene(gui.getScene(GameFxml.CHOOSEWHITERESOURCES.s));
                 gui.setGamePhase(GamePhases.CHOOSEWHITEBALL);
+            } else {
+
+                gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
+                gui.setGamePhase(GamePhases.STORERESOURCES);
             }
-            gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
-            gui.setGamePhase(GamePhases.STORERESOURCES);
         }
     }
     public void cancel(ActionEvent actionEvent) {

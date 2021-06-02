@@ -29,7 +29,12 @@ public class SerializablePopeTack implements Serializable {
             discardCards[i]= popeTrack.getPopeCard().get(i).isDiscard();
         }
         this.position = popeTrack.getGamerPosition().getIndex();
-        this.lorenzoPosition = popeTrack.getLorenzoPosition().getIndex();
+        if(popeTrack.getLorenzoPosition() != null){
+            this.lorenzoPosition = popeTrack.getLorenzoPosition().getIndex();
+        }else{
+            this.lorenzoPosition = -1;
+        }
+
     }
 
     public boolean[] getActiveCards() {

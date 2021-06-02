@@ -122,7 +122,7 @@
          </children>
       </HBox>
       <ProgressIndicator fx:id="loading" layoutX="393.0" layoutY="547.0" visible="false" />
-      <Label layoutX="216.0" layoutY="502.0" text="ERROR:" textFill="RED">
+      <Label layoutX="216.0" layoutY="502.0" textFill="RED" fx:id="error">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

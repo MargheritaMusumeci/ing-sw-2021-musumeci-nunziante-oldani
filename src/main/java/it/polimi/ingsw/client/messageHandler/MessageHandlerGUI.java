@@ -239,6 +239,11 @@ public class MessageHandlerGUI extends MessageHandler {
     }
 
     @Override
+    public void handleMessage(AbortGameMessage abortGameMessage) {
+
+    }
+
+    @Override
     public void handleMessage(EndGameMessage message) {
         synchronized (gui) {
             gui.getView().setScores(message.getScores());

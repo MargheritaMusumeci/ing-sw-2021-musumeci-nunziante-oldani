@@ -164,6 +164,18 @@ public class Server {
         System.out.println("4 players: " + lobby4players.size());
     }
 
+    public synchronized void removeToLobby2Players(ServerClientConnection scc){
+        lobby2players.remove(scc);
+    }
+
+    public synchronized void removeToLobby3Players(ServerClientConnection scc){
+        lobby2players.remove(scc);
+    }
+
+    public synchronized void removeToLobby4Players(ServerClientConnection scc){
+        lobby2players.remove(scc);
+    }
+
     public void addTakenNickname(String nickname) {
         synchronized (listOfTakenNicknames){
             listOfTakenNicknames.add(nickname);
@@ -187,6 +199,30 @@ public class Server {
         synchronized (waitingForReconnection){
             waitingForReconnection.remove(scc.getNickname());
         }
+    }
+
+    public List<ServerClientConnection> getLobby4players() {
+        return lobby4players;
+    }
+
+    public void setLobby4players(List<ServerClientConnection> lobby4players) {
+        this.lobby4players = lobby4players;
+    }
+
+    public List<ServerClientConnection> getLobby3players() {
+        return lobby3players;
+    }
+
+    public void setLobby3players(List<ServerClientConnection> lobby3players) {
+        this.lobby3players = lobby3players;
+    }
+
+    public List<ServerClientConnection> getLobby2players() {
+        return lobby2players;
+    }
+
+    public void setLobby2players(List<ServerClientConnection> lobby2players) {
+        this.lobby2players = lobby2players;
     }
 
     public static void main(String[] args){
