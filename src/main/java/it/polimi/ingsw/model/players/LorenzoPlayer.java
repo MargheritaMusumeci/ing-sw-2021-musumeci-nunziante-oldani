@@ -19,6 +19,7 @@ public class LorenzoPlayer extends Player {
     public LorenzoPlayer(PopeTrack popeTrack , Dashboard dashboard){
         this.nickName = "LorenzoIlMagnifico";
         this.popeTrack = popeTrack;
+        this.popeTrack.setLorenzoPosition();
         this.dashboard = dashboard;
         this.isWinner = false;
         isPlaying = true;
