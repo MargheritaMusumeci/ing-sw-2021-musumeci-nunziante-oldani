@@ -36,6 +36,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
     @Override
     public void startTurn() {
         if(isTheEnd){
+            System.out.println("start chiama end game");
             //isTheEnd = true;
             endGame();
         }
@@ -74,6 +75,28 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
                 modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(lorenzoActionCard.getNum().get());
 
+                //Check Pope Section
+                if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getPopePosition() &&
+                        lastSection< modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
+
+                    lastSection = modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection();
+                    modelGame.getActivePlayer().getPopeTrack().getPopeCard().get(lastSection- 1).setIsUsed();
+
+                    HumanPlayer player;
+                    if(modelGame.getPlayers().get(0) instanceof HumanPlayer){
+                        player = (HumanPlayer) modelGame.getPlayers().get(0);
+                    }else{
+                        player = (HumanPlayer) modelGame.getPlayers().get(1);
+                    }
+
+                    if (player.getPopeTrack().getGamerPosition().getPopeSection() &&
+                            player.getPopeTrack().getGamerPosition().getNumPopeSection() == lastSection) {
+                        player.getPopeTrack().getPopeCard().get( lastSection - 1).setIsUsed();
+                    } else {
+                        player.getPopeTrack().getPopeCard().get(lastSection).setIsDiscard();
+                    }
+                }
+
                 if(lorenzoActionCard.getNum().get()==1){((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().shuffle();}
 
             }
@@ -98,18 +121,21 @@ public class TurnHandlerSoloGame extends TurnHandler{
     @Override
     public void checkEndGame() {
 
+        System.out.println("controllo end game");
         if (modelGame.getActivePlayer() instanceof HumanPlayer) {
 
             //active player reached the end of the track
             if (modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex() == 24) {
                 isTheEnd = true;
                 winner = modelGame.getActivePlayer();
+                System.out.println("player pope track");
             }
 
             //active player bought 7 Evolution Cards
             if (!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber() > 6) {
                 isTheEnd = true;
                 winner = modelGame.getActivePlayer();
+                System.out.println("player 7 carte");
             }
 
         } else {
@@ -119,13 +145,15 @@ public class TurnHandlerSoloGame extends TurnHandler{
            while(index<4 && !isTheEnd){
 
              int typeEvolution = 0;
-               for(int i = 0 ; i<3; i ++){
-                   if(modelGame.getEvolutionSection().getEvolutionSection()[i][index]!= null)
-                   typeEvolution=(modelGame.getEvolutionSection().getEvolutionSection()[i][index].size());
+               for(int i = 0 ; i<3; i++) {
+                   if (modelGame.getEvolutionSection().getEvolutionSection()[i][index] != null) {
+                       typeEvolution += (modelGame.getEvolutionSection().getEvolutionSection()[i][index].size());
+                   }
                }
                if(typeEvolution==0) {
                    isTheEnd = true;
                    winner = modelGame.getActivePlayer();
+                   System.out.println("lorenzo carte");
                }
                index++;
            }
@@ -134,8 +162,10 @@ public class TurnHandlerSoloGame extends TurnHandler{
             if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getIndex() == 24) {
                 isTheEnd = true;
                 winner = modelGame.getActivePlayer();
+                System.out.println("lorenzo pope track");
             }
         }
+        System.out.println(isTheEnd);
     }
 
     /**
@@ -179,7 +209,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
                 }
             }
 
-            checkEndGame();
+           checkEndGame();
             if(isTheEnd){
                return endGame();
             }
@@ -210,6 +240,5 @@ public class TurnHandlerSoloGame extends TurnHandler{
         ArrayList<String> winnersName = new ArrayList<>();
         winnersName.add(winner.getNickName());
         return new EndGameMessage("The game is ended", winnersName, scores);
-
     }
 }

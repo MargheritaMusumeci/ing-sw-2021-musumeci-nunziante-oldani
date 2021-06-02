@@ -54,11 +54,15 @@ public class BasicProductionController implements Controller {
     private RadioButton servant3;
     @FXML
     private Button confirm;
-
+    @FXML
+    private Button cancel;
+    @FXML
+    private Label error;
 
     public void confirm() {
 
         confirm.setVisible(false);
+        cancel.setVisible(false);
 
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
         RadioButton radio2 = (RadioButton) resources2.getSelectedToggle();
@@ -106,12 +110,22 @@ public class BasicProductionController implements Controller {
             basicEnsures.add(Resource.SERVANT);
         }
 
-        gui.setBasicEnsures(basicEnsures);
-        gui.setBasicRequires(basicRequires);
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setOldScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
-        gui.changeScene();
+        if(basicRequires==null || basicEnsures == null || basicEnsures.isEmpty() || basicRequires.isEmpty() || basicRequires.size()!=2){
+            error.setText("ERROR: you must select a resource for each line");
+            confirm.setVisible(true);
+            cancel.setVisible(true);
+            basicRequires=null;
+            basicEnsures=null;
+
+        }else {
+            gui.setBasicEnsures(basicEnsures);
+            gui.setBasicRequires(basicRequires);
+            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setOldScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
+            gui.setGamePhase(GamePhases.STARTGAME);
+            gui.changeScene();
+        }
+        cancel.setVisible(true);
     }
 
     @Override
@@ -122,6 +136,11 @@ public class BasicProductionController implements Controller {
     @Override
     public void init() {
 
+        //Show the error if present
+        if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
+            error.setText(gui.getErrorFromServer());
+        }
+        cancel.setVisible(true);
         confirm.setVisible(true);
     }
 
