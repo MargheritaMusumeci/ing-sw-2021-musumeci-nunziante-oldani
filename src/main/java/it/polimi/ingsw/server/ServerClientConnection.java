@@ -6,6 +6,7 @@ import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.ReconnectionMessage;
 import it.polimi.ingsw.messages.sentByClient.ClientMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
+import it.polimi.ingsw.model.players.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -143,6 +144,20 @@ public class ServerClientConnection implements Runnable{
             isActive = false;
             gameHandler.getPlayersInGame().get(this).setPlaying(false);
 
+            //check if there are other players playing in the game
+            boolean checkInGame = false;
+            for (Player player: gameHandler.getPlayersInGame().values()){
+                if (player.isPlaying()){
+                    checkInGame = true;
+                    break;
+                }
+            }
+
+            if(!checkInGame){
+                gameHandler.getGame().setInPause(true);
+                return;
+            }
+
             //check if the player was the current player
             if(gameHandler.getGame().getActivePlayer().getNickName().equals(nickname)){
                 System.err.println("DEVO CAMBIARE TURNO");
@@ -172,12 +187,27 @@ public class ServerClientConnection implements Runnable{
         this.outputStream = outputStream;
         this.inputStream = inputStream;
 
+        if(gameHandler.getGame().isInPause()){
+            return reconnectFirstPlayer();
+        }
+
         //devo mandare la virtual view al giocatore per "aggiornarlo"
         isActive = true;
         send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this)))));
         //vede se gestire qui la riattivazione del game handler corrispondente
         gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
+        return true;
+    }
+
+    private boolean reconnectFirstPlayer() {
+        isActive = true;
+        gameHandler.getGame().setInPause(false);
+        send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this)))));
+        gameHandler.getPlayersInGame().get(this).setPlaying(true);
+        new Thread(this).start();
+        gameHandler.getGame().updateActivePlayer();
+        send(new UpdateActivePlayerMessage(nickname));
         return true;
     }
 
