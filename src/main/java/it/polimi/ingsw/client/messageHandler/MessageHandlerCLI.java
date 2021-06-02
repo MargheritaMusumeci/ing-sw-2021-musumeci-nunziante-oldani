@@ -166,5 +166,10 @@ public class MessageHandlerCLI extends MessageHandler{
         System.out.println("Ho aggioranto la view di un nemico");
     }
 
+    @Override
+    public void handleMessage(AbortGameMessage abortGameMessage) {
+        System.out.println("GAME ABORTED");
+    }
+
 
 }
