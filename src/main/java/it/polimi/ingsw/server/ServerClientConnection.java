@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.sentByServer.AbortGameMessage;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.ReconnectionMessage;
 import it.polimi.ingsw.messages.sentByClient.ClientMessage;
@@ -138,6 +139,12 @@ public class ServerClientConnection implements Runnable{
 
     public void disconnect(){
 
+        checkLobbyDisconnection();
+
+        if(gamePhase.equals(GamePhases.INITIALIZATION)){
+            abortGame();
+            return;
+        }
         //se il nickname non era scelto o sono nel fine gioco non devo aggiungerlo alla lista di chi si vuole riconnettere
         if(nickname != null && gamePhase!= GamePhases.ENDGAME) {
             server.addWaitingForReconnection(this);
@@ -178,6 +185,52 @@ public class ServerClientConnection implements Runnable{
                         serverClientConnection.send((EndGameMessage)messageEndTurn);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * if a player disconnect while the game is in the initialization phase, the game ends for
+     * all the players
+     */
+    private void abortGame() {
+        //send abort message to every player
+        for (ServerClientConnection serverClientConnection: gameHandler.getPlayersInGame().keySet()){
+            serverClientConnection.send(new AbortGameMessage("The game is ended due to an early disconnection" +
+                    "of a player"));
+        }
+
+        //set game in pause
+        gameHandler.getGame().setInPause(true);
+
+        //remove the taken nicknames from the arrayList
+        for (Player nickname : gameHandler.getPlayersInGame().values()){
+            server.removeTakeNickname(nickname.getNickName());
+        }
+    }
+
+    /**
+     * check if the player that has disconnected was waiting in lobby, in that case removes him
+     */
+    private void checkLobbyDisconnection() {
+        for (ServerClientConnection serverClientConnection : server.getLobby2players()){
+            if (serverClientConnection.equals(this)){
+                server.removeToLobby2Players(this);
+                return;
+            }
+        }
+
+        for (ServerClientConnection serverClientConnection : server.getLobby3players()){
+            if (serverClientConnection.equals(this)){
+                server.removeToLobby3Players(this);
+                return;
+            }
+        }
+
+        for (ServerClientConnection serverClientConnection : server.getLobby4players()){
+            if (serverClientConnection.equals(this)){
+                server.removeToLobby4Players(this);
+                return;
             }
         }
     }
