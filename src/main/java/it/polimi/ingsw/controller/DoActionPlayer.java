@@ -436,8 +436,8 @@ public class DoActionPlayer {
 
         //Active the base production -> can I do this operation here without call a method?
         if(activeBasic){
-            //TODO call directly here the method in dashboard -> then add some tests in the test
-            activeBasicProduction(resourcesRequires , resourcesEnsures);
+            //TODO add tests in the test
+            modelGame.getActivePlayer().getDashboard().activeBasicProduction(resourcesRequires.get(0) , resourcesRequires.get(1) , resourcesEnsures.get(0));
         }
 
         //If the player activated only the basic production zone
@@ -702,10 +702,4 @@ public class DoActionPlayer {
 
     }
 
-    //TODO this method can't be in activeProductionZones directly?
-    private void activeBasicProduction(ArrayList<Resource> requires,ArrayList<Resource> ensures) throws NonCompatibleResourceException, NotEnoughResourcesException {
-
-        if(requires == null || ensures == null || requires.size() != 2 || ensures.size() != 1) throw new NonCompatibleResourceException("Too many or too few resources");
-        modelGame.getActivePlayer().getDashboard().activeBasicProduction(requires.get(0),requires.get(1),ensures.get(0));
-    }
 }
