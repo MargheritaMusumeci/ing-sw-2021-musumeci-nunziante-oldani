@@ -7,10 +7,7 @@ import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.FourLeaderCardsMessage;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.InitialResourcesMessage;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGameMessage;
+import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.game.Resource;
 
@@ -224,6 +221,12 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(AbortGameMessage abortGameMessage) {
 
+    }
+
+    @Override
+    public void handleMessage(MarketAndEvolutionSectionMessage marketAndEvolutionSectionMessage) {
+        gui.setMarket(marketAndEvolutionSectionMessage.getSerializableMarket());
+        gui.setEvolutionSection(marketAndEvolutionSectionMessage.getSerializableEvolutionSection());
     }
 
     @Override

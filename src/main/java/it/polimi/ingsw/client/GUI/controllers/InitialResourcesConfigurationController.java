@@ -1,22 +1,29 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
+import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Sphere;
 
 import java.util.ArrayList;
 
-public class InitialResourcesConfigurationController implements Controller {
+public class InitialResourcesConfigurationController extends MarketEvolutionSectionBuilder implements Controller {
 
     private GUI gui;
     private ArrayList<Resource> resources;
-    private int coin=0;
-    private int rock=0;
-    private int shield=0;
-    private int servant=0;
+    private int coinNumber =0;
+    private int rockNumber=0;
+    private int shieldNumber=0;
+    private int servantNumber=0;
+    private Initializer initializer;
+    private Print printer;
 
     @FXML
     private ToggleGroup resources1;
@@ -74,6 +81,47 @@ public class InitialResourcesConfigurationController implements Controller {
               resourcesBox2.setVisible(false);
           }
        }
+
+        this.initializer = new Initializer(gui);
+
+        Sphere[][] market = new Sphere[3][4];
+        fillMarket(market);
+        //initializer.initMarket(market,external);
+
+        Resource[][] marketModel = gui.getMarket().getMarket();
+        for(int i = 0; i<3; i++){
+            for(int j = 0; j<4; j++){
+                market[i][j].setMaterial(printer.materialFromResource(marketModel[i][j]));
+            }
+        }
+
+        external.setMaterial(printer.materialFromResource(gui.getMarket().getExternalResource()));
+
+        coin.setMaterial(printer.materialFromResource(Resource.COIN));
+        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
+        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
+        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
+        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
+
+        //initialize evolution section
+        ArrayList<ArrayList<ImageView>>  eCards = new ArrayList<>();
+        fillEvolutionSection(eCards);
+
+        //initializer.initEvolutionSection(eCards);
+        SerializableEvolutionSection evolutionSection = gui.getEvolutionSection();
+
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j < 4 ; j++){
+                if(evolutionSection.getEvolutionCards()[i][j] != null){
+                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
+                    eCards.get(i).get(j).setVisible(true);
+                    eCards.get(i).get(j).setCache(true);
+                }
+                else{
+                    eCards.get(i).get(j).setVisible(false);
+                }
+            }
+        }
     }
 
     public void confirmation() {
@@ -86,41 +134,41 @@ public class InitialResourcesConfigurationController implements Controller {
         ArrayList<Resource> selected = new ArrayList<Resource>();
 
         if(radio == coin1){
-            coin++;
+            coinNumber++;
             selected.add(Resource.COIN);
         }
         if(radio == shield1){
-            shield++;
+            shieldNumber++;
             selected.add(Resource.SHIELD);
         }
         if(radio == rock1){
-            rock++;
+            rockNumber++;
             selected.add(Resource.ROCK);
         }
         if(radio == servant1){
-            servant++;
+            servantNumber++;
             selected.add(Resource.SERVANT);
         }
         if(radio2 == coin2){
-            coin++;
+            coinNumber++;
             selected.add(Resource.COIN);
         }
         if(radio2 == shield2){
-            shield++;
+            shieldNumber++;
             selected.add(Resource.SHIELD);
         }
         if(radio2 == rock2){
-            rock++;
+            rockNumber++;
             selected.add(Resource.ROCK);
         }
         if(radio2 == servant2){
-            servant++;
+            servantNumber++;
             selected.add(Resource.SERVANT);
         }
 
-        if(resources.size()==8 && coin+rock+shield+servant == 2){
+        if(resources.size()==8 && coinNumber +rockNumber+shieldNumber+servantNumber == 2){
             gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
-        }else if(resources.size()==4 && coin+rock+shield+servant == 1){
+        }else if(resources.size()==4 && coinNumber +rockNumber+shieldNumber+servantNumber == 1){
             gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
         } else{
             selected.clear();
@@ -132,6 +180,7 @@ public class InitialResourcesConfigurationController implements Controller {
 
     @Override
     public void setGui(GUI gui) {
-    this.gui=gui;
+        this.gui = gui;
+        this.printer = new Print();
     }
 }

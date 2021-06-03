@@ -1,10 +1,13 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
+import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,18 +15,20 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Sphere;
 
 import java.util.ArrayList;
 
 /**
  * Class that contains methods and attributes for choosing leader cards
  */
-public class LeaderCardsConfigurationController implements Controller{
+public class LeaderCardsConfigurationController extends MarketEvolutionSectionBuilder implements Controller{
 
     private int selectedNumber=0;
     private GUI gui;
     private ArrayList<SerializableLeaderCard> leaderCards;
     private Print printer;
+    private Initializer initializer;
 
     @FXML
     private Button LeaderConfirmation;
@@ -55,6 +60,7 @@ public class LeaderCardsConfigurationController implements Controller{
     @Override
     public void init(){
 
+        this.initializer=new Initializer(gui);
         LeaderConfirmation.setVisible(true);
         loading.setVisible(false);
 
@@ -86,6 +92,47 @@ public class LeaderCardsConfigurationController implements Controller{
         cardId2.setText("Leader id: " + leaderCards.get(1).getId());
         cardId3.setText("Leader id: " + leaderCards.get(2).getId());
         cardId4.setText("Leader id: " + leaderCards.get(3).getId());
+
+        this.initializer = new Initializer(gui);
+
+        Sphere[][] market = new Sphere[3][4];
+        fillMarket(market);
+        //initializer.initMarket(market,external);
+
+        Resource[][] marketModel = gui.getMarket().getMarket();
+        for(int i = 0; i<3; i++){
+            for(int j = 0; j<4; j++){
+                market[i][j].setMaterial(printer.materialFromResource(marketModel[i][j]));
+            }
+        }
+
+        external.setMaterial(printer.materialFromResource(gui.getMarket().getExternalResource()));
+
+        coin.setMaterial(printer.materialFromResource(Resource.COIN));
+        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
+        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
+        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
+        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
+
+        //initialize evolution section
+        ArrayList<ArrayList<ImageView>>  eCards = new ArrayList<>();
+        fillEvolutionSection(eCards);
+
+        //initializer.initEvolutionSection(eCards);
+        SerializableEvolutionSection evolutionSection = gui.getEvolutionSection();
+
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j < 4 ; j++){
+                if(evolutionSection.getEvolutionCards()[i][j] != null){
+                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
+                    eCards.get(i).get(j).setVisible(true);
+                    eCards.get(i).get(j).setCache(true);
+                }
+                else{
+                    eCards.get(i).get(j).setVisible(false);
+                }
+            }
+        }
     }
 
 

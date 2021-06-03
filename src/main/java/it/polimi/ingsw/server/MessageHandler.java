@@ -89,6 +89,7 @@ public class MessageHandler {
 
                 scc.setGamePhase(GamePhases.INITIALIZATION);
                 scc.send(new ACKMessage("OK"));
+
             }
         }else{
             scc.send(new NACKMessage("KO"));
@@ -199,33 +200,6 @@ public class MessageHandler {
         return true;
     }
 
-    /*
-
-    /**
-     * method that handle every action message. It is the controller in charge of identify the action and
-     * call the correct method
-     * @param actionMessage contains the action made by the player and the information needed to pursue that action
-
-    public void handleMessage(ActionMessage actionMessage){
-        if (scc.getGamePhase() != GamePhases.GAME){
-            scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
-            return;
-        }
-
-        //controllo che la richiesta mi viene fatta dal player attivo
-        if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
-            scc.send(new NACKMessage("Error! It's not your turn"));
-            return;
-        }
-
-        if (actionMessage instanceof RequestResourcesBoughtFromMarketMessage){
-            scc.send(new SendResourcesBoughtFromMarket("Risorse",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
-            return;
-        }
-
-        scc.send(scc.getGameHandler().getTurnHandler().doAction(actionMessage));
-    }
- */
     /**
      * method able to notify all the player that the active player has changed because someone has ended his turn
      *

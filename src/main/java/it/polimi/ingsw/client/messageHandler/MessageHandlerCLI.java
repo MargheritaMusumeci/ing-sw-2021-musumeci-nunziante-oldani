@@ -9,10 +9,7 @@ import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
 import it.polimi.ingsw.client.gamePhases.OtherPlayersTurnPhase;
 import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.FourLeaderCardsMessage;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.InitialResourcesMessage;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
-import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.StartGameMessage;
+import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.utils.Constants;
 
@@ -169,6 +166,11 @@ public class MessageHandlerCLI extends MessageHandler{
     @Override
     public void handleMessage(AbortGameMessage abortGameMessage) {
         System.out.println("GAME ABORTED");
+    }
+
+    @Override
+    public void handleMessage(MarketAndEvolutionSectionMessage marketMessage) {
+
     }
 
 
