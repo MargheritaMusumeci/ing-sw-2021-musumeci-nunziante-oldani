@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 
 public class LeaderProductionController implements Controller {
 
@@ -28,6 +29,10 @@ public class LeaderProductionController implements Controller {
     private RadioButton servant1;
     @FXML
     private Button confirm;
+    @FXML
+    private Button cancel;
+    @FXML
+    private Label error;
 
     public void confirm() {
 
@@ -46,6 +51,12 @@ public class LeaderProductionController implements Controller {
         if(radio == servant1){
             leaderEnsure.put(gui.getLeaderPosition(),Resource.SERVANT);
         }
+        if(leaderEnsure.isEmpty()){
+            error.setText("ERROR: you have to choose the resource to produce!");
+            confirm.setVisible(true);
+            cancel.setVisible(true);
+            return;
+        }
         gui.setLeaderEnsure(leaderEnsure);
         gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setOldScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
@@ -63,5 +74,8 @@ public class LeaderProductionController implements Controller {
     @Override
     public void init() {
 
+        error.setText(null);
+        confirm.setVisible(true);
+        cancel.setVisible(true);
     }
 }

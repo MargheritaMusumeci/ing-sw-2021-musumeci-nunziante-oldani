@@ -20,8 +20,9 @@
             <Font size="32.0" />
          </font>
       </Text>
+      <Button fx:id="cancel" layoutX="397.0" layoutY="515.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
       <Button fx:id="confirm" layoutX="397.0" layoutY="497.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <Label fx:id="errorMessage" layoutX="207.0" layoutY="441.0" text="ERROR:" textFill="RED">
+      <Label fx:id="error" layoutX="207.0" layoutY="441.0" text="ERROR:" textFill="RED">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font></Label>

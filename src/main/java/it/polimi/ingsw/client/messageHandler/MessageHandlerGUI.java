@@ -56,7 +56,8 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setErrorFromServer(message.getMessage());
            if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) gui.setGamePhase(GamePhases.STARTGAME);
-            gui.setGamePhase(gui.phase(gui.getOldScene()));
+            else{
+                gui.setGamePhase(gui.phase(gui.getOldScene()));}
             gui.setCurrentScene(gui.getOldScene());
             gui.changeScene();
         }
@@ -186,30 +187,12 @@ public class MessageHandlerGUI extends MessageHandler {
             } else {
 
                 gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-            /*
-            gui.setCurrentScene(gui.getScene(GUI.WAITING_ROOM));
-            gui.setOldScene(gui.getScene(GUI.WAITING_ROOM));
-            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
-             */
             }
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
 
             gui.changeScene();
         }
-        /*
-            clientSocket.getView().setActivePlayer(message.getMessage());
-            if (clientSocket.getView().getNickname().equals(clientSocket.getView().getActivePlayer())) {
-                //allora è il mio turno
-                gui.setGamePhase(GamePhases.MYTURN);
-                synchronized (gui) {
-                    gui.notifyAll();
-                }
-            } else {
-                //allora è il tuno dei miei avversari
-                gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-            }*/
-
     }
 
     @Override

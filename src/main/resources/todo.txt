@@ -8,14 +8,18 @@ da fare:
 -far vedere il mercato e l'evolution section prima
 -controllare multigame (otherplayer turn)
 
+
 in atto:
 -controllare le biglie bianche
--controllare attivazione/disattivazione leader
+-far scegliere la produzione delle leader card --> sostituisco la checkbox con un bottone di attivazione della prosuzione che mi rimanda alla scena dove scelgo cosa produrre
+
 
 fatto:
 -fine gioco --> sistemare looser --> dovrebbe andare
 -POPE CARD --> se supero la posizione non gira la carta
 -basic production da controllare
+-sistemato problema con discard leader card (arrivata il nack e ricaricava la pagina sbagliata)
+-controllare attivazione/disattivazione leader
 
 Nunziante:
 
@@ -28,7 +32,6 @@ Nunziante:
 
 Oldani:
 
-- sistemare la lobby da 3 da 4 e da 1
 - add comments to methods
 
 

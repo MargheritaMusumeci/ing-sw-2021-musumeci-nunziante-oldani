@@ -135,7 +135,7 @@
       </VBox>
       <Button fx:id="confirm" layoutX="565.0" layoutY="329.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
       <Button fx:id="cancel" layoutX="569.0" layoutY="368.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-      <Label fx:id="error" layoutX="125.0" layoutY="519.0" text="ERROR:" textFill="RED">
+      <Label fx:id="error" layoutX="125.0" layoutY="519.0" text="ERROR:" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

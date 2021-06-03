@@ -111,6 +111,7 @@ public class BasicProductionController implements Controller {
         }
 
         if(basicRequires==null || basicEnsures == null || basicEnsures.isEmpty() || basicRequires.isEmpty() || basicRequires.size()!=2){
+            error.setVisible(true);
             error.setText("ERROR: you must select a resource for each line");
             confirm.setVisible(true);
             cancel.setVisible(true);

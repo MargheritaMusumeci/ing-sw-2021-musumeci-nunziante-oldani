@@ -62,9 +62,20 @@ public class ViewPlayerController extends ViewController {
     @FXML
     public void activeProduction(ActionEvent actionEvent) {
 
+        //normal production
         if (activeProduction1.isSelected()) productionPositions.add(0);
         if (activeProduction2.isSelected()) productionPositions.add(1);
         if (activeProduction3.isSelected()) productionPositions.add(2);
+
+        //leader production
+        ArrayList<Resource> leaderEnsure = new ArrayList<>();
+        if(gui.getLeaderEnsure() != null){
+            for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
+                leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
+                if(leaderIndex == 1)productionPositions.add(3);
+                else productionPositions.add(4);
+            }
+        }
 
         if (productionPositions.size() != 0 || activeBasic) {
             System.out.println("Active the production");
@@ -72,13 +83,6 @@ public class ViewPlayerController extends ViewController {
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
 
-            //TODO error at line 77 -> it said getLeaderEnsure() return null
-            ArrayList<Resource> leaderEnsure = new ArrayList<>();
-            if(gui.getLeaderEnsure() != null){
-                for(int i=0; i<gui.getLeaderEnsure().size();i++){
-                    leaderEnsure.add(gui.getLeaderEnsure().get(i));
-                }
-            }
             gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures() , leaderEnsure));
         }
 
