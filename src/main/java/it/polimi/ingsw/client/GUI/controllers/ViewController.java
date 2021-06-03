@@ -10,17 +10,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 
-public class ViewController implements Controller {
+public class ViewController extends MarketEvolutionSectionBuilder implements Controller {
 
     protected GUI gui;
     protected final Print printer;
@@ -31,34 +29,6 @@ public class ViewController implements Controller {
     protected ArrayList<Integer> stockLeaderCardInUse;
     protected ArrayList<ImageView> popeTrackPositions;
 
-    //Market
-    @FXML protected Sphere coin;
-    @FXML protected Sphere shield;
-    @FXML protected Sphere rock;
-    @FXML protected Sphere servant;
-    @FXML protected Sphere faith;
-    @FXML protected Sphere nothing;
-
-    //riga 0
-    @FXML protected Sphere zerozero;
-    @FXML protected Sphere zerouno;
-    @FXML protected Sphere zerodue;
-    @FXML protected Sphere zerotre;
-    //riga 1
-    @FXML protected Sphere unozero;
-    @FXML protected Sphere unouno;
-    @FXML protected Sphere unodue;
-    @FXML protected Sphere unotre;
-    //riga 2
-    @FXML protected Sphere duezero;
-    @FXML protected Sphere dueuno;
-    @FXML
-    protected Sphere duedue;
-    @FXML
-    protected Sphere duetre;
-
-    @FXML
-    protected Sphere external;
     @FXML
     protected Button marketButton;
 
@@ -81,7 +51,7 @@ public class ViewController implements Controller {
     protected Button discard1;
     @FXML
     protected Button discard2;
-
+    @FXML
     protected ArrayList<Button> discardButtons;
 
     @FXML
@@ -214,8 +184,12 @@ public class ViewController implements Controller {
     protected CheckBox activeProduction4;
     @FXML
     protected CheckBox activeProduction5;
+    @FXML
+    protected Button activeProduction4Button;
+    @FXML
+    protected Button activeProduction5Button;
 
-    protected ArrayList<CheckBox> activeLeaderProduction;
+    protected ArrayList<Button> activeLeaderProduction;
 
     @FXML
     protected Button activeProductionsButton;
@@ -232,30 +206,6 @@ public class ViewController implements Controller {
     @FXML
     protected ImageView leaderEnsure2;
 
-    @FXML
-    protected ImageView eCardView_00;//row 0 , column 0
-    @FXML
-    protected ImageView eCardView_01;//row 0 , column 1
-    @FXML
-    protected ImageView eCardView_02;//row 0 , column 2
-    @FXML
-    protected ImageView eCardView_03;//row 0 , column 3
-    @FXML
-    protected ImageView eCardView_10;//row 1 , column 0
-    @FXML
-    protected ImageView eCardView_11;//row 1 , column 1
-    @FXML
-    protected ImageView eCardView_12;//row 1 , column 2
-    @FXML
-    protected ImageView eCardView_13;//row 1 , column 3
-    @FXML
-    protected ImageView eCardView_20;//row 2 , column 0
-    @FXML
-    protected ImageView eCardView_21;//row 2 , column 1
-    @FXML
-    protected ImageView eCardView_22;//row 2 , column 2
-    @FXML
-    protected ImageView eCardView_23;//row 2 , column 3
     @FXML
     protected ArrayList<ArrayList<ImageView>> eCards;
     @FXML
@@ -276,6 +226,8 @@ public class ViewController implements Controller {
     @FXML protected Text enemy2Text;
     @FXML protected Text enemy3Text;
 
+    @FXML protected Label error;
+
     @FXML protected Button endTurn;
 
     public ViewController(){
@@ -293,6 +245,12 @@ public class ViewController implements Controller {
 
     @Override
     public void init() {
+
+        if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
+            error.setText(gui.getErrorFromServer());
+        }else{
+            error.setText(null);
+        }
 
         //initialize market
         Sphere[][] market = new Sphere[3][4];
@@ -328,10 +286,9 @@ public class ViewController implements Controller {
         leaderImages = new ArrayList<>(Arrays.asList(leader1 , leader2));
         activeButtons = new ArrayList<>(Arrays.asList(active1 , active2));
         discardButtons = new ArrayList<>(Arrays.asList(discard1 , discard2));
-        activeLeaderProduction = new ArrayList<>(Arrays.asList(activeProduction4 , activeProduction5));
+        activeLeaderProduction = new ArrayList<>(Arrays.asList(activeProduction4Button , activeProduction5Button));
 
         initEnemiesButton();
-
     }
 
     protected void initEnemiesButton(){
@@ -341,41 +298,17 @@ public class ViewController implements Controller {
         ArrayList<Text> enemyText = new ArrayList<>( Arrays.asList(enemy0Text,enemy1Text,enemy2Text,enemy3Text));
 
         if(gui.getPlayers() > 1){
-            enemyButtons.get(0).setText(gui.getNickname());
-            enemyButtons.get(0).setVisible(true);
+            enemyText.get(0).setText(gui.getNickname());
+            enemyImage.get(0).setVisible(true);
+            enemyButtons.get(0).setDisable(false);
         }
         int index = 1;
         for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
-            enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
-            enemyButtons.get(index).setVisible(true);
+            enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
+            enemyButtons.get(index).setDisable(false);
+            enemyImage.get(index).setVisible(true);
             index++;
         }
-    }
-
-    protected void fillMarket(Sphere[][] market) {
-        market[0][0] = zerozero;
-        market[0][1] = zerouno;
-        market[0][2] = zerodue;
-        market[0][3] = zerotre;
-        market[1][0] = unozero;
-        market[1][1] = unouno;
-        market[1][2] = unodue;
-        market[1][3] = unotre;
-        market[2][0] = duezero;
-        market[2][1] = dueuno;
-        market[2][2] = duedue;
-        market[2][3] = duetre;
-    }
-
-    protected void fillEvolutionSection(ArrayList<ArrayList<ImageView>> eCards) {
-
-        ArrayList<ImageView> cards1 = new ArrayList<>(Arrays.asList(eCardView_00, eCardView_01, eCardView_02, eCardView_03));
-        eCards.add(0, cards1);
-        ArrayList<ImageView> cards2 = new ArrayList<>(Arrays.asList(eCardView_10, eCardView_11, eCardView_12, eCardView_13));
-        eCards.add(1, cards2);
-        ArrayList<ImageView> cards3 = new ArrayList<>(Arrays.asList(eCardView_20, eCardView_21, eCardView_22, eCardView_23));
-        eCards.add(2, cards3);
-
     }
 
     protected void fillProductionZone(ArrayList<ImageView>[] productionZones) {

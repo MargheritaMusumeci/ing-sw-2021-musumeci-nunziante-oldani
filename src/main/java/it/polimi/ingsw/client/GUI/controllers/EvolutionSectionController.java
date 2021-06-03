@@ -16,22 +16,9 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EvolutionSectionController implements Controller {
+public class EvolutionSectionController extends MarketEvolutionSectionBuilder implements Controller {
     private GUI  gui;
     private Print printer;
-
-    @FXML private ImageView eCard_00;//row 0 , column 0
-    @FXML private ImageView eCard_01;//row 0 , column 1
-    @FXML private ImageView eCard_02;//row 0 , column 2
-    @FXML private ImageView eCard_03;//row 0 , column 3
-    @FXML private ImageView eCard_10;//row 1 , column 0
-    @FXML private ImageView eCard_11;//row 1 , column 1
-    @FXML private ImageView eCard_12;//row 1 , column 2
-    @FXML private ImageView eCard_13;//row 1 , column 3
-    @FXML private ImageView eCard_20;//row 2 , column 0
-    @FXML private ImageView eCard_21;//row 2 , column 1
-    @FXML private ImageView eCard_22;//row 2 , column 2
-    @FXML private ImageView eCard_23;//row 2 , column 3
 
     private ArrayList<ArrayList<ImageView>> eCards;
 

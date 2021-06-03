@@ -106,55 +106,14 @@ public class ViewPlayerController extends ViewController {
         gui.changeScene();
     }
 
-    //@FXML
-    /*public void useLeader(ActionEvent actionEvent) {
+    @FXML
+    private void showLeaderProduction(ActionEvent actionEvent) {
+
         Button button = (Button) actionEvent.getSource();
 
-        //stockbox plus --> always in use
-        //sale--> set in use and modify evolution section --> maybe show your sale?
-        //production zone --> if ypu click in use, include that position in active production
-        //market--> if in use modify white balls
+        if (button.equals(activeProduction4Button)) activeProduction4.setSelected(true);
+        else activeProduction4.setSelected(true);
 
-        if (button.equals(use1)) {
-            gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 0));
-            if (gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.NOMOREWHITE)) {
-                marketLeaderActive[0] = true;
-            }
-            if (gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)) {
-                productionPositions.add(3);
-                showLeaderProduction();
-            }
-
-        } else {
-            //se ho scartato la prima leader card, la seconda slitta in prima posizione
-            if (gui.getView().getLeaderCards().size() == 1) {
-                gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 0));
-
-                if (gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.NOMOREWHITE)) {
-                    marketLeaderActive[0] = true;
-                }
-                if (gui.getView().getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)) {
-                    //oppure 3 se ho eliminato la prima leader?
-                    productionPositions.add(4);
-                    gui.setLeaderPosition(0);
-                    showLeaderProduction();
-                }
-            } else {
-                gui.getClientSocket().send(new UseLeaderCardMessage("Use leader card", 1));
-                if (gui.getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.NOMOREWHITE)) {
-                    marketLeaderActive[1] = true;
-                }
-                if (gui.getView().getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)) {
-                    gui.setLeaderPosition(1);
-                    productionPositions.add(4);
-                    showLeaderProduction();
-                }
-            }
-        }
-    }*/
-
-    @FXML
-    private void showLeaderProduction() {
         gui.setCurrentScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
         gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.LEADERPRODUCTION);
@@ -180,36 +139,9 @@ public class ViewPlayerController extends ViewController {
             }
             if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 activeLeaderProduction.get(cardNumber).setVisible(true);
+                activeLeaderProduction.get(cardNumber).setDisable(false);
             }
         }
-
-        /*
-        if (leaderWaitForAck == 1) {
-            active1.setVisible(false);
-            discard1.setVisible(false);
-            System.out.println("Received activeLeaderAck and I'm in 1");
-            if (gui.getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                stockLeaderCardInUse.add(1);
-                System.out.println("Activated stock leader ability");
-            }
-            if(gui.getLeaderCards().get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
-                activeProduction4.setVisible(true);
-            }
-
-        }
-        if (leaderWaitForAck == 2) {
-            active2.setVisible(false);
-            discard2.setVisible(false);
-            System.out.println("Received activeLeaderAck and I'm in 2");
-            if (gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                stockLeaderCardInUse.add(2);
-            }
-            if(gui.getLeaderCards().get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
-                activeProduction5.setVisible(true);
-                System.out.println("Activated stock leader ability");
-            }
-        }*/
-
         leaderWaitForAck = -1;
     }
 
@@ -459,58 +391,6 @@ public class ViewPlayerController extends ViewController {
             }
         }
 
-        /*
-        Resource[] box1 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(0);
-
-        if (box1[0] != null) {
-            String path = printer.pathFromResource(box1[0]);
-            stockBox1.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox1.setImage(null);
-        }
-
-        Resource[] box2 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(1);
-
-        if (box2[0] != null) {
-            String path = printer.pathFromResource(box2[0]);
-            stockBox21.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox21.setImage(null);
-        }
-        if (box2[1] != null) {
-            String path = printer.pathFromResource(box2[1]);
-            stockBox22.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox22.setImage(null);
-        }
-
-        Resource[] box3 = gui.getView().getDashboard().getSerializableStock().getBoxes().get(2);
-
-        if (box3[0] != null) {
-            String path = printer.pathFromResource(box3[0]);
-            stockBox31.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox31.setImage(null);
-        }
-        if (box3[1] != null) {
-            String path = printer.pathFromResource(box3[1]);
-            stockBox32.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox32.setImage(null);
-        }
-        if (box3[2] != null) {
-            String path = printer.pathFromResource(box3[2]);
-            stockBox33.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox33.setImage(null);
-        }
-         */
         //TODO it happened be here before the dashboard was updated -> after activated a stock plus leader card -> NullPointerException in row 449
         //Initialize leader stock
         System.out.println("There are " + stockLeaderCardInUse.size() + " stock leader card in use");
