@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.TurnHandlerMultiPlayer;
 import it.polimi.ingsw.controller.TurnHandlerSoloGame;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.FourLeaderCardsMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.InitialResourcesMessage;
+import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.MarketAndEvolutionSectionMessage;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.SendViewMessage;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.Resource;
@@ -75,8 +76,13 @@ public class GameHandler{
         }*/
 
         //qui posso mandare le carte perchè sono nel player
+        //Mando anche il mercato e la evolution section che serve per scegleire le carte
+        SerializableMarket serializableMarket = new SerializableMarket(game.getMarket());
+        SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(game.getEvolutionSection(), null);
+        //TODO controllare che nella serializable evolution section serva veramente il player
         for(ServerClientConnection scc : playerSockets) {
             ArrayList<SerializableLeaderCard> serializableLeaderCards = scc.getGameHandler().getInitializationHandler().takeLeaderCards(scc.getGameHandler().getPlayersInGame().get(scc));
+            scc.send(new MarketAndEvolutionSectionMessage("market and evolution section", serializableMarket, serializableEvolutionSection));
             scc.send(new FourLeaderCardsMessage("4 Leader card", serializableLeaderCards));
         }
 

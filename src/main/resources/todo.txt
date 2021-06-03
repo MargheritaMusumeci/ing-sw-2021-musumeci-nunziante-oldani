@@ -1,18 +1,10 @@
 Musumeci:
 
-//TODO
-
 da fare:
--visualizzare dashbord degli avversari --> costuire la view corretta
--label di errore
--far vedere il mercato e l'evolution section prima
--controllare multigame (otherplayer turn)
-
+-controllare multigame (otherplayer turn) --> carte leader stockbox plus
 
 in atto:
 -controllare le biglie bianche
--far scegliere la produzione delle leader card --> sostituisco la checkbox con un bottone di attivazione della prosuzione che mi rimanda alla scena dove scelgo cosa produrre
-
 
 fatto:
 -fine gioco --> sistemare looser --> dovrebbe andare
@@ -20,21 +12,19 @@ fatto:
 -basic production da controllare
 -sistemato problema con discard leader card (arrivata il nack e ricaricava la pagina sbagliata)
 -controllare attivazione/disattivazione leader
+-far vedere il mercato e l'evolution section prima
+-visualizzare dashbord degli avversari --> costuire la view corretta
+-abbellire il fine gioco
+-far scegliere la produzione delle leader card --> sostituisco la checkbox con un bottone di attivazione della prosuzione che mi rimanda alla scena dove scelgo cosa produrre
+-label di errore
 
 Nunziante:
 
--fine gioco
--turno degli avversari
--visualizzare dashbord degli avversari
-
 - add comments to methods
-
 
 Oldani:
 
 - add comments to methods
-
-
 
 - modificare la signature di updateMarket nell'uml
 - sistemare uml --> product è products nelle productionCards

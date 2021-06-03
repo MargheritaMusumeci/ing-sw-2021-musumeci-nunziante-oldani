@@ -4,7 +4,9 @@ import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.ViewEnemyController;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import it.polimi.ingsw.serializableModel.SerializableMarket;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +31,8 @@ public class GUI extends Application implements UI {
     private final HashMap<String, Controller> controllers;
     private final HashMap<Scene, GamePhases> phases;
     private final HashMap<GamePhases,String> fxmls;
+    private SerializableMarket market;
+    private SerializableEvolutionSection evolutionSection;
 
     private View view;
     private ClientSocket clientSocket;
@@ -289,5 +293,21 @@ public class GUI extends Application implements UI {
 
     public ArrayList<Boolean> getLeaderCardsDiscarded() {
         return leaderCardsDiscarded;
+    }
+
+    public SerializableMarket getMarket() {
+        return market;
+    }
+
+    public void setMarket(SerializableMarket market) {
+        this.market = market;
+    }
+
+    public SerializableEvolutionSection getEvolutionSection() {
+        return evolutionSection;
+    }
+
+    public void setEvolutionSection(SerializableEvolutionSection evolutionSection) {
+        this.evolutionSection = evolutionSection;
     }
 }
