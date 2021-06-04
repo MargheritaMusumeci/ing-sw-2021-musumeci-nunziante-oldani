@@ -21,7 +21,7 @@
       <Text fill="WHITE" layoutX="373.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
       <ProgressIndicator fx:id="loading" disable="true" layoutX="402.0" layoutY="424.0" visible="false" />
       <TextField fx:id="nicknameField" layoutX="353.0" layoutY="303.0" promptText="nickname" />
-      <Label layoutX="226.0" layoutY="512.0" prefHeight="20.0" prefWidth="464.0" text="ERROR:" textFill="RED" visible="false">
+      <Label fx:id="error" layoutX="226.0" layoutY="512.0" prefHeight="20.0" prefWidth="464.0" text="ERROR:" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

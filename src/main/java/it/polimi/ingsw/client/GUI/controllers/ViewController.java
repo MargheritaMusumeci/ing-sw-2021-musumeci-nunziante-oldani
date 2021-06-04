@@ -302,6 +302,7 @@ public class ViewController extends MarketEvolutionSectionBuilder implements Con
             enemyText.get(0).setVisible(true);
             enemyImage.get(0).setVisible(true);
             enemyButtons.get(0).setDisable(false);
+            enemyButtons.get(0).setText(gui.getNickname());
         }
         int index = 1;
         for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
@@ -309,6 +310,7 @@ public class ViewController extends MarketEvolutionSectionBuilder implements Con
             enemyButtons.get(index).setDisable(false);
             enemyText.get(index).setVisible(true);
             enemyImage.get(index).setVisible(true);
+            enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
             index++;
         }
     }
