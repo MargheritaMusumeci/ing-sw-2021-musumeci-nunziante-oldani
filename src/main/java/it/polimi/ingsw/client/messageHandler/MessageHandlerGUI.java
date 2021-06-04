@@ -29,7 +29,7 @@ public class MessageHandlerGUI extends MessageHandler {
                 gui.setActionDone(true);
             }
 
-            if(gui.getGamePhase().equals(GamePhases.STORERESOURCES)){
+            if(gui.getGamePhase().equals(GamePhases.STORERESOURCES)||gui.getGamePhase().equals(GamePhases.CHOOSEWHITEBALL)){
                 gui.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage(""));
                 gui.setActionDone(true);
                 return;
@@ -115,17 +115,7 @@ public class MessageHandlerGUI extends MessageHandler {
                 gui.setOldScene(gui.getScene(GameFxml.WAITING_ROOM.s));
                 gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
             }
-
             gui.changeScene();
-
-           /* if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
-                gui.setGamePhase(GamePhases.MYTURN);
-            } else gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-
-            synchronized (gui) {
-                gui.notifyAll();
-            }
-           */
         }
     }
 
