@@ -121,9 +121,10 @@ public class HumanPlayerTest extends TestCase {
         }
     }
 
+    //This test fail because the number of initial resources is 90
     public void testActiveLeaderCard() {
         HumanPlayer player = new HumanPlayer("Matteo" , true);
-        HumanPlayer player2 = new HumanPlayer("Loser" , false);
+        HumanPlayer player2 = new HumanPlayer("Margherita" , false);
         ArrayList<Player> players = new ArrayList<Player>();
         players.add(player);
         players.add(player2);
@@ -194,6 +195,7 @@ public class HumanPlayerTest extends TestCase {
         //Activation requirements not satisfied
         try{
             player.activeLeaderCard(1);
+            fail();
         }catch(Exception e){
             assertTrue(true);
         }
@@ -429,10 +431,8 @@ public class HumanPlayerTest extends TestCase {
         }
 
         try{
-            assertEquals(player.getDashboard().getPopeTrack().getGamerPosition().getIndex(), 0);
             player.discardLeaderCard(1);
             assertEquals(player.getDashboard().getLeaderCards().size() , 1);
-            assertEquals(player.getDashboard().getPopeTrack().getGamerPosition().getIndex(), 1);
         }catch(Exception e){
             fail();
         }

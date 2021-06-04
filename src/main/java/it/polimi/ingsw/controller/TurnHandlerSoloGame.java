@@ -93,7 +93,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
                             player.getPopeTrack().getGamerPosition().getNumPopeSection() == lastSection) {
                         player.getPopeTrack().getPopeCard().get( lastSection - 1).setIsUsed();
                     } else {
-                        player.getPopeTrack().getPopeCard().get(lastSection).setIsDiscard();
+                        player.getPopeTrack().getPopeCard().get(lastSection - 1).setIsDiscard();
                     }
                 }
 

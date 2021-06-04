@@ -1,10 +1,11 @@
 Musumeci:
 
 da fare:
--controllare multigame (otherplayer turn) --> carte leader stockbox plus
+-controllare multigame (otherplayer turn) --> carte leader stockbox plus - > in teoria lo avevo già provato (non mi va)
 
 in atto:
 -controllare le biglie bianche
+
 
 fatto:
 -fine gioco --> sistemare looser --> dovrebbe andare

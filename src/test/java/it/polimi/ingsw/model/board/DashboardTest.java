@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.NegativeScoreException;
 import it.polimi.ingsw.model.board.Dashboard;
@@ -14,6 +14,7 @@ public class DashboardTest {
 
     @Test
     public void getScoreTest() {
+
     }
 
     @Test
@@ -40,8 +41,9 @@ public class DashboardTest {
     public void getInkwellTest() {
     }
 
-    @Test
-    public void setScoreTest() throws NegativeScoreException {
+    //Credo che questo ora sia inutile
+    //@Test
+    /*public void setScoreTest() throws NegativeScoreException {
         Dashboard d = new Dashboard("", false , null);
         int score = 0;
         score = d.getScore();
@@ -53,6 +55,6 @@ public class DashboardTest {
         }catch (NegativeScoreException e){
             System.out.println(e.getMessage());
         }
+    }*/
 
-    }
 }

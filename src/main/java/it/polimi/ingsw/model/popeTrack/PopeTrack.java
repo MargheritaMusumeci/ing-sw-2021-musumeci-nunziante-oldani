@@ -95,6 +95,8 @@ public class PopeTrack extends PopeTrackObservable {
      * @param increment number of steps in the track
      */
     public void updateLorenzoPosition(int increment){
+        if(lorenzoPosition == null)
+            return;
 
         if((lorenzoPosition.getIndex() + increment) >= track.getTrack().length - 1)
             increment = track.getTrack().length - 1 - lorenzoPosition.getIndex();

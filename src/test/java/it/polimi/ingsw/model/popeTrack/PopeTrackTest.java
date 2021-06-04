@@ -134,6 +134,10 @@ public class PopeTrackTest extends TestCase {
 
     public void testUpdateLorenzoPosition() {
         PopeTrack pTrack = new PopeTrack();
+        //Do nothing because lorenzoPosition is null
+        pTrack.updateLorenzoPosition(1);
+        //Set lorenzo position to 0
+        pTrack.setLorenzoPosition();
         assertEquals(0 , pTrack.getLorenzoPosition().getIndex());
         //Increment the player position by 1
         pTrack.updateLorenzoPosition(1);
