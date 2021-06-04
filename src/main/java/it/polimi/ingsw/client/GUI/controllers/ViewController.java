@@ -299,6 +299,7 @@ public class ViewController extends MarketEvolutionSectionBuilder implements Con
 
         if(gui.getPlayers() > 1){
             enemyText.get(0).setText(gui.getNickname());
+            enemyText.get(0).setVisible(true);
             enemyImage.get(0).setVisible(true);
             enemyButtons.get(0).setDisable(false);
         }
@@ -306,6 +307,7 @@ public class ViewController extends MarketEvolutionSectionBuilder implements Con
         for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
             enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
             enemyButtons.get(index).setDisable(false);
+            enemyText.get(index).setVisible(true);
             enemyImage.get(index).setVisible(true);
             index++;
         }

@@ -69,7 +69,7 @@ public class ViewPlayerController extends ViewController {
 
         //leader production
         ArrayList<Resource> leaderEnsure = new ArrayList<>();
-        if(gui.getLeaderEnsure() != null){
+        if(gui.getLeaderEnsure() != null && gui.getLeaderEnsure().keySet()!=null) {
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
                 if(leaderIndex == 1)productionPositions.add(3);

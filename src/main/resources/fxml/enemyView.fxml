@@ -24,7 +24,7 @@
    <children>
       <ImageView fitHeight="641.0" fitWidth="1310.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../Downloads/background_cl2.png" />
+            <Image url="@../images/background_cl2.png" />
          </image>
       </ImageView>
       <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" layoutX="1090.0" layoutY="56.0" nodeOrientation="RIGHT_TO_LEFT" opacity="0.7" pickOnBounds="true" preserveRatio="true" visible="false">
