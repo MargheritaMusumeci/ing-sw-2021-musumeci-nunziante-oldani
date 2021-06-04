@@ -1,7 +1,6 @@
 package it.polimi.ingsw.messages.sentByServer.configurationMessagesServer;
 
 import it.polimi.ingsw.client.messageHandler.MessageHandler;
-import it.polimi.ingsw.messages.sentByServer.ServerMessage;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableMarket;
 

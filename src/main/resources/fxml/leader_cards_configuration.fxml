@@ -62,9 +62,9 @@
       </Pane>
       <Pane prefHeight="600.0" prefWidth="322.0">
          <children>
-            <VBox layoutX="17.0" layoutY="300.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+            <VBox layoutX="29.0" layoutY="286.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                <children>
-                  <HBox prefHeight="54.0" prefWidth="210.0">
+                  <HBox prefHeight="54.0" prefWidth="210.0" spacing="5.0">
                      <children>
                         <ImageView fx:id="eCardView_00" fitHeight="92.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="eCardView_01" fitHeight="92.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />
@@ -80,7 +80,7 @@
                         <ImageView fx:id="eCardView_13" fitHeight="92.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="54.0" prefWidth="210.0">
+                  <HBox prefHeight="54.0" prefWidth="210.0" spacing="5.0">
                      <children>
                         <ImageView fx:id="eCardView_20" fitHeight="92.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="eCardView_21" fitHeight="92.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />
@@ -187,7 +187,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox layoutX="29.0" layoutY="243.0" prefHeight="57.0" prefWidth="267.0" spacing="10.0">
+            <HBox layoutX="29.0" layoutY="220.0" prefHeight="57.0" prefWidth="267.0" spacing="10.0">
                <children>
                   <VBox prefHeight="75.0" prefWidth="18.0" spacing="10.0">
                      <children>
