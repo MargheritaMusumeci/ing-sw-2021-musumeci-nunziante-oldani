@@ -673,6 +673,34 @@ public class DoActionPlayerTest {
             assertTrue(true);
         }
 
+        try {
+            positions = new ArrayList<>();
+            ArrayList<Resource> leaderRequired = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.ROCK));
+            ArrayList<Resource> leaderEnsure = new ArrayList<>();
+            leaderEnsure.add(Resource.SERVANT);
+
+            int oldNumberOfServant = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT);
+            int oldNumberOfCoin = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.COIN);
+            int oldNumberOfRock = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.ROCK);
+
+            doActionPlayer.activeProductionZones(positions , true , leaderRequired , leaderEnsure , null);
+
+            assertEquals(oldNumberOfServant + 1 , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT));
+            assertEquals(oldNumberOfCoin - 1 , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.COIN));
+            assertEquals(oldNumberOfRock - 1 , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.ROCK));
+
+        } catch (NonCompatibleResourceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        } catch (NotEnoughResourcesException e) {
+            fail();
+        } catch (ActionAlreadyDoneException e) {
+            fail();
+        } catch (BadParametersException e) {
+            fail();
+        }
+
     }
 
     @Test
