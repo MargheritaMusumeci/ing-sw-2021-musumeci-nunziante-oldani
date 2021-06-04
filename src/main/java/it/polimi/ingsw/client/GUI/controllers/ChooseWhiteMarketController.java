@@ -23,6 +23,7 @@ public class ChooseWhiteMarketController implements Controller {
     private final Print printer = new Print();
     ArrayList<Resource> resource;
     int numberWhite;
+    int numberWhiteFixed;
     ArrayList<Circle> whiteBalls;
     Resource resourceOne;
     Resource resourceTwo;
@@ -66,7 +67,8 @@ public class ChooseWhiteMarketController implements Controller {
             }
         }
         numberWhite = i;
-
+        numberWhiteFixed = i;
+        System.out.println("white balls" + numberWhite);
         HashMap<Resource, Integer> resourcesWhite = gui.getView().getLeaderCards().get(0).getAbilityResource();
 
         //salvo la risorsa in cui devo trasformarla
@@ -103,21 +105,24 @@ public class ChooseWhiteMarketController implements Controller {
             gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
             gui.setOldScene(gui.getScene(GameFxml.CHOOSEWHITERESOURCES.s));
             gui.setGamePhase(GamePhases.STORERESOURCES);
+            gui.changeScene();
         } else {
             error.setText("All white balls must be replaced");
+            error.setVisible(true);
         }
     }
 
     public void plus(ActionEvent actionEvent) {
 
         Button button = (Button) actionEvent.getSource();
+        System.out.println(numberWhite);
         if (numberWhite != 0) {
             if (button.equals(plus1)) {
-                whiteBalls.get(whiteBalls.size() - numberWhite).setFill(printer.colorFromResource(resourceOne));
+                whiteBalls.get(numberWhiteFixed - numberWhite).setFill(printer.colorFromResource(resourceOne));
                 resource.remove(Resource.NOTHING);
                 resource.add(resourceOne);
             } else {
-                whiteBalls.get(whiteBalls.size() - numberWhite).setFill(printer.colorFromResource(resourceTwo));
+                whiteBalls.get(numberWhiteFixed - numberWhite).setFill(printer.colorFromResource(resourceTwo));
                 resource.remove(Resource.NOTHING);
                 resource.add(resourceTwo);
             }

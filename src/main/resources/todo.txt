@@ -1,7 +1,10 @@
 Musumeci:
 
 da fare:
--controllare multigame (otherplayer turn) --> carte leader stockbox plus - > in teoria lo avevo già provato (non mi va)
+- controllare multigame (otherplayer turn) --> carte leader stockbox plus - > in teoria lo avevo già provato (non mi va)
+- flag ack vs update
+- controllare production leader controller --> non si vedono le biglie prodotte e non sempra che tu abbia effettuato la mossa
+
 
 in atto:
 -controllare le biglie bianche
