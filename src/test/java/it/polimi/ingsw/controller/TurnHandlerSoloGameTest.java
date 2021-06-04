@@ -96,7 +96,7 @@ public class TurnHandlerSoloGameTest {
         modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(25);
 
         turnHandler.endTurn();
-        assertTrue(turnHandler.isTheLastTurn);
+        assertTrue(turnHandler.isTheEnd);
     }
 
     @Test
