@@ -41,6 +41,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
         //Show the error if present
         if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
+            error.setVisible(true);
         }
 
         confirm.setVisible(true);
@@ -103,6 +104,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
             error.setText("Choose a row/col...");
             confirm.setVisible(true);
             cancel.setVisible(true);
+
         } else {
             int noMoreWhite = 0;
             for (int i = 0; i < gui.getView().getLeaderCards().size(); i++) {
@@ -126,6 +128,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
         }
     }
     public void cancel(ActionEvent actionEvent) {
+
         gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.STARTGAME);

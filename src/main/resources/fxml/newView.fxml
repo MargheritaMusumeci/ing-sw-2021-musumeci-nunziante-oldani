@@ -429,8 +429,6 @@
             <ImageView fx:id="stockPlus12" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="1040.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="1181.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
       <CheckBox fx:id="activeProduction4" disable="true" layoutX="1035.0" layoutY="559.0" mnemonicParsing="false" visible="false" />
       <CheckBox fx:id="activeProduction5" disable="true" layoutX="1176.0" layoutY="556.0" mnemonicParsing="false" visible="false" />
       <Text fx:id="enemy0Text" fill="WHITE" layoutX="1182.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marghe" visible="false">
@@ -458,11 +456,13 @@
       <ImageView fx:id="inkwell" fitHeight="64.0" fitWidth="66.0" layoutX="830.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="activeProduction4Button" disable="true" layoutX="1021.0" layoutY="544.0" mnemonicParsing="false" onAction="#showLeaderProduction" text="Product" visible="false" />
       <Button fx:id="activeProduction5Button" disable="true" layoutX="1157.0" layoutY="544.0" mnemonicParsing="false" onAction="#showLeaderProduction" text="Product" visible="false" />
-      <Label fx:id="error" layoutX="968.0" layoutY="171.0" prefHeight="17.0" prefWidth="317.0" text="ERROR: " textFill="RED" visible="false">
+      <Label fx:id="error" layoutX="968.0" layoutY="171.0" prefHeight="17.0" prefWidth="317.0" text="ERROR: " textFill="RED">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
+      <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="1040.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="1181.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
       <HBox layoutX="1006.0" layoutY="51.0" prefHeight="71.0" prefWidth="229.0">
          <children>
             <Button fx:id="enemy3Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />

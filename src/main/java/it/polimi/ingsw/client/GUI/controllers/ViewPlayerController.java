@@ -69,11 +69,14 @@ public class ViewPlayerController extends ViewController {
 
         //leader production
         ArrayList<Resource> leaderEnsure = new ArrayList<>();
-        if(gui.getLeaderEnsure() != null && gui.getLeaderEnsure().keySet()!=null) {
+        if(gui.getLeaderEnsure() != null) {
+
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
-                if(leaderIndex == 1)productionPositions.add(3);
-                else productionPositions.add(4);
+                if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length > 4))productionPositions.add(3);
+                else {
+                    productionPositions.add(4);
+                }
             }
         }
 
@@ -111,8 +114,14 @@ public class ViewPlayerController extends ViewController {
 
         Button button = (Button) actionEvent.getSource();
 
-        if (button.equals(activeProduction4Button)) activeProduction4.setSelected(true);
-        else activeProduction4.setSelected(true);
+        if (button.equals(activeProduction4Button)) {
+            activeProduction4.setSelected(true);
+            gui.setLeaderPosition(1);
+        }
+        else {
+            activeProduction5.setSelected(true);
+            gui.setLeaderPosition(2);
+        }
 
         gui.setCurrentScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
         gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
@@ -140,6 +149,7 @@ public class ViewPlayerController extends ViewController {
             if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 activeLeaderProduction.get(cardNumber).setVisible(true);
                 activeLeaderProduction.get(cardNumber).setDisable(false);
+
             }
         }
         leaderWaitForAck = -1;
@@ -235,6 +245,9 @@ public class ViewPlayerController extends ViewController {
 
     private void initLeaderCards() {
 
+        leaderEnsure1.setImage(null);
+        leaderEnsure2.setImage(null);
+
         //set leader card
         ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
         if (leaderCards != null && leaderCards.size() > 0) {
@@ -253,20 +266,9 @@ public class ViewPlayerController extends ViewController {
                     else{
                         activeProduction4.setVisible(false);
                     }
-
-
-                    //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(0) != null) {
-                        leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(0))));
-                    }
                 } else {
-                    discard2.setVisible(false);
-                    active2.setVisible(false);
-
-                    //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                    if (leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
-                        leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
-                    }
+                    discard1.setVisible(false);
+                    active1.setVisible(false);
 
                     if(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                         activeProduction4.setVisible(true);
@@ -295,11 +297,6 @@ public class ViewPlayerController extends ViewController {
                 if (leaderCards.get(1).isActive() && leaderCards.get(1).getId() == gui.getLeaderCards().get(1).getId()) {
                     discard2.setVisible(false);
                     active2.setVisible(false);
-
-                    //se l'ho attivata e quindi ho già scelto la risorsa che voglio in cambio
-                    if (leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER) && gui.getLeaderEnsure() != null && gui.getLeaderEnsure().get(1) != null) {
-                        leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
-                    }
 
                     if(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                         activeProduction5.setVisible(true);
@@ -331,6 +328,17 @@ public class ViewPlayerController extends ViewController {
             discard2.setVisible(false);
             activeProduction4.setVisible(false);
             activeProduction5.setVisible(false);
+        }
+
+        //leader production
+        if(gui.getLeaderEnsure() != null) {
+            for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
+                if(leaderIndex == 1 && gui.getLeaderEnsure().keySet().size() == 1) {
+                    leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
+                }else {
+                    leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(2))));
+                }
+            }
         }
     }
 
