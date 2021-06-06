@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GameFxml;
 import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.model.game.Resource;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -34,6 +35,14 @@ public class LeaderProductionController implements Controller {
     @FXML
     private Label error;
 
+    public void cancel(ActionEvent actionEvent) {
+
+        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.changeScene();
+    }
+
     public void confirm() {
 
         confirm.setVisible(false);
@@ -53,7 +62,7 @@ public class LeaderProductionController implements Controller {
         if(radio == servant1){
             leaderEnsure.put(gui.getLeaderPosition(),Resource.SERVANT);
         }
-        if(leaderEnsure.isEmpty()){
+        if(leaderEnsure == null || leaderEnsure.isEmpty()){
             error.setText("ERROR: you have to choose the resource to produce!");
             confirm.setVisible(true);
             cancel.setVisible(true);

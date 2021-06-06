@@ -20,7 +20,7 @@
             <Font size="32.0" />
          </font>
       </Text>
-      <Button fx:id="cancel" layoutX="399.0" layoutY="523.0" mnemonicParsing="false" onAction="#confirm" text="Cancel" />
+      <Button fx:id="cancel" layoutX="399.0" layoutY="523.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Button fx:id="confirm" layoutX="395.0" layoutY="483.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
       <Label fx:id="error" layoutX="207.0" layoutY="441.0" text="ERROR:" textFill="RED" visible="false">
          <font>
