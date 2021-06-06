@@ -13,7 +13,6 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="855.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/background.png" />
          </image></ImageView>
       <Text fill="WHITE" layoutX="244.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THE GAME IS OVER">
          <font>
