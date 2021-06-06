@@ -36,9 +36,16 @@ public class MessageHandlerGUI extends MessageHandler {
             }
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
-                gui.setGamePhase(GamePhases.STARTGAME);
-                System.out.println("Calling activeLeaderAck after received the ack");
-                ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
+                if(gui.isUpdateDashboardArrived()){
+                    gui.setUpdateDashboardArrived(false);
+                    gui.setGamePhase(GamePhases.STARTGAME);
+                    System.out.println("Calling activeLeaderAck after received the ack");
+                    ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
+                }
+                else{
+                    gui.setAckArrived(true);
+                    return;
+                }
             }
 
             gui.changeScene();
@@ -52,9 +59,14 @@ public class MessageHandlerGUI extends MessageHandler {
 
         synchronized (gui) {
             gui.setErrorFromServer(message.getMessage());
-           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) gui.setGamePhase(GamePhases.STARTGAME);
+           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER) && gui.isUpdateDashboardArrived()){
+               gui.setUpdateDashboardArrived(false);
+               gui.setGamePhase(GamePhases.STARTGAME);
+           }
             else{
-                gui.setGamePhase(gui.phase(gui.getOldScene()));}
+                gui.setNackArrived(true);
+                gui.setGamePhase(gui.phase(gui.getOldScene()));
+            }
             gui.setCurrentScene(gui.getOldScene());
             gui.changeScene();
         }
@@ -62,7 +74,18 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleMessage(ReconnectionMessage message) {
-
+        gui.setView(message.getView());
+        if(gui.getView().getNickname().equals(gui.getView().getActivePlayer())){
+            gui.setGamePhase(GamePhases.MYTURN);
+            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        }
+        else{
+            gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+            gui.setOldScene(gui.getScene(GameFxml.OTHERTURN.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.OTHERTURN.s));
+        }
+        gui.changeScene();
     }
 
     @Override
@@ -150,18 +173,24 @@ public class MessageHandlerGUI extends MessageHandler {
             clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
             //if(gui.getCurrentScene() == gui.getScene("START_GAME")){
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
+
             if(!gui.getGamePhase().equals(GamePhases.STORERESOURCES)){
 
                 if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
-                    gui.setGamePhase(GamePhases.STARTGAME);
-                    System.out.println("Calling activeLeaderAck after received the ack");
-                    ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
+                    if(gui.isAckArrived() || gui.isNackArrived()){
+                        gui.setAckArrived(false);
+                        gui.setNackArrived(false);
+                        System.out.println("Calling activeLeaderAck after received the ack");
+                        ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
+                    }
+                    else{
+                        gui.setUpdateDashboardArrived(true);
+                        return;
+                    }
                 }
                 gui.setGamePhase(GamePhases.STARTGAME);
                 gui.changeScene();
             }
-
-            //}
         }
     }
 
