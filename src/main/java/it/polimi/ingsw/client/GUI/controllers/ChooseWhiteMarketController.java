@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class ChooseWhiteMarketController implements Controller {
         for (Resource res : resource) {
             if (res.equals(Resource.NOTHING)) {
                 whiteBalls.get(i).setVisible(true);
+                whiteBalls.get(i).setFill(Color.WHITE);
                 i++;
             }
         }
