@@ -175,6 +175,9 @@ public class ViewPlayerController extends ViewController {
                 System.out.println("Activated card 1 in model");
             }
         }
+        gui.setAckArrived(false);
+        gui.setUpdateDashboardArrived(false);
+        gui.setNackArrived(false);
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
         gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         System.out.println("Active leader");

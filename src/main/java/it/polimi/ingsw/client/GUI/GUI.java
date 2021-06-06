@@ -52,6 +52,13 @@ public class GUI extends Application implements UI {
     private String otherView;
 
     /**
+     * To avoid problem with ack/update message
+     */
+    private boolean isAckArrived;
+    private boolean isNackArrived;
+    private boolean isUpdateDashboardArrived;
+
+    /**
      * To set which evolution card the player wants to buy
      */
     private int cardRow;
@@ -72,6 +79,10 @@ public class GUI extends Application implements UI {
         leaderEnsure = new HashMap<>();
         players=0;
         leaderCardsDiscarded = new ArrayList<>(Arrays.asList(false , false));
+
+        this.isAckArrived = false;
+        this.isNackArrived = false;
+        this.isUpdateDashboardArrived = false;
     }
 
     public static void main(String[] args) {
@@ -310,5 +321,29 @@ public class GUI extends Application implements UI {
 
     public void setEvolutionSection(SerializableEvolutionSection evolutionSection) {
         this.evolutionSection = evolutionSection;
+    }
+
+    public boolean isAckArrived() {
+        return isAckArrived;
+    }
+
+    public void setAckArrived(boolean ackArrived) {
+        isAckArrived = ackArrived;
+    }
+
+    public boolean isUpdateDashboardArrived() {
+        return isUpdateDashboardArrived;
+    }
+
+    public void setUpdateDashboardArrived(boolean updateDashboardArrived) {
+        isUpdateDashboardArrived = updateDashboardArrived;
+    }
+
+    public boolean isNackArrived() {
+        return isNackArrived;
+    }
+
+    public void setNackArrived(boolean nackArrived) {
+        isNackArrived = nackArrived;
     }
 }

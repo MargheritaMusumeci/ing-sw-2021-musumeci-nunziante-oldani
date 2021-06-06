@@ -89,12 +89,13 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
 
         try{
             //get total resource
-            int totalResources = personalStock.getTotalNumberOfResources() + personalStock.getTotalNumberOfResources();
+            int totalResources = (personalStock.getTotalNumberOfResources() + personalLockBox.getTotalAmountOfResources());
             totalScore = totalResources/5;
 
             //leader cards
             for(LeaderCard leaderCard: leaderCards){
-                totalScore += leaderCard.getPoint();
+                if(leaderCard.isActive())
+                    totalScore += leaderCard.getPoint();
             }
 
             //production zones
@@ -107,8 +108,9 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
             }
 
             totalScore += personalPopeTrack.getGamerPosition().getPoint();
-            for (PopeCard popeCard: personalPopeTrack.getPopeCard()){
-                if(popeCard.isUsed()){
+
+            for (PopeCard popeCard: personalPopeTrack.getPopeCard()) {
+                if (popeCard.isUsed()) {
                     totalScore += popeCard.getPoint();
                 }
             }
