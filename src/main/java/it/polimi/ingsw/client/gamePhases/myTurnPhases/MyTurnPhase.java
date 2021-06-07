@@ -100,11 +100,8 @@ public class MyTurnPhase extends Phase {
                 new Thread(cli).start();
                 break;
 
+
             case 13:
-                cli.setGamePhase(new UseLeaderCardPhase());
-                new Thread(cli).start();;
-                break;
-            case 14:
                 if(cli.getNumberOfPlayers() == 1){
                     System.out.println(Constants.ANSI_RED + "You are the only player!" +  Constants.ANSI_RESET);
                     break;
