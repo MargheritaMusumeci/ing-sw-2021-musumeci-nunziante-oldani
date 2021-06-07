@@ -22,11 +22,20 @@ public class UpdateOtherPlayerViewMessage extends UpdateMessage implements Seria
         this.view = view;
 
         //sistemo le view togliendo le leder card che non potrei vedere
+        for(int i=0; i<view.getLeaderCards().size(); i++){
+            if(!view.getLeaderCards().get(i).isActive()){
+                view.getLeaderCards().remove(i);
+                i--;
+            }
+        }
+        /*
         for(SerializableLeaderCard serializableLeaderCard : view.getLeaderCards()){
             if(!serializableLeaderCard.isActive()){
                 view.getLeaderCards().remove(serializableLeaderCard);
             }
         }
+
+        */
     }
 
     public String getNickname() {

@@ -76,8 +76,12 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleMessage(ReconnectionMessage message) {
+        //gui.getClientSocket().setView(message.getView());
         gui.setView(message.getView());
-        if(gui.getView().getNickname().equals(gui.getView().getActivePlayer())){
+        gui.setPlayers(message.getNumberOfPlayers());
+        gui.setLeaderCards(message.getView().getLeaderCards());
+
+        if(gui.getNickname().equals(message.getView().getActivePlayer())){
             gui.setGamePhase(GamePhases.MYTURN);
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
@@ -124,14 +128,13 @@ public class MessageHandlerGUI extends MessageHandler {
 
         synchronized (gui) {
             System.out.println("start game");
-            clientSocket.setView(message.getView());
             gui.setView(message.getView());
             //gui.setGamePhase(GamePhases.STARTGAME);
             //gui.setOldScene(gui.getScene(GUI.START_GAME));
             //gui.setCurrentScene(gui.getScene(GUI.START_GAME));
             //gui.changeScene();
 
-            if (clientSocket.getView().getActivePlayer().equals(clientSocket.getView().getNickname())) {
+            if (gui.getView().getActivePlayer().equals(gui.getView().getNickname())) {
                 gui.setGamePhase(GamePhases.STARTGAME);
                 gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
                 gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
@@ -148,10 +151,10 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(SendResourcesBoughtFromMarket message) {
 
         synchronized (gui) {
-            clientSocket.getView().setResourcesBoughtFromMarker(message.getResources());
+            gui.getView().setResourcesBoughtFromMarker(message.getResources());
             gui.changeScene();
             System.out.println("risorse");
-            for (Resource res:clientSocket.getView().getResourcesBoughtFromMarker()) {
+            for (Resource res:gui.getView().getResourcesBoughtFromMarker()) {
                 System.out.println(res.name());
             }
         }
@@ -160,7 +163,7 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
         synchronized (gui) {
-            clientSocket.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
+            gui.getView().setLeaderCards(((UpdateLeaderCardsMessage) message).getLeaderCards());
             if(gui.getCurrentScene() == gui.getScene("START_GAME")) {
                 gui.setGamePhase(GamePhases.STARTGAME);
                 gui.changeScene();
@@ -172,7 +175,7 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleUpdateMessage(UpdateDashBoardMessage message) {
         synchronized (gui) {
 
-            clientSocket.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
+            gui.getView().setDashboard(((UpdateDashBoardMessage) message).getDashboard());
             //if(gui.getCurrentScene() == gui.getScene("START_GAME")){
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
 
@@ -200,7 +203,7 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleUpdateMessage(UpdateActivePlayerMessage message) {
 
         synchronized (gui) {
-            if (clientSocket.getView().getNickname().equals(message.getMessage())) {
+            if (gui.getView().getNickname().equals(message.getMessage())) {
                 gui.setGamePhase(GamePhases.STARTGAME);
             } else {
 
@@ -216,7 +219,7 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleUpdateMessage(UpdateEvolutionSectionMessage message) {
         synchronized (gui) {
-            clientSocket.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
+            gui.getView().setEvolutionSection(((UpdateEvolutionSectionMessage) message).getEvolutionSection());
             if (gui.getCurrentScene() == gui.getScene("START_GAME")) {
                 gui.changeScene();
             }
@@ -226,7 +229,7 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleUpdateMessage(UpdateMarketMessage message) {
         synchronized (gui) {
-            clientSocket.getView().setMarket(((UpdateMarketMessage) message).getMarket());
+            gui.getView().setMarket(((UpdateMarketMessage) message).getMarket());
             if (gui.getCurrentScene() == gui.getScene("START_GAME")) {
                 gui.changeScene();
             }

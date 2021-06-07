@@ -196,8 +196,8 @@ public class ServerClientConnection implements Runnable{
     private void abortGame() {
         //send abort message to every player
         for (ServerClientConnection serverClientConnection: gameHandler.getPlayersInGame().keySet()){
-            serverClientConnection.send(new AbortGameMessage("The game is ended due to an early disconnection" +
-                    "of a player"));
+            serverClientConnection.send(new AbortGameMessage("The game is ended due to an early disconnection " +
+                    "of a player. Please restart the game"));
         }
 
         //set game in pause
