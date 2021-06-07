@@ -3,6 +3,7 @@ Musumeci:
 da fare:
 - controllare multigame (otherplayer turn) --> carte leader stockbox plus - > in teoria lo avevo già provato (non mi va)
 - controllare production leader controller --> non si vedono le biglie prodotte e non sempra che tu abbia effettuato la mossa
+- controllare le risorse inserite quando ci sono due leader card no more white attive
 
 
 in atto:

@@ -253,6 +253,7 @@ public class ViewPlayerController extends ViewController {
 
         //set leader card
         ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
+        System.out.println("Leader card size is: " + leaderCards.size());
         if (leaderCards != null && leaderCards.size() > 0) {
 
             String path = String.valueOf(leaderCards.get(0).getId());
@@ -402,19 +403,28 @@ public class ViewPlayerController extends ViewController {
             }
         }
 
-        //TODO it happened be here before the dashboard was updated -> after activated a stock plus leader card -> NullPointerException in row 449
         //Initialize leader stock
+
         System.out.println("There are " + stockLeaderCardInUse.size() + " stock leader card in use");
+        stockLeaderCardInUse = new ArrayList<>();
+        int leaderCardNumber = 1;
+        for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
+            if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                if(leaderCardNumber <= 2)
+                    stockLeaderCardInUse.add(leaderCardNumber);
+            }
+            leaderCardNumber++;
+        }
         if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
-            for(int i = 0 ; i < gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().size() ; i++){//stockLeaderCardInUse.size()
+            for(int i = 0 ; i < gui.getView().getDashboard().getSerializableStock().getBoxPlus().size() ; i++){//stockLeaderCardInUse.size()
                 int leaderPosition = stockLeaderCardInUse.get(i);
 
                 System.out.println("Initializing stock plus");
 
-                if (gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
-                    for(int j = 0 ; j < gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
-                        if(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
-                            String path = printer.pathFromResource(gui.getClientSocket().getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
+                if (gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
+                    for(int j = 0 ; j < gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
+                        if(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
+                            String path = printer.pathFromResource(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
                             stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
                         }
                         else{
