@@ -164,7 +164,8 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(AbortGameMessage abortGameMessage) {
-        System.out.println("GAME ABORTED");
+        System.out.println(Constants.ANSI_RED + abortGameMessage.getMessage() + Constants.ANSI_RESET);
+        System.exit(0);
     }
 
     @Override
