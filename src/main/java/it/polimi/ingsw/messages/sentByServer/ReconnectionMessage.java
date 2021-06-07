@@ -11,10 +11,12 @@ import it.polimi.ingsw.client.messageHandler.MessageHandler;
 public class ReconnectionMessage extends ServerMessage {
 
     private View view;
+    private int numberOfPlayers;
 
-    public ReconnectionMessage(String message, View view) {
+    public ReconnectionMessage(String message, View view, int numberOfPlayers) {
         super(message);
         this.view = view;
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     @Override
@@ -24,5 +26,9 @@ public class ReconnectionMessage extends ServerMessage {
 
     public View getView() {
         return view;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 }

@@ -246,7 +246,7 @@ public class ServerClientConnection implements Runnable{
 
         //devo mandare la virtual view al giocatore per "aggiornarlo"
         isActive = true;
-        send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this)))));
+        send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this))), gameHandler.getNumberOfPlayers()));
         //vede se gestire qui la riattivazione del game handler corrispondente
         gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
@@ -256,7 +256,7 @@ public class ServerClientConnection implements Runnable{
     private boolean reconnectFirstPlayer() {
         isActive = true;
         gameHandler.getGame().setInPause(false);
-        send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this)))));
+        send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this))), gameHandler.getNumberOfPlayers()));
         gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
         gameHandler.getGame().updateActivePlayer();

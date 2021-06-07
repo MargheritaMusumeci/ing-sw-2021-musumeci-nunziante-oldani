@@ -50,8 +50,7 @@ public class MessageHandlerCLI extends MessageHandler{
             cli.setGamePhase(new OtherPlayersTurnPhase());
         }
 
-        //devo vedere se ho tutto settato ma penso di si
-        //forse manca solo il number of players
+        cli.setNumberOfPlayers(message.getNumberOfPlayers());
 
         new Thread(cli).start();
     }
