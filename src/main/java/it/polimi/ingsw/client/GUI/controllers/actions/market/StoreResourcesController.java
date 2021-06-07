@@ -1,9 +1,10 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.actions.market;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;

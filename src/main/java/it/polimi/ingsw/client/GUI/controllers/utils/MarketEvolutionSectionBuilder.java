@@ -1,5 +1,9 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.utils;
 
+import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.utils.Print;
+import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
@@ -8,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class MarketEvolutionSectionBuilder {
+
+    private GUI gui;
+    private final Print printer;
 
     @FXML protected Sphere zerozero;
     @FXML protected Sphere zerouno;
@@ -73,6 +80,10 @@ public abstract class MarketEvolutionSectionBuilder {
     @FXML
     protected ImageView eCardView_23;//row 2 , column 3
 
+    public MarketEvolutionSectionBuilder(){
+     this.printer = new Print();
+    }
+
     protected void fillMarket(Sphere[][] market){
 
         market[0][0] = zerozero;
@@ -100,5 +111,45 @@ public abstract class MarketEvolutionSectionBuilder {
 
     }
 
+    protected void initMarketEvolution(Sphere market[][]){
+        Resource[][] marketModel = gui.getMarket().getMarket();
+        for(int i = 0; i<3; i++){
+            for(int j = 0; j<4; j++){
+                market[i][j].setMaterial(printer.materialFromResource(marketModel[i][j]));
+            }
+        }
+
+        external.setMaterial(printer.materialFromResource(gui.getMarket().getExternalResource()));
+
+        coin.setMaterial(printer.materialFromResource(Resource.COIN));
+        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
+        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
+        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
+        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
+
+        //initialize evolution section
+        ArrayList<ArrayList<ImageView>>  eCards = new ArrayList<>();
+        fillEvolutionSection(eCards);
+
+        //initializer.initEvolutionSection(eCards);
+        SerializableEvolutionSection evolutionSection = gui.getEvolutionSection();
+
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j < 4 ; j++){
+                if(evolutionSection.getEvolutionCards()[i][j] != null){
+                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
+                    eCards.get(i).get(j).setVisible(true);
+                    eCards.get(i).get(j).setCache(true);
+                }
+                else{
+                    eCards.get(i).get(j).setVisible(false);
+                }
+            }
+        }
+    }
+
+    protected void setGuiBuilder(GUI gui){
+        this.gui=gui;
+    }
 }
 

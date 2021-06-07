@@ -1,33 +1,19 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
-import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
-import it.polimi.ingsw.client.GUI.controllers.utils.Print;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.DiscardLeaderCardMessage;
-import it.polimi.ingsw.messages.sentByClient.actionMessages.UseLeaderCardMessage;
 import it.polimi.ingsw.model.cards.LeaderAbility;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -259,27 +245,9 @@ public class ViewPlayerController extends ViewController {
             leader1.setImage(printer.fromPathToImageLeader(path));
 
             if (leaderCards.get(0).isActive()) {
-                if (leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()) {
-                    discard1.setVisible(false);
-                    active1.setVisible(false);
-
-                    if(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
-                        activeProduction4.setVisible(true);
-                    }
-                    else{
-                        activeProduction4.setVisible(false);
-                    }
-                } else {
-                    discard1.setVisible(false);
-                    active1.setVisible(false);
-
-                    if(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
-                        activeProduction4.setVisible(true);
-                    }
-                    else{
-                        activeProduction4.setVisible(false);
-                    }
-                }
+                discard1.setVisible(false);
+                active1.setVisible(false);
+                activeProduction4.setVisible(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
             }
             //if the card is been discarded
             else if(gui.getLeaderCardsDiscarded().get(0)){
@@ -301,12 +269,7 @@ public class ViewPlayerController extends ViewController {
                     discard2.setVisible(false);
                     active2.setVisible(false);
 
-                    if(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
-                        activeProduction5.setVisible(true);
-                    }
-                    else{
-                        activeProduction5.setVisible(false);
-                    }
+                    activeProduction5.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
                 }
                 else{
                     active2.setVisible(true);
@@ -337,7 +300,7 @@ public class ViewPlayerController extends ViewController {
         if(gui.getLeaderEnsure() != null) {
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
                 if(leaderIndex == 1 && gui.getLeaderEnsure().keySet().size() == 1) {
-                    leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
+                    leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                 }else {
                     leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(2))));
                 }

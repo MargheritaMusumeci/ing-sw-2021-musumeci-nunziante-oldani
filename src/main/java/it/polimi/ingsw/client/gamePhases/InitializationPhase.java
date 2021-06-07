@@ -2,8 +2,6 @@ package it.polimi.ingsw.client.gamePhases;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.ClientSocket;
-import it.polimi.ingsw.client.GamePhases;
-import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.utils.Constants;
 
 import java.io.IOException;

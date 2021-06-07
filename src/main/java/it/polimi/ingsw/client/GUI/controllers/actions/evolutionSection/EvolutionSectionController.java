@@ -1,10 +1,11 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.actions.evolutionSection;
 
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
+import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilder;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 
 import javafx.fxml.FXML;
@@ -47,6 +48,7 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
+        super.setGuiBuilder(gui);
     }
 
     private void initEvolutionSection(){

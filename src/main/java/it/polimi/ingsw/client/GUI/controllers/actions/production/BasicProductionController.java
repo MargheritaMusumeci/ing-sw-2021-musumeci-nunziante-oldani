@@ -1,26 +1,19 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.actions.production;
 
 import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
-import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
 public class BasicProductionController implements Controller {
 
     private GUI gui;
-    private ArrayList<Resource> basicRequires;
-    private ArrayList<Resource> basicEnsures;
-    private int coin=0;
-    private int rock=0;
-    private int shield=0;
-    private int servant=0;
 
     @FXML
     private ToggleGroup resources1;
@@ -68,8 +61,8 @@ public class BasicProductionController implements Controller {
         RadioButton radio2 = (RadioButton) resources2.getSelectedToggle();
         RadioButton radio3 = (RadioButton) resources3.getSelectedToggle();
 
-        basicRequires=new ArrayList<>();
-        basicEnsures = new ArrayList<>();
+        ArrayList<Resource> basicRequires = new ArrayList<>();
+        ArrayList<Resource> basicEnsures = new ArrayList<>();
 
         if(radio == coin1){
             basicRequires.add(Resource.COIN);
@@ -110,13 +103,13 @@ public class BasicProductionController implements Controller {
             basicEnsures.add(Resource.SERVANT);
         }
 
-        if(basicRequires==null || basicEnsures == null || basicEnsures.isEmpty() || basicRequires.isEmpty() || basicRequires.size()!=2){
+        if(basicRequires ==null || basicEnsures == null || basicEnsures.isEmpty() || basicRequires.isEmpty() || basicRequires.size()!=2){
             error.setVisible(true);
             error.setText("ERROR: you must select a resource for each line");
             confirm.setVisible(true);
             cancel.setVisible(true);
-            basicRequires=null;
-            basicEnsures=null;
+            basicRequires =null;
+            basicEnsures =null;
 
         }else {
             gui.setBasicEnsures(basicEnsures);
@@ -145,7 +138,7 @@ public class BasicProductionController implements Controller {
         confirm.setVisible(true);
     }
 
-    public void cancel(ActionEvent actionEvent) {
+    public void cancel() {
         gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         gui.setGamePhase(GamePhases.STARTGAME);

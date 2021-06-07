@@ -1,8 +1,9 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.configuration;
 
 import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,7 +11,7 @@ import javafx.scene.control.*;
 /**
  * Class that contains methods and attributes related to Nickname choose scene.
  */
-public class NicknameConfigurationController implements Controller{
+public class NicknameConfigurationController implements Controller {
 
     private GUI gui;
 
@@ -65,6 +66,7 @@ public class NicknameConfigurationController implements Controller{
 
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
+            error.setVisible(true);
         }
     }
 }

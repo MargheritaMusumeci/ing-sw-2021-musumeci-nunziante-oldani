@@ -1,14 +1,14 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.configuration;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
+import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilder;
 import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.game.Resource;
-import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
 
@@ -56,6 +56,7 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
     @FXML
     private ProgressIndicator loading;
 
+
     @Override
     public void init(){
 
@@ -86,42 +87,7 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
 
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
-        //initializer.initMarket(market,external);
-
-        Resource[][] marketModel = gui.getMarket().getMarket();
-        for(int i = 0; i<3; i++){
-            for(int j = 0; j<4; j++){
-                market[i][j].setMaterial(printer.materialFromResource(marketModel[i][j]));
-            }
-        }
-
-        external.setMaterial(printer.materialFromResource(gui.getMarket().getExternalResource()));
-
-        coin.setMaterial(printer.materialFromResource(Resource.COIN));
-        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
-        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
-        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
-        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
-
-        //initialize evolution section
-        ArrayList<ArrayList<ImageView>>  eCards = new ArrayList<>();
-        fillEvolutionSection(eCards);
-
-        //initializer.initEvolutionSection(eCards);
-        SerializableEvolutionSection evolutionSection = gui.getEvolutionSection();
-
-        for(int i = 0 ; i < 3 ; i++){
-            for(int j = 0 ; j < 4 ; j++){
-                if(evolutionSection.getEvolutionCards()[i][j] != null){
-                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
-                    eCards.get(i).get(j).setVisible(true);
-                    eCards.get(i).get(j).setCache(true);
-                }
-                else{
-                    eCards.get(i).get(j).setVisible(false);
-                }
-            }
-        }
+        initMarketEvolution(market);
     }
 
     public void confirmation() {
@@ -182,5 +148,6 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
     public void setGui(GUI gui) {
         this.gui = gui;
         this.printer = new Print();
+        super.setGuiBuilder(gui);
     }
 }

@@ -190,12 +190,8 @@ public class GUI extends Application implements UI {
         socket = new Socket(address, port);
     }
 
-    public void setClientSocket() {
-        try {
+    public void setClientSocket() throws IOException {
             clientSocket = new ClientSocket(this, socket);
-        } catch (IOException e) {
-            clientSocket = null;
-        }
     }
 
     public void setGamePhase(GamePhases phase) {

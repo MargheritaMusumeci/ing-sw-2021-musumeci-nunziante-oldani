@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gamePhases;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.CLI.componentPrinter.ResourcesBoughtPrinter;
-import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.utils.Constants;

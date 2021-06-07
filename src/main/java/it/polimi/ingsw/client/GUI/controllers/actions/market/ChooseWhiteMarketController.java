@@ -1,9 +1,10 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.actions.market;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,12 +60,15 @@ public class ChooseWhiteMarketController implements Controller {
     public void init() {
 
         whiteBalls = new ArrayList<>(Arrays.asList(white1, white2, white3, white4));
+        for(Circle circle: whiteBalls){
+            circle.setFill(Color.WHITE);
+            circle.setVisible(false);
+        }
         resource = gui.getView().getResourcesBoughtFromMarker();
         int i = 0;
         for (Resource res : resource) {
             if (res.equals(Resource.NOTHING)) {
                 whiteBalls.get(i).setVisible(true);
-                whiteBalls.get(i).setFill(Color.WHITE);
                 i++;
             }
         }

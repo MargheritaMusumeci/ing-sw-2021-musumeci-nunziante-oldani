@@ -1,8 +1,9 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.configuration;
 
 import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,6 +54,7 @@ public class PlayersConfigurationController implements Controller {
         //not selected player
        if (player == 0){
             error.setText("Invalid number of player");
+            error.setVisible(true);
             loginButton.setVisible(true);
             loading.setVisible(false);
 

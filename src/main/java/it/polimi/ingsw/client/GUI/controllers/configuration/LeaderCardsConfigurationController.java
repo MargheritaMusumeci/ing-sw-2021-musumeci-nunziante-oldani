@@ -1,13 +1,13 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.configuration;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
+import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilder;
 import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
-import it.polimi.ingsw.model.game.Resource;
-import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Class that contains methods and attributes for choosing leader cards
  */
-public class LeaderCardsConfigurationController extends MarketEvolutionSectionBuilder implements Controller{
+public class LeaderCardsConfigurationController extends MarketEvolutionSectionBuilder implements Controller {
 
     private int selectedNumber=0;
     private GUI gui;
@@ -53,14 +53,9 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
     @FXML
     private ProgressIndicator loading;
 
-    public LeaderCardsConfigurationController(){
-        printer = new Print();
-    }
-
     @Override
     public void init(){
 
-        this.initializer=new Initializer(gui);
         LeaderConfirmation.setVisible(true);
         loading.setVisible(false);
 
@@ -69,9 +64,11 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
 
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             errorLabel.setText(gui.getErrorFromServer());
+            errorLabel.setVisible(true);
         }
         leaderCards= gui.getLeaderCards();
 
+        //creare un metodo
         String path = String.valueOf(leaderCards.get(0).getId());
         leaderCard1.setImage(printer.fromPathToImageLeader(path));
         leaderCard1.setCache(true);
@@ -88,51 +85,11 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
         leaderCard4.setImage(printer.fromPathToImageLeader(path));
         leaderCard4.setCache(true);
 
-        cardId1.setText("Leader id: " + leaderCards.get(0).getId());
-        cardId2.setText("Leader id: " + leaderCards.get(1).getId());
-        cardId3.setText("Leader id: " + leaderCards.get(2).getId());
-        cardId4.setText("Leader id: " + leaderCards.get(3).getId());
-
         this.initializer = new Initializer(gui);
 
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
-        //initializer.initMarket(market,external);
-
-        Resource[][] marketModel = gui.getMarket().getMarket();
-        for(int i = 0; i<3; i++){
-            for(int j = 0; j<4; j++){
-                market[i][j].setMaterial(printer.materialFromResource(marketModel[i][j]));
-            }
-        }
-
-        external.setMaterial(printer.materialFromResource(gui.getMarket().getExternalResource()));
-
-        coin.setMaterial(printer.materialFromResource(Resource.COIN));
-        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
-        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
-        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
-        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
-
-        //initialize evolution section
-        ArrayList<ArrayList<ImageView>>  eCards = new ArrayList<>();
-        fillEvolutionSection(eCards);
-
-        //initializer.initEvolutionSection(eCards);
-        SerializableEvolutionSection evolutionSection = gui.getEvolutionSection();
-
-        for(int i = 0 ; i < 3 ; i++){
-            for(int j = 0 ; j < 4 ; j++){
-                if(evolutionSection.getEvolutionCards()[i][j] != null){
-                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
-                    eCards.get(i).get(j).setVisible(true);
-                    eCards.get(i).get(j).setCache(true);
-                }
-                else{
-                    eCards.get(i).get(j).setVisible(false);
-                }
-            }
-        }
+        initMarketEvolution(market);
     }
 
 
@@ -201,5 +158,8 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
     @Override
     public void setGui(GUI gui) {
     this.gui=gui;
+    super.setGuiBuilder(gui);
+    this.printer = new Print();
+    this.initializer = new Initializer(gui);
     }
 }

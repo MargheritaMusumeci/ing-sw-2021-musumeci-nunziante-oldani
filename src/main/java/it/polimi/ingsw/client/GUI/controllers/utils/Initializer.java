@@ -16,14 +16,13 @@ import java.util.ArrayList;
 public class Initializer {
 
     private SerializableDashboard dashboard;
-    private Print printer;
-    private GUI gui;
+    private final Print printer;
+    private final GUI gui;
 
     public Initializer(GUI gui) {
         this.printer = new Print();
         this.gui = gui;
     }
-
 
     public void initMarket(Sphere[][] market, Sphere external) {
 
@@ -81,7 +80,6 @@ public class Initializer {
         }
         popeTrackPositions.get(position).setImage(printer.popePosition());
     }
-
 
     public void initPopeCards(ArrayList<ImageView> popeCards) {
 

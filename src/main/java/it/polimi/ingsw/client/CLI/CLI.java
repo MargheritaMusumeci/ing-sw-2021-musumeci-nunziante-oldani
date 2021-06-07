@@ -2,27 +2,17 @@ package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.CLI.componentPrinter.*;
 import it.polimi.ingsw.client.ClientSocket;
-import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.gamePhases.InitializationPhase;
 import it.polimi.ingsw.client.gamePhases.Phase;
-import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
-import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
-import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
-import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
-import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
-import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.utils.Constants;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.Executors;
 
 public class CLI implements UI, Runnable {
 

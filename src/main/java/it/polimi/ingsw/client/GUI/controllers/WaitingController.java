@@ -12,7 +12,5 @@ public class WaitingController implements Controller{
     }
 
     @Override
-    public void init() {
-
-    }
+    public void init() {}
 }

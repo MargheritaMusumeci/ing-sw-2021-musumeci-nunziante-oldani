@@ -3,8 +3,8 @@ package it.polimi.ingsw.client.messageHandler;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.ViewPlayerController;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
@@ -62,6 +62,8 @@ public class MessageHandlerGUI extends MessageHandler {
            if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER) && gui.isUpdateDashboardArrived()){
                gui.setUpdateDashboardArrived(false);
                gui.setGamePhase(GamePhases.STARTGAME);
+           }else if(gui.getGamePhase().equals(GamePhases.STARTGAME)){
+               gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
            }
             else{
                 gui.setNackArrived(true);

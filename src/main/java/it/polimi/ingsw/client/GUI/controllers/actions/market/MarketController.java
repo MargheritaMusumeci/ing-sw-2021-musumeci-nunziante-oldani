@@ -1,9 +1,11 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.actions.market;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
+import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilder;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import javafx.event.ActionEvent;
@@ -57,6 +59,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
+        super.setGuiBuilder(gui);
     }
 
     public void stop() {

@@ -1,9 +1,9 @@
-package it.polimi.ingsw.client.GUI.controllers;
+package it.polimi.ingsw.client.GUI.controllers.configuration;
 
 import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.GameFxml;
-import it.polimi.ingsw.client.GamePhases;
-import javafx.event.ActionEvent;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
+import it.polimi.ingsw.client.GUI.controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,9 +14,10 @@ import java.io.IOException;
 
 /**
  * Class that contains all methods and attributes related to the scene in which users insert
- * ip port and address of the server
+ * ip port and address of the server.
+ * This class is able to create client so127
  */
-public class IpPortConfigurationController implements Controller{
+public class IpPortConfigurationController implements Controller {
 
     private GUI gui;
 
@@ -41,20 +42,21 @@ public class IpPortConfigurationController implements Controller{
         loading.setVisible(true);
 
         //error --> users push button before fill form fields
-        if(port.getText()==null || ip.getText()==null || port.getText().equals("") || ip.getText().equals("")){
+        if (port.getText() == null || ip.getText() == null || port.getText().equals("") || ip.getText().equals("")) {
             error.setText("Missing some necessary arguments...");
+            error.setVisible(true);
             connect.setVisible(true);
             loading.setVisible(false);
             return;
         }
 
-        int portServer=0;
+        int portServer = 0;
 
         //error --> insert a string not an int
         try {
             portServer = Integer.parseInt(port.getText());
         } catch (NumberFormatException e) {
-           error.setText("Invalid type port");
+            error.setText("Invalid type port");
             connect.setVisible(true);
             loading.setVisible(false);
             return;
@@ -67,7 +69,7 @@ public class IpPortConfigurationController implements Controller{
             error.setText("Invalid port number. Pick a port in range 1025-65535...");
             connect.setVisible(true);
             loading.setVisible(false);
-        }else {
+        } else {
 
             //error --> server not reachable
             try {
@@ -79,19 +81,21 @@ public class IpPortConfigurationController implements Controller{
                 return;
             }
 
-            gui.setClientSocket();
+            try {
+                gui.setClientSocket();
+            } catch (IOException e) {
 
-            //error --> server not reachable
-            if(gui.getClientSocket()==null) {
-                error.setText("Server not reachable - client ");
+                //error --> server not reachable
+                error.setText("Server not reachable, close the page  - client ");
+                error.setVisible(true);
                 connect.setVisible(true);
                 loading.setVisible(false);
-            }else{
-                new Thread(gui.getClientSocket()).start();
-                gui.setGamePhase(GamePhases.NICKNAME);
-                gui.setCurrentScene(gui.getScene(GameFxml.NICKNAME.s));
-                gui.changeScene();
+                return;
             }
+            new Thread(gui.getClientSocket()).start();
+            gui.setGamePhase(GamePhases.NICKNAME);
+            gui.setCurrentScene(gui.getScene(GameFxml.NICKNAME.s));
+            gui.changeScene();
         }
     }
 
@@ -108,6 +112,7 @@ public class IpPortConfigurationController implements Controller{
 
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
+            error.setVisible(true);
         }
     }
 }

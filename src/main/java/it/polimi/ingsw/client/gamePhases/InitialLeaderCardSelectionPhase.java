@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gamePhases;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.CLI.componentPrinter.LeaderCardsPrinter;
-import it.polimi.ingsw.client.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
 import it.polimi.ingsw.utils.Constants;
 
