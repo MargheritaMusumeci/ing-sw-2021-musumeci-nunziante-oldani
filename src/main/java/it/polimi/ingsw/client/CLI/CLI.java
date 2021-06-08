@@ -2,17 +2,27 @@ package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.CLI.componentPrinter.*;
 import it.polimi.ingsw.client.ClientSocket;
+
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.gamePhases.InitializationPhase;
 import it.polimi.ingsw.client.gamePhases.Phase;
+import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.utils.Constants;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
 
 public class CLI implements UI, Runnable {
 
@@ -72,8 +82,7 @@ public class CLI implements UI, Runnable {
                 "| 10: Buy From Market      | 4: Show Pope Track        |\n" +
                 "| 11: Active Production    | 5: Show Production Zones  |\n" +
                 "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
-                "| 13: Use Leader Cards     | 7: Show Evolution section |\n" +
-                "|               14: Print Enemy DashBoard              |\n" +
+                "| 13: Print Enemy DashBoard| 7: Show Evolution section |\n" +
                 "+--------------------------+---------------------------+\n" +
                 "\n");
 
@@ -310,6 +319,10 @@ public class CLI implements UI, Runnable {
         return gamePhase;
     }
 
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
     public static void main(String[] args){
         new CLI();
     }
@@ -319,7 +332,6 @@ public class CLI implements UI, Runnable {
         gamePhase.makeAction(this);
     }
 
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
+
+
 }
