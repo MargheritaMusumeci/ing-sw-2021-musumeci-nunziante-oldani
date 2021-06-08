@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
 import it.polimi.ingsw.messages.sentByServer.AbortGameMessage;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.ReconnectionMessage;
 import it.polimi.ingsw.messages.sentByClient.ClientMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.io.IOException;
@@ -32,12 +34,14 @@ public class ServerClientConnection implements Runnable{
     private MessageHandler messageHandler;
     private GamePhases gamePhase;
     private GameHandler gameHandler;
+    private Boolean hasDisconnectionBeenCalled;
 
 
     public ServerClientConnection(Server server, Socket socket) throws IOException{
         this.server = server;
         this.socket = socket;
         isActive = true;
+        hasDisconnectionBeenCalled = false;
         executorService = Executors.newCachedThreadPool();
         nickname = null;
         messageHandler = new MessageHandler(this.server, this);
@@ -100,6 +104,11 @@ public class ServerClientConnection implements Runnable{
             System.out.println(nickname + ": disconnesso nel readObject");
             isActive = false;
             ps.setActive(false);
+
+            synchronized (hasDisconnectionBeenCalled){
+                hasDisconnectionBeenCalled = true;
+                disconnect();
+            }
         }catch (ClassNotFoundException e){
             System.out.println("message sent was not correct");
         }
@@ -137,8 +146,18 @@ public class ServerClientConnection implements Runnable{
         this.isActive = value;
     }
 
-    public void disconnect(){
+    public Boolean getHasDisconnectionBeenCalled() {
+        return hasDisconnectionBeenCalled;
+    }
 
+    public void setHasDisconnectionBeenCalled(Boolean hasDisconnectionBeenCalled) {
+        this.hasDisconnectionBeenCalled = hasDisconnectionBeenCalled;
+    }
+
+    public synchronized void disconnect(){
+
+
+        //check if the player was in a lobby
         checkLobbyDisconnection();
 
         if(gamePhase.equals(GamePhases.INITIALIZATION)){
@@ -150,17 +169,27 @@ public class ServerClientConnection implements Runnable{
             server.addWaitingForReconnection(this);
             isActive = false;
             gameHandler.getPlayersInGame().get(this).setPlaying(false);
+            gameHandler.getPlayersInGame().get(this).setActionChose(Action.NOTHING);
 
             //check if there are other players playing in the game
             boolean checkInGame = false;
             for (Player player: gameHandler.getPlayersInGame().values()){
                 if (player.isPlaying()){
-                    checkInGame = true;
-                    break;
+                    if(!(player instanceof LorenzoPlayer)){
+                        System.out.println("test disconnessione single player");
+                        checkInGame = true;
+                        break;
+                    }else{
+                        //se mi sto disconnettendo e lorenzo sta giocando devo metterlo non giocante
+                        System.out.println("ho messo lorenzo a spento");
+                        player.setPlaying(false);
+                    }
+
                 }
             }
 
             if(!checkInGame){
+                System.err.println("GIOCO IN PAUSA");
                 gameHandler.getGame().setInPause(true);
                 return;
             }
@@ -254,12 +283,16 @@ public class ServerClientConnection implements Runnable{
     }
 
     private boolean reconnectFirstPlayer() {
+        System.err.println("RICONNESSIONE PRIMO GIOCATORE");
         isActive = true;
         gameHandler.getGame().setInPause(false);
         send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this))), gameHandler.getNumberOfPlayers()));
         gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
         gameHandler.getGame().updateActivePlayer();
+        if(gameHandler.getGame().getActivePlayer() instanceof LorenzoPlayer){
+            gameHandler.getGame().updateActivePlayer();
+        }
         send(new UpdateActivePlayerMessage(nickname));
         return true;
     }
