@@ -24,7 +24,7 @@ public enum GameFxml {
     public final String s;
 
     static{
-        IP_PORT.gamePhases=GamePhases.IINITIALIZATION;
+        IP_PORT.gamePhases=GamePhases.INITIALIZATION;
         NICKNAME.gamePhases=GamePhases.NICKNAME;
         PLAYERS.gamePhases=GamePhases.NUMBEROFPLAYERS;
         LEADER_CARD.gamePhases=GamePhases.INITIALLEADERCARDSELECTION;

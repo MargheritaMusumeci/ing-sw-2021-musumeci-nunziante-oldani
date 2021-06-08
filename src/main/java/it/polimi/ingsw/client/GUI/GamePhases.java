@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.GUI.GUI;
 
 public enum GamePhases {
 
-    IINITIALIZATION,
+    INITIALIZATION,
     NICKNAME,
     NUMBEROFPLAYERS,
     WAITINGOTHERPLAYERS,

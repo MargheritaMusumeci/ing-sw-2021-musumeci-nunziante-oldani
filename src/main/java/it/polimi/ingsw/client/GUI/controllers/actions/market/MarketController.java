@@ -137,5 +137,4 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
         gui.setGamePhase(GamePhases.STARTGAME);
         gui.changeScene();
     }
-
 }

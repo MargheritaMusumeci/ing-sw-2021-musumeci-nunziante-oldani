@@ -70,7 +70,7 @@ public class GUI extends Application implements UI {
     private Integer leaderPosition;
 
     public GUI() {
-        gamePhase = GamePhases.IINITIALIZATION;
+        gamePhase = GamePhases.INITIALIZATION;
         scenes = new HashMap<>();
         controllers = new HashMap<>();
         phases = new HashMap<>();

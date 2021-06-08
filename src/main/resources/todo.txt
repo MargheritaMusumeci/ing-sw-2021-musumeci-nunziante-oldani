@@ -5,7 +5,9 @@ da fare:
 - controllare production leader controller --> non si vedono le biglie prodotte e non sempra che tu abbia effettuato la mossa
 - controllare other player view
 - controllare le risorse inserite quando ci sono due leader card no more white attive
-
+- stock non si aggiornava
+- leader card stock non facevano vedere le risorse
+- see other view
 
 in atto:
 -controllare le biglie bianche
@@ -28,6 +30,8 @@ fatto:
 Nunziante:
 
 - add comments to methods
+- nascondere il bottone PRODUCTION della leader card quando ho effettuato l'azione o non è il mio turno
+- setDisable(true) delle checkbox
 
 Oldani:
 
