@@ -20,31 +20,31 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewPlayerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.ViewEnemyController">
    <children>
-      <ImageView fitHeight="641.0" fitWidth="1310.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="641.0" fitWidth="1310.0" layoutX="-27.0" layoutY="-91.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/background_cl2.png" />
          </image>
       </ImageView>
       <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" layoutX="1090.0" layoutY="56.0" nodeOrientation="RIGHT_TO_LEFT" opacity="0.7" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@../images/board.png" />
+            <Image url="@../images/player2.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="enemy2Image" fitHeight="64.0" fitWidth="83.0" layoutX="996.0" layoutY="56.0" opacity="0.7" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@../images/board.png" />
+            <Image url="@../images/player3.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="enemy3Image" fitHeight="64.0" fitWidth="83.0" layoutX="901.0" layoutY="56.0" opacity="0.7" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="enemy3Image" fitHeight="64.0" fitWidth="83.0" layoutX="901.0" layoutY="51.0" opacity="0.7" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@../images/board.png" />
+            <Image url="@../images/player4.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="enemy0Image" fitHeight="64.0" fitWidth="83.0" layoutX="1185.0" layoutY="56.0" opacity="0.7" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@../images/background_bw.png" />
+            <Image url="@../images/player1.jpg" />
          </image>
       </ImageView>
       <Circle fill="#dadada" layoutX="379.0" layoutY="565.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">

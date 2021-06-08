@@ -154,7 +154,6 @@ public class ViewEnemyController extends ViewController{
                 leader2.setImage(printer.fromPathToImageLeader("back_door"));
             }
         } else {
-            //TODO what should I do in case of discard leader card?Show the door in any case? !!! Yes !!!
             leader1.setImage(printer.fromPathToImageLeader("back_door"));
             leader2.setImage(printer.fromPathToImageLeader("back_door"));
         }
