@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class InitialResourcesSelection extends Phase{
     @Override
     public void makeAction(CLI cli) {
+
         int index;
         Scanner scanner = new Scanner(System.in);
         while(cli.getResources() == null){

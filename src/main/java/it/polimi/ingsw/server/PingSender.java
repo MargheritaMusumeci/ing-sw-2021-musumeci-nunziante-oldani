@@ -35,7 +35,15 @@ public class PingSender implements Runnable{
             }
         }
         //Socket disconnesso, non devo più mandare ping e devo fare tutte le cose di quando un client si disconnette
-        scc.disconnect();
+        if(scc.isActive()){
+            scc.disconnect();
+        }
+
+        synchronized (scc.getHasDisconnectionBeenCalled()){
+            scc.setHasDisconnectionBeenCalled(true);
+            scc.disconnect();
+        }
+
         System.out.println(scc.getNickname() + ": disconnesso nel ping");
     }
 

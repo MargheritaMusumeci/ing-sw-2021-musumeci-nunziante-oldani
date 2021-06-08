@@ -2,17 +2,27 @@ package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.CLI.componentPrinter.*;
 import it.polimi.ingsw.client.ClientSocket;
+
 import it.polimi.ingsw.client.UI;
 import it.polimi.ingsw.client.gamePhases.InitializationPhase;
 import it.polimi.ingsw.client.gamePhases.Phase;
+import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
+import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberOfPlayerMessage;
+import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.utils.Constants;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
 
 public class CLI implements UI, Runnable {
 
@@ -28,6 +38,9 @@ public class CLI implements UI, Runnable {
     private ArrayList<Resource> resources;
     private boolean serverIsUp;
     private boolean isActionBeenDone;
+
+    private SerializableMarket temporaryMarket;
+    private SerializableEvolutionSection temporaryEvolutionSection;
 
     public CLI(){
         scanner = new Scanner(System.in);
@@ -72,8 +85,7 @@ public class CLI implements UI, Runnable {
                 "| 10: Buy From Market      | 4: Show Pope Track        |\n" +
                 "| 11: Active Production    | 5: Show Production Zones  |\n" +
                 "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
-                "| 13: Use Leader Cards     | 7: Show Evolution section |\n" +
-                "|               14: Print Enemy DashBoard              |\n" +
+                "| 13: Print Enemy DashBoard| 7: Show Evolution section |\n" +
                 "+--------------------------+---------------------------+\n" +
                 "\n");
 
@@ -109,28 +121,13 @@ public class CLI implements UI, Runnable {
         SerializableMarket market = clientSocket.getView().getMarket();
         MarketPrinter.print(market);
     }
-
+    public void printTemporaryMarket(){
+        MarketPrinter.print(temporaryMarket);
+    }
     public void printPopeTrack(){
         SerializablePopeTack popeTack = clientSocket.getView().getDashboard().getSerializablePopeTack();
         PopeTrackPrinter.print(popeTack);
-        /*
-        boolean atLeastOneCard = false;
-        System.out.println("Pope track: ");
-        System.out.println("your current position is: " + popeTack.getPosition());
-        System.out.println("Your active pope card are: ");
-        for(int i = 0 ; i < popeTack.getActiveCards().length ; i++){
-            if(popeTack.getActiveCards()[i] == true){
-                System.out.println("    " + i);
-                atLeastOneCard = true;
-            }
-        }
-        if(!atLeastOneCard)
-            System.out.println("    none");
-        if(popeTack.getLorenzoPosition() > 0)
-            System.out.println("Position of Lorenzo is: " + popeTack.getLorenzoPosition());
-        System.out.println("#################################################################");
 
-         */
     }
     public void printLeaderCards(){
         ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
@@ -139,37 +136,14 @@ public class CLI implements UI, Runnable {
     }
     public void printProductionZones(){
         ProductionSectionPrinter.print(clientSocket.getView().getDashboard());
-        /*
-        SerializableProductionZone[] productionZones = clientSocket.getView().getDashboard().getSerializableProductionZones();
-        System.out.println("production zones: ");
-        for(int i = 0 ; i < productionZones.length ; i++) {
-            System.out.println("production zone " + i + ": ");
-            SerializableProductionZone productionZone = productionZones[i];
-            ArrayList<EvolutionCard> evolutionCards = productionZone.getCards();
-            if (evolutionCards != null) {
-                for (int j = 0; j < evolutionCards.size(); j++) {
-                    EvolutionCard evolutionCard = evolutionCards.get(j);
-                    if (evolutionCard == null) {
-                        if (i == 0)
-                            System.out.println("    Empty");
-                        continue;
-                    }
-                    System.out.println("Card in position " + j + ": ");
-                    printEvolutionCard(evolutionCard);
-                    System.out.println("#################################################################");
-                }
-            }
-            else {
-                System.out.println("    none");
-                System.out.println("#################################################################");
-            }
-        }
 
-         */
     }
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
         EvolutionSectionPrinter.print(evolutionSection);
+    }
+    public void printTemporaryEvolutionSection(){
+        EvolutionSectionPrinter.print(temporaryEvolutionSection);
     }
     private void printEvolutionCard(EvolutionCard evolutionCard){
         System.out.println("Color: " + evolutionCard.getColor());
@@ -192,50 +166,8 @@ public class CLI implements UI, Runnable {
     public void printSetOfLeaderCard(ArrayList<SerializableLeaderCard> leaderCards){
 
         LeaderCardsPrinter.print(leaderCards);
-        /*
-        System.out.println("#################################################################");
-        System.out.println("Leader card id: " + leaderCard.getId());
-        System.out.println("Required color: ");
-        if(leaderCard.getRequiresColor() != null) {
-            for (int j = 0; j < leaderCard.getRequiresColor().length; j++) {
-                System.out.println("    " + leaderCard.getRequiresColor()[j]);
-            }
-        }
-        else {
-            System.out.println("    none");
-        }
-        System.out.println("Required level: ");
-        if(leaderCard.getRequiresLevel() != null) {
-            for (int j = 0; j < leaderCard.getRequiresLevel().length; j++) {
-                System.out.println("    " + leaderCard.getRequiresLevel()[j]);
-            }
-        }
-        else {
-            System.out.println("    none");
-        }
-        System.out.println("Require for activation: " + leaderCard.getRequiresForActiveLeaderCards());
-        System.out.println("Ability: " + leaderCard.getAbilityType());
-        System.out.println("point: " + leaderCard.getPoint());
-        System.out.println("Is active: " + leaderCard.isActive());
-        System.out.println("Is used: " + leaderCard.isUsed());
-        System.out.println("Requires: ");
-        if(leaderCard.getRequires() != null) {
-            for (Resource resource : leaderCard.getRequires().keySet()) {
-                System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getRequires().get(resource));
-            }
-        }
-        else{
-            System.out.println("    none");
-        }
-        System.out.println("Ability resources: ");
-        for(Resource resource : leaderCard.getAbilityResource().keySet()){
-            System.out.println("    Resource: " + resource + " , quantity: " + leaderCard.getAbilityResource().get(resource));
-        }
-        System.out.println("#################################################################");
 
-         */
     }
-
 
 
     public void setIsAckArrived(boolean value){
@@ -310,6 +242,26 @@ public class CLI implements UI, Runnable {
         return gamePhase;
     }
 
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public SerializableMarket getTemporaryMarket() {
+        return temporaryMarket;
+    }
+
+    public void setTemporaryMarket(SerializableMarket temporaryMarket) {
+        this.temporaryMarket = temporaryMarket;
+    }
+
+    public SerializableEvolutionSection getTemporaryEvolutionSection() {
+        return temporaryEvolutionSection;
+    }
+
+    public void setTemporaryEvolutionSection(SerializableEvolutionSection temporaryEvolutionSection) {
+        this.temporaryEvolutionSection = temporaryEvolutionSection;
+    }
+
     public static void main(String[] args){
         new CLI();
     }
@@ -319,7 +271,6 @@ public class CLI implements UI, Runnable {
         gamePhase.makeAction(this);
     }
 
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
+
+
 }

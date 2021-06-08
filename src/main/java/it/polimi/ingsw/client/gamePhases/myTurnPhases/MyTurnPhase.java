@@ -95,7 +95,6 @@ public class MyTurnPhase extends Phase {
                     cli.setGamePhase(new BuyEvolutiuonCardPhase());
                 } else {
                     System.out.println("You have already make an action, yuo should end your turn now!");
-
                 }
                 new Thread(cli).start();
                 break;
@@ -104,6 +103,7 @@ public class MyTurnPhase extends Phase {
             case 13:
                 if(cli.getNumberOfPlayers() == 1){
                     System.out.println(Constants.ANSI_RED + "You are the only player!" +  Constants.ANSI_RESET);
+                    new Thread(cli).start();
                     break;
                 }
                 cli.setGamePhase(new ShowOtherPlayersViewPhase());
