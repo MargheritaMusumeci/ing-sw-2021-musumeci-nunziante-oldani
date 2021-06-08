@@ -170,7 +170,9 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(MarketAndEvolutionSectionMessage marketMessage) {
-
+        System.out.println("message arrived");
+        cli.setTemporaryMarket(marketMessage.getSerializableMarket());
+        cli.setTemporaryEvolutionSection(marketMessage.getSerializableEvolutionSection());
     }
 
 

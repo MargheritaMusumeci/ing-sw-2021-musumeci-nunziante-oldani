@@ -12,6 +12,10 @@ import java.util.Scanner;
 public class InitialLeaderCardSelectionPhase extends Phase{
     @Override
     public void makeAction(CLI cli) {
+        cli.printTemporaryEvolutionSection();
+        cli.printTemporaryMarket();
+
+        System.out.println(Constants.ANSI_GREEN + "Before making your choice you should have a look to the market and the evolution section" + Constants.ANSI_RESET);
         Scanner scanner = new Scanner(System.in);
         while(cli.getLeaderCards() == null){
             try {
