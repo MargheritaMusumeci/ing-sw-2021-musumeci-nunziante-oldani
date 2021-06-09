@@ -159,8 +159,6 @@ public class ViewEnemyController extends ViewController{
         }
     }
 
-
-
     public void setNickname(String nickName) {
         this.nickName = nickName;
     }

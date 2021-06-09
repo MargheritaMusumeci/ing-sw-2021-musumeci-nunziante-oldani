@@ -190,6 +190,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     @FXML
     protected Button activeProduction5Button;
 
+    protected ArrayList<CheckBox> activeProductionCheckBoxes;
     protected ArrayList<Button> activeLeaderProduction;
 
     @FXML
@@ -287,6 +288,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         leaderImages = new ArrayList<>(Arrays.asList(leader1 , leader2));
         activeButtons = new ArrayList<>(Arrays.asList(active1 , active2));
         discardButtons = new ArrayList<>(Arrays.asList(discard1 , discard2));
+        activeProductionCheckBoxes = new ArrayList<>(Arrays.asList(activeProduction1 , activeProduction2 , activeProduction3 , activeProduction4 , activeProduction5));
         activeLeaderProduction = new ArrayList<>(Arrays.asList(activeProduction4Button , activeProduction5Button));
 
         initEnemiesButton();
@@ -308,11 +310,17 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         int index = 1;
         for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
             enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
-            enemyButtons.get(index).setDisable(false);
             enemyText.get(index).setVisible(true);
             enemyImage.get(index).setVisible(true);
+            enemyButtons.get(index).setDisable(false);
             enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
             index++;
+        }
+        //Don't show button not linked to a player
+        for(int i = index ; i < 4 ; i++){
+            enemyButtons.get(i).setVisible(false);
+            enemyImage.get(i).setVisible(false);
+            enemyText.get(i).setVisible(false);
         }
     }
 
@@ -333,17 +341,17 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         gui.setOtherView(button.getText());
 
         if(!gui.getOtherView().equals(gui.getNickname())){
-            initializer.setDashboard(gui.getView().getEnemiesDashboard().get(gui.getOtherView()));
+            //initializer.setDashboard(gui.getView().getEnemiesDashboard().get(gui.getOtherView()));
             gui.setGamePhase(GamePhases.SEEOTHERVIEW);
             gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
             gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-            gui.changeScene();
         }else{
-            initializer.setDashboard(gui.getView().getDashboard());
+            //initializer.setDashboard(gui.getView().getDashboard());
             gui.setGamePhase(GamePhases.STARTGAME);
             gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setOldScene(gui.getScene(GameFxml.OTHERVIEW.s));
-            gui.changeScene();
         }
+
+        gui.changeScene();
     }
 }

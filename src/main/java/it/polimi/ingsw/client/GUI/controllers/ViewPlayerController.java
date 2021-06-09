@@ -82,7 +82,8 @@ public class ViewPlayerController extends ViewController {
         gui.setLeaderEnsure(null);
         initBasicProduction();
         initButtons();
-
+        activeProduction4Button.setVisible(false);
+        activeProduction5Button.setVisible(false);
     }
 
     @FXML
@@ -249,17 +250,20 @@ public class ViewPlayerController extends ViewController {
                 discard1.setVisible(false);
                 active1.setVisible(false);
                 activeProduction4.setVisible(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                activeProduction4.setDisable(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
             }
             //if the card is been discarded
             else if(gui.getLeaderCardsDiscarded().get(0)){
                 active1.setVisible(false);
                 discard1.setVisible(false);
                 activeProduction4.setVisible(false);
+                activeProduction4.setDisable(false);
             }
             else{
                 active1.setVisible(true);
                 discard1.setVisible(true);
                 activeProduction4.setVisible(false);
+                activeProduction4.setDisable(false);
             }
 
             if (leaderCards.size() > 1) {
@@ -271,11 +275,13 @@ public class ViewPlayerController extends ViewController {
                     active2.setVisible(false);
 
                     activeProduction5.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                    activeProduction5.setDisable(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
                 }
                 else{
                     active2.setVisible(true);
                     discard2.setVisible(true);
                     activeProduction5.setVisible(false);
+                    activeProduction5.setDisable(false);
                 }
             }
             //If it's not my turn
@@ -286,6 +292,8 @@ public class ViewPlayerController extends ViewController {
                 discard2.setVisible(false);
                 activeProduction4.setVisible(false);
                 activeProduction5.setVisible(false);
+                activeProduction4Button.setVisible(false);
+                activeProduction5Button.setVisible(false);
             }
         }
         else{
@@ -295,6 +303,8 @@ public class ViewPlayerController extends ViewController {
             discard2.setVisible(false);
             activeProduction4.setVisible(false);
             activeProduction5.setVisible(false);
+            activeProduction4Button.setVisible(false);
+            activeProduction5Button.setVisible(false);
         }
 
         //leader production
@@ -323,20 +333,16 @@ public class ViewPlayerController extends ViewController {
     }
 
     private void initButtons() {
-
         if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));//active1,active2,discard1,discard2
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));
             initializer.visibleButton(buttons , true);
             buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton));
             initializer.ableDisableButtons(buttons, gui.isActionDone());
-            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3,activeProduction4,activeProduction5));
-            initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
-
+            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,gui.isActionDone());
         }else{
             ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,endTurn));
             initializer.visibleButton(buttons,false);
-            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3,activeProduction4,activeProduction5));
-            initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
+            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,true);
         }
     }
 
