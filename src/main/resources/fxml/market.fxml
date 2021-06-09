@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -19,20 +20,28 @@
 <?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.actions.market.MarketController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.actions.market.MarketController">
    <children>
-      <ImageView fitHeight="357.0" fitWidth="415.0" layoutX="229.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/market.png" />
+            <Image url="@../images/backgrounds/background_bw.png" />
+         </image>
+         <effect>
+            <GaussianBlur />
+         </effect>
+      </ImageView>
+      <ImageView fitHeight="496.0" fitWidth="569.0" layoutX="437.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/backgrounds/market.png" />
          </image>
       </ImageView>
-      <VBox alignment="CENTER" layoutX="288.0" layoutY="168.0" prefHeight="143.0" prefWidth="164.0">
+      <VBox alignment="CENTER" layoutX="521.0" layoutY="138.0" prefHeight="167.0" prefWidth="235.0">
          <children>
             <HBox fx:id="Market" alignment="CENTER" prefHeight="77.0" prefWidth="109.0" spacing="10.0">
                <children>
                   <VBox fx:id="col01" alignment="CENTER" prefHeight="112.0" prefWidth="0.0" spacing="10.0">
                      <children>
-                        <Sphere fx:id="zerozero" radius="11.0">
+                        <Sphere fx:id="zerozero" radius="15.0">
                            <effect>
                               <ColorInput>
                                  <paint>
@@ -57,23 +66,23 @@
                               <Cursor fx:constant="SW_RESIZE" />
                            </cursor>
                         </Sphere>
-                        <Sphere fx:id="unozero" radius="11.0" />
-                        <Sphere fx:id="duezero" radius="11.0" />
+                        <Sphere fx:id="unozero" radius="15.0" />
+                        <Sphere fx:id="duezero" radius="15.0" />
                      </children>
                   </VBox>
                   <VBox fx:id="con11" alignment="CENTER" prefHeight="112.0" prefWidth="6.0" spacing="10.0">
                      <children>
-                        <Sphere fx:id="zerouno" radius="11.0">
+                        <Sphere fx:id="zerouno" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
                         </Sphere>
-                        <Sphere fx:id="unouno" radius="11.0">
+                        <Sphere fx:id="unouno" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
                         </Sphere>
-                        <Sphere fx:id="dueuno" radius="11.0">
+                        <Sphere fx:id="dueuno" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
@@ -82,17 +91,17 @@
                   </VBox>
                   <VBox fx:id="con21" alignment="CENTER" prefHeight="112.0" prefWidth="3.0" spacing="10.0">
                      <children>
-                        <Sphere fx:id="zerodue" radius="11.0">
+                        <Sphere fx:id="zerodue" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
                         </Sphere>
-                        <Sphere fx:id="unodue" radius="11.0">
+                        <Sphere fx:id="unodue" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
                         </Sphere>
-                        <Sphere fx:id="duedue" radius="11.0">
+                        <Sphere fx:id="duedue" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
@@ -101,17 +110,17 @@
                   </VBox>
                   <VBox fx:id="col31" alignment="CENTER" prefHeight="112.0" prefWidth="4.0" spacing="10.0">
                      <children>
-                        <Sphere fx:id="zerotre" radius="11.0">
+                        <Sphere fx:id="zerotre" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
                         </Sphere>
-                        <Sphere fx:id="unotre" radius="11.0">
+                        <Sphere fx:id="unotre" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
                         </Sphere>
-                        <Sphere fx:id="duetre" radius="11.0">
+                        <Sphere fx:id="duetre" radius="15.0">
                            <effect>
                               <GaussianBlur />
                            </effect>
@@ -133,27 +142,37 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="confirm" layoutX="565.0" layoutY="329.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <Button fx:id="cancel" layoutX="569.0" layoutY="368.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-      <Label fx:id="error" layoutX="125.0" layoutY="519.0" text="ERROR:" textFill="RED" visible="false">
+      <Button fx:id="confirm" layoutX="881.0" layoutY="249.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Label fx:id="error" layoutX="491.0" layoutY="537.0" prefHeight="20.0" prefWidth="522.0" text="ERROR:" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
       <ProgressIndicator fx:id="loading" layoutX="569.0" layoutY="315.0" visible="false" />
       <HBox fx:id="Market1" alignment="CENTER_LEFT" layoutX="52.0" layoutY="51.0" prefHeight="112.0" prefWidth="135.0" spacing="10.0" />
-      <Sphere fx:id="external" layoutX="433.0" layoutY="308.0" radius="11.0">
+      <Sphere fx:id="external" layoutX="721.0" layoutY="307.0" radius="15.0">
          <effect>
             <GaussianBlur />
          </effect>
       </Sphere>
-      <HBox alignment="CENTER" layoutX="292.0" layoutY="293.0" prefHeight="26.0" prefWidth="91.0" spacing="17.0">
+      <HBox alignment="CENTER" layoutX="549.0" layoutY="294.0" prefHeight="26.0" prefWidth="91.0" spacing="25.0">
          <children>
             <RadioButton fx:id="Colonna0" mnemonicParsing="false" toggleGroup="$selection" />
             <RadioButton fx:id="Colonna1" mnemonicParsing="false" toggleGroup="$selection" />
             <RadioButton fx:id="Colonna2" mnemonicParsing="false" toggleGroup="$selection" />
-            <RadioButton fx:id="Colonna3" mnemonicParsing="false" prefHeight="2.0" prefWidth="12.0" toggleGroup="$selection" />
+            <RadioButton fx:id="Colonna3" mnemonicParsing="false" prefHeight="2.0" prefWidth="12.0" toggleGroup="$selection">
+               <padding>
+                  <Insets right="1.0" />
+               </padding></RadioButton>
          </children>
       </HBox>
+      <Button fx:id="cancel" layoutX="881.0" layoutY="329.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="101.0" text="Cancel" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

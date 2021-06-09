@@ -13,9 +13,6 @@ import java.util.HashMap;
 
 public class ViewEnemyController extends ViewController{
 
-    //solo il metodo init
-    //solo i bottoni per caricare un player diverso
-
     private String nickName;
 
     public void init(){
@@ -35,35 +32,6 @@ public class ViewEnemyController extends ViewController{
     }
 
     private void initStock() {
-        //Stock Images
-        /*box0 = new ArrayList<>(Arrays.asList(stockBox1));
-        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox21));
-        box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
-        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));
-
-        //Stock Plus Images
-        /*stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
-        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
-        stockPlus = new ArrayList<>();
-        stockPlus.add(stockPlus1);
-        stockPlus.add(stockPlus2);
-
-        //Take the boxes of the simple stock
-        ArrayList<Resource[]> boxes = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes();
-
-        for(int i = 0 ; i < boxes.size() ; i++){
-            if(boxes.get(i) != null){
-                for(int j = 0 ; j < boxes.get(i).length ; j++){
-                    if(boxes.get(i)[j] != null){
-                        String path = printer.pathFromResource(boxes.get(i)[j]);
-                        stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
-                    }
-                    else{
-                        stockBoxes.get(i).get(j).setImage(null);
-                    }
-                }
-            }
-        }*/
 
         Resource[] box1 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(0);
 
@@ -158,8 +126,6 @@ public class ViewEnemyController extends ViewController{
             leader2.setImage(printer.fromPathToImageLeader("back_door"));
         }
     }
-
-
 
     public void setNickname(String nickName) {
         this.nickName = nickName;

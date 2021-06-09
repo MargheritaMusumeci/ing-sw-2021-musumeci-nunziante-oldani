@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -12,15 +13,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.actions.production.BasicProductionController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.actions.production.BasicProductionController">
    <children>
-      <Text layoutX="216.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resources do you want to use ?">
+      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/backgrounds/background_bw.png" />
+         </image>
+         <effect>
+            <GaussianBlur />
+         </effect>
+      </ImageView>
+      <Text fill="WHITE" layoutX="432.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resources do you want to use ?">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <Button fx:id="confirm" layoutX="391.0" layoutY="522.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="199.0" layoutY="205.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="432.0" layoutY="136.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
             <RadioButton fx:id="rock1" mnemonicParsing="false">
                <toggleGroup>
@@ -52,7 +60,7 @@
             </ImageView>
          </children>
       </HBox>
-      <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="200.0" layoutY="278.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+      <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="430.0" layoutY="233.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
             <RadioButton fx:id="rock2" mnemonicParsing="false">
                <toggleGroup>
@@ -84,12 +92,12 @@
             </ImageView>
          </children>
       </HBox>
-      <Text layoutX="200.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resources do you want to receive?">
+      <Text fill="WHITE" layoutX="432.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Which resources do you want to receive?">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <HBox fx:id="resourcesBox3" alignment="CENTER" layoutX="205.0" layoutY="402.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+      <HBox fx:id="resourcesBox3" alignment="CENTER" layoutX="430.0" layoutY="366.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
          <children>
             <RadioButton fx:id="rock3" mnemonicParsing="false">
                <toggleGroup>
@@ -122,11 +130,20 @@
          </children>
       </HBox>
       <ProgressIndicator fx:id="loading" layoutX="393.0" layoutY="547.0" visible="false" />
-      <Label layoutX="216.0" layoutY="502.0" textFill="RED" fx:id="error" visible="false" >
+      <Label fx:id="error" layoutX="216.0" layoutY="502.0" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="cancel" layoutX="395.0" layoutY="561.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button fx:id="confirm" layoutX="530.0" layoutY="489.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancel" layoutX="671.0" layoutY="489.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="101.0" text="Cancel" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

@@ -407,6 +407,9 @@ public class ViewPlayerController extends ViewController {
         if (gui.isActionDone()) {
             gui.setActionDone(false);
             gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+        }else{
+            error.setText("You haven't taken the action yet");
+            error.setVisible(true);
         }
     }
 }

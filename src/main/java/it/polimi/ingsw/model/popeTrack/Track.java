@@ -21,7 +21,7 @@ public class Track {
      */
     private Track(){
 
-        String path = new File("src/main/resources/positionTrack.json").getAbsolutePath();
+        String path = new File("src/main/resources/json/positionTrack.json").getAbsolutePath();
 
         try {
             JsonReader reader = new JsonReader(new FileReader(path));

@@ -25,29 +25,29 @@
    <children>
       <ImageView fitHeight="641.0" fitWidth="1310.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/background_cl2.png" />
+            <Image url="@../images/backgrounds/background_cl2.png" />
          </image>
       </ImageView>
       <HBox layoutX="1010.0" layoutY="55.0" prefHeight="64.0" prefWidth="218.0" spacing="10.0">
          <children>
             <ImageView fx:id="enemy3Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/player1.jpg" />
+                  <Image url="@../images/players/player1.jpg" />
                </image>
             </ImageView>
             <ImageView fx:id="enemy2Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/player2.jpg" />
+                  <Image url="@../images/players/player2.jpg" />
                </image>
             </ImageView>
             <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/player3.jpg" />
+                  <Image url="@../images/players/player3.jpg" />
                </image>
             </ImageView>
             <ImageView fx:id="enemy0Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/player4.jpg" />
+                  <Image url="@../images/players/player4.jpg" />
                </image>
             </ImageView>
          </children>

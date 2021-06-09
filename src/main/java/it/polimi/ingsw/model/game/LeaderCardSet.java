@@ -27,8 +27,7 @@ public class LeaderCardSet {
      */
     private void populateLeaderSet(){
 
-        //String path = "C:/Users/margh/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/leaderCards.json"; //need to find the correct path
-        String path = new File("src/main/resources/leaderCards.json").getAbsolutePath();
+        String path = new File("src/main/resources/json/leaderCards.json").getAbsolutePath();
 
         try {
             JsonReader reader = new JsonReader(new FileReader(path));

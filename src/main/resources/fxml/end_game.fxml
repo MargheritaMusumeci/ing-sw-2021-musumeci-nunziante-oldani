@@ -11,9 +11,11 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.controllers.EndGameController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="855.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="620.0" fitWidth="862.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
-         </image></ImageView>
+            <Image url="@../images/backgrounds/mastersOfRenaissance.png" />
+         </image>
+      </ImageView>
       <Text fill="WHITE" layoutX="244.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THE GAME IS OVER">
          <font>
             <Font name="System Italic" size="41.0" />
@@ -21,7 +23,7 @@
       </Text>
       <Button fx:id="exitButton" layoutX="399.0" layoutY="477.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
       <Button fx:id="playButton" layoutX="379.0" layoutY="517.0" mnemonicParsing="false" onAction="#play" text="Play Again " />
-      <Label fx:id="messageLabel" layoutX="341.0" layoutY="308.0" prefHeight="48.0" prefWidth="154.0" text="YOU LOSE" textFill="RED">
+      <Label fx:id="messageLabel" layoutX="329.0" layoutY="308.0" prefHeight="49.0" prefWidth="174.0" text="YOU LOSE" textFill="RED">
          <font>
             <Font name="System Bold" size="33.0" />
          </font>
