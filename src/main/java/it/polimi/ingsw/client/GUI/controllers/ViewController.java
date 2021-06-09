@@ -340,15 +340,14 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
 
         gui.setOtherView(button.getText());
 
+        //TODO START_GAME doesn't exist
         if(!gui.getOtherView().equals(gui.getNickname())){
-            //initializer.setDashboard(gui.getView().getEnemiesDashboard().get(gui.getOtherView()));
             gui.setGamePhase(GamePhases.SEEOTHERVIEW);
             gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
-            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+            //gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
         }else{
-            //initializer.setDashboard(gui.getView().getDashboard());
-            gui.setGamePhase(GamePhases.STARTGAME);
-            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+            //gui.setGamePhase(GamePhases.STARTGAME);
+            //gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setOldScene(gui.getScene(GameFxml.OTHERVIEW.s));
         }
 
