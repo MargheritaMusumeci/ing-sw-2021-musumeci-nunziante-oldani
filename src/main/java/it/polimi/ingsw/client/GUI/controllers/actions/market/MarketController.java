@@ -132,9 +132,9 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
     }
     public void cancel(ActionEvent actionEvent) {
 
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 }

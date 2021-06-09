@@ -32,7 +32,7 @@ public class ViewPlayerController extends ViewController {
     @FXML
     private void showMarket() {
         gui.setCurrentScene(gui.getScene(GameFxml.MARKET.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.BUYFROMMARKET);
         gui.changeScene();
     }
@@ -40,7 +40,7 @@ public class ViewPlayerController extends ViewController {
     @FXML
     private void showEvolutionSection() {
         gui.setCurrentScene(gui.getScene(GameFxml.EVOLUTION_SECTION.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.BUYEVOLUTIONCARD);
         gui.changeScene();
     }
@@ -68,8 +68,8 @@ public class ViewPlayerController extends ViewController {
 
         if (productionPositions.size() != 0 || activeBasic) {
             System.out.println("Active the production");
-            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+            gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
 
             gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures() , leaderEnsure));
@@ -82,7 +82,8 @@ public class ViewPlayerController extends ViewController {
         gui.setLeaderEnsure(null);
         initBasicProduction();
         initButtons();
-
+        activeProduction4Button.setVisible(false);
+        activeProduction5Button.setVisible(false);
     }
 
     @FXML
@@ -90,8 +91,8 @@ public class ViewPlayerController extends ViewController {
 
         activeBasic = true;
         gui.setCurrentScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 
@@ -110,7 +111,7 @@ public class ViewPlayerController extends ViewController {
         }
 
         gui.setCurrentScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.LEADERPRODUCTION);
         gui.changeScene();
     }
@@ -165,7 +166,7 @@ public class ViewPlayerController extends ViewController {
         gui.setUpdateDashboardArrived(false);
         gui.setNackArrived(false);
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         System.out.println("Active leader");
     }
 
@@ -240,7 +241,7 @@ public class ViewPlayerController extends ViewController {
         //set leader card
         ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
         System.out.println("Leader card size is: " + leaderCards.size());
-        if (leaderCards != null && leaderCards.size() > 0) {
+        if (leaderCards.size() > 0) {
 
             String path = String.valueOf(leaderCards.get(0).getId());
             leader1.setImage(printer.fromPathToImageLeader(path));
@@ -249,17 +250,20 @@ public class ViewPlayerController extends ViewController {
                 discard1.setVisible(false);
                 active1.setVisible(false);
                 activeProduction4.setVisible(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                activeProduction4.setDisable(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
             }
             //if the card is been discarded
             else if(gui.getLeaderCardsDiscarded().get(0)){
                 active1.setVisible(false);
                 discard1.setVisible(false);
                 activeProduction4.setVisible(false);
+                activeProduction4.setDisable(false);
             }
             else{
                 active1.setVisible(true);
                 discard1.setVisible(true);
                 activeProduction4.setVisible(false);
+                activeProduction4.setDisable(false);
             }
 
             if (leaderCards.size() > 1) {
@@ -271,11 +275,13 @@ public class ViewPlayerController extends ViewController {
                     active2.setVisible(false);
 
                     activeProduction5.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                    activeProduction5.setDisable(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
                 }
                 else{
                     active2.setVisible(true);
                     discard2.setVisible(true);
                     activeProduction5.setVisible(false);
+                    activeProduction5.setDisable(false);
                 }
             }
             //If it's not my turn
@@ -286,6 +292,8 @@ public class ViewPlayerController extends ViewController {
                 discard2.setVisible(false);
                 activeProduction4.setVisible(false);
                 activeProduction5.setVisible(false);
+                activeProduction4Button.setVisible(false);
+                activeProduction5Button.setVisible(false);
             }
         }
         else{
@@ -295,6 +303,8 @@ public class ViewPlayerController extends ViewController {
             discard2.setVisible(false);
             activeProduction4.setVisible(false);
             activeProduction5.setVisible(false);
+            activeProduction4Button.setVisible(false);
+            activeProduction5Button.setVisible(false);
         }
 
         //leader production
@@ -323,20 +333,16 @@ public class ViewPlayerController extends ViewController {
     }
 
     private void initButtons() {
-
         if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));//active1,active2,discard1,discard2
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));
             initializer.visibleButton(buttons , true);
             buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton));
             initializer.ableDisableButtons(buttons, gui.isActionDone());
-            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3,activeProduction4,activeProduction5));
-            initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
-
+            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,gui.isActionDone());
         }else{
             ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,endTurn));
             initializer.visibleButton(buttons,false);
-            ArrayList<CheckBox> checkBoxes = new ArrayList<>(Arrays.asList(activeProduction1,activeProduction2,activeProduction3,activeProduction4,activeProduction5));
-            initializer.ableDisableCheckBoxes(checkBoxes,gui.isActionDone());
+            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,true);
         }
     }
 
