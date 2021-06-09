@@ -129,7 +129,7 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
 
         //Change the scene to let the player choose in which production zone put the card
         gui.setCurrentScene(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.PRODUCTIONZONECHOICE);
         gui.changeScene();
     }
@@ -138,9 +138,9 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
      * Turn back to START_GAME scene
      */
     public void cancel() {
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 

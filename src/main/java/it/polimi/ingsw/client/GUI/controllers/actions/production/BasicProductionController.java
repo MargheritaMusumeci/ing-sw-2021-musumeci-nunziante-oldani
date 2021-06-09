@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.GUI.GameFxml;
 import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.model.game.Resource;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -114,9 +113,9 @@ public class BasicProductionController implements Controller {
         }else {
             gui.setBasicEnsures(basicEnsures);
             gui.setBasicRequires(basicRequires);
-            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setOldScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
-            gui.setGamePhase(GamePhases.STARTGAME);
+            gui.setGamePhase(GamePhases.MYTURN);
             gui.changeScene();
         }
         cancel.setVisible(true);
@@ -139,9 +138,9 @@ public class BasicProductionController implements Controller {
     }
 
     public void cancel() {
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 

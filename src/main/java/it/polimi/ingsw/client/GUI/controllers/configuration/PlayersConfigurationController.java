@@ -10,7 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 /**
- * Class that contains methods and attributes related to the selection of number of players in game
+ * Class that asks the user how many players he wants to play with and sends the message to the server asking
+ * to add the user to the correct lobby
  */
 public class PlayersConfigurationController implements Controller {
 
@@ -27,8 +28,8 @@ public class PlayersConfigurationController implements Controller {
     private Button loginButton;
 
     /**
-     * method need for change Menuitem selection and show the result
-     * @param actionEvent
+     * Method used to show the result of the user's choice.
+     * @param actionEvent refers to which menu item the user has chosen
      */
     @FXML
     public void choosePlayer(ActionEvent actionEvent){
@@ -43,7 +44,7 @@ public class PlayersConfigurationController implements Controller {
     }
 
     /**
-     * method called when user press login button
+     * Method called when user press login button. It checks the validity of the field entered and sends message to server
      */
     @FXML
     public void doLogin() {

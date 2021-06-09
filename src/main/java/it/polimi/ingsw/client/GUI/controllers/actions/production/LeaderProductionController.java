@@ -35,9 +35,9 @@ public class LeaderProductionController implements Controller {
 
     public void cancel(ActionEvent actionEvent) {
 
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 
@@ -67,9 +67,9 @@ public class LeaderProductionController implements Controller {
             return;
         }
         gui.setLeaderEnsure(leaderEnsure);
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setOldScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 
