@@ -72,10 +72,10 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.setErrorFromServer(message.getMessage());
            if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
                gui.setUpdateDashboardArrived(false);
-               gui.setGamePhase(GamePhases.STARTGAME);
-               gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-           }else if(gui.getGamePhase().equals(GamePhases.STARTGAME)){
-               gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+               gui.setGamePhase(GamePhases.MYTURN);
+               gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+           }else if(gui.getGamePhase().equals(GamePhases.MYTURN)){
+               gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
            }
             else{
                 gui.setNackArrived(true);
@@ -212,27 +212,26 @@ public class MessageHandlerGUI extends MessageHandler {
 
         synchronized (gui) {
             gui.getView().setDashboard(message.getDashboard());
-            if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
+            if (gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
             //TODO qua e non in update leader ???
-                if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) {
-                    if (gui.isAckArrived() || gui.isNackArrived()) {
-                        gui.setAckArrived(false);
-                        gui.setNackArrived(false);
-                        System.out.println("Calling activeLeaderAck after received the ack");
+            if (gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) {
+                if (gui.isAckArrived() || gui.isNackArrived()) {
+                    gui.setAckArrived(false);
+                    gui.setNackArrived(false);
+                    System.out.println("Calling activeLeaderAck after received the ack");
 
-                        ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
-                    } else {
-                        gui.setUpdateDashboardArrived(true);
-                        return;
-                    }
+                    ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
+                } else {
+                    gui.setUpdateDashboardArrived(true);
+                    return;
                 }
+            }
 
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.OTHERVIEW.s)) {
                 gui.setGamePhase(GamePhases.MYTURN);
             }
-                gui.changeScene();
-            }
+            gui.changeScene();
         }
     }
 
