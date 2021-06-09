@@ -20,7 +20,7 @@ import javafx.scene.shape.Sphere;
 import java.util.ArrayList;
 
 /**
- * Class that contains methods and attributes for choosing leader cards
+ * Class that is responsible for showing the four leader cards among which the user must choose and manage the decision.
  */
 public class LeaderCardsConfigurationController extends MarketEvolutionSectionBuilder implements Controller {
 
@@ -28,7 +28,6 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
     private GUI gui;
     private ArrayList<SerializableLeaderCard> leaderCards;
     private Print printer;
-    private Initializer initializer;
 
     @FXML
     private Button LeaderConfirmation;
@@ -68,7 +67,7 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
         }
         leaderCards= gui.getLeaderCards();
 
-        //creare un metodo
+        //TODO trasfomare queste linee in un metodo
         String path = String.valueOf(leaderCards.get(0).getId());
         leaderCard1.setImage(printer.fromPathToImageLeader(path));
         leaderCard1.setCache(true);
@@ -85,14 +84,14 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
         leaderCard4.setImage(printer.fromPathToImageLeader(path));
         leaderCard4.setCache(true);
 
-        this.initializer = new Initializer(gui);
-
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
         initMarketEvolution(market);
     }
 
-
+    /**
+     * Method that checks that the cards chosen by the user are a valid number and notifies the server the choice.
+     */
     @FXML
     public void leaderCardChosen(){
 
@@ -145,6 +144,11 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
         }
     }
 
+    /**
+     * Additional method to trace the position of the leader card saved in the gui array starting from the id.
+     * @param id leader card id
+     * @return leader card position in array
+     */
     private int getPosition(int id){
         int pos = 0;
         for (int i=0; i<gui.getLeaderCards().size(); i++) {
@@ -160,6 +164,5 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
     this.gui=gui;
     super.setGuiBuilder(gui);
     this.printer = new Print();
-    this.initializer = new Initializer(gui);
     }
 }

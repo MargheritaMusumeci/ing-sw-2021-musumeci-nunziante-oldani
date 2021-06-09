@@ -8,7 +8,7 @@ public enum GameFxml {
     LEADER_CARD("leader_cards_configuration.fxml"),
     INITIAL_RESOURCES("initial_resources_configuration.fxml"),
     WAITING_ROOM("waiting.fxml"),
-    START_GAME("newView.fxml"),
+    MY_TURN("newView.fxml"),
     MARKET("market.fxml"),
     STORE_RESOURCES("store_resources.fxml"),
     BASIC_PRODUCTION("basic_production.fxml"),
@@ -30,7 +30,7 @@ public enum GameFxml {
         LEADER_CARD.gamePhases=GamePhases.INITIALLEADERCARDSELECTION;
         INITIAL_RESOURCES.gamePhases=GamePhases.INITIALRESOURCESELECTION;
         WAITING_ROOM.gamePhases=GamePhases.WAITINGOTHERPLAYERS;
-        START_GAME.gamePhases=GamePhases.STARTGAME;
+        MY_TURN.gamePhases=GamePhases.MYTURN;
         MARKET.gamePhases=GamePhases.BUYFROMMARKET;
         STORE_RESOURCES.gamePhases=GamePhases.STORERESOURCES;
         BASIC_PRODUCTION.gamePhases=GamePhases.ASKACTIVEPRODUCTION;

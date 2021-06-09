@@ -32,7 +32,7 @@ public class ViewPlayerController extends ViewController {
     @FXML
     private void showMarket() {
         gui.setCurrentScene(gui.getScene(GameFxml.MARKET.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.BUYFROMMARKET);
         gui.changeScene();
     }
@@ -40,7 +40,7 @@ public class ViewPlayerController extends ViewController {
     @FXML
     private void showEvolutionSection() {
         gui.setCurrentScene(gui.getScene(GameFxml.EVOLUTION_SECTION.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.BUYEVOLUTIONCARD);
         gui.changeScene();
     }
@@ -68,8 +68,8 @@ public class ViewPlayerController extends ViewController {
 
         if (productionPositions.size() != 0 || activeBasic) {
             System.out.println("Active the production");
-            gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-            gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+            gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
 
             gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures() , leaderEnsure));
@@ -90,8 +90,8 @@ public class ViewPlayerController extends ViewController {
 
         activeBasic = true;
         gui.setCurrentScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 
@@ -110,7 +110,7 @@ public class ViewPlayerController extends ViewController {
         }
 
         gui.setCurrentScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.LEADERPRODUCTION);
         gui.changeScene();
     }
@@ -165,7 +165,7 @@ public class ViewPlayerController extends ViewController {
         gui.setUpdateDashboardArrived(false);
         gui.setNackArrived(false);
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         System.out.println("Active leader");
     }
 
@@ -240,7 +240,7 @@ public class ViewPlayerController extends ViewController {
         //set leader card
         ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
         System.out.println("Leader card size is: " + leaderCards.size());
-        if (leaderCards != null && leaderCards.size() > 0) {
+        if (leaderCards.size() > 0) {
 
             String path = String.valueOf(leaderCards.get(0).getId());
             leader1.setImage(printer.fromPathToImageLeader(path));

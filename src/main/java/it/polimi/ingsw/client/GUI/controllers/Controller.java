@@ -10,7 +10,14 @@ import it.polimi.ingsw.client.GUI.GUI;
  */
 public interface Controller {
 
+    /**
+     * Method used in controllers to hold the reference to the gui
+     * @param gui user gui
+     */
     void setGui(GUI gui);
 
+    /**
+     * Method used by controllers which allows them to initialize the scene before showing it
+     */
     void init();
 }

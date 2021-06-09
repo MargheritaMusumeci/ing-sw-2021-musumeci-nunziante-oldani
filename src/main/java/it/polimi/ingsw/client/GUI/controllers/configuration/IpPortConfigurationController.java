@@ -13,10 +13,9 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 /**
- * Class that contains all methods and attributes related to the scene in which users insert
- * ip port and address of the server.
- * This class is able to create client so127
+ * Class that, based on the values provided by the user (ip and server address), tries to create the connection
  */
+
 public class IpPortConfigurationController implements Controller {
 
     private GUI gui;
@@ -33,7 +32,7 @@ public class IpPortConfigurationController implements Controller {
     private ProgressIndicator loading;
 
     /**
-     * method called when user push "connect" button
+     * Check the validity of the fields and try to establish the connection.
      */
     @FXML
     public void connectionInitialization() {
@@ -50,7 +49,7 @@ public class IpPortConfigurationController implements Controller {
             return;
         }
 
-        int portServer = 0;
+        int portServer;
 
         //error --> insert a string not an int
         try {

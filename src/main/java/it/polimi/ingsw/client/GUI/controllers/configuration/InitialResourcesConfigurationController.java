@@ -3,8 +3,6 @@ package it.polimi.ingsw.client.GUI.controllers.configuration;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilder;
-import it.polimi.ingsw.client.GUI.controllers.utils.Initializer;
-import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.fxml.FXML;
@@ -14,6 +12,10 @@ import javafx.scene.shape.Sphere;
 
 import java.util.ArrayList;
 
+/**
+ * Class that takes care of showing the user how many resources to start he must choose and manages the user's choice.
+ * If no initial resources are established for the player, the corresponding message is printed.
+ */
 public class InitialResourcesConfigurationController extends MarketEvolutionSectionBuilder implements Controller {
 
     private GUI gui;
@@ -22,8 +24,6 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
     private int rockNumber=0;
     private int shieldNumber=0;
     private int servantNumber=0;
-    private Initializer initializer;
-    private Print printer;
 
     @FXML
     private ToggleGroup resources1;
@@ -56,7 +56,6 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
     @FXML
     private ProgressIndicator loading;
 
-
     @Override
     public void init(){
 
@@ -73,23 +72,25 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
            resourcesBox1.setVisible(false);
            resourcesBox2.setVisible(false);
             errorMessage.setText("Nothing to choose, just wait other players");
+            errorMessage.setVisible(true);
             confirm.setVisible(false);
             loading.setVisible(true);
 
         }else{
-           //se sono il secondo o il terzo giocatore posso scegliere solo una risorsa
+          //the second and third players can only choose one resource
           if(resources.size()==4){
               resourcesBox2.setVisible(false);
           }
        }
-
-        this.initializer = new Initializer(gui);
 
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
         initMarketEvolution(market);
     }
 
+    /**
+     * Method that checks that the resources chosen by the user are a valid number and type and notifies the server the choice.
+     */
     public void confirmation() {
 
         confirm.setVisible(false);
@@ -97,7 +98,7 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
         RadioButton radio2 = (RadioButton) resources2.getSelectedToggle();
 
-        ArrayList<Resource> selected = new ArrayList<Resource>();
+        ArrayList<Resource> selected = new ArrayList<>();
 
         if(radio == coin1){
             coinNumber++;
@@ -147,7 +148,6 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
-        this.printer = new Print();
         super.setGuiBuilder(gui);
     }
 }

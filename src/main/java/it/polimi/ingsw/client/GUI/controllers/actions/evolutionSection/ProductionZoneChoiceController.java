@@ -105,18 +105,18 @@ public class ProductionZoneChoiceController implements Controller {
         gui.getClientSocket().send(new BuyEvolutionCardMessage("Card bought" , gui.getCardRow() , gui.getCardColumn() , position));
 
         //Turn back to the start game scene
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setOldScene(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setGamePhase(GamePhases.MYTURN);
     }
 
     /**
      * Turn back to START_GAME scene
      */
     public void cancel() {
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+        gui.setGamePhase(GamePhases.MYTURN);
         gui.changeScene();
     }
 }

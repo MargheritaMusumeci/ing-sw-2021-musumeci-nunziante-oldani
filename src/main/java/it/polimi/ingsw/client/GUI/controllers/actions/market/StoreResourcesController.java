@@ -134,8 +134,8 @@ public class StoreResourcesController implements Controller {
             resourcesToBeSend.add(resource.get(3));
         }
         gui.getClientSocket().send(new StoreResourcesMessage("Save",resourcesToBeSend));
-        gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
+        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setOldScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
-        gui.setGamePhase(GamePhases.STARTGAME);
+        gui.setGamePhase(GamePhases.MYTURN);
     }
 }

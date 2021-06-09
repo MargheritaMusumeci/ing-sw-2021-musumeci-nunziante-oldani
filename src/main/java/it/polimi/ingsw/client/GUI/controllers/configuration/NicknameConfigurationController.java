@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 /**
- * Class that contains methods and attributes related to Nickname choose scene.
+ * Class that asks the user for the nickname he wants to use, checks it and sends it to the server.
  */
 public class NicknameConfigurationController implements Controller {
 
@@ -25,7 +25,7 @@ public class NicknameConfigurationController implements Controller {
     private Button loginButton;
 
     /**
-     * method calls when user push login button
+     * Method calls when user push login button. It checks only if all required field have been filled
      */
     @FXML
     public void doLogin() {
@@ -43,7 +43,6 @@ public class NicknameConfigurationController implements Controller {
 
             String nickname = nicknameField.getText();
             gui.getClientSocket().send(new NickNameMessage(nickname));
-
             gui.setGamePhase(GamePhases.NUMBEROFPLAYERS);
             gui.setCurrentScene(gui.getScene(GameFxml.PLAYERS.s));
             gui.setOldScene(gui.getScene(GameFxml.NICKNAME.s));
