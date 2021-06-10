@@ -99,7 +99,6 @@ public class ViewEnemyController extends ViewController{
         //Initialize leader stock
         if (leaderCardsActivated != null && leaderCardsActivated.size() != 0) {
             for(int i = 0 ; i < leaderCardsActivated.size() ; i++){
-                int leaderPosition = i;
 
                 if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
                     for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length ; j++){

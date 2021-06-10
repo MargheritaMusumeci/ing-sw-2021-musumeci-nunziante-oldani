@@ -255,12 +255,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     @Override
     public void init() {
 
-        if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
-            error.setText(gui.getErrorFromServer());
-        }else{
-            error.setText(null);
-        }
-
         //initialize market
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
@@ -360,15 +354,21 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
 
         gui.setOtherView(button.getText());
 
-        //TODO START_GAME doesn't exist
         if(!gui.getOtherView().equals(gui.getNickname())){
             gui.setGamePhase(GamePhases.SEEOTHERVIEW);
             gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
-            //gui.setOldScene(gui.getScene(GameFxml.START_GAME.s));
-        }else{
-            //gui.setGamePhase(GamePhases.STARTGAME);
-            //gui.setCurrentScene(gui.getScene(GameFxml.START_GAME.s));
             gui.setOldScene(gui.getScene(GameFxml.OTHERVIEW.s));
+        }
+        if(gui.getOtherView().equals(gui.getNickname())){
+            if(gui.getView().getActivePlayer().equals(gui.getNickname())){
+                gui.setGamePhase(GamePhases.MYTURN);
+                gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+            }else{
+                gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+                gui.setCurrentScene(gui.getScene(GameFxml.OTHERTURN.s));
+                gui.setOldScene(gui.getScene(GameFxml.OTHERTURN.s));
+            }
         }
 
         gui.changeScene();

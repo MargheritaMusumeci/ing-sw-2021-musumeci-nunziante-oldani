@@ -251,6 +251,13 @@ public class ViewPlayerController extends ViewController {
     @Override
     public void init() {
 
+        if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
+            error.setText(gui.getErrorFromServer());
+        }else{
+            error.setText(null);
+        }
+
+
         initializer.setDashboard(gui.getView().getDashboard());
 
         super.init();
