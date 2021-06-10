@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 public class Initializer {
 
+    /**
+     * Dashboard of the player to show
+     */
     private SerializableDashboard dashboard;
     private final Print printer;
     private final GUI gui;
@@ -24,6 +27,11 @@ public class Initializer {
         this.gui = gui;
     }
 
+    /**
+     * Method that, given the container of the FXML components relative to the market, init the market shown
+     * @param market contains the resources the player can buy
+     * @param external contains the external resources
+     */
     public void initMarket(Sphere[][] market, Sphere external) {
 
         Resource[][] marketModel = gui.getView().getMarket().getMarket();
@@ -35,8 +43,11 @@ public class Initializer {
         external.setMaterial(printer.materialFromResource(gui.getView().getMarket().getExternalResource()));
     }
 
+    /**
+     * Method that set the evolution card the player bought
+     * @param eCards is an array list of ImageView that contains the FXML components corresponding to the evolution cards bought
+     */
     public void initEvolutionSection(ArrayList<ArrayList<ImageView>> eCards) {
-
 
         //Take the card on the top of each positions
         SerializableEvolutionSection evolutionSection = gui.getView().getEvolutionSection();
@@ -55,13 +66,20 @@ public class Initializer {
         }
     }
 
+    /**
+     * Method that show the inkwell if the dashboard set has it
+     * @param inkwell is the ImageView in the view corresponding to the inkwell
+     */
     public void initInkwell(ImageView inkwell){
         if(dashboard.isInkwell()){
             inkwell.setVisible(true);
         }
-
     }
 
+    /**
+     * Method that set the cross of the player, and of Lorenzo if solo game, in the pope track
+     * @param popeTrackPositions is an array of ImageView containing each position of the pope track
+     */
     public void initPopeTrack(ArrayList<ImageView> popeTrackPositions) {
 
         for (ImageView image: popeTrackPositions) {
@@ -81,6 +99,11 @@ public class Initializer {
         popeTrackPositions.get(position).setImage(printer.popePosition());
     }
 
+    /**
+     * Method that for each pope card in the dashboard check if they are active or discard and, according to that,
+     *      shoe the correct pope card (discard pope card or active pope track)
+     * @param popeCards
+     */
     public void initPopeCards(ArrayList<ImageView> popeCards) {
 
         boolean[] popeCardActive = dashboard.getSerializablePopeTack().getActiveCards();
@@ -96,6 +119,10 @@ public class Initializer {
         }
     }
 
+    /**
+     * Method that initializes the production zone showing all the evolution cards bought
+     * @param productionZones is an array list of ImageView relative to the evolution cards
+     */
     public void initProductionZone(ArrayList<ImageView>[] productionZones) {
 
         SerializableProductionZone[] serializableProductionZones = dashboard.getSerializableProductionZones();
@@ -116,18 +143,33 @@ public class Initializer {
         }
     }
 
+    /**
+     * Method called able/disable some buttons
+     * @param buttons is an array list of button to able/disable
+     * @param b is a boolean: if true , disable all the buttons; if false , able all the buttons
+     */
     public void ableDisableButtons(ArrayList<Button> buttons, boolean b) {
         for(Button button: buttons){
             button.setDisable(b);
         }
     }
 
+    /**
+     * Method called able/disable some checkBoxes
+     * @param checkBoxes is an array list of checkBoxes to able/disable
+     * @param b is a boolean: if true , disable all the checkBoxes; if false , able all the checkBoxes
+     */
     public void ableDisableCheckBoxes(ArrayList<CheckBox> checkBoxes, boolean b) {
         for(CheckBox checkBox: checkBoxes){
             checkBox.setDisable(b);
         }
     }
 
+    /**
+     * Method called to show/hide some buttons
+     * @param buttons is an array list of button to show/hide
+     * @param b is a boolean: if true , show all the buttons; if false , hide all the buttons
+     */
     public void visibleButton(ArrayList<Button> buttons, boolean b) {
         for(Button button: buttons){
             button.setVisible(b);

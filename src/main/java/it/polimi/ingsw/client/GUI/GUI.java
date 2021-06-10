@@ -102,6 +102,9 @@ public class GUI extends Application implements UI {
         System.exit(0);
     }
 
+    /**
+     * Method that initializes the hash map relative to the scenes, to the controller, to the phases and to the fxml files
+     */
     public void initializationFXMLParameter() {
         List<GameFxml> fxmlFiles = new ArrayList<>(Arrays.asList(GameFxml.values()));
         try {
@@ -128,6 +131,9 @@ public class GUI extends Application implements UI {
         currentStage.show();
     }
 
+    /**
+     * Method that changes the scene: set the new scene, initialize the relative controller and show the scene
+     */
     public void changeScene() {
 
         Platform.runLater(()->{

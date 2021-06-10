@@ -21,7 +21,7 @@ public class MessageHandlerGUI extends MessageHandler {
     }
 
     /**
-     * The action that the user asked the server to perform was unsuccessful:
+     * The action that the user asked the server to perform was successful
      */
     @Override
     public void handleMessage(ACKMessage message) {
@@ -86,6 +86,12 @@ public class MessageHandlerGUI extends MessageHandler {
         }
     }
 
+    /**
+     * The player can join the game again:
+     * if he is the active player, game phase will be "MY_TURN"
+     * if he is not the active player, game phase will be "OTHER_TURN"
+     * @param message contains the view of the player and the number of player in the game
+     */
     @Override
     public void handleMessage(ReconnectionMessage message) {
         gui.setView(message.getView());
@@ -285,6 +291,10 @@ public class MessageHandlerGUI extends MessageHandler {
         }
     }
 
+    /**
+     * Update the view of other players
+     * @param message contains the view and the nickname of the player the message refers to
+     */
     @Override
     public void handleUpdateMessage(UpdateOtherPlayerViewMessage message) {
         synchronized (gui) {

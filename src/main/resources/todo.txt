@@ -12,8 +12,6 @@ da fare:
 in atto:
 -controllare le biglie bianche
 - flag ack vs update
-- messaggio di riconnessione
-
 
 fatto:
 -fine gioco --> sistemare looser --> dovrebbe andare
@@ -28,10 +26,6 @@ fatto:
 -label di errore
 
 Nunziante:
-
-- add comments to methods
-- nascondere il bottone PRODUCTION della leader card quando ho effettuato l'azione o non è il mio turno
-- setDisable(true) delle checkbox
 
 Oldani:
 

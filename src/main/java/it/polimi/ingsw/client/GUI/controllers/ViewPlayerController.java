@@ -20,7 +20,16 @@ import java.util.HashMap;
 
 public class ViewPlayerController extends ViewController {
 
+    /**
+     * Attribute that contains the position of the leader card the player wants to activate
+     * This attribute will be use when the ack arrive
+     */
     private int leaderWaitForAck;
+
+    /**
+     * Attribute set true when the player set the basic production ready to be activated
+     * This attribute will be use when the player active the production
+     */
     private boolean activeBasic;
 
     public ViewPlayerController() {
@@ -29,6 +38,10 @@ public class ViewPlayerController extends ViewController {
         leaderWaitForAck = -1;
     }
 
+    /**
+     * Method called when the players click on the market
+     * Change the scene and the new game phase will be BUY_FROM_MARKET
+     */
     @FXML
     private void showMarket() {
         gui.setCurrentScene(gui.getScene(GameFxml.MARKET.s));
@@ -37,6 +50,10 @@ public class ViewPlayerController extends ViewController {
         gui.changeScene();
     }
 
+    /**
+     * Method called when the player click on the evolution section
+     * Change the scene and the new game phase will be BUY_EVOLUTION_CARD
+     */
     @FXML
     private void showEvolutionSection() {
         gui.setCurrentScene(gui.getScene(GameFxml.EVOLUTION_SECTION.s));
@@ -45,6 +62,13 @@ public class ViewPlayerController extends ViewController {
         gui.changeScene();
     }
 
+    /**
+     * Method called when the player click on the button "activeProduction"
+     * This method will check which production zones are selected and if there is a leader production
+     * check if the leader ensure production is set.
+     * Then it will send the ActiveProductionMessage
+     * @param actionEvent is the click of the activeProduction button
+     */
     @FXML
     public void activeProduction(ActionEvent actionEvent) {
 
@@ -59,7 +83,8 @@ public class ViewPlayerController extends ViewController {
 
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
-                if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length > 4))productionPositions.add(3);
+                if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length > 4))
+                    productionPositions.add(3);
                 else {
                     productionPositions.add(4);
                 }
@@ -86,6 +111,12 @@ public class ViewPlayerController extends ViewController {
         activeProduction5Button.setVisible(false);
     }
 
+    /**
+     * Method called when the player click on the basic production
+     * The game phase will change to BASIC_PRODUCTION , the scene will change and
+     * the player can choose the requires and the ensure for the basic production
+     * @param actionEvent is the click of the basic production
+     */
     @FXML
     public void chooseBasicProduction(ActionEvent actionEvent) {
 
@@ -96,6 +127,12 @@ public class ViewPlayerController extends ViewController {
         gui.changeScene();
     }
 
+    /**
+     * Method called when the player wanna choose a resource as optional resource for the leader production
+     * The new game phase will be LEADER_PRODUCTION and the scene will chang
+     * @param actionEvent is the click of the button activeProduction4Button or activeProduction5Button
+     *                    corresponding to the active leader card with the ability PRODUCTION_POWER
+     */
     @FXML
     private void showLeaderProduction(ActionEvent actionEvent) {
 
@@ -117,7 +154,7 @@ public class ViewPlayerController extends ViewController {
     }
 
     /**
-     * user ask to active a leader card.
+     * User asked to active a leader card.
      * If server answer with ACK means that user effectively have necessary resources for the activation and so
      * parameter could be update.
      */
@@ -142,6 +179,13 @@ public class ViewPlayerController extends ViewController {
         leaderWaitForAck = -1;
     }
 
+    /**
+     * Method called when the player click on an active leader card button
+     * This method will save the position of the leader card the player wants to activate and then send the message
+     * ActiveLeaderCard.
+     * Then, set the game phase to ASK_ACTIVE_LEADER, necessary when the ack will arrive
+     * @param actionEvent is the click of the button active leader card
+     */
     @FXML
     public void activeLeader(ActionEvent actionEvent) {
 
@@ -170,6 +214,12 @@ public class ViewPlayerController extends ViewController {
         System.out.println("Active leader");
     }
 
+    /**
+     * Method called when the player click on discard leader card
+     * The player can always discard a leader card, no resources or requirements are needed
+     * DiscardLeaderCardMessage will be sent byt this method
+     * @param actionEvent
+     */
     @FXML
     public void discardLeader(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
@@ -195,6 +245,9 @@ public class ViewPlayerController extends ViewController {
         initializer.initPopeTrack(popeTrackPositions);
     }
 
+    /**
+     * Init method that set the right dashboard in the initializer, call super.init() and initialize the view
+     */
     @Override
     public void init() {
 
@@ -233,6 +286,9 @@ public class ViewPlayerController extends ViewController {
         initStock();
     }
 
+    /**
+     * Method that initializes the leader cards of the player and their buttons
+     */
     private void initLeaderCards() {
 
         leaderEnsure1.setImage(null);
@@ -319,6 +375,10 @@ public class ViewPlayerController extends ViewController {
         }
     }
 
+    /**
+     * Init the basic production.
+     * Show the resources if the basic production is been already set in the turn, set no resources otherwise
+     */
     private void initBasicProduction(){
 
         if (activeBasic && gui.getBasicRequires() != null && gui.getBasicEnsures() != null) {
@@ -332,6 +392,9 @@ public class ViewPlayerController extends ViewController {
         }
     }
 
+    /**
+     * method that initializes the buttons of the view according to the game phase: MY_TURN or OTHER_PLAYERS_TURN
+     */
     private void initButtons() {
         if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
             ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));
@@ -346,6 +409,10 @@ public class ViewPlayerController extends ViewController {
         }
     }
 
+    /**
+     * Method that initializes the lockBox with the amount of each resource
+     * Maybe in the initializer? It's the same if I'm watching my view or an enemy view
+     */
     protected void initLockBox() {
         HashMap<Resource, Integer> lockBox = gui.getView().getDashboard().getSerializableLockBox().getResources();
         coinQuantity.setText(String.valueOf(lockBox.get(Resource.COIN)));
@@ -354,6 +421,9 @@ public class ViewPlayerController extends ViewController {
         rockQuantity.setText(String.valueOf(lockBox.get(Resource.ROCK)));
     }
 
+    /**
+     * Method that initializes the standard stock and, if present, the stock plus
+     */
     protected void initStock() {
         //Take the boxes of the simple stock
         ArrayList<Resource[]> boxes = gui.getView().getDashboard().getSerializableStock().getBoxes();
@@ -405,10 +475,12 @@ public class ViewPlayerController extends ViewController {
         }
     }
 
-    @FXML
     /**
-     * For now when the player isn't the active player put him in the waiting room
+     * Method called when the player ended the turn (clicking on the relative button)
+     * Send the EndTurnMessage
+     * If the player didn't do any action in this turn yet, show the error
      */
+    @FXML
     public void endTurn(){
         if (gui.isActionDone()) {
             gui.setActionDone(false);

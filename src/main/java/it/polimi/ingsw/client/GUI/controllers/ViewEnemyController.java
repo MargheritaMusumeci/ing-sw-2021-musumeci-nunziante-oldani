@@ -15,6 +15,10 @@ public class ViewEnemyController extends ViewController{
 
     private String nickName;
 
+    /**
+     * Method that sets the enemy dashboard in the initializer and initialize the enemy view
+     */
+    @Override
     public void init(){
         initializer.setDashboard(gui.getView().getEnemiesDashboard().get(nickName));
         super.init();
@@ -23,14 +27,20 @@ public class ViewEnemyController extends ViewController{
         initLeaderCards();
     }
 
+    /**
+     * Method that initializes the lockBox with the amount of each resource
+     */
     private void initLockBox() {
-        HashMap<Resource, Integer> lockbox = gui.getView().getEnemiesDashboard().get(nickName).getSerializableLockBox().getResources();
-        coinQuantity.setText(String.valueOf(lockbox.get(Resource.COIN)));
-        shieldQuantity.setText(String.valueOf(lockbox.get(Resource.SHIELD)));
-        servantQuantity.setText(String.valueOf(lockbox.get(Resource.SERVANT)));
-        rockQuantity.setText(String.valueOf(lockbox.get(Resource.ROCK)));
+        HashMap<Resource, Integer> lockBox = gui.getView().getEnemiesDashboard().get(nickName).getSerializableLockBox().getResources();
+        coinQuantity.setText(String.valueOf(lockBox.get(Resource.COIN)));
+        shieldQuantity.setText(String.valueOf(lockBox.get(Resource.SHIELD)));
+        servantQuantity.setText(String.valueOf(lockBox.get(Resource.SERVANT)));
+        rockQuantity.setText(String.valueOf(lockBox.get(Resource.ROCK)));
     }
 
+    /**
+     * Method that initializes the standard stock and, if present, the stock plus
+     */
     private void initStock() {
 
         Resource[] box1 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(0);
@@ -106,6 +116,10 @@ public class ViewEnemyController extends ViewController{
         }
     }
 
+    /**
+     * Method that initializes the enemy leader card: can see only the leader card activated by the enemy; show a close
+     *      door otherwise.
+     */
     private void initLeaderCards() {
 
         //set leader card

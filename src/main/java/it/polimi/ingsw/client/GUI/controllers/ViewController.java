@@ -239,12 +239,19 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
          productionPositions = new ArrayList<>();
      }
 
+    /**
+     * Method that sets the gui of the player and instance the initializer with the gui
+     * @param gui user gui
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
         this.initializer = new Initializer(gui);
     }
 
+    /**
+     * Method that init and group the FXML components of the main view
+     */
     @Override
     public void init() {
 
@@ -294,8 +301,11 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         initEnemiesButton();
     }
 
+    /**
+     * Method that initializes the buttons with the players in the game if it's a multiPlayer game
+     * Show the images , active the  buttons and set the nickName of each player as text
+     */
     protected void initEnemiesButton(){
-
         ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0Button , enemy1Button , enemy2Button , enemy3Button));
         ArrayList<ImageView> enemyImage = new ArrayList<>(Arrays.asList(enemy0Image,enemy1Image,enemy2Image,enemy3Image));
         ArrayList<Text> enemyText = new ArrayList<>( Arrays.asList(enemy0Text,enemy1Text,enemy2Text,enemy3Text));
@@ -324,6 +334,10 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         }
     }
 
+    /**
+     * Method that initializes the arrayList of ImageView with the corresponding FXMl evolutionCard bought
+     * @param productionZones is the array list that should contain the FXML evolutionCards
+     */
     protected void fillProductionZone(ArrayList<ImageView>[] productionZones) {
 
         for (int i = 0; i < productionZones.length; i++) {
@@ -334,6 +348,12 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         productionZones[2].addAll(Arrays.asList(production12, production22, production32));
     }
 
+    /**
+     * Method called when the player click on a button representing an other player
+     * The method read the name of the other player chose , set the game phase to "SEE_OTHER_VIEW" and
+     * change the scene showing the enemy's view
+     * @param actionEvent
+     */
     @FXML
     public void showEnemy(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
