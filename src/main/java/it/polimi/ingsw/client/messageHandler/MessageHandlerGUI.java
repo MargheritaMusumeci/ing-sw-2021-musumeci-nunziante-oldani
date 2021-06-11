@@ -70,7 +70,7 @@ public class MessageHandlerGUI extends MessageHandler {
 
         synchronized (gui) {
             gui.setErrorFromServer(message.getMessage());
-           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
+           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER) || gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION) ){
                gui.setUpdateDashboardArrived(false);
                gui.setGamePhase(GamePhases.MYTURN);
                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
