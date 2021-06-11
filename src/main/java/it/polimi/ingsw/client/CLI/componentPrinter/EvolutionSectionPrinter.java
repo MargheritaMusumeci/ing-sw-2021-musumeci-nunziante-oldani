@@ -200,13 +200,14 @@ public class EvolutionSectionPrinter {
         ArrayList<String>[] card = new ArrayList[15];
         for (int i= 0; i< card.length; i++){
             card[i] = new ArrayList<>();
+
         }
 
         card[0].add(firstLine);
         card[14].add(lastLine);
 
         for (int i=1; i<14; i++){
-            card[1].add(emptyLine);
+            card[i].add(emptyLine);
         }
 
         return card;
