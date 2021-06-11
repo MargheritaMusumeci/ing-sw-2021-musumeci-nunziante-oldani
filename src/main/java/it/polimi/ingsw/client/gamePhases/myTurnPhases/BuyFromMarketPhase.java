@@ -112,7 +112,9 @@ public class BuyFromMarketPhase extends Phase {
                 }
             }
             //stampo la richeista di conversione
-            for (Resource resource:cli.getClientSocket().getView().getResourcesBoughtFromMarker()){
+            ArrayList<Resource> newRes = new ArrayList<>();
+
+            for (Resource resource: cli.getClientSocket().getView().getResourcesBoughtFromMarker()){
                 if(resource == Resource.NOTHING){
                     int choice;
                     do{
@@ -128,11 +130,19 @@ public class BuyFromMarketPhase extends Phase {
                         }
 
                     }while (choice!= 2 && choice!=1);
-
+                    newRes.add(noMoreWhite.get(choice-1));
+                    /*
                     cli.getClientSocket().getView().getResourcesBoughtFromMarker().remove(resource);
                     cli.getClientSocket().getView().getResourcesBoughtFromMarker().add(noMoreWhite.get(choice-1));
+
+                     */
+                }else{
+                    newRes.add(resource);
                 }
             }
+
+            //devo aggiornare resourcesbouthfrom market
+            cli.getClientSocket().getView().setResourcesBoughtFromMarker(newRes);
         }
         //controllo se tra le risorse ottunute ho solo nothing, in quel caso mando un messaggio e termino
         int countNotnull = 0;

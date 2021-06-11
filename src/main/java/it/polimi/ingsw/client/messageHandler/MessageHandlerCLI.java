@@ -159,7 +159,6 @@ public class MessageHandlerCLI extends MessageHandler{
         clientSocket.getView().setEnemyDashboard(message.getView().getDashboard(), message.getNickname());
         clientSocket.getView().setEnemyActivatedLeaderCards(message.getView().getDashboard(), message.getView().getLeaderCards());
 
-        System.out.println("Ho aggioranto la view di un nemico");
     }
 
     @Override
@@ -170,7 +169,7 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(MarketAndEvolutionSectionMessage marketMessage) {
-        System.out.println("message arrived");
+
         cli.setTemporaryMarket(marketMessage.getSerializableMarket());
         cli.setTemporaryEvolutionSection(marketMessage.getSerializableEvolutionSection());
     }
