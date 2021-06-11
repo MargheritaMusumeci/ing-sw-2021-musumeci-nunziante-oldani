@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 
 import java.util.ArrayList;
 
+/**
+ * Class that allows user to select his own production power
+ */
 public class BasicProductionController implements Controller {
 
     private GUI gui;
@@ -51,6 +54,9 @@ public class BasicProductionController implements Controller {
     @FXML
     private Label error;
 
+    /**
+     * Method that collects the user's choices and notifies the server of the decision
+     */
     public void confirm() {
 
         confirm.setVisible(false);
@@ -102,13 +108,11 @@ public class BasicProductionController implements Controller {
             basicEnsures.add(Resource.SERVANT);
         }
 
-        if(basicRequires ==null || basicEnsures == null || basicEnsures.isEmpty() || basicRequires.isEmpty() || basicRequires.size()!=2){
+        if(basicEnsures.isEmpty() || basicRequires.size() != 2){
             error.setVisible(true);
             error.setText("ERROR: you must select a resource for each line");
             confirm.setVisible(true);
             cancel.setVisible(true);
-            basicRequires =null;
-            basicEnsures =null;
 
         }else {
             gui.setBasicEnsures(basicEnsures);
@@ -137,6 +141,9 @@ public class BasicProductionController implements Controller {
         confirm.setVisible(true);
     }
 
+    /**
+     * Abort the action
+     */
     public void cancel() {
         gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));

@@ -131,7 +131,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
     }
 
     /**
-     * Cancel the action
+     * Abort the action
      */
     public void cancel() {
 

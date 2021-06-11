@@ -10,8 +10,16 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Class that contains all methods for print the correct image from path
+ */
 public class Print {
 
+    /**
+     * Method that prints leader card image from leader card id
+     * @param path id of leader card
+     * @return leader image
+     */
     public Image fromPathToImageLeader(String path){
         URL url = null;
         try {
@@ -22,6 +30,11 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    /**
+     * Method that prints resource image from resource name
+     * @param path resource name .png
+     * @return resource Image
+     */
     public Image fromPathToImageResource(String path){
         URL url = null;
         try {
@@ -48,6 +61,10 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    /**
+     * Method that prints cross image
+     * @return gamer cross Image
+     */
     public Image popePosition(){
         URL url = null;
         try {
@@ -58,6 +75,11 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    /**
+     * Method that fills market sphere from name of resource
+     * @param resource resource name
+     * @return material color
+     */
     public Material materialFromResource(Resource resource) {
 
         PhongMaterial material = new PhongMaterial();
@@ -95,6 +117,11 @@ public class Print {
         }
     }
 
+    /**
+     * Method that prints
+     * @param resource
+     * @return
+     */
     public String pathFromResource(Resource resource){
 
         switch (resource) {

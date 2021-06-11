@@ -118,7 +118,7 @@ public class ChooseWhiteMarketController implements Controller {
             gui.setGamePhase(GamePhases.STORERESOURCES);
             gui.changeScene();
         } else {
-            error.setText("All white balls must be replaced");
+            error.setText("ERROR: all white balls must be replaced!");
             error.setVisible(true);
         }
     }

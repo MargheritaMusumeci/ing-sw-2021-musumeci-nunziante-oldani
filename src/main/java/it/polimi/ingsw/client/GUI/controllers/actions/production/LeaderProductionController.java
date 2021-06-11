@@ -11,10 +11,12 @@ import javafx.scene.control.*;
 
 import java.util.HashMap;
 
+/**
+ * Class that allows the user to choose what to produce with leader production power
+ */
 public class LeaderProductionController implements Controller {
 
     private GUI gui;
-    private HashMap<Integer,Resource> leaderEnsure;
 
     @FXML
     private ToggleGroup resources1;
@@ -33,7 +35,10 @@ public class LeaderProductionController implements Controller {
     @FXML
     private Label error;
 
-    public void cancel(ActionEvent actionEvent) {
+    /**
+     * Abort the action
+     */
+    public void cancel() {
 
         gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
@@ -41,12 +46,15 @@ public class LeaderProductionController implements Controller {
         gui.changeScene();
     }
 
+    /**
+     * Method that collects the user's choices and notifies the server of the decision
+     */
     public void confirm() {
 
         confirm.setVisible(false);
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
 
-        leaderEnsure = new HashMap<>();
+        HashMap<Integer, Resource> leaderEnsure = new HashMap<>();
 
         if(radio == coin1){
             leaderEnsure.put(gui.getLeaderPosition(),Resource.COIN);
@@ -60,7 +68,7 @@ public class LeaderProductionController implements Controller {
         if(radio == servant1){
             leaderEnsure.put(gui.getLeaderPosition(),Resource.SERVANT);
         }
-        if(leaderEnsure == null || leaderEnsure.isEmpty()){
+        if(leaderEnsure.isEmpty()){
             error.setText("ERROR: you have to choose the resource to produce!");
             confirm.setVisible(true);
             cancel.setVisible(true);
@@ -73,12 +81,10 @@ public class LeaderProductionController implements Controller {
         gui.changeScene();
     }
 
-
     @Override
     public void setGui(GUI gui) {
         this.gui= gui;
     }
-
 
     @Override
     public void init() {

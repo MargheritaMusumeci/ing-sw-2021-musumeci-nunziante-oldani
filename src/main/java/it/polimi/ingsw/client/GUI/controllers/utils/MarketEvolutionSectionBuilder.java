@@ -11,10 +11,14 @@ import javafx.scene.shape.Sphere;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class that contains market and evolution section's elements also able to fill them.
+ */
 public abstract class MarketEvolutionSectionBuilder {
 
     private GUI gui;
     private final Print printer;
+    private Initializer initializer;
 
     @FXML protected Sphere zerozero;
     @FXML protected Sphere zerouno;
@@ -84,6 +88,10 @@ public abstract class MarketEvolutionSectionBuilder {
      this.printer = new Print();
     }
 
+    /**
+     * Method that link each cell of the matrix to the corresponding element of the scene
+     * @param market matrix of sphere that represent market
+     */
     protected void fillMarket(Sphere[][] market){
 
         market[0][0] = zerozero;
@@ -100,6 +108,10 @@ public abstract class MarketEvolutionSectionBuilder {
         market[2][3] = duetre;
     }
 
+    /**
+     * Method that link each cell of the array to the corresponding element of the scene
+     * @param eCards array of array of ImageView that represent evolutionSection
+     */
     protected void fillEvolutionSection(ArrayList<ArrayList<ImageView>> eCards) {
 
         ArrayList<ImageView> cards1 = new ArrayList<>(Arrays.asList(eCardView_00, eCardView_01, eCardView_02, eCardView_03));
@@ -111,7 +123,11 @@ public abstract class MarketEvolutionSectionBuilder {
 
     }
 
-    protected void initMarketEvolution(Sphere market[][]){
+    /**
+     * Method that initialize market and evolution section with correct images
+     * @param market matrix of sphere that represent market
+     */
+    protected void initMarketEvolution(Sphere[][] market){
         Resource[][] marketModel = gui.getMarket().getMarket();
         for(int i = 0; i<3; i++){
             for(int j = 0; j<4; j++){
@@ -121,11 +137,7 @@ public abstract class MarketEvolutionSectionBuilder {
 
         external.setMaterial(printer.materialFromResource(gui.getMarket().getExternalResource()));
 
-        coin.setMaterial(printer.materialFromResource(Resource.COIN));
-        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
-        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
-        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
-        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
+        initializer.initMarketLegend(coin,rock,shield,servant,faith);
 
         //initialize evolution section
         ArrayList<ArrayList<ImageView>>  eCards = new ArrayList<>();
@@ -133,23 +145,12 @@ public abstract class MarketEvolutionSectionBuilder {
 
         //initializer.initEvolutionSection(eCards);
         SerializableEvolutionSection evolutionSection = gui.getEvolutionSection();
-
-        for(int i = 0 ; i < 3 ; i++){
-            for(int j = 0 ; j < 4 ; j++){
-                if(evolutionSection.getEvolutionCards()[i][j] != null){
-                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
-                    eCards.get(i).get(j).setVisible(true);
-                    eCards.get(i).get(j).setCache(true);
-                }
-                else{
-                    eCards.get(i).get(j).setVisible(false);
-                }
-            }
-        }
+        initializer.initEvolutionSection(evolutionSection,eCards);
     }
 
     protected void setGuiBuilder(GUI gui){
         this.gui=gui;
+        this.initializer=new Initializer(gui);
     }
 }
 

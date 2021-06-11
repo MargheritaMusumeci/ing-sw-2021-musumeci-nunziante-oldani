@@ -51,19 +51,7 @@ public class Initializer {
 
         //Take the card on the top of each positions
         SerializableEvolutionSection evolutionSection = gui.getView().getEvolutionSection();
-
-        for(int i = 0 ; i < 3 ; i++){
-            for(int j = 0 ; j < 4 ; j++){
-                if(evolutionSection.getEvolutionCards()[i][j] != null){
-                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
-                    eCards.get(i).get(j).setVisible(true);
-                    eCards.get(i).get(j).setCache(true);
-                }
-                else{
-                    eCards.get(i).get(j).setVisible(false);
-                }
-            }
-        }
+        initEvolutionSection(evolutionSection,eCards);
     }
 
     /**
@@ -175,6 +163,30 @@ public class Initializer {
             button.setVisible(b);
         }
     }
+
+    public void initEvolutionSection(SerializableEvolutionSection evolutionSection,ArrayList<ArrayList<ImageView>> eCards){
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j < 4 ; j++){
+                if(evolutionSection.getEvolutionCards()[i][j] != null){
+                    eCards.get(i).get(j).setImage(printer.fromPathToImageEvolution(evolutionSection.getEvolutionCards()[i][j].getId()));
+                    eCards.get(i).get(j).setVisible(true);
+                    eCards.get(i).get(j).setCache(true);
+                }
+                else{
+                    eCards.get(i).get(j).setVisible(false);
+                }
+            }
+        }
+    }
+
+    public void initMarketLegend(Sphere coin, Sphere rock, Sphere shield, Sphere servant, Sphere faith){
+        coin.setMaterial(printer.materialFromResource(Resource.COIN));
+        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
+        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
+        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
+        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
+    }
+    //GETTER E SETTER
 
     public SerializableDashboard getDashboard() {
         return dashboard;

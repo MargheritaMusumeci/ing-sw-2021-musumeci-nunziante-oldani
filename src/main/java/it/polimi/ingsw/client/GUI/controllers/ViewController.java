@@ -259,11 +259,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
         initializer.initMarket(market, external);
-        coin.setMaterial(printer.materialFromResource(Resource.COIN));
-        rock.setMaterial(printer.materialFromResource(Resource.ROCK));
-        shield.setMaterial(printer.materialFromResource(Resource.SHIELD));
-        servant.setMaterial(printer.materialFromResource(Resource.SERVANT));
-        faith.setMaterial(printer.materialFromResource(Resource.FAITH));
+        initializer.initMarketLegend(coin,rock,shield,servant,faith);
 
         //init inkwell
         initializer.initInkwell(inkwell);
