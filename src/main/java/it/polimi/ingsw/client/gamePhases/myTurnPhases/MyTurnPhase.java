@@ -36,45 +36,45 @@ public class MyTurnPhase extends Phase {
                     cli.getClientSocket().send(new EndTurnMessage("Turn ended"));
                 }
                 break;
-            case 1:
+            case 7:
                 cli.printLeaderCards();
                 new Thread(cli).start();
                 break;
-            case 2:
+            case 8:
                 cli.printStock();
                 new Thread(cli).start();
                 break;
-            case 3:
+            case 9:
                 cli.printLockBox();
                 new Thread(cli).start();
                 break;
-            case 4:
+            case 10:
                 cli.printPopeTrack();
                 new Thread(cli).start();
                 break;
-            case 5:
+            case 11:
                 cli.printProductionZones();
                 new Thread(cli).start();
                 break;
-            case 6:
+            case 12:
                 cli.printMarket();
                 new Thread(cli).start();
                 break;
-            case 7:
+            case 13:
                 cli.printEvolutionSection();
                 new Thread(cli).start();
                 break;
 
 
-            case 8:
+            case 1:
                 cli.setGamePhase(new ActiveLeaderCardPhase());
                 new Thread(cli).start();
                 break;
-            case 9:
+            case 2:
                 cli.setGamePhase(new DiscardLeaderCardPhase());
                 new Thread(cli).start();
                 break;
-            case 10:
+            case 3:
                 if (!cli.isActionBeenDone()) {
                     cli.setGamePhase(new BuyFromMarketPhase());
                 } else {
@@ -82,7 +82,7 @@ public class MyTurnPhase extends Phase {
                 }
                 new Thread(cli).start();
                 break;
-            case 11:
+            case 4:
                 if (!cli.isActionBeenDone()) {
                     cli.setGamePhase(new ActiveProductionZonePhase());
                 } else {
@@ -90,7 +90,7 @@ public class MyTurnPhase extends Phase {
                 }
                 new Thread(cli).start();
                 break;
-            case 12:
+            case 5:
                 if (!cli.isActionBeenDone()) {
                     cli.setGamePhase(new BuyEvolutiuonCardPhase());
                 } else {
@@ -100,7 +100,7 @@ public class MyTurnPhase extends Phase {
                 break;
 
 
-            case 13:
+            case 6:
                 if(cli.getNumberOfPlayers() == 1){
                     System.out.println(Constants.ANSI_RED + "You are the only player!" +  Constants.ANSI_RESET);
                     new Thread(cli).start();
