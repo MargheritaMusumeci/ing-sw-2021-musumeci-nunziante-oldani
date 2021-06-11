@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilder;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.model.cards.LeaderAbility;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -120,7 +119,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
             gui.setOldScene(gui.getScene(GameFxml.MARKET.s));
 
             if (noMoreWhite == 2) {
-                gui.setCurrentScene(gui.getScene(GameFxml.CHOOSEWHITERESOURCES.s));
+                gui.setCurrentScene(gui.getScene(GameFxml.CHOOSE_WHITE_RESOURCES.s));
                 gui.setGamePhase(GamePhases.CHOOSEWHITEBALL);
             } else {
 

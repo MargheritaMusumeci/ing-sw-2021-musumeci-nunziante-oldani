@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.GUI;
 
+/**
+ * Enum that contains constant strings representing fxml files. The corresponding game phase is also associated with each file.
+ */
 public enum GameFxml {
 
     IP_PORT("ip_port_configuration.fxml"),
@@ -16,9 +19,9 @@ public enum GameFxml {
     EVOLUTION_SECTION("evolution_section.fxml"),
     PRODUCTION_ZONE_CHOICE("production_zone_choice.fxml"),
     ENDGAME("end_game.fxml"),
-    OTHERTURN("newView.fxml"),
-    CHOOSEWHITERESOURCES("white_ball_choose.fxml"),
-    OTHERVIEW("enemyView.fxml");
+    OTHER_TURN("newView.fxml"),
+    CHOOSE_WHITE_RESOURCES("white_ball_choose.fxml"),
+    OTHER_VIEW("enemyView.fxml");
 
     private GamePhases gamePhases;
     public final String s;
@@ -38,9 +41,9 @@ public enum GameFxml {
         EVOLUTION_SECTION.gamePhases=GamePhases.BUYEVOLUTIONCARD;
         PRODUCTION_ZONE_CHOICE.gamePhases=GamePhases.PRODUCTIONZONECHOICE;
         ENDGAME.gamePhases=GamePhases.ENDGAME;
-        OTHERVIEW.gamePhases=GamePhases.SEEOTHERVIEW;
-        CHOOSEWHITERESOURCES.gamePhases=GamePhases.CHOOSEWHITEBALL;
-        OTHERTURN.gamePhases = GamePhases.OTHERPLAYERSTURN;
+        OTHER_VIEW.gamePhases=GamePhases.SEEOTHERVIEW;
+        CHOOSE_WHITE_RESOURCES.gamePhases=GamePhases.CHOOSEWHITEBALL;
+        OTHER_TURN.gamePhases = GamePhases.OTHERPLAYERSTURN;
     }
 
     public GamePhases getGamePhases(){

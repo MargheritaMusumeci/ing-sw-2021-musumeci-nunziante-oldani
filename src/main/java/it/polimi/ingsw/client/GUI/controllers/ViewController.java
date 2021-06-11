@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilde
 import it.polimi.ingsw.client.GUI.controllers.utils.Print;
 import it.polimi.ingsw.client.GUI.GameFxml;
 import it.polimi.ingsw.client.GUI.GamePhases;
-import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -352,8 +351,8 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
 
         if(!gui.getOtherView().equals(gui.getNickname())){
             gui.setGamePhase(GamePhases.SEEOTHERVIEW);
-            gui.setCurrentScene(gui.getScene(GameFxml.OTHERVIEW.s));
-            gui.setOldScene(gui.getScene(GameFxml.OTHERVIEW.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.OTHER_VIEW.s));
+            gui.setOldScene(gui.getScene(GameFxml.OTHER_VIEW.s));
         }
         if(gui.getOtherView().equals(gui.getNickname())){
             if(gui.getView().getActivePlayer().equals(gui.getNickname())){
@@ -362,8 +361,8 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
                 gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
             }else{
                 gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-                gui.setCurrentScene(gui.getScene(GameFxml.OTHERTURN.s));
-                gui.setOldScene(gui.getScene(GameFxml.OTHERTURN.s));
+                gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
+                gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
             }
         }
 

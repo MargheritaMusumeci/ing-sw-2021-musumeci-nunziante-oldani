@@ -133,6 +133,11 @@ public class Print {
         return null;
     }
 
+    /**
+     * Method that returns the correct color from resouce name
+     * @param resource resource name
+     * @return color of resource
+     */
     public Color colorFromResource(Resource resource){
         switch (resource) {
             case COIN: {
@@ -153,6 +158,10 @@ public class Print {
         }
     }
 
+    /**
+     * Method that prints crosses
+     * @return image with the two cross
+     */
     public Image togetherPopePosition() {
         URL url = null;
         try {
@@ -163,6 +172,10 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    /**
+     * Method that print lorenzo crosses
+     * @return image of lorenzo cross
+     */
     public Image lorenzoPopePosition() {
         URL url = null;
         try {
@@ -173,6 +186,11 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    /**
+     * Method that prints Pope Card from path
+     * @param path name of file in which is stored the image
+     * @return image of pope card
+     */
     public Image fromPathToPopeCard(String path){
         URL url = null;
         try {
@@ -183,6 +201,11 @@ public class Print {
         return new Image(String.valueOf(url));
     }
 
+    /**
+     * Method that return inactive pope card from pope card position
+     * @param position pope card position
+     * @return path of inactive pope card
+     */
     public String fromPositionToDiscardPope(Integer position){
         switch(position){
             case 0: return "quadrato_giallo.png";
@@ -192,6 +215,11 @@ public class Print {
         return null;
     }
 
+    /**
+     * Method that return active pope card from pope card position
+     * @param position pope card position
+     * @return path of active pope card
+     */
     public String fromPositionToActivePope(Integer position){
         switch(position){
             case 0: return "punti_giallo.png";

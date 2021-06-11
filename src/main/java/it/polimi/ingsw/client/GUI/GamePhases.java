@@ -2,7 +2,9 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.GUI.GUI;
 
-
+/**
+ * Enum that contains the list of possible game phases
+ */
 public enum GamePhases {
 
     INITIALIZATION,

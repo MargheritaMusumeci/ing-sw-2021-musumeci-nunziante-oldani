@@ -22,21 +22,45 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Main class of the GUI.
+ * It takes care of initializing the game, changing the scene according to the phase of the game and contains common information between controllers
+ */
 public class GUI extends Application implements UI {
 
     private Scene currentScene;
     private Scene oldScene;
     private Stage currentStage;
+    /**
+     * Hashmap that contains link between constant name related to fxml file and corresponding scene
+     */
     private final HashMap<String, Scene> scenes;
+    /**
+     * Hashmap that contains link between constant name related to fxml file and corresponding controller
+     */
     private final HashMap<String, Controller> controllers;
+    /**
+     * Hashmap that contains link between scene and corresponding phase
+     */
     private final HashMap<Scene, GamePhases> phases;
-    private final HashMap<GamePhases,String> fxmls;
+    /**
+     * Hashmap that contains link between game phase and corresponding constant name related to fxml file
+     */
+    private final HashMap<GamePhases,String> fxml;
+    /**
+     * Copy of market necessary in the configuration phases
+     */
     private SerializableMarket market;
+    /**
+     * Copy of market evolution section necessary in the configuration phases
+     */
     private SerializableEvolutionSection evolutionSection;
-
     private View view;
     private ClientSocket clientSocket;
     private Socket socket;
+    /**
+     * Current game Phase
+     */
     private GamePhases gamePhase;
     private ArrayList<SerializableLeaderCard> leaderCards;
 
@@ -46,9 +70,15 @@ public class GUI extends Application implements UI {
     private ArrayList<Boolean> leaderCardsDiscarded;
     private ArrayList<Resource> resources;
     private String nickname;
+    /**
+     * Variable in which will be stored error received from server
+     */
     private String errorFromServer;
     private int players;
     private boolean actionDone;
+    /**
+     * Nickname of the player of which I want to see the view
+     */
     private String otherView;
 
     /**
@@ -64,9 +94,21 @@ public class GUI extends Application implements UI {
     private int cardRow;
     private int cardColumn;
 
+    /**
+     * Resources to be converted from basic production
+     */
     private ArrayList<Resource> basicRequires;
+    /**
+     * Resources to be obtained from basic production
+     */
     private ArrayList<Resource> basicEnsures;
+    /**
+     * Resources to be obtained from leader production
+     */
     private HashMap<Integer,Resource> leaderEnsure;
+    /**
+     * Leader wait for ack
+     */
     private Integer leaderPosition;
 
     public GUI() {
@@ -74,7 +116,7 @@ public class GUI extends Application implements UI {
         scenes = new HashMap<>();
         controllers = new HashMap<>();
         phases = new HashMap<>();
-        fxmls = new HashMap<>();
+        fxml = new HashMap<>();
         errorFromServer="";
         leaderEnsure = new HashMap<>();
         players=0;
@@ -117,7 +159,7 @@ public class GUI extends Application implements UI {
                 controller.setGui(this);
                 controllers.put(path.s, controller);
                 phases.put(scene,path.getGamePhases());
-                fxmls.put(path.getGamePhases(),path.s);
+                fxml.put(path.getGamePhases(),path.s);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -139,8 +181,8 @@ public class GUI extends Application implements UI {
         Platform.runLater(()->{
             System.out.println("Phase is: " + gamePhase);
             currentStage.setScene(currentScene);
-            if(gamePhase.equals(GamePhases.SEEOTHERVIEW)) ((ViewEnemyController) controllers.get(fxmls.get(gamePhase))).setNickname(otherView);
-            controllers.get(fxmls.get(gamePhase)).init();
+            if(gamePhase.equals(GamePhases.SEEOTHERVIEW)) ((ViewEnemyController) controllers.get(fxml.get(gamePhase))).setNickname(otherView);
+            controllers.get(fxml.get(gamePhase)).init();
             System.out.println("show scene " + phases.get(currentScene));
             currentStage.show();
             errorFromServer="";

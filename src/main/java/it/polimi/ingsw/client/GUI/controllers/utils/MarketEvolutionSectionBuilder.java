@@ -20,16 +20,17 @@ public abstract class MarketEvolutionSectionBuilder {
     private final Print printer;
     private Initializer initializer;
 
+    //row0
     @FXML protected Sphere zerozero;
     @FXML protected Sphere zerouno;
     @FXML protected Sphere zerodue;
     @FXML protected Sphere zerotre;
-    //riga 1
+    //row 1
     @FXML protected Sphere unozero;
     @FXML protected Sphere unouno;
     @FXML protected Sphere unodue;
     @FXML protected Sphere unotre;
-    //riga 2
+    //row 2
     @FXML protected Sphere duezero;
     @FXML protected Sphere dueuno;
     @FXML protected Sphere duedue;
@@ -148,6 +149,10 @@ public abstract class MarketEvolutionSectionBuilder {
         initializer.initEvolutionSection(evolutionSection,eCards);
     }
 
+    /**
+     * Method that set gui and create initializer
+     * @param gui gamer GUI
+     */
     protected void setGuiBuilder(GUI gui){
         this.gui=gui;
         this.initializer=new Initializer(gui);

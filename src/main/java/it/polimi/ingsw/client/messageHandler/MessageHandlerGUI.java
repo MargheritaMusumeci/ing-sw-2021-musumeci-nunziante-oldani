@@ -105,8 +105,8 @@ public class MessageHandlerGUI extends MessageHandler {
         }
         else{
             gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-            gui.setOldScene(gui.getScene(GameFxml.OTHERTURN.s));
-            gui.setCurrentScene(gui.getScene(GameFxml.OTHERTURN.s));
+            gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
+            gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
         }
         gui.changeScene();
     }
@@ -169,8 +169,8 @@ public class MessageHandlerGUI extends MessageHandler {
                 gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
                 gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
             } else {
-                gui.setCurrentScene(gui.getScene(GameFxml.OTHERTURN.s));
-                gui.setOldScene(gui.getScene(GameFxml.OTHERTURN.s));
+                gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
+                gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
                 gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
             }
             gui.changeScene();
@@ -234,7 +234,7 @@ public class MessageHandlerGUI extends MessageHandler {
             }
 
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
-                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHERVIEW.s)) {
+                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s)) {
                 gui.setGamePhase(GamePhases.MYTURN);
             }
             gui.changeScene();
@@ -268,7 +268,7 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setEvolutionSection(message.getEvolutionSection());
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
-                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHERVIEW.s) ||
+                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.EVOLUTION_SECTION.s)) {
                 gui.changeScene();
             }
@@ -284,7 +284,7 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setMarket(message.getMarket());
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
-                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHERVIEW.s) ||
+                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.MARKET.s)) {
                 gui.changeScene();
             }

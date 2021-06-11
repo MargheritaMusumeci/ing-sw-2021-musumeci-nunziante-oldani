@@ -114,7 +114,7 @@ public class ChooseWhiteMarketController implements Controller {
         if (numberWhite == 0) {
             gui.getView().setResourcesBoughtFromMarker(resource);
             gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
-            gui.setOldScene(gui.getScene(GameFxml.CHOOSEWHITERESOURCES.s));
+            gui.setOldScene(gui.getScene(GameFxml.CHOOSE_WHITE_RESOURCES.s));
             gui.setGamePhase(GamePhases.STORERESOURCES);
             gui.changeScene();
         } else {

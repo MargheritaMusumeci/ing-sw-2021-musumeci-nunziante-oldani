@@ -36,8 +36,6 @@ public class ClientSocket implements Runnable{
         isActive = true;
     }
 
-    //just for testing GUI --> we need to distinguish between network interface and graphic interface
-
     public ClientSocket(GUI gui, Socket socket) throws IOException {
         this.cli = null;
         this.gui=gui;

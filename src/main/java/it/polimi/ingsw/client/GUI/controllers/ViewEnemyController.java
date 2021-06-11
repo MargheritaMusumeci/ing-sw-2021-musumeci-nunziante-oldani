@@ -1,14 +1,8 @@
 package it.polimi.ingsw.client.GUI.controllers;
 
-import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
-import it.polimi.ingsw.serializableModel.SerializableDashboard;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class ViewEnemyController extends ViewController{
@@ -140,6 +134,7 @@ public class ViewEnemyController extends ViewController{
         }
     }
 
+    //GETTER AND SETTER
     public void setNickname(String nickName) {
         this.nickName = nickName;
     }

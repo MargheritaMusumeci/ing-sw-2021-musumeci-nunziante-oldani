@@ -12,8 +12,6 @@ import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -67,10 +65,9 @@ public class ViewPlayerController extends ViewController {
      * This method will check which production zones are selected and if there is a leader production
      * check if the leader ensure production is set.
      * Then it will send the ActiveProductionMessage
-     * @param actionEvent is the click of the activeProduction button
      */
     @FXML
-    public void activeProduction(ActionEvent actionEvent) {
+    public void activeProduction() {
 
         //normal production
         if (activeProduction1.isSelected()) productionPositions.add(0);
@@ -115,10 +112,9 @@ public class ViewPlayerController extends ViewController {
      * Method called when the player click on the basic production
      * The game phase will change to BASIC_PRODUCTION , the scene will change and
      * the player can choose the requires and the ensure for the basic production
-     * @param actionEvent is the click of the basic production
      */
     @FXML
-    public void chooseBasicProduction(ActionEvent actionEvent) {
+    public void chooseBasicProduction() {
 
         activeBasic = true;
         gui.setCurrentScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
@@ -218,7 +214,7 @@ public class ViewPlayerController extends ViewController {
      * Method called when the player click on discard leader card
      * The player can always discard a leader card, no resources or requirements are needed
      * DiscardLeaderCardMessage will be sent byt this method
-     * @param actionEvent
+     * @param actionEvent button clicked
      */
     @FXML
     public void discardLeader(ActionEvent actionEvent) {
