@@ -472,6 +472,7 @@ public class ViewPlayerController extends ViewController {
                         if(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
                             String path = printer.pathFromResource(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
                             stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
+                            stockPlus.get(leaderPosition - 1).get(j).setVisible(true);
                         }
                         else{
                             stockPlus.get(leaderPosition - 1).get(j).setImage(null);

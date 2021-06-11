@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.model.game.Resource.NOTHING;
 
 /**
- * Class linked to market controller for allowing users to chose which resources store in stock
+ * Class linked to market controller for allowing users to chose which resources, among those obtained, store in stock
  */
 public class StoreResourcesController implements Controller {
     private GUI  gui;
     private ArrayList<Resource> resource;
-    private Print printer;
+    private final Print printer;
 
     @FXML private ImageView resource1;
     @FXML private ImageView resource2;
@@ -70,10 +70,9 @@ public class StoreResourcesController implements Controller {
             System.out.println(res.name());
         }
 
-
         whiteballs.setText(null);
 
-        //tolgo le bianche
+        //remove white marbles
         ArrayList<Resource> resourcesCopy = (ArrayList<Resource>) resource.clone();
 
         int whiteBall=0;
@@ -88,36 +87,37 @@ public class StoreResourcesController implements Controller {
         if(resource.size()==0) {
             whiteballs.setText("You bought only white balls");
         }else{
-            if(resource.size()>0){
-
                 resource1Check.setVisible(true);
                 String path = printer.pathFromResource(resource.get(0));
                 resource1.setImage(printer.fromPathToImageResource(path));
                 resource1.setCache(true);
-            }
+
             if(resource.size()>1){
 
                 resource2Check.setVisible(true);
-                String path = printer.pathFromResource(resource.get(1));
+                path = printer.pathFromResource(resource.get(1));
                 resource2.setImage(printer.fromPathToImageResource(path));
                 resource2.setCache(true);
             }
             if(resource.size()>2){
                 resource3Check.setVisible(true);
-                String path = printer.pathFromResource(resource.get(2));
+                path = printer.pathFromResource(resource.get(2));
                 resource3.setImage(printer.fromPathToImageResource(path));
                 resource3.setCache(true);
             }
             if(resource.size()>3){
                 resource4Check.setVisible(true);
-                String path = printer.pathFromResource(resource.get(3));
+                path = printer.pathFromResource(resource.get(3));
                 resource4.setImage(printer.fromPathToImageResource(path));
                 resource4.setCache(true);
             }
         }
     }
 
-    public void confirm(ActionEvent actionEvent) {
+    /**
+     * Method that collects the user's choices and notifies the server of the decision
+     */
+    public void confirm() {
 
         ArrayList<Resource> resourcesToBeSend=new ArrayList<>();
 

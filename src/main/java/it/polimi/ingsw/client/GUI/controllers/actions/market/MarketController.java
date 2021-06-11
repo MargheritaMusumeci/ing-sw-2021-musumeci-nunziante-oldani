@@ -16,7 +16,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.shape.Sphere;
 
 /**
- * Class that show market and allow user to purchase resources
+ * Class that manages the scene in which the user chooses which row / column to buy from the market
  */
 public class MarketController extends MarketEvolutionSectionBuilder implements Controller {
 
@@ -62,11 +62,10 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
         super.setGuiBuilder(gui);
     }
 
-    public void stop() {
-        System.exit(0);
-    }
-
-    public void confirm(ActionEvent actionEvent) {
+    /**
+     Method that checks which row / column has been the user's choice and notifies the server if the input is correct
+     */
+    public void confirm() {
 
         confirm.setVisible(false);
         cancel.setVisible(false);
@@ -130,7 +129,11 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
             }
         }
     }
-    public void cancel(ActionEvent actionEvent) {
+
+    /**
+     * Cancel the action
+     */
+    public void cancel() {
 
         gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));

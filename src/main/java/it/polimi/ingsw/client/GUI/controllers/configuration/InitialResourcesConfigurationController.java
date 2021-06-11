@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.GUI.controllers.configuration;
 
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.GUI.GameFxml;
+import it.polimi.ingsw.client.GUI.GamePhases;
 import it.polimi.ingsw.client.GUI.controllers.Controller;
 import it.polimi.ingsw.client.GUI.controllers.utils.MarketEvolutionSectionBuilder;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.SelectedInitialResourceMessage;
@@ -142,7 +144,11 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
             errorMessage.setText("Error while setting the initial resources, retry...");
             confirm.setVisible(true);
             loading.setVisible(false);
+            return;
         }
+        gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
+        gui.setCurrentScene(gui.getScene(GameFxml.WAITING_ROOM.s));
+        gui.setOldScene(gui.getScene(GameFxml.INITIAL_RESOURCES.s));
     }
 
     @Override

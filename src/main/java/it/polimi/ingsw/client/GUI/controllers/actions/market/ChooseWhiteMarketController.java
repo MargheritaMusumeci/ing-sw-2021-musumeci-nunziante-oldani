@@ -18,16 +18,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-
+/**
+ * Class that allows the user to choose with which resources to transform the white marbles obtained
+ */
 public class ChooseWhiteMarketController implements Controller {
 
     private GUI gui;
     private final Print printer = new Print();
     ArrayList<Resource> resource;
+    //variable integer that store how many white marbles are still to be transformed
     int numberWhite;
+    //variable integer that keeps in memory how many white marbles have been taken
     int numberWhiteFixed;
     ArrayList<Circle> whiteBalls;
+    //First active leader card with NOMOREWHITE power
     Resource resourceOne;
+    //Second active leader card with NOMOREWHITE power
     Resource resourceTwo;
 
     @FXML
@@ -43,11 +49,7 @@ public class ChooseWhiteMarketController implements Controller {
     @FXML
     private Circle white4;
     @FXML
-    private Button confirm;
-    @FXML
     private Button plus1;
-    @FXML
-    private Button plus2;
     @FXML
     private Label error;
 
@@ -77,7 +79,7 @@ public class ChooseWhiteMarketController implements Controller {
         System.out.println("white balls" + numberWhite);
         HashMap<Resource, Integer> resourcesWhite = gui.getView().getLeaderCards().get(0).getAbilityResource();
 
-        //salvo la risorsa in cui devo trasformarla
+        //save the resource that will have to replace the white marbles
         Resource resourceWhite = null;
 
         for (Resource res : resourcesWhite.keySet()) {
@@ -91,7 +93,7 @@ public class ChooseWhiteMarketController implements Controller {
 
         resourcesWhite = gui.getView().getLeaderCards().get(1).getAbilityResource();
 
-        //salvo la risorsa in cui devo trasformarla
+        //save the resource that will have to replace the white marbles
         resourceWhite = null;
 
         for (Resource res : resourcesWhite.keySet()) {
@@ -104,8 +106,11 @@ public class ChooseWhiteMarketController implements Controller {
         resource2.setImage(printer.fromPathToImageResource(path));
     }
 
-    public void confirm(ActionEvent actionEvent) {
-        //cambio le risorse e carico la pagina store resources
+    /**
+     * Method that checks that the user has correctly replaced all the white marbles and sends the choice to the server
+     */
+    public void confirm() {
+
         if (numberWhite == 0) {
             gui.getView().setResourcesBoughtFromMarker(resource);
             gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
@@ -118,6 +123,10 @@ public class ChooseWhiteMarketController implements Controller {
         }
     }
 
+    /**
+     * Method that graphically transforms a white marble into the color of the chosen resource and store user choice
+     * @param actionEvent button clicked
+     */
     public void plus(ActionEvent actionEvent) {
 
         Button button = (Button) actionEvent.getSource();
