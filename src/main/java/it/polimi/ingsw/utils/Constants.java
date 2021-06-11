@@ -107,6 +107,21 @@ public class Constants {
             " |_____/ \\__\\___/ \\___|_|\\_\\\n" +
             "                            \n";
 
+    public static final String menu = "\n" +
+            "+--------------------------+---------------------------+\n" +
+            "|                  Possible Actions:                   |\n" +
+            "+--------------------------+---------------------------+\n" +
+            "| Actions                  | Print                     |\n" +
+            "| 0: END TURN              | 7: Show Leader Cards      |\n" +
+            "| 1: Activate Leader Cards | 8: Show Stock             |\n" +
+            "| 2: Discard Leader Cards  | 9: Show Lock Box          |\n" +
+            "| 3: Buy From Market       | 10: Show Pope Track       |\n" +
+            "| 4: Active Production     | 11: Show Production Zones |\n" +
+            "| 5: Buy Evolution Cards   | 12: Show Market           |\n" +
+            "| 6: Print Enemy DashBoard | 13: Show Evolution section|\n" +
+            "+--------------------------+---------------------------+\n" +
+            "\n";
+
     //example of usage
     // System.out.println(ANSI_RED + "This text is red!" + ANSI_RESET);
 }

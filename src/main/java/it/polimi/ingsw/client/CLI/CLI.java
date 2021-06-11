@@ -74,40 +74,11 @@ public class CLI implements UI, Runnable {
                 Constants.ANSI_RESET);
     }
     public void printMenu(){
-        System.out.println("\n" +
-                "+--------------------------+---------------------------+\n" +
-                "|                  Possible Actions:                   |\n" +
-                "+--------------------------+---------------------------+\n" +
-                "| Actions                  | Print                     |\n" +
-                "| 0: END TURN              | 1: Show Leader Cards      |\n" +
-                "| 8: Activate Leader Cards | 2: Show Stock             |\n" +
-                "| 9: Discard Leader Cards  | 3: Show Lock Box          |\n" +
-                "| 10: Buy From Market      | 4: Show Pope Track        |\n" +
-                "| 11: Active Production    | 5: Show Production Zones  |\n" +
-                "| 12: Buy Evolution Cards  | 6: Show Market            |\n" +
-                "| 13: Print Enemy DashBoard| 7: Show Evolution section |\n" +
-                "+--------------------------+---------------------------+\n" +
-                "\n");
+        System.out.println(Constants.menu);
 
         System.out.print(Constants.ANSI_CYAN + "Choose your action: " + Constants.ANSI_RESET);
     }
-    public void printMenuOtherTurn(){
-        System.out.println("\n" +
-                "+---------------------------+\n" +
-                "|     Possible Actions      |\n" +
-                "+---------------------------+\n" +
-                "| 1: Show Leader Cards      |\n" +
-                "| 2: Show Stock             |\n" +
-                "| 3: Show Lockbox           |\n" +
-                "| 4: Show Pope Track        |\n" +
-                "| 5: Show Production Zones  |\n" +
-                "| 6: Show Market            |\n" +
-                "| 7: Show Evolution Section |\n" +
-                "| 8: Print Enemy Dashboard  |\n" +
-                "+---------------------------+\n" +
-                "\n");
-        System.out.print(Constants.ANSI_CYAN + "Choose your action: " + Constants.ANSI_RESET);
-    }
+
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
         LockBoxPrinter.print(lockBox);
