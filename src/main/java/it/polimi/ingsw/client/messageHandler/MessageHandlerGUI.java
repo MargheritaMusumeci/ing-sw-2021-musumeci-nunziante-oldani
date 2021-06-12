@@ -297,10 +297,8 @@ public class MessageHandlerGUI extends MessageHandler {
      */
     @Override
     public void handleUpdateMessage(UpdateOtherPlayerViewMessage message) {
-        synchronized (gui) {
             gui.getView().setEnemyDashboard(message.getView().getDashboard(), message.getNickname());
             gui.getView().setEnemyActivatedLeaderCards(message.getView().getDashboard(), message.getView().getLeaderCards());
-        }
     }
 
     @Override

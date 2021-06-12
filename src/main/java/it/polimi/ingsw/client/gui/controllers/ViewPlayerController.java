@@ -387,7 +387,7 @@ public class ViewPlayerController extends ViewController {
         if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
             ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));
             initializer.visibleButton(buttons , true);
-            buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton));
+            buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,activeProduction4Button,activeProduction5Button));
             initializer.ableDisableButtons(buttons, gui.isActionDone());
             initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,gui.isActionDone());
         }else{
