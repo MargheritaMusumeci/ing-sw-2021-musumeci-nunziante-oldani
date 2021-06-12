@@ -170,6 +170,7 @@ public class GUI extends Application implements UI {
     public void initializationStage() {
         currentStage.setTitle("Masters of Renaissance");
         currentStage.setScene(currentScene);
+        currentStage.setResizable(false);
         currentStage.show();
     }
 
