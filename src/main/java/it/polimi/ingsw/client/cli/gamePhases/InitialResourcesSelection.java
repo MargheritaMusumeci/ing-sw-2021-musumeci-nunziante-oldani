@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.gamePhases;
+package it.polimi.ingsw.client.cli.gamePhases;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.cli.componentPrinter.ResourcesBoughtPrinter;

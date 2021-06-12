@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.gamePhases;
+package it.polimi.ingsw.client.cli.gamePhases;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.ClientSocket;
@@ -32,7 +32,7 @@ public class InitializationPhase extends Phase{
         }
 
         while(port < 1025 || port > 65535){
-            System.out.println(Constants.ANSI_RED + "Invalid port number. Pick a porta in range 1025-65535" + Constants.ANSI_RESET);
+            System.out.println(Constants.ANSI_RED + "Invalid port number. Pick a port in range 1025-65535" + Constants.ANSI_RESET);
             System.out.print(Constants.ANSI_CYAN + "Enter the port: " + Constants.ANSI_RESET);
             try{
                 port = scanner.nextInt();
@@ -47,7 +47,7 @@ public class InitializationPhase extends Phase{
             cli.setClientSocket(new ClientSocket(cli, cli.getSocket()));
         } catch (IOException e) {
             cli.setClientSocket(null);
-            System.out.println(Constants.ANSI_RED + "There was a problem with the server. Please chek if the ip address and port number" +
+            System.out.println(Constants.ANSI_RED + "There was a problem with the server. Please check if the ip address and port number" +
                     "are correct and if the server is up and running " + Constants.ANSI_RESET);
             //probabilemte qui c'è un errore con il server (o con i dati inseriti ip/port)
         }

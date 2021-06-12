@@ -3,9 +3,8 @@ package it.polimi.ingsw.model.popeTrack;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.util.Objects;
 
 /**
  * This class initialize the standard track, reading the details from a json file
@@ -20,25 +19,9 @@ public class Track {
      * Initialize the common track, taking the info from "positionTrack.json"
      */
     private Track(){
-
-        String path = new File("src/main/resources/json/positionTrack.json").getAbsolutePath();
-
-        try {
-            JsonReader reader = new JsonReader(new FileReader(path));
-            track = new Gson().fromJson(reader , Position[].class);
-            /*for (Position p:track) {
-                System.out.println(p.getIndex() + " " + p.getPoint() + " " + p.getPopeSection() + " " + p.getNumPopeSection() + " " + p.getPopePosition());
-            }*/
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
+        track = new Gson().fromJson(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("json/positionTrack.json"))), Position[].class);
     }
 
-    /*//Just for a fast test of the file
-    public static void main(String[] args) {
-        new Track();
-        return;
-    }*/
 
     /**
      *

@@ -6,10 +6,9 @@ import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.osservables.EvolutionSectionOsservable;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EvolutionSection extends EvolutionSectionOsservable{
 
@@ -36,39 +35,20 @@ public class EvolutionSection extends EvolutionSectionOsservable{
     }
 
     private void populateSection(){
+        EvolutionCard[] evolutionCards = new Gson().fromJson(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("json/productionCards.json"))), EvolutionCard[].class);
 
-        String path = new File("src/main/resources/json/productionCards.json").getAbsolutePath();
-        System.out.println(path);
-        try {
-            JsonReader reader = new JsonReader(new FileReader(path));
-            EvolutionCard[] evolutionCards = new Gson().fromJson(reader, EvolutionCard[].class);
-
-            //actually putting the card into the section
-            int counter = 0;
-            //per ogni riga
-                //per oni colonna
-                    //per ogni posizione ne faccio 4
-            for (int i=0; i<evolutionSection.length; i++){
-                for(int j=0; j<evolutionSection[i].length; j++){
-                    for(int k=0; k<4; k++){
-                        evolutionSection[i][j].add(k, evolutionCards[counter]);
-                        counter++;
-                    }
+        //actually putting the card into the section
+        int counter = 0;
+        //per ogni riga
+            //per oni colonna
+                //per ogni posizione ne faccio 4
+        for (int i=0; i<evolutionSection.length; i++){
+            for(int j=0; j<evolutionSection[i].length; j++){
+                for(int k=0; k<4; k++){
+                    evolutionSection[i][j].add(k, evolutionCards[counter]);
+                    counter++;
                 }
             }
-            /* old not working method of adding cards
-            for (ArrayList<EvolutionCard>[] arrayLists : evolutionSection) {
-                for (int j = 0; j < arrayLists.length; j++) {
-                    for (int k = 0; k < 4; k++) {
-                        arrayLists[j].add(k, evolutionCards[counter]);
-                        counter++;
-                    }
-                }
-            }
-            /
-             */
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
 
     }

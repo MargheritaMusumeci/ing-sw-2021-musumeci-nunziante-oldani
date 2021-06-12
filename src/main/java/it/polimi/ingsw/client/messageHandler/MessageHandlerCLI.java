@@ -2,11 +2,11 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.ClientSocket;
-import it.polimi.ingsw.client.gamePhases.EndGamePhase;
-import it.polimi.ingsw.client.gamePhases.InitialLeaderCardSelectionPhase;
-import it.polimi.ingsw.client.gamePhases.InitialResourcesSelection;
-import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
-import it.polimi.ingsw.client.gamePhases.OtherPlayersTurnPhase;
+import it.polimi.ingsw.client.cli.gamePhases.EndGamePhase;
+import it.polimi.ingsw.client.cli.gamePhases.InitialLeaderCardSelectionPhase;
+import it.polimi.ingsw.client.cli.gamePhases.InitialResourcesSelection;
+import it.polimi.ingsw.client.cli.gamePhases.myTurnPhases.MyTurnPhase;
+import it.polimi.ingsw.client.cli.gamePhases.OtherPlayersTurnPhase;
 import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;

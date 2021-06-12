@@ -41,7 +41,7 @@ public class StockPrinter {
 
 
         if(boxesPlus.size()!= 0){
-            stock[2].add("     ");
+            stock[2].add("      ");
             if (boxesPlus.get(0)[0] != null){
                 stock[2].add(boxesPlus.get(0)[0].label +" ");
             }else{
@@ -76,7 +76,7 @@ public class StockPrinter {
         stock[4].add(" ");
 
         if(boxesPlus.size() > 1){
-            stock[4].add("     ");
+            stock[4].add("       ");
             if (boxesPlus.get(1)[0] != null){
                 stock[4].add(boxesPlus.get(1)[0].label +" ");
             }else{

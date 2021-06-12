@@ -87,7 +87,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
         }
 
         //active player bought 7 Evolution Cards
-        if(!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber()>6){
+        if(!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber()>2){ //TODO put 6 instead of 1
             isTheLastTurn=true;
         }
     }

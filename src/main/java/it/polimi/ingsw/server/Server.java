@@ -226,15 +226,14 @@ public class Server {
     }
 
     public static void main(String[] args){
-        System.out.println(Constants.ANSI_CYAN + "Maestri del Rinascimento | Server" + Constants.ANSI_RESET);
+        System.out.println(Constants.ANSI_RED + "Maestri del Rinascimento | Server" + Constants.ANSI_RESET);
         Scanner scanner = new Scanner(System.in);
 
         do {
-            System.out.println(">Insert the port which server will listen on.");
-            System.out.print("> 2222");
+            System.out.println(Constants.ANSI_CYAN + ">Insert the port which server will listen on." + Constants.ANSI_RESET);
+            System.out.print(Constants.ANSI_CYAN + "> " +Constants.ANSI_RESET);
             try {
-                //port = scanner.nextInt();
-                port= 2223;
+                port = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.err.println("Numeric format requested, retry...");
             }

@@ -26,7 +26,7 @@ import java.util.List;
  * Main class of the gui.
  * It takes care of initializing the game, changing the scene according to the phase of the game and contains common information between controllers
  */
-public class GUI extends Application implements UI {
+public class GUI extends Application {
 
     private Scene currentScene;
     private Scene oldScene;

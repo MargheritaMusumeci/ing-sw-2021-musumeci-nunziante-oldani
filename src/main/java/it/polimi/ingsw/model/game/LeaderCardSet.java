@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.game;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 
 import com.google.gson.Gson;
@@ -26,19 +24,9 @@ public class LeaderCardSet {
      * Read cards from json and create them
      */
     private void populateLeaderSet(){
-
-        String path = new File("src/main/resources/json/leaderCards.json").getAbsolutePath();
-
-        try {
-            JsonReader reader = new JsonReader(new FileReader(path));
-            LeaderCard[] leaderCards = new Gson().fromJson(reader, LeaderCard[].class);
-            LeaderCard leader;
-            Collections.addAll(leaderCardSet, leaderCards);
-            Collections.shuffle(leaderCardSet);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        LeaderCard[] leaderCards = new Gson().fromJson(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("json/leaderCards.json")), LeaderCard[].class);
+        Collections.addAll(leaderCardSet, leaderCards);
+        Collections.shuffle(leaderCardSet);
     }
 
     /**

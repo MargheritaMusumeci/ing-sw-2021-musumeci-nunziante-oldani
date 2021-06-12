@@ -39,16 +39,13 @@ public class SocketServer implements Runnable{
         }
 
         System.out.println(Constants.ANSI_CYAN + "Server Socket listening at port: " + Constants.ANSI_RESET +
-                Constants.ANSI_GREEN +  port +  Constants.ANSI_RESET +
-                Constants.ANSI_CYAN +". \nType " + Constants.ANSI_RESET +
-                Constants.ANSI_GREEN + "\"quit\" " +  Constants.ANSI_RESET +
-                Constants.ANSI_CYAN + "to exit" + Constants.ANSI_RESET);
+                Constants.ANSI_GREEN +  port +  Constants.ANSI_RESET);
 
         while (isActive){
             Socket s = null;
             try {
                 s = serverSocket.accept();
-                s.setSoTimeout(20*1000);
+                //s.setSoTimeout(20*1000);
 
             } catch (IOException e) {
                 System.err.println("Error while accepting the socket, server still listening");
