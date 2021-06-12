@@ -70,9 +70,9 @@ public class LeaderCardsPrinter {
 
     private static ArrayList<String>[] makeLeaderCardProduction(SerializableLeaderCard leaderCard){
 
-        ArrayList<String>[] leaderCardProduction = new ArrayList[15];
+        ArrayList<String>[] leaderCardProduction = new ArrayList[14];
 
-        for(int i=0; i<15; i++) {
+        for(int i=0; i<14; i++) {
             leaderCardProduction[i] = new ArrayList<>();
         }
 
@@ -146,35 +146,26 @@ public class LeaderCardsPrinter {
         leaderCardProduction[11].add("  ");
         leaderCardProduction[11].add(vertical);
 
-        leaderCardProduction[12].add(vertical);
-        leaderCardProduction[12].add("  ");
-        if(leaderCard.isUsed()){
-            leaderCardProduction[12].add("IN USE:Y");
-        }else{
-            leaderCardProduction[12].add("IN USE:N");
-        }
-        leaderCardProduction[12].add("  ");
-        leaderCardProduction[12].add(vertical);
 
-        leaderCardProduction[13].add(vertical);
-        leaderCardProduction[13].add("   ID: ");
-        leaderCardProduction[13].add(String.valueOf(leaderCard.getId()));
+        leaderCardProduction[12].add(vertical);
+        leaderCardProduction[12].add("   ID: ");
+        leaderCardProduction[12].add(String.valueOf(leaderCard.getId()));
         if(leaderCard.getId() > 9){
-            leaderCardProduction[13].add("   ");
+            leaderCardProduction[12].add("   ");
         }else{
-            leaderCardProduction[13].add("    ");
+            leaderCardProduction[12].add("    ");
         }
-        leaderCardProduction[13].add(vertical);
-        leaderCardProduction[14].add(lastLine);
+        leaderCardProduction[12].add(vertical);
+        leaderCardProduction[13].add(lastLine);
 
         return leaderCardProduction;
     }
 
     private static ArrayList<String>[] makeLeaderCardWhite(SerializableLeaderCard leaderCard){
 
-        ArrayList<String>[] leaderCardWhite = new ArrayList[15];
+        ArrayList<String>[] leaderCardWhite = new ArrayList[14];
 
-        for(int i=0; i<15; i++){
+        for(int i=0; i<14; i++){
             leaderCardWhite[i] = new ArrayList<>();
         }
 
@@ -261,25 +252,15 @@ public class LeaderCardsPrinter {
         leaderCardWhite[11].add(vertical);
 
         leaderCardWhite[12].add(vertical);
-        leaderCardWhite[12].add("  ");
-        if(leaderCard.isUsed()){
-            leaderCardWhite[12].add("IN USE:Y");
-        }else{
-            leaderCardWhite[12].add("IN USE:N");
-        }
-        leaderCardWhite[12].add("  ");
-        leaderCardWhite[12].add(vertical);
-
-        leaderCardWhite[13].add(vertical);
-        leaderCardWhite[13].add("   ID: ");
-        leaderCardWhite[13].add(String.valueOf(leaderCard.getId()));
+        leaderCardWhite[12].add("   ID: ");
+        leaderCardWhite[12].add(String.valueOf(leaderCard.getId()));
         if(leaderCard.getId() > 9){
-            leaderCardWhite[13].add("   ");
+            leaderCardWhite[12].add("   ");
         }else{
-            leaderCardWhite[13].add("    ");
+            leaderCardWhite[12].add("    ");
         }
-        leaderCardWhite[13].add(vertical);
-        leaderCardWhite[14].add(lastLine);
+        leaderCardWhite[12].add(vertical);
+        leaderCardWhite[13].add(lastLine);
 
 
         return leaderCardWhite;
@@ -287,9 +268,9 @@ public class LeaderCardsPrinter {
 
     private static ArrayList<String>[] makeLeaderCardStock(SerializableLeaderCard leaderCard){
 
-        ArrayList<String>[] leaderCardStock = new ArrayList[15];
+        ArrayList<String>[] leaderCardStock = new ArrayList[14];
 
-        for(int i=0; i<15; i++){
+        for(int i=0; i<14; i++){
             leaderCardStock[i] = new ArrayList<>();
         }
 
@@ -381,34 +362,24 @@ public class LeaderCardsPrinter {
         leaderCardStock[11].add(vertical);
 
         leaderCardStock[12].add(vertical);
-        leaderCardStock[12].add("  ");
-        if(leaderCard.isUsed()){
-            leaderCardStock[12].add("IN USE:Y");
-        }else{
-            leaderCardStock[12].add("IN USE:N");
-        }
-        leaderCardStock[12].add("  ");
-        leaderCardStock[12].add(vertical);
-
-        leaderCardStock[13].add(vertical);
-        leaderCardStock[13].add("   ID: ");
-        leaderCardStock[13].add(String.valueOf(leaderCard.getId()));
+        leaderCardStock[12].add("   ID: ");
+        leaderCardStock[12].add(String.valueOf(leaderCard.getId()));
         if(leaderCard.getId() > 9){
-            leaderCardStock[13].add("   ");
+            leaderCardStock[12].add("   ");
         }else{
-            leaderCardStock[13].add("    ");
+            leaderCardStock[12].add("    ");
         }
-        leaderCardStock[13].add(vertical);
-        leaderCardStock[14].add(lastLine);
+        leaderCardStock[12].add(vertical);
+        leaderCardStock[13].add(lastLine);
 
         return leaderCardStock;
     }
 
     private static ArrayList<String>[] makeLeaderCardSales(SerializableLeaderCard leaderCard){
 
-        ArrayList<String>[] leaderCardSale = new ArrayList[15];
+        ArrayList<String>[] leaderCardSale = new ArrayList[14];
 
-        for(int i=0; i<15; i++){
+        for(int i=0; i<14; i++){
             leaderCardSale[i] = new ArrayList<>();
         }
 
@@ -477,27 +448,18 @@ public class LeaderCardsPrinter {
         leaderCardSale[11].add("  ");
         leaderCardSale[11].add(vertical);
 
-        leaderCardSale[12].add(vertical);
-        leaderCardSale[12].add("  ");
-        if(leaderCard.isUsed()){
-            leaderCardSale[12].add("IN USE:Y");
-        }else{
-            leaderCardSale[12].add("IN USE:N");
-        }
-        leaderCardSale[12].add("  ");
-        leaderCardSale[12].add(vertical);
 
-        leaderCardSale[13].add(vertical);
-        leaderCardSale[13].add("   ID: ");
-        leaderCardSale[13].add(String.valueOf(leaderCard.getId()));
+        leaderCardSale[12].add(vertical);
+        leaderCardSale[12].add("   ID: ");
+        leaderCardSale[12].add(String.valueOf(leaderCard.getId()));
         if(leaderCard.getId() > 9){
-            leaderCardSale[13].add("   ");
+            leaderCardSale[12].add("   ");
         }else{
-            leaderCardSale[13].add("    ");
+            leaderCardSale[12].add("    ");
         }
-        leaderCardSale[13].add(vertical);
+        leaderCardSale[12].add(vertical);
 
-        leaderCardSale[14].add(lastLine);
+        leaderCardSale[13].add(lastLine);
 
         return leaderCardSale;
     }
