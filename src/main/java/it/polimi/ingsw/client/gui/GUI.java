@@ -26,7 +26,7 @@ import java.util.List;
  * Main class of the gui.
  * It takes care of initializing the game, changing the scene according to the phase of the game and contains common information between controllers
  */
-public class GUI extends Application implements UI {
+public class GUI extends Application {
 
     private Scene currentScene;
     private Scene oldScene;
@@ -127,10 +127,13 @@ public class GUI extends Application implements UI {
         this.isUpdateDashboardArrived = false;
     }
 
+    /*
     public static void main(String[] args) {
         new GUI();
         launch(args);
     }
+    */
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -151,7 +154,7 @@ public class GUI extends Application implements UI {
         List<GameFxml> fxmlFiles = new ArrayList<>(Arrays.asList(GameFxml.values()));
         try {
             for (GameFxml path : fxmlFiles) {
-                URL url = new File("src/main/resources/fxml/" + path.s).toURI().toURL();
+                URL url = getClass().getClassLoader().getResource(path.s); //new File("src/main/resources/fxml/" + path.s).toURI().toURL();
                 FXMLLoader loader = new FXMLLoader(url);
                 Scene scene = new Scene(loader.load());
                 scenes.put(path.s, scene);

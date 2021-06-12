@@ -208,9 +208,12 @@ public class CLI implements Runnable {
         this.temporaryEvolutionSection = temporaryEvolutionSection;
     }
 
+    /*
     public static void main(String[] args){
         new CLI();
     }
+
+     */
 
     @Override
     public void run() {
