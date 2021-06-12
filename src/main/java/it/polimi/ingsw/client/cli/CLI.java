@@ -3,9 +3,8 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.cli.componentPrinter.*;
 import it.polimi.ingsw.client.ClientSocket;
 
-import it.polimi.ingsw.client.UI;
-import it.polimi.ingsw.client.gamePhases.InitializationPhase;
-import it.polimi.ingsw.client.gamePhases.Phase;
+import it.polimi.ingsw.client.cli.gamePhases.InitializationPhase;
+import it.polimi.ingsw.client.cli.gamePhases.Phase;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
@@ -15,7 +14,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CLI implements UI, Runnable {
+public class CLI implements Runnable {
 
     private Scanner scanner;
     private ClientSocket clientSocket;
@@ -47,22 +46,7 @@ public class CLI implements UI, Runnable {
     //metodi per stampare le componenti del gioco
     public void printTitle(){
 
-        System.out.println(Constants.ANSI_RED + "\n" +
-                "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗      ██████╗ ███████╗              \n" +
-                "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ██╔═══██╗██╔════╝              \n" +
-                "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝    ██║   ██║█████╗                \n" +
-                "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ██║   ██║██╔══╝                \n" +
-                "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║    ╚██████╔╝██║                   \n" +
-                "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝                   \n" +
-                "                                                                                       \n" +
-                "██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n" +
-                "██╔══██╗██╔════╝████╗  ██║██╔══██╗██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝\n" +
-                "██████╔╝█████╗  ██╔██╗ ██║███████║██║███████╗███████╗███████║██╔██╗ ██║██║     █████╗  \n" +
-                "██╔══██╗██╔══╝  ██║╚██╗██║██╔══██║██║╚════██║╚════██║██╔══██║██║╚██╗██║██║     ██╔══╝  \n" +
-                "██║  ██║███████╗██║ ╚████║██║  ██║██║███████║███████║██║  ██║██║ ╚████║╚██████╗███████╗\n" +
-                "╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝\n" +
-                "                                                                                       \n" +
-                Constants.ANSI_RESET);
+        System.out.println(Constants.ANSI_RED + Constants.title + Constants.ANSI_RESET);
     }
     public void printMenu(){
         System.out.println(Constants.menu);
