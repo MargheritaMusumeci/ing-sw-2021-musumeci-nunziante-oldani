@@ -67,12 +67,12 @@
          </font>
       </Label>
       <ProgressIndicator fx:id="loading" layoutX="642.0" layoutY="452.0" visible="false" />
-      <Button fx:id="confirm1" layoutX="548.0" layoutY="455.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
+      <Button fx:id="confirm" layoutX="548.0" layoutY="455.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="cancel1" layoutX="683.0" layoutY="455.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="101.0" text="Cancel" textFill="RED">
+      <Button fx:id="cancel" layoutX="683.0" layoutY="455.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="101.0" text="Cancel" textFill="RED">
          <font>
             <Font size="14.0" />
          </font>

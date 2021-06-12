@@ -21,12 +21,7 @@ public class Print {
      * @return leader image
      */
     public Image fromPathToImageLeader(String path){
-        URL url = null;
-        try {
-            url = new File("src/main/resources/images/leaderCards/" + path + ".png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL url= getClass().getClassLoader().getResource("images/leaderCards/" + path + ".png");
         return new Image(String.valueOf(url));
     }
 
@@ -36,12 +31,7 @@ public class Print {
      * @return resource Image
      */
     public Image fromPathToImageResource(String path){
-        URL url = null;
-        try {
-            url = new File("src/main/resources/images/resources/" + path ).toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL url= getClass().getClassLoader().getResource("images/resources/" + path);
         return new Image(String.valueOf(url));
     }
 
@@ -51,13 +41,8 @@ public class Print {
      * @return the image of the card
      */
     public Image fromPathToImageEvolution(int id){
-        URL url = null;
-        try {
-            String path = String.valueOf(id);
-            url = new File("src/main/resources/images/evolutionCards/" + path + ".png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        String path = String.valueOf(id);
+        URL url= getClass().getClassLoader().getResource("images/evolutionCards/" + path + ".png");
         return new Image(String.valueOf(url));
     }
 
@@ -66,12 +51,7 @@ public class Print {
      * @return gamer cross Image
      */
     public Image popePosition(){
-        URL url = null;
-        try {
-            url = new File("src/main/resources/images/popeTrack/croce_giocatore.png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL url= getClass().getClassLoader().getResource("images/popeTrack/croce_giocatore.png");
         return new Image(String.valueOf(url));
     }
 
@@ -163,12 +143,7 @@ public class Print {
      * @return image with the two cross
      */
     public Image togetherPopePosition() {
-        URL url = null;
-        try {
-            url = new File("src/main/resources/images/popeTrack/croci.png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL url= getClass().getClassLoader().getResource("images/popeTrack/croci.png");
         return new Image(String.valueOf(url));
     }
 
@@ -177,12 +152,7 @@ public class Print {
      * @return image of lorenzo cross
      */
     public Image lorenzoPopePosition() {
-        URL url = null;
-        try {
-            url = new File("src/main/resources/images/popeTrack/croce_nera.png").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL url= getClass().getClassLoader().getResource("images/popeTrack/croce_nera.png");
         return new Image(String.valueOf(url));
     }
 
@@ -192,12 +162,7 @@ public class Print {
      * @return image of pope card
      */
     public Image fromPathToPopeCard(String path){
-        URL url = null;
-        try {
-            url = new File("src/main/resources/images/popeTrack/" + path).toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL url= getClass().getClassLoader().getResource("images/popeTrack/" + path);
         return new Image(String.valueOf(url));
     }
 

@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.gui.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
@@ -24,6 +25,8 @@ public class StoreResourcesController implements Controller {
     private GUI  gui;
     private ArrayList<Resource> resource;
     private final Print printer;
+    private boolean selectAllBoolean;
+    ArrayList<CheckBox> checkResources;
 
     @FXML private ImageView resource1;
     @FXML private ImageView resource2;
@@ -36,19 +39,24 @@ public class StoreResourcesController implements Controller {
     @FXML private CheckBox resource4Check;
 
     @FXML private Label whiteballs;
+    @FXML private Button selectAll;
 
     public StoreResourcesController(){
         this.printer=new Print();
+        selectAllBoolean=true;
+        checkResources = new ArrayList<>();
     }
 
     @Override
     public void setGui(GUI gui) {
-     this.gui = gui;
+        this.gui = gui;
     }
 
     @Override
     public void init() {
 
+        selectAll.setText("Select all");
+        selectAllBoolean = true;
         resource1.setImage(null);
         resource2.setImage(null);
         resource3.setImage(null);
@@ -86,10 +94,11 @@ public class StoreResourcesController implements Controller {
         if(resource.size()==0) {
             whiteballs.setText("You bought only white balls");
         }else{
-                resource1Check.setVisible(true);
-                String path = printer.pathFromResource(resource.get(0));
-                resource1.setImage(printer.fromPathToImageResource(path));
-                resource1.setCache(true);
+            resource1Check.setVisible(true);
+            String path = printer.pathFromResource(resource.get(0));
+            resource1.setImage(printer.fromPathToImageResource(path));
+            resource1.setCache(true);
+            checkResources.add(resource1Check);
 
             if(resource.size()>1){
 
@@ -97,18 +106,21 @@ public class StoreResourcesController implements Controller {
                 path = printer.pathFromResource(resource.get(1));
                 resource2.setImage(printer.fromPathToImageResource(path));
                 resource2.setCache(true);
+                checkResources.add(resource2Check);
             }
             if(resource.size()>2){
                 resource3Check.setVisible(true);
                 path = printer.pathFromResource(resource.get(2));
                 resource3.setImage(printer.fromPathToImageResource(path));
                 resource3.setCache(true);
+                checkResources.add(resource3Check);
             }
             if(resource.size()>3){
                 resource4Check.setVisible(true);
                 path = printer.pathFromResource(resource.get(3));
                 resource4.setImage(printer.fromPathToImageResource(path));
                 resource4.setCache(true);
+                checkResources.add(resource4Check);
             }
         }
     }
@@ -136,5 +148,15 @@ public class StoreResourcesController implements Controller {
         gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setOldScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
         gui.setGamePhase(GamePhases.MYTURN);
+    }
+
+    public void selectAll() {
+
+        for(CheckBox res: checkResources){
+            res.setSelected(selectAllBoolean);
+        }
+        selectAllBoolean = !selectAllBoolean;
+        if(selectAllBoolean)selectAll.setText("Select all");
+        else selectAll.setText("Unselect all");
     }
 }
