@@ -5,20 +5,20 @@ import it.polimi.ingsw.utils.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class PopeTrackPrinter {
 
     public static void print(SerializablePopeTack serializablePopeTack){
 
-        File file = new File("src/main/resources/popeTrack.txt");
         ArrayList<char[]> popeTrack = new ArrayList<>();
         boolean lorenzoInTheSamePosition = false;
 
         System.out.println(Constants.ANSI_BLUE + "\n" + Constants.popeTrackTitle + Constants.ANSI_RESET);
 
         try{
-            Scanner s = new Scanner(file);
+            Scanner s = new Scanner(Objects.requireNonNull(PopeTrackPrinter.class.getClassLoader().getResourceAsStream("popeTrack.txt")));
             String string;
             while (s.hasNextLine()){
                 string = s.nextLine();
