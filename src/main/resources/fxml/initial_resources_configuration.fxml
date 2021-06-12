@@ -103,9 +103,9 @@
                   </ImageView>
                </children>
             </HBox>
-            <Label fx:id="errorMessage" layoutX="229.0" layoutY="514.0" text="ERROR:" textFill="RED" visible="false">
+            <Label fx:id="errorMessage" layoutX="52.0" layoutY="313.0" prefHeight="20.0" prefWidth="773.0" text="ERROR: " textAlignment="CENTER" textFill="RED" visible="false">
                <font>
-                  <Font name="System Bold Italic" size="14.0" />
+                  <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
          </children>
