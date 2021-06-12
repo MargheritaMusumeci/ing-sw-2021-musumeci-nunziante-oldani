@@ -44,7 +44,6 @@ public class StoreResourcesController implements Controller {
     public StoreResourcesController(){
         this.printer=new Print();
         selectAllBoolean=true;
-        checkResources = new ArrayList<>();
     }
 
     @Override
@@ -72,6 +71,8 @@ public class StoreResourcesController implements Controller {
         resource4Check.setSelected(false);
 
         resource = gui.getView().getResourcesBoughtFromMarker();
+
+        checkResources = new ArrayList<>();
 
         for (Resource res:resource) {
             System.out.println(res.name());

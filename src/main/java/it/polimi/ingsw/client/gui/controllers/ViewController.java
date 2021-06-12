@@ -26,7 +26,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     protected ArrayList<Integer> productionPositions;
     protected boolean[] marketLeaderActive;
     protected ArrayList<ImageView>[] productionZones;
-    protected ArrayList<Integer> stockLeaderCardInUse;
     protected ArrayList<ImageView> popeTrackPositions;
 
     @FXML
@@ -233,7 +232,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
 
     public ViewController(){
          this.printer = new Print();
-         stockLeaderCardInUse = new ArrayList<>();
          marketLeaderActive = new boolean[2];
          productionPositions = new ArrayList<>();
      }

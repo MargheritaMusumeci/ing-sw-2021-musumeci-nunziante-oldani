@@ -63,6 +63,7 @@ public class GUI extends Application {
      */
     private GamePhases gamePhase;
     private ArrayList<SerializableLeaderCard> leaderCards;
+    protected ArrayList<Integer> stockLeaderCardInUse;
 
     /**
      * This array list contains the position of the leader cards discarded
@@ -121,19 +122,17 @@ public class GUI extends Application {
         leaderEnsure = new HashMap<>();
         players=0;
         leaderCardsDiscarded = new ArrayList<>(Arrays.asList(false , false));
+        stockLeaderCardInUse = new ArrayList<>();
 
         this.isAckArrived = false;
         this.isNackArrived = false;
         this.isUpdateDashboardArrived = false;
     }
 
-    /*
     public static void main(String[] args) {
         new GUI();
         launch(args);
     }
-    */
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -154,7 +153,7 @@ public class GUI extends Application {
         List<GameFxml> fxmlFiles = new ArrayList<>(Arrays.asList(GameFxml.values()));
         try {
             for (GameFxml path : fxmlFiles) {
-                URL url = getClass().getClassLoader().getResource(path.s); //new File("src/main/resources/fxml/" + path.s).toURI().toURL();
+                URL url = getClass().getClassLoader().getResource("fxml/" + path.s);
                 FXMLLoader loader = new FXMLLoader(url);
                 Scene scene = new Scene(loader.load());
                 scenes.put(path.s, scene);
@@ -393,5 +392,14 @@ public class GUI extends Application {
 
     public void setNackArrived(boolean nackArrived) {
         isNackArrived = nackArrived;
+    }
+
+    public ArrayList<Integer> getStockLeaderCardInUse() {
+        return stockLeaderCardInUse;
+    }
+
+    public void addStockLeaderCardInUse(Integer cardNumber){
+        System.out.println("Added stockLeaderCardInUse: " + cardNumber);
+        this.stockLeaderCardInUse.add(cardNumber);
     }
 }

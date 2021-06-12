@@ -164,13 +164,12 @@ public class ViewPlayerController extends ViewController {
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                stockLeaderCardInUse.add(leaderWaitForAck);
                 System.out.println("Activated stock leader ability");
+                gui.addStockLeaderCardInUse(cardNumber);
             }
             if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 activeLeaderProduction.get(cardNumber).setVisible(true);
                 activeLeaderProduction.get(cardNumber).setDisable(false);
-
             }
         }
         leaderWaitForAck = -1;
@@ -431,20 +430,20 @@ public class ViewPlayerController extends ViewController {
         }
 
         //Initialize leader stock
-
-        System.out.println("There are " + stockLeaderCardInUse.size() + " stock leader card in use");
-        stockLeaderCardInUse = new ArrayList<>();
-        int leaderCardNumber = 1;
+        /*int leaderCardNumber = 1;
         for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
             if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
                 if(leaderCardNumber <= 2)
-                    stockLeaderCardInUse.add(leaderCardNumber);
+                    gui.getStockLeaderCardInUse().add(leaderCardNumber);
             }
             leaderCardNumber++;
-        }
-        if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
+        }*/
+
+        System.out.println("There are " + gui.getStockLeaderCardInUse().size() + " stock leader card in use");
+
+        if (gui.getStockLeaderCardInUse() != null && gui.getStockLeaderCardInUse().size() != 0) {
             for(int i = 0 ; i < gui.getView().getDashboard().getSerializableStock().getBoxPlus().size() ; i++){//stockLeaderCardInUse.size()
-                int leaderPosition = stockLeaderCardInUse.get(i);
+                int leaderPosition = gui.getStockLeaderCardInUse().get(i);
 
                 System.out.println("Initializing stock plus");
 
@@ -452,11 +451,11 @@ public class ViewPlayerController extends ViewController {
                     for(int j = 0 ; j < gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
                         if(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
                             String path = printer.pathFromResource(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
-                            stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
-                            stockPlus.get(leaderPosition - 1).get(j).setVisible(true);
+                            stockPlus.get(leaderPosition).get(j).setImage(printer.fromPathToImageResource(path));
+                            stockPlus.get(leaderPosition).get(j).setVisible(true);
                         }
                         else{
-                            stockPlus.get(leaderPosition - 1).get(j).setImage(null);
+                            stockPlus.get(leaderPosition).get(j).setImage(null);
                         }
                     }
                 }

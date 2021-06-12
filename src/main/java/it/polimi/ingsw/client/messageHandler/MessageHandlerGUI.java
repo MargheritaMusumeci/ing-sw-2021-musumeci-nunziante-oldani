@@ -9,7 +9,10 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoug
 import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
+import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 
 public class MessageHandlerGUI extends MessageHandler {
 
@@ -27,6 +30,8 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(ACKMessage message) {
         synchronized (gui) {
 
+            System.out.println("The game phase (in ack) is : " + gui.getGamePhase());
+
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)||
                     gui.getOldScene().equals(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s))){
                     gui.setActionDone(true);
@@ -38,7 +43,8 @@ public class MessageHandlerGUI extends MessageHandler {
             }
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
-                if(gui.isUpdateDashboardArrived()){
+                return;
+                /*if(gui.isUpdateDashboardArrived()){
                     gui.setUpdateDashboardArrived(false);
                     gui.setGamePhase(GamePhases.MYTURN);
                     System.out.println("Calling activeLeaderAck after received the ack");
@@ -47,7 +53,7 @@ public class MessageHandlerGUI extends MessageHandler {
                 else{
                     gui.setAckArrived(true);
                     return;
-                }
+                }*/
             }
             gui.changeScene();
             System.out.println(gui.isActionDone());
@@ -97,6 +103,13 @@ public class MessageHandlerGUI extends MessageHandler {
         gui.setView(message.getView());
         gui.setPlayers(message.getNumberOfPlayers());
         gui.setLeaderCards(message.getView().getLeaderCards());
+
+        int i = 1;
+        for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
+            if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                gui.getStockLeaderCardInUse().add(i);
+            }
+        }
 
         if(gui.getNickname().equals(message.getView().getActivePlayer())){
             gui.setGamePhase(GamePhases.MYTURN);
@@ -202,6 +215,10 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
         synchronized (gui) {
             gui.getView().setLeaderCards(message.getLeaderCards());
+
+            System.out.println("Calling activeLeaderAck");
+            ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();
+
             if(gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s)) {
                 gui.setGamePhase(GamePhases.MYTURN);
                 gui.changeScene();
@@ -218,19 +235,22 @@ public class MessageHandlerGUI extends MessageHandler {
 
         synchronized (gui) {
             gui.getView().setDashboard(message.getDashboard());
+
             if (gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
             //TODO qua e non in update leader ???
+
             if (gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) {
-                if (gui.isAckArrived() || gui.isNackArrived()) {
+                return;
+                /*if (gui.isAckArrived() || gui.isNackArrived()) {
                     gui.setAckArrived(false);
                     gui.setNackArrived(false);
-                    System.out.println("Calling activeLeaderAck after received the ack");
+                    //System.out.println("Calling activeLeaderAck after received the ack");
 
-                    ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
+                    //((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
                 } else {
                     gui.setUpdateDashboardArrived(true);
                     return;
-                }
+                }*/
             }
 
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
