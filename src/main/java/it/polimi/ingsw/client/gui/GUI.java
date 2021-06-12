@@ -153,7 +153,7 @@ public class GUI extends Application implements UI {
         List<GameFxml> fxmlFiles = new ArrayList<>(Arrays.asList(GameFxml.values()));
         try {
             for (GameFxml path : fxmlFiles) {
-                URL url = new File("src/main/resources/fxml/" + path.s).toURI().toURL();
+                URL url = getClass().getClassLoader().getResource("fxml/" + path.s);
                 FXMLLoader loader = new FXMLLoader(url);
                 Scene scene = new Scene(loader.load());
                 scenes.put(path.s, scene);
