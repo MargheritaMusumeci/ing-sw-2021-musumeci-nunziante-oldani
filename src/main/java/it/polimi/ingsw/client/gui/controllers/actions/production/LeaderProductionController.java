@@ -53,7 +53,7 @@ public class LeaderProductionController implements Controller {
         confirm.setVisible(false);
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
 
-        HashMap<Integer, Resource> leaderEnsure = new HashMap<>();
+        HashMap<Integer, Resource> leaderEnsure = gui.getLeaderEnsure();
 
         if(radio == coin1){
             leaderEnsure.put(gui.getLeaderPosition(),Resource.COIN);

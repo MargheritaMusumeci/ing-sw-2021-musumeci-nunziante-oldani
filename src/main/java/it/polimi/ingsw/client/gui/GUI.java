@@ -318,7 +318,7 @@ public class GUI extends Application implements UI {
     }
 
     public void setLeaderEnsure(HashMap<Integer,Resource> leaderEnsure) {
-        this.leaderEnsure = (HashMap<Integer, Resource>) leaderEnsure;
+        this.leaderEnsure = leaderEnsure;
         if(leaderEnsure!=null )System.out.println(leaderEnsure.size());
     }
 
