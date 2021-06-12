@@ -45,6 +45,11 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
+      <Button fx:id="selectAll" layoutX="591.0" layoutY="439.0" mnemonicParsing="false" onAction="#selectAll" prefHeight="47.0" prefWidth="101.0" text="Select All" textFill="#317c2a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
       <Button fx:id="confirm" layoutX="591.0" layoutY="493.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
          <font>
             <Font size="14.0" />
