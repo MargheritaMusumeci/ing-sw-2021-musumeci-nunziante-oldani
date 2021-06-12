@@ -1,9 +1,9 @@
-package it.polimi.ingsw.client.gamePhases.myTurnPhases;
+package it.polimi.ingsw.client.cli.gamePhases.myTurnPhases;
 
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.cli.componentPrinter.ResourcesBoughtPrinter;
-import it.polimi.ingsw.client.gamePhases.Phase;
+import it.polimi.ingsw.client.cli.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.StoreResourcesMessage;

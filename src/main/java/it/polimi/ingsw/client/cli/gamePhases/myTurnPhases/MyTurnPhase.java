@@ -1,7 +1,9 @@
-package it.polimi.ingsw.client.gamePhases.myTurnPhases;
+package it.polimi.ingsw.client.cli.gamePhases.myTurnPhases;
 
 import it.polimi.ingsw.client.cli.CLI;
-import it.polimi.ingsw.client.gamePhases.Phase;
+
+import it.polimi.ingsw.client.cli.gamePhases.Phase;
+import it.polimi.ingsw.client.cli.gamePhases.myTurnPhases.BuyEvolutiuonCardPhase;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.utils.Constants;
 
@@ -28,7 +30,7 @@ public class MyTurnPhase extends Phase {
         switch (action) {
             case 0:
                 if (!cli.isActionBeenDone()) {
-                    System.out.println("Cannot end turn without do an action");
+                    System.out.println(Constants.ANSI_RED + "Cannot end turn without do an action" + Constants.ANSI_RESET);
                     new Thread(cli).start();
                     return;
                 } else {
@@ -78,7 +80,7 @@ public class MyTurnPhase extends Phase {
                 if (!cli.isActionBeenDone()) {
                     cli.setGamePhase(new BuyFromMarketPhase());
                 } else {
-                    System.out.println("You have already make an action, yuo should end your turn now!");
+                    System.out.println(Constants.ANSI_RED + "You have already make an action, yuo should end your turn now!" + Constants.ANSI_RESET);
                 }
                 new Thread(cli).start();
                 break;
@@ -86,7 +88,7 @@ public class MyTurnPhase extends Phase {
                 if (!cli.isActionBeenDone()) {
                     cli.setGamePhase(new ActiveProductionZonePhase());
                 } else {
-                    System.out.println("You have already make an action, yuo should end your turn now!");
+                    System.out.println(Constants.ANSI_RED + "You have already make an action, yuo should end your turn now!" + Constants.ANSI_RESET);
                 }
                 new Thread(cli).start();
                 break;
@@ -94,7 +96,7 @@ public class MyTurnPhase extends Phase {
                 if (!cli.isActionBeenDone()) {
                     cli.setGamePhase(new BuyEvolutiuonCardPhase());
                 } else {
-                    System.out.println("You have already make an action, yuo should end your turn now!");
+                    System.out.println(Constants.ANSI_RED + "You have already make an action, yuo should end your turn now!" + Constants.ANSI_RESET);
                 }
                 new Thread(cli).start();
                 break;
@@ -110,7 +112,7 @@ public class MyTurnPhase extends Phase {
                 new Thread(cli).start();
                 break;
             default:
-                System.out.println("This action doesn't exist");
+                System.out.println(Constants.ANSI_RED + "This action doesn't exist" +Constants.ANSI_RESET);
                 new Thread(cli).start();
                 break;
         }

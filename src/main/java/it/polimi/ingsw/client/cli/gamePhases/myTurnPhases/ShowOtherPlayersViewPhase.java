@@ -1,11 +1,8 @@
-package it.polimi.ingsw.client.gamePhases.myTurnPhases;
+package it.polimi.ingsw.client.cli.gamePhases.myTurnPhases;
 
 import it.polimi.ingsw.client.cli.CLI;
-import it.polimi.ingsw.client.cli.componentPrinter.LeaderCardsPrinter;
-import it.polimi.ingsw.client.cli.componentPrinter.LockBoxPrinter;
-import it.polimi.ingsw.client.cli.componentPrinter.ProductionSectionPrinter;
-import it.polimi.ingsw.client.cli.componentPrinter.StockPrinter;
-import it.polimi.ingsw.client.gamePhases.Phase;
+import it.polimi.ingsw.client.cli.componentPrinter.*;
+import it.polimi.ingsw.client.cli.gamePhases.Phase;
 import it.polimi.ingsw.serializableModel.SerializableDashboard;
 import it.polimi.ingsw.utils.Constants;
 
@@ -63,7 +60,7 @@ public class ShowOtherPlayersViewPhase extends Phase {
         LockBoxPrinter.print(dashboard.getSerializableLockBox());
         ProductionSectionPrinter.print(dashboard);
         LeaderCardsPrinter.print(cli.getClientSocket().getView().getEnemiesActivatedLeaderCards().get(dashboard));
-
+        PopeTrackPrinter.print(dashboard.getSerializablePopeTack());
         cli.setGamePhase(new MyTurnPhase());
         new Thread(cli).start();
 
