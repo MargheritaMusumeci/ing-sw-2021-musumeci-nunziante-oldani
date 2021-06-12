@@ -78,8 +78,11 @@ public class ViewPlayerController extends ViewController {
         ArrayList<Resource> leaderEnsure = new ArrayList<>();
         if(gui.getLeaderEnsure() != null) {
 
+            //TODO error when i want active two production zone leader
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
+                System.out.println(gui.getView().getDashboard().getSerializableProductionZones().length);
+                System.out.println(leaderIndex);
                 if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length > 4))
                     productionPositions.add(3);
                 else {
@@ -314,12 +317,14 @@ public class ViewPlayerController extends ViewController {
             else if(gui.getLeaderCardsDiscarded().get(0)){
                 active1.setVisible(false);
                 discard1.setVisible(false);
+                activeProduction4Button.setVisible(false);
                 activeProduction4.setVisible(false);
                 activeProduction4.setDisable(false);
             }
             else{
                 active1.setVisible(true);
                 discard1.setVisible(true);
+                activeProduction4Button.setVisible(false);
                 activeProduction4.setVisible(false);
                 activeProduction4.setDisable(false);
             }
@@ -338,6 +343,7 @@ public class ViewPlayerController extends ViewController {
                 else{
                     active2.setVisible(true);
                     discard2.setVisible(true);
+                    activeProduction5Button.setVisible(false);
                     activeProduction5.setVisible(false);
                     activeProduction5.setDisable(false);
                 }
@@ -353,7 +359,7 @@ public class ViewPlayerController extends ViewController {
         //leader production
         if(gui.getLeaderEnsure() != null) {
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
-                if(leaderIndex == 1 && gui.getLeaderEnsure().keySet().size() == 1) {
+                if(leaderIndex == 1) {
                     leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
                 }else {
                     leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(2))));
@@ -428,17 +434,6 @@ public class ViewPlayerController extends ViewController {
                 }
             }
         }
-
-        //Initialize leader stock
-        /*int leaderCardNumber = 1;
-        for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
-            if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                if(leaderCardNumber <= 2)
-                    gui.getStockLeaderCardInUse().add(leaderCardNumber);
-            }
-            leaderCardNumber++;
-        }*/
-
         System.out.println("There are " + gui.getStockLeaderCardInUse().size() + " stock leader card in use");
 
         if (gui.getStockLeaderCardInUse() != null && gui.getStockLeaderCardInUse().size() != 0) {
@@ -472,6 +467,9 @@ public class ViewPlayerController extends ViewController {
     public void endTurn(){
         if (gui.isActionDone()) {
             gui.setActionDone(false);
+            gui.setLeaderEnsure(new HashMap<>());
+            activeProduction5.setSelected(false);
+            activeProduction4.setSelected(false);
             gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
         }else{
             error.setText("You haven't taken the action yet");

@@ -303,6 +303,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
             enemyImage.get(0).setVisible(true);
             enemyButtons.get(0).setDisable(false);
             enemyButtons.get(0).setText(gui.getNickname());
+            System.out.println("ho attivato il button 0");
         }
         int index = 1;
         for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
@@ -339,20 +340,21 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
      * Method called when the player click on a button representing an other player
      * The method read the name of the other player chose , set the game phase to "SEE_OTHER_VIEW" and
      * change the scene showing the enemy's view
-     * @param actionEvent
+     * @param actionEvent button clicked
      */
     @FXML
     public void showEnemy(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
         gui.setOtherView(button.getText());
+        System.out.println(button.getText());
 
         if(!gui.getOtherView().equals(gui.getNickname())){
             gui.setGamePhase(GamePhases.SEEOTHERVIEW);
             gui.setCurrentScene(gui.getScene(GameFxml.OTHER_VIEW.s));
             gui.setOldScene(gui.getScene(GameFxml.OTHER_VIEW.s));
         }
-        if(gui.getOtherView().equals(gui.getNickname())){
+        else{
             if(gui.getView().getActivePlayer().equals(gui.getNickname())){
                 gui.setGamePhase(GamePhases.MYTURN);
                 gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
@@ -363,7 +365,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
                 gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
             }
         }
-
         gui.changeScene();
     }
 }
