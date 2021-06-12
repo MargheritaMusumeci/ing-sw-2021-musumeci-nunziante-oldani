@@ -163,14 +163,14 @@ public class ViewPlayerController extends ViewController {
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                stockLeaderCardInUse.add(leaderWaitForAck);
+                gui.addStockLeaderCardInUse(leaderWaitForAck);
                 System.out.println("Activated stock leader ability");
             }
             if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 activeLeaderProduction.get(cardNumber).setVisible(true);
                 activeLeaderProduction.get(cardNumber).setDisable(false);
-
             }
+            gui.addStockLeaderCardInUse(cardNumber);
         }
         leaderWaitForAck = -1;
     }
@@ -446,20 +446,20 @@ public class ViewPlayerController extends ViewController {
         }
 
         //Initialize leader stock
-
-        System.out.println("There are " + stockLeaderCardInUse.size() + " stock leader card in use");
-        stockLeaderCardInUse = new ArrayList<>();
-        int leaderCardNumber = 1;
+        /*int leaderCardNumber = 1;
         for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
             if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
                 if(leaderCardNumber <= 2)
-                    stockLeaderCardInUse.add(leaderCardNumber);
+                    gui.getStockLeaderCardInUse().add(leaderCardNumber);
             }
             leaderCardNumber++;
-        }
-        if (stockLeaderCardInUse != null && stockLeaderCardInUse.size() != 0) {
+        }*/
+
+        System.out.println("There are " + gui.getStockLeaderCardInUse().size() + " stock leader card in use");
+
+        if (gui.getStockLeaderCardInUse() != null && gui.getStockLeaderCardInUse().size() != 0) {
             for(int i = 0 ; i < gui.getView().getDashboard().getSerializableStock().getBoxPlus().size() ; i++){//stockLeaderCardInUse.size()
-                int leaderPosition = stockLeaderCardInUse.get(i);
+                int leaderPosition = gui.getStockLeaderCardInUse().get(i);
 
                 System.out.println("Initializing stock plus");
 

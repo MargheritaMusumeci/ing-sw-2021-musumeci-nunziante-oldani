@@ -63,6 +63,7 @@ public class GUI extends Application implements UI {
      */
     private GamePhases gamePhase;
     private ArrayList<SerializableLeaderCard> leaderCards;
+    protected ArrayList<Integer> stockLeaderCardInUse;
 
     /**
      * This array list contains the position of the leader cards discarded
@@ -121,6 +122,7 @@ public class GUI extends Application implements UI {
         leaderEnsure = new HashMap<>();
         players=0;
         leaderCardsDiscarded = new ArrayList<>(Arrays.asList(false , false));
+        stockLeaderCardInUse = new ArrayList<>();
 
         this.isAckArrived = false;
         this.isNackArrived = false;
@@ -389,5 +391,14 @@ public class GUI extends Application implements UI {
 
     public void setNackArrived(boolean nackArrived) {
         isNackArrived = nackArrived;
+    }
+
+    public ArrayList<Integer> getStockLeaderCardInUse() {
+        return stockLeaderCardInUse;
+    }
+
+    public void addStockLeaderCardInUse(Integer cardNumber){
+        System.out.println("Added stockLeaderCardInUse: " + cardNumber);
+        this.stockLeaderCardInUse.add(cardNumber);
     }
 }
