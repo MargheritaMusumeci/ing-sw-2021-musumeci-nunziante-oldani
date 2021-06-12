@@ -18,11 +18,8 @@ public class App
         }else{
             if(args[0].equals("cli")){
                 new CLI();
-                //CLI.main(null);
             }else{
-                //GUI.main(null);
-                GUI gui = new GUI();
-                gui.launch(args);
+                GUI.main(null);
             }
         }
 
