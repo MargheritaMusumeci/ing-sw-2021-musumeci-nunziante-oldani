@@ -117,6 +117,7 @@ public class ViewPlayerController extends ViewController {
     public void chooseBasicProduction() {
 
         activeBasic = true;
+        gui.getController(GameFxml.BASIC_PRODUCTION.s).init();
         gui.setCurrentScene(gui.getScene(GameFxml.BASIC_PRODUCTION.s));
         gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
         gui.setGamePhase(GamePhases.MYTURN);
@@ -253,7 +254,6 @@ public class ViewPlayerController extends ViewController {
             error.setText(null);
         }
 
-
         initializer.setDashboard(gui.getView().getDashboard());
 
         super.init();
@@ -308,8 +308,8 @@ public class ViewPlayerController extends ViewController {
             if (leaderCards.get(0).isActive()) {
                 discard1.setVisible(false);
                 active1.setVisible(false);
-                activeProduction4.setVisible(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
-                activeProduction4.setDisable(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                activeProduction4Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                activeProduction4Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
             }
             //if the card is been discarded
             else if(gui.getLeaderCardsDiscarded().get(0)){
@@ -333,8 +333,8 @@ public class ViewPlayerController extends ViewController {
                     discard2.setVisible(false);
                     active2.setVisible(false);
 
-                    activeProduction5.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
-                    activeProduction5.setDisable(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                    activeProduction5Button.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                    activeProduction5Button.setDisable(!(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
                 }
                 else{
                     active2.setVisible(true);
@@ -343,27 +343,12 @@ public class ViewPlayerController extends ViewController {
                     activeProduction5.setDisable(false);
                 }
             }
-            //If it's not my turn
-            if(gui.getGamePhase().equals(GamePhases.OTHERPLAYERSTURN)){
-                active1.setVisible(false);
-                discard1.setVisible(false);
-                active2.setVisible(false);
-                discard2.setVisible(false);
-                activeProduction4.setVisible(false);
-                activeProduction5.setVisible(false);
-                activeProduction4Button.setVisible(false);
-                activeProduction5Button.setVisible(false);
-            }
         }
         else{
-            active1.setVisible(false);
-            discard1.setVisible(false);
-            active2.setVisible(false);
-            discard2.setVisible(false);
             activeProduction4.setVisible(false);
             activeProduction5.setVisible(false);
-            activeProduction4Button.setVisible(false);
-            activeProduction5Button.setVisible(false);
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList( active1,active2,discard1,discard2,activeProduction4Button,activeProduction4Button));
+            initializer.visibleButton(buttons,false);
         }
 
         //leader production
@@ -406,7 +391,7 @@ public class ViewPlayerController extends ViewController {
             initializer.ableDisableButtons(buttons, gui.isActionDone());
             initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,gui.isActionDone());
         }else{
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,endTurn));
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,activeProduction4Button,activeProduction4Button, endTurn));
             initializer.visibleButton(buttons,false);
             initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,true);
         }
