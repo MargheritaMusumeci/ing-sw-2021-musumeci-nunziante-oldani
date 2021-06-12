@@ -164,14 +164,13 @@ public class ViewPlayerController extends ViewController {
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                gui.addStockLeaderCardInUse(leaderWaitForAck);
                 System.out.println("Activated stock leader ability");
+                gui.addStockLeaderCardInUse(cardNumber);
             }
             if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
                 activeLeaderProduction.get(cardNumber).setVisible(true);
                 activeLeaderProduction.get(cardNumber).setDisable(false);
             }
-            gui.addStockLeaderCardInUse(cardNumber);
         }
         leaderWaitForAck = -1;
     }
@@ -452,11 +451,11 @@ public class ViewPlayerController extends ViewController {
                     for(int j = 0 ; j < gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
                         if(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
                             String path = printer.pathFromResource(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
-                            stockPlus.get(leaderPosition - 1).get(j).setImage(printer.fromPathToImageResource(path));
-                            stockPlus.get(leaderPosition - 1).get(j).setVisible(true);
+                            stockPlus.get(leaderPosition).get(j).setImage(printer.fromPathToImageResource(path));
+                            stockPlus.get(leaderPosition).get(j).setVisible(true);
                         }
                         else{
-                            stockPlus.get(leaderPosition - 1).get(j).setImage(null);
+                            stockPlus.get(leaderPosition).get(j).setImage(null);
                         }
                     }
                 }

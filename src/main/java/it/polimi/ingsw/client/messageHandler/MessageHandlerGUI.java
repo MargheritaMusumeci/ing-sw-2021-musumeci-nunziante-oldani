@@ -43,7 +43,8 @@ public class MessageHandlerGUI extends MessageHandler {
             }
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
-                if(gui.isUpdateDashboardArrived()){
+                return;
+                /*if(gui.isUpdateDashboardArrived()){
                     gui.setUpdateDashboardArrived(false);
                     gui.setGamePhase(GamePhases.MYTURN);
                     System.out.println("Calling activeLeaderAck after received the ack");
@@ -52,7 +53,7 @@ public class MessageHandlerGUI extends MessageHandler {
                 else{
                     gui.setAckArrived(true);
                     return;
-                }
+                }*/
             }
             gui.changeScene();
             System.out.println(gui.isActionDone());
@@ -214,6 +215,10 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
         synchronized (gui) {
             gui.getView().setLeaderCards(message.getLeaderCards());
+
+            System.out.println("Calling activeLeaderAck");
+            ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();
+
             if(gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s)) {
                 gui.setGamePhase(GamePhases.MYTURN);
                 gui.changeScene();
@@ -233,17 +238,19 @@ public class MessageHandlerGUI extends MessageHandler {
 
             if (gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
             //TODO qua e non in update leader ???
+
             if (gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) {
-                if (gui.isAckArrived() || gui.isNackArrived()) {
+                return;
+                /*if (gui.isAckArrived() || gui.isNackArrived()) {
                     gui.setAckArrived(false);
                     gui.setNackArrived(false);
-                    System.out.println("Calling activeLeaderAck after received the ack");
+                    //System.out.println("Calling activeLeaderAck after received the ack");
 
-                    ((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
+                    //((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
                 } else {
                     gui.setUpdateDashboardArrived(true);
                     return;
-                }
+                }*/
             }
 
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
