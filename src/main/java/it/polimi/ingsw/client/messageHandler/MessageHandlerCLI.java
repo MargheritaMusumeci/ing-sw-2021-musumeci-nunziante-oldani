@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.messageHandler;
 
-import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.gamePhases.EndGamePhase;
 import it.polimi.ingsw.client.gamePhases.InitialLeaderCardSelectionPhase;

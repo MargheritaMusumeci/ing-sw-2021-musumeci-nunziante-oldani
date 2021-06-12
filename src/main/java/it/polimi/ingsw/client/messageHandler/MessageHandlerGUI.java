@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.ClientSocket;
-import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.client.GUI.controllers.ViewPlayerController;
-import it.polimi.ingsw.client.GUI.GameFxml;
-import it.polimi.ingsw.client.GUI.GamePhases;
+import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.controllers.ViewPlayerController;
+import it.polimi.ingsw.client.gui.GameFxml;
+import it.polimi.ingsw.client.gui.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;

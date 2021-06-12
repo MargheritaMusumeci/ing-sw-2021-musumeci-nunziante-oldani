@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.gamePhases;
 
-import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gamePhases.myTurnPhases.MyTurnPhase;
 
 public class StartGamePhase extends Phase{

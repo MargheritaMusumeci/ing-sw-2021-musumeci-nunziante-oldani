@@ -1,15 +1,14 @@
 package it.polimi.ingsw.client.gamePhases.myTurnPhases;
 
-import it.polimi.ingsw.client.CLI.CLI;
-import it.polimi.ingsw.client.CLI.componentPrinter.LeaderCardsPrinter;
-import it.polimi.ingsw.client.CLI.componentPrinter.LockBoxPrinter;
-import it.polimi.ingsw.client.CLI.componentPrinter.ProductionSectionPrinter;
-import it.polimi.ingsw.client.CLI.componentPrinter.StockPrinter;
+import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.cli.componentPrinter.LeaderCardsPrinter;
+import it.polimi.ingsw.client.cli.componentPrinter.LockBoxPrinter;
+import it.polimi.ingsw.client.cli.componentPrinter.ProductionSectionPrinter;
+import it.polimi.ingsw.client.cli.componentPrinter.StockPrinter;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.serializableModel.SerializableDashboard;
 import it.polimi.ingsw.utils.Constants;
 
-import javax.sound.midi.Soundbank;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;

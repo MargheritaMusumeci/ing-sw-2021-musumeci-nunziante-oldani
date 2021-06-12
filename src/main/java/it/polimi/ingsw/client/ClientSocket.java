@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.CLI.CLI;
-import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.messageHandler.MessageHandler;
 import it.polimi.ingsw.client.messageHandler.MessageHandlerCLI;
 import it.polimi.ingsw.client.messageHandler.MessageHandlerGUI;
@@ -35,6 +35,8 @@ public class ClientSocket implements Runnable{
         messageHandler = new MessageHandlerCLI(cli, this);
         isActive = true;
     }
+
+    //just for testing gui --> we need to distinguish between network interface and graphic interface
 
     public ClientSocket(GUI gui, Socket socket) throws IOException {
         this.cli = null;

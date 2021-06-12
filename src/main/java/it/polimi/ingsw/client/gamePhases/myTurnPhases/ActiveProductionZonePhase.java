@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client.gamePhases.myTurnPhases;
 
-import com.google.gson.stream.JsonToken;
-import it.polimi.ingsw.client.CLI.CLI;
-import it.polimi.ingsw.client.CLI.componentPrinter.ResourcesBoughtPrinter;
+import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.cli.componentPrinter.ResourcesBoughtPrinter;
 import it.polimi.ingsw.client.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.model.game.Resource;
