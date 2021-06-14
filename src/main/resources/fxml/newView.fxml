@@ -465,14 +465,11 @@
       <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="1181.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
       <HBox layoutX="1006.0" layoutY="51.0" prefHeight="71.0" prefWidth="229.0">
          <children>
+
             <Button fx:id="enemy3Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
-            <Button fx:id="enemy2Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" style="-fx-graphic: image;" text="Nickname" />
+            <Button fx:id="enemy2Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
             <Button fx:id="enemy1Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
-            <Button fx:id="enemy0Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" visible="false">
-               <effect>
-                  <BoxBlur />
-               </effect>
-            </Button>
+            <Button fx:id="enemy0Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
          </children>
       </HBox>
    </children>

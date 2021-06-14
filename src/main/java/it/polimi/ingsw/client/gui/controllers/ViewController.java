@@ -297,22 +297,25 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         ArrayList<ImageView> enemyImage = new ArrayList<>(Arrays.asList(enemy0Image,enemy1Image,enemy2Image,enemy3Image));
         ArrayList<Text> enemyText = new ArrayList<>( Arrays.asList(enemy0Text,enemy1Text,enemy2Text,enemy3Text));
 
-        if(gui.getPlayers() > 1){
+        System.out.println(gui.getPlayers());
+        int index=0;
+        if(gui.getPlayers() > 1) {
+            System.out.println("abilito il mio bottone");
             enemyText.get(0).setText(gui.getNickname());
             enemyText.get(0).setVisible(true);
             enemyImage.get(0).setVisible(true);
             enemyButtons.get(0).setDisable(false);
             enemyButtons.get(0).setText(gui.getNickname());
-            System.out.println("ho attivato il button 0");
-        }
-        int index = 1;
-        for(String nickName : gui.getView().getEnemiesDashboard().keySet()){
-            enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
-            enemyText.get(index).setVisible(true);
-            enemyImage.get(index).setVisible(true);
-            enemyButtons.get(index).setDisable(false);
-            enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
-            index++;
+
+            index = 1;
+            for (String nickName : gui.getView().getEnemiesDashboard().keySet()) {
+                enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
+                enemyText.get(index).setVisible(true);
+                enemyImage.get(index).setVisible(true);
+                enemyButtons.get(index).setDisable(false);
+                enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
+                index++;
+            }
         }
         //Don't show button not linked to a player
         for(int i = index ; i < 4 ; i++){
@@ -340,21 +343,20 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
      * Method called when the player click on a button representing an other player
      * The method read the name of the other player chose , set the game phase to "SEE_OTHER_VIEW" and
      * change the scene showing the enemy's view
-     * @param actionEvent button clicked
+     * @param actionEvent
      */
     @FXML
     public void showEnemy(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
 
         gui.setOtherView(button.getText());
-        System.out.println(button.getText());
 
+        System.out.println(button.getText());
         if(!gui.getOtherView().equals(gui.getNickname())){
             gui.setGamePhase(GamePhases.SEEOTHERVIEW);
             gui.setCurrentScene(gui.getScene(GameFxml.OTHER_VIEW.s));
             gui.setOldScene(gui.getScene(GameFxml.OTHER_VIEW.s));
-        }
-        else{
+        }else{
             if(gui.getView().getActivePlayer().equals(gui.getNickname())){
                 gui.setGamePhase(GamePhases.MYTURN);
                 gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
@@ -365,6 +367,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
                 gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
             }
         }
+
         gui.changeScene();
     }
 }
