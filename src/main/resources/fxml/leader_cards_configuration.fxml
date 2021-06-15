@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.effect.ColorInput?>
@@ -75,22 +74,31 @@
                   </VBox>
                </children>
             </HBox>
-            <Text fill="WHITE" layoutX="245.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Card:">
+            <Text fill="WHITE" layoutX="259.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Two Leader Cards:">
                <font>
-                  <Font size="35.0" />
+                  <Font name="Copperplate Gothic Light" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="LeaderConfirmation" layoutX="400.0" layoutY="521.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm" />
-            <ProgressIndicator fx:id="loading" layoutX="403.0" layoutY="533.0" visible="false" />
-            <Label fx:id="errorLabel" layoutX="212.0" layoutY="506.0" text="ERROR:" textFill="RED" visible="false">
+            <ProgressIndicator fx:id="loading" layoutX="404.0" layoutY="508.0" visible="false" />
+            <Text fx:id="error" fill="RED" layoutX="-3.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="861.0">
                <font>
-                  <Font name="System Bold Italic" size="14.0" />
+                  <Font name="Copperplate Gothic Light" size="18.0" />
                </font>
-            </Label>
+            </Text>
+            <Button fx:id="LeaderConfirmation" layoutX="389.0" layoutY="521.0" mnemonicParsing="false" onAction="#leaderCardChosen" text="Confirm">
+               <font>
+                  <Font name="Copperplate Gothic Light" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Pane prefHeight="600.0" prefWidth="322.0">
          <children>
+            <ImageView fitHeight="665.0" fitWidth="552.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/backgrounds/muro.png" />
+               </image>
+            </ImageView>
             <VBox layoutX="29.0" layoutY="286.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                <children>
                   <HBox prefHeight="54.0" prefWidth="210.0" spacing="5.0">

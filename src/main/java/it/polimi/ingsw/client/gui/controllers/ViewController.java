@@ -300,7 +300,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         System.out.println(gui.getPlayers());
         int index=0;
         if(gui.getPlayers() > 1) {
-            System.out.println("abilito il mio bottone");
             enemyText.get(0).setText(gui.getNickname());
             enemyText.get(0).setVisible(true);
             enemyImage.get(0).setVisible(true);
@@ -348,25 +347,26 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     @FXML
     public void showEnemy(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
+
         gui.setOtherView(button.getText());
-
         System.out.println(button.getText());
-        if(!gui.getOtherView().equals(gui.getNickname())){
-            gui.setGamePhase(GamePhases.SEEOTHERVIEW);
-            gui.setCurrentScene(gui.getScene(GameFxml.OTHER_VIEW.s));
-            gui.setOldScene(gui.getScene(GameFxml.OTHER_VIEW.s));
-        }else{
-            if(gui.getView().getActivePlayer().equals(gui.getNickname())){
-                gui.setGamePhase(GamePhases.MYTURN);
-                gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
-                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
-            }else{
-                gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-                gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
-                gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
+        synchronized (gui) {
+            if (!gui.getOtherView().equals(gui.getNickname())) {
+                gui.setGamePhase(GamePhases.SEEOTHERVIEW);
+                gui.setCurrentScene(gui.getScene(GameFxml.OTHER_VIEW.s));
+                gui.setOldScene(gui.getScene(GameFxml.OTHER_VIEW.s));
+            } else {
+                if (gui.getView().getActivePlayer().equals(gui.getNickname())) {
+                    gui.setGamePhase(GamePhases.MYTURN);
+                    gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+                    gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+                } else {
+                    gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+                    gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
+                    gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
+                }
             }
+            gui.changeScene();
         }
-
-        gui.changeScene();
     }
 }

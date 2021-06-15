@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Sphere;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
     @FXML
     private ImageView leaderCard4;
     @FXML
-    private Label errorLabel;
+    private Text errorLabel;
     @FXML
     private ProgressIndicator loading;
 

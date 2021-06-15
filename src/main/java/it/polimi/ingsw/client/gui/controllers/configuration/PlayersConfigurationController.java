@@ -8,6 +8,7 @@ import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NumberO
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 /**
  * Class that asks the user how many players he wants to play with and sends the message to the server asking
@@ -21,7 +22,7 @@ public class PlayersConfigurationController implements Controller {
     @FXML
     private MenuButton playerField;
     @FXML
-    private Label error;
+    private Text error;
     @FXML
     private ProgressIndicator loading;
     @FXML

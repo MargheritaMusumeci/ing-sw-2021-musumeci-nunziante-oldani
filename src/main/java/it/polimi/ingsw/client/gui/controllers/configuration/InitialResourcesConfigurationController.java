@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Sphere;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -52,7 +53,7 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
     @FXML
     private HBox resourcesBox2;
     @FXML
-    private Label errorMessage;
+    private Text error;
     @FXML
     private Button confirm;
     @FXML
@@ -62,7 +63,7 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
     public void init(){
 
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
-            errorMessage.setText(gui.getErrorFromServer());
+            error.setText(gui.getErrorFromServer());
         }
 
         confirm.setVisible(true);
@@ -73,8 +74,8 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
         if(resources == null || resources.isEmpty()){
            resourcesBox1.setVisible(false);
            resourcesBox2.setVisible(false);
-            errorMessage.setText("Nothing to choose, just wait other players");
-            errorMessage.setVisible(true);
+            error.setText("Nothing to choose, just wait other players");
+            error.setVisible(true);
             confirm.setVisible(false);
             loading.setVisible(true);
 
@@ -141,7 +142,7 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
             gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
         } else{
             selected.clear();
-            errorMessage.setText("Error while setting the initial resources, retry...");
+            error.setText("Error while setting the initial resources, retry...");
             confirm.setVisible(true);
             loading.setVisible(false);
             return;

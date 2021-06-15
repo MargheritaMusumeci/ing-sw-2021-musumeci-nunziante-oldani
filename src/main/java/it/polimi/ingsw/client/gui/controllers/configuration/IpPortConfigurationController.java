@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 
@@ -27,7 +28,7 @@ public class IpPortConfigurationController implements Controller {
     @FXML
     private Button connect;
     @FXML
-    private Label error;
+    private Text error;
     @FXML
     private ProgressIndicator loading;
 
@@ -56,6 +57,7 @@ public class IpPortConfigurationController implements Controller {
             portServer = Integer.parseInt(port.getText());
         } catch (NumberFormatException e) {
             error.setText("Invalid type port");
+            error.setVisible(true);
             connect.setVisible(true);
             loading.setVisible(false);
             return;
@@ -66,6 +68,7 @@ public class IpPortConfigurationController implements Controller {
         //error --> insert a not valid port
         if (portServer < 1025 || portServer > 65535) {
             error.setText("Invalid port number. Pick a port in range 1025-65535...");
+            error.setVisible(true);
             connect.setVisible(true);
             loading.setVisible(false);
         } else {
@@ -75,6 +78,7 @@ public class IpPortConfigurationController implements Controller {
                 gui.setSocket(addressServer, portServer);
             } catch (IOException e) {
                 error.setText("Server not reachable - socket ");
+                error.setVisible(true);
                 connect.setVisible(true);
                 loading.setVisible(false);
                 return;
