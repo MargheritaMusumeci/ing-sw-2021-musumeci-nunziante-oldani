@@ -10,20 +10,28 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="606.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.configuration.NicknameConfigurationController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.configuration.NicknameConfigurationController">
    <children>
-      <ImageView fitHeight="620.0" fitWidth="862.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="607.0" fitWidth="862.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/backgrounds/mastersOfRenaissance.png" />
          </image>
       </ImageView>
-      <Button fx:id="loginButton" layoutX="404.0" layoutY="360.0" mnemonicParsing="false" onAction="#doLogin" text="Login" />
-      <Text fill="WHITE" layoutX="373.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" />
-      <ProgressIndicator fx:id="loading" disable="true" layoutX="402.0" layoutY="424.0" visible="false" />
-      <TextField fx:id="nicknameField" layoutX="353.0" layoutY="303.0" promptText="nickname" />
-      <Label fx:id="error" layoutX="226.0" layoutY="512.0" prefHeight="20.0" prefWidth="464.0" text="ERROR:" textFill="RED" visible="false">
+      <TextField fx:id="nicknameField" layoutX="352.0" layoutY="326.0" promptText="nickname" />
+      <Button fx:id="loginButton" layoutX="395.0" layoutY="378.0" mnemonicParsing="false" onAction="#doLogin" text="Login">
          <font>
-            <Font name="System Bold Italic" size="14.0" />
+            <Font name="Copperplate Gothic Light" size="14.0" />
+         </font>
+      </Button>
+      <Text fill="WHITE" layoutX="1.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" textAlignment="CENTER" wrappingWidth="861.6140747070312">
+         <font>
+            <Font name="Copperplate Gothic Light" size="15.0" />
+         </font>
+      </Text>
+      <ProgressIndicator fx:id="loading" disable="true" layoutX="400.0" layoutY="365.0" visible="false" />
+      <Label fx:id="error" layoutX="1.0" layoutY="441.0" prefHeight="20.0" prefWidth="861.0" text="ERROR:" textAlignment="CENTER" textFill="RED" visible="false">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
          </font>
       </Label>
    </children>
