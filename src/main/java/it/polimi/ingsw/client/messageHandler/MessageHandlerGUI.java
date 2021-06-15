@@ -270,11 +270,13 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             if (gui.getView().getNickname().equals(message.getMessage())) {
                 gui.setGamePhase(GamePhases.MYTURN);
+                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+                gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
             } else {
                 gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
+                gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
+                gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
             }
-            gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
-            gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.changeScene();
         }
     }
