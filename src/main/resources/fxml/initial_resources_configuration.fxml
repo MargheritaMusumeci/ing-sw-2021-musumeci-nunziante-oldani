@@ -36,7 +36,6 @@
                   <Font name="Copperplate Gothic Light" size="32.0" />
                </font>
             </Text>
-            <Button fx:id="confirm" layoutX="392.0" layoutY="509.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm" />
             <ProgressIndicator fx:id="loading" layoutX="395.0" layoutY="495.0" visible="false" />
             <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="207.0" layoutY="323.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
                <children>
@@ -107,6 +106,11 @@
                   <Font name="Copperplate Gothic Light" size="18.0" />
                </font>
             </Text>
+            <Button fx:id="confirm" layoutX="380.0" layoutY="508.0" mnemonicParsing="false" onAction="#confirmation" text="Confirm">
+               <font>
+                  <Font name="Copperplate Gothic Light" size="14.0" />
+               </font>
+            </Button>
          </children>
          <opaqueInsets>
             <Insets />
