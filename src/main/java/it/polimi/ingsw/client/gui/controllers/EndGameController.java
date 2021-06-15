@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -15,7 +17,7 @@ import java.util.Set;
 public class EndGameController implements Controller{
 
     private GUI gui;
-    @FXML private Label messageLabel;
+    @FXML private Text message;
     @FXML private ListView winners;
 
     @FXML
@@ -34,7 +36,7 @@ public class EndGameController implements Controller{
         try{
             gui.start(gui.getCurrentStage());
         }catch (Exception e){
-            messageLabel.setText("Something goes wrong, retry later...");
+            message.setText("Something goes wrong, retry later...");
         }
     }
 
@@ -50,9 +52,9 @@ public class EndGameController implements Controller{
         HashMap<String, Integer> scores = gui.getView().getScores();
 
         if(winnersInGame.contains(gui.getView().getNickname())){
-            messageLabel.setText("YOU WON!");
+            message.setText("Congratulations you won the game!");
         }else{
-            messageLabel.setText("YOU LOSE");
+            message.setText("Unfortunately you lost, try again...");
         }
 
         Set<String> playersInGame = scores.keySet();

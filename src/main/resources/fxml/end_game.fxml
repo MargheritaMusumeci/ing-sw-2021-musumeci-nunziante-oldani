@@ -22,7 +22,7 @@
       </Text>
       <Button fx:id="playButton" layoutX="379.0" layoutY="517.0" mnemonicParsing="false" onAction="#play" text="Play Again " />
       <ListView fx:id="winners" layoutX="335.0" layoutY="362.0" prefHeight="94.0" prefWidth="188.0" />
-      <Text fill="RED" layoutX="2.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="855.0">
+      <Text fx:id="message" fill="RED" layoutX="2.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="855.0">
          <font>
             <Font name="Copperplate Gothic Light" size="24.0" />
          </font>
