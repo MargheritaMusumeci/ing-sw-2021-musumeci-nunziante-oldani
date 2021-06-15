@@ -118,7 +118,7 @@ public class GameHandler{
         SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(virtualView.getEvolutionSection(), playersInGame.get(virtualView.getScc()));
         ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<>();
 
-        for(int i = 0; i<2;i++) {
+        for(int i = 0; i<virtualView.getPersonalDashboard().getLeaderCards().size();i++) {
             SerializableLeaderCard serializableLeaderCard = new SerializableLeaderCard(virtualView.getPersonalDashboard().getLeaderCards().get(i));
             serializableLeaderCards.add(serializableLeaderCard);
         }
