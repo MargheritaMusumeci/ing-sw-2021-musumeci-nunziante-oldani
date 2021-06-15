@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNameMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 /**
  * Class that asks the user for the nickname he wants to use, checks it and sends it to the server.
@@ -18,7 +19,7 @@ public class NicknameConfigurationController implements Controller {
     @FXML
     private TextField nicknameField;
     @FXML
-    private Label error;
+    private Text error;
     @FXML
     private ProgressIndicator loading;
     @FXML
