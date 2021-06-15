@@ -285,14 +285,12 @@ public class MessageHandlerGUI extends MessageHandler {
      */
     @Override
     public void handleUpdateMessage(UpdateEvolutionSectionMessage message) {
-        synchronized (gui) {
             gui.getView().setEvolutionSection(message.getEvolutionSection());
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.EVOLUTION_SECTION.s)) {
                 gui.changeScene();
             }
-        }
     }
 
     /**
@@ -301,14 +299,12 @@ public class MessageHandlerGUI extends MessageHandler {
      */
     @Override
     public void handleUpdateMessage(UpdateMarketMessage message) {
-        synchronized (gui) {
             gui.getView().setMarket(message.getMarket());
             if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.MARKET.s)) {
                 gui.changeScene();
             }
-        }
     }
 
     /**
@@ -331,10 +327,8 @@ public class MessageHandlerGUI extends MessageHandler {
      */
     @Override
     public void handleMessage(MarketAndEvolutionSectionMessage marketAndEvolutionSectionMessage) {
-        synchronized (gui) {
             gui.setMarket(marketAndEvolutionSectionMessage.getSerializableMarket());
             gui.setEvolutionSection(marketAndEvolutionSectionMessage.getSerializableEvolutionSection());
-        }
     }
 
     /**
@@ -347,6 +341,7 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.getView().setScores(message.getScores());
             gui.getView().setWinners(message.getWinners());
             gui.setGamePhase(GamePhases.ENDGAME);
+            gui.setOldScene(gui.getScene(GameFxml.ENDGAME.s));
             gui.setCurrentScene(gui.getScene(GameFxml.ENDGAME.s));
             gui.changeScene();
         }
