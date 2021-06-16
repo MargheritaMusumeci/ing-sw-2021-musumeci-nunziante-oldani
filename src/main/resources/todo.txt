@@ -5,8 +5,6 @@ da fare:
 - controllare production leader controller --> non si vedono le biglie prodotte e non sempra che tu abbia effettuato la mossa
 - controllare other player view
 - controllare le risorse inserite quando ci sono due leader card no more white attive
-- stock non si aggiornava
-- leader card stock non facevano vedere le risorse
 - see other view
 
 in atto:
@@ -24,8 +22,13 @@ fatto:
 -abbellire il fine gioco
 -far scegliere la produzione delle leader card --> sostituisco la checkbox con un bottone di attivazione della prosuzione che mi rimanda alla scena dove scelgo cosa produrre
 -label di errore
+- stock non si aggiornava
+- leader card stock non facevano vedere le risorse
 
 Nunziante:
+- todo in viewEnemyController
+- sistemare bene i bottoni delle leader card nel caso di prima scartata , seconda di tipo produzione e attiva ->
+        -> al momento mette il bottone di produzione sulla prima al posto della seconda
 
 Oldani:
 

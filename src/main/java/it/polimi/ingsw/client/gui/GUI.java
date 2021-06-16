@@ -107,8 +107,10 @@ public class GUI extends Application {
      * Resources to be obtained from leader production
      */
     private HashMap<Integer,Resource> leaderEnsure;
+
     /**
-     * Leader wait for ack
+     * Leader card the wait for ack or
+     * The player is selecting the production of the leader card in position leaderPosition
      */
     private Integer leaderPosition;
 

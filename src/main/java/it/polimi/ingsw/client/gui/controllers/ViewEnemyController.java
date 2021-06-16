@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import java.util.ArrayList;
@@ -110,20 +111,44 @@ public class ViewEnemyController extends ViewController{
         //Initialize leader stock
         if (leaderCardsActivated != null && leaderCardsActivated.size() != 0) {
 
-            for(int i = 0 ; i < leaderCardsActivated.size() ; i++){
+            /**
+             * TODO for me: need to handle tha case of 2 active leader card , the first bo , the second with the stock ability
+             * -> theoretically now it set the stock plus resources in the first card -> to verify
+             */
 
-                if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
-                    for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length ; j++){
-                        if(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j] != null){
-                            String path = printer.pathFromResource(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j]);
-                            stockPlus.get(i).get(j).setImage(printer.fromPathToImageResource(path));
-                        }
-                        else{
-                            stockPlus.get(i).get(j).setImage(null);
+            int i = -1;
+            for(SerializableLeaderCard leaderCard : leaderCardsActivated){
+                if(leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                    i++;
+                    if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
+                        for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length ; j++){
+                            if(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j] != null){
+                                String path = printer.pathFromResource(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j]);
+                                stockPlus.get(i).get(j).setImage(printer.fromPathToImageResource(path));
+                            }
+                            else{
+                                stockPlus.get(i).get(j).setImage(null);
+                            }
                         }
                     }
                 }
             }
+
+            /*for(int i = 0 ; i < leaderCardsActivated.size() ; i++){
+                if(leaderCardsActivated.get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                    if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
+                        for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length ; j++){
+                            if(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j] != null){
+                                String path = printer.pathFromResource(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j]);
+                                stockPlus.get(i).get(j).setImage(printer.fromPathToImageResource(path));
+                            }
+                            else{
+                                stockPlus.get(i).get(j).setImage(null);
+                            }
+                        }
+                    }
+                }
+            }*/
         }
     }
 

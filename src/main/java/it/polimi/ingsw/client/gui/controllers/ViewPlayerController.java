@@ -78,12 +78,12 @@ public class ViewPlayerController extends ViewController {
         ArrayList<Resource> leaderEnsure = new ArrayList<>();
         if(gui.getLeaderEnsure() != null) {
 
-            //TODO error when i want active two production zone leader
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
                 System.out.println(gui.getView().getDashboard().getSerializableProductionZones().length);
                 System.out.println(leaderIndex);
-                if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length > 4))
+                if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length +
+                                        gui.getView().getDashboard().getSerializableLeaderProductionZones().length > 4))
                     productionPositions.add(3);
                 else {
                     productionPositions.add(4);
@@ -139,10 +139,12 @@ public class ViewPlayerController extends ViewController {
         Button button = (Button) actionEvent.getSource();
 
         if (button.equals(activeProduction4Button)) {
+            System.out.println("Selected activeProduction4Button");
             activeProduction4.setSelected(true);
             gui.setLeaderPosition(1);
         }
         else {
+            System.out.println("Selected activeProduction5Button");
             activeProduction5.setSelected(true);
             gui.setLeaderPosition(2);
         }
@@ -274,19 +276,6 @@ public class ViewPlayerController extends ViewController {
         //initialize lockbox
         initLockBox();
 
-        //Stock Images
-        /*box0 = new ArrayList<>(Arrays.asList(stockBox1));
-        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox22));
-        box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
-        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));*/
-
-        //Stock Plus Images
-        /*stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
-        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
-        stockPlus = new ArrayList<>();
-        stockPlus.add(stockPlus1);
-        stockPlus.add(stockPlus2);*/
-
         //initialize stock
         initStock();
     }
@@ -352,7 +341,18 @@ public class ViewPlayerController extends ViewController {
         else{
             activeProduction4.setVisible(false);
             activeProduction5.setVisible(false);
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList( active1,active2,discard1,discard2,activeProduction4Button,activeProduction4Button));
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList( active1,active2,discard1,discard2,activeProduction4Button,activeProduction5Button));
+            initializer.visibleButton(buttons,false);
+        }
+
+        //Hide leader buttons if the phase is OTHER_PLAYER_TURN
+        if(gui.getGamePhase() == GamePhases.OTHERPLAYERSTURN){
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1,active2,discard1,discard2,activeProduction4Button,activeProduction5Button));
+            initializer.visibleButton(buttons,false);
+        }
+
+        if(gui.isActionDone()){
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProduction4Button , activeProduction5Button));
             initializer.visibleButton(buttons,false);
         }
 
@@ -471,6 +471,7 @@ public class ViewPlayerController extends ViewController {
             activeProduction5.setSelected(false);
             activeProduction4.setSelected(false);
             gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
+
         }else{
             error.setText("You haven't taken the action yet");
             error.setVisible(true);
