@@ -4,9 +4,10 @@ import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.OutOfBandException;
 import it.polimi.ingsw.model.osservables.PopeTrackObservable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PopeTrack extends PopeTrackObservable {
+public class PopeTrack extends PopeTrackObservable implements Serializable {
     private Track track;
     private ArrayList<PopeCard> popeCard;
     private Position gamerPosition;

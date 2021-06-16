@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.cards;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum LeaderCardRequires {
+import java.io.Serializable;
+
+public enum LeaderCardRequires implements Serializable {
     @SerializedName("1")
     TWOEVOLUTIONCOLOR,
     @SerializedName("2")

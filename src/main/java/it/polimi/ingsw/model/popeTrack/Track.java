@@ -11,7 +11,7 @@ import java.util.Objects;
  * Use of the patter singleton -> the track is the same for each game -> if it can change from game to game ->
  *  ->map with key the idGame and with value the instance of the Track
  */
-public class Track {
+public class Track implements Serializable{
     private static Track instanceOfTrack = null;
     private static Position[] track = null;
 

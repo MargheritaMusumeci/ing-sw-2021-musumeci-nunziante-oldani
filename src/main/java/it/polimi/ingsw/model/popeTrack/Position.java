@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.popeTrack;
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable {
     private int index;
     private int point;
     private boolean isPopeSection;

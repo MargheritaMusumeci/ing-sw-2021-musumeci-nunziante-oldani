@@ -4,12 +4,13 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.osservables.StockObservable;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Other classes will see the stock as a single ArrayList of box, so originBox should be between 0 and (boxes.length + boxPlus.length)
  */
-public class Stock extends StockObservable {
+public class Stock extends StockObservable implements Serializable {
     private ArrayList<Resource[]> boxes;//standard boxes
     private ArrayList<Resource[]> boxPlus;//added boxes due to leader card ability
     private ArrayList<Resource> resourcesPlus;//this arrayList contains the allowed resources in boxPlus, at the same position

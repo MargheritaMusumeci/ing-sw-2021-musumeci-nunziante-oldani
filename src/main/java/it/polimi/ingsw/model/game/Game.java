@@ -4,14 +4,15 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
 
-    private ArrayList<Player> players;
-    private Market market;
-    private EvolutionSection evolutionSection;
+    private final ArrayList<Player> players;
+    private final Market market;
+    private final EvolutionSection evolutionSection;
     private Player activePlayer;
     private boolean inPause;
 

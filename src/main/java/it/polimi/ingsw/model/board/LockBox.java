@@ -4,7 +4,9 @@ import it.polimi.ingsw.exception.NotEnoughResourcesException;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.osservables.LockBoxObservable;
 
-public class LockBox extends LockBoxObservable {
+import java.io.Serializable;
+
+public class LockBox extends LockBoxObservable implements Serializable {
     private int coin;
     private int servant;
     private int rock;

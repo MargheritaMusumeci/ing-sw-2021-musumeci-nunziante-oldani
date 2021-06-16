@@ -13,10 +13,11 @@ import it.polimi.ingsw.model.osservables.DashboardObservable;
 import it.polimi.ingsw.model.popeTrack.PopeCard;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Dashboard extends DashboardObservable implements LockBoxListener, PopeTrackListener,
-            ProductionZoneListener, LeaderProductionZoneListener, StockListener {
+            ProductionZoneListener, LeaderProductionZoneListener, StockListener, Serializable {
 
     private String nickName;
     private int totalScore;

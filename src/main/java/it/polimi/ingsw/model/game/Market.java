@@ -3,10 +3,11 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.model.osservables.MarketObservable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Market extends MarketObservable {
+public class Market extends MarketObservable implements Serializable {
 
     private Resource[][] marketBoard;
     private Resource externalResource;

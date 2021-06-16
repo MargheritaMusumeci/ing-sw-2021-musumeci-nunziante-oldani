@@ -5,11 +5,13 @@ import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.listeners.ProductionZoneListener;
 import it.polimi.ingsw.model.osservables.ProductionZoneObservable;
 
+import java.io.Serializable;
+
 
 /**
  * Place of the dashboard where are stored Evolution Cards or Leader Card with special Production Power
  */
-public abstract class ProductionZone extends ProductionZoneObservable {
+public abstract class ProductionZone extends ProductionZoneObservable implements Serializable {
 
     /**
      * @return the most recent card bought

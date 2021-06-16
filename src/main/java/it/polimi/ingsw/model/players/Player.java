@@ -4,7 +4,9 @@ import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.osservables.PlayerObservable;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
-public abstract class Player extends PlayerObservable {
+import java.io.Serializable;
+
+public abstract class Player extends PlayerObservable implements Serializable {
 
     protected String nickName;
     protected Dashboard dashboard;

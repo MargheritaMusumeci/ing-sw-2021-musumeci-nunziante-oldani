@@ -2,12 +2,13 @@ package it.polimi.ingsw.model.lorenzo;
 
 import it.polimi.ingsw.model.cards.CardColor;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
  * Create and Manage all possible Solo Action token
  */
-public class LorenzoActionCard {
+public class LorenzoActionCard implements Serializable {
 
     private LorenzoAction actionType;
 

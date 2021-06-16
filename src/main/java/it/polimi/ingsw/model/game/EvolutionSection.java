@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class EvolutionSection extends EvolutionSectionOsservable{
+public class EvolutionSection extends EvolutionSectionOsservable implements Serializable{
 
     private ArrayList<EvolutionCard>[][] evolutionSection;
     //if we want to implement multigames we need an hashmap of instances related to the gameid

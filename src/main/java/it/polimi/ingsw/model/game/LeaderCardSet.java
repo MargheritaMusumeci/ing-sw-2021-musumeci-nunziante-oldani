@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 /**
  * Collection of LeaderCard
  */
-public class LeaderCardSet {
+public class LeaderCardSet implements Serializable{
 
     private List<LeaderCard> leaderCardSet;
 

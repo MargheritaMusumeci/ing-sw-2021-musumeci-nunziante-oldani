@@ -5,9 +5,10 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.lorenzo.LorenzoActionCardSet;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LorenzoPlayer extends Player {
+public class LorenzoPlayer extends Player implements Serializable {
 
     private LorenzoActionCardSet lorenzoActionCardSet;
 

@@ -5,13 +5,14 @@ import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LevelEnum;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 /**
  * Place of the dashboard where are stored Evolution Cards
  */
-public class NormalProductionZone extends ProductionZone{
+public class NormalProductionZone extends ProductionZone implements Serializable {
 
     /**
      * List of cards bought

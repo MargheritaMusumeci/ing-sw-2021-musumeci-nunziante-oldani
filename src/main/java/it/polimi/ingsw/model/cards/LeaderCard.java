@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Method that manage each single Leader Card
  */
-public class LeaderCard extends LeaderCardObservable implements Card {
+public class LeaderCard extends LeaderCardObservable implements Card, Serializable{
 
     /**
      * unique id for every leader card

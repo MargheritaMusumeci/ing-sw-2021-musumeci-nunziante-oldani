@@ -2,13 +2,14 @@ package it.polimi.ingsw.model.lorenzo;
 
 import it.polimi.ingsw.model.cards.CardColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * Manage the collection of 6 Solo Action tokens
  */
-public class LorenzoActionCardSet {
+public class LorenzoActionCardSet implements Serializable {
 
     private ArrayList<LorenzoActionCard> actionSet;
 

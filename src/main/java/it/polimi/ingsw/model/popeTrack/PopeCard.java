@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.popeTrack;
 
-public class PopeCard {
+import java.io.Serializable;
+
+public class PopeCard implements Serializable {
     private int point;
     private boolean isUsed;
     private boolean isDiscard;

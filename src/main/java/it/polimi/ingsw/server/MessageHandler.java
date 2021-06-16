@@ -204,22 +204,26 @@ public class MessageHandler {
      * method able to notify all the player that the active player has changed because someone has ended his turn
      *
      */
-    public void handleMessage(EndTurnMessage message){
-        if(scc.getGamePhase() == GamePhases.GAME){
+    public void handleMessage(EndTurnMessage message) {
+        if (scc.getGamePhase() == GamePhases.GAME) {
+
+            //store game status
+            server.getPersistence().saveGame(scc.getGameHandler().getGame());
+
             //per ongi player mando il messaggio che è cambiato il turno
             Message messageEndTurn = scc.getGameHandler().getTurnHandler().endTurn();
-            if( messageEndTurn instanceof UpdateActivePlayerMessage) {
-                for (ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
-                    serverClientConnection.send((UpdateActivePlayerMessage)messageEndTurn);
+            if (messageEndTurn instanceof UpdateActivePlayerMessage) {
+                for (ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()) {
+                    serverClientConnection.send((UpdateActivePlayerMessage) messageEndTurn);
                 }
-            }else if (messageEndTurn instanceof EndGameMessage){
-                for (ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
-                    serverClientConnection.send((EndGameMessage)messageEndTurn);
+            } else if (messageEndTurn instanceof EndGameMessage) {
+                for (ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()) {
+                    serverClientConnection.send((EndGameMessage) messageEndTurn);
                 }
             }
 
 
-        }else{
+        } else {
             scc.send(new NACKMessage("KO"));
         }
     }

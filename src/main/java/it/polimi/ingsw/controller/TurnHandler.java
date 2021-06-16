@@ -84,7 +84,7 @@ public abstract class TurnHandler {
         //one at a time
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)) {
             try {
-                actionHandler.buyEvolutionCard(((BuyEvolutionCardMessage) message).getRow(), ((BuyEvolutionCardMessage) message).getCol(), ((BuyEvolutionCardMessage) message).getPosition());
+                actionHandler.buyEvolutionCard(message.getRow(),message.getCol(), message.getPosition());
                 return new ACKMessage("OK");
             } catch (InvalidPlaceException e) {
                 return new NACKMessage("Wrong position");

@@ -10,12 +10,13 @@ import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.model.game.Game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class HumanPlayer extends Player{
+public class HumanPlayer extends Player implements Serializable {
 
     private Game game;
 
