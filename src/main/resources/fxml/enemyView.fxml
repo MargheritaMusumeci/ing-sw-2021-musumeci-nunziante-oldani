@@ -30,22 +30,22 @@
          <children>
             <ImageView fx:id="enemy3Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/players/player1.jpg" />
+                  <Image url="@../images/players/player1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="enemy2Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/players/player2.jpg" />
+                  <Image url="@../images/players/player2.png" />
                </image>
             </ImageView>
             <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/players/player3.jpg" />
+                  <Image url="@../images/players/player3.png" />
                </image>
             </ImageView>
             <ImageView fx:id="enemy0Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@../images/players/player4.jpg" />
+                  <Image url="@../images/players/player4.png" />
                </image>
             </ImageView>
          </children>
