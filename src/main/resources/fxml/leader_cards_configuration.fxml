@@ -80,7 +80,7 @@
                </font>
             </Text>
             <ProgressIndicator fx:id="loading" layoutX="404.0" layoutY="508.0" visible="false" />
-            <Text fx:id="error" fill="RED" layoutX="-3.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="861.0">
+            <Text fx:id="errorLabel" fill="RED" layoutX="-3.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="861.0">
                <font>
                   <Font name="Copperplate Gothic Light" size="18.0" />
                </font>

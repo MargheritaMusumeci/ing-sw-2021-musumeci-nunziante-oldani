@@ -275,17 +275,17 @@ public class ViewPlayerController extends ViewController {
         initLockBox();
 
         //Stock Images
-        box0 = new ArrayList<>(Arrays.asList(stockBox1));
+        /*box0 = new ArrayList<>(Arrays.asList(stockBox1));
         box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox22));
         box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
-        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));
+        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));*/
 
         //Stock Plus Images
-        stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
+        /*stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
         stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
         stockPlus = new ArrayList<>();
         stockPlus.add(stockPlus1);
-        stockPlus.add(stockPlus2);
+        stockPlus.add(stockPlus2);*/
 
         //initialize stock
         initStock();

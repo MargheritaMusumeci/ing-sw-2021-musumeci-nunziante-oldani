@@ -154,7 +154,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     @FXML
     protected Text servantQuantity;
 
-    //produczion zones
+    //production zones
     @FXML
     protected ImageView production1;
     @FXML
@@ -284,6 +284,19 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         discardButtons = new ArrayList<>(Arrays.asList(discard1 , discard2));
         activeProductionCheckBoxes = new ArrayList<>(Arrays.asList(activeProduction1 , activeProduction2 , activeProduction3 , activeProduction4 , activeProduction5));
         activeLeaderProduction = new ArrayList<>(Arrays.asList(activeProduction4Button , activeProduction5Button));
+
+        //Stock Images
+        box0 = new ArrayList<>(Arrays.asList(stockBox1));
+        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox22));
+        box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
+        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));
+
+        //Stock Plus Images
+        stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
+        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
+        stockPlus = new ArrayList<>();
+        stockPlus.add(stockPlus1);
+        stockPlus.add(stockPlus2);
 
         initEnemiesButton();
     }

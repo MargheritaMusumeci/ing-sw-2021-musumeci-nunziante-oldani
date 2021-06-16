@@ -37,9 +37,9 @@ public class ViewEnemyController extends ViewController{
      */
     private void initStock() {
 
-        Resource[] box1 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(0);
+        //Resource[] box1 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(0);
 
-        if (box1[0] != null) {
+        /*if (box1[0] != null) {
             String path = printer.pathFromResource(box1[0]);
             stockBox1.setImage(printer.fromPathToImageResource(path));
         }
@@ -86,12 +86,30 @@ public class ViewEnemyController extends ViewController{
         }
         else{
             stockBox33.setImage(null);
+        }*/
+
+        ArrayList<Resource[]> boxes = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes();
+
+        for(int i = 0 ; i < boxes.size() ; i++){
+            if(boxes.get(i) != null){
+                for(int j = 0 ; j < boxes.get(i).length ; j++){
+                    if(boxes.get(i)[j] != null){
+                        String path = printer.pathFromResource(boxes.get(i)[j]);
+                        stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
+                    }
+                    else{
+                        stockBoxes.get(i).get(j).setImage(null);
+                    }
+                }
+            }
         }
 
-        ArrayList<SerializableLeaderCard> leaderCardsActivated = gui.getView().getEnemiesActivatedLeaderCards().get(nickName);
+        ArrayList<SerializableLeaderCard> leaderCardsActivated =
+                gui.getView().getEnemiesActivatedLeaderCards().get(gui.getView().getEnemiesDashboard().get(nickName));
 
         //Initialize leader stock
         if (leaderCardsActivated != null && leaderCardsActivated.size() != 0) {
+
             for(int i = 0 ; i < leaderCardsActivated.size() ; i++){
 
                 if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
