@@ -36,7 +36,6 @@ public class ServerClientConnection implements Runnable{
     private GameHandler gameHandler;
     private Boolean hasDisconnectionBeenCalled;
 
-
     public ServerClientConnection(Server server, Socket socket) throws IOException{
         this.server = server;
         this.socket = socket;

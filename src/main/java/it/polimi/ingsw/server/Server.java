@@ -1,10 +1,8 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import it.polimi.ingsw.utils.Constants;
 
-import java.lang.reflect.AnnotatedArrayType;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,11 +20,15 @@ public class Server {
     private List<ServerClientConnection> lobby4players;
     private List<ServerClientConnection> lobby3players;
     private List<ServerClientConnection> lobby2players;
-    private List<ServerClientConnection> queue; // we should think of a better solution than an array list (MAP)
+    private final List<ServerClientConnection> queue; // we should think of a better solution than an array list (MAP)
 
     private HashMap<ServerClientConnection, GameHandler> games;
     private List<String> listOfTakenNicknames;
     private HashMap<String, ServerClientConnection> waitingForReconnection;
+    private HashMap<Game,List<ServerClientConnection>> persistenceWaitingList;
+    private ArrayList<String> persistenceNicknameList;
+
+    private Persistence persistence;
 
     public Server(){
         this.socketServer = new SocketServer(this);
@@ -37,6 +39,12 @@ public class Server {
         games = new HashMap<>();
         listOfTakenNicknames = new ArrayList<>();
         waitingForReconnection = new HashMap<>();
+        this.persistence = new Persistence(this);
+        persistenceNicknameList = new ArrayList<>();
+        persistenceWaitingList= new HashMap<>();
+        persistence.initializeGame();
+
+
     }
 
     public int getPort(){ return port; }
@@ -68,7 +76,6 @@ public class Server {
         return false;
     }
 
-
     /**
      * method that checks if a nickname is available. It is required because is able to make the check with
      * synchronization
@@ -86,7 +93,6 @@ public class Server {
         }
 
     }
-
 
     /**
      * method that cheks if the player who is trying to play is one of the player that were playing in a game before
@@ -250,6 +256,27 @@ public class Server {
 
     }
 
+    public Persistence getPersistence() {
+        return persistence;
+    }
 
+    public void setPersistence(Persistence persistance) {
+        this.persistence = persistance;
+    }
 
+    public HashMap<Game, List<ServerClientConnection>> getPersistenceWaitingList() {
+        return persistenceWaitingList;
+    }
+
+    public void setPersistenceWaitingList(HashMap<Game, List<ServerClientConnection>> persistenceWaitingList) {
+        this.persistenceWaitingList = persistenceWaitingList;
+    }
+
+    public ArrayList<String> getPersistenceNicknameList() {
+        return persistenceNicknameList;
+    }
+
+    public void setPersistenceNicknameList(ArrayList<String> persistenceNicknameList) {
+        this.persistenceNicknameList = persistenceNicknameList;
+    }
 }
