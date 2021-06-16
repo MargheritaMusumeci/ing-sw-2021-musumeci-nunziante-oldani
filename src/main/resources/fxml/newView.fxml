@@ -27,30 +27,6 @@
             <Image url="@../images/backgrounds/background_cl2.png" />
          </image>
       </ImageView>
-      <HBox layoutX="1010.0" layoutY="55.0" prefHeight="64.0" prefWidth="218.0" spacing="10.0">
-         <children>
-            <ImageView fx:id="enemy3Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../images/players/player1.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="enemy2Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../images/players/player2.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../images/players/player3.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="enemy0Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../images/players/player4.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
       <Circle fill="#dadada" layoutX="379.0" layoutY="565.0" radius="17.0" stroke="BLACK" strokeType="INSIDE">
          <effect>
             <GaussianBlur radius="4.75" />
@@ -445,26 +421,6 @@
       </HBox>
       <CheckBox fx:id="activeProduction4" disable="true" layoutX="1035.0" layoutY="559.0" mnemonicParsing="false" visible="false" />
       <CheckBox fx:id="activeProduction5" disable="true" layoutX="1176.0" layoutY="556.0" mnemonicParsing="false" visible="false" />
-      <Text fx:id="enemy0Text" fill="WHITE" layoutX="1182.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marghe" visible="false">
-         <font>
-            <Font name="System Italic" size="13.0" />
-         </font>
-      </Text>
-      <Text fx:id="enemy1Text" fill="WHITE" layoutX="1127.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teo" visible="false">
-         <font>
-            <Font name="System Italic" size="13.0" />
-         </font>
-      </Text>
-      <Text fx:id="enemy3Text" fill="WHITE" layoutX="1010.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Luca" visible="false">
-         <font>
-            <Font name="System Italic" size="13.0" />
-         </font>
-      </Text>
-      <Text fx:id="enemy2Text" fill="WHITE" layoutX="1067.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chiara" visible="false">
-         <font>
-            <Font name="System Italic" size="13.0" />
-         </font>
-      </Text>
       <Button fx:id="basicProductionButton" layoutX="444.0" layoutY="446.0" mnemonicParsing="false" onAction="#chooseBasicProduction" opacity="0.0" prefHeight="86.0" prefWidth="94.0" text="Choose Basic Production" />
       <Button fx:id="showCardsButton" layoutX="10.0" layoutY="291.0" mnemonicParsing="false" onAction="#showEvolutionSection" opacity="0.0" prefHeight="313.0" prefWidth="257.0" style="-fx-border-color: green;" text="EvolutionSection" />
       <ImageView fx:id="inkwell" fitHeight="64.0" fitWidth="66.0" layoutX="830.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true" />
@@ -476,21 +432,54 @@
          <font>
             <Font name="Copperplate Gothic Light" size="12.0" />
          </font></Button>
-      <Label fx:id="error" layoutX="581.0" layoutY="68.0" prefHeight="37.0" prefWidth="697.0" text="ERROR: " textFill="RED">
+      <Label fx:id="error" contentDisplay="TOP" layoutX="579.0" layoutY="42.0" prefHeight="57.0" prefWidth="403.0" textFill="RED">
          <font>
-            <Font name="Copperplate Gothic Bold" size="24.0" />
+            <Font name="Copperplate Gothic Bold" size="13.0" />
          </font>
       </Label>
       <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="1045.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="1192.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox layoutX="1006.0" layoutY="51.0" prefHeight="71.0" prefWidth="229.0">
-         <children>
-
-            <Button fx:id="enemy3Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
-            <Button fx:id="enemy2Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
-            <Button fx:id="enemy1Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
-            <Button fx:id="enemy0Button" mnemonicParsing="false" onAction="#showEnemy" opacity="0.0" prefHeight="64.0" prefWidth="83.0" text="Nickname" />
-         </children>
+      <HBox layoutX="977.0" layoutY="3.0" prefHeight="104.0" prefWidth="300.0">
+         <Button fx:id="enemy3Button" contentDisplay="TOP" mnemonicParsing="false" onAction="#showEnemy"
+                 prefHeight="92.0" prefWidth="110.0" style="-fx-background-color: null;" text="Nickname">
+            <graphic>
+               <ImageView fx:id="enemy3Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../images/players/player4.png"/>
+               </ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="enemy2Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy"
+                 prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
+            <graphic>
+               <ImageView fx:id="enemy2Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../images/players/player3.png"/>
+               </ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="enemy1Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy"
+                 prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
+            <graphic>
+               <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" nodeOrientation="RIGHT_TO_LEFT"
+                          pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/players/player2.png"/>
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="enemy0Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy"
+                 prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
+            <graphic>
+               <ImageView fx:id="enemy0Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/players/player1.png"/>
+                  </image>
+                  <cursor>
+                     <Cursor fx:constant="OPEN_HAND"/>
+                  </cursor>
+               </ImageView>
+            </graphic>
+         </Button>
       </HBox>
    </children>
 </AnchorPane>

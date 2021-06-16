@@ -211,33 +211,48 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     @FXML
     protected Button showCardsButton;//show the evolution section
 
-    @FXML protected Button enemy0Button;
-    @FXML protected Button enemy1Button;
-    @FXML protected Button enemy2Button;
-    @FXML protected Button enemy3Button;
+    @FXML
+    protected Button enemy0Button;
+    @FXML
+    protected Button enemy1Button;
+    @FXML
+    protected Button enemy2Button;
+    @FXML
+    protected Button enemy3Button;
 
-    @FXML protected ImageView enemy0Image;
-    @FXML protected ImageView enemy1Image;
-    @FXML protected ImageView enemy2Image;
-    @FXML protected ImageView enemy3Image;
+    @FXML
+    protected ImageView enemy0Image;
+    @FXML
+    protected ImageView enemy1Image;
+    @FXML
+    protected ImageView enemy2Image;
+    @FXML
+    protected ImageView enemy3Image;
 
-    @FXML protected Text enemy0Text;
-    @FXML protected Text enemy1Text;
-    @FXML protected Text enemy2Text;
-    @FXML protected Text enemy3Text;
+    @FXML
+    protected Text enemy0Text;
+    @FXML
+    protected Text enemy1Text;
+    @FXML
+    protected Text enemy2Text;
+    @FXML
+    protected Text enemy3Text;
 
-    @FXML protected Label error;
+    @FXML
+    protected Label error;
 
-    @FXML protected Button endTurn;
+    @FXML
+    protected Button endTurn;
 
-    public ViewController(){
-         this.printer = new Print();
-         marketLeaderActive = new boolean[2];
-         productionPositions = new ArrayList<>();
-     }
+    public ViewController() {
+        this.printer = new Print();
+        marketLeaderActive = new boolean[2];
+        productionPositions = new ArrayList<>();
+    }
 
     /**
      * Method that sets the gui of the player and instance the initializer with the gui
+     *
      * @param gui user gui
      */
     @Override
@@ -256,7 +271,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
         initializer.initMarket(market, external);
-        initializer.initMarketLegend(coin,rock,shield,servant,faith);
+        initializer.initMarketLegend(coin, rock, shield, servant, faith);
 
         //init inkwell
         initializer.initInkwell(inkwell);
@@ -279,21 +294,21 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         fillProductionZone(productionZones);
         initializer.initProductionZone(productionZones);
 
-        leaderImages = new ArrayList<>(Arrays.asList(leader1 , leader2));
-        activeButtons = new ArrayList<>(Arrays.asList(active1 , active2));
-        discardButtons = new ArrayList<>(Arrays.asList(discard1 , discard2));
-        activeProductionCheckBoxes = new ArrayList<>(Arrays.asList(activeProduction1 , activeProduction2 , activeProduction3 , activeProduction4 , activeProduction5));
-        activeLeaderProduction = new ArrayList<>(Arrays.asList(activeProduction4Button , activeProduction5Button));
+        leaderImages = new ArrayList<>(Arrays.asList(leader1, leader2));
+        activeButtons = new ArrayList<>(Arrays.asList(active1, active2));
+        discardButtons = new ArrayList<>(Arrays.asList(discard1, discard2));
+        activeProductionCheckBoxes = new ArrayList<>(Arrays.asList(activeProduction1, activeProduction2, activeProduction3, activeProduction4, activeProduction5));
+        activeLeaderProduction = new ArrayList<>(Arrays.asList(activeProduction4Button, activeProduction5Button));
 
         //Stock Images
         box0 = new ArrayList<>(Arrays.asList(stockBox1));
-        box1 = new ArrayList<>(Arrays.asList(stockBox21 , stockBox22));
-        box2 = new ArrayList<>(Arrays.asList(stockBox31 , stockBox32 , stockBox33));
-        stockBoxes = new ArrayList<>(Arrays.asList(box0 , box1 , box2));
+        box1 = new ArrayList<>(Arrays.asList(stockBox21, stockBox22));
+        box2 = new ArrayList<>(Arrays.asList(stockBox31, stockBox32, stockBox33));
+        stockBoxes = new ArrayList<>(Arrays.asList(box0, box1, box2));
 
         //Stock Plus Images
-        stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11 , stockPlus12));
-        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21 , stockPlus22));
+        stockPlus1 = new ArrayList<>(Arrays.asList(stockPlus11, stockPlus12));
+        stockPlus2 = new ArrayList<>(Arrays.asList(stockPlus21, stockPlus22));
         stockPlus = new ArrayList<>();
         stockPlus.add(stockPlus1);
         stockPlus.add(stockPlus2);
@@ -305,40 +320,48 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
      * Method that initializes the buttons with the players in the game if it's a multiPlayer game
      * Show the images , active the  buttons and set the nickName of each player as text
      */
-    protected void initEnemiesButton(){
-        ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0Button , enemy1Button , enemy2Button , enemy3Button));
-        ArrayList<ImageView> enemyImage = new ArrayList<>(Arrays.asList(enemy0Image,enemy1Image,enemy2Image,enemy3Image));
-        ArrayList<Text> enemyText = new ArrayList<>( Arrays.asList(enemy0Text,enemy1Text,enemy2Text,enemy3Text));
+    protected void initEnemiesButton() {
+        ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0Button, enemy1Button, enemy2Button, enemy3Button));
+        //ArrayList<ImageView> enemyImage = new ArrayList<>(Arrays.asList(enemy0Image, enemy1Image, enemy2Image, enemy3Image));
+        //ArrayList<Text> enemyText = new ArrayList<>(Arrays.asList(enemy0Text, enemy1Text, enemy2Text, enemy3Text));
 
         System.out.println(gui.getPlayers());
-        int index=0;
-        if(gui.getPlayers() > 1) {
-            enemyText.get(0).setText(gui.getNickname());
-            enemyText.get(0).setVisible(true);
-            enemyImage.get(0).setVisible(true);
+        int index = 0;
+        System.out.println(index);
+        if (gui.getPlayers() > 1) {
+            //enemyText.get(0).setText(gui.getNickname());
+            //enemyText.get(0).setVisible(true);
+            //enemyImage.get(0).setVisible(true);
             enemyButtons.get(0).setDisable(false);
+            enemyButtons.get(0).setVisible(true);
             enemyButtons.get(0).setText(gui.getNickname());
 
             index = 1;
             for (String nickName : gui.getView().getEnemiesDashboard().keySet()) {
-                enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
-                enemyText.get(index).setVisible(true);
-                enemyImage.get(index).setVisible(true);
+                //enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
+                //enemyText.get(index).setVisible(true);
+                //enemyImage.get(index).setVisible(true);
+                System.out.println(nickName);
                 enemyButtons.get(index).setDisable(false);
-                enemyButtons.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
+                enemyButtons.get(index).setVisible(true);
+                enemyButtons.get(index).setText(nickName);
                 index++;
+                System.out.println(index);
             }
         }
         //Don't show button not linked to a player
-        for(int i = index ; i < 4 ; i++){
+        for (int i = index; i < 4; i++) {
             enemyButtons.get(i).setVisible(false);
-            enemyImage.get(i).setVisible(false);
-            enemyText.get(i).setVisible(false);
+            enemyButtons.get(i).setDisable(true);
+            //enemyImage.get(i).setVisible(false);
+            //enemyText.get(i).setVisible(false);
         }
+
     }
 
     /**
      * Method that initializes the arrayList of ImageView with the corresponding FXMl evolutionCard bought
+     *
      * @param productionZones is the array list that should contain the FXML evolutionCards
      */
     protected void fillProductionZone(ArrayList<ImageView>[] productionZones) {
@@ -355,6 +378,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
      * Method called when the player click on a button representing an other player
      * The method read the name of the other player chose , set the game phase to "SEE_OTHER_VIEW" and
      * change the scene showing the enemy's view
+     *
      * @param actionEvent
      */
     @FXML
