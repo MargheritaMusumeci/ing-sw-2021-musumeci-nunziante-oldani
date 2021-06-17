@@ -291,16 +291,33 @@ public class ViewPlayerController extends ViewController {
         //set leader card
         ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
         System.out.println("Leader card size is: " + leaderCards.size());
+
+        if(gui.getLeaderCards() == null){
+            System.out.println("Attribute leaderCards in gui is null");
+        }else{
+            System.out.println("Printing the attribute leaderCards of gui");
+            for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
+                System.out.println("Leader card with ability type: " + leaderCard.getAbilityType());
+            }
+        }
+
         if (leaderCards.size() > 0) {
 
             String path = String.valueOf(leaderCards.get(0).getId());
             leader1.setImage(printer.fromPathToImageLeader(path));
 
             if (leaderCards.get(0).isActive()) {
-                discard1.setVisible(false);
-                active1.setVisible(false);
-                activeProduction4Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
-                activeProduction4Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                if(leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()){
+                    discard1.setVisible(false);
+                    active1.setVisible(false);
+                    activeProduction4Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                    activeProduction4Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                }else{
+                    discard2.setVisible(false);
+                    active2.setVisible(false);
+                    activeProduction5Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                    activeProduction5Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                }
             }
             //if the card is been discarded
             else if(gui.getLeaderCardsDiscarded().get(0)){
