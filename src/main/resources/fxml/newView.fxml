@@ -440,42 +440,37 @@
       <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="1045.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="1192.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
       <HBox layoutX="977.0" layoutY="3.0" prefHeight="104.0" prefWidth="300.0">
-         <Button fx:id="enemy3Button" contentDisplay="TOP" mnemonicParsing="false" onAction="#showEnemy"
-                 prefHeight="92.0" prefWidth="110.0" style="-fx-background-color: null;" text="Nickname">
+         <Button fx:id="enemy3Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy" prefHeight="92.0" prefWidth="110.0" style="-fx-background-color: null;" text="Nickname">
             <graphic>
                <ImageView fx:id="enemy3Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../images/players/player4.png"/>
+                  <Image url="@../images/players/player4.png" />
                </ImageView>
             </graphic>
          </Button>
-         <Button fx:id="enemy2Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy"
-                 prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
+         <Button fx:id="enemy2Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy" prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
             <graphic>
                <ImageView fx:id="enemy2Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../images/players/player3.png"/>
+                  <Image url="@../images/players/player3.png" />
                </ImageView>
             </graphic>
          </Button>
-         <Button fx:id="enemy1Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy"
-                 prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
+         <Button fx:id="enemy1Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy" prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
             <graphic>
-               <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" nodeOrientation="RIGHT_TO_LEFT"
-                          pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="enemy1Image" fitHeight="64.0" fitWidth="83.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../images/players/player2.png"/>
+                     <Image url="@../images/players/player2.png" />
                   </image>
                </ImageView>
             </graphic>
          </Button>
-         <Button fx:id="enemy0Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy"
-                 prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
+         <Button fx:id="enemy0Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy" prefHeight="92.0" prefWidth="100.0" style="-fx-background-color: null;" text="Nickname">
             <graphic>
                <ImageView fx:id="enemy0Image" fitHeight="64.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../images/players/player1.png"/>
+                     <Image url="@../images/players/player1.png" />
                   </image>
                   <cursor>
-                     <Cursor fx:constant="OPEN_HAND"/>
+                     <Cursor fx:constant="OPEN_HAND" />
                   </cursor>
                </ImageView>
             </graphic>
