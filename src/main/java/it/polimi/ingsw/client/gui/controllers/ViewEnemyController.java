@@ -38,57 +38,6 @@ public class ViewEnemyController extends ViewController{
      */
     private void initStock() {
 
-        //Resource[] box1 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(0);
-
-        /*if (box1[0] != null) {
-            String path = printer.pathFromResource(box1[0]);
-            stockBox1.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox1.setImage(null);
-        }
-
-        Resource[] box2 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(1);
-
-        if (box2[0] != null) {
-            String path = printer.pathFromResource(box2[0]);
-            stockBox21.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox21.setImage(null);
-        }
-        if (box2[1] != null) {
-            String path = printer.pathFromResource(box2[1]);
-            stockBox22.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox22.setImage(null);
-        }
-
-        Resource[] box3 = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes().get(2);
-
-        if (box3[0] != null) {
-            String path = printer.pathFromResource(box3[0]);
-            stockBox31.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox31.setImage(null);
-        }
-        if (box3[1] != null) {
-            String path = printer.pathFromResource(box3[1]);
-            stockBox32.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox32.setImage(null);
-        }
-        if (box3[2] != null) {
-            String path = printer.pathFromResource(box3[3]);
-            stockBox33.setImage(printer.fromPathToImageResource(path));
-        }
-        else{
-            stockBox33.setImage(null);
-        }*/
-
         ArrayList<Resource[]> boxes = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes();
 
         for(int i = 0 ; i < boxes.size() ; i++){
@@ -111,44 +60,25 @@ public class ViewEnemyController extends ViewController{
         //Initialize leader stock
         if (leaderCardsActivated != null && leaderCardsActivated.size() != 0) {
 
-            /**
-             * TODO for me: need to handle tha case of 2 active leader card , the first bo , the second with the stock ability
-             * -> theoretically now it set the stock plus resources in the first card -> to verify
-             */
-
-            int i = -1;
+            int currentLeaderCard = -1;
+            int numberOfStockLeaderCard = -1;
             for(SerializableLeaderCard leaderCard : leaderCardsActivated){
+                currentLeaderCard++;
                 if(leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                    i++;
-                    if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
-                        for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length ; j++){
-                            if(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j] != null){
-                                String path = printer.pathFromResource(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j]);
-                                stockPlus.get(i).get(j).setImage(printer.fromPathToImageResource(path));
+                    numberOfStockLeaderCard++;
+                    if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(numberOfStockLeaderCard).length != 0){
+                        for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(numberOfStockLeaderCard).length ; j++){
+                            if(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(numberOfStockLeaderCard)[j] != null){
+                                String path = printer.pathFromResource(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(numberOfStockLeaderCard)[j]);
+                                stockPlus.get(currentLeaderCard).get(j).setImage(printer.fromPathToImageResource(path));
                             }
                             else{
-                                stockPlus.get(i).get(j).setImage(null);
+                                stockPlus.get(currentLeaderCard).get(j).setImage(null);
                             }
                         }
                     }
                 }
             }
-
-            /*for(int i = 0 ; i < leaderCardsActivated.size() ; i++){
-                if(leaderCardsActivated.get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                    if (gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length != 0){
-                        for(int j = 0 ; j < gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i).length ; j++){
-                            if(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j] != null){
-                                String path = printer.pathFromResource(gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxPlus().get(i)[j]);
-                                stockPlus.get(i).get(j).setImage(printer.fromPathToImageResource(path));
-                            }
-                            else{
-                                stockPlus.get(i).get(j).setImage(null);
-                            }
-                        }
-                    }
-                }
-            }*/
         }
     }
 
@@ -165,9 +95,21 @@ public class ViewEnemyController extends ViewController{
             String path = String.valueOf(leaderCards.get(0).getId());
             leader1.setImage(printer.fromPathToImageLeader(path));
 
+            //Reset this value -> otherwise nowhere it is reset
+            if(!leaderCards.get(0).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                stockPlus.get(0).get(0).setImage(null);
+                stockPlus.get(0).get(1).setImage(null);
+            }
+
             if (leaderCards.size() > 1) {
                 path = String.valueOf(leaderCards.get(1).getId());
                 leader2.setImage(printer.fromPathToImageLeader(path));
+
+                if(!leaderCards.get(1).getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                    stockPlus.get(1).get(0).setImage(null);
+                    stockPlus.get(1).get(1).setImage(null);
+                }
+
             } else {
                 leader2.setImage(printer.fromPathToImageLeader("back_door"));
             }
