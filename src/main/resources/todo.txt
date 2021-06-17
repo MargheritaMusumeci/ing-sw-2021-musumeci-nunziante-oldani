@@ -26,7 +26,6 @@ fatto:
 - leader card stock non facevano vedere le risorse
 
 Nunziante:
-- todo in viewEnemyController
 - sistemare bene i bottoni delle leader card nel caso di prima scartata , seconda di tipo produzione e attiva ->
         -> al momento mette il bottone di produzione sulla prima al posto della seconda
 
