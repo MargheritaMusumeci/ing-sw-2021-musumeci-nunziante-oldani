@@ -12,7 +12,7 @@ public class Persistence {
     public Persistence(Server server){
         this.server=server;
     }
-
+/*
     public Game readGame(String path){
 
         //per ogni file presente della cartella
@@ -92,4 +92,6 @@ public class Persistence {
             }
         }
     }
+
+ */
 }
