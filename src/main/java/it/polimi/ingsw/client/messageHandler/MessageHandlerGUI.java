@@ -30,7 +30,7 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(ACKMessage message) {
         synchronized (gui) {
 
-            System.out.println("The game phase (in ack) is : " + gui.getGamePhase());
+            //System.out.println("The game phase (in ack) is : " + gui.getGamePhase());
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)||
                     gui.getOldScene().equals(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s))){
@@ -200,10 +200,12 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setResourcesBoughtFromMarker(message.getResources());
             gui.changeScene();
-            System.out.println("risorse");
+            /*System.out.println("risorse");
             for (Resource res:gui.getView().getResourcesBoughtFromMarker()) {
                 System.out.println(res.name());
             }
+
+             */
         }
     }
 
@@ -216,7 +218,7 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setLeaderCards(message.getLeaderCards());
 
-            System.out.println("Calling activeLeaderAck");
+           // System.out.println("Calling activeLeaderAck");
             ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();
 
             if(gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s)) {
