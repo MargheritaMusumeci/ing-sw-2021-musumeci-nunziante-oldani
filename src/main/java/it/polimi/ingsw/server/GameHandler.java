@@ -21,10 +21,11 @@ import it.polimi.ingsw.serializableModel.SerializableMarket;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GameHandler{
+public class GameHandler implements Serializable {
 
     private int numberOfPlayers;
     private Game game; //the instance of the game

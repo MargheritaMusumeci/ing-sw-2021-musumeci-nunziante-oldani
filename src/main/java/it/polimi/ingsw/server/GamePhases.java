@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
-public enum GamePhases {
+import java.io.Serializable;
+
+public enum GamePhases implements Serializable {
     CONFIGURATION,
     INITIALIZATION,
     GAME,

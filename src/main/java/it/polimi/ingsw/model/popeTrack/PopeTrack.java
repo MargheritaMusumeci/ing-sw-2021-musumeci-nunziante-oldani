@@ -45,6 +45,10 @@ public class PopeTrack extends PopeTrackObservable implements Serializable {
      */
     public void updateGamerPosition(int increment){
 
+        if(increment <= 0){
+            return;
+        }
+
         if((gamerPosition.getIndex() + increment) > track.getTrack().length - 1)
             increment = track.getTrack().length - 1 - gamerPosition.getIndex();
 
@@ -98,6 +102,10 @@ public class PopeTrack extends PopeTrackObservable implements Serializable {
     public void updateLorenzoPosition(int increment){
         if(lorenzoPosition == null)
             return;
+
+        if(increment <= 0){
+            return;
+        }
 
         if((lorenzoPosition.getIndex() + increment) >= track.getTrack().length - 1)
             increment = track.getTrack().length - 1 - lorenzoPosition.getIndex();

@@ -30,8 +30,6 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(ACKMessage message) {
         synchronized (gui) {
 
-            System.out.println("The game phase (in ack) is : " + gui.getGamePhase());
-
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)||
                     gui.getOldScene().equals(gui.getScene(GameFxml.PRODUCTION_ZONE_CHOICE.s))){
                     gui.setActionDone(true);
@@ -44,16 +42,6 @@ public class MessageHandlerGUI extends MessageHandler {
 
             if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
                 return;
-                /*if(gui.isUpdateDashboardArrived()){
-                    gui.setUpdateDashboardArrived(false);
-                    gui.setGamePhase(GamePhases.MYTURN);
-                    System.out.println("Calling activeLeaderAck after received the ack");
-                    ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();
-                }
-                else{
-                    gui.setAckArrived(true);
-                    return;
-                }*/
             }
             gui.changeScene();
             System.out.println(gui.isActionDone());
@@ -200,10 +188,12 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setResourcesBoughtFromMarker(message.getResources());
             gui.changeScene();
-            System.out.println("risorse");
+            /*System.out.println("risorse");
             for (Resource res:gui.getView().getResourcesBoughtFromMarker()) {
                 System.out.println(res.name());
             }
+
+             */
         }
     }
 
@@ -216,12 +206,15 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setLeaderCards(message.getLeaderCards());
 
-            System.out.println("Calling activeLeaderAck");
-            ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();
+           //System.out.println("Calling activeLeaderAck");
+            if(gui.getGamePhase().equals(GamePhases.MYTURN) || gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
+                //Only in my turn I'll wait for new card here
+                ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();
 
-            if(gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s)) {
-                gui.setGamePhase(GamePhases.MYTURN);
-                gui.changeScene();
+                if(gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s)) {
+                    gui.setGamePhase(GamePhases.MYTURN);
+                    gui.changeScene();
+                }
             }
         }
     }
@@ -237,24 +230,13 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.getView().setDashboard(message.getDashboard());
 
             if (gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION)) gui.setActionDone(true);
-            //TODO qua e non in update leader ???
 
             if (gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)) {
                 return;
-                /*if (gui.isAckArrived() || gui.isNackArrived()) {
-                    gui.setAckArrived(false);
-                    gui.setNackArrived(false);
-                    //System.out.println("Calling activeLeaderAck after received the ack");
-
-                    //((ViewPlayerController) gui.getController("newView.fxml")).activeLeaderACK();
-                } else {
-                    gui.setUpdateDashboardArrived(true);
-                    return;
-                }*/
             }
 
-            if (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
-                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s)) {
+            if (gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN && (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
+                    gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s))) {
                 gui.setGamePhase(GamePhases.MYTURN);
             }
             gui.changeScene();
@@ -267,6 +249,7 @@ public class MessageHandlerGUI extends MessageHandler {
      */
     @Override
     public void handleUpdateMessage(UpdateActivePlayerMessage message) {
+        gui.getView().setActivePlayer(message.getMessage());
         synchronized (gui) {
             if (gui.getView().getNickname().equals(message.getMessage())) {
                 gui.setGamePhase(GamePhases.MYTURN);

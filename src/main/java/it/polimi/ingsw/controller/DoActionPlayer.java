@@ -170,7 +170,7 @@ public class DoActionPlayer {
          */
 
         //if two leader cards are activated
-        int leaderCardActived =0;
+        int leaderCardActived = 0;
         Resource resourceOne = null;
         Resource resourceTwo = null;
 
@@ -622,7 +622,7 @@ public class DoActionPlayer {
                 }
 
                 if (popeMeeting) {
-                    for (Player player2 : players) {
+                    for (Player player2 : modelGame.getPlayers()) {
                         if (player instanceof HumanPlayer) {
                             if (player2.getPopeTrack().getGamerPosition().getPopeSection() &&
                                     player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection()) {

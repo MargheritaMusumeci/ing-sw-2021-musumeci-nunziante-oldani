@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -18,7 +19,11 @@ public class EndGameController implements Controller{
 
     private GUI gui;
     @FXML private Text message;
-    @FXML private ListView winners;
+    @FXML private Text result1;
+    @FXML private Text result2;
+    @FXML private Text result3;
+    @FXML private Text result4;
+
 
     @FXML
     /**
@@ -56,12 +61,20 @@ public class EndGameController implements Controller{
         }else{
             message.setText("Unfortunately you lost, try again...");
         }
-
-        Set<String> playersInGame = scores.keySet();
+        ArrayList<Text> texts = new ArrayList<>(Arrays.asList(result1,result2,result3,result4));
+        int index =0;
+        for(String nickname: scores.keySet()){
+            texts.get(index).setText(nickname + " - Total score: " + scores.get(nickname));
+            texts.get(index).setVisible(true);
+         index++;
+        }
+       /*
         ObservableList<String> item = FXCollections.observableArrayList();
+
         for(String player: playersInGame){
             item.add(player + " - " + scores.get(player));
         }
         winners.setItems(item);
+         */
     }
 }
