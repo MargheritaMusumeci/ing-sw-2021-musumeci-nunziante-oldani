@@ -170,7 +170,7 @@ public class DoActionPlayer {
          */
 
         //if two leader cards are activated
-        int leaderCardActived =0;
+        int leaderCardActived = 0;
         Resource resourceOne = null;
         Resource resourceTwo = null;
 

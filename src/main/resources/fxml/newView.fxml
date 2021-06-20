@@ -407,13 +407,13 @@
             <ImageView fx:id="pos24" fitHeight="37.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="1160.0" layoutY="497.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="1145.0" layoutY="497.0" prefHeight="25.0" prefWidth="83.0" spacing="15.0">
          <children>
-            <ImageView fx:id="stockPlus21" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="stockPlus21" fitHeight="20.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="stockPlus22" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="1013.0" layoutY="497.0" prefHeight="25.0" prefWidth="66.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="1013.0" layoutY="497.0" prefHeight="25.0" prefWidth="83.0" spacing="15.0">
          <children>
             <ImageView fx:id="stockPlus11" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="stockPlus12" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" />
@@ -438,7 +438,7 @@
          </font>
       </Label>
       <ImageView fx:id="leaderEnsure1" fitHeight="25.0" fitWidth="22.0" layoutX="1045.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="1192.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leaderEnsure2" fitHeight="25.0" fitWidth="22.0" layoutX="1185.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
       <HBox layoutX="977.0" layoutY="3.0" prefHeight="104.0" prefWidth="300.0">
          <Button fx:id="enemy3Button" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#showEnemy" prefHeight="92.0" prefWidth="110.0" style="-fx-background-color: null;" text="Nickname">
             <graphic>

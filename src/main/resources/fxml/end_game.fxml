@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -20,8 +19,6 @@
             <Font name="Copperplate Gothic Bold" size="41.0" />
          </font>
       </Text>
-      <Button fx:id="playButton" layoutX="379.0" layoutY="517.0" mnemonicParsing="false" onAction="#play" text="Play Again " />
-      <ListView fx:id="winners" layoutX="335.0" layoutY="362.0" prefHeight="94.0" prefWidth="188.0" />
       <Text fx:id="message" fill="RED" layoutX="2.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="855.0">
          <font>
             <Font name="Copperplate Gothic Light" size="24.0" />
@@ -37,5 +34,25 @@
             <Font name="Copperplate Gothic Light" size="14.0" />
          </font>
       </Button>
+      <Text fx:id="result1" fill="WHITE" layoutX="2.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="855.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="reult2" fill="WHITE" layoutX="3.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEXT" textAlignment="CENTER" visible="false" wrappingWidth="855.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="result3" fill="WHITE" layoutX="3.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="855.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="result4" fill="WHITE" layoutX="2.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="855.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

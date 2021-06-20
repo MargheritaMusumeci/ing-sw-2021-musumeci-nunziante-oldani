@@ -184,11 +184,11 @@ public class GUI extends Application {
     public void changeScene() {
 
         Platform.runLater(()->{
-            System.out.println("Phase is: " + gamePhase);
+            //System.out.println("Phase is: " + gamePhase);
             currentStage.setScene(currentScene);
             if(gamePhase.equals(GamePhases.SEEOTHERVIEW)) ((ViewEnemyController) controllers.get(fxml.get(gamePhase))).setNickname(otherView);
             controllers.get(fxml.get(gamePhase)).init();
-            System.out.println("show scene " + phases.get(currentScene));
+            //System.out.println("show scene " + phases.get(currentScene));
             currentStage.show();
             errorFromServer="";
         });
