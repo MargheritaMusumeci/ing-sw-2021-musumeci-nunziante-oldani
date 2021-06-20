@@ -208,7 +208,7 @@ public class MessageHandler {
         if (scc.getGamePhase() == GamePhases.GAME) {
 
             //store game status
-            server.getPersistence().saveGame(scc.getGameHandler().getGame());
+            //server.getPersistence().saveGame(scc.getGameHandler().getGame());
 
             //per ongi player mando il messaggio che è cambiato il turno
             Message messageEndTurn = scc.getGameHandler().getTurnHandler().endTurn();
