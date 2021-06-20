@@ -389,15 +389,21 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         System.out.println(button.getText());
         synchronized (gui) {
             if (!gui.getOtherView().equals(gui.getNickname())) {
+                //System.out.println("showEnemy -> SEE_OTHER_VIEW");
                 gui.setGamePhase(GamePhases.SEEOTHERVIEW);
                 gui.setCurrentScene(gui.getScene(GameFxml.OTHER_VIEW.s));
                 gui.setOldScene(gui.getScene(GameFxml.OTHER_VIEW.s));
             } else {
+                //System.out.println("In else statement of showEnemy");
+                //System.out.println("Active player is: " + gui.getView().getActivePlayer());
+                //System.out.println("The player who did the action is: " + gui.getNickname());
                 if (gui.getView().getActivePlayer().equals(gui.getNickname())) {
+                    //System.out.println("showEnemy -> MY_TURN");
                     gui.setGamePhase(GamePhases.MYTURN);
                     gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
                     gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
                 } else {
+                    //System.out.println("showEnemy -> OTHER_PLAYERS_TURN");
                     gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
                     gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
                     gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));

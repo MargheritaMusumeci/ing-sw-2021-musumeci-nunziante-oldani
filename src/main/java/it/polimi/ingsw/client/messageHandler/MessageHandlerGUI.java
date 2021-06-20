@@ -207,7 +207,7 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.getView().setLeaderCards(message.getLeaderCards());
 
            //System.out.println("Calling activeLeaderAck");
-            if(gui.getGamePhase().equals(GamePhases.MYTURN)){
+            if(gui.getGamePhase().equals(GamePhases.MYTURN) || gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
                 //Only in my turn I'll wait for new card here
                 ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();
 
@@ -235,12 +235,6 @@ public class MessageHandlerGUI extends MessageHandler {
                 return;
             }
 
-            /*if(gui.getGamePhase().equals(GamePhases.OTHERPLAYERSTURN)){
-                //Maybe put here to send him in his view scene
-                System.out.println("Received the updated dashboard when it's not my turn");
-                return;
-            }*/
-
             if (gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN && (gui.getCurrentScene() == gui.getScene(GameFxml.MY_TURN.s) ||
                     gui.getCurrentScene() == gui.getScene(GameFxml.OTHER_VIEW.s))) {
                 gui.setGamePhase(GamePhases.MYTURN);
@@ -255,6 +249,7 @@ public class MessageHandlerGUI extends MessageHandler {
      */
     @Override
     public void handleUpdateMessage(UpdateActivePlayerMessage message) {
+        gui.getView().setActivePlayer(message.getMessage());
         synchronized (gui) {
             if (gui.getView().getNickname().equals(message.getMessage())) {
                 gui.setGamePhase(GamePhases.MYTURN);
