@@ -9,6 +9,10 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.utils.Constants.*;
 
+
+/**
+ * Class able to print the leader cards
+ */
 public class LeaderCardsPrinter {
 
     private static final String firstLine = "╔════════════╗";
@@ -18,6 +22,10 @@ public class LeaderCardsPrinter {
     private static final String arrow = "\u2192";
     private static final String upArrow = "\u2191";
 
+    /**
+     * method that cordinates the creation and the actual printing
+     * @param serializableLeaderCards are the leader cards to be printed
+     */
     public static void print(ArrayList<SerializableLeaderCard> serializableLeaderCards){
 
         System.out.println(Constants.ANSI_PURPLE + "\n" +  leaderCardTitle + Constants.ANSI_RESET);
@@ -68,6 +76,11 @@ public class LeaderCardsPrinter {
 
     }
 
+    /**
+     * method that creates the leader card with production power
+     * @param leaderCard to be printed
+     * @return the strings that composes the card
+     */
     private static ArrayList<String>[] makeLeaderCardProduction(SerializableLeaderCard leaderCard){
 
         ArrayList<String>[] leaderCardProduction = new ArrayList[14];
@@ -161,6 +174,11 @@ public class LeaderCardsPrinter {
         return leaderCardProduction;
     }
 
+    /**
+     * method that creates the leader card with no more white power
+     * @param leaderCard to be printed
+     * @return the strings that composes the card
+     */
     private static ArrayList<String>[] makeLeaderCardWhite(SerializableLeaderCard leaderCard){
 
         ArrayList<String>[] leaderCardWhite = new ArrayList[14];
@@ -266,6 +284,11 @@ public class LeaderCardsPrinter {
         return leaderCardWhite;
     }
 
+    /**
+     * method that creates the leader card with more stock space power
+     * @param leaderCard to be printed
+     * @return the strings that composes the card
+     */
     private static ArrayList<String>[] makeLeaderCardStock(SerializableLeaderCard leaderCard){
 
         ArrayList<String>[] leaderCardStock = new ArrayList[14];
@@ -375,6 +398,11 @@ public class LeaderCardsPrinter {
         return leaderCardStock;
     }
 
+    /**
+     * method that creates the leader card with sales power
+     * @param leaderCard to be printed
+     * @return the strings that composes the card
+     */
     private static ArrayList<String>[] makeLeaderCardSales(SerializableLeaderCard leaderCard){
 
         ArrayList<String>[] leaderCardSale = new ArrayList[14];

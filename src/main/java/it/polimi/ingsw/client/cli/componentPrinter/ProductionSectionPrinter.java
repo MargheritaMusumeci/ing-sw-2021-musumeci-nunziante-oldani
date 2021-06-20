@@ -10,8 +10,16 @@ import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
 
+/**
+ * Class able to print the production section
+ */
 public class ProductionSectionPrinter {
 
+    /**
+     * method that creates the string structure of the production section and prints it
+     * @param serializableDashboard is the dashboard in which is present the production section and
+     *                              the leader cards that can be a part of the production section
+     */
     public static void print(SerializableDashboard serializableDashboard){
 
         SerializableProductionZone[] serializableProductionZones = serializableDashboard.getSerializableProductionZones();
@@ -102,6 +110,10 @@ public class ProductionSectionPrinter {
 
     }
 
+    /**
+     * method that creates the string structure of an empty card
+     * @return the string that composes an empty card
+     */
     private static ArrayList<String>[] emptyCard() {
 
         String emptyLine = "║                 ║";

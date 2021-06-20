@@ -6,8 +6,15 @@ import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
 
+/**
+ * Class able to print the lock box
+ */
 public class LockBoxPrinter {
 
+    /**
+     * method that handles the creation and printing of the stock
+     * @param serializableLockBox is the lock box that has to be printed
+     */
     public static void print(SerializableLockBox serializableLockBox){
 
         String firstLine = "╔═══════════════════════╗";

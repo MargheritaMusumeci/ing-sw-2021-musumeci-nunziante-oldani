@@ -10,7 +10,15 @@ import it.polimi.ingsw.utils.Constants;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class that coordinates the clients actions during his turn
+ */
 public class MyTurnPhase extends Phase {
+    /**
+     * method able to handle the input and choose from the clint's different action that he can do
+     * during the turn
+     * @param cli is client cli
+     */
     @Override
     public void makeAction(CLI cli) {
 

@@ -8,7 +8,14 @@ import it.polimi.ingsw.utils.Constants;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the action of buying an evolution card
+ */
 public class BuyEvolutiuonCardPhase extends Phase {
+    /**
+     * method able to handle the action of buying an evolution card
+     * @param cli is client cli
+     */
     @Override
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);

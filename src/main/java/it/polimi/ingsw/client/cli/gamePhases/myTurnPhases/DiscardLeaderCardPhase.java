@@ -10,7 +10,14 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the action of discarding a leader card
+ */
 public class DiscardLeaderCardPhase extends Phase{
+    /**
+     * method able to handle the action of discarding a leader card
+     * @param cli is client cli
+     */
     @Override
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);
@@ -22,7 +29,7 @@ public class DiscardLeaderCardPhase extends Phase{
             return;
         }
 
-        //controllo che ci siano ancora carte non attivate
+        //i'll check that there are still unactivated cards
         boolean check = false;
         for (SerializableLeaderCard serializableLeaderCard : cli.getClientSocket().getView().getLeaderCards()){
             if(!serializableLeaderCard.isActive()){
@@ -30,14 +37,14 @@ public class DiscardLeaderCardPhase extends Phase{
             }
         }
         if (!check){
-            //non ho carte non attive
+            //all the cards are active
             System.out.println(Constants.ANSI_RED + "All the leader cards has already ben activate" + Constants.ANSI_RESET);
             cli.setGamePhase(new MyTurnPhase());
             new Thread(cli).start();
             return;
         }
 
-        //stampo le carte scartabili
+        //prints the possible leader cards
         ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<>();
         for (SerializableLeaderCard leaderCard : cli.getClientSocket().getView().getLeaderCards()){
             if (!leaderCard.isActive()){
@@ -70,7 +77,7 @@ public class DiscardLeaderCardPhase extends Phase{
 
         }while(!controllo);
 
-        //trovo la posizione a cui si trova la leader card nel mio set
+        //find the position in the set of the card
         int pos = 0;
         for (int i=0; i<cli.getClientSocket().getView().getLeaderCards().size(); i++){
             if(cli.getClientSocket().getView().getLeaderCards().get(i).getId() == number){
@@ -78,7 +85,7 @@ public class DiscardLeaderCardPhase extends Phase{
             }
         }
 
-        //devo mandare il messsaggio di scarto carta
+        //send the message to the server with the position of the leader card
         cli.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", pos));
         synchronized (this){
             try {

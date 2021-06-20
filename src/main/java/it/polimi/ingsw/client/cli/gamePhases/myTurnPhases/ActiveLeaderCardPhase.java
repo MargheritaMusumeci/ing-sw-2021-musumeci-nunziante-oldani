@@ -10,8 +10,15 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the action of activating a leader card
+ */
 public class ActiveLeaderCardPhase extends Phase {
 
+    /**
+     * method able to handle the action of activating a leader card
+     * @param cli is client cli
+     */
     @Override
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);
@@ -61,7 +68,7 @@ public class ActiveLeaderCardPhase extends Phase {
             }
         }while(!control);
 
-        //trovo la posizione a cui si trova la leader card nel mio set
+        //find the position of the leader card in the set
         int pos = 0;
         for (int i=0; i<cli.getClientSocket().getView().getLeaderCards().size(); i++){
             if(cli.getClientSocket().getView().getLeaderCards().get(i).getId() == number){
@@ -69,7 +76,7 @@ public class ActiveLeaderCardPhase extends Phase {
             }
         }
 
-        //devo mandare il messsaggio di attivazione
+        //I'll have to send the message that the leader card was activated
         cli.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", pos));
         synchronized (this){
             try {

@@ -8,8 +8,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Class able to print the pope track
+ */
 public class PopeTrackPrinter {
 
+    /**
+     * method that read the file with the pope track structure, initialize it with the correct symbols for the
+     * positions and then prints it
+     * @param serializablePopeTack is the pope track that has to be printed
+     */
     public static void print(SerializablePopeTack serializablePopeTack){
 
         ArrayList<char[]> popeTrack = new ArrayList<>();

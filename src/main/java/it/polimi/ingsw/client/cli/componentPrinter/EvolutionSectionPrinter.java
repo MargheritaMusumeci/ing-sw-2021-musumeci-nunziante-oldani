@@ -8,8 +8,15 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.utils.Constants.*;
 
+/**
+ * Class able to print the evolution section in the cli
+ */
 public class EvolutionSectionPrinter {
 
+    /**
+     * method that organize the creation of the section and his printing order
+     * @param serializableEvolutionSection it the evolution section that has to be printed
+     */
     public static void print(SerializableEvolutionSection serializableEvolutionSection){
         System.out.println(ANSI_YELLOW + "\n" + evolutionSectionTitle + ANSI_RESET);
 
@@ -29,6 +36,11 @@ public class EvolutionSectionPrinter {
         }
     }
 
+    /**
+     * method that is able to create the ArrayList of string that contains a single evolution card
+     * @param evolutionCard is the evolution card that has to be created
+     * @return the arrayList of strings that compose the card
+     */
     public static ArrayList<String>[] createEvolutionCard(EvolutionCard evolutionCard){
 
         String color = "Color:";
@@ -179,6 +191,11 @@ public class EvolutionSectionPrinter {
         return card;
     }
 
+    /**
+     * method that create a line that compose the evolution section
+     * @param evolutionCards is the array of cards that compose the line
+     * @return all the strings used to define a line of the evolution section
+     */
     private static  ArrayList<ArrayList<String>[]> createLines(EvolutionCard[] evolutionCards){
         ArrayList<ArrayList<String>[]> line = new ArrayList<>();
         for(int i = 0; i<evolutionCards.length; i++){
@@ -192,6 +209,10 @@ public class EvolutionSectionPrinter {
         return line;
     }
 
+    /**
+     * method that creates the strings to reproduce an empty card
+     * @return the arraylist representing the empty card
+     */
     private static ArrayList<String>[] createEmptyCard(){
         String firstLine = "╔═════════════════╗";
         String lastLine = "╚═════════════════╝";

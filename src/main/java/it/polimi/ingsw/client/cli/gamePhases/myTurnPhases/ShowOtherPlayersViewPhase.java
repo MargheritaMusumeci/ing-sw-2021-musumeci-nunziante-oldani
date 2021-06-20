@@ -10,8 +10,15 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the action of seeing other players dashboard
+ */
 public class ShowOtherPlayersViewPhase extends Phase {
 
+    /**
+     * metod able to handle the action of seeing other players dashboard
+     * @param cli is client cli
+     */
     @Override
     public void makeAction(CLI cli) {
 

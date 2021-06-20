@@ -11,7 +11,14 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the action of activating the production
+ */
 public class ActiveProductionZonePhase extends Phase {
+    /**
+     * method able to handle the action of activating the production
+     * @param cli is client cli
+     */
     @Override
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);
@@ -56,7 +63,7 @@ public class ActiveProductionZonePhase extends Phase {
             if(!productionZones.contains(position)){
                 productionZones.add(position);
                 if(position == 3 || position == 4){
-                    //chiedo la risorsa
+                    //ask the resource
                     System.out.println(Constants.ANSI_CYAN + "Choose which resource will be produced: " + Constants.ANSI_RESET);
                     System.out.println("1) "+Resource.COIN.label+"\t2) "+Resource.ROCK.label+"\t3) "+Resource.SERVANT.label+"\t4) "+Resource.SHIELD.label);
                     System.out.print(Constants.ANSI_CYAN + "> " + Constants.ANSI_RESET);
@@ -70,7 +77,7 @@ public class ActiveProductionZonePhase extends Phase {
                             System.out.print(Constants.ANSI_CYAN + "> " + Constants.ANSI_RESET);
                         }
                     }while (resourceChoice<1 || resourceChoice>4);
-                    //aggiungo le risorse alla lista da mandare
+                    //add the resources to the list that has to be sent
                     switch (resourceChoice){
                         case 1:
                             leaderProduction.add(Resource.COIN);

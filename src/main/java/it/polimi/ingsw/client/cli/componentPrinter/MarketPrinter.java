@@ -6,9 +6,15 @@ import it.polimi.ingsw.serializableModel.SerializableMarket;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.utils.Constants.*;
-
+/**
+ * Class able to print the market
+ */
 public class MarketPrinter {
 
+    /**
+     * method that creates and print the market structure
+     * @param serializableMarket
+     */
     public static void print(SerializableMarket serializableMarket) {
 
         String space = " ";
@@ -207,6 +213,11 @@ public class MarketPrinter {
 
     }
 
+    /**
+     * method that adds the resource at the end of the line based on the type
+     * @param line the line in witch the resources has to be added
+     * @param resource the resource to be added
+     */
     private static void addCorrectResource(ArrayList<String> line, Resource resource) {
         switch (resource) {
             case COIN:

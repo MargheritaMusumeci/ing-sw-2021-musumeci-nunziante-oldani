@@ -5,7 +5,19 @@ import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
 
+/**
+ * class that prints the resource array bought from the market or that has to be chosen in the initial part
+ * of the game
+ */
 public class ResourcesBoughtPrinter {
+
+    /**
+     * method that prints the set of resources that a player can choose
+     * @param resources is the array of resources that have to be printed
+     * @param index is needed to differentiate the usage of this methos
+     *              with index 0 also the tile is printed, otherwise only
+     *              the set of resources is displayed
+     */
     public static void print(ArrayList<Resource> resources, int index){
 
         if(index == 0){

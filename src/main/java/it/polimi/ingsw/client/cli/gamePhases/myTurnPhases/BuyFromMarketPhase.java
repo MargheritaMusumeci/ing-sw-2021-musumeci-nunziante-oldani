@@ -16,7 +16,14 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the action of buying from market
+ */
 public class BuyFromMarketPhase extends Phase {
+    /**
+     * method able to handle the action of buying from market
+     * @param cli is client cli
+     */
     @Override
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);
@@ -83,7 +90,7 @@ public class BuyFromMarketPhase extends Phase {
             cli.setIsNackArrived(false);
         }
 
-        //chiedo le risorse
+        //ask the resources
         cli.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage("Risorse che ho comprato richeiste"));
 
         synchronized (this){
@@ -95,12 +102,12 @@ public class BuyFromMarketPhase extends Phase {
             }
         }
 
-        //se ho due leader card no more white attive allora devo trasformare ongi bianca
+        //if i have two "no more white" leader cards active
         if(cli.getClientSocket().getView().getLeaderCards().get(0).getAbilityType() == LeaderAbility.NOMOREWHITE &&
                 cli.getClientSocket().getView().getLeaderCards().get(0).isActive() &&
                 cli.getClientSocket().getView().getLeaderCards().get(1).getAbilityType() == LeaderAbility.NOMOREWHITE &&
                 cli.getClientSocket().getView().getLeaderCards().get(1).isActive()){
-            //devo prendere le risorse che no more white ti da
+            //get every white resource
             ArrayList<Resource> noMoreWhite = new ArrayList<>();
             for (SerializableLeaderCard serializableLeaderCard: cli.getClientSocket().getView().getLeaderCards()){
                 for (Resource r : serializableLeaderCard.getAbilityResource().keySet()){
@@ -109,7 +116,7 @@ public class BuyFromMarketPhase extends Phase {
                     }
                 }
             }
-            //stampo la richeista di conversione
+            //print the conversion request
             ArrayList<Resource> newRes = new ArrayList<>();
 
             for (Resource resource: cli.getClientSocket().getView().getResourcesBoughtFromMarker()){
@@ -139,10 +146,10 @@ public class BuyFromMarketPhase extends Phase {
                 }
             }
 
-            //devo aggiornare resourcesbouthfrom market
+            //update resource bought from market
             cli.getClientSocket().getView().setResourcesBoughtFromMarker(newRes);
         }
-        //controllo se tra le risorse ottunute ho solo nothing, in quel caso mando un messaggio e termino
+        //check if there are only white resources
         int countNotnull = 0;
         for (Resource resource: cli.getClientSocket().getView().getResourcesBoughtFromMarker()){
             if(resource != Resource.NOTHING){
@@ -150,7 +157,7 @@ public class BuyFromMarketPhase extends Phase {
             }
         }
 
-        //erano tutto nulle
+        //if they all were white
         if(countNotnull == 0){
             cli.getClientSocket().send(new StoreResourcesMessage("salva risorse", cli.getClientSocket().getView().getResourcesBoughtFromMarker()));
             System.out.println(Constants.ANSI_GREEN + "You have bought only white resources" + Constants.ANSI_RESET);
@@ -161,7 +168,7 @@ public class BuyFromMarketPhase extends Phase {
 
 
         do{
-            //stampo le risorse ottenute
+            //print the resources
             ResourcesBoughtPrinter.print(cli.getClientSocket().getView().getResourcesBoughtFromMarker(), 0);
             System.out.println(Constants.ANSI_CYAN + "Choose the resources that you want to save in your stock. " +
                     "You can type 5 to save all the resources or -1 when you have finished." + Constants.ANSI_RESET);

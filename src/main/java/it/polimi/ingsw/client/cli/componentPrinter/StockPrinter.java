@@ -5,9 +5,15 @@ import it.polimi.ingsw.serializableModel.SerializableStock;
 import it.polimi.ingsw.utils.Constants;
 
 import java.util.ArrayList;
-
+/**
+ * Class able to print the stock
+ */
 public class StockPrinter {
 
+    /**
+     * method that creates and prints the string structure of the stock
+     * @param serializableStock is the stock that has to be printed
+     */
     public static void print(SerializableStock serializableStock){
         ArrayList<Resource[]>  boxesPlus = serializableStock.getBoxPlus();
         if(boxesPlus == null){
