@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.shape.Sphere;
+import javafx.scene.text.Text;
 
 /**
  * Class that manages the scene in which the user chooses which row / column to buy from the market
@@ -32,13 +33,14 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
     @FXML private RadioButton Colonna1;
     @FXML private RadioButton Colonna2;
     @FXML private RadioButton Colonna3;
-    @FXML private Label error;
+    @FXML private Text error;
 
     private Initializer initializer;
 
     @Override
     public void init() {
 
+        error.setVisible(false);
         //Show the error if present
         if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
@@ -103,6 +105,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
 
         if (position == -1) {
             error.setText("Choose a row/col...");
+            error.setVisible(true);
             confirm.setVisible(true);
             cancel.setVisible(true);
 

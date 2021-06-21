@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 import java.util.HashMap;
 
@@ -32,7 +33,7 @@ public class LeaderProductionController implements Controller {
     @FXML
     private Button cancel;
     @FXML
-    private Label error;
+    private Text error;
 
     /**
      * Abort the action

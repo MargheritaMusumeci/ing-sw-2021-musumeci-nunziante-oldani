@@ -7,7 +7,9 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.effect.ColorInput?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -34,7 +36,11 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="15.0">
                      <children>
-                        <ImageView fx:id="leaderCard1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="leaderCard1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
                         <CheckBox fx:id="cardId1" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" textAlignment="CENTER" textFill="WHITE">
                            <padding>
                               <Insets left="43.0" />
@@ -44,7 +50,11 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
                      <children>
-                        <ImageView fx:id="leaderCard2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="leaderCard2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
                         <CheckBox fx:id="cardId2" mnemonicParsing="false" textFill="WHITE">
                            <padding>
                               <Insets left="43.0" />
@@ -52,9 +62,13 @@
                         </CheckBox>
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: null;">
                      <children>
-                        <ImageView fx:id="leaderCard3" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="leaderCard3" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
                         <CheckBox fx:id="cardId3" mnemonicParsing="false" textFill="WHITE">
                            <padding>
                               <Insets left="43.0" />
@@ -64,7 +78,11 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
                      <children>
-                        <ImageView fx:id="leaderCard4" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="leaderCard4" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
                         <CheckBox fx:id="cardId4" mnemonicParsing="false" textFill="WHITE">
                            <padding>
                               <Insets left="43.0" />
@@ -89,6 +107,9 @@
                <font>
                   <Font name="Copperplate Gothic Light" size="14.0" />
                </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </Button>
          </children>
       </Pane>

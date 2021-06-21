@@ -3,12 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.ColorInput?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,10 +20,11 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.actions.market.MarketController">
    <children>
-      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/backgrounds/background_bw.png" />
          </image>
@@ -34,6 +36,9 @@
          <image>
             <Image url="@../images/backgrounds/market.png" />
          </image>
+         <effect>
+            <DropShadow />
+         </effect>
       </ImageView>
       <VBox alignment="CENTER" layoutX="521.0" layoutY="138.0" prefHeight="167.0" prefWidth="235.0">
          <children>
@@ -133,9 +138,18 @@
                            <toggleGroup>
                               <ToggleGroup fx:id="selection" />
                            </toggleGroup>
+                           <effect>
+                              <DropShadow />
+                           </effect>
                         </RadioButton>
-                        <RadioButton fx:id="Riga1" mnemonicParsing="false" toggleGroup="$selection" />
-                        <RadioButton fx:id="Riga2" mnemonicParsing="false" toggleGroup="$selection" />
+                        <RadioButton fx:id="Riga1" mnemonicParsing="false" toggleGroup="$selection">
+                           <effect>
+                              <DropShadow />
+                           </effect></RadioButton>
+                        <RadioButton fx:id="Riga2" mnemonicParsing="false" toggleGroup="$selection">
+                           <effect>
+                              <DropShadow />
+                           </effect></RadioButton>
                      </children>
                   </VBox>
                </children>
@@ -145,12 +159,10 @@
       <Button fx:id="confirm" layoutX="881.0" layoutY="249.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
          <font>
             <Font size="14.0" />
-         </font></Button>
-      <Label fx:id="error" layoutX="491.0" layoutY="537.0" prefHeight="20.0" prefWidth="522.0" text="ERROR:" textFill="RED" visible="false">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
          </font>
-      </Label>
+         <effect>
+            <InnerShadow />
+         </effect></Button>
       <ProgressIndicator fx:id="loading" layoutX="569.0" layoutY="315.0" visible="false" />
       <HBox fx:id="Market1" alignment="CENTER_LEFT" layoutX="52.0" layoutY="51.0" prefHeight="112.0" prefWidth="135.0" spacing="10.0" />
       <Sphere fx:id="external" layoutX="721.0" layoutY="307.0" radius="15.0">
@@ -160,19 +172,39 @@
       </Sphere>
       <HBox alignment="CENTER" layoutX="549.0" layoutY="294.0" prefHeight="26.0" prefWidth="91.0" spacing="25.0">
          <children>
-            <RadioButton fx:id="Colonna0" mnemonicParsing="false" toggleGroup="$selection" />
-            <RadioButton fx:id="Colonna1" mnemonicParsing="false" toggleGroup="$selection" />
-            <RadioButton fx:id="Colonna2" mnemonicParsing="false" toggleGroup="$selection" />
+            <RadioButton fx:id="Colonna0" mnemonicParsing="false" toggleGroup="$selection">
+               <effect>
+                  <DropShadow />
+               </effect></RadioButton>
+            <RadioButton fx:id="Colonna1" mnemonicParsing="false" toggleGroup="$selection">
+               <effect>
+                  <DropShadow />
+               </effect></RadioButton>
+            <RadioButton fx:id="Colonna2" mnemonicParsing="false" toggleGroup="$selection">
+               <effect>
+                  <DropShadow />
+               </effect></RadioButton>
             <RadioButton fx:id="Colonna3" mnemonicParsing="false" prefHeight="2.0" prefWidth="12.0" toggleGroup="$selection">
                <padding>
                   <Insets right="1.0" />
-               </padding></RadioButton>
+               </padding>
+               <effect>
+                  <DropShadow />
+               </effect></RadioButton>
          </children>
       </HBox>
       <Button fx:id="cancel" layoutX="881.0" layoutY="329.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="101.0" text="Cancel" textFill="RED">
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <InnerShadow />
+         </effect>
       </Button>
+      <Text fx:id="error" fill="RED" layoutX="4.0" layoutY="585.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="1283.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

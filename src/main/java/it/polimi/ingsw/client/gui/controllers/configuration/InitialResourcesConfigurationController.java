@@ -72,8 +72,6 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
         resources = gui.getResources();
 
         if(resources == null || resources.isEmpty()){
-           resourcesBox1.setVisible(false);
-           resourcesBox2.setVisible(false);
             error.setText("Nothing to choose, just wait other players");
             error.setVisible(true);
             confirm.setVisible(false);
@@ -82,7 +80,10 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
         }else{
           //the second and third players can only choose one resource
           if(resources.size()==4){
-              resourcesBox2.setVisible(false);
+              resourcesBox1.setVisible(true);
+          }
+          if(resources.size()>4){
+              resourcesBox2.setVisible(true);
           }
        }
 

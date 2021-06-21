@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class ChooseWhiteMarketController implements Controller {
     @FXML
     private Button plus1;
     @FXML
-    private Label error;
+    private Text error;
 
     @Override
     public void setGui(GUI gui) {

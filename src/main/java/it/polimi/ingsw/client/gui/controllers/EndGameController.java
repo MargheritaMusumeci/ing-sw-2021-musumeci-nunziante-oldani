@@ -68,13 +68,5 @@ public class EndGameController implements Controller{
             texts.get(index).setVisible(true);
          index++;
         }
-       /*
-        ObservableList<String> item = FXCollections.observableArrayList();
-
-        for(String player: playersInGame){
-            item.add(player + " - " + scores.get(player));
-        }
-        winners.setItems(item);
-         */
     }
 }

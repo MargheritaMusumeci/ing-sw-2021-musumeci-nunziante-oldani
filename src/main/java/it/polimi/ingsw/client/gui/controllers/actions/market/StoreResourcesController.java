@@ -13,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class StoreResourcesController implements Controller {
     @FXML private CheckBox resource3Check;
     @FXML private CheckBox resource4Check;
 
-    @FXML private Label whiteballs;
+    @FXML private Text error;
     @FXML private Button selectAll;
 
     public StoreResourcesController(){
@@ -55,6 +56,7 @@ public class StoreResourcesController implements Controller {
     public void init() {
 
         selectAll.setText("Select all");
+        selectAll.setStyle("-fx-text-fill: green");
         selectAllBoolean = true;
         resource1.setImage(null);
         resource2.setImage(null);
@@ -78,7 +80,7 @@ public class StoreResourcesController implements Controller {
             System.out.println(res.name());
         }
 
-        whiteballs.setText(null);
+        error.setText(null);
 
         //remove white marbles
         ArrayList<Resource> resourcesCopy = (ArrayList<Resource>) resource.clone();
@@ -93,7 +95,7 @@ public class StoreResourcesController implements Controller {
 
         System.out.println("2");
         if(resource.size()==0) {
-            whiteballs.setText("You bought only white balls");
+            error.setText("You bought only white balls");
         }else{
             resource1Check.setVisible(true);
             String path = printer.pathFromResource(resource.get(0));
@@ -157,7 +159,14 @@ public class StoreResourcesController implements Controller {
             res.setSelected(selectAllBoolean);
         }
         selectAllBoolean = !selectAllBoolean;
-        if(selectAllBoolean)selectAll.setText("Select all");
-        else selectAll.setText("Unselect all");
+        if(selectAllBoolean){
+            selectAll.setText("Select all");
+            selectAll.setStyle("-fx-text-fill: green");
+        }
+        else {
+            selectAll.setText("Unselect all");
+            selectAll.setStyle("-fx-text-fill: red");
+        }
+
     }
 }

@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.ColorInput?>
 <?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -37,7 +38,7 @@
                </font>
             </Text>
             <ProgressIndicator fx:id="loading" layoutX="395.0" layoutY="495.0" visible="false" />
-            <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="207.0" layoutY="323.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+            <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="207.0" layoutY="323.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0" visible="false">
                <children>
                   <RadioButton fx:id="rock1" mnemonicParsing="false">
                      <toggleGroup>
@@ -69,7 +70,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="207.0" layoutY="402.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+            <HBox fx:id="resourcesBox2" alignment="CENTER" layoutX="207.0" layoutY="402.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="441.0" spacing="15.0" visible="false">
                <children>
                   <RadioButton fx:id="rock2" mnemonicParsing="false">
                      <toggleGroup>
@@ -110,6 +111,9 @@
                <font>
                   <Font name="Copperplate Gothic Light" size="14.0" />
                </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </Button>
          </children>
          <opaqueInsets>

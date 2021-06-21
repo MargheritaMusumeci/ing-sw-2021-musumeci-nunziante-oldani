@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.model.game.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -52,7 +53,7 @@ public class BasicProductionController implements Controller {
     @FXML
     private Button cancel;
     @FXML
-    private Label error;
+    private Text error;
 
     /**
      * Method that collects the user's choices and notifies the server of the decision

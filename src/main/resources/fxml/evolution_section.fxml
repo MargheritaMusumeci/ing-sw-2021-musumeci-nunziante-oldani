@@ -2,20 +2,22 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.actions.evolutionSection.EvolutionSectionController">
    <children>
-      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-2.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/backgrounds/background_bw.png" />
          </image>
@@ -27,26 +29,62 @@
          <children>
             <HBox prefHeight="150.0" prefWidth="521.0" spacing="10.0">
                <children>
-                  <ImageView fx:id="eCard_00" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_01" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_02" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_03" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="eCard_00" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_01" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_02" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_03" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
                </children>
             </HBox>
             <HBox prefHeight="150.0" prefWidth="442.0" spacing="10.0">
                <children>
-                  <ImageView fx:id="eCard_10" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_11" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_12" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_13" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="eCard_10" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_11" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_12" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_13" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
                </children>
             </HBox>
             <HBox prefHeight="150.0" prefWidth="414.0" spacing="10.0">
                <children>
-                  <ImageView fx:id="eCard_20" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_21" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_22" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="eCard_23" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="eCard_20" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_21" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_22" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
+                  <ImageView fx:id="eCard_23" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow />
+                     </effect></ImageView>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="363.0" spacing="85.0">
@@ -84,7 +122,6 @@
             </HBox>
          </children>
       </VBox>
-      <Label fx:id="error" layoutX="353.0" layoutY="583.0" />
       <VBox alignment="CENTER_LEFT" layoutX="940.0" layoutY="123.0" prefHeight="382.0" prefWidth="50.0" spacing="150.0">
          <children>
             <RadioButton fx:id="row0" mnemonicParsing="false">
@@ -100,11 +137,22 @@
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <InnerShadow />
+         </effect>
       </Button>
       <Button fx:id="cancel" layoutX="1122.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="101.0" text="Cancel" textFill="RED">
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <InnerShadow />
+         </effect>
       </Button>
+      <Text fx:id="error" fill="RED" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="1283.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
