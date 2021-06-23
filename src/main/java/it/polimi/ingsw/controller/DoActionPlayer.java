@@ -291,6 +291,7 @@ public class DoActionPlayer {
      */
     public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException{
         ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
+
         //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
         //                                      we need to check if the player arrived in a popePosition or
         //                                      in new point position in order to increase the score
@@ -301,6 +302,7 @@ public class DoActionPlayer {
                 return;
             }
         }
+
     }
 
     /**
@@ -584,6 +586,7 @@ public class DoActionPlayer {
      */
     private void moveCross(int positions, ArrayList<Player> players) {
 
+
         //Increment Pope Track
         for (int i = 0; i < positions; i++) {
             for (Player player : players) {
@@ -628,7 +631,7 @@ public class DoActionPlayer {
                                     player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection()) {
                                 player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
                             } else {
-                                player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection()).setIsDiscard();
+                                player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsDiscard();
                             }
                         }
                     }
