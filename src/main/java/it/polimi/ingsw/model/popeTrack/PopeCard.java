@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.popeTrack;
 
+import it.polimi.ingsw.model.osservables.PopeCardObservable;
+
 import java.io.Serializable;
 
-public class PopeCard implements Serializable {
+public class PopeCard extends PopeCardObservable implements Serializable {
     private int point;
     private boolean isUsed;
     private boolean isDiscard;
@@ -47,10 +49,16 @@ public class PopeCard implements Serializable {
     /**
      * Set true isUser if the player is in a pope section or in a pope position
      */
-    public void  setIsUsed() { isUsed = true; }
+    public void  setIsUsed() {
+        isUsed = true;
+        notifyPopeCardListener();
+    }
 
     /**
      * Set true isDiscard if the player can't use the pope card anymore
      */
-    public void setIsDiscard() { isDiscard = true; }
+    public void setIsDiscard() {
+        isDiscard = true;
+        notifyPopeCardListener();
+    }
 }

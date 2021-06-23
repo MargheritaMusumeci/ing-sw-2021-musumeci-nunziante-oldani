@@ -2,12 +2,13 @@ package it.polimi.ingsw.model.popeTrack;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
 import it.polimi.ingsw.exception.OutOfBandException;
+import it.polimi.ingsw.model.listeners.PopeCardListener;
 import it.polimi.ingsw.model.osservables.PopeTrackObservable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PopeTrack extends PopeTrackObservable implements Serializable {
+public class PopeTrack extends PopeTrackObservable implements Serializable, PopeCardListener {
     private Track track;
     private ArrayList<PopeCard> popeCard;
     private Position gamerPosition;
@@ -21,6 +22,7 @@ public class PopeTrack extends PopeTrackObservable implements Serializable {
 
         //Initialize the pope card
         popeCard = new ArrayList<PopeCard>();
+
         popeCard.add(new PopeCard(2 , 1));
         popeCard.add(new PopeCard(3 , 2));
         popeCard.add(new PopeCard(4 , 3));
@@ -28,6 +30,9 @@ public class PopeTrack extends PopeTrackObservable implements Serializable {
         gamerPosition = track.getTrack()[0];
         lorenzoPosition = null;
 
+        for (PopeCard pCard: popeCard) {
+            pCard.addPopeCardListener(this);
+        }
     }
 
     /**
@@ -49,12 +54,18 @@ public class PopeTrack extends PopeTrackObservable implements Serializable {
             return;
         }
 
-        if((gamerPosition.getIndex() + increment) > track.getTrack().length - 1)
-            increment = track.getTrack().length - 1 - gamerPosition.getIndex();
+        System.out.println("sono nel metodo per l'incremento del pope track");
+        try{
+            if((gamerPosition.getIndex() + increment) > track.getTrack().length - 1)
+                increment = track.getTrack().length - 1 - gamerPosition.getIndex();
 
-        gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
+            gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
 
-        notifyPopeTrackListener(this);
+            notifyPopeTrackListener(this);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -117,5 +128,10 @@ public class PopeTrack extends PopeTrackObservable implements Serializable {
 
     public void setLorenzoPosition(){
         lorenzoPosition = track.getTrack()[0];
+    }
+
+    @Override
+    public void update() {
+        notifyPopeTrackListener(this);
     }
 }
