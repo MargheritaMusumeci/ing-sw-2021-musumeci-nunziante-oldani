@@ -162,14 +162,14 @@ public class ViewPlayerController extends ViewController {
      */
     public void activeLeaderACK() {
 
-        System.out.println("In active leader ack");
+        //System.out.println("In active leader ack");
 
         if(leaderWaitForAck == 1 || leaderWaitForAck == 2){
             int cardNumber = leaderWaitForAck - 1;
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                System.out.println("Activated stock leader ability");
+                //System.out.println("Activated stock leader ability");
                 gui.addStockLeaderCardInUse(cardNumber);
             }
             if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
@@ -194,17 +194,17 @@ public class ViewPlayerController extends ViewController {
 
         if (button.equals(active1)) {
             leaderWaitForAck = 1;
-            System.out.println("Active leader card 1");
+            //System.out.println("Active leader card 1");
             gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
         } else {
             leaderWaitForAck = 2;
-            System.out.println("Active leader card 2");
+            //System.out.println("Active leader card 2");
             if (gui.getView().getLeaderCards().size() == 1) {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
-                System.out.println("Activated card 0 in model");
+                //System.out.println("Activated card 0 in model");
             } else {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
-                System.out.println("Activated card 1 in model");
+                //System.out.println("Activated card 1 in model");
             }
         }
         gui.setAckArrived(false);
@@ -212,7 +212,7 @@ public class ViewPlayerController extends ViewController {
         gui.setNackArrived(false);
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
         gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
-        System.out.println("Active leader");
+       // System.out.println("Active leader");
     }
 
     /**

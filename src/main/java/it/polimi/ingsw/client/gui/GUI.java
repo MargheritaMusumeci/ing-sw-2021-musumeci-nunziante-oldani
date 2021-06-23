@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -174,6 +175,7 @@ public class GUI extends Application {
     public void initializationStage() {
         currentStage.setTitle("Masters of Renaissance");
         currentStage.setScene(currentScene);
+        currentStage.getIcons().add(new Image(String.valueOf(getClass().getClassLoader().getResource("images/backgrounds/lorenzo.png"))));
         currentStage.setResizable(false);
         currentStage.show();
     }

@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +37,7 @@ public class ProductionZoneChoiceController implements Controller {
 
     private ArrayList<RadioButton> buttons;
 
-    @FXML private Label error;
-
+    @FXML private Text error;
 
     public ProductionZoneChoiceController(){
         this.printer = new Print();
@@ -66,9 +66,11 @@ public class ProductionZoneChoiceController implements Controller {
 
     @Override
     public void init() {
+        error.setVisible(false);
         //Show the error if present
         if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
+            error.setVisible(true);
         }
 
         eCards = new ArrayList<ImageView>(Arrays.asList(evolutionCard_0 , evolutionCard_1 , evolutionCard_2));
@@ -99,6 +101,7 @@ public class ProductionZoneChoiceController implements Controller {
         //Check if a position has been chosen
         if(position == -1){
             error.setText("Choose a position or turn back with Cancel button");
+            error.setVisible(true);
             return;
         }
 

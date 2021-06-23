@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -130,20 +130,26 @@
          </children>
       </HBox>
       <ProgressIndicator fx:id="loading" layoutX="393.0" layoutY="547.0" visible="false" />
-      <Label fx:id="error" layoutX="216.0" layoutY="502.0" textFill="RED" visible="false">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Label>
       <Button fx:id="confirm" layoutX="530.0" layoutY="489.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <InnerShadow />
+         </effect>
       </Button>
       <Button fx:id="cancel" layoutX="671.0" layoutY="489.0" mnemonicParsing="false" onAction="#cancel" prefHeight="47.0" prefWidth="101.0" text="Cancel" textFill="RED">
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <InnerShadow />
+         </effect>
       </Button>
+      <Text fx:id="error" fill="RED" layoutX="11.0" layoutY="471.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="1283.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

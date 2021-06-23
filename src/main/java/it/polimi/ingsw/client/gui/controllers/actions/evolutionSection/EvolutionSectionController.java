@@ -1,25 +1,24 @@
 package it.polimi.ingsw.client.gui.controllers.actions.evolutionSection;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.GameFxml;
+import it.polimi.ingsw.client.gui.GamePhases;
 import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.client.gui.controllers.utils.MarketEvolutionSectionBuilder;
 import it.polimi.ingsw.client.gui.controllers.utils.Print;
-import it.polimi.ingsw.client.gui.GameFxml;
-import it.polimi.ingsw.client.gui.GamePhases;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class EvolutionSectionController extends MarketEvolutionSectionBuilder implements Controller {
     private GUI  gui;
-    private Print printer;
+    private final Print printer;
 
     private ArrayList<ArrayList<ImageView>> eCards;
 
@@ -39,7 +38,7 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
 
     private ArrayList<RadioButton> columnButtons;
 
-    @FXML private Label error;
+    @FXML private Text error;
 
     public EvolutionSectionController(){
         this.printer = new Print();
@@ -71,12 +70,14 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
 
     @Override
     public void init() {
+        error.setVisible(false);
         //Show the error if present
         if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
+            error.setVisible(true);
         }
 
-        eCards = new ArrayList<ArrayList<ImageView>>();
+        eCards = new ArrayList<>();
         ArrayList<ImageView> cards1 = new ArrayList<>(Arrays.asList(eCard_00 , eCard_01 , eCard_02 , eCard_03));
         eCards.add(0 , cards1);
         ArrayList<ImageView> cards2 = new ArrayList<>(Arrays.asList(eCard_10 , eCard_11 , eCard_12 , eCard_13));
@@ -84,8 +85,8 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
         ArrayList<ImageView> cards3 = new ArrayList<>(Arrays.asList(eCard_20 , eCard_21 , eCard_22 , eCard_23));
         eCards.add(2 , cards3);
 
-        rowButtons = new ArrayList<RadioButton>(Arrays.asList(row0 , row1 , row2));
-        columnButtons = new ArrayList<RadioButton>(Arrays.asList(column0 , column1 , column2 , column3));
+        rowButtons = new ArrayList<>(Arrays.asList(row0, row1, row2));
+        columnButtons = new ArrayList<>(Arrays.asList(column0, column1, column2, column3));
 
         //Set visible the selection buttons
         for(RadioButton button : rowButtons)
@@ -120,6 +121,7 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
         //Check if the input is valid
         if (row == -1 || column == -1) {
             error.setText("Choose a row/col...");
+            error.setVisible(true);
             return;
         }
 

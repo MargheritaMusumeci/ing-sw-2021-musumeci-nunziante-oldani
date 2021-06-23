@@ -44,8 +44,8 @@ public class MessageHandlerGUI extends MessageHandler {
                 return;
             }
             gui.changeScene();
-            System.out.println(gui.isActionDone());
-            System.out.println("ack");
+            //System.out.println(gui.isActionDone());
+            //System.out.println("ack");
         }
     }
 

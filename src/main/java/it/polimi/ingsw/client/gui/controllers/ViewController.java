@@ -230,16 +230,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     protected ImageView enemy3Image;
 
     @FXML
-    protected Text enemy0Text;
-    @FXML
-    protected Text enemy1Text;
-    @FXML
-    protected Text enemy2Text;
-    @FXML
-    protected Text enemy3Text;
-
-    @FXML
-    protected Label error;
+    protected Text error;
 
     @FXML
     protected Button endTurn;
@@ -266,6 +257,7 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
      */
     @Override
     public void init() {
+
 
         //initialize market
         Sphere[][] market = new Sphere[3][4];
@@ -322,25 +314,17 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
      */
     protected void initEnemiesButton() {
         ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0Button, enemy1Button, enemy2Button, enemy3Button));
-        //ArrayList<ImageView> enemyImage = new ArrayList<>(Arrays.asList(enemy0Image, enemy1Image, enemy2Image, enemy3Image));
-        //ArrayList<Text> enemyText = new ArrayList<>(Arrays.asList(enemy0Text, enemy1Text, enemy2Text, enemy3Text));
 
         System.out.println(gui.getPlayers());
         int index = 0;
         System.out.println(index);
         if (gui.getPlayers() > 1) {
-            //enemyText.get(0).setText(gui.getNickname());
-            //enemyText.get(0).setVisible(true);
-            //enemyImage.get(0).setVisible(true);
             enemyButtons.get(0).setDisable(false);
             enemyButtons.get(0).setVisible(true);
             enemyButtons.get(0).setText(gui.getNickname());
 
             index = 1;
             for (String nickName : gui.getView().getEnemiesDashboard().keySet()) {
-                //enemyText.get(index).setText(gui.getView().getEnemiesDashboard().get(nickName).getNickname());
-                //enemyText.get(index).setVisible(true);
-                //enemyImage.get(index).setVisible(true);
                 System.out.println(nickName);
                 enemyButtons.get(index).setDisable(false);
                 enemyButtons.get(index).setVisible(true);
@@ -353,8 +337,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         for (int i = index; i < 4; i++) {
             enemyButtons.get(i).setVisible(false);
             enemyButtons.get(i).setDisable(true);
-            //enemyImage.get(i).setVisible(false);
-            //enemyText.get(i).setVisible(false);
         }
 
     }
@@ -389,21 +371,15 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         System.out.println(button.getText());
         synchronized (gui) {
             if (!gui.getOtherView().equals(gui.getNickname())) {
-                //System.out.println("showEnemy -> SEE_OTHER_VIEW");
                 gui.setGamePhase(GamePhases.SEEOTHERVIEW);
                 gui.setCurrentScene(gui.getScene(GameFxml.OTHER_VIEW.s));
                 gui.setOldScene(gui.getScene(GameFxml.OTHER_VIEW.s));
             } else {
-                //System.out.println("In else statement of showEnemy");
-                //System.out.println("Active player is: " + gui.getView().getActivePlayer());
-                //System.out.println("The player who did the action is: " + gui.getNickname());
                 if (gui.getView().getActivePlayer().equals(gui.getNickname())) {
-                    //System.out.println("showEnemy -> MY_TURN");
                     gui.setGamePhase(GamePhases.MYTURN);
                     gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
                     gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
                 } else {
-                    //System.out.println("showEnemy -> OTHER_PLAYERS_TURN");
                     gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
                     gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
                     gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));

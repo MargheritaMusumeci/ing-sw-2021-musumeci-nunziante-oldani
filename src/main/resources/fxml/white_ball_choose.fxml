@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -13,7 +13,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="1283.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.actions.market.ChooseWhiteMarketController">
    <children>
-      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="646.0" fitWidth="1296.0" layoutX="-1.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/backgrounds/background_bw.png" />
          </image>
@@ -21,16 +21,11 @@
             <GaussianBlur />
          </effect>
       </ImageView>
-      <Text fill="WHITE" layoutX="605.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change White Balls:">
+      <Text fill="WHITE" layoutX="528.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change White Balls:">
          <font>
             <Font size="26.0" />
          </font>
       </Text>
-      <Label fx:id="error" layoutX="498.0" layoutY="456.0" text="ERROR:" textFill="RED" visible="false">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Label>
       <HBox layoutX="596.0" layoutY="188.0" prefHeight="52.0" prefWidth="245.0" spacing="15.0">
          <children>
             <Circle fx:id="white1" fill="WHITE" radius="25.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
@@ -39,7 +34,7 @@
             <Circle fx:id="white4" fill="WHITE" radius="25.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
          </children>
       </HBox>
-      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="498.0" layoutY="307.0" prefHeight="100.0" prefWidth="441.0" spacing="15.0">
+      <HBox fx:id="resourcesBox1" alignment="CENTER" layoutX="421.0" layoutY="272.0" prefHeight="100.0" prefWidth="441.0" spacing="20.0">
          <children>
             <ImageView fx:id="resource1" fitHeight="49.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="plus1" mnemonicParsing="false" onAction="#plus" text="+" />
@@ -47,10 +42,18 @@
             <Button fx:id="plus2" mnemonicParsing="false" onAction="#plus" text="+" />
          </children>
       </HBox>
-      <Button fx:id="confirm1" layoutX="668.0" layoutY="466.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
+      <Button fx:id="confirm1" layoutX="597.0" layoutY="470.0" mnemonicParsing="false" onAction="#confirm" prefHeight="47.0" prefWidth="101.0" text="Confirm" textFill="#317c2a">
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <InnerShadow />
+         </effect>
       </Button>
+      <Text fx:id="error" fill="RED" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="1283.0">
+         <font>
+            <Font name="Copperplate Gothic Light" size="18.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
