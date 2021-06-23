@@ -103,7 +103,7 @@ public class BuyFromMarketPhase extends Phase {
         }
 
         //if i have two "no more white" leader cards active
-        if(cli.getClientSocket().getView().getLeaderCards().get(0).getAbilityType() == LeaderAbility.NOMOREWHITE &&
+        if(cli.getClientSocket().getView().getLeaderCards().size() >0 && cli.getClientSocket().getView().getLeaderCards().get(0).getAbilityType() == LeaderAbility.NOMOREWHITE &&
                 cli.getClientSocket().getView().getLeaderCards().get(0).isActive() &&
                 cli.getClientSocket().getView().getLeaderCards().get(1).getAbilityType() == LeaderAbility.NOMOREWHITE &&
                 cli.getClientSocket().getView().getLeaderCards().get(1).isActive()){
