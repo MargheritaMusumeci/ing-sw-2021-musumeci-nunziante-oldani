@@ -45,8 +45,6 @@ public class MessageHandlerGUI extends MessageHandler {
                 return;
             }
             gui.changeScene();
-            //System.out.println(gui.isActionDone());
-            //System.out.println("ack");
         }
     }
 
@@ -161,7 +159,6 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(SendViewMessage message) {
 
         synchronized (gui) {
-            System.out.println("start game");
             gui.setView(message.getView());
 
             if (gui.getView().getActivePlayer().equals(gui.getView().getNickname())) {
@@ -187,12 +184,6 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setResourcesBoughtFromMarker(message.getResources());
             gui.changeScene();
-            /*System.out.println("risorse");
-            for (Resource res:gui.getView().getResourcesBoughtFromMarker()) {
-                System.out.println(res.name());
-            }
-
-             */
         }
     }
 
@@ -205,7 +196,6 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.getView().setLeaderCards(message.getLeaderCards());
 
-           //System.out.println("Calling activeLeaderAck");
             if(gui.getGamePhase().equals(GamePhases.MYTURN) || gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER)){
                 //Only in my turn I'll wait for new card here
                 ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).activeLeaderACK();

@@ -75,10 +75,6 @@ public class StoreResourcesController implements Controller {
 
         checkResources = new ArrayList<>();
 
-        for (Resource res:resource) {
-            System.out.println(res.name());
-        }
-
         error.setText(null);
 
         //remove white marbles
@@ -92,7 +88,6 @@ public class StoreResourcesController implements Controller {
             }
         }
 
-        System.out.println("2");
         if(resource.size()==0) {
             error.setText("You bought only white balls");
         }else{

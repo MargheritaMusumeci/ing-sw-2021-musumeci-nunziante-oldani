@@ -76,7 +76,6 @@ public class ChooseWhiteMarketController implements Controller {
         }
         numberWhite = i;
         numberWhiteFixed = i;
-        System.out.println("white balls" + numberWhite);
         HashMap<Resource, Integer> resourcesWhite = gui.getView().getLeaderCards().get(0).getAbilityResource();
 
         //save the resource that will have to replace the white marbles

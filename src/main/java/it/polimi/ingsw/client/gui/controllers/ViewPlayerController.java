@@ -157,8 +157,6 @@ public class ViewPlayerController extends ViewController {
      */
     public void activeLeaderACK() {
 
-        //System.out.println("In active leader ack");
-
         if(leaderWaitForAck == 1 || leaderWaitForAck == 2){
             int cardNumber = leaderWaitForAck - 1;
             activeButtons.get(cardNumber).setVisible(false);
