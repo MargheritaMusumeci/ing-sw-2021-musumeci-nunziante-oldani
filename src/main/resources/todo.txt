@@ -11,6 +11,13 @@ da fare:
 -try run.later
 -pulire il codice dai warnings
 
+
+NOTE PER MARGHE PER SISTEMARE IL SEQUENCE DIAGRAM
+    - Il secondo message mandato dal client andrebbe spiegato meglio (chi è?)
+    - Quando arriva un messaggio dal server bisognerebbe dire cosa fa il message hadler ovvero chiamare noyifyAll()
+        changeScene()
+        Un esempio è quando arrica il messaggio "SendResourcesBoughtFromMarket"
+
 in atto:
 
 fatto:
