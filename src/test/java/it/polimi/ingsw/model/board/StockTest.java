@@ -531,34 +531,6 @@ public class StockTest extends TestCase {
         assertEquals(stock2.getQuantities(1),1);
         assertEquals(stock2.getQuantities(0),1);
     }
-
-    public void testCheRompeManageStock(){
-        Stock stock = new Stock();
-
-        stock.addBox(2, Resource.ROCK);
-        stock.addBox(2, Resource.SERVANT);
-
-        try {
-            stock.addResources(0, 1, Resource.ROCK);
-            stock.addResources(1, 1, Resource.SHIELD);
-            stock.addResources(2, 1, Resource.SERVANT);
-        } catch (NotEnoughSpaceException e) {
-            e.printStackTrace();
-        } catch (ResourceAlreadyPresentException e) {
-            e.printStackTrace();
-        } catch (OutOfBandException e) {
-
-            e.printStackTrace();
-        }
-
-        ArrayList<Resource> coins = new ArrayList<>();
-        coins.add(Resource.COIN);
-        coins.add(Resource.COIN);
-        //stock.manageStock(coins);
-        assertTrue(stock.manageStock(coins));
-    }
-
-
 }
 
 

@@ -221,18 +221,14 @@ public class DoActionPlayerTest {
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
-
         turnHandler.doAction((ActiveProductionMessage) message);
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
-
-
 
         try {
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
         } catch (NotEnoughResourcesException e) {
             assertFalse(false);
         }
-        //assertTrue(turnHandler.doAction(message) instanceof ACKMessage);
 
         requires.add(Resource.COIN);
 
@@ -317,9 +313,7 @@ public class DoActionPlayerTest {
         try{
             doActionPlayer.discardLeaderCard(0);
             assertTrue(true);
-        } catch (OutOfBandException e) {
-            fail();
-        } catch (LeaderCardAlreadyUsedException e) {
+        } catch (OutOfBandException | LeaderCardAlreadyUsedException e) {
             fail();
         }
 
@@ -357,9 +351,7 @@ public class DoActionPlayerTest {
             for(Resource resource : production.keySet()){
                 System.out.println("Resource: " + resource + ", quantity: " + production.get(resource));
             }
-        } catch (InvalidPlaceException e) {
-            fail();
-        } catch (ExcessOfPositionException e) {
+        } catch (InvalidPlaceException | ExcessOfPositionException e) {
             fail();
         }
 
@@ -390,13 +382,7 @@ public class DoActionPlayerTest {
             fail();
         }catch (BadParametersException e){
             assertTrue(true);
-        } catch (NonCompatibleResourceException e) {
-            fail();
-        } catch (ExcessOfPositionException e) {
-            fail();
-        } catch (NotEnoughResourcesException e) {
-            fail();
-        } catch (ActionAlreadyDoneException e) {
+        } catch (NonCompatibleResourceException | ExcessOfPositionException | NotEnoughResourcesException | ActionAlreadyDoneException e) {
             fail();
         }
 
@@ -494,19 +480,7 @@ public class DoActionPlayerTest {
             //assertEquals(0 , player.getDashboard().getLockBox().getAmountOf(Resource.COIN));
             assertTrue(player.getDashboard().getProductionZone()[2].getCard().isActive());
 
-        } catch (NonCompatibleResourceException e) {
-            System.out.println(e.getLocalizedMessage());
-            fail();
-        } catch (ExcessOfPositionException e) {
-            System.out.println(e.getLocalizedMessage());
-            fail();
-        } catch (NotEnoughResourcesException e) {
-            System.out.println(e.getLocalizedMessage());
-            fail();
-        } catch (ActionAlreadyDoneException e) {
-            System.out.println(e.getLocalizedMessage());
-            fail();
-        } catch (BadParametersException e) {
+        } catch (NonCompatibleResourceException | ExcessOfPositionException | NotEnoughResourcesException | ActionAlreadyDoneException | BadParametersException e) {
             System.out.println(e.getLocalizedMessage());
             fail();
         }

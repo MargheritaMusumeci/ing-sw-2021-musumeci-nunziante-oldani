@@ -24,17 +24,16 @@ public class LorenzoActionCardSetTest {
     @Test
     public void shuffleTest() {
         LorenzoActionCardSet actionSet = new LorenzoActionCardSet();
-        LorenzoActionCardSet actionSet2 = new LorenzoActionCardSet();
         actionSet.shuffle();
         boolean find=false;
         LorenzoActionCard actionCard = actionSet.getActionCard();
 
         for(int i=0;i<7;i++){
-            if(actionSet2.getActionCard().equals(actionCard)){
+            if(actionSet.getActionCard().equals(actionCard)){
                 find=true;
                 break;
             }
         }
-        //assertTrue(find);
+        assertTrue(find);
     }
 }
