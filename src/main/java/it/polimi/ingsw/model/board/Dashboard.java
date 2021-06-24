@@ -42,17 +42,6 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
         personalLockBox = new LockBox();
         personalLockBox.addLockBoxListener(this);
 
-        //TODO remove unwanted resources used for testing purpose only
-        try {
-            personalLockBox.setAmountOf(Resource.COIN, 90);
-            personalLockBox.setAmountOf(Resource.ROCK, 90);
-            personalLockBox.setAmountOf(Resource.SERVANT, 90);
-            personalLockBox.setAmountOf(Resource.SHIELD, 90);
-
-        } catch (NotEnoughResourcesException e) {
-            e.printStackTrace();
-        }
-
         personalStock = new Stock();
         personalStock.addStockListener(this);
 

@@ -78,18 +78,25 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
     @Override
     public void checkEndGame(){
 
-        //someone reached the end of the track
-        for (Player player :modelGame.getPlayers()) {
-            if(player.getPopeTrack().getGamerPosition().getIndex()==24){
-                isTheLastTurn=true;
-                break;
+        System.out.println("sono nel metodo CheckEndGame");
+
+        try{
+            //someone reached the end of the track
+            for (Player player :modelGame.getPlayers()) {
+                if(player.getPopeTrack().getGamerPosition().getIndex()==24){
+                    isTheLastTurn=true;
+                    break;
+                }
             }
+
+            //active player bought 7 Evolution Cards
+            if(!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber()>6){
+                isTheLastTurn=true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        //active player bought 7 Evolution Cards
-        if(!isTheLastTurn && modelGame.getActivePlayer().getDashboard().getEvolutionCardNumber()>6){ //TODO put 6 instead of 1
-            isTheLastTurn=true;
-        }
     }
 
     /**
@@ -127,19 +134,25 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
 
     @Override
     public Message endGame(){
-        checkWinner();
         ArrayList<String> winners = new ArrayList<>();
 
         HashMap<String, Integer> scores = new HashMap<>();
+        try{
+            checkWinner();
 
-        for (Player player : modelGame.getPlayers()){
-            if(player.isWinner()){
-                winners.add(player.getNickName());
+
+            for (Player player : modelGame.getPlayers()){
+                if(player.isWinner()){
+                    winners.add(player.getNickName());
+                }
+                scores.put(player.getNickName(), player.getDashboard().getScore());
             }
-            scores.put(player.getNickName(), player.getDashboard().getScore());
+
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         return new EndGameMessage("The game is ended", winners, scores);
-
     }
 }
