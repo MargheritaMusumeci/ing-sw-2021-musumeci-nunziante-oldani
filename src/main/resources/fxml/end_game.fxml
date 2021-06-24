@@ -46,7 +46,7 @@
             <Font name="Copperplate Gothic Light" size="18.0" />
          </font>
       </Text>
-      <Text fx:id="reult2" fill="WHITE" layoutX="3.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEXT" textAlignment="CENTER" visible="false" wrappingWidth="855.0">
+      <Text fx:id="result2" fill="WHITE" layoutX="3.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEXT" textAlignment="CENTER" visible="false" wrappingWidth="855.0">
          <font>
             <Font name="Copperplate Gothic Light" size="18.0" />
          </font>
