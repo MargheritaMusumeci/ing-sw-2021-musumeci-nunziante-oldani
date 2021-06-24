@@ -80,8 +80,6 @@ public class ViewPlayerController extends ViewController {
 
             for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
-                System.out.println(gui.getView().getDashboard().getSerializableProductionZones().length);
-                System.out.println(leaderIndex);
                 if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length +
                                         gui.getView().getDashboard().getSerializableLeaderProductionZones().length > 4))
                     productionPositions.add(3);
@@ -92,7 +90,6 @@ public class ViewPlayerController extends ViewController {
         }
 
         if (productionPositions.size() != 0 || activeBasic) {
-            System.out.println("Active the production");
             gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
@@ -139,12 +136,10 @@ public class ViewPlayerController extends ViewController {
         Button button = (Button) actionEvent.getSource();
 
         if (button.equals(activeProduction4Button)) {
-            System.out.println("Selected activeProduction4Button");
             activeProduction4.setSelected(true);
             gui.setLeaderPosition(1);
         }
         else {
-            System.out.println("Selected activeProduction5Button");
             activeProduction5.setSelected(true);
             gui.setLeaderPosition(2);
         }
@@ -169,7 +164,6 @@ public class ViewPlayerController extends ViewController {
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                //System.out.println("Activated stock leader ability");
                 gui.addStockLeaderCardInUse(cardNumber);
             }
             if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
@@ -194,25 +188,20 @@ public class ViewPlayerController extends ViewController {
 
         if (button.equals(active1)) {
             leaderWaitForAck = 1;
-            //System.out.println("Active leader card 1");
             gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
         } else {
             leaderWaitForAck = 2;
-            //System.out.println("Active leader card 2");
             if (gui.getView().getLeaderCards().size() == 1) {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
-                //System.out.println("Activated card 0 in model");
             } else {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
-                //System.out.println("Activated card 1 in model");
-            }
+           }
         }
         gui.setAckArrived(false);
         gui.setUpdateDashboardArrived(false);
         gui.setNackArrived(false);
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
         gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
-       // System.out.println("Active leader");
     }
 
     /**
@@ -290,16 +279,6 @@ public class ViewPlayerController extends ViewController {
 
         //set leader card
         ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
-        System.out.println("Leader card size is: " + leaderCards.size());
-
-        if(gui.getLeaderCards() == null){
-            System.out.println("Attribute leaderCards in gui is null");
-        }else{
-            System.out.println("Printing the attribute leaderCards of gui");
-            for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
-                System.out.println("Leader card with ability type: " + leaderCard.getAbilityType());
-            }
-        }
 
         if (leaderCards.size() > 0) {
 
@@ -451,13 +430,10 @@ public class ViewPlayerController extends ViewController {
                 }
             }
         }
-        System.out.println("There are " + gui.getStockLeaderCardInUse().size() + " stock leader card in use");
 
         if (gui.getStockLeaderCardInUse() != null && gui.getStockLeaderCardInUse().size() != 0) {
             for(int i = 0 ; i < gui.getView().getDashboard().getSerializableStock().getBoxPlus().size() ; i++){//stockLeaderCardInUse.size()
                 int leaderPosition = gui.getStockLeaderCardInUse().get(i);
-
-                System.out.println("Initializing stock plus");
 
                 if (gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
                     for(int j = 0 ; j < gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){

@@ -315,9 +315,8 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
     protected void initEnemiesButton() {
         ArrayList<Button> enemyButtons = new ArrayList<>(Arrays.asList(enemy0Button, enemy1Button, enemy2Button, enemy3Button));
 
-        System.out.println(gui.getPlayers());
         int index = 0;
-        System.out.println(index);
+
         if (gui.getPlayers() > 1) {
             enemyButtons.get(0).setDisable(false);
             enemyButtons.get(0).setVisible(true);
@@ -325,12 +324,10 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
 
             index = 1;
             for (String nickName : gui.getView().getEnemiesDashboard().keySet()) {
-                System.out.println(nickName);
                 enemyButtons.get(index).setDisable(false);
                 enemyButtons.get(index).setVisible(true);
                 enemyButtons.get(index).setText(nickName);
                 index++;
-                System.out.println(index);
             }
         }
         //Don't show button not linked to a player
@@ -338,7 +335,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
             enemyButtons.get(i).setVisible(false);
             enemyButtons.get(i).setDisable(true);
         }
-
     }
 
     /**
@@ -368,7 +364,6 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         Button button = (Button) actionEvent.getSource();
 
         gui.setOtherView(button.getText());
-        System.out.println(button.getText());
         synchronized (gui) {
             if (!gui.getOtherView().equals(gui.getNickname())) {
                 gui.setGamePhase(GamePhases.SEEOTHERVIEW);

@@ -69,7 +69,7 @@ public class GUI extends Application {
     /**
      * This array list contains the position of the leader cards discarded
      */
-    private ArrayList<Boolean> leaderCardsDiscarded;
+    private final ArrayList<Boolean> leaderCardsDiscarded;
     private ArrayList<Resource> resources;
     private String nickname;
     /**
@@ -186,11 +186,9 @@ public class GUI extends Application {
     public void changeScene() {
 
         Platform.runLater(()->{
-            //System.out.println("Phase is: " + gamePhase);
             currentStage.setScene(currentScene);
             if(gamePhase.equals(GamePhases.SEEOTHERVIEW)) ((ViewEnemyController) controllers.get(fxml.get(gamePhase))).setNickname(otherView);
             controllers.get(fxml.get(gamePhase)).init();
-            //System.out.println("show scene " + phases.get(currentScene));
             currentStage.show();
             errorFromServer="";
         });

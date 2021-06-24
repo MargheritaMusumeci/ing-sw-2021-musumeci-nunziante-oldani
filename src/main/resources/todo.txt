@@ -6,6 +6,10 @@ da fare:
 -controllare che ci siano tutti i javadoc
 -sistemarel'uml iniziale
 -fare gli uml richiesti (completo più classi pricipali)
+-fare il README
+-eliminare gli sout
+-try run.later
+-pulire il codice dai warnings
 
 in atto:
 
