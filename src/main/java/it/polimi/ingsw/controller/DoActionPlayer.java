@@ -134,40 +134,12 @@ public class DoActionPlayer {
         newResources.put(Resource.ROCK, 0);
         newResources.put(Resource.NOTHING, 0);
 
-
-        /*
-        for(int i =0; i<saveResources.size();i++){
-            if(saveResources.get(i).equals(Resource.COIN)){coin++;}
-            if(saveResources.get(i).equals(Resource.SHIELD)){shield++;}
-            if(saveResources.get(i).equals(Resource.ROCK)){rock++;}
-            if(saveResources.get(i).equals(Resource.SERVANT)){servant++;}
-        }
-
-         */
-
         for (Resource r : saveResources){
             newResources.put(r, newResources.get(r) + 1);
         }
         for (Resource r: resourceList){
             oldResources.put(r, newResources.get(r) + 1);
         }
-
-        /*
-        int coinOld =0;
-        int rockOld=0;
-        int shieldOld=0;
-        int servantOld=0;
-        int nothingOld=0;
-
-        for(int i =0; i<resourceList.size();i++){
-            if(resourceList.get(i).equals(Resource.COIN)){coinOld++;}
-            if(resourceList.get(i).equals(Resource.SHIELD)){shieldOld++;}
-            if(resourceList.get(i).equals(Resource.ROCK)){rockOld++;}
-            if(resourceList.get(i).equals(Resource.SERVANT)){servantOld++;}
-            if(resourceList.get(i).equals(Resource.NOTHING)){nothingOld++;}
-        }
-
-         */
 
         //if two leader cards are activated
         int leaderCardActived = 0;
