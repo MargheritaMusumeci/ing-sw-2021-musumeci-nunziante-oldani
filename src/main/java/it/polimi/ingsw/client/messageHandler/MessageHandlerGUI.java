@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.controllers.ViewPlayerController;
 import it.polimi.ingsw.client.gui.GameFxml;
 import it.polimi.ingsw.client.gui.GamePhases;
+import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
@@ -114,8 +115,6 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleMessage(StartGameMessage message) {
-        //useless ??
-        System.out.println("ho inviato il messaggio inutile ? ");
     }
 
     /**
@@ -303,7 +302,10 @@ public class MessageHandlerGUI extends MessageHandler {
     }
 
     @Override
-    public void handleMessage(AbortGameMessage abortGameMessage) {}
+    public void handleMessage(AbortGameMessage abortGameMessage) {
+        //game is aborted
+        System.exit(0);
+    }
 
     /**
      * Initial market and evolution section sent before the view is created.
@@ -329,6 +331,8 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.setOldScene(gui.getScene(GameFxml.ENDGAME.s));
             gui.setCurrentScene(gui.getScene(GameFxml.ENDGAME.s));
             gui.changeScene();
+
+            gui.getClientSocket().send(new ExitGameMessage("exit game"));
         }
     }
 }
