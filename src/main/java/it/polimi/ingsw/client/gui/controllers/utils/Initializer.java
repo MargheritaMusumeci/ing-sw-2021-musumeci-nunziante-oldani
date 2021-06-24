@@ -98,10 +98,10 @@ public class Initializer {
         boolean[] popeCardDiscarded = dashboard.getSerializablePopeTack().getDiscardCards();
 
         for (int i = 0; i < 3; i++) {
-            if(popeCardActive[i]==true){
+            if(popeCardActive[i]){
                 popeCards.get(i).setImage(printer.fromPathToPopeCard(printer.fromPositionToActivePope(i)));
             }
-            if(popeCardDiscarded[i]==true){
+            if(popeCardDiscarded[i]){
                 popeCards.get(i).setImage(printer.fromPathToPopeCard(printer.fromPositionToDiscardPope(i)));
             }
         }

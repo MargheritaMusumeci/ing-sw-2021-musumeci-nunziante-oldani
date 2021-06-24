@@ -6,8 +6,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -99,8 +97,8 @@ public class Print {
 
     /**
      * Method that prints
-     * @param resource
-     * @return
+     * @param resource Resource name
+     * @return path
      */
     public String pathFromResource(Resource resource){
 

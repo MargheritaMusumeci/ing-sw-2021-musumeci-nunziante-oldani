@@ -9,7 +9,6 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMess
 import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -20,7 +19,7 @@ import java.util.Arrays;
 public class ProductionZoneChoiceController implements Controller {
 
     private GUI  gui;
-    private Print printer;
+    private final Print printer;
 
     @FXML private ImageView evolutionCard_0;//evolutionCard on the production zone 0
     @FXML private ImageView evolutionCard_1;//evolutionCard on the production zone 1
@@ -73,8 +72,8 @@ public class ProductionZoneChoiceController implements Controller {
             error.setVisible(true);
         }
 
-        eCards = new ArrayList<ImageView>(Arrays.asList(evolutionCard_0 , evolutionCard_1 , evolutionCard_2));
-        buttons = new ArrayList<RadioButton>(Arrays.asList(production0 , production1 , production2));
+        eCards = new ArrayList<>(Arrays.asList(evolutionCard_0, evolutionCard_1, evolutionCard_2));
+        buttons = new ArrayList<>(Arrays.asList(production0, production1, production2));
 
         //Show buttons
         for(RadioButton button : buttons)

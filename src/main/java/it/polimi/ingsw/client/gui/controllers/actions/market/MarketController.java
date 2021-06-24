@@ -10,7 +10,6 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyFromMarketMessage
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
@@ -35,8 +34,6 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
     @FXML private RadioButton Colonna3;
     @FXML private Text error;
 
-    private Initializer initializer;
-
     @Override
     public void init() {
 
@@ -50,7 +47,7 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
         confirm.setVisible(true);
         cancel.setVisible(true);
 
-        this.initializer = new Initializer(gui);
+        Initializer initializer = new Initializer(gui);
 
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);

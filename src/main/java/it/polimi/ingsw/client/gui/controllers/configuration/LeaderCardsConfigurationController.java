@@ -8,15 +8,11 @@ import it.polimi.ingsw.client.gui.GameFxml;
 import it.polimi.ingsw.client.gui.GamePhases;
 import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.LeaderCardChoiceMessage;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 

@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.gui.GamePhases;
 import it.polimi.ingsw.client.gui.controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
