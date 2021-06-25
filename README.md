@@ -18,8 +18,8 @@ In Masters of Renaissance you are an important citizen of Florence and your goal
 | Cognome | Nome | e-mail | Matricola | Codice Persona
 | ------ | ------ |----- |----- |----- |
 | Musumeci | Margherita| margherita.musumeci@mail.polimi.it| 907435| 10600069
-| Nunziante |  Matteo| matteo.nunziante@mail.polimi.it | xxxxxx | xxxxxxxxx
-| Oldani |Matteo| matteo.olani@mail.polimi.it  | 910756 | 10620207
+| Nunziante |  Matteo| matteo.nunziante@mail.polimi.it | 913670 | 10670132
+| Oldani |Matteo| matteo.oldani@mail.polimi.it  | 910756 | 10620207
 
 ## External libraries and tools
 
