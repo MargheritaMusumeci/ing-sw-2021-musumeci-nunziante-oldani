@@ -2,17 +2,20 @@ Musumeci:
 
 da fare:
 
--sistemare le risorse iniziali
+-sistemare lorenzo buy card action
+-sistemare lorenzo pope card
+
 -controllare i test
 -controllare che ci siano tutti i javadoc
--sistemarel'uml iniziale
+
 -fare gli uml richiesti (completo più classi pricipali)
 -fare il README
 -eliminare gli sout
 -pulire il codice dai warnings
 
 fatto:
-
+-sistemarel'uml iniziale
+-sistemare le risorse iniziali
 -mostrare il regolamento
 -fine gioco --> sistemare looser --> dovrebbe andare
 -POPE CARD --> se supero la posizione non gira la carta
