@@ -12,6 +12,17 @@ import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import java.io.InputStream;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.awt.Desktop;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -76,12 +87,12 @@ public class ViewPlayerController extends ViewController {
 
         //leader production
         ArrayList<Resource> leaderEnsure = new ArrayList<>();
-        if(gui.getLeaderEnsure() != null) {
+        if (gui.getLeaderEnsure() != null) {
 
-            for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
+            for (Integer leaderIndex : gui.getLeaderEnsure().keySet()) {
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
-                if(leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length +
-                                        gui.getView().getDashboard().getSerializableLeaderProductionZones().length > 4))
+                if (leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length +
+                        gui.getView().getDashboard().getSerializableLeaderProductionZones().length > 4))
                     productionPositions.add(3);
                 else {
                     productionPositions.add(4);
@@ -94,7 +105,7 @@ public class ViewPlayerController extends ViewController {
             gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
 
-            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures() , leaderEnsure));
+            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures(), leaderEnsure));
         }
 
         activeBasic = false;
@@ -127,6 +138,7 @@ public class ViewPlayerController extends ViewController {
     /**
      * Method called when the player wanna choose a resource as optional resource for the leader production
      * The new game phase will be LEADER_PRODUCTION and the scene will chang
+     *
      * @param actionEvent is the click of the button activeProduction4Button or activeProduction5Button
      *                    corresponding to the active leader card with the ability PRODUCTION_POWER
      */
@@ -138,8 +150,7 @@ public class ViewPlayerController extends ViewController {
         if (button.equals(activeProduction4Button)) {
             activeProduction4.setSelected(true);
             gui.setLeaderPosition(1);
-        }
-        else {
+        } else {
             activeProduction5.setSelected(true);
             gui.setLeaderPosition(2);
         }
@@ -157,14 +168,14 @@ public class ViewPlayerController extends ViewController {
      */
     public void activeLeaderACK() {
 
-        if(leaderWaitForAck == 1 || leaderWaitForAck == 2){
+        if (leaderWaitForAck == 1 || leaderWaitForAck == 2) {
             int cardNumber = leaderWaitForAck - 1;
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
                 gui.addStockLeaderCardInUse(cardNumber);
             }
-            if(gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+            if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)) {
                 activeLeaderProduction.get(cardNumber).setVisible(true);
                 activeLeaderProduction.get(cardNumber).setDisable(false);
             }
@@ -177,6 +188,7 @@ public class ViewPlayerController extends ViewController {
      * This method will save the position of the leader card the player wants to activate and then send the message
      * ActiveLeaderCard.
      * Then, set the game phase to ASK_ACTIVE_LEADER, necessary when the ack will arrive
+     *
      * @param actionEvent is the click of the button active leader card
      */
     @FXML
@@ -193,7 +205,7 @@ public class ViewPlayerController extends ViewController {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 0));
             } else {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
-           }
+            }
         }
         gui.setAckArrived(false);
         gui.setUpdateDashboardArrived(false);
@@ -206,6 +218,7 @@ public class ViewPlayerController extends ViewController {
      * Method called when the player click on discard leader card
      * The player can always discard a leader card, no resources or requirements are needed
      * DiscardLeaderCardMessage will be sent byt this method
+     *
      * @param actionEvent button clicked
      */
     @FXML
@@ -217,17 +230,17 @@ public class ViewPlayerController extends ViewController {
             discard1.setVisible(false);
             leader1.setVisible(false);
             gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 0));
-            gui.getLeaderCardsDiscarded().set(0 , true);
+            gui.getLeaderCardsDiscarded().set(0, true);
         } else {
             active2.setVisible(false);
             discard2.setVisible(false);
             leader2.setVisible(false);
             if (gui.getView().getLeaderCards().size() == 1) {
                 gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 0));
-                gui.getLeaderCardsDiscarded().set(0 , true);
+                gui.getLeaderCardsDiscarded().set(0, true);
             } else {
                 gui.getClientSocket().send(new DiscardLeaderCardMessage("discard leader card", 1));
-                gui.getLeaderCardsDiscarded().set(1 , true);
+                gui.getLeaderCardsDiscarded().set(1, true);
             }
         }
         initializer.initPopeTrack(popeTrackPositions);
@@ -239,9 +252,9 @@ public class ViewPlayerController extends ViewController {
     @Override
     public void init() {
 
-        if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
+        if (gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")) {
             error.setText(gui.getErrorFromServer());
-        }else{
+        } else {
             error.setText(null);
         }
 
@@ -284,12 +297,12 @@ public class ViewPlayerController extends ViewController {
             leader1.setImage(printer.fromPathToImageLeader(path));
 
             if (leaderCards.get(0).isActive()) {
-                if(leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()){
+                if (leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()) {
                     discard1.setVisible(false);
                     active1.setVisible(false);
                     activeProduction4Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
                     activeProduction4Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
-                }else{
+                } else {
                     discard2.setVisible(false);
                     active2.setVisible(false);
                     activeProduction5Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
@@ -297,14 +310,13 @@ public class ViewPlayerController extends ViewController {
                 }
             }
             //if the card is been discarded
-            else if(gui.getLeaderCardsDiscarded().get(0)){
+            else if (gui.getLeaderCardsDiscarded().get(0)) {
                 active1.setVisible(false);
                 discard1.setVisible(false);
                 activeProduction4Button.setVisible(false);
                 activeProduction4.setVisible(false);
                 activeProduction4.setDisable(false);
-            }
-            else{
+            } else {
                 active1.setVisible(true);
                 discard1.setVisible(true);
                 activeProduction4Button.setVisible(false);
@@ -322,8 +334,7 @@ public class ViewPlayerController extends ViewController {
 
                     activeProduction5Button.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
                     activeProduction5Button.setDisable(!(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
-                }
-                else{
+                } else {
                     active2.setVisible(true);
                     discard2.setVisible(true);
                     activeProduction5Button.setVisible(false);
@@ -331,31 +342,30 @@ public class ViewPlayerController extends ViewController {
                     activeProduction5.setDisable(false);
                 }
             }
-        }
-        else{
+        } else {
             activeProduction4.setVisible(false);
             activeProduction5.setVisible(false);
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList( active1,active2,discard1,discard2,activeProduction4Button,activeProduction5Button));
-            initializer.visibleButton(buttons,false);
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1, active2, discard1, discard2, activeProduction4Button, activeProduction5Button));
+            initializer.visibleButton(buttons, false);
         }
 
         //Hide leader buttons if the phase is OTHER_PLAYER_TURN
-        if(gui.getGamePhase() == GamePhases.OTHERPLAYERSTURN){
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1,active2,discard1,discard2,activeProduction4Button,activeProduction5Button));
-            initializer.visibleButton(buttons,false);
+        if (gui.getGamePhase() == GamePhases.OTHERPLAYERSTURN) {
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1, active2, discard1, discard2, activeProduction4Button, activeProduction5Button));
+            initializer.visibleButton(buttons, false);
         }
 
-        if(gui.isActionDone()){
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProduction4Button , activeProduction5Button));
-            initializer.visibleButton(buttons,false);
+        if (gui.isActionDone()) {
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProduction4Button, activeProduction5Button));
+            initializer.visibleButton(buttons, false);
         }
 
         //leader production
-        if(gui.getLeaderEnsure() != null) {
-            for (Integer leaderIndex: gui.getLeaderEnsure().keySet()){
-                if(leaderIndex == 1) {
+        if (gui.getLeaderEnsure() != null) {
+            for (Integer leaderIndex : gui.getLeaderEnsure().keySet()) {
+                if (leaderIndex == 1) {
                     leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
-                }else {
+                } else {
                     leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(2))));
                 }
             }
@@ -366,13 +376,13 @@ public class ViewPlayerController extends ViewController {
      * Init the basic production.
      * Show the resources if the basic production is been already set in the turn, set no resources otherwise
      */
-    private void initBasicProduction(){
+    private void initBasicProduction() {
 
         if (activeBasic && gui.getBasicRequires() != null && gui.getBasicEnsures() != null) {
             basicRequires1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(0))));
             basicRequires2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicRequires().get(1))));
             basicEnsure.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getBasicEnsures().get(0))));
-        }else{
+        } else {
             basicRequires1.setImage(null);
             basicRequires2.setImage(null);
             basicEnsure.setImage(null);
@@ -383,16 +393,16 @@ public class ViewPlayerController extends ViewController {
      * method that initializes the buttons of the view according to the game phase: MY_TURN or OTHER_PLAYERS_TURN
      */
     private void initButtons() {
-        if(gui.getGamePhase()!=GamePhases.OTHERPLAYERSTURN) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,endTurn));
-            initializer.visibleButton(buttons , true);
-            buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton,activeProduction4Button,activeProduction5Button));
+        if (gui.getGamePhase() != GamePhases.OTHERPLAYERSTURN) {
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, endTurn));
+            initializer.visibleButton(buttons, true);
+            buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, activeProduction4Button, activeProduction5Button));
             initializer.ableDisableButtons(buttons, gui.isActionDone());
-            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,gui.isActionDone());
-        }else{
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1,active2,discard1,discard2,activeProduction4Button,activeProduction4Button, endTurn));
-            initializer.visibleButton(buttons,false);
-            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes,true);
+            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes, gui.isActionDone());
+        } else {
+            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProductionsButton, basicProductionButton, marketButton, showCardsButton, active1, active2, discard1, discard2, activeProduction4Button, activeProduction4Button, endTurn));
+            initializer.visibleButton(buttons, false);
+            initializer.ableDisableCheckBoxes(activeProductionCheckBoxes, true);
         }
     }
 
@@ -415,14 +425,13 @@ public class ViewPlayerController extends ViewController {
         //Take the boxes of the simple stock
         ArrayList<Resource[]> boxes = gui.getView().getDashboard().getSerializableStock().getBoxes();
 
-        for(int i = 0 ; i < boxes.size() ; i++){
-            if(boxes.get(i) != null){
-                for(int j = 0 ; j < boxes.get(i).length ; j++){
-                    if(boxes.get(i)[j] != null){
+        for (int i = 0; i < boxes.size(); i++) {
+            if (boxes.get(i) != null) {
+                for (int j = 0; j < boxes.get(i).length; j++) {
+                    if (boxes.get(i)[j] != null) {
                         String path = printer.pathFromResource(boxes.get(i)[j]);
                         stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
-                    }
-                    else{
+                    } else {
                         stockBoxes.get(i).get(j).setImage(null);
                     }
                 }
@@ -430,17 +439,16 @@ public class ViewPlayerController extends ViewController {
         }
 
         if (gui.getStockLeaderCardInUse() != null && gui.getStockLeaderCardInUse().size() != 0) {
-            for(int i = 0 ; i < gui.getView().getDashboard().getSerializableStock().getBoxPlus().size() ; i++){//stockLeaderCardInUse.size()
+            for (int i = 0; i < gui.getView().getDashboard().getSerializableStock().getBoxPlus().size(); i++) {//stockLeaderCardInUse.size()
                 int leaderPosition = gui.getStockLeaderCardInUse().get(i);
 
-                if (gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0){
-                    for(int j = 0 ; j < gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length ; j++){
-                        if(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null){
+                if (gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length != 0) {
+                    for (int j = 0; j < gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i).length; j++) {
+                        if (gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j] != null) {
                             String path = printer.pathFromResource(gui.getView().getDashboard().getSerializableStock().getBoxPlus().get(i)[j]);
                             stockPlus.get(leaderPosition).get(j).setImage(printer.fromPathToImageResource(path));
                             stockPlus.get(leaderPosition).get(j).setVisible(true);
-                        }
-                        else{
+                        } else {
                             stockPlus.get(leaderPosition).get(j).setImage(null);
                         }
                     }
@@ -455,7 +463,7 @@ public class ViewPlayerController extends ViewController {
      * If the player didn't do any action in this turn yet, show the error
      */
     @FXML
-    public void endTurn(){
+    public void endTurn() {
         if (gui.isActionDone()) {
             gui.setActionDone(false);
             gui.setLeaderEnsure(new HashMap<>());
@@ -463,9 +471,38 @@ public class ViewPlayerController extends ViewController {
             activeProduction4.setSelected(false);
             gui.getClientSocket().send(new EndTurnMessage("Turn ended"));
 
-        }else{
+        } else {
             error.setText("You haven't taken the action yet");
             error.setVisible(true);
         }
     }
+
+
+    @FXML
+    /**
+     * Method that allows user to see game rules
+     */
+    public void showRules() {
+
+        String inputPdf = "doc/rules_ita.pdf";
+        Path tempOutput = null;
+        try {
+            tempOutput = Files.createTempFile("Rules", ".pdf");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        tempOutput.toFile().deleteOnExit();
+
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(inputPdf)) {
+            Files.copy(is, tempOutput, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Desktop.getDesktop().open(tempOutput.toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

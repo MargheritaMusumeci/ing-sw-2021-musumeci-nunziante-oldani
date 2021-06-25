@@ -293,8 +293,8 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleMessage(AbortGameMessage abortGameMessage) {
-        //game is aborted
-        System.exit(0);
+        gui.setErrorFromServer("Game is aborted, please close the windows and retry later");
+        gui.changeScene();
     }
 
     /**
