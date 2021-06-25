@@ -4,8 +4,6 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.board.ProductionZone;
-import it.polimi.ingsw.model.cards.LeaderAbility;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
@@ -32,7 +30,6 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
             endGame();
         }
     }
-
 
     /**
      * Method that check who is the winner
@@ -78,8 +75,6 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
     @Override
     public void checkEndGame(){
 
-        System.out.println("sono nel metodo CheckEndGame");
-
         try{
             //someone reached the end of the track
             for (Player player :modelGame.getPlayers()) {
@@ -101,7 +96,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
 
     /**
      * Method called in the end of the turn
-     * @return
+     * @return a message informing all players that the turn has changed or the game is over
      */
     @Override
     public Message endTurn() {
@@ -112,12 +107,6 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
             if(pZone.getCard() != null)
                 pZone.getCard().setActive(false);
         }
-
-        /*for (LeaderCard leaderCard: modelGame.getActivePlayer().getDashboard().getLeaderCards()) {
-            if (!leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
-                leaderCard.setUsed(false);
-            }
-        }*/
 
         if(!isTheLastTurn) checkEndGame();
 
@@ -132,6 +121,10 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
         return new UpdateActivePlayerMessage(modelGame.getActivePlayer().getNickName());
     }
 
+    /**
+     * Method that collects information about players and their scores and notifies all users the results.
+     * @return a message that contains all information about final results
+     */
     @Override
     public Message endGame(){
         ArrayList<String> winners = new ArrayList<>();
@@ -140,14 +133,12 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
         try{
             checkWinner();
 
-
             for (Player player : modelGame.getPlayers()){
                 if(player.isWinner()){
                     winners.add(player.getNickName());
                 }
                 scores.put(player.getNickName(), player.getDashboard().getScore());
             }
-
 
         }catch (Exception e){
             e.printStackTrace();

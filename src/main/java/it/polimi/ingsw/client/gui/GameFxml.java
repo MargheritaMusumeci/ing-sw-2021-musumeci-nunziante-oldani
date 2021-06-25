@@ -26,6 +26,9 @@ public enum GameFxml {
     private GamePhases gamePhases;
     public final String s;
 
+    /**
+     * Associate phase to fxml file
+     */
     static{
         IP_PORT.gamePhases=GamePhases.INITIALIZATION;
         NICKNAME.gamePhases=GamePhases.NICKNAME;

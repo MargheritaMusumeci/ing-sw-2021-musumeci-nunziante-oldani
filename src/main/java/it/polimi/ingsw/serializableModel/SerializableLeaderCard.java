@@ -32,7 +32,6 @@ public class SerializableLeaderCard implements Serializable {
         this.point = leaderCard.getPoint();
         this.abilityResource = leaderCard.getAbilityResource();
         this.isActive = leaderCard.isActive();
-        this.isUsed = leaderCard.isUsed();
         this.id = leaderCard.getId();
     }
 
@@ -66,10 +65,6 @@ public class SerializableLeaderCard implements Serializable {
 
     public boolean isActive() {
         return isActive;
-    }
-
-    public boolean isUsed() {
-        return isUsed;
     }
 
     public int getId() {

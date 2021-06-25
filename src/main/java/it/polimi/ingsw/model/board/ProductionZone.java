@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.board;
 
-import it.polimi.ingsw.exception.InvalidPlaceException;
 import it.polimi.ingsw.model.cards.Card;
-import it.polimi.ingsw.model.listeners.ProductionZoneListener;
 import it.polimi.ingsw.model.osservables.ProductionZoneObservable;
 
 import java.io.Serializable;

@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class LeaderCard extends LeaderCardObservable implements Card, Serializable{
 
     /**
-     * unique id for every leader card
+     * Unique id for every leader card
      */
     private int id;
 
@@ -69,12 +69,6 @@ public class LeaderCard extends LeaderCardObservable implements Card, Serializab
      */
     private boolean isActive;
 
-    /**
-     * If true,Leader Card Power is used
-     * @return
-     */
-    private boolean isUsed;
-
     public CardColor[] getRequiresColor() {
         return requiresColor;
     }
@@ -107,10 +101,18 @@ public class LeaderCard extends LeaderCardObservable implements Card, Serializab
         return products;
     }
 
+    /**
+     * Method that returns true if user activate the leader card
+     * @return leader card status
+     */
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     *
+     * @return leader card unique id
+     */
     public int getId() {
         return id;
     }
@@ -121,19 +123,6 @@ public class LeaderCard extends LeaderCardObservable implements Card, Serializab
      */
     public void setActive(boolean value){
         isActive = value;
-        notifyLeaderCardListener(this);
-    }
-
-    public boolean isUsed() {
-        return isUsed;
-    }
-
-    /**
-     * Method used for know if player is using leader power during turn
-     * @param used is true if the card is using, false otherwise
-     */
-    public void setUsed(boolean used) {
-        if(isActive) isUsed = used;
         notifyLeaderCardListener(this);
     }
 

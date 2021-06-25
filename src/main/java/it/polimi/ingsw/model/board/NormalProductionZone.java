@@ -69,15 +69,4 @@ public class NormalProductionZone extends ProductionZone implements Serializable
         return cards.isEmpty() ? null : cards.get(0).getLevel();
     }
 
-    /**
-     * Added a getValue method in the enum
-     * Method added just for simplify checks in addCard
-     * @param levelEnum enum variable
-     * @return int represent level
-     */
-    private int compare(LevelEnum levelEnum){
-        if(levelEnum.equals(LevelEnum.FIRST)){return 1;}
-        else if(levelEnum.equals(LevelEnum.SECOND)){return 2;}
-        else{return 3;}
-    }
 }

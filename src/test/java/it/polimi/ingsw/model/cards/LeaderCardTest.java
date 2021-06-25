@@ -109,25 +109,4 @@ public class LeaderCardTest {
         assertTrue(leaderCardSet.getLeaderCard(2).isActive());
     }
 
-    @Test
-    public void isUsedTest() {
-        LeaderCardSet leaderCardSet = new LeaderCardSet();
-        assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
-        leaderCardSet.getLeaderCard(2).setUsed(true);
-        assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
-        leaderCardSet.getLeaderCard(2).setActive(true);
-        leaderCardSet.getLeaderCard(2).setUsed(true);
-        assertTrue(leaderCardSet.getLeaderCard(2).isUsed());
-    }
-
-    @Test
-    public void setIsUsedTest() {
-        LeaderCardSet leaderCardSet = new LeaderCardSet();
-        assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
-        leaderCardSet.getLeaderCard(2).setUsed(true);
-        assertFalse(leaderCardSet.getLeaderCard(2).isUsed());
-        leaderCardSet.getLeaderCard(2).setActive(true);
-        leaderCardSet.getLeaderCard(2).setUsed(true);
-        assertTrue(leaderCardSet.getLeaderCard(2).isUsed());
-    }
 }

@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+/**
+ * All possible levels of evolution cards
+ */
 public enum LevelEnum implements Serializable {
     @SerializedName("1")
     FIRST,

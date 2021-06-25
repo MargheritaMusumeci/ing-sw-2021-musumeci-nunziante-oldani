@@ -80,7 +80,7 @@ public class BasicProductionController implements Controller {
             basicRequires.add(Resource.ROCK);
         }
         if(radio == servant1){
-            basicRequires.add(Resource.ROCK);
+            basicRequires.add(Resource.SERVANT);
         }
 
         if(radio2 == coin2){
@@ -93,7 +93,7 @@ public class BasicProductionController implements Controller {
             basicRequires.add(Resource.ROCK);
         }
         if(radio2 == servant2){
-            basicRequires.add(Resource.ROCK);
+            basicRequires.add(Resource.SERVANT);
         }
 
         if(radio3 == coin3){

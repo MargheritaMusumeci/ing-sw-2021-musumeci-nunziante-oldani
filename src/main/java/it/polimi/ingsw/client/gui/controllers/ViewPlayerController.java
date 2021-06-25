@@ -13,19 +13,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import java.io.InputStream;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.awt.Desktop;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ViewPlayerController extends ViewController {
 
@@ -207,9 +204,6 @@ public class ViewPlayerController extends ViewController {
                 gui.getClientSocket().send(new ActiveLeaderCardMessage("active leader card", 1));
             }
         }
-        gui.setAckArrived(false);
-        gui.setUpdateDashboardArrived(false);
-        gui.setNackArrived(false);
         gui.setGamePhase(GamePhases.ASKACTIVELEADER);
         gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
     }
@@ -477,11 +471,10 @@ public class ViewPlayerController extends ViewController {
         }
     }
 
-
-    @FXML
     /**
      * Method that allows user to see game rules
      */
+    @FXML
     public void showRules() {
 
         String inputPdf = "doc/rules_ita.pdf";
@@ -491,10 +484,10 @@ public class ViewPlayerController extends ViewController {
         } catch (IOException e) {
             error.setText("There was a problem opening the rules, please try again later");
         }
-        tempOutput.toFile().deleteOnExit();
+        Objects.requireNonNull(tempOutput).toFile().deleteOnExit();
 
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(inputPdf)) {
-            Files.copy(is, tempOutput, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Objects.requireNonNull(is), tempOutput, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             error.setText("There was a problem opening the rules, please try again later");
         }

@@ -84,13 +84,6 @@ public class GUI extends Application {
     private String otherView;
 
     /**
-     * To avoid problem with ack/update message
-     */
-    private boolean isAckArrived;
-    private boolean isNackArrived;
-    private boolean isUpdateDashboardArrived;
-
-    /**
      * To set which evolution card the player wants to buy
      */
     private int cardRow;
@@ -126,10 +119,6 @@ public class GUI extends Application {
         players=0;
         leaderCardsDiscarded = new ArrayList<>(Arrays.asList(false , false));
         stockLeaderCardInUse = new ArrayList<>();
-
-        this.isAckArrived = false;
-        this.isNackArrived = false;
-        this.isUpdateDashboardArrived = false;
     }
 
     public static void main(String[] args) {
@@ -137,6 +126,11 @@ public class GUI extends Application {
         launch(args);
     }
 
+    /**
+     * Method that initialize stage and load scenes
+     * @param primaryStage game stage
+     * @throws Exception impossible start game
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.currentStage = primaryStage;
@@ -144,6 +138,9 @@ public class GUI extends Application {
         initializationStage();
     }
 
+    /**
+     * Close application
+     */
     @Override
     public void stop() {
         System.exit(0);
@@ -172,6 +169,9 @@ public class GUI extends Application {
         currentScene = scenes.get(GameFxml.IP_PORT.s);
     }
 
+    /**
+     * Method for initializing stage:  set title and set icon
+     */
     public void initializationStage() {
         currentStage.setTitle("Masters of Renaissance");
         currentStage.setScene(currentScene);
@@ -190,7 +190,7 @@ public class GUI extends Application {
             if(gamePhase.equals(GamePhases.SEEOTHERVIEW)) ((ViewEnemyController) controllers.get(fxml.get(gamePhase))).setNickname(otherView);
             controllers.get(fxml.get(gamePhase)).init();
             currentStage.show();
-            errorFromServer="";
+            if(!(gamePhase.equals(GamePhases.STORERESOURCES))) errorFromServer="";
         });
     }
 
@@ -372,36 +372,12 @@ public class GUI extends Application {
         this.evolutionSection = evolutionSection;
     }
 
-    public boolean isAckArrived() {
-        return isAckArrived;
-    }
-
-    public void setAckArrived(boolean ackArrived) {
-        isAckArrived = ackArrived;
-    }
-
-    public boolean isUpdateDashboardArrived() {
-        return isUpdateDashboardArrived;
-    }
-
-    public void setUpdateDashboardArrived(boolean updateDashboardArrived) {
-        isUpdateDashboardArrived = updateDashboardArrived;
-    }
-
-    public boolean isNackArrived() {
-        return isNackArrived;
-    }
-
-    public void setNackArrived(boolean nackArrived) {
-        isNackArrived = nackArrived;
-    }
-
     public ArrayList<Integer> getStockLeaderCardInUse() {
         return stockLeaderCardInUse;
     }
 
     public void addStockLeaderCardInUse(Integer cardNumber){
-        System.out.println("Added stockLeaderCardInUse: " + cardNumber);
+
         this.stockLeaderCardInUse.add(cardNumber);
     }
 }

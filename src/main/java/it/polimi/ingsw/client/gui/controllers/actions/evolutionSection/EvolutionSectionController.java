@@ -102,6 +102,7 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
         initEvolutionSection();
     }
 
+
     public void confirmCardSelection(){
         int row = -1;
         int column = -1;
