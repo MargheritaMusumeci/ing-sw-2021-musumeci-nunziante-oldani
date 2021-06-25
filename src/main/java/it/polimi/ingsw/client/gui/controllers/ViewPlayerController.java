@@ -489,19 +489,19 @@ public class ViewPlayerController extends ViewController {
         try {
             tempOutput = Files.createTempFile("Rules", ".pdf");
         } catch (IOException e) {
-            e.printStackTrace();
+            error.setText("There was a problem opening the rules, please try again later");
         }
         tempOutput.toFile().deleteOnExit();
 
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(inputPdf)) {
             Files.copy(is, tempOutput, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            e.printStackTrace();
+            error.setText("There was a problem opening the rules, please try again later");
         }
         try {
             Desktop.getDesktop().open(tempOutput.toFile());
         } catch (IOException e) {
-            e.printStackTrace();
+            error.setText("There was a problem opening the rules, please try again later");
         }
     }
 }
