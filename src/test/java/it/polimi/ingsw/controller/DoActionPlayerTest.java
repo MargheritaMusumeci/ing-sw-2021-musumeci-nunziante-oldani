@@ -617,12 +617,44 @@ public class DoActionPlayerTest {
             assertEquals(oldNumberOfServant + 1 , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT));
             assertEquals(oldPosition + 1 , modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex());
 
+            fail();
         } catch (NonCompatibleResourceException e) {
             fail();
         } catch (ExcessOfPositionException e) {
             fail();
         } catch (NotEnoughResourcesException e) {
+            assertTrue(true);
+        } catch (ActionAlreadyDoneException e) {
             fail();
+        } catch (BadParametersException e) {
+            fail();
+        }
+
+        try {
+            positions = new ArrayList<>();
+            positions.add(3);
+
+            leaderResources = new ArrayList<>();
+            leaderResources.add(Resource.SERVANT);
+
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN , 1);
+
+            int oldPosition = modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex();
+            int oldNumberOfServant = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT);
+            int oldNumberOfCoin = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.COIN);
+
+            doActionPlayer.activeProductionZones(positions , false , null , null , leaderResources);
+
+            assertEquals(oldNumberOfCoin - 1 , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.COIN));
+            assertEquals(oldNumberOfServant + 1 , modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT));
+            assertEquals(oldPosition + 1 , modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex());
+
+        } catch (NonCompatibleResourceException e) {
+            fail();
+        } catch (ExcessOfPositionException e) {
+            fail();
+        } catch (NotEnoughResourcesException e) {
+           fail();
         } catch (ActionAlreadyDoneException e) {
             fail();
         } catch (BadParametersException e) {
@@ -652,6 +684,8 @@ public class DoActionPlayerTest {
             ArrayList<Resource> leaderRequired = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.ROCK));
             ArrayList<Resource> leaderEnsure = new ArrayList<>();
             leaderEnsure.add(Resource.SERVANT);
+
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN , 1);
 
             int oldNumberOfServant = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.SERVANT);
             int oldNumberOfCoin = modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(Resource.COIN);
