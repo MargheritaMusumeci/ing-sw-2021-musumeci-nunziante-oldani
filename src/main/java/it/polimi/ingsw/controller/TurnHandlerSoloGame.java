@@ -46,6 +46,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
      */
     private void doActionLorenzo() throws ExcessOfPositionException {
         if (modelGame.getActivePlayer() instanceof LorenzoPlayer) {
+            System.out.println("In doActionLorenzo");
             LorenzoActionCard lorenzoActionCard = ((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().getActionCard();
 
             //Discard 2 evolution cards
@@ -55,7 +56,8 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
                 for (int i = 0; i < lorenzoActionCard.getNum().get(); i++) {
                     for (int j = 2; j >= 0; j--) {
-                        if (modelGame.getEvolutionSection().getEvolutionSection()[j][positionCol]!=null){
+                        if (modelGame.getEvolutionSection().getEvolutionSection()[j][positionCol] != null &&
+                                modelGame.getEvolutionSection().getEvolutionSection()[j][positionCol].size() > 0){
                             modelGame.getEvolutionSection().buy(j,positionCol);
                             break;
                         }
@@ -66,27 +68,30 @@ public class TurnHandlerSoloGame extends TurnHandler{
             //Move Lorenzo cross
             if(lorenzoActionCard.getActionType()==LorenzoAction.INCREMENTPOPETRACK){
 
-                modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(lorenzoActionCard.getNum().get());
+                for(int i = 0 ; i < lorenzoActionCard.getNum().get() ; i++){
 
-                //Check Pope Section
-                if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getPopePosition() &&
-                        lastSection< modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
+                    modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(1);
 
-                    lastSection = modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection();
-                    modelGame.getActivePlayer().getPopeTrack().getPopeCard().get(lastSection- 1).setIsUsed();
+                    //Check Pope Section
+                    if (modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getPopePosition() &&
+                            lastSection < modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
 
-                    HumanPlayer player;
-                    if(modelGame.getPlayers().get(0) instanceof HumanPlayer){
-                        player = (HumanPlayer) modelGame.getPlayers().get(0);
-                    }else{
-                        player = (HumanPlayer) modelGame.getPlayers().get(1);
-                    }
+                        lastSection = modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection();
+                        //modelGame.getActivePlayer().getPopeTrack().getPopeCard().get(lastSection - 1).setIsUsed();
 
-                    if (player.getPopeTrack().getGamerPosition().getPopeSection() &&
-                            player.getPopeTrack().getGamerPosition().getNumPopeSection() == lastSection) {
-                        player.getPopeTrack().getPopeCard().get( lastSection - 1).setIsUsed();
-                    } else {
-                        player.getPopeTrack().getPopeCard().get(lastSection - 1).setIsDiscard();
+                        HumanPlayer player;
+                        if(modelGame.getPlayers().get(0) instanceof HumanPlayer){
+                            player = (HumanPlayer) modelGame.getPlayers().get(0);
+                        }else{
+                            player = (HumanPlayer) modelGame.getPlayers().get(1);
+                        }
+
+                        if (player.getPopeTrack().getGamerPosition().getPopeSection() &&
+                                player.getPopeTrack().getGamerPosition().getNumPopeSection() == lastSection) {
+                            player.getPopeTrack().getPopeCard().get(lastSection - 1).setIsUsed();
+                        } else {
+                            player.getPopeTrack().getPopeCard().get(lastSection - 1).setIsDiscard();
+                        }
                     }
                 }
 
