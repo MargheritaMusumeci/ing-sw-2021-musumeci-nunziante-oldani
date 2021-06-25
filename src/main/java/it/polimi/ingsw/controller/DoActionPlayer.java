@@ -24,6 +24,9 @@ import java.util.*;
 public class DoActionPlayer {
 
     private final Game modelGame;
+    /**
+     * Resources bought from market
+     */
     private  ArrayList<Resource> resourceList;
     TurnHandler turnHandler;
 
@@ -80,8 +83,7 @@ public class DoActionPlayer {
         }
 
         if(leaderCardActived==1){
-            ArrayList<Resource> resourcesCopy = new ArrayList<>();
-            resourcesCopy.addAll(resourceList);
+            ArrayList<Resource> resourcesCopy = new ArrayList<>(resourceList);
 
             for (Resource res : resourcesCopy) {
                 if (res.equals(Resource.NOTHING)){
@@ -101,23 +103,6 @@ public class DoActionPlayer {
     public Message storeResourcesBought(ArrayList<Resource> saveResources){
 
         HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
-
-        System.out.println("Resources bought");
-        if(resourceList != null){
-            for(Resource resource : resourceList)
-                System.out.println("Resource : " + resource);
-        }
-        else {
-            System.out.println("resourceList is null!");
-        }
-
-        /*
-        int coin =0;
-        int rock=0;
-        int shield=0;
-        int servant=0;
-
-         */
 
         HashMap<Resource, Integer> oldResources = new HashMap<>();
         HashMap<Resource, Integer> newResources = new HashMap<>();
@@ -148,7 +133,7 @@ public class DoActionPlayer {
 
         for(int i = 0; i<humanPlayer.getDashboard().getLeaderCards().size();i++) {
 
-            //per ogni leader card controllo se ha il potere richiesto e se è attiva
+            //for each leader card I check if it has the required power and if it is active
             if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
                     humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
                 leaderCardActived++;
@@ -158,7 +143,7 @@ public class DoActionPlayer {
 
             HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(0).getAbilityResource();
 
-            //salvo la risorsa in cui devo trasformarla
+            //save the resource into which I have to transform it
             for (Resource res : resourcesWhite.keySet()) {
                 if (resourcesWhite.get(res) == 1) {
                     resourceOne = res;
@@ -167,7 +152,7 @@ public class DoActionPlayer {
 
             resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(1).getAbilityResource();
 
-            //salvo la risorsa in cui devo trasformarla
+            //save the resource into which I have to transform it
             for (Resource res : resourcesWhite.keySet()) {
                 if (resourcesWhite.get(res) == 1) {
                     resourceTwo = res;
@@ -180,16 +165,15 @@ public class DoActionPlayer {
                 return new NACKMessage("White resources conversion is wrong");
             }
 
-            //controllare che le cose vecchie non modificabili non siano state modificate
-            if (    (oldResources.get(Resource.COIN) != newResources.get(Resource.COIN) || resourceOne==Resource.COIN || resourceTwo == Resource.COIN) &&
-                    (oldResources.get(Resource.ROCK) != newResources.get(Resource.ROCK) || resourceOne==Resource.ROCK || resourceTwo == Resource.ROCK)&&
-                    (oldResources.get(Resource.SHIELD) != newResources.get(Resource.SHIELD) || resourceOne==Resource.SHIELD || resourceTwo == Resource.SHIELD) &&
-                    (oldResources.get(Resource.SERVANT) != newResources.get(Resource.SERVANT) || resourceOne==Resource.SERVANT || resourceTwo == Resource.SERVANT) ) {
+            //check that old things that cannot be changed have not been changed
+            if (    (!oldResources.get(Resource.COIN).equals(newResources.get(Resource.COIN)) || resourceOne==Resource.COIN || resourceTwo == Resource.COIN) &&
+                    (!oldResources.get(Resource.ROCK).equals(newResources.get(Resource.ROCK)) || resourceOne==Resource.ROCK || resourceTwo == Resource.ROCK)&&
+                    (!oldResources.get(Resource.SHIELD).equals(newResources.get(Resource.SHIELD)) || resourceOne==Resource.SHIELD || resourceTwo == Resource.SHIELD) &&
+                    (!oldResources.get(Resource.SERVANT).equals(newResources.get(Resource.SERVANT)) || resourceOne==Resource.SERVANT || resourceTwo == Resource.SERVANT) ) {
 
                 return new NACKMessage("They are not purchased resources");
                 //notify error
             }
-
 
         }else {
 
@@ -234,7 +218,7 @@ public class DoActionPlayer {
         //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
         List<Player> players = new ArrayList<>();
 
-        if(discardResource.size()>0) {
+        if(Objects.requireNonNull(discardResource).size()>0) {
             for (Player player : modelGame.getPlayers()) {
                 if (!player.equals(modelGame.getActivePlayer())) {
                     players.add(player);
@@ -243,7 +227,7 @@ public class DoActionPlayer {
             moveCross(discardResource.size(), (ArrayList<Player>) players);
         }
 
-        //mossa effettuata
+        //action done
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.STORE_RESOURCE);
         return new ACKMessage("OK");
     }
@@ -264,17 +248,14 @@ public class DoActionPlayer {
     public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException{
         ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
 
-        //I'n not sure moveCross() is useful -> but it will be because every time the position is increased
-        //                                      we need to check if the player arrived in a popePosition or
-        //                                      in new point position in order to increase the score
-        //To do so, moveCross should have as parameters: player , increment
         for(Player player : modelGame.getPlayers()){
             if(player.equals(modelGame.getActivePlayer())) {
-                moveCross(1, new ArrayList<Player>() {{add(player);}});
+                moveCross(1, new ArrayList<>() {{
+                    add(player);
+                }});
                 return;
             }
         }
-
     }
 
     /**
@@ -350,7 +331,7 @@ public class DoActionPlayer {
 
         //Check if the resources the player has are enough
         //I'll sum all the requires and I'll verify if they are present
-        HashMap<Resource , Integer> totalRequires = new HashMap<Resource , Integer>();
+        HashMap<Resource , Integer> totalRequires = new HashMap<>();
         //Initialize the hashMap
         totalRequires.put(Resource.COIN , 0);
         totalRequires.put(Resource.ROCK , 0);
@@ -368,30 +349,30 @@ public class DoActionPlayer {
 
         if(positions != null){
             //Sum all the requires
-            for(int i = 0 ; i < positions.size() ; i++){
+            for (Integer position : positions) {
                 //If a standard production zone
-                if(positions.get(i) < modelGame.getActivePlayer().getDashboard().getProductionZone().length){
-                    if(modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard() == null)
+                if (position < modelGame.getActivePlayer().getDashboard().getProductionZone().length) {
+                    if (modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard() == null)
                         throw new BadParametersException("This production zone is empty");
 
-                    card = modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard();
+                    card = modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
                 }
                 //If a leader production zone
-                else{
+                else {
                     //Theoretically the next if will never be true
-                    if(modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i) - 1) == null)
+                    if (modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - position - 1) == null)
                         throw new BadParametersException("This production zone is empty");
-                    card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i) - 1).getCard();
+                    card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - position - 1).getCard();
                 }
 
-                HashMap<Resource , Integer> cardRequires;
-                if(card instanceof EvolutionCard)
+                HashMap<Resource, Integer> cardRequires;
+                if (card instanceof EvolutionCard)
                     cardRequires = card.getRequires();
                 else
                     cardRequires = ((LeaderCard) card).getAbilityResource();
 
-                for(Resource resource : cardRequires.keySet()){
-                    totalRequires.put(resource , (totalRequires.get(resource) + cardRequires.get(resource)));
+                for (Resource resource : cardRequires.keySet()) {
+                    totalRequires.put(resource, (totalRequires.get(resource) + cardRequires.get(resource)));
                 }
             }
         }
@@ -420,41 +401,40 @@ public class DoActionPlayer {
         }
 
         //Active the production zone
-        for(int i = 0 ; i < positions.size() ; i++){
-            if(positions.get(i) < modelGame.getActivePlayer().getDashboard().getProductionZone().length)
-                card = modelGame.getActivePlayer().getDashboard().getProductionZone()[positions.get(i)].getCard();
+        for (Integer position : positions) {
+            if (position < modelGame.getActivePlayer().getDashboard().getProductionZone().length)
+                card = modelGame.getActivePlayer().getDashboard().getProductionZone()[position].getCard();
             else
-                card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - positions.get(i) - 1).getCard();
+                card = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones().get(numOfProductionZones - position - 1).getCard();
 
-            HashMap<Resource , Integer> cardRequires;
-            HashMap<Resource , Integer> cardProduction;
+            HashMap<Resource, Integer> cardRequires;
+            HashMap<Resource, Integer> cardProduction;
 
-            if(card instanceof EvolutionCard){
+            if (card instanceof EvolutionCard) {
                 cardRequires = card.getRequires();
-            }
-            else {
+            } else {
                 cardRequires = ((LeaderCard) card).getAbilityResource();
             }
 
             //Take resources from Stock and LockBox
             takeResources(cardRequires);
 
-            if(card instanceof EvolutionCard){
+            if (card instanceof EvolutionCard) {
 
                 cardProduction = card.getProduction();
                 //Add the resources produced by the activation of this production zone in LockBox
-                for(Resource resource : cardProduction.keySet()){
+                for (Resource resource : cardProduction.keySet()) {
                     try {
-                        if(!resource.equals(Resource.FAITH))
+                        if (!resource.equals(Resource.FAITH))
                             //Add the resources
-                            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource , cardProduction.get(resource));
-                        else{
+                            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(resource, cardProduction.get(resource));
+                        else {
                             //Increment the pope track position
-                            ArrayList<Player> player = new ArrayList<Player>();
-                            player.add(((Player) modelGame.getActivePlayer()));
-                            moveCross(cardProduction.get(Resource.FAITH) , player);
+                            ArrayList<Player> player = new ArrayList<>();
+                            player.add(modelGame.getActivePlayer());
+                            moveCross(cardProduction.get(Resource.FAITH), player);
                         }
-                    }catch (NotEnoughResourcesException e){
+                    } catch (NotEnoughResourcesException e) {
                         //Impossible be here
                     }
                 }
@@ -462,17 +442,14 @@ public class DoActionPlayer {
             }
 
             //TODO how say the leader production is been activated?
-            if(card instanceof EvolutionCard)
-                card.setActive(true);
-            else
-                ((LeaderCard) card).setUsed(true);
+            card.setActive(true);
         }
 
         //If a leader production is been activated
         if(numOfLeaderProductionActivated > 0){
             //Increment the pope track position
-            ArrayList<Player> player = new ArrayList<Player>();
-            player.add(((Player) modelGame.getActivePlayer()));
+            ArrayList<Player> player = new ArrayList<>();
+            player.add(modelGame.getActivePlayer());
             moveCross(numOfLeaderProductionActivated , player);
 
             for(Resource resource : leaderResources){
@@ -526,10 +503,7 @@ public class DoActionPlayer {
                         if(numResource > 0){
                             int numSale = sales.get(resource);//num of resources of sale (it's a negative number)
                             if(numSale < 0){
-                                if(numResource + numSale > 0)
-                                    cost.put(resource , numResource + numSale);
-                                else
-                                    cost.put(resource , 0);
+                                cost.put(resource, Math.max(numResource + numSale, 0));
                             }
                         }
                     }
@@ -582,7 +556,7 @@ public class DoActionPlayer {
                             turnHandler.getLastSection() < player.getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
 
                         turnHandler.setLastSection(player.getPopeTrack().getLorenzoPosition().getNumPopeSection());
-                        player.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
+                        //player.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
                         popeMeeting = true;
                     }
                 }
@@ -598,7 +572,7 @@ public class DoActionPlayer {
 
                 if (popeMeeting) {
                     for (Player player2 : modelGame.getPlayers()) {
-                        if (player instanceof HumanPlayer) {
+                        if (player2 instanceof HumanPlayer) {
                             if (player2.getPopeTrack().getGamerPosition().getPopeSection() &&
                                     player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection()) {
                                 player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
@@ -624,7 +598,7 @@ public class DoActionPlayer {
         //if leader card with power: NOMOREWHITE is active and in use, modify resource list obtained from market
         for(int i = 0; i<modelGame.getActivePlayer().getDashboard().getLeaderCards().size();i++){
 
-            if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).isUsed() &&
+            if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).isActive() &&
                     modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityType() == LeaderAbility.NOMOREWHITE){
 
                 Resource replaceResource = Resource.NOTHING;
@@ -642,8 +616,7 @@ public class DoActionPlayer {
         }
         ArrayList<Resource> resourceList = new ArrayList<>();
         Collections.addAll(resourceList,resources);
-        //(ArrayList<Resource>) Arrays.asList(resources);
-        return (ArrayList<Resource>) resourceList;
+        return resourceList;
     }
 
     /**

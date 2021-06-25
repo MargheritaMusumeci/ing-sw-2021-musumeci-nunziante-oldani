@@ -429,13 +429,10 @@
          </children>
       </HBox>
       <ImageView fx:id="pos3" fitHeight="37.0" fitWidth="35.0" layoutX="368.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="endTurn" layoutX="1058.0" layoutY="144.0" mnemonicParsing="false" onAction="#endTurn" prefHeight="34.0" prefWidth="140.0" style="-fx-border-color: red; -fx-background-color: null;" text="End Turn" textFill="RED">
+      <Button fx:id="endTurn" layoutX="997.0" layoutY="145.0" mnemonicParsing="false" onAction="#endTurn" prefHeight="34.0" prefWidth="140.0" style="-fx-border-color: red; -fx-background-color: null;" text="End Turn" textFill="RED">
          <font>
             <Font name="Copperplate Gothic Bold" size="18.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect></Button>
+         </font></Button>
       <Button fx:id="activeProductionsButton" layoutX="677.0" layoutY="575.0" mnemonicParsing="false" onAction="#activeProduction" style="-fx-border-color: green;" text="Active Production">
          <font>
             <Font name="Copperplate Gothic Light" size="12.0" />
@@ -563,7 +560,7 @@
             </graphic>
          </Button>
       </HBox>
-      <Text fx:id="error" fill="RED" layoutX="545.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0"  textAlignment="CENTER" visible="true" wrappingWidth="435.0">
+      <Text fx:id="error" fill="RED" layoutX="545.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" visible="true" wrappingWidth="435.0">
          <font>
             <Font name="Copperplate Gothic Light" size="18.0" />
          </font>
@@ -571,5 +568,10 @@
             <Glow />
          </effect>
       </Text>
+      <Button layoutX="1164.0" layoutY="145.0" mnemonicParsing="false" onAction="#showRules" style="-fx-background-color: null; -fx-border-color: orange;" text="Rules" textFill="#ff7c02">
+         <font>
+            <Font name="Copperplate Gothic Bold" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

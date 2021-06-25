@@ -306,9 +306,9 @@ public class Stock extends StockObservable implements Serializable {
     }
 
     /**
-     * Manage stock for adding new resources
-     * Create a temporary Stock
-     * Try to insert all the resources starting with the more numerous
+     * Manage stock for adding new resources. This method creates a temporary Stock.
+     * Tries to insert all the resources starting with the more numerous.
+     * If it manages to insert all the resources then it replaces the new stock with the old one.
      * @param resourceList new resources added to stock
      * @return true if all is completed successfully
      */
@@ -357,9 +357,9 @@ public class Stock extends StockObservable implements Serializable {
 
             Resource resourceType;
 
-            if (getNumberOfBoxes() > 3) { //more stock space
+            if (getNumberOfBoxes() > 3) { //if there is more stock space
                 int space = getNumberOfBoxes() - 3;
-                int i = 0; //index for boxPlus boxes
+                int i = 0; // for saving the index of boxPlus boxes
                 boxPlus2 = new ArrayList<>();
                 while (space > 0) {
 
@@ -462,6 +462,6 @@ public class Stock extends StockObservable implements Serializable {
             for (int i = 0; i < getNumberOfBoxes(); i++) {
                 resources = resources + getQuantities(i);
             }
-            return resources == 0 ? true : false;
+            return resources == 0;
         }
 }

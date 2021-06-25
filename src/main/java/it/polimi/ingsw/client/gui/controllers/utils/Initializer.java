@@ -164,6 +164,11 @@ public class Initializer {
         }
     }
 
+    /**
+     * Method that build evolution section from server information
+     * @param evolutionSection copy of evolution section
+     * @param eCards Images must be filled
+     */
     public void initEvolutionSection(SerializableEvolutionSection evolutionSection,ArrayList<ArrayList<ImageView>> eCards){
         for(int i = 0 ; i < 3 ; i++){
             for(int j = 0 ; j < 4 ; j++){
@@ -179,6 +184,14 @@ public class Initializer {
         }
     }
 
+    /**
+     * Method that initialize market legend
+     * @param coin sphere
+     * @param rock sphere
+     * @param shield sphere
+     * @param servant sphere
+     * @param faith sphere
+     */
     public void initMarketLegend(Sphere coin, Sphere rock, Sphere shield, Sphere servant, Sphere faith){
         coin.setMaterial(printer.materialFromResource(Resource.COIN));
         rock.setMaterial(printer.materialFromResource(Resource.ROCK));

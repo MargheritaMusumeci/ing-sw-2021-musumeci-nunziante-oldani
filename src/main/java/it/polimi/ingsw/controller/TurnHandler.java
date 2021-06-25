@@ -45,7 +45,6 @@ public abstract class TurnHandler {
      * This attribute is needed because the game handler is the only one able to call the endGame method to
      * update the server.
      */
-
     public TurnHandler(Game modelGame){
         this.modelGame = modelGame;
         this.lastSection = 0;
@@ -157,20 +156,6 @@ public abstract class TurnHandler {
         }
     }
 
-    public Message doAction(UseLeaderCardMessage message){
-        /*try {
-            actionHandler.useLeaderCard((message).getPosition());
-            return new ACKMessage("OK");
-        } catch (OutOfBandException e) {
-            return new NACKMessage("Leader Card not present");
-        } catch (LeaderCardAlreadyUsedException e) {
-            return new NACKMessage("Leader Card has already used");
-        } catch (ActiveLeaderCardException e){
-            return new NACKMessage("Leader card is not active");
-        }*/
-        return new ACKMessage("OK");
-    }
-
     /**
      * Method the checks the score/the number of resources of each player and create an arrayList with the winners
      * @return the arrayList winners
@@ -222,10 +207,18 @@ public abstract class TurnHandler {
      */
     public void setTheEnd(boolean theEnd) { isTheEnd = theEnd; }
 
+    /**
+     *
+     * @return if is the last turn
+     */
     public boolean isTheLastTurn() {
         return isTheLastTurn;
     }
 
+    /**
+     *
+     * @param theLastTurn set true if is the last turn
+     */
     public void setTheLastTurn(boolean theLastTurn) {
         isTheLastTurn = theLastTurn;
     }

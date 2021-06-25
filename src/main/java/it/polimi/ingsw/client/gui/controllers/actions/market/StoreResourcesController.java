@@ -54,6 +54,15 @@ public class StoreResourcesController implements Controller {
     @Override
     public void init() {
 
+        error.setVisible(false);
+        //Show the error if present
+        if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
+            System.out.println(gui.getErrorFromServer());
+            error.setText(gui.getErrorFromServer());
+            error.setVisible(true);
+        }
+        System.out.println(gui.getGamePhase());
+
         selectAll.setText("Select all");
         selectAll.setStyle("-fx-text-fill: green");
         selectAllBoolean = true;
@@ -74,8 +83,6 @@ public class StoreResourcesController implements Controller {
         resource = gui.getView().getResourcesBoughtFromMarker();
 
         checkResources = new ArrayList<>();
-
-        error.setText(null);
 
         //remove white marbles
         ArrayList<Resource> resourcesCopy = (ArrayList<Resource>) resource.clone();
@@ -128,6 +135,7 @@ public class StoreResourcesController implements Controller {
     public void confirm() {
 
         ArrayList<Resource> resourcesToBeSend=new ArrayList<>();
+        gui.setErrorFromServer("");
 
         if(resource1Check.isSelected()) {
             resourcesToBeSend.add(resource.get(0));

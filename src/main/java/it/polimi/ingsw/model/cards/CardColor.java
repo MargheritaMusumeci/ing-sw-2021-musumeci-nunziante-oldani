@@ -21,7 +21,7 @@ public enum CardColor implements Serializable {
 
     public final String label;
 
-    private CardColor(String label) {
+    CardColor(String label) {
         this.label = label;
     }
 }

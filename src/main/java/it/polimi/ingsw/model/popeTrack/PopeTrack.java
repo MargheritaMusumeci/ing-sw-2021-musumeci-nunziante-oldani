@@ -54,7 +54,6 @@ public class PopeTrack extends PopeTrackObservable implements Serializable, Pope
             return;
         }
 
-        System.out.println("sono nel metodo per l'incremento del pope track");
         try{
             if((gamerPosition.getIndex() + increment) > track.getTrack().length - 1)
                 increment = track.getTrack().length - 1 - gamerPosition.getIndex();

@@ -1,26 +1,22 @@
 Musumeci:
 
 da fare:
--mostrare il regolamento
+
+-sistemare lorenzo buy card action
+-sistemare lorenzo pope card
+
 -controllare i test
 -controllare che ci siano tutti i javadoc
--sistemarel'uml iniziale
+
 -fare gli uml richiesti (completo più classi pricipali)
 -fare il README
 -eliminare gli sout
--try run.later
 -pulire il codice dai warnings
 
-
-NOTE PER MARGHE PER SISTEMARE IL SEQUENCE DIAGRAM
-    - Il secondo message mandato dal client andrebbe spiegato meglio (chi è?)
-    - Quando arriva un messaggio dal server bisognerebbe dire cosa fa il message hadler ovvero chiamare noyifyAll()
-        changeScene()
-        Un esempio è quando arrica il messaggio "SendResourcesBoughtFromMarket"
-
-in atto:
-
 fatto:
+-sistemarel'uml iniziale
+-sistemare le risorse iniziali
+-mostrare il regolamento
 -fine gioco --> sistemare looser --> dovrebbe andare
 -POPE CARD --> se supero la posizione non gira la carta
 -basic production da controllare

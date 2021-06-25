@@ -80,7 +80,7 @@ public class EvolutionSection extends EvolutionSectionOsservable implements Seri
      * @return the card bought
      */
     public EvolutionCard buy(int row, int col) throws ExcessOfPositionException {
-        if(row < 0 || row >= evolutionSection.length || col < 0 || col > evolutionSection[0].length || evolutionSection[row][col].size() <= 0){
+        if(row < 0 || row >= evolutionSection.length || col < 0 || col >= evolutionSection[0].length || evolutionSection[row][col].size() <= 0){
             throw new ExcessOfPositionException("Invalid Position, no card available to be bought");
         }
         EvolutionCard c = evolutionSection[row][col].get(0);

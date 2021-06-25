@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+/**
+ * All possible requires for activate leader cards
+ */
 public enum LeaderCardRequires implements Serializable {
     @SerializedName("1")
     TWOEVOLUTIONCOLOR,

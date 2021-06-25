@@ -10,19 +10,19 @@ import java.util.Optional;
  */
 public class LorenzoActionCard implements Serializable {
 
-    private LorenzoAction actionType;
+    private final LorenzoAction actionType;
 
     /**
      * If actionType is discard a Development Card, this attribute represents what kind of card will be discarded
      * else is null
      */
-    private Optional<CardColor> actionColor;
+    private final Optional<CardColor> actionColor;
 
     /**
      * if actionType is move the black cross, this attribute represents how many spaces it has to be taken forward
      * else is null
      */
-    private Optional<Integer> num;
+    private final Optional<Integer> num;
 
     /**
      * Costructor of 'move Black Cross' tokens equals to 'incrementPopeTrack'

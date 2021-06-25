@@ -2,18 +2,17 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.controllers.ViewPlayerController;
 import it.polimi.ingsw.client.gui.GameFxml;
 import it.polimi.ingsw.client.gui.GamePhases;
+import it.polimi.ingsw.client.gui.controllers.ViewPlayerController;
 import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.RequestResourcesBoughtFromMarketMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.cards.LeaderAbility;
-import it.polimi.ingsw.model.game.Resource;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
-import it.polimi.ingsw.serializableModel.SerializableProductionZone;
 
 public class MessageHandlerGUI extends MessageHandler {
 
@@ -63,19 +62,19 @@ public class MessageHandlerGUI extends MessageHandler {
 
         synchronized (gui) {
             gui.setErrorFromServer(message.getMessage());
-           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER) || gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION) ){
-               gui.setUpdateDashboardArrived(false);
+           if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER) || gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION) ) {
                gui.setGamePhase(GamePhases.MYTURN);
                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
-           }else if(gui.getGamePhase().equals(GamePhases.MYTURN)){
+           }else if(gui.getOldScene().equals(gui.getScene(GameFxml.STORE_RESOURCES.s))){
+                gui.setGamePhase(GamePhases.STORERESOURCES);
+           }else if(gui.getGamePhase().equals(GamePhases.MYTURN)) {
                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
            }
-            else{
-                gui.setNackArrived(true);
+           else{
                 gui.setGamePhase(gui.phase(gui.getOldScene()));
-            }
-            gui.setCurrentScene(gui.getOldScene());
-            gui.changeScene();
+           }
+           gui.setCurrentScene(gui.getOldScene());
+           gui.changeScene();
         }
     }
 
@@ -182,6 +181,7 @@ public class MessageHandlerGUI extends MessageHandler {
     public void handleMessage(SendResourcesBoughtFromMarket message) {
 
         synchronized (gui) {
+
             gui.getView().setResourcesBoughtFromMarker(message.getResources());
             gui.changeScene();
         }
@@ -293,8 +293,8 @@ public class MessageHandlerGUI extends MessageHandler {
 
     @Override
     public void handleMessage(AbortGameMessage abortGameMessage) {
-        //game is aborted
-        System.exit(0);
+        gui.setErrorFromServer("Game is aborted, please close the windows and retry later");
+        gui.changeScene();
     }
 
     /**

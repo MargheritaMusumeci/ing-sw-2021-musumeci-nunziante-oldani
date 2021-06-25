@@ -11,7 +11,7 @@ import java.util.Collections;
  */
 public class LorenzoActionCardSet implements Serializable {
 
-    private ArrayList<LorenzoActionCard> actionSet;
+    private final ArrayList<LorenzoActionCard> actionSet;
 
     /**
      * random creation of the set
