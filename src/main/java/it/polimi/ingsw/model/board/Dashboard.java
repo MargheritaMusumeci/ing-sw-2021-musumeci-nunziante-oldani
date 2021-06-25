@@ -77,8 +77,6 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
      * @return the score of the player who owns the dashboard
      */
     public int getScore() {
-
-        try{
             //get total resource
             int totalResources = (personalStock.getTotalNumberOfResources() + personalLockBox.getTotalAmountOfResources());
             totalScore = totalResources/5;
@@ -107,11 +105,6 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
             }
 
             return totalScore;
-        }catch (Exception e){
-            e.printStackTrace();
-            return 0;
-        }
-
     }
 
     /**
@@ -178,19 +171,6 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
      */
     public boolean getInkwell() {
         return inkwell;
-    }
-
-    /**
-     * method that set the score
-     * @param points is the new value of the score, not the increment
-     */
-    public void setScore(int points) throws NegativeScoreException {
-        if(points < 0){
-            throw new NegativeScoreException("You cannot subtract points to a player");
-        }
-        this.totalScore = points;
-
-        notifyDashboardListener(this);
     }
 
     /**
