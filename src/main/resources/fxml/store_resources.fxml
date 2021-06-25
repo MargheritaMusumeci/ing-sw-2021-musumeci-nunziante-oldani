@@ -56,7 +56,7 @@
             <InnerShadow />
          </effect>
       </Button>
-      <Text fx:id="error" fill="RED" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="1283.0">
+      <Text fx:id="error" fill="RED" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="1283.0">
          <font>
             <Font name="Copperplate Gothic Light" size="18.0" />
          </font>
