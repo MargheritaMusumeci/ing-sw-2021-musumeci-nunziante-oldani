@@ -17,7 +17,7 @@ public class ShowOtherPlayersViewPhase extends Phase {
 
     /**
      * metod able to handle the action of seeing other players dashboard
-     * @param cli is client cli
+     * @param cli is client's cli
      */
     @Override
     public void makeAction(CLI cli) {
@@ -39,7 +39,6 @@ public class ShowOtherPlayersViewPhase extends Phase {
                 Constants.ANSI_RESET);
 
         Scanner scanner = new Scanner(System.in);
-        String nickname;
         HashMap<Integer, String> idToNickname = new HashMap<>();
         int i=0;
         System.out.println(Constants.ANSI_GREEN + "You are currently playing with: "+ Constants.ANSI_RESET);

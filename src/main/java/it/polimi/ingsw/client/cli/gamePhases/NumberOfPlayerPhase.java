@@ -6,8 +6,16 @@ import it.polimi.ingsw.utils.Constants;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+/**
+ * class able to handle the initialization phase in which the user have to insert
+ * the number of player that he wants to play with
+ */
 public class NumberOfPlayerPhase extends Phase{
+    /**
+     * method that handle the insertion of the number of players. It also handles the correctness of the input
+     * and wait for ack
+     * @param cli is client's cli
+     */
     @Override
     public void makeAction(CLI cli) {
         int number;

@@ -17,7 +17,7 @@ public class ActiveLeaderCardPhase extends Phase {
 
     /**
      * method able to handle the action of activating a leader card
-     * @param cli is client cli
+     * @param cli is client's cli
      */
     @Override
     public void makeAction(CLI cli) {
@@ -61,6 +61,7 @@ public class ActiveLeaderCardPhase extends Phase {
             for(SerializableLeaderCard lCard : cli.getClientSocket().getView().getLeaderCards()){
                 if(lCard.getId() == number && !lCard.isActive()){
                     control = true;
+                    break;
                 }
             }
             if(!control){

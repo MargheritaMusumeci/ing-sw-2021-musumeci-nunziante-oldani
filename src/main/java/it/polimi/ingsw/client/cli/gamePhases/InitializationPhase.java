@@ -9,7 +9,17 @@ import java.net.Socket;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the initialization phase in which the user have to insert
+ * the ip address and port number of the server
+ */
 public class InitializationPhase extends Phase{
+
+    /**
+     * method able to handle the initialization phase in which the user have to insert
+     *  * the ip address and port number of the server
+     * @param cli is client's cli
+     */
     @Override
     public void makeAction(CLI cli) {
 
@@ -49,7 +59,6 @@ public class InitializationPhase extends Phase{
             cli.setClientSocket(null);
             System.out.println(Constants.ANSI_RED + "There was a problem with the server. Please check if the ip address and port number" +
                     "are correct and if the server is up and running " + Constants.ANSI_RESET);
-            //probabilemte qui c'è un errore con il server (o con i dati inseriti ip/port)
         }
 
         if(cli.getClientSocket() == null){

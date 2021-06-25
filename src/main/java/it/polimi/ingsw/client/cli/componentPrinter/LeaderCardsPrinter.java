@@ -48,7 +48,7 @@ public class LeaderCardsPrinter {
             }
         }
 
-        if(!(deck != null && deck.size() > 0)){
+        if(!(deck.size() > 0)){
             return;
         }
         for (int i=0; i< deck.get(0).length; i++){

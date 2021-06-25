@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class BuyEvolutiuonCardPhase extends Phase {
     /**
      * method able to handle the action of buying an evolution card
-     * @param cli is client cli
+     * @param cli is client's cli
      */
     @Override
     public void makeAction(CLI cli) {

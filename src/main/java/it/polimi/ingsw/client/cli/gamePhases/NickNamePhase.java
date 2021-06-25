@@ -5,8 +5,15 @@ import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.NickNam
 import it.polimi.ingsw.utils.Constants;
 
 import java.util.Scanner;
-
+/**
+ * class able to handle the initialization phase in which the user have to insert
+ * the nickname
+ */
 public class NickNamePhase extends Phase{
+    /**
+     * method able to handle the nickname insertion and wait for an ack
+     * @param cli is client's cli
+     */
     @Override
     public void makeAction(CLI cli) {
         String nic;
@@ -18,13 +25,9 @@ public class NickNamePhase extends Phase{
 
             try {
                 synchronized (this){
-                    //nel message handler bisogna mettere che a risveglairsi non deve essere la cli ma la phase della cli
-                    //e la sincronizzazione del risveglio deve essere fatta sulla pahse della cli e non più sulla cli
                     wait();
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (IllegalMonitorStateException e){
                 e.printStackTrace();
             }
 

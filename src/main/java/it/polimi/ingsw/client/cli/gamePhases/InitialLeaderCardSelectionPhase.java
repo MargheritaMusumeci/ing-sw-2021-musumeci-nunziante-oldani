@@ -9,7 +9,15 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * class able to handle the initialization phase in which the user have to
+ * choose the leader card that he will use through the game
+ */
 public class InitialLeaderCardSelectionPhase extends Phase{
+    /**
+     * method that handle the initial leader card selection
+     * @param cli is the client's cli
+     */
     @Override
     public void makeAction(CLI cli) {
         cli.printTemporaryEvolutionSection();
@@ -24,7 +32,7 @@ public class InitialLeaderCardSelectionPhase extends Phase{
                 e.printStackTrace();
             }
         }
-        int index = 0;
+        int index;
         ArrayList<Integer> lCards = new ArrayList<>();
 
 
@@ -49,7 +57,7 @@ public class InitialLeaderCardSelectionPhase extends Phase{
             }
         }
 
-        cli.getClientSocket().send(new LeaderCardChoiceMessage("Leader card scelte" , lCards));
+        cli.getClientSocket().send(new LeaderCardChoiceMessage("Leader card chosen" , lCards));
 
         try {
             System.out.println(Constants.ANSI_GREEN + "Wait for other players to choose their leader cards" + Constants.ANSI_RESET);
@@ -57,8 +65,6 @@ public class InitialLeaderCardSelectionPhase extends Phase{
                 wait();
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IllegalMonitorStateException e){
             e.printStackTrace();
         }
 

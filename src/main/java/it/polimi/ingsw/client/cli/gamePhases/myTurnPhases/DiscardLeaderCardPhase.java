@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class DiscardLeaderCardPhase extends Phase{
     /**
      * method able to handle the action of discarding a leader card
-     * @param cli is client cli
+     * @param cli is client's cli
      */
     @Override
     public void makeAction(CLI cli) {
@@ -32,8 +32,9 @@ public class DiscardLeaderCardPhase extends Phase{
         //i'll check that there are still unactivated cards
         boolean check = false;
         for (SerializableLeaderCard serializableLeaderCard : cli.getClientSocket().getView().getLeaderCards()){
-            if(!serializableLeaderCard.isActive()){
+            if (!serializableLeaderCard.isActive()) {
                 check = true;
+                break;
             }
         }
         if (!check){
@@ -66,8 +67,9 @@ public class DiscardLeaderCardPhase extends Phase{
             }
 
             for(SerializableLeaderCard lCard : cli.getClientSocket().getView().getLeaderCards()){
-                if(lCard.getId() == number && !lCard.isActive()){
+                if (lCard.getId() == number && !lCard.isActive()) {
                     controllo = true;
+                    break;
                 }
             }
 

@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.cli.gamePhases.myTurnPhases;
 import it.polimi.ingsw.client.cli.CLI;
 
 import it.polimi.ingsw.client.cli.gamePhases.Phase;
-import it.polimi.ingsw.client.cli.gamePhases.myTurnPhases.BuyEvolutiuonCardPhase;
 import it.polimi.ingsw.messages.sentByClient.EndTurnMessage;
 import it.polimi.ingsw.utils.Constants;
 
@@ -28,9 +27,9 @@ public class MyTurnPhase extends Phase {
         cli.printMenu();
 
         int action;
-        try{
+        try {
             action = scanner.nextInt();
-        }catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
             action = 100;
             scanner.nextLine();
         }
@@ -40,7 +39,7 @@ public class MyTurnPhase extends Phase {
                 if (!cli.isActionBeenDone()) {
                     System.out.println(Constants.ANSI_RED + "Cannot end turn without do an action" + Constants.ANSI_RESET);
                     new Thread(cli).start();
-                    return;
+                    break;
                 } else {
                     cli.setActionBeenDone(false);
                     cli.getClientSocket().send(new EndTurnMessage("Turn ended"));
@@ -111,8 +110,8 @@ public class MyTurnPhase extends Phase {
 
 
             case 6:
-                if(cli.getNumberOfPlayers() == 1){
-                    System.out.println(Constants.ANSI_RED + "You are the only player!" +  Constants.ANSI_RESET);
+                if (cli.getNumberOfPlayers() == 1) {
+                    System.out.println(Constants.ANSI_RED + "You are the only player!" + Constants.ANSI_RESET);
                     new Thread(cli).start();
                     break;
                 }
@@ -120,7 +119,7 @@ public class MyTurnPhase extends Phase {
                 new Thread(cli).start();
                 break;
             default:
-                System.out.println(Constants.ANSI_RED + "This action doesn't exist" +Constants.ANSI_RESET);
+                System.out.println(Constants.ANSI_RED + "This action doesn't exist" + Constants.ANSI_RESET);
                 new Thread(cli).start();
                 break;
         }

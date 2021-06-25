@@ -3,9 +3,17 @@ package it.polimi.ingsw.client.cli.gamePhases;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.utils.Constants;
 
+/**
+ * class able to handle the final phase of the game when someone has won
+ *
+ */
 public class EndGamePhase extends Phase{
 
-
+    /**
+     * method able to end the visualization of the final points gained by the players.
+     * It is also responsible to show the winner
+     * @param cli is client's cli
+     */
     @Override
     public void makeAction(CLI cli) {
         System.out.println(Constants.ANSI_RED + "\n" +
