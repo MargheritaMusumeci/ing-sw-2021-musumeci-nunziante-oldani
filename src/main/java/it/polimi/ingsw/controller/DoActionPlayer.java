@@ -572,7 +572,7 @@ public class DoActionPlayer {
 
                 if (popeMeeting) {
                     for (Player player2 : modelGame.getPlayers()) {
-                        if (player instanceof HumanPlayer) {
+                        if (player2 instanceof HumanPlayer) {
                             if (player2.getPopeTrack().getGamerPosition().getPopeSection() &&
                                     player2.getPopeTrack().getGamerPosition().getNumPopeSection() == turnHandler.getLastSection()) {
                                 player2.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
