@@ -77,7 +77,6 @@ public class TurnHandlerSoloGame extends TurnHandler{
                             lastSection < modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
 
                         lastSection = modelGame.getActivePlayer().getPopeTrack().getLorenzoPosition().getNumPopeSection();
-                        //modelGame.getActivePlayer().getPopeTrack().getPopeCard().get(lastSection - 1).setIsUsed();
 
                         HumanPlayer player;
                         if(modelGame.getPlayers().get(0) instanceof HumanPlayer){

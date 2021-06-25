@@ -556,7 +556,7 @@ public class DoActionPlayer {
                             turnHandler.getLastSection() < player.getPopeTrack().getLorenzoPosition().getNumPopeSection()) {
 
                         turnHandler.setLastSection(player.getPopeTrack().getLorenzoPosition().getNumPopeSection());
-                        player.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
+                        //player.getPopeTrack().getPopeCard().get(turnHandler.getLastSection() - 1).setIsUsed();
                         popeMeeting = true;
                     }
                 }
