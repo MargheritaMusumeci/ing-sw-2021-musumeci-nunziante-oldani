@@ -59,6 +59,7 @@
                     <include>**/*.png</include>
                     <include>**/*.jpeg</include>
                     <include>**/*.fxml</include>
+                    <include>**/*.pdf</include>
                     <include>**/*.json</include>
                     <include>**/*.txt</include>
                 </includes>
