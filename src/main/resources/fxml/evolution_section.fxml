@@ -29,19 +29,19 @@
          <children>
             <HBox prefHeight="150.0" prefWidth="521.0" spacing="10.0">
                <children>
-                  <ImageView fx:id="eCard_00" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_00" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_01" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_01" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_02" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_02" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_03" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_03" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
@@ -49,39 +49,39 @@
             </HBox>
             <HBox prefHeight="150.0" prefWidth="442.0" spacing="10.0">
                <children>
-                  <ImageView fx:id="eCard_10" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_10" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_11" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_11" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_12" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_12" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_13" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_13" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
                </children>
             </HBox>
-            <HBox prefHeight="150.0" prefWidth="414.0" spacing="10.0">
+            <HBox prefHeight="150.0" prefWidth="555.0" spacing="10.0">
                <children>
-                  <ImageView fx:id="eCard_20" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_20" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_21" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_21" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_22" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_22" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
-                  <ImageView fx:id="eCard_23" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="eCard_23" fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <effect>
                         <DropShadow />
                      </effect></ImageView>
