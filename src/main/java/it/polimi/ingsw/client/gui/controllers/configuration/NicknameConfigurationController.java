@@ -37,6 +37,7 @@ public class NicknameConfigurationController implements Controller {
         //error --> not fill nickname field before pushing button
         if(nicknameField==null || nicknameField.getText().equals("")){
             error.setText("Nickname is required...");
+            error.setVisible(true);
             loginButton.setVisible(true);
             loading.setVisible(false);
 
@@ -63,6 +64,7 @@ public class NicknameConfigurationController implements Controller {
 
         loginButton.setVisible(true);
         loading.setVisible(false);
+        error.setVisible(false);
 
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());
