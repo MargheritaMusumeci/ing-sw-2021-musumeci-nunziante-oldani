@@ -61,7 +61,6 @@ public class StoreResourcesController implements Controller {
             error.setText(gui.getErrorFromServer());
             error.setVisible(true);
         }
-        System.out.println(gui.getGamePhase());
 
         selectAll.setText("Select all");
         selectAll.setStyle("-fx-text-fill: green");
