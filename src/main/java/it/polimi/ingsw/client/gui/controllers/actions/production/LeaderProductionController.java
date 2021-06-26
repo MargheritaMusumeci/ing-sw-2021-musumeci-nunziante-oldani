@@ -51,34 +51,38 @@ public class LeaderProductionController implements Controller {
      */
     public void confirm() {
 
-        confirm.setVisible(false);
-        RadioButton radio = (RadioButton) resources1.getSelectedToggle();
+        try {
+            confirm.setVisible(false);
+            RadioButton radio = (RadioButton) resources1.getSelectedToggle();
 
-        HashMap<Integer, Resource> leaderEnsure = gui.getLeaderEnsure();
+            HashMap<Integer, Resource> leaderEnsure = gui.getLeaderEnsure();
 
-        if(radio == coin1){
-            leaderEnsure.put(gui.getLeaderPosition(),Resource.COIN);
+            if (radio == coin1) {
+                leaderEnsure.put(gui.getLeaderPosition(), Resource.COIN);
+            }
+            if (radio == shield1) {
+                leaderEnsure.put(gui.getLeaderPosition(), Resource.SHIELD);
+            }
+            if (radio == rock1) {
+                leaderEnsure.put(gui.getLeaderPosition(), Resource.ROCK);
+            }
+            if (radio == servant1) {
+                leaderEnsure.put(gui.getLeaderPosition(), Resource.SERVANT);
+            }
+            if (leaderEnsure.isEmpty()) {
+                error.setText("ERROR: you have to choose the resource to produce!");
+                confirm.setVisible(true);
+                cancel.setVisible(true);
+                return;
+            }
+            gui.setLeaderEnsure(leaderEnsure);
+            gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+            gui.setOldScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
+            gui.setGamePhase(GamePhases.MYTURN);
+            gui.changeScene();
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        if(radio == shield1){
-           leaderEnsure.put(gui.getLeaderPosition(),Resource.SHIELD);
-        }
-        if(radio == rock1){
-            leaderEnsure.put(gui.getLeaderPosition(),Resource.ROCK);
-        }
-        if(radio == servant1){
-            leaderEnsure.put(gui.getLeaderPosition(),Resource.SERVANT);
-        }
-        if(leaderEnsure.isEmpty()){
-            error.setText("ERROR: you have to choose the resource to produce!");
-            confirm.setVisible(true);
-            cancel.setVisible(true);
-            return;
-        }
-        gui.setLeaderEnsure(leaderEnsure);
-        gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
-        gui.setOldScene(gui.getScene(GameFxml.LEADER_PRODUCTION.s));
-        gui.setGamePhase(GamePhases.MYTURN);
-        gui.changeScene();
     }
 
     @Override

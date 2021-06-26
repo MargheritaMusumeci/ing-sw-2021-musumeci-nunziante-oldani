@@ -109,7 +109,7 @@ public class ViewPlayerController extends ViewController {
         productionPositions.clear();
         gui.setBasicRequires(null);
         gui.setBasicEnsures(null);
-        gui.setLeaderEnsure(null);
+        gui.setLeaderEnsure(new HashMap<>());
         initBasicProduction();
         initButtons();
         activeProduction4Button.setVisible(false);
