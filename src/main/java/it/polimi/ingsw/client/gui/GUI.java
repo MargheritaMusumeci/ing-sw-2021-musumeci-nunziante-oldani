@@ -321,7 +321,6 @@ public class GUI extends Application {
 
     public void setLeaderEnsure(HashMap<Integer,Resource> leaderEnsure) {
         this.leaderEnsure = leaderEnsure;
-        if(leaderEnsure!=null )System.out.println(leaderEnsure.size());
     }
 
     public int getCardRow() { return cardRow; }
