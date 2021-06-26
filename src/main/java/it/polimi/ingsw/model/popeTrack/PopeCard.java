@@ -5,13 +5,12 @@ import it.polimi.ingsw.model.osservables.PopeCardObservable;
 import java.io.Serializable;
 
 public class PopeCard extends PopeCardObservable implements Serializable {
-    private int point;
+    private final int point;
     private boolean isUsed;
     private boolean isDiscard;
-    private int position;
+    private final int position;
 
     /**
-     *
      * @param point of the card
      * @param position in the popeTrack: 1 , 2 or 3
      */
@@ -23,31 +22,27 @@ public class PopeCard extends PopeCardObservable implements Serializable {
     }
 
     /**
-     *
      * @return the point of the popeCard
      */
     public int getPoint(){ return point; }
 
     /**
-     *
-     * @return true if the card is been discovered
+     * @return true if the card is been used
      */
     public boolean isUsed(){ return isUsed; }
 
     /**
-     *
-     * @return true if the card was discard
+     * @return true if the card was discarded
      */
     public boolean isDiscard(){ return isDiscard; }
 
     /**
-     *
      * @return the position of the card
      */
     public int getPosition(){ return position; }
 
     /**
-     * Set true isUser if the player is in a pope section or in a pope position
+     * Set true isUsed if the player activated this card
      */
     public void  setIsUsed() {
         isUsed = true;
@@ -55,7 +50,7 @@ public class PopeCard extends PopeCardObservable implements Serializable {
     }
 
     /**
-     * Set true isDiscard if the player can't use the pope card anymore
+     * Set true isDiscard if the player can't activate this card
      */
     public void setIsDiscard() {
         isDiscard = true;

@@ -15,11 +15,16 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+ * Class that manages the scene in which the user chooses the card to buy from the evolution section
+ */
 public class EvolutionSectionController extends MarketEvolutionSectionBuilder implements Controller {
     private GUI  gui;
     private final Print printer;
 
+    /**
+     * Private attribute that contains the cards on the top of each position -> the cards the player can see
+     */
     private ArrayList<ArrayList<ImageView>> eCards;
 
     @FXML private Button confirmCard;//card is been chose
@@ -50,6 +55,9 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
         super.setGuiBuilder(gui);
     }
 
+    /**
+     * Private method that initializes the attribute eCards with the images of the evolution cards to show
+     */
     private void initEvolutionSection(){
         //Take the card on the top of each positions
         SerializableEvolutionSection evolutionSection = gui.getView().getEvolutionSection();
@@ -103,6 +111,12 @@ public class EvolutionSectionController extends MarketEvolutionSectionBuilder im
     }
 
 
+    /**
+     * This method is called when the player click on confirmCard button:
+     *      save the row/column and go to the scene PRODUCTION_ZONE_CHOICE that allow the user to select in which
+     *      production zone put the card chose
+     */
+    @FXML
     public void confirmCardSelection(){
         int row = -1;
         int column = -1;

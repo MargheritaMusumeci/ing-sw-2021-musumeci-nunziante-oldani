@@ -12,7 +12,6 @@ public class LockBox extends LockBoxObservable implements Serializable {
     private int rock;
     private int shield;
 
-
     public LockBox(){
         coin =0;
         servant=0;
@@ -20,33 +19,28 @@ public class LockBox extends LockBoxObservable implements Serializable {
         rock=0;
     }
     /**
-     * Return the amount of coins in the LockBox
-     * @return
+     * @return the amount of coins in the LockBox
      */
-    public int getCoin(){ return coin; }
+    private int getCoin(){ return coin; }
 
     /**
-     * Return the amount of servants in the LockBox
-     * @return
+     * @return the amount of servants in the LockBox
      */
-    public int getServant(){ return servant; }
+    private int getServant(){ return servant; }
 
     /**
-     * Return the amount of rocks in the LockBox
-     * @return
+     * @return the amount of rocks in the LockBox
      */
-    public int getRock(){ return rock; }
+    private int getRock(){ return rock; }
 
     /**
-     * Return the amount of shields in the LockBox
-     * @return
+     * @return the amount of shields in the LockBox
      */
-    public int getShield(){ return shield; }
+    private int getShield(){ return shield; }
 
     /**
      * Method that return the amount od a specified resource type
-     *  Probably the get method above should be private
-     * @param resourceType is the resource type I want the amount
+     * @param resourceType is the resource type of which the return number is referred to
      * @return the amount of resourceType in the LockBox
      */
     public int getAmountOf(Resource resourceType){
@@ -60,7 +54,6 @@ public class LockBox extends LockBoxObservable implements Serializable {
     }
 
     /**
-     * This method will be use in case pf draw
      * @return the total amount of resources in the lockBox
      */
     public int getTotalAmountOfResources(){
@@ -71,7 +64,7 @@ public class LockBox extends LockBoxObservable implements Serializable {
      * Increment/reduce the quantities of coins
      * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setCoin(int howMany) throws NotEnoughResourcesException {
+    private void setCoin(int howMany) throws NotEnoughResourcesException {
         if(coin + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
         coin = coin + howMany;
 
@@ -82,7 +75,7 @@ public class LockBox extends LockBoxObservable implements Serializable {
      * Increment/reduce the quantities of servants
      * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setServant(int howMany) throws NotEnoughResourcesException {
+    private void setServant(int howMany) throws NotEnoughResourcesException {
         if(servant + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
         servant = servant + howMany;
 
@@ -93,7 +86,7 @@ public class LockBox extends LockBoxObservable implements Serializable {
      * Increment/reduce the quantities of rocks
      * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setRock(int howMany) throws NotEnoughResourcesException {
+    private void setRock(int howMany) throws NotEnoughResourcesException {
         if(rock + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
         rock = rock + howMany;
 
@@ -104,7 +97,7 @@ public class LockBox extends LockBoxObservable implements Serializable {
      * Increment/reduce the quantities of shields
      * @throws NotEnoughResourcesException if the user withdraw more resources than the stored ones
      */
-    public void setShield(int howMany) throws NotEnoughResourcesException {
+    private void setShield(int howMany) throws NotEnoughResourcesException {
         if(shield + howMany < 0) throw new NotEnoughResourcesException("Cannot withdraw all these resources");
         shield = shield + howMany;
 

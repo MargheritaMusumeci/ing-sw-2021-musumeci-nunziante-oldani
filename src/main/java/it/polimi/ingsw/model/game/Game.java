@@ -10,10 +10,18 @@ import java.util.List;
 
 public class Game implements Serializable {
 
+    /**
+     * Attribute that contains the players in the game
+     */
     private final ArrayList<Player> players;
+
     private final Market market;
     private final EvolutionSection evolutionSection;
     private Player activePlayer;
+
+    /**
+     * Attribute that is true when every player in this game is disconnected
+     */
     private boolean inPause;
 
     public Game(ArrayList<Player> players){
@@ -33,6 +41,10 @@ public class Game implements Serializable {
         inPause = false;
     }
 
+    /**
+     * Method that sets 4 leader card for each player in the game, then the player during the configuration phase
+     *      will choose 2 leader cards between the 4
+     */
     private void assignLeaderCards() {
 
         LeaderCardSet leaderCardSet = new LeaderCardSet();
@@ -41,11 +53,10 @@ public class Game implements Serializable {
         List<LeaderCard> lCards;
         for (Player player : players) {
             if (player instanceof HumanPlayer) {
-                ArrayList<LeaderCard> playerSet = new ArrayList<LeaderCard>();
+                ArrayList<LeaderCard> playerSet = new ArrayList<>();
                 lCards = leaderCardSet.getLeaderCardSet().subList(count, count+4);
                 for(int i = 0; i < 4 ; i++){
                     playerSet.add(lCards.get(i));
-                    //System.out.println("Card " + i + ": " + lCards.get(i).getRequiresForActiveLeaderCards() + " , " + lCards.get(i).getAbilityType() + "\n");
                 }
                 ((HumanPlayer) player).setPosition(position);
                 player.getDashboard().setLeaderCards(playerSet);
@@ -56,19 +67,18 @@ public class Game implements Serializable {
     }
 
     /**
-     * method that updates the current active player
-     * @return the new active player
+     * Method that updates the current active player
+     * @return the new active player , null if the game is in pause
      */
     public Player updateActivePlayer(){
 
-        //check if there is a at least an active player
+        //Check if there is a at least an active player
         boolean checkPlayers = false;
         for (Player player:players){
             if (player.isPlaying()){
                 //if the player is a lorenzo player it doesn't matter
                 if(player instanceof HumanPlayer){
                     checkPlayers=true;
-                    System.err.println("ho trovato un plater attivo");
                 }
             }
         }
@@ -76,7 +86,6 @@ public class Game implements Serializable {
         if (!checkPlayers){
             inPause = true;
             activePlayer = null;
-            System.err.println("non ci sono player attivi");
             return null;
         }
 
@@ -88,7 +97,6 @@ public class Game implements Serializable {
                    j = 0;
                }
                if(players.get(j).isPlaying()){
-                   System.err.println("ho aggiornato il player: i="+i+" j= "+j);
                    activePlayer = players.get(j);
                    return activePlayer;
                }else{

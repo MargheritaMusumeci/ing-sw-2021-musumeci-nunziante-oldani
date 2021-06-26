@@ -17,10 +17,10 @@ public class SerializableLockBox implements Serializable {
 
     public SerializableLockBox(LockBox lockBox) {
         resources = new HashMap<>();
-        resources.put(Resource.COIN, lockBox.getCoin());
-        resources.put(Resource.SHIELD, lockBox.getShield());
-        resources.put(Resource.SERVANT, lockBox.getServant());
-        resources.put(Resource.ROCK, lockBox.getRock());
+        resources.put(Resource.COIN, lockBox.getAmountOf(Resource.COIN));
+        resources.put(Resource.SHIELD, lockBox.getAmountOf(Resource.SHIELD));
+        resources.put(Resource.SERVANT, lockBox.getAmountOf(Resource.SERVANT));
+        resources.put(Resource.ROCK, lockBox.getAmountOf(Resource.ROCK));
     }
 
     public HashMap<Resource, Integer> getResources() {

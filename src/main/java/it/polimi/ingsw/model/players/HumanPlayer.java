@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.board.NormalProductionZone;
-import it.polimi.ingsw.model.board.ProductionZone;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
@@ -20,12 +19,13 @@ public class HumanPlayer extends Player implements Serializable {
 
     private Game game;
 
+    /**
+     * Attribute that contains the action the user did in the current turn
+     */
     private Action actionChose;
 
     /**
-     * Here I save the resources the player bought this turn and that he still have to place in the lockBox end,
-     *  in the end of the turn, the controller will fill this array with null
-     * Now it's an array but maybe is better to use an ArrayList
+     * Attribute to save the resources that the player bought in this turn and that he still have to place in the lockBox
      */
     private ArrayList<Resource> resources;
 
@@ -41,14 +41,14 @@ public class HumanPlayer extends Player implements Serializable {
         isWinner = false;
         actionChose = Action.NOTHING;
         game = null;
-        resources = new ArrayList<Resource>();
+        resources = new ArrayList<>();
         position = 0;
         isPlaying = true;
     }
 
     /**
-     * Method that returns in which production zone I can put the card that I bought
-     * @param card is the card that I bought in the EvolutionSection
+     * Method that returns in which production zone the player can put the card that he bought
+     * @param card is the card that the player bought in the EvolutionSection
      * @return an array of boolean that says which production zone is usable
      */
     public boolean[] getPossibleProductionZone(EvolutionCard card){
@@ -82,7 +82,7 @@ public class HumanPlayer extends Player implements Serializable {
     }
 
     /**
-     * Method that return which card the player can buy at the evolution section based on stock and lock box resources,
+     * Method that returns which card the player can buy at the evolution section based on stock and lock box resources,
      *      state of production zones and active leader cards abilities
      * @return a matrix of boolean that activates the positions of the card that can be bought by the player
      */
@@ -116,18 +116,17 @@ public class HumanPlayer extends Player implements Serializable {
                 }
                 //Check if the card can be placed in at least 1 production zone
                 boolean possiblePlace = false;
-                for(int k = 0 ; k < dashboard.getProductionZone().length && possiblePlace == false; k++){
+                for(int k = 0 ; k < dashboard.getProductionZone().length && !possiblePlace; k++){
                     if(getPossibleProductionZone(card)[k])
                         possiblePlace = true;
                 }
-                if(possiblePlace == false){
+                if(!possiblePlace){
                     result[i][j] = false;
-                    //System.out.println("Can't place the card " + i + " " + j);
                     continue;
                 }
                 HashMap<Resource , Integer> req = card.getCost();
                 //Next 3 lines are necessary to avoid the clone() of req
-                HashMap<Resource , Integer> requires = new HashMap<Resource , Integer>();
+                HashMap<Resource , Integer> requires = new HashMap<>();
                 for(Resource res : req.keySet())
                     requires.put(res , req.get(res));
 
@@ -151,24 +150,16 @@ public class HumanPlayer extends Player implements Serializable {
                 //Now requires is update with sales and there is only to check if the resource in stock and in lockBox are enough
                 boolean ok = true;
 
-                //System.out.println("Requires: ");
-                for(Resource res : requires.keySet()){
-                    //System.out.println("Resource : " + res + " , number : " + requires.get(res));
-                }
-
                 for(Resource resource : requires.keySet()){
                     if(!(dashboard.getLockBox().getAmountOf(resource) + dashboard.getStock().getTotalQuantitiesOf(resource) >=
                             requires.get(resource)))
                         ok = false;
                 }
-                if(ok == true){//if all the resources required are present
+                //if all the resources required are present
+                if(ok)
                     result[i][j] = true;
-                    //System.out.println("Card " + i + " " + j + " can be placed");
-                }
-                else{
+                else
                     result[i][j] = false;
-                    //System.out.println("Position i " + i + " j " + j + "in false statement");
-                }
             }
         }
         return result;
@@ -179,7 +170,7 @@ public class HumanPlayer extends Player implements Serializable {
      *      In other cases the ability should be activated explicitly by the user when he wants to.
      * @param position is which leader card the user wants to active
      * @throws OutOfBandException if the card specified doesn't exist
-     * @throws LeaderCardAlreadyUsedException if the card specified is already been used
+     * @throws LeaderCardAlreadyUsedException if the card specified is already activated
      */
     public void activeLeaderCard(int position) throws OutOfBandException,LeaderCardAlreadyUsedException, ActiveLeaderCardException {
         if(position < 0 || position >= dashboard.getLeaderCards().size() ) throw new OutOfBandException("Invalid position");
@@ -204,7 +195,7 @@ public class HumanPlayer extends Player implements Serializable {
 
             case TWOEVOLUTIONCOLOR: case THREEEVOLUTIONCOLOR:
                 int numberOfColorPresent = 0;
-                HashMap<CardColor , Integer> totalNumberOfColors = new HashMap<CardColor , Integer>();
+                HashMap<CardColor , Integer> totalNumberOfColors = new HashMap<>();
                 for(CardColor color : cardColor){
                     numberOfColorPresent = 0;
                     for(int i = 0 ; i < productionZones.length ; i++){
@@ -218,9 +209,6 @@ public class HumanPlayer extends Player implements Serializable {
                     }
                     totalNumberOfColors.put(color , numberOfColorPresent);
                 }
-
-                for(CardColor color : totalNumberOfColors.keySet())
-                    System.out.println("Color: " + color + " , quantity found: " + totalNumberOfColors.get(color));
 
                 for(CardColor color : cardColor){
                     if(totalNumberOfColors.get(color) == null || totalNumberOfColors.get(color) - 1 < 0)
@@ -273,7 +261,7 @@ public class HumanPlayer extends Player implements Serializable {
     }
 
     /**
-     * This method discard a leader card increasing the position of the player in the pope track
+     * This method discard a leader card
      * @param position is the leader card the player want to discard
      * @throws OutOfBandException if the leader card specified doesn't exist
      * @throws LeaderCardAlreadyUsedException if the leader card specified is already been used/discarded
@@ -288,7 +276,7 @@ public class HumanPlayer extends Player implements Serializable {
 
     /**
      * Method that sets the resources the players had bought in this turn.
-     * @param resource is a resource.This param will be null when the user ended his turn, to reset the variable
+     * @param resource is a resource
      */
     public void addResources(Resource resource){
         resources.add(resource);
@@ -296,7 +284,6 @@ public class HumanPlayer extends Player implements Serializable {
 
     /**
      * Method that removes a resource
-     * @return
      * @throws NonCompatibleResourceException id the resource type isn't present in the arrayList
      */
     public void removeResources(Resource resource) throws NonCompatibleResourceException {
@@ -305,7 +292,6 @@ public class HumanPlayer extends Player implements Serializable {
     }
 
     /**
-     *
      * @param resources obtained from market. If a leader card NO MORE WHITE is active, white ball have already been replaced
      */
     public void setResources(List<Resource> resources){this.resources= (ArrayList<Resource>) resources;}
@@ -316,8 +302,6 @@ public class HumanPlayer extends Player implements Serializable {
     public ArrayList<Resource> getResources(){ return resources; }
 
     /**
-     * Idea: There is the creation of the players before and than the creation of the Game object.
-     *       Now it's possible set this attribute in Player
      * @param game is the game the player is playing
      */
     public void setGame(Game game){
@@ -325,7 +309,6 @@ public class HumanPlayer extends Player implements Serializable {
     }
 
     /**
-     *
      * @return the game the player is playing
      */
     public Game getGame(){ return game; }
@@ -339,22 +322,25 @@ public class HumanPlayer extends Player implements Serializable {
     }
 
     /**
-     *
      * @return the action the player choose
      */
     public Action getActionChose(){
         return actionChose;
     }
 
-
+    /**
+     * @return the position of the player in the game
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * Set the position of the player in the game: from 1 to 4
+     * @param position
+     */
     public void setPosition(int position) {
         this.position = position;
     }
-
-
 
 }

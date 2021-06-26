@@ -16,6 +16,9 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class that manages the scene in which the user chooses in which production zone put the card he want to buy
+ */
 public class ProductionZoneChoiceController implements Controller {
 
     private GUI  gui;
@@ -47,6 +50,10 @@ public class ProductionZoneChoiceController implements Controller {
         this.gui = gui;
     }
 
+    /**
+     * Private method that initializes the production zones shown in this scene: show only the card on the
+     *      top of each production zone
+     */
     private void initProductionZones(){
         SerializableProductionZone[] productionZones = gui.getView().getDashboard().getSerializableProductionZones();
 
@@ -85,7 +92,11 @@ public class ProductionZoneChoiceController implements Controller {
         initProductionZones();
     }
 
-
+    /**
+     * Method called when the player click confirmPosition:
+     *      read the selected position and send BuyEvolutionCardMessage, then turn back to MY_TURN scene
+     */
+    @FXML
     public void confirmPositionChoice(){
         int position = -1;
 

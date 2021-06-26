@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Other classes will see the stock as a single ArrayList of box, so originBox should be between 0 and (boxes.length + boxPlus.length)
+ * Other classes will see the stock as a single ArrayList of box,
+ *      so originBox should be between 0 and (boxes.length + boxPlus.length)
  */
 public class Stock extends StockObservable implements Serializable {
     private ArrayList<Resource[]> boxes;//standard boxes
@@ -70,7 +71,6 @@ public class Stock extends StockObservable implements Serializable {
             return null;
         if(originBox >= 0 && originBox < boxes.size())
             return boxes.get(originBox)[0];
-        //if(boxPlus.get(originBox - boxes.size()) != null)
         else
             return resourcesPlus.get(originBox - boxes.size());
     }
@@ -187,8 +187,6 @@ public class Stock extends StockObservable implements Serializable {
      * @throws NotEnoughResourcesException if the number of the resources required is smaller than the number of available resources
      */
     private void useResources(int originBox , int numberResources) throws NotEnoughResourcesException{
-        //Never threw OutOfBandException because I invoke this method only with a valid originBox
-        //if(originBox >= boxes.size() + boxPlus.size()) throw new OutOfBandException("This box doesn't exist");
         if(numberResources > getQuantities(originBox)) throw new NotEnoughResourcesException("You don't have enough resources");
 
         Resource[] box = getBox(originBox);
@@ -207,6 +205,12 @@ public class Stock extends StockObservable implements Serializable {
         notifyStockListener(this);
     }
 
+    /**
+     * Method that use an amount of resources automatically, starting from the box 0 to the last
+     * @param numberResources is the number of resources to use
+     * @param resourceType is the type of the resources to use
+     * @throws NotEnoughResourcesException if there isn't enough resources in the stock
+     */
     public void useResources(int numberResources , Resource resourceType) throws NotEnoughResourcesException{
         int numBox = getNumberOfBoxes();
 
@@ -231,7 +235,7 @@ public class Stock extends StockObservable implements Serializable {
     }
 
     /**
-     *
+     * Method that exchange the resources in 2 box
      * @param originBox from where take the resources
      * @param destinationBox where put the resources
      * @throws NotEnoughSpaceException if one of the box is too smaller to contain the amount of resources in the other box
@@ -270,7 +274,7 @@ public class Stock extends StockObservable implements Serializable {
     }
 
     /**
-     * add into boxes a new box of variable dimension in case of special ability
+     * Add into boxes a new box of variable dimension in case of special ability
      * @param howBig dimension of the new box
      * @param resourceType is the only type of resources allowed in the box
      */
@@ -284,7 +288,6 @@ public class Stock extends StockObservable implements Serializable {
     }
 
     /**
-     *
      * @return number of standard boxes in stock
      */
     public int getNumberOfBoxes(){
@@ -457,7 +460,10 @@ public class Stock extends StockObservable implements Serializable {
             return resourcesPlus;
         }
 
-        public boolean stockIsEmpty () {
+    /**
+     * @return true if the stock is empty, false otherwise
+     */
+    public boolean stockIsEmpty () {
             int resources = 0;
             for (int i = 0; i < getNumberOfBoxes(); i++) {
                 resources = resources + getQuantities(i);

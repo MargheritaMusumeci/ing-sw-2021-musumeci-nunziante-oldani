@@ -14,17 +14,17 @@ public class LockBoxTest extends TestCase {
     public void testSetCoin() {
         LockBox lBox = new LockBox();
         try{
-            lBox.setCoin(2);
-            assertEquals(2 , lBox.getCoin());
-            lBox.setCoin(-2);
-            assertEquals(0 , lBox.getCoin());
+            lBox.setAmountOf(Resource.COIN , 2);
+            assertEquals(2 , lBox.getAmountOf(Resource.COIN));
+            lBox.setAmountOf(Resource.COIN , -2);;
+            assertEquals(0 , lBox.getAmountOf(Resource.COIN));
         }catch (NotEnoughResourcesException e){
             fail();
         }
         //fail the test if there isn't an exception
         try {
-            lBox.setCoin(-5);
-            fail("Coin are:" + lBox.getCoin());
+            lBox.setAmountOf(Resource.COIN , -5);;
+            fail("Coin are:" + lBox.getAmountOf(Resource.COIN));
         }catch(NotEnoughResourcesException e){
 
         }
@@ -33,17 +33,17 @@ public class LockBoxTest extends TestCase {
     public void testSetServant() {
         LockBox lBox = new LockBox();
         try{
-            lBox.setServant(2);
-            assertEquals(2 , lBox.getServant());
-            lBox.setServant(-2);
-            assertEquals(0 , lBox.getServant());
+            lBox.setAmountOf(Resource.SERVANT , 2);
+            assertEquals(2 , lBox.getAmountOf(Resource.SERVANT));
+            lBox.setAmountOf(Resource.SERVANT , -2);
+            assertEquals(0 , lBox.getAmountOf(Resource.SERVANT));
         }catch (NotEnoughResourcesException e){
             fail();
         }
         //fail the test if there isn't an exception
         try {
-            lBox.setServant(-5);
-            fail("Servant are:" + lBox.getServant());
+            lBox.setAmountOf(Resource.SERVANT , -5);
+            fail("Servant are:" + lBox.getAmountOf(Resource.SERVANT));
         }catch(NotEnoughResourcesException e){
 
         }
@@ -52,17 +52,17 @@ public class LockBoxTest extends TestCase {
     public void testSetRock() {
         LockBox lBox = new LockBox();
         try{
-            lBox.setRock(2);
-            assertEquals(2 , lBox.getRock());
-            lBox.setRock(-2);
-            assertEquals(0 , lBox.getRock());
+            lBox.setAmountOf(Resource.ROCK , 2);
+            assertEquals(2 , lBox.getAmountOf(Resource.ROCK));
+            lBox.setAmountOf(Resource.ROCK , -2);
+            assertEquals(0 , lBox.getAmountOf(Resource.ROCK));
         }catch (NotEnoughResourcesException e){
             fail();
         }
         //fail the test if there isn't an exception
         try {
-            lBox.setRock(-5);
-            fail("Rock are:" + lBox.getRock());
+            lBox.setAmountOf(Resource.ROCK , -5);
+            fail("Rock are:" + lBox.getAmountOf(Resource.ROCK));
         }catch(NotEnoughResourcesException e){
 
         }
@@ -71,17 +71,17 @@ public class LockBoxTest extends TestCase {
     public void testSetShield() {
         LockBox lBox = new LockBox();
         try{
-            lBox.setShield(2);
-            assertEquals(2 , lBox.getShield());
-            lBox.setShield(-2);
-            assertEquals(0 , lBox.getShield());
+            lBox.setAmountOf(Resource.SHIELD , 2);
+            assertEquals(2 , lBox.getAmountOf(Resource.SHIELD));
+            lBox.setAmountOf(Resource.SHIELD , -2);
+            assertEquals(0 , lBox.getAmountOf(Resource.SHIELD));
         }catch (NotEnoughResourcesException e){
             fail();
         }
         //fail the test if there isn't an exception
         try {
-            lBox.setShield(-5);
-            fail("Shield are:" + lBox.getShield());
+            lBox.setAmountOf(Resource.SHIELD , -5);
+            fail("Shield are:" + lBox.getAmountOf(Resource.SHIELD));
         }catch(NotEnoughResourcesException e){
 
         }
@@ -90,22 +90,22 @@ public class LockBoxTest extends TestCase {
     public void testGetAmountOf(){
         LockBox lBox = new LockBox();
         try{
-            lBox.setCoin(5);
+            lBox.setAmountOf(Resource.COIN , 5);
             assertEquals(5 , lBox.getAmountOf(Resource.COIN));
-            lBox.setShield(2);
+            lBox.setAmountOf(Resource.SHIELD , 2);
             assertEquals(2 , lBox.getAmountOf(Resource.SHIELD));
-            lBox.setRock(20);
+            lBox.setAmountOf(Resource.ROCK , 20);
             assertEquals(20 , lBox.getAmountOf(Resource.ROCK));
-            lBox.setServant(3);
+            lBox.setAmountOf(Resource.SERVANT , 3);
             assertEquals(3 , lBox.getAmountOf(Resource.SERVANT));
 
-            lBox.setCoin(5);
+            lBox.setAmountOf(Resource.COIN , 5);
             assertEquals(10 , lBox.getAmountOf(Resource.COIN));
-            lBox.setShield(-1);
+            lBox.setAmountOf(Resource.SHIELD , -1);
             assertEquals(1 , lBox.getAmountOf(Resource.SHIELD));
-            lBox.setRock(-10);
+            lBox.setAmountOf(Resource.ROCK , -10);
             assertEquals(10 , lBox.getAmountOf(Resource.ROCK));
-            lBox.setServant(17);
+            lBox.setAmountOf(Resource.SERVANT , 17);
             assertEquals(20 , lBox.getAmountOf(Resource.SERVANT));
 
         }catch(NotEnoughResourcesException e){

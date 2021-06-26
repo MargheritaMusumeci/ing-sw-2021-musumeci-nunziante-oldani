@@ -3,11 +3,12 @@ package it.polimi.ingsw.model.popeTrack;
 import java.io.Serializable;
 
 public class Position implements Serializable {
-    private int index;
-    private int point;
-    private boolean isPopeSection;
-    private boolean isPopePosition;
-    private int numPopeSection;
+
+    private final int index;
+    private final int point;
+    private final boolean isPopeSection;
+    private final boolean isPopePosition;
+    private final int numPopeSection;
 
     public Position(int index , int point , boolean isPopeSection , int numPopeSection , boolean isPopePosition){
         this.index = index;
@@ -18,32 +19,28 @@ public class Position implements Serializable {
     }
 
     /**
-     *Return the index of the position
-     * @return
+     * @return the index of the position
      */
     public int getIndex(){ return index; }
 
     /**
-     * Return the point of the position
-     * @return
+     * @return the point of the position
      */
     public int getPoint(){ return point; }
 
     /**
-     * Return true if this position is a pope position
-     * @return
+     * @return true if this position is a pope position
      */
     public boolean getPopePosition(){ return isPopePosition; }
 
     /**
-     * Return true if this position is a pope section
-     * @return
+     * @return true if this position is a pope section
      */
     public boolean getPopeSection(){ return isPopeSection; }
 
     /**
-     * Return of the number of pope section, if getPopeSection() == true
-     * @return
+     * Return of
+     * @return the number of the pope section, 0 if it isn't a pope section
      */
     public int getNumPopeSection(){ return numPopeSection; }
 }
