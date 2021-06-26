@@ -23,12 +23,12 @@ public class ActiveProductionZonePhase extends Phase {
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);
 
-        int position = 0;
+        int position;
         boolean activeBasic = false;
-        boolean exit = false;
-        ArrayList<Integer> productionZones =new ArrayList<Integer>();
-        ArrayList<Resource> resourcesRequires = new ArrayList<Resource>();
-        ArrayList<Resource> resourcesEnsures = new ArrayList<Resource>();
+        boolean exit;
+        ArrayList<Integer> productionZones =new ArrayList<>();
+        ArrayList<Resource> resourcesRequires = new ArrayList<>();
+        ArrayList<Resource> resourcesEnsures = new ArrayList<>();
         ArrayList<Resource> leaderProduction = new ArrayList<>();
 
         int numPZ = cli.getClientSocket().getView().getDashboard().getSerializableProductionZones().length +
@@ -55,7 +55,6 @@ public class ActiveProductionZonePhase extends Phase {
 
             //If the player ended his choice
             if(position == -1){
-                exit = true;
                 break;
             }
 
@@ -97,7 +96,7 @@ public class ActiveProductionZonePhase extends Phase {
             else
                 System.out.println(Constants.ANSI_RED + "Position already chose" + Constants.ANSI_RESET);
 
-        }while(!exit && productionZones.size() <= numPZ);
+        }while(productionZones.size() <= numPZ);
 
         //Now the array with the position is ready
 
@@ -166,9 +165,13 @@ public class ActiveProductionZonePhase extends Phase {
         new Thread(cli).start();
     }
 
+    /**
+     * method that converts the number insert into the correct resources
+     * @param resources is the array list that has to be filled
+     */
     private void fillArrayList(ArrayList<Resource> resources){
         Scanner scanner = new Scanner(System.in);
-        int position = 0;
+        int position;
 
         try{
             position = scanner.nextInt();

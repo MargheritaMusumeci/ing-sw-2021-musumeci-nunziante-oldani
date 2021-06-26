@@ -22,25 +22,25 @@ import java.util.Scanner;
 public class BuyFromMarketPhase extends Phase {
     /**
      * method able to handle the action of buying from market
-     * @param cli is client cli
+     * @param cli is client's cli
      */
     @Override
     public void makeAction(CLI cli) {
         Scanner scanner = new Scanner(System.in);
         cli.printMarket();
-        int scelta = 0;
+        int rowChoice;
         do {
             System.out.print(Constants.ANSI_CYAN + "Type 1 to pick a row or 2 for a column: " + Constants.ANSI_RESET);
             try{
-                scelta = scanner.nextInt();
+                rowChoice = scanner.nextInt();
             }catch (InputMismatchException e){
-                scelta = 6;
+                rowChoice = 6;
                 scanner.nextLine();
             }
 
 
-            if(scelta == 1){
-                int row = 0;
+            if(rowChoice == 1){
+                int row;
                 do{
                     System.out.print(Constants.ANSI_CYAN + "Insert the row that you want to buy (0,1,2): " + Constants.ANSI_RESET);
                     try{
@@ -55,8 +55,8 @@ public class BuyFromMarketPhase extends Phase {
                 cli.getClientSocket().send(new BuyFromMarketMessage("buy from market", row, true));
 
             }
-            if(scelta == 2){
-                int col = 0;
+            if(rowChoice == 2){
+                int col;
                 do{
                     System.out.print(Constants.ANSI_CYAN + "Insert the columns that you want to buy (0,1,2,3): " + Constants.ANSI_RESET);
                     try{
@@ -69,9 +69,9 @@ public class BuyFromMarketPhase extends Phase {
 
                 cli.getClientSocket().send(new BuyFromMarketMessage("buy from market", col, false));
             }
-        }while (scelta != 1 && scelta != 2);
+        }while (rowChoice != 1 && rowChoice != 2);
 
-        //System.out.println("Message sent");
+
         //Resources bought, waiting for ack/nack
         synchronized (this){
             try {
@@ -82,7 +82,7 @@ public class BuyFromMarketPhase extends Phase {
         }
 
         if(cli.isAckArrived()){
-            //System.out.println("Risosrse dal mercato prese in modo corretto");
+
             cli.setIsAckArrived(false);
             cli.setActionBeenDone(true);
         }else{
@@ -91,11 +91,11 @@ public class BuyFromMarketPhase extends Phase {
         }
 
         //ask the resources
-        cli.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage("Risorse che ho comprato richeiste"));
+        cli.getClientSocket().send(new RequestResourcesBoughtFromMarketMessage("Bought resources"));
 
         synchronized (this){
             try {
-                //System.out.println("Waiting for resources bought");
+
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -136,11 +136,6 @@ public class BuyFromMarketPhase extends Phase {
 
                     }while (choice!= 2 && choice!=1);
                     newRes.add(noMoreWhite.get(choice-1));
-                    /*
-                    cli.getClientSocket().getView().getResourcesBoughtFromMarker().remove(resource);
-                    cli.getClientSocket().getView().getResourcesBoughtFromMarker().add(noMoreWhite.get(choice-1));
-
-                     */
                 }else{
                     newRes.add(resource);
                 }
@@ -159,7 +154,7 @@ public class BuyFromMarketPhase extends Phase {
 
         //if they all were white
         if(countNotnull == 0){
-            cli.getClientSocket().send(new StoreResourcesMessage("salva risorse", cli.getClientSocket().getView().getResourcesBoughtFromMarker()));
+            cli.getClientSocket().send(new StoreResourcesMessage("save resources", cli.getClientSocket().getView().getResourcesBoughtFromMarker()));
             System.out.println(Constants.ANSI_GREEN + "You have bought only white resources" + Constants.ANSI_RESET);
             cli.setGamePhase(new MyTurnPhase());
             new Thread(cli).start();
@@ -206,7 +201,7 @@ public class BuyFromMarketPhase extends Phase {
             for(Integer integer: positions){
                 resourcesToSend.add(cli.getClientSocket().getView().getResourcesBoughtFromMarker().get(integer));
             }
-            cli.getClientSocket().send(new StoreResourcesMessage("salva risorse selezionate", resourcesToSend));
+            cli.getClientSocket().send(new StoreResourcesMessage("save selected resources", resourcesToSend));
 
             synchronized (this){
                 try {

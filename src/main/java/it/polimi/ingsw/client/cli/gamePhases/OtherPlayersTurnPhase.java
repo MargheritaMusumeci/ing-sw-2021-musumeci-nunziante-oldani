@@ -3,7 +3,15 @@ package it.polimi.ingsw.client.cli.gamePhases;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.utils.Constants;
 
+/**
+ * class that puts a player in wait until his turn has not been reached
+ */
 public class OtherPlayersTurnPhase extends Phase{
+
+    /**
+     * method that puts a player in wait until his turn has not been reached
+     * @param cli
+     */
     @Override
     public void makeAction(CLI cli) {
 

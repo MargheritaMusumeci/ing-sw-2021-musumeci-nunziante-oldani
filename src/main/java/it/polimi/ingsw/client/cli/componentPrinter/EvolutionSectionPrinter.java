@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static it.polimi.ingsw.utils.Constants.*;
 
@@ -23,12 +24,10 @@ public class EvolutionSectionPrinter {
         for (int x=0; x<serializableEvolutionSection.getEvolutionCards().length; x++){
             ArrayList<ArrayList<String>[]> line = createLines(serializableEvolutionSection.getEvolutionCards()[x]);
             for (int i=0; i< line.get(0).length; i++){
-                for(int k=0; k<line.size(); k++){
-                    for (int j=0; j<line.get(k)[i].size(); j++){
-
-                        System.out.print(line.get(k)[i].get(j));
+                for (ArrayList<String>[] arrayLists : Collections.unmodifiableList(line)) {
+                    for (int j = 0; j < arrayLists[i].size(); j++) {
+                        System.out.print(arrayLists[i].get(j));
                     }
-
                 }
                 System.out.print("\n");
             }
@@ -198,10 +197,10 @@ public class EvolutionSectionPrinter {
      */
     private static  ArrayList<ArrayList<String>[]> createLines(EvolutionCard[] evolutionCards){
         ArrayList<ArrayList<String>[]> line = new ArrayList<>();
-        for(int i = 0; i<evolutionCards.length; i++){
-            if(evolutionCards[i] != null){
-                line.add(createEvolutionCard(evolutionCards[i]));
-            }else{
+        for (EvolutionCard evolutionCard : evolutionCards) {
+            if (evolutionCard != null) {
+                line.add(createEvolutionCard(evolutionCard));
+            } else {
                 line.add(createEmptyCard());
             }
 
@@ -217,7 +216,8 @@ public class EvolutionSectionPrinter {
         String firstLine = "╔═════════════════╗";
         String lastLine = "╚═════════════════╝";
         String emptyLine = "║                 ║";
-        ArrayList<String>[] card = new ArrayList[15];
+        ArrayList<String>[] card;
+        card = new ArrayList[15];
         for (int i= 0; i< card.length; i++){
             card[i] = new ArrayList<>();
 

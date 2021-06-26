@@ -3,10 +3,15 @@ package it.polimi.ingsw.client.cli.gamePhases;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.cli.gamePhases.myTurnPhases.MyTurnPhase;
 
-
+/**
+ * class that handles the start of the game
+ */
 public class StartGamePhase extends Phase{
 
-
+    /**
+     * method that handles the start of the game and puts the game phase in "my turn phase"
+     * @param cli is client's cli
+     */
     @Override
     public void makeAction(CLI cli) {
         System.out.println("The game is started");

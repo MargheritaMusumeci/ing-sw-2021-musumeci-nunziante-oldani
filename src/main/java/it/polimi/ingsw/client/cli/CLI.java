@@ -14,6 +14,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * class responsible to coordinate the client execution if the cli interface is
+ * selected
+ */
 public class CLI implements Runnable {
 
     private Scanner scanner;
@@ -32,6 +36,9 @@ public class CLI implements Runnable {
     private SerializableMarket temporaryMarket;
     private SerializableEvolutionSection temporaryEvolutionSection;
 
+    /**
+     * class constructor that starts the client thread with the first phase
+     */
     public CLI(){
         scanner = new Scanner(System.in);
         isNackArrived = false;
@@ -43,76 +50,101 @@ public class CLI implements Runnable {
         new Thread(this).start();
     }
 
-    //metodi per stampare le componenti del gioco
+    /**
+     * method that prints the title of the game
+     */
     public void printTitle(){
 
         System.out.println(Constants.ANSI_RED + Constants.title + Constants.ANSI_RESET);
     }
+
+    /**
+     * method thet prints the menu that contains the action that a player can perform in his turn
+     */
     public void printMenu(){
         System.out.println(Constants.menu);
 
         System.out.print(Constants.ANSI_CYAN + "Choose your action: " + Constants.ANSI_RESET);
     }
 
+    /**
+     * method that calls the correct printer to print the player's lock box
+     */
     public void printLockBox(){
         SerializableLockBox lockBox =  clientSocket.getView().getDashboard().getSerializableLockBox();
         LockBoxPrinter.print(lockBox);
 
     }
+
+    /**
+     * method that calls the correct printer to print the player's stock
+     */
     public void printStock(){
         SerializableStock stock = clientSocket.getView().getDashboard().getSerializableStock();
         StockPrinter.print(stock);
     }
+
+    /**
+     * method that calls the correct printer to print the market
+     */
     public void printMarket(){
         SerializableMarket market = clientSocket.getView().getMarket();
         MarketPrinter.print(market);
     }
+
+    /**
+     * method that calls the correct printer to print the market before the game is started
+     */
     public void printTemporaryMarket(){
         MarketPrinter.print(temporaryMarket);
     }
+
+    /**
+     * method that calls the correct printer to print the player's pope track
+     */
     public void printPopeTrack(){
         SerializablePopeTack popeTack = clientSocket.getView().getDashboard().getSerializablePopeTack();
         PopeTrackPrinter.print(popeTack);
 
     }
+
+    /**
+     * method that calls the correct printer to print the player's leader cards
+     */
     public void printLeaderCards(){
         ArrayList<SerializableLeaderCard> leaderCards = clientSocket.getView().getLeaderCards();
         LeaderCardsPrinter.print(leaderCards);
 
     }
+
+    /**
+     * method that calls the correct printer to print the player's production zones
+     */
     public void printProductionZones(){
         ProductionSectionPrinter.print(clientSocket.getView().getDashboard());
 
     }
+
+    /**
+     * method that calls the correct printer to print the evolution section
+     */
     public void printEvolutionSection(){
         SerializableEvolutionSection evolutionSection = clientSocket.getView().getEvolutionSection();
         EvolutionSectionPrinter.print(evolutionSection);
     }
+
+    /**
+     * method that calls the correct printer to print the evolution section before the game is started
+     */
     public void printTemporaryEvolutionSection(){
         EvolutionSectionPrinter.print(temporaryEvolutionSection);
     }
-    private void printEvolutionCard(EvolutionCard evolutionCard){
-        System.out.println("Color: " + evolutionCard.getColor());
-        System.out.println("Level: " + evolutionCard.getLevel());
-        System.out.println("Point: " + evolutionCard.getPoint());
-        System.out.println("Is active: " + evolutionCard.isActive());
-        System.out.println("Cost: ");
-        for(Resource resource : evolutionCard.getCost().keySet()){
-            System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getCost().get(resource));
-        }
-        System.out.println("Requires: ");
-        for(Resource resource : evolutionCard.getRequires().keySet()){
-            System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getRequires().get(resource));
-        }
-        System.out.println("Products: ");
-        for(Resource resource : evolutionCard.getProduction().keySet()){
-            System.out.println("    Resource: " + resource + " , quantity: " + evolutionCard.getProduction().get(resource));
-        }
-    }
+
+    /**
+     * method that calls the correct printer to print the player's set of leader cards
+     */
     public void printSetOfLeaderCard(ArrayList<SerializableLeaderCard> leaderCards){
-
         LeaderCardsPrinter.print(leaderCards);
-
     }
 
 
@@ -207,13 +239,6 @@ public class CLI implements Runnable {
     public void setTemporaryEvolutionSection(SerializableEvolutionSection temporaryEvolutionSection) {
         this.temporaryEvolutionSection = temporaryEvolutionSection;
     }
-
-    /*
-    public static void main(String[] args){
-        new CLI();
-    }
-
-     */
 
     @Override
     public void run() {
