@@ -12,11 +12,13 @@ import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+
+import java.awt.*;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.awt.Desktop;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,6 +114,9 @@ public class ViewPlayerController extends ViewController {
         gui.setLeaderEnsure(new HashMap<>());
         initBasicProduction();
         initButtons();
+        for (CheckBox checkbox : activeProductionCheckBoxes) {
+            checkbox.setSelected(false);
+        }
         activeProduction4Button.setVisible(false);
         activeProduction5Button.setVisible(false);
     }
