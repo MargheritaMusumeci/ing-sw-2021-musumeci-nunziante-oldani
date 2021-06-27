@@ -2,214 +2,64 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.game.Resource;
-import jdk.dynalink.NamedOperation;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 
 public class StockTest extends TestCase {
 
     public void testGetResourceType() {
         Stock stock = new Stock();
-        try {
-            //Standard boxes
-            stock.addResources(0 , 1 , Resource.COIN);
-            stock.addResources(1 , 1 , Resource.SHIELD);
-            stock.addResources(2 , 1 , Resource.ROCK);
-            assertEquals(Resource.COIN , stock.getResourceType(0));
-            assertEquals(Resource.SHIELD , stock.getResourceType(1));
-            assertEquals(Resource.ROCK , stock.getResourceType(2));
 
-            //Box plus
-            stock.addBox(2 , Resource.SERVANT);
-            stock.addResources(3 , 1 , Resource.SERVANT);
-            assertEquals(Resource.SERVANT , stock.getResourceType(3));
+        //Standard boxes
+        ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.COIN , Resource.COIN ,
+                Resource.SERVANT , Resource.SERVANT , Resource.SHIELD));
 
-            //Not present boxes
-            assertNull(stock.getResourceType(-1));
-            assertNull(stock.getResourceType(4));
-        }catch(NotEnoughSpaceException | ResourceAlreadyPresentException | OutOfBandException e){
-            fail();
-        }
-    }
+        stock.manageStock(resources);
 
-    public void testAddResources1() {
-        Stock stock = new Stock();
-        try {
-            stock.addResources(5 , 2 , Resource.COIN);
-            fail();
-        }catch(OutOfBandException e){
-            //Here it's right
-        }catch(Exception e1){
-            fail();
-        }
-    }
+        assertEquals(Resource.SHIELD , stock.getResourceType(0));
+        assertEquals(Resource.SERVANT , stock.getResourceType(1));
+        assertEquals(Resource.COIN , stock.getResourceType(2));
 
-    public void testAddResources2(){
-        Stock stock = new Stock();
-        try{
-            stock.addResources(0 , 1 , Resource.COIN);
-        }catch(Exception e){
-            fail();
-        }
-        try{
-            stock.addResources(1 , 1 , Resource.COIN);
-            fail();
-        }catch(ResourceAlreadyPresentException e){
-            //It's right
-        }catch(Exception e1){
-            fail();
-        }
-    }
+        //Box plus
+        stock.addBox(2 , Resource.ROCK);
+        resources = new ArrayList<>(Arrays.asList(Resource.ROCK));
+        stock.manageStock(resources);
 
-    public void testAddResources3(){
-        Stock stock = new Stock();
-        try{
-            stock.addBox(2 , Resource.COIN);
-            stock.addResources(3 , 1 , Resource.COIN);
-        }catch(Exception e){
-            fail();
-        }
-        try{
-            stock.addResources(1 , 1 , Resource.COIN);
-            //It should add the resources anyway, even if there are already the same type in the box plus
-        }catch(Exception e1){
-            fail();
-        }
-    }
+        assertEquals(Resource.ROCK , stock.getResourceType(3));
 
-    public void testAddResources4(){
-        Stock stock = new Stock();
-        try{
-            stock.addResources(0 , 2 , Resource.COIN);
-            fail();
-        }catch(NotEnoughSpaceException e){
-            //Right : the box 0 has only 1 space
-        }catch(Exception e1){
-            fail();
-        }
-        try{
-            stock.addResources(1 , 3 , Resource.SERVANT);
-            fail();
-        }catch(NotEnoughSpaceException e){
-            //Right : the box 1 has only 2 space
-        }catch(Exception e1){
-            fail();
-        }
-        try{
-            stock.addResources(2 , 4 , Resource.ROCK);
-            fail();
-        }catch(NotEnoughSpaceException e){
-            //Right : the box 2 has only 3 space
-        }catch(Exception e1){
-            fail();
-        }
-        try{
-            stock.addBox(2 , Resource.SHIELD);
-            stock.addResources(3 , 3 , Resource.SHIELD);
-            fail();
-        }catch(NotEnoughSpaceException e){
-            //Right: the new box(3) has only 2 space
-        }catch(Exception e1){
-            fail();
-        }
-        try {
-            stock.addResources(3 , 1 , Resource.COIN);
-            fail();
-        }catch(ResourceAlreadyPresentException e){
-            //Here it's right
-        }catch(Exception e1){
-            fail();
-        }
-    }
-
-    public void testAddResources5(){
-        Stock stock = new Stock();
-        try {
-            stock.addResources(0 , 1 , Resource.COIN);
-            stock.addResources(1 , 1 , Resource.ROCK);
-            stock.addResources(2 , 1 , Resource.SHIELD);
-
-            stock.addBox(2 , Resource.SERVANT);
-            stock.addResources(3 , 1 , Resource.SERVANT);
-
-            assertEquals(Resource.COIN , stock.getResourceType(0));
-            assertEquals(1 , stock.getQuantities(0));
-            assertEquals(Resource.ROCK , stock.getResourceType(1));
-            assertEquals(1 , stock.getQuantities(1));
-            assertEquals(Resource.SHIELD , stock.getResourceType(2));
-            assertEquals(1 , stock.getQuantities(2));
-            assertEquals(Resource.SERVANT , stock.getResourceType(3));
-            assertEquals(1 , stock.getQuantities(3));
-
-            stock.addResources(1 , 1 , Resource.ROCK);
-            stock.addResources(2 , 2 , Resource.SHIELD);
-            stock.addResources(3 , 1 , Resource.SERVANT);
-
-            assertEquals(2 , stock.getQuantities(1));
-            assertEquals(3 , stock.getQuantities(2));
-            assertEquals(2 , stock.getQuantities(3));
-
-        }catch(Exception e){
-            fail();
-        }
-    }
-
-    public void testGetQuantities() {
-        Stock stock = new Stock();
-
-        try {
-            stock.addResources(1 , 2 , Resource.COIN);
-            stock.addResources(2 , 2 , Resource.SERVANT);
-            stock.addBox(5 , Resource.ROCK);
-            stock.addResources(3 , 4 , Resource.ROCK);
-
-            //Real boxes
-            assertEquals(0 , stock.getQuantities(0));
-            assertEquals(2 , stock.getQuantities(1));
-            assertEquals(2 , stock.getQuantities(2));
-            assertEquals(4 , stock.getQuantities(3));
-
-            //Boxes that doesn't exist
-            assertEquals(0 , stock.getQuantities(-1));
-            assertEquals(0 , stock.getQuantities(10));
-
-        }catch(Exception e){
-            fail();
-        }
-
+        //Not present boxes
+        assertNull(stock.getResourceType(-1));
+        assertNull(stock.getResourceType(4));
     }
 
     public void testGetTotalQuantitiesOf() {
         Stock stock = new Stock();
 
-        try {
-            stock.addBox(3 , Resource.COIN);
+        stock.addBox(3 , Resource.COIN);
 
-            stock.addResources(0, 1 , Resource.SERVANT);
-            stock.addResources(1 , 1 , Resource.SHIELD);
-            stock.addResources(2 ,2 , Resource.COIN);
-            stock.addResources(3 , 2 , Resource.COIN);
+        ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(Resource.SERVANT ,
+                                        Resource.SHIELD ,
+                                        Resource.COIN , Resource.COIN ,
+                                        Resource.COIN , Resource.COIN));
+        stock.manageStock(resources);
 
-            assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SERVANT));
-            assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
-            assertEquals(0 , stock.getTotalQuantitiesOf(Resource.ROCK));
-            assertEquals(4 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SERVANT));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(0 , stock.getTotalQuantitiesOf(Resource.ROCK));
+        assertEquals(4 , stock.getTotalQuantitiesOf(Resource.COIN));
 
-            stock.addResources(0 , 0 , Resource.SERVANT);
-            stock.addResources(1 , 1 , Resource.SHIELD);
-            stock.addResources(2 , 1 , Resource.COIN);
-            stock.addResources(3 , 1 , Resource.COIN);
+        resources = new ArrayList<>(Arrays.asList(Resource.SHIELD , Resource.COIN , Resource.COIN));
+        stock.manageStock(resources);
 
-            assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SERVANT));
-            assertEquals(2 , stock.getTotalQuantitiesOf(Resource.SHIELD));
-            assertEquals(0 , stock.getTotalQuantitiesOf(Resource.ROCK));
-            assertEquals(6 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SERVANT));
+        assertEquals(2 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(0 , stock.getTotalQuantitiesOf(Resource.ROCK));
+        assertEquals(6 , stock.getTotalQuantitiesOf(Resource.COIN));
 
-        }catch(Exception e){
-            fail();
-        }
     }
 
     public void testGetBoxLength() {
@@ -237,18 +87,17 @@ public class StockTest extends TestCase {
             stock.useResources(1 , Resource.COIN);
             fail();
         }catch(NotEnoughResourcesException e){
-            //It's right, the stock is empty
+            assertTrue(true);
         }
 
         try {
             stock.addBox(4 , Resource.COIN);
             stock.addBox(2 , Resource.SHIELD);
 
-            stock.addResources(0 , 1 , Resource.COIN);
-            stock.addResources(1 , 1 , Resource.SHIELD);
-            stock.addResources(2 , 1 , Resource.SERVANT);
-            stock.addResources(3 , 2 , Resource.COIN);
-            stock.addResources(4 , 2 , Resource.SHIELD);
+            ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(Resource.SERVANT ,
+                    Resource.SHIELD , Resource.SHIELD , Resource.SHIELD ,
+                    Resource.COIN , Resource.COIN , Resource.COIN));
+            stock.manageStock(resources);
 
             assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SERVANT));
             assertEquals(3 , stock.getTotalQuantitiesOf(Resource.SHIELD));
@@ -264,101 +113,6 @@ public class StockTest extends TestCase {
             assertEquals(0 , stock.getTotalQuantitiesOf(Resource.COIN));
 
         }catch (Exception e){
-            fail();
-        }
-    }
-
-    public void testMoveResources1() {
-        Stock stock = new Stock();
-
-        try {
-            stock.addResources(1 , 2 , Resource.COIN);
-            stock.moveResources(1 , 0);
-            fail();
-        }catch(NotEnoughSpaceException e){
-            //It's right
-        }catch (Exception e){
-            fail();
-        }
-        try {
-            stock.addResources(1 , 2 , Resource.COIN);
-            stock.moveResources(0 , 1);
-            fail();
-        }catch(NotEnoughSpaceException e){
-            //It's right
-        }catch (Exception e){
-            fail();
-        }
-        try {
-            stock.moveResources(1 , 5);
-            fail();
-        }catch(OutOfBandException e){
-            //It's right
-        }catch (Exception e){
-            fail();
-        }
-        try {
-            stock.moveResources(-1 , 1);
-            fail();
-        }catch(OutOfBandException e){
-            //It's right
-        }catch (Exception e){
-            fail();
-        }
-        try {
-            stock.moveResources(6 , 5);
-            fail();
-        }catch(OutOfBandException e){
-            //It's right
-        }catch (Exception e){
-            fail();
-        }
-
-    }
-
-    public void testMoveResources2(){
-        Stock stock = new Stock();
-
-        try {
-            stock.addBox(2 , Resource.COIN);
-
-            stock.addResources(1 , 1 , Resource.COIN);
-            stock.addResources(2 , 2 , Resource.ROCK);
-            stock.addResources(3 , 2 , Resource.COIN);
-
-            stock.moveResources(1 , 2);
-
-            assertEquals(1 , stock.getQuantities(2));
-            assertEquals(Resource.COIN , stock.getResourceType(2));
-            assertEquals(2 , stock.getQuantities(1));
-            assertEquals(Resource.ROCK , stock.getResourceType(1));
-
-            stock.moveResources(2 , 3);
-
-            assertEquals(2 , stock.getQuantities(2));
-            assertEquals(Resource.COIN , stock.getResourceType(2));
-            assertEquals(1 , stock.getQuantities(3));
-            assertEquals(Resource.COIN , stock.getResourceType(3));
-
-        }catch(Exception e){
-            fail();
-        }
-    }
-
-    public void testMoveResources3(){
-        Stock stock = new Stock();
-
-        try {
-            stock.addBox(2 , Resource.COIN);
-
-            stock.addResources(2 , 2 , Resource.ROCK);
-            stock.addResources(3 , 2 , Resource.COIN);
-
-            stock.moveResources(2 , 3);
-            fail();
-        }catch(NonCompatibleResourceException e){
-            //It's right
-        }catch(Exception e){
             fail();
         }
     }
@@ -389,21 +143,15 @@ public class StockTest extends TestCase {
         Stock stock = new Stock();
         stock.addBox(2 , Resource.COIN);
 
-        try {
-            stock.addResources(1 , 2 , Resource.COIN);
-            stock.addResources(2 , 2 , Resource.SHIELD);
-            stock.addResources(3 , 1 , Resource.COIN);
+        ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(
+                Resource.SHIELD , Resource.SHIELD ,
+                Resource.COIN , Resource.COIN , Resource.COIN));
+        stock.manageStock(resources);
 
-            assertEquals(2 , stock.getQuantities(1));
-            assertEquals(2 , stock.getQuantities(2));
-            assertEquals(1 , stock.getQuantities(3));
-
-            assertEquals(5 , stock.getTotalNumberOfResources());
-        }catch(Exception e){
-            fail();
-        }
+        assertEquals(5 , stock.getTotalNumberOfResources());
     }
 
+    /*
     public void testManageStock() {
         Stock stock = new Stock();
         List<Resource> resourceList = new ArrayList<>();
@@ -530,6 +278,151 @@ public class StockTest extends TestCase {
         assertEquals(stock2.getQuantities(2),3);
         assertEquals(stock2.getQuantities(1),1);
         assertEquals(stock2.getQuantities(0),1);
+    }
+
+     */
+
+    public void testManageStock2(){
+        Stock stock = new Stock();
+
+        List<Resource> resourceList = new ArrayList<>(Arrays.asList(
+                Resource.COIN , Resource.COIN , Resource.COIN , Resource.SHIELD
+        ));
+        stock.manageStock(resourceList);
+
+        assertEquals(Resource.COIN , stock.getResourceType(2));
+        assertEquals(Resource.SHIELD , stock.getResourceType(1));
+        assertEquals(3 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(4 , stock.getTotalNumberOfResources());
+
+        //too many resources
+        stock.manageStock(resourceList);
+
+        assertEquals(Resource.COIN , stock.getResourceType(2));
+        assertEquals(Resource.SHIELD , stock.getResourceType(1));
+        assertEquals(3 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(4 , stock.getTotalNumberOfResources());
+
+        //faith ball into the list --> ERROR case
+        resourceList = new ArrayList<>();
+        resourceList.add(Resource.FAITH);
+        stock.manageStock(resourceList);
+
+        assertEquals(Resource.COIN , stock.getResourceType(2));
+        assertEquals(Resource.SHIELD , stock.getResourceType(1));
+        assertEquals(3 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(4 , stock.getTotalNumberOfResources());
+
+        //empty input
+        List<Resource> resourceList2 = new ArrayList<>();
+        stock.manageStock(resourceList2);
+        assertEquals(Resource.COIN , stock.getResourceType(2));
+        assertEquals(Resource.SHIELD , stock.getResourceType(1));
+        assertEquals(3 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(4 , stock.getTotalNumberOfResources());
+
+        //correct number of resources and stock not empty
+        resourceList2.add(Resource.ROCK);
+        resourceList2.add(Resource.ROCK);
+        stock.manageStock(resourceList2);
+
+        assertEquals(Resource.COIN , stock.getResourceType(2));
+        assertEquals(Resource.ROCK , stock.getResourceType(1));
+        assertEquals(Resource.SHIELD , stock.getResourceType(0));
+        assertEquals(3 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(2 , stock.getTotalQuantitiesOf(Resource.ROCK));
+        assertEquals(6 , stock.getTotalNumberOfResources());
+
+        //more resources than expected
+        resourceList = new ArrayList<>(Arrays.asList(
+                Resource.COIN , Resource.SERVANT , Resource.SHIELD , Resource.ROCK
+        ));
+        stock.manageStock(resourceList);
+
+        assertEquals(Resource.COIN , stock.getResourceType(2));
+        assertEquals(Resource.ROCK , stock.getResourceType(1));
+        assertEquals(Resource.SHIELD , stock.getResourceType(0));
+        assertEquals(3 , stock.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(2 , stock.getTotalQuantitiesOf(Resource.ROCK));
+        assertEquals(6 , stock.getTotalNumberOfResources());
+
+        //leader card active
+        Stock stock2 = new Stock();
+
+        stock2.addBox(2,Resource.ROCK);
+
+        List<Resource> resourceList3 = new ArrayList<>(Arrays.asList(
+                Resource.COIN , Resource.COIN , Resource.COIN , Resource.SHIELD
+        ));
+
+        stock2.manageStock(resourceList3);
+
+        assertEquals(Resource.COIN , stock2.getResourceType(2));
+        assertEquals(Resource.SHIELD , stock2.getResourceType(1));
+        assertEquals(3 , stock2.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock2.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(4 , stock2.getTotalNumberOfResources());
+
+        List<Resource> resourceList4 = new ArrayList<>(Arrays.asList(
+                Resource.ROCK , Resource.ROCK , Resource.ROCK
+        ));
+        stock2.manageStock(resourceList4);
+
+        assertEquals(Resource.ROCK , stock2.getResourceType(3));
+        assertEquals(Resource.COIN , stock2.getResourceType(2));
+        assertEquals(3 , stock2.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock2.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(3 , stock2.getTotalQuantitiesOf(Resource.ROCK));
+        assertEquals(7 , stock2.getTotalNumberOfResources());
+
+        //two leader cards active
+        stock2.addBox(2,Resource.COIN);
+
+        //Try to add 4 ROCK -> there are already 3 ROCK -> nothing will change
+        stock2.manageStock(resourceList4);
+
+        assertEquals(Resource.COIN , stock2.getResourceType(4));
+        assertEquals(Resource.ROCK , stock2.getResourceType(3));
+        assertEquals(Resource.COIN , stock2.getResourceType(2));
+        assertEquals(3 , stock2.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock2.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(3 , stock2.getTotalQuantitiesOf(Resource.ROCK));
+        assertEquals(7 , stock2.getTotalNumberOfResources());
+
+        List<Resource> resourceList5 = new ArrayList<>(Arrays.asList(
+                Resource.COIN , Resource.COIN
+        ));
+
+        stock2.manageStock(resourceList5);
+
+        assertEquals(Resource.COIN , stock2.getResourceType(4));
+        assertEquals(Resource.ROCK , stock2.getResourceType(3));
+        assertEquals(Resource.COIN , stock2.getResourceType(2));
+        assertEquals(5 , stock2.getTotalQuantitiesOf(Resource.COIN));
+        assertEquals(1 , stock2.getTotalQuantitiesOf(Resource.SHIELD));
+        assertEquals(3 , stock2.getTotalQuantitiesOf(Resource.ROCK));
+        assertEquals(9 , stock2.getTotalNumberOfResources());
+    }
+
+    public void testStockIsEmpty(){
+        Stock stock = new Stock();
+
+        boolean stockIsEmpty = stock.stockIsEmpty();
+
+        assertTrue(stockIsEmpty);
+
+        ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.COIN));
+        stock.manageStock(resources);
+
+        stockIsEmpty = stock.stockIsEmpty();
+
+        assertFalse(stockIsEmpty);
     }
 }
 

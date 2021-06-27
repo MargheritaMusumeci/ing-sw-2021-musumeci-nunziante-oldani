@@ -830,8 +830,12 @@ public class DoActionPlayerTest {
             player.getDashboard().getProductionZone()[1].addCard(modelGame.getEvolutionSection().buy(2 ,1));
 
             //Case with all the resources in Stock
-            modelGame.getActivePlayer().getDashboard().getStock().addResources( 0 , 1 , Resource.COIN);
-            modelGame.getActivePlayer().getDashboard().getStock().addResources( 1 , 1 , Resource.SHIELD);
+            ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(
+                    Resource.SHIELD ,
+                    Resource.COIN));
+            modelGame.getActivePlayer().getDashboard().getStock().manageStock(resources);
+            //modelGame.getActivePlayer().getDashboard().getStock().addResources( 0 , 1 , Resource.COIN);
+            //modelGame.getActivePlayer().getDashboard().getStock().addResources( 1 , 1 , Resource.SHIELD);
 
             System.out.println("Number of resources in stock: " +
                     modelGame.getActivePlayer().getDashboard().getStock().getTotalNumberOfResources());
@@ -841,13 +845,13 @@ public class DoActionPlayerTest {
             fail();
         } catch (ExcessOfPositionException e) {
             fail();
-        }catch (ResourceAlreadyPresentException e) {
+        }/*catch (ResourceAlreadyPresentException e) {
             fail();
         } catch (NotEnoughSpaceException e) {
             fail();
         } catch (OutOfBandException e) {
             fail();
-        }
+        }*/
 
         HashMap<Resource , Integer> oldResources = new HashMap<>();
         ArrayList<Resource> resourceTypes = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.SERVANT , Resource.SHIELD , Resource.ROCK));
@@ -908,7 +912,9 @@ public class DoActionPlayerTest {
             player.getDashboard().getProductionZone()[1].addCard(modelGame.getEvolutionSection().buy(2 ,1));
 
             //Case with all the resources in Stock
-            modelGame.getActivePlayer().getDashboard().getStock().addResources( 0 , 1 , Resource.COIN);
+            ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(Resource.COIN));
+            modelGame.getActivePlayer().getDashboard().getStock().manageStock(resources);
+            //modelGame.getActivePlayer().getDashboard().getStock().addResources( 0 , 1 , Resource.COIN);
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD , 1);
 
             System.out.println("Number of resources in stock: " +
@@ -919,13 +925,13 @@ public class DoActionPlayerTest {
             fail();
         } catch (ExcessOfPositionException e) {
             fail();
-        }catch (ResourceAlreadyPresentException e) {
+        }/*catch (ResourceAlreadyPresentException e) {
             fail();
         } catch (NotEnoughSpaceException e) {
             fail();
         } catch (OutOfBandException e) {
             fail();
-        } catch (NotEnoughResourcesException e) {
+        }*/ catch (NotEnoughResourcesException e) {
             fail();
         }
 
