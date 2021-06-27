@@ -656,9 +656,9 @@
     "point": 6,
     "cost" : {
       "ROCK" : 3,
-      "SHIELD" : 0,
+      "SHIELD" : 2,
       "COIN" : 0,
-      "SERVANT" : 2
+      "SERVANT" : 0
     },
     "requires" : {
       "ROCK" : 1,
