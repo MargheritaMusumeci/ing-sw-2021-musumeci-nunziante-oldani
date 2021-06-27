@@ -40,19 +40,7 @@ public class ViewEnemyController extends ViewController{
 
         ArrayList<Resource[]> boxes = gui.getView().getEnemiesDashboard().get(nickName).getSerializableStock().getBoxes();
 
-        for(int i = 0 ; i < boxes.size() ; i++){
-            if(boxes.get(i) != null){
-                for(int j = 0 ; j < boxes.get(i).length ; j++){
-                    if(boxes.get(i)[j] != null){
-                        String path = printer.pathFromResource(boxes.get(i)[j]);
-                        stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
-                    }
-                    else{
-                        stockBoxes.get(i).get(j).setImage(null);
-                    }
-                }
-            }
-        }
+        initStockCommon(boxes);
 
         ArrayList<SerializableLeaderCard> leaderCardsActivated =
                 gui.getView().getEnemiesActivatedLeaderCards().get(gui.getView().getEnemiesDashboard().get(nickName));

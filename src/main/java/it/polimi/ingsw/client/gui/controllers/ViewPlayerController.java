@@ -424,18 +424,7 @@ public class ViewPlayerController extends ViewController {
         //Take the boxes of the simple stock
         ArrayList<Resource[]> boxes = gui.getView().getDashboard().getSerializableStock().getBoxes();
 
-        for (int i = 0; i < boxes.size(); i++) {
-            if (boxes.get(i) != null) {
-                for (int j = 0; j < boxes.get(i).length; j++) {
-                    if (boxes.get(i)[j] != null) {
-                        String path = printer.pathFromResource(boxes.get(i)[j]);
-                        stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
-                    } else {
-                        stockBoxes.get(i).get(j).setImage(null);
-                    }
-                }
-            }
-        }
+        initStockCommon(boxes);
 
         if (gui.getStockLeaderCardInUse() != null && gui.getStockLeaderCardInUse().size() != 0) {
             for (int i = 0; i < gui.getView().getDashboard().getSerializableStock().getBoxPlus().size(); i++) {//stockLeaderCardInUse.size()
