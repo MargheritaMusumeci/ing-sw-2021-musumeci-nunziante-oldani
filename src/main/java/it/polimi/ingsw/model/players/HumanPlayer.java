@@ -275,26 +275,9 @@ public class HumanPlayer extends Player implements Serializable {
     }
 
     /**
-     * Method that sets the resources the players had bought in this turn.
-     * @param resource is a resource
-     */
-    public void addResources(Resource resource){
-        resources.add(resource);
-    }
-
-    /**
-     * Method that removes a resource
-     * @throws NonCompatibleResourceException id the resource type isn't present in the arrayList
-     */
-    public void removeResources(Resource resource) throws NonCompatibleResourceException {
-        if(!resources.contains(resource)) throw new NonCompatibleResourceException("This resourceType is not present");
-        resources.remove(resource);
-    }
-
-    /**
      * @param resources obtained from market. If a leader card NO MORE WHITE is active, white ball have already been replaced
      */
-    public void setResources(List<Resource> resources){this.resources= (ArrayList<Resource>) resources;}
+    public void setResources(List<Resource> resources){this.resources = (ArrayList<Resource>) resources;}
     /**
      *
      * @return the resources the player still have to place in the stock
