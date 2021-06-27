@@ -277,7 +277,7 @@ public class HumanPlayer extends Player implements Serializable {
     /**
      * @param resources obtained from market. If a leader card NO MORE WHITE is active, white ball have already been replaced
      */
-    public void setResources(List<Resource> resources){this.resources = (ArrayList<Resource>) resources;}
+    public void setResources(ArrayList<Resource> resources){this.resources = resources;}
     /**
      *
      * @return the resources the player still have to place in the stock
