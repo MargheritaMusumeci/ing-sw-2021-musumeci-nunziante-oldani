@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.gui.controllers.utils.MarketEvolutionSectionBuilde
 import it.polimi.ingsw.client.gui.controllers.utils.Print;
 import it.polimi.ingsw.client.gui.GameFxml;
 import it.polimi.ingsw.client.gui.GamePhases;
+import it.polimi.ingsw.model.game.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -308,6 +309,21 @@ public abstract class ViewController extends MarketEvolutionSectionBuilder imple
         initEnemiesButton();
     }
 
+    public void initStockCommon(ArrayList<Resource[]> boxes){
+        for(int i = 0 ; i < boxes.size() ; i++){
+            if(boxes.get(i) != null){
+                for(int j = 0 ; j < boxes.get(i).length ; j++){
+                    if(boxes.get(i)[j] != null){
+                        String path = printer.pathFromResource(boxes.get(i)[j]);
+                        stockBoxes.get(i).get(j).setImage(printer.fromPathToImageResource(path));
+                    }
+                    else{
+                        stockBoxes.get(i).get(j).setImage(null);
+                    }
+                }
+            }
+        }
+    }
     /**
      * Method that initializes the buttons with the players in the game if it's a multiPlayer game
      * Show the images , active the  buttons and set the nickName of each player as text

@@ -14,6 +14,7 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class that takes care of showing the user how many resources to start he must choose and manages the user's choice.
