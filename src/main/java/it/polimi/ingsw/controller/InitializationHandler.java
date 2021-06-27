@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
@@ -62,6 +63,11 @@ public class InitializationHandler {
         return serializableLeaderCards;
     }
 
+    /**
+     * Method that initializes the initial resources between whom the player can choose
+     * @param player is the player
+     * @return an arrayList of resources
+     */
     public ArrayList<Resource> prepareInitialResources(HumanPlayer player){
         int playerPosition = player.getPosition();
         ArrayList<Resource> resources = new ArrayList<Resource>();
@@ -114,12 +120,15 @@ public class InitializationHandler {
 
     /**
      * Method that increases the position of the player according to his position in the game
-     * @param player
-     * @param playerPosition
-     * @return
+     * @param player is the player to check if increased the position or no
+     * @return if the position of the player is been increased, false otherwise
      */
-    public boolean setInitialPositionInPopeTrack(Player player, int playerPosition){
-        if(playerPosition == 2 || playerPosition == 3){
+    public boolean setInitialPositionInPopeTrack(Player player){
+        if(player instanceof LorenzoPlayer)
+            return false;
+
+        int playerPosition = ((HumanPlayer) player).getPosition();
+        if(playerPosition == 3 || playerPosition == 4){
             player.getPopeTrack().updateGamerPosition(1);
             return true;
         }

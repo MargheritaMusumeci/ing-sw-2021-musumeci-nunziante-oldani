@@ -135,6 +135,12 @@ public class MessageHandler {
             if (scc.getGameHandler().getInitializationHandler().setInitialResources(scc.getGameHandler().getPlayersInGame().get(scc),
                     message.getResources())) {
 
+                //TODO verify the follow
+                //Increase the initial position of the player if he is the number 3 or 4
+                scc.getGameHandler().getInitializationHandler().setInitialPositionInPopeTrack(
+                        scc.getGameHandler().getPlayersInGame().get(scc)
+                );
+
                 scc.send(new ACKMessage("OK"));
                 for (Player player : scc.getGameHandler().getPlayersInGame().values()) {
                     if (!player.getDashboard().getInkwell() && player.getDashboard().getStock().stockIsEmpty()) {
