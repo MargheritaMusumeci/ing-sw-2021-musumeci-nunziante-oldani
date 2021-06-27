@@ -70,14 +70,6 @@ public class GameHandler implements Serializable {
         //Create the game
         game = new Game(playersForGame);
 
-        //I've done this directly in Game
-        //Set the game in each player
-        /*for(HumanPlayer player : playersInGame.values()){
-            player.setGame(game);
-        }*/
-
-        //qui posso mandare le carte perchè sono nel player
-        //Mando anche il mercato e la evolution section che serve per scegleire le carte
         SerializableMarket serializableMarket = new SerializableMarket(game.getMarket());
         SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(game.getEvolutionSection(), null);
         //TODO controllare che nella serializable evolution section serva veramente il player
@@ -88,7 +80,6 @@ public class GameHandler implements Serializable {
         }
 
         this.numberOfPlayers = numberOfPlayers;
-
 
         if(numberOfPlayers == 1){
             turnHandler = new TurnHandlerSoloGame(game);

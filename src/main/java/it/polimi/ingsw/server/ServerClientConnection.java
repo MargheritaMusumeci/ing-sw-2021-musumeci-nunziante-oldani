@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PersistenceMessageToSave;
 import it.polimi.ingsw.messages.PingMessage;
 import it.polimi.ingsw.messages.sentByServer.AbortGameMessage;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMe
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -87,6 +89,7 @@ public class ServerClientConnection implements Runnable{
                 input = (Message) inputStream.readObject();
 
                 if(! (input instanceof PingMessage)){
+                    saveMessage(input);
                     System.out.println("Message read: " + input.getMessage() + " From: " + nickname);
 
                     if(gameHandler != null && gameHandler.getPlayersInGame().get(this) != null){
@@ -322,5 +325,34 @@ public class ServerClientConnection implements Runnable{
 
     public void setOutputStream(ObjectOutputStream outputStream) {
         this.outputStream = outputStream;
+    }
+
+    /**
+     * method able to save messages with the name of the player that has sent it
+     * @param message is the message to be saved
+     */
+    public void saveMessage(Message message){
+        PersistenceMessageToSave persistenceMessageToSave = new PersistenceMessageToSave(nickname, message);
+        try {
+            String path ="";
+            for (Player player : gameHandler.getGame().getPlayers()) {
+                path = path + player.getNickName();
+            }
+            FileOutputStream file = new FileOutputStream("/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/SevedGames/" + path + ".ser", true);
+            ObjectOutputStream streamer = new ObjectOutputStream(file);
+
+            // write object to file
+            streamer.writeObject(persistenceMessageToSave);
+            System.out.println("Done");
+
+            // closing resources
+            streamer.close();
+            file.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

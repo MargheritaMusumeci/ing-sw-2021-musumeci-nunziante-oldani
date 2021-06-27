@@ -42,7 +42,7 @@ public class Server {
         this.persistence = new Persistence(this);
         persistenceNicknameList = new ArrayList<>();
         persistenceWaitingList= new HashMap<>();
-        //persistence.initializeGame();
+        persistence.initializeGame();
 
 
     }

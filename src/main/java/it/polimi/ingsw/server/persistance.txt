@@ -1,0 +1,7 @@
+ogni scc cerca di aprire un file con nome fatto dai nomi dei player
+crearo un oggetto del tioi nuovo
+salva
+chiude il file
+
+ogni scc devi aprire il file in modalità apoend per non sovrascrivere
+
