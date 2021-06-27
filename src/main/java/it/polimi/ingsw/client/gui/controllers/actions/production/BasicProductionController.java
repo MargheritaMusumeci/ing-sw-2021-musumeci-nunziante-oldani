@@ -62,6 +62,7 @@ public class BasicProductionController implements Controller {
 
         confirm.setVisible(false);
         cancel.setVisible(false);
+        error.setVisible(true);
 
         RadioButton radio = (RadioButton) resources1.getSelectedToggle();
         RadioButton radio2 = (RadioButton) resources2.getSelectedToggle();

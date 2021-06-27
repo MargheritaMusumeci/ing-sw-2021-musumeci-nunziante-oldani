@@ -41,6 +41,7 @@ public class PlayersConfigurationController implements Controller {
         if(player<0 && player>4){
             player=0;
             error.setText("Invalid number of player...");
+            error.setVisible(true);
         }
     }
 
@@ -80,6 +81,7 @@ public class PlayersConfigurationController implements Controller {
 
         loginButton.setVisible(true);
         loading.setVisible(false);
+        error.setVisible(false);
 
         if(gui.getErrorFromServer() !=null && !gui.getErrorFromServer().equals("")){
             error.setText(gui.getErrorFromServer());

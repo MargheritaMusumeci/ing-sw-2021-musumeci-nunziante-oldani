@@ -54,6 +54,8 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
     @Override
     public void init(){
 
+        errorLabel.setVisible(false);
+
         LeaderConfirmation.setVisible(true);
         loading.setVisible(false);
 
@@ -104,12 +106,14 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
 
         if(selectedNumber<2){
             errorLabel.setText("Too few cards selected");
+            errorLabel.setVisible(true);
             selectedNumber=0;
             LeaderConfirmation.setVisible(true);
             loading.setVisible(false);
 
         }else if(selectedNumber>2){
             errorLabel.setText("Too many cards selected");
+            errorLabel.setVisible(true);
             selectedNumber=0;
             LeaderConfirmation.setVisible(true);
             loading.setVisible(false);

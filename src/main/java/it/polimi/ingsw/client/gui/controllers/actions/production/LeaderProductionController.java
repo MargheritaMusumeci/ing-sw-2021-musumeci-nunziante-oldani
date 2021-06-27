@@ -70,6 +70,7 @@ public class LeaderProductionController implements Controller {
         }
         if (leaderEnsure.isEmpty()) {
             error.setText("ERROR: you have to choose the resource to produce!");
+            error.setVisible(true);
             confirm.setVisible(true);
             cancel.setVisible(true);
             return;
