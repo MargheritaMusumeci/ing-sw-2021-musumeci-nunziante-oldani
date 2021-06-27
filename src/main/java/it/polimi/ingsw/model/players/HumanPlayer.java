@@ -343,4 +343,6 @@ public class HumanPlayer extends Player implements Serializable {
         this.position = position;
     }
 
+
+
 }

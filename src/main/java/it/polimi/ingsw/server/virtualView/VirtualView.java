@@ -89,7 +89,7 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
     public void update(Dashboard dashboard) {
         this.personalDashboard = dashboard;
         SerializableDashboard serializableDashboard = new SerializableDashboard(dashboard);
-        System.out.println("sono nella virtual view e dovrei madnare il messaggio per aggiornare la dashboead");
+        //System.out.println("sono nella virtual view e dovrei madnare il messaggio per aggiornare la dashboead");
 
         scc.send(new UpdateDashBoardMessage("new dashboard", serializableDashboard));
 

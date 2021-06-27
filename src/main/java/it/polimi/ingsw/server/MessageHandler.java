@@ -152,6 +152,7 @@ public class MessageHandler {
         }
     }
 
+
     public void handleActionMessage(BuyFromMarketMessage message){
            if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
@@ -174,13 +175,8 @@ public class MessageHandler {
 
     public void handleActionMessage(DiscardLeaderCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
-    }
 
-    /*
-    public void handleActionMessage(UseLeaderCardMessage message){
-        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
-     */
 
     public void handleActionMessage(RequestResourcesBoughtFromMarketMessage message){
         if(checkAction()) scc.send(new SendResourcesBoughtFromMarket("Risorse",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
@@ -194,7 +190,7 @@ public class MessageHandler {
 
         //controllo che la richiesta mi viene fatta dal player attivo
         if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
-            scc.send(new NACKMessage("Error! It's not your turn"));
+            scc.send(new NACKMessage("Error! It's not your turn, is the turn of: " + scc.getGameHandler().getGame().getActivePlayer().getNickName()));
             return false;
         }
         return true;
@@ -208,7 +204,7 @@ public class MessageHandler {
         if (scc.getGamePhase() == GamePhases.GAME) {
 
             //store game status
-            //server.getPersistence().saveGame(scc.getGameHandler().getGame());
+            server.getPersistence().saveGame(scc.getGameHandler().getGame());
 
             //per ongi player mando il messaggio che è cambiato il turno
             Message messageEndTurn = scc.getGameHandler().getTurnHandler().endTurn();
@@ -226,6 +222,9 @@ public class MessageHandler {
         } else {
             scc.send(new NACKMessage("KO"));
         }
+
+        //TODO add here the method to write the game to a file
+
     }
 
     public void handleMessage(ExitGameMessage exitGameMessage) {

@@ -195,6 +195,8 @@ public class GameHandler implements Serializable {
     }
 
     public void endGame(ServerClientConnection scc){
+
+
         synchronized (this){
             scc.setGamePhase(GamePhases.ENDGAME);
             scc.setActive(false);
@@ -204,14 +206,15 @@ public class GameHandler implements Serializable {
                 e.printStackTrace();
                 System.out.println("Error while closing the socket");
             }
+
+
             scc.getServer().removeTakeNickname(scc.getNickname());
 
             //removing all the inactive players' nickname from the taken niknames
             for (ServerClientConnection serverClientConnection: playersInGame.keySet()){
                 if(!scc.equals(serverClientConnection)){
-                    if(!serverClientConnection.isActive()){
-                        scc.getServer().removeTakeNickname(serverClientConnection.getNickname());
-                    }
+
+                    scc.getServer().removeTakeNickname(serverClientConnection.getNickname());
                 }
             }
         }

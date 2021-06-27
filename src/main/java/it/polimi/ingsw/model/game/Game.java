@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.players.HumanPlayer;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 
 import java.io.Serializable;
@@ -80,6 +81,7 @@ public class Game implements Serializable {
                 if(player instanceof HumanPlayer){
                     checkPlayers=true;
                 }
+
             }
         }
 
@@ -98,6 +100,11 @@ public class Game implements Serializable {
                }
                if(players.get(j).isPlaying()){
                    activePlayer = players.get(j);
+                   System.out.println(activePlayer);
+                   System.out.println(activePlayer.getNickName());
+                   if(activePlayer instanceof LorenzoPlayer){
+                       System.out.println("lorenzo player è l'active player");
+                   }
                    return activePlayer;
                }else{
                    i--;

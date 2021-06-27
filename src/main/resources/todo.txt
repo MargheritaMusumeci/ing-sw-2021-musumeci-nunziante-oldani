@@ -9,11 +9,11 @@ da fare:
 -controllare che ci siano tutti i javadoc
 
 -fare gli uml richiesti (completo più classi pricipali)
--fare il README
 -eliminare gli sout
 -pulire il codice dai warnings
 
 fatto:
+-fare il README
 -sistemarel'uml iniziale
 -sistemare le risorse iniziali
 -mostrare il regolamento

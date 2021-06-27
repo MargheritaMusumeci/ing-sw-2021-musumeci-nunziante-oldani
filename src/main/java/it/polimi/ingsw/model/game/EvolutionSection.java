@@ -105,5 +105,13 @@ public class EvolutionSection extends EvolutionSectionOsservable implements Seri
         return evolutionSection;
     }
 
+    /**
+     * method that allow the loading of a preconfigured evolution section
+     * @param evolutionSection is the evolution section to be loaded
+     */
+    public void setEvolutionSection(ArrayList<EvolutionCard>[][] evolutionSection){
+        this.evolutionSection = evolutionSection;
+    }
+
 
 }
