@@ -60,8 +60,8 @@ public abstract class TurnHandler {
 
     /**
      * Do the action of the active player according to the message received
-     * @param message
-     * @return
+     * @param message message contains which row/col user want to buy
+     * @return ack or nack message
      */
     public Message doAction(BuyFromMarketMessage message){
 
@@ -69,7 +69,7 @@ public abstract class TurnHandler {
         //Resources are stored in his dashboard not in his stock
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)) {
             try {
-                actionHandler.buyFromMarket(((BuyFromMarketMessage) message).getPosition(), ((BuyFromMarketMessage) message).isRow());
+                actionHandler.buyFromMarket(message.getPosition(), message.isRow());
                 return new ACKMessage("OK");
             } catch (ExcessOfPositionException e) {
                 return new NACKMessage("Position not found");
@@ -126,15 +126,15 @@ public abstract class TurnHandler {
     }
 
     public Message doAction(StoreResourcesMessage message){
-        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.BUY_FROM_MARKET)) {
-            return (actionHandler.storeResourcesBought(((StoreResourcesMessage) message).getSaveResources()));
+        if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.BUY_FROM_MARKET) || ((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.STORE_RESOURCE)  ) {
+            return (actionHandler.storeResourcesBought((message).getSaveResources()));
         }
         return new NACKMessage("Before storing resources buying them");
     }
 
     public Message doAction(ActiveLeaderCardMessage message){
         try {
-            actionHandler.activeLeaderCard(((ActiveLeaderCardMessage) message).getPosition());
+            actionHandler.activeLeaderCard(message.getPosition());
             return new ACKMessage("OK");
         } catch (OutOfBandException e) {
             return new NACKMessage("Leader Card not present");
@@ -169,13 +169,13 @@ public abstract class TurnHandler {
 
     /**
      * Method called in the end of the turn
-     * @return
+     * @return message that notifies that the game is over
      */
     public abstract Message endTurn();
 
     /**
      * Method that ends the game
-     * @return
+     * @return message that notifies that the game is over
      */
     abstract Message endGame();
 
@@ -203,7 +203,7 @@ public abstract class TurnHandler {
 
     /**
      * Method that set isTheEnd
-     * @param theEnd
+     * @param theEnd true if the game is over
      */
     public void setTheEnd(boolean theEnd) { isTheEnd = theEnd; }
 

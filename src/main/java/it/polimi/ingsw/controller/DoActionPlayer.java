@@ -27,210 +27,240 @@ public class DoActionPlayer {
     /**
      * Resources bought from market
      */
-    private  ArrayList<Resource> resourceList;
+    private ArrayList<Resource> resourceList;
     TurnHandler turnHandler;
 
-    public DoActionPlayer(Game modelGame,TurnHandler turnHandler) {
-        this.modelGame=modelGame;
-        this.turnHandler=turnHandler;
+    public DoActionPlayer(Game modelGame, TurnHandler turnHandler) {
+        this.modelGame = modelGame;
+        this.turnHandler = turnHandler;
     }
 
     /**
      * This method manages the purchase of resources from market, updates the market board and the player's stock
+     *
      * @param position indicates the row or column to be purchased
-     * @param isRow true if player chose a row, false otherwise
+     * @param isRow    true if player chose a row, false otherwise
      */
     public void buyFromMarket(int position, boolean isRow) throws ExcessOfPositionException {
 
-        //Purchase resources from market and updates the market board
-        Resource[] resources = modelGame.getMarket().updateBoard(position, isRow);
+            //Purchase resources from market and updates the market board
+            Resource[] resources = modelGame.getMarket().updateBoard(position, isRow);
 
-        //check if leader card is in use and refactor array to arraylist
-        resourceList = modifyResources(resources);
+            //check if leader card is in use and refactor array to arraylist
+            resourceList = new ArrayList<>();
+            Collections.addAll(resourceList,resources);
 
-        //save resources in model section
-        HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
-        //humanPlayer.setResources(resourceList);
+            //save resources in model section
+            HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
+            //humanPlayer.setResources(resourceList);
 
-        //Increase PopeTrackPosition if player got a faith ball
-        if (resourceList.contains(Resource.FAITH)) {
-            moveCross(1, new ArrayList<>() {{
-                add(modelGame.getActivePlayer());
-            }});
-            resourceList.remove(Resource.FAITH);
-        }
+            //Increase PopeTrackPosition if player got a faith ball
+            if (resourceList.contains(Resource.FAITH)) {
+                moveCross(1, new ArrayList<>() {{
+                    add(modelGame.getActivePlayer());
+                }});
+                resourceList.remove(Resource.FAITH);
+            }
 
-        //remove white ball if NOMOREWHITE leader card is active
-        int leaderCardActived =0;
-        Resource resource = null;
+            //remove white ball if NOMOREWHITE leader card is active
+            int leaderCardActived = 0;
+            Resource resource = null;
 
-        for(int i = 0; i<humanPlayer.getDashboard().getLeaderCards().size();i++) {
+            for (int i = 0; i < humanPlayer.getDashboard().getLeaderCards().size(); i++) {
 
-            //per ogni leader card controllo se ha il potere richiesto e se è attiva
-            if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
-                    humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
+                //per ogni leader card controllo se ha il potere richiesto e se è attiva
+                if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
+                        humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
 
-                leaderCardActived++;
-                HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityResource();
+                    leaderCardActived++;
+                    HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityResource();
 
-                //se è attiva salvo la risorsa in cui devo trasformarla
-                for (Resource res : resourcesWhite.keySet()) {
-                    if (resourcesWhite.get(res) == 1) {
-                        resource = res;
+                    //se è attiva salvo la risorsa in cui devo trasformarla
+                    for (Resource res : resourcesWhite.keySet()) {
+                        if (resourcesWhite.get(res) == 1) {
+                            resource = res;
+                        }
                     }
                 }
             }
-        }
 
-        if(leaderCardActived==1){
-            ArrayList<Resource> resourcesCopy = new ArrayList<>(resourceList);
+            if (leaderCardActived == 1) {
+                ArrayList<Resource> resourcesCopy = new ArrayList<>(resourceList);
 
-            for (Resource res : resourcesCopy) {
-                if (res.equals(Resource.NOTHING)){
-                    resourceList.remove(Resource.NOTHING);
-                    resourceList.add(resource);
+                for (Resource res : resourcesCopy) {
+                    if (res.equals(Resource.NOTHING)) {
+                        resourceList.remove(Resource.NOTHING);
+                        resourceList.add(resource);
+                    }
                 }
             }
-        }
 
-        humanPlayer.setResources(resourceList);
-        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
+            humanPlayer.setResources(resourceList);
+            ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
     }
 
     /**
      * Ask client which resources received from market he wants to store and after is called this method
      */
-    public Message storeResourcesBought(ArrayList<Resource> saveResources){
+    public Message storeResourcesBought(ArrayList<Resource> saveResources) {
 
-        HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
+        try{
+            HumanPlayer humanPlayer = (HumanPlayer) modelGame.getActivePlayer();
 
-        HashMap<Resource, Integer> oldResources = new HashMap<>();
-        HashMap<Resource, Integer> newResources = new HashMap<>();
+            HashMap<Resource, Integer> oldResources = new HashMap<>();
+            HashMap<Resource, Integer> newResources = new HashMap<>();
 
-        oldResources.put(Resource.COIN, 0);
-        oldResources.put(Resource.SERVANT, 0);
-        oldResources.put(Resource.SHIELD, 0);
-        oldResources.put(Resource.ROCK, 0);
-        oldResources.put(Resource.NOTHING, 0);
+            oldResources.put(Resource.COIN, 0);
+            oldResources.put(Resource.SERVANT, 0);
+            oldResources.put(Resource.SHIELD, 0);
+            oldResources.put(Resource.ROCK, 0);
+            oldResources.put(Resource.NOTHING, 0);
 
-        newResources.put(Resource.COIN, 0);
-        newResources.put(Resource.SERVANT, 0);
-        newResources.put(Resource.SHIELD, 0);
-        newResources.put(Resource.ROCK, 0);
-        newResources.put(Resource.NOTHING, 0);
+            newResources.put(Resource.COIN, 0);
+            newResources.put(Resource.SERVANT, 0);
+            newResources.put(Resource.SHIELD, 0);
+            newResources.put(Resource.ROCK, 0);
+            newResources.put(Resource.NOTHING, 0);
 
-        for (Resource r : saveResources){
-            newResources.put(r, newResources.get(r) + 1);
-        }
-        for (Resource r: resourceList){
-            oldResources.put(r, newResources.get(r) + 1);
-        }
-
-        //if two leader cards are activated
-        int leaderCardActived = 0;
-        Resource resourceOne = null;
-        Resource resourceTwo = null;
-
-        for(int i = 0; i<humanPlayer.getDashboard().getLeaderCards().size();i++) {
-
-            //for each leader card I check if it has the required power and if it is active
-            if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
-                    humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
-                leaderCardActived++;
+            for (Resource r : saveResources) {
+                newResources.put(r, newResources.get(r) + 1);
             }
-        }
-        if(leaderCardActived==2){
+            for (Resource r : resourceList) {
+                oldResources.put(r, oldResources.get(r) + 1); //era new
+            }
 
-            HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(0).getAbilityResource();
+            //if two leader cards are activated
+            int leaderCardActived = 0;
+            Resource resourceOne = null;
+            Resource resourceTwo = null;
 
-            //save the resource into which I have to transform it
-            for (Resource res : resourcesWhite.keySet()) {
-                if (resourcesWhite.get(res) == 1) {
-                    resourceOne = res;
+            for (int i = 0; i < humanPlayer.getDashboard().getLeaderCards().size(); i++) {
+
+                //for each leader card I check if it has the required power and if it is active
+                if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
+                        humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
+                    leaderCardActived++;
+                }
+            }
+            if (leaderCardActived == 2) {
+
+                HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(0).getAbilityResource();
+
+                //save the resource into which I have to transform it
+                for (Resource res : resourcesWhite.keySet()) {
+                    if (resourcesWhite.get(res) == 1) {
+                        resourceOne = res;
+                    }
+                }
+
+                HashMap<Resource, Integer>  resourcesWhite2 = humanPlayer.getDashboard().getLeaderCards().get(1).getAbilityResource();
+
+                //save the resource into which I have to transform it
+                for (Resource res2 : resourcesWhite2.keySet()) {
+                    if (resourcesWhite2.get(res2) == 1) {
+                        resourceTwo = res2;
+                    }
+                }
+
+                System.out.println("old 1: " + oldResources.get(resourceOne));
+                System.out.println("old 2: " + oldResources.get(resourceTwo));
+                System.out.println("new 1: " + newResources.get(resourceOne));
+                System.out.println("new 2: " + newResources.get(resourceTwo));
+                System.out.println(oldResources.get(resourceOne) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne));
+                System.out.println(oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceTwo) );
+                System.out.println(oldResources.get(resourceOne) + oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne) + newResources.get(resourceTwo));
+                for (Resource resoucessss: saveResources
+                     ) {
+                    System.out.println(resoucessss);
+                }
+
+                for (Resource ressss: resourceList
+                     ) {
+                    System.out.println(ressss);
+                }
+
+                try {
+                    if (!(oldResources.get(resourceOne) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne) &&
+                            oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceTwo) &&
+                            oldResources.get(resourceOne) + oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne) + newResources.get(resourceTwo))) {
+                        return new NACKMessage("White resources conversion is wrong");
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+
+                System.out.println("qui");
+
+                //check that old things that cannot be changed have not been changed
+                if ((!oldResources.get(Resource.COIN).equals(newResources.get(Resource.COIN)) || resourceOne == Resource.COIN || resourceTwo == Resource.COIN) &&
+                        (!oldResources.get(Resource.ROCK).equals(newResources.get(Resource.ROCK)) || resourceOne == Resource.ROCK || resourceTwo == Resource.ROCK) &&
+                        (!oldResources.get(Resource.SHIELD).equals(newResources.get(Resource.SHIELD)) || resourceOne == Resource.SHIELD || resourceTwo == Resource.SHIELD) &&
+                        (!oldResources.get(Resource.SERVANT).equals(newResources.get(Resource.SERVANT)) || resourceOne == Resource.SERVANT || resourceTwo == Resource.SERVANT)) {
+
+                    return new NACKMessage("They are not purchased resources");
+                    //notify error
+                }
+
+            } else {
+
+                //only if the player chooses resources from the ones he receives
+                if (!(oldResources.get(Resource.COIN) >= newResources.get(Resource.COIN) &&
+                        oldResources.get(Resource.ROCK) >= newResources.get(Resource.ROCK) &&
+                        oldResources.get(Resource.SHIELD) >= newResources.get(Resource.SHIELD) &&
+                        oldResources.get(Resource.SERVANT) >= oldResources.get(Resource.SERVANT))) {
+
+                    return new NACKMessage("They are not purchased resources");
+                    //notify error
                 }
             }
 
-            resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(1).getAbilityResource();
+            //only if the player chooses a correct number of resources to insert
+            if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
 
-            //save the resource into which I have to transform it
-            for (Resource res : resourcesWhite.keySet()) {
-                if (resourcesWhite.get(res) == 1) {
-                    resourceTwo = res;
-                }
-            }
+                //reestablish original resources
+                humanPlayer.setResources(resourceList);
 
-            if(!(oldResources.get(resourceOne) + oldResources.get(Resource.NOTHING)>= newResources.get(resourceOne) &&
-            oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceTwo) &&
-            oldResources.get(resourceOne) + oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne)+ newResources.get(resourceTwo))){
-                return new NACKMessage("White resources conversion is wrong");
-            }
-
-            //check that old things that cannot be changed have not been changed
-            if (    (!oldResources.get(Resource.COIN).equals(newResources.get(Resource.COIN)) || resourceOne==Resource.COIN || resourceTwo == Resource.COIN) &&
-                    (!oldResources.get(Resource.ROCK).equals(newResources.get(Resource.ROCK)) || resourceOne==Resource.ROCK || resourceTwo == Resource.ROCK)&&
-                    (!oldResources.get(Resource.SHIELD).equals(newResources.get(Resource.SHIELD)) || resourceOne==Resource.SHIELD || resourceTwo == Resource.SHIELD) &&
-                    (!oldResources.get(Resource.SERVANT).equals(newResources.get(Resource.SERVANT)) || resourceOne==Resource.SERVANT || resourceTwo == Resource.SERVANT) ) {
-
-                return new NACKMessage("They are not purchased resources");
                 //notify error
+                return new NACKMessage("Not enough space for store resources - try again");
             }
 
-        }else {
+            ArrayList<Resource> discardResource = (ArrayList<Resource>) resourceList.clone();
 
-            //only if the player chooses resources from the ones he receives
-            if (!(oldResources.get(Resource.COIN) >= newResources.get(Resource.COIN) &&
-                    oldResources.get(Resource.ROCK) >= newResources.get(Resource.ROCK) &&
-                    oldResources.get(Resource.SHIELD) >= newResources.get(Resource.SHIELD) &&
-                    oldResources.get(Resource.SERVANT) >= oldResources.get(Resource.SERVANT))) {
-
-                return new NACKMessage("They are not purchased resources");
-                //notify error
+            for (Resource saveResource : saveResources) {
+                discardResource.remove(saveResource);
             }
-        }
 
-        //only if the player chooses a correct number of resources to insert
-        if (!modelGame.getActivePlayer().getDashboard().getStock().manageStock(saveResources)) {
+            if (discardResource != null && discardResource.size() != 0) {
+                //just for prevent errors
+                ArrayList<Resource> resourcesCopy = new ArrayList<>(discardResource);
 
-            //reestablish original resources
-            humanPlayer.setResources(resourceList);
-
-            //notify error
-            return new NACKMessage("Not enough space for store resources - try again");
-        }
-
-        ArrayList<Resource> discardResource = (ArrayList<Resource>) resourceList.clone();
-
-        for (Resource saveResource : saveResources) {
-            discardResource.remove(saveResource);
-        }
-
-        if(discardResource!=null && discardResource.size() != 0) {
-            //just for prevent errors
-            ArrayList<Resource> resourcesCopy = new ArrayList<>();
-            resourcesCopy.addAll(discardResource);
-
-            for (Resource resource : resourcesCopy) {
-                if (resource.equals(Resource.FAITH)) discardResource.remove(Resource.FAITH);
-                if (resource.equals(Resource.WISH)) discardResource.remove(Resource.WISH);
-                if (resource.equals(Resource.NOTHING)) discardResource.remove(Resource.NOTHING);
-            }
-        }
-        //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
-        List<Player> players = new ArrayList<>();
-
-        if(Objects.requireNonNull(discardResource).size()>0) {
-            for (Player player : modelGame.getPlayers()) {
-                if (!player.equals(modelGame.getActivePlayer())) {
-                    players.add(player);
+                for (Resource resource : resourcesCopy) {
+                    if (resource.equals(Resource.FAITH)) discardResource.remove(Resource.FAITH);
+                    if (resource.equals(Resource.WISH)) discardResource.remove(Resource.WISH);
+                    if (resource.equals(Resource.NOTHING)) discardResource.remove(Resource.NOTHING);
                 }
             }
-            moveCross(discardResource.size(), (ArrayList<Player>) players);
+            //Increase popeTracks of players of as many positions as the number of resources discarded by activePlayer
+            ArrayList<Player> players = new ArrayList<>();
+
+            if (Objects.requireNonNull(discardResource).size() > 0) {
+                for (Player player : modelGame.getPlayers()) {
+                    if (!player.equals(modelGame.getActivePlayer())) {
+                        players.add(player);
+                    }
+                }
+                moveCross(discardResource.size(), players);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         //action done
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.STORE_RESOURCE);
+
         return new ACKMessage("OK");
     }
+
 
     /**
      * Set 'active' a specified leaderCard. In case of STOCKPLUS-leaderCard this method create new space in stock
@@ -586,13 +616,13 @@ public class DoActionPlayer {
             }
         }
     }
-
+/*
     /**
      * Method used for replace white balls with colored ones if a leader card NOMOREWHITE is in use.
      * Method used also for transform the array of resources in an arrayList.
      * @param resources resources obtained by market
      * @return arrayList of modified resources
-     */
+
     private ArrayList<Resource> modifyResources(Resource[] resources){
 
         //if leader card with power: NOMOREWHITE is active and in use, modify resource list obtained from market
@@ -618,6 +648,8 @@ public class DoActionPlayer {
         Collections.addAll(resourceList,resources);
         return resourceList;
     }
+
+     */
 
     /**
      * Private method that take the resources from Stock before and then from Stock automatically
