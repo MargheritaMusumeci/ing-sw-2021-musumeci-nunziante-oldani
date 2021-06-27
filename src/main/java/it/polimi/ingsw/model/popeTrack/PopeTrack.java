@@ -51,16 +51,13 @@ public class PopeTrack extends PopeTrackObservable implements Serializable, Pope
             return;
         }
 
-        try{
-            if((gamerPosition.getIndex() + increment) > track.getTrack().length - 1)
-                increment = track.getTrack().length - 1 - gamerPosition.getIndex();
+        if((gamerPosition.getIndex() + increment) > track.getTrack().length - 1)
+            increment = track.getTrack().length - 1 - gamerPosition.getIndex();
 
-            gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
+        gamerPosition = track.getTrack()[gamerPosition.getIndex() + increment];
 
-            notifyPopeTrackListener(this);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        notifyPopeTrackListener(this);
+
     }
 
     /**
