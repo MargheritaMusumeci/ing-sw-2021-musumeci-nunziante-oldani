@@ -15,8 +15,8 @@ public class LeaderCardSetTest {
     @Test
     public void getLeaderCardSetTest() {
 
-        //controllo che il costruttore vada a buon fine
-        //controllo che siano settati i parametri corretti
+        //Check if the constructor went good and check if the
+        //  parameters are set correctly
 
         LeaderCardSet leaderCardSet = new LeaderCardSet();
         ArrayList<LeaderCard> leaderCards;
