@@ -276,6 +276,7 @@ public class DoActionPlayer {
      * @param position is the leader card the activePlayer wants to discard
      */
     public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException{
+
         ((HumanPlayer) modelGame.getActivePlayer()).discardLeaderCard(position);
 
         for(Player player : modelGame.getPlayers()){
@@ -496,6 +497,10 @@ public class DoActionPlayer {
      */
     public void buyEvolutionCard(int row, int col , int position) throws InvalidPlaceException , BadParametersException ,
             NotEnoughResourcesException , ExcessOfPositionException{
+
+        if(row < 0 || col < 0 || row >= 3 || col >= 4){
+            throw new BadParametersException("Invalid row/col");
+        }
 
         //Check if the player can buy this card
         if(!(((HumanPlayer) modelGame.getActivePlayer()).getPossibleEvolutionCard()[row][col])) {
