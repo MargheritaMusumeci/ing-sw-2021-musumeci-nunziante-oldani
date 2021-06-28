@@ -14,6 +14,10 @@ import it.polimi.ingsw.server.ServerClientConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * class that represent the clients view in the server. it is listening for changes on the market, evolution section
+ * and dashboards
+ */
 public class VirtualView extends VirtualViewObservable implements DashboardListener, MarketListener, EvolutionSectionListener,
         VirtualViewListener, LeaderCardListener, PlayerListener {
 
@@ -23,10 +27,17 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
     private Dashboard personalDashboard;
     private HashMap<HumanPlayer, VirtualView> otherPlayersView;
 
+    /**
+     * constructor of the class, it is able to add the listeners
+     * @param scc is the instance handling the connection from the clint to the server
+     * @param market is the game market
+     * @param evolutionSection is the game evolution section
+     * @param personalDashboard is the dashboard of the player associated with this virtual view
+     */
     public VirtualView(ServerClientConnection scc, Market market, EvolutionSection evolutionSection, Dashboard personalDashboard){
         System.err.println("virtual view created");
         this.scc=scc;
-        //devo registrare questa view ai listener del mio player
+
         scc.getGameHandler().getPlayersInGame().get(scc).addPlayerListener(this);
 
         this.evolutionSection = evolutionSection;
@@ -38,11 +49,10 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
         this.personalDashboard = personalDashboard;
         personalDashboard.addDashboardListener(this);
 
-        //aggioungo questa virtual view al listener delle leader card della dashboard
         for (LeaderCard leadercard: personalDashboard.getLeaderCards()) {
             leadercard.addLeaderCardListener(this);
         }
-        //vedere se aggiungere other player dashboard gia nel costruttore
+
     }
 
     public HashMap<HumanPlayer, VirtualView> getOtherPlayersView() {
@@ -55,10 +65,6 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
 
     public ServerClientConnection getScc() {
         return scc;
-    }
-
-    public void setScc(ServerClientConnection scc) {
-        this.scc = scc;
     }
 
     public Market getMarket() {
@@ -81,27 +87,25 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
         return personalDashboard;
     }
 
-    public void setPersonalDashboard(Dashboard personalDashboard) {
-        this.personalDashboard = personalDashboard;
-    }
-
+    /**
+     * method responsible to update all the clients in the game when the personal dashboard face a change
+     * @param dashboard is the updated dashboard
+     */
     @Override
     public void update(Dashboard dashboard) {
         this.personalDashboard = dashboard;
         SerializableDashboard serializableDashboard = new SerializableDashboard(dashboard);
-        System.out.println("sono nella virtual view e dovrei madnare il messaggio per aggiornare la dashboead");
 
         scc.send(new UpdateDashBoardMessage("new dashboard", serializableDashboard));
 
-        //mando anche il messsaggio per aggiornare le leader cards
+        //send the message to update the leader cards
         ArrayList<SerializableLeaderCard> newSetOfLeaderCards = new ArrayList<>();
         for(LeaderCard leaderCard : dashboard.getLeaderCards()){
             newSetOfLeaderCards.add(new SerializableLeaderCard(leaderCard));
         }
         scc.send(new UpdateLeaderCardsMessage("new set of leader cards", newSetOfLeaderCards));
 
-        //avendo aggiornato la mia dashboad devo avvisare tutti gli altri player di questo aggiornamento e quindi mando
-        //a tutti il messaggio che devono aggiornare la view dei nemici
+        //send the message to update enemy views
         for(ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
             if (!scc.equals(serverClientConnection)) {
                 serverClientConnection.send(new UpdateOtherPlayerViewMessage("Update other player view",
@@ -111,44 +115,53 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
 
     }
 
+    /**
+     * method responsible to update all the clients in the game when the evolutionSection face a change
+     * @param evolutionSection is the updated evolutionSection
+     */
     @Override
     public void update(EvolutionSection evolutionSection) {
         this.evolutionSection = evolutionSection;
 
-        //per ogni player devo creare la sua serializable evolutionsection
         for(ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()){
 
            SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(scc.getGameHandler().getGame().getEvolutionSection(),
                    scc.getGameHandler().getPlayersInGame().get(serverClientConnection));
-           scc.send(new UpdateEvolutionSectionMessage("update della evolutuon section", serializableEvolutionSection));
+           scc.send(new UpdateEvolutionSectionMessage("update della evolution section", serializableEvolutionSection));
         }
     }
 
+    /**
+     * method responsible to update all the clients in the game when the market face a change
+     * @param market is the updated market
+     */
     @Override
     public void update(Market market) {
         this.market = market;
         SerializableMarket serializableMarket = new SerializableMarket(market);
 
-        //l'update del market lo devo mandare a tutti i partecipanti della partita
         for (ServerClientConnection serverClientConnection: scc.getGameHandler().getPlayersInGame().keySet()){
             serverClientConnection.send(new UpdateMarketMessage("new marlet", serializableMarket));
         }
     }
 
+    /**
+     * method that update the object that stores the view of other players
+     * @param virtualView is the new enemy virtual view to be updated
+     */
     @Override
     public void update(VirtualView virtualView) {
        otherPlayersView.put(virtualView.scc.getGameHandler().getPlayersInGame().get(virtualView.scc), virtualView);
-        //inserire la creazione dell'oggetto che deve essere inserito alla vera view come messaggio di update
-
     }
 
     @Override
     /**
      * method that updates the leaderCards attribute in the dashboard changing the leader card that has been updated and
      * send the message to the scc to notifying the changes
+     * @param leaderCard id the new leader card
      */
     public void update(LeaderCard leaderCard) {
-        //devo aggiornare la mia dashboard con la carta giusta e mandare il messaggio che aggiorna tutto il set di carte
+
         ArrayList<LeaderCard> newLeaderCardSet = new ArrayList<>();
         for (LeaderCard lcard : personalDashboard.getLeaderCards()) {
             if(lcard.getId() == leaderCard.getId()){
@@ -164,10 +177,10 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
             newSerializableLeaderCardSet.add(new SerializableLeaderCard(lcard));
         }
 
-        //mando il messaggio di update
         scc.send(new UpdateLeaderCardsMessage("updated set of leader cards", newSerializableLeaderCardSet));
     }
 
+    //TODO capire se questo posso toglierlo veramente o se ci siamo dimeticati qualcosa
     @Override
     public void update(ArrayList<Resource> resources) {
         //devo dire alla view del client che le risorse comrpate dal mercaro sonos state messe nell'array
