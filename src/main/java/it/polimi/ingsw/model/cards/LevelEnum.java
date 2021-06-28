@@ -21,9 +21,7 @@ public enum LevelEnum implements Serializable {
             return 1;
         else if(this.equals(LevelEnum.SECOND))
             return 2;
-        else if(this.equals(LevelEnum.THIRD))
-            return 3;
-        return 0;
+        else return 3;
     }
 }
 
