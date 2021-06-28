@@ -12,11 +12,19 @@ import it.polimi.ingsw.messages.sentByClient.configurationMessagesClient.Selecte
 import it.polimi.ingsw.messages.sentByServer.updateMessages.UpdateActivePlayerMessage;
 import it.polimi.ingsw.model.players.Player;
 
+/**
+ * class that defines the method to handle all the possible messages sent by the client
+ */
 public class MessageHandler {
 
     private Server server;
     private ServerClientConnection scc;
 
+    /**
+     * class constructor
+     * @param server is the instance of the server
+     * @param serverClientConnection is the server client connection that have will recive the messages
+     */
     public MessageHandler(Server server, ServerClientConnection serverClientConnection){
         this.server = server;
         this.scc = serverClientConnection;
@@ -28,23 +36,19 @@ public class MessageHandler {
      */
     public void handleMessage(NickNameMessage message){
         if(scc.getGamePhase() == GamePhases.CONFIGURATION){
-            //controllo che non sia il nome speciale riservato per lorezon
+            //check the name validity
             if(message.getMessage().equals("LorenzoIlMagnifico")){
                 scc.send(new NACKMessage("KO! This nickname cannot be used because is reserved for the unique and magnificent Lorenzo"));
                 return;
             }
-            //controllo che il giocatore non sia gia un giocatore di quelli che attendevano di riconnettersi
+            //check if the player was a disconnected one
             if(server.checkDisconnectedPlayer(message.getMessage()) != null){
 
-                //gestisco la riconnessione
+                //handle the reconnection
                 ServerClientConnection scc_temp = server.checkDisconnectedPlayer(message.getMessage());
                 scc_temp.reconnect(scc.getSocket(), scc.getInputStream(), scc.getOutputStream());
                 scc.setActive(false);
-                //dovrei elimanre dalla hashmap questa virtual view
                 server.removeWaitForReconnection(scc_temp);
-                //send reconnection Message
-                //
-                //scc_temp.send(new ReconnectionMessage("Re-entering the game"));
                 return;
             }
             if(!server.checkNickname(message.getMessage())){
@@ -105,10 +109,9 @@ public class MessageHandler {
             if(scc.getGameHandler().getInitializationHandler().setLeaderCards( scc.getGameHandler().getPlayersInGame().get(scc),
                     message.getLeaderCards())){
                 scc.send(new ACKMessage("OK"));
-                //controllare che tutti i giocatori del gamehandler abbiamo un arraylist di leaderCaard con size 2
+                //check if alla the player has 2 leader cards
                 for(ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()){
                     if(serverClientConnection.getGameHandler().getPlayersInGame().get(serverClientConnection).getDashboard().getLeaderCards().size() != 2){
-                        //System.out.println("entro nell'if");
                         return;
                     }
                 }
@@ -144,7 +147,6 @@ public class MessageHandler {
                 scc.send(new ACKMessage("OK"));
                 for (Player player : scc.getGameHandler().getPlayersInGame().values()) {
                     if (!player.getDashboard().getInkwell() && player.getDashboard().getStock().stockIsEmpty()) {
-                        System.out.println("non dovrei entrare in questo if");
                         return;
                     }
                 }
@@ -158,18 +160,35 @@ public class MessageHandler {
         }
     }
 
+    /**
+     * method able to handle the action of buying from the market
+     * @param message contains the position in which resources have to be taken
+     */
     public void handleActionMessage(BuyFromMarketMessage message){
            if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
+    /**
+     * method able to handle to action of storing the resources in the stock after a buyFromMarket action
+     * @param message contins the resources that the player has chosen to actually store
+     */
     public void handleActionMessage(StoreResourcesMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
+    /**
+     * method able to handle the action of buying an evolution card from the evolution section
+     * @param message contains the card's position in the evolution section
+     */
     public void handleActionMessage(BuyEvolutionCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
+    /**
+     * method able to handle the action of activating the productions
+     * @param message contains all the production that should be activated and also contains the resources
+     *                needed to activate the basic production zone and the possibile leader productions
+     */
     public void handleActionMessage(ActiveProductionMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
