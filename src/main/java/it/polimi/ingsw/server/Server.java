@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.players.HumanPlayer;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
+import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.utils.Constants;
 
 import java.util.*;
@@ -26,6 +29,8 @@ public class Server {
     private List<String> listOfTakenNicknames;
     private HashMap<String, ServerClientConnection> waitingForReconnection;
     private HashMap<Game,List<ServerClientConnection>> persistenceWaitingList;
+    private HashMap<ServerClientConnection, HumanPlayer> playersInGamePersistence;
+    HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistance;
     private ArrayList<String> persistenceNicknameList;
 
     private Persistence persistence;
@@ -42,8 +47,9 @@ public class Server {
         this.persistence = new Persistence(this);
         persistenceNicknameList = new ArrayList<>();
         persistenceWaitingList= new HashMap<>();
+        playersInGamePersistence = new HashMap<>();
+        sccRelateToPlayerPersistance = new HashMap<>();
         persistence.initializeGame();
-
 
     }
 
@@ -279,4 +285,57 @@ public class Server {
     public void setPersistenceNicknameList(ArrayList<String> persistenceNicknameList) {
         this.persistenceNicknameList = persistenceNicknameList;
     }
+
+    public void updatePersistenceReconnections(String nickname, ServerClientConnection scc) {
+
+        try{
+        persistenceNicknameList.remove(nickname);
+        Game game = persistence.getPlayerGame().get(nickname);
+        persistenceWaitingList.get(game).add(scc);
+
+            HumanPlayer humanPlayer = null;
+
+        for(Player player: game.getPlayers()){
+            if(player.getNickName().equals(nickname) && !player.getNickName().equals("LorenzoIlMagnifico")){
+             humanPlayer = (HumanPlayer) player;
+             playersInGamePersistence.put(scc,humanPlayer);
+             sccRelateToPlayerPersistance.put(humanPlayer,scc);
+             player.setPlaying(true);
+             break;
+            }
+        }
+
+
+
+        boolean lorenzo = false;
+            for (Player player: game.getPlayers()) {
+                if(player.getNickName().equals("LorenzoIlMagnifico")){
+                    lorenzo=true;
+                    break;
+                }
+            }
+
+        if(persistenceWaitingList.get(game).size() == game.getPlayers().size() || (persistenceWaitingList.get(game).size() == 1 && lorenzo)){
+
+            game.setInPause(false);
+            GameHandler gameHandler = new GameHandler(sccRelateToPlayerPersistance, playersInGamePersistence, game, lorenzo);
+
+            if(lorenzo) games.put(persistenceWaitingList.get(game).get(0), gameHandler);
+            else {
+                for (int i = 0; i < game.getPlayers().size(); i++) {
+                    games.put(persistenceWaitingList.get(game).get(i), gameHandler);
+                }
+            }
+
+            for (ServerClientConnection serverClientConnection: playersInGamePersistence.keySet()) {
+             serverClientConnection.setGameHandler(gameHandler);
+            }
+
+            gameHandler.initializationView();
+
+        }
+    }catch (Exception e){
+        e.printStackTrace();}
+    }
+
 }

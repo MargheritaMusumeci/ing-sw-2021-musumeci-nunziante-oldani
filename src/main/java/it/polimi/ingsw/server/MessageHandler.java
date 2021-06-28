@@ -33,6 +33,17 @@ public class MessageHandler {
                 scc.send(new NACKMessage("KO! This nickname cannot be used because is reserved for the unique and magnificent Lorenzo"));
                 return;
             }
+            //controllo che il giocatore non sia tra quelli di cui è salvata una partita di persistenza
+            if(server.getPersistenceNicknameList().contains(message.getMessage())){
+                //lo metto in wait finchè non arrivano tutti i giocatori
+
+                scc.send(new PersistenceMessage("wait for other players - server reconnection"));
+                System.out.println("message send");
+                server.updatePersistenceReconnections(message.getMessage(), scc);
+                server.addTakenNickname(message.getMessage());
+                return;
+            }
+
             //controllo che il giocatore non sia gia un giocatore di quelli che attendevano di riconnettersi
             if(server.checkDisconnectedPlayer(message.getMessage()) != null){
 

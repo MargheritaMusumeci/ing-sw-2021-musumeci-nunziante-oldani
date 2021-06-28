@@ -12,6 +12,10 @@ import it.polimi.ingsw.model.listeners.*;
 import it.polimi.ingsw.model.osservables.DashboardObservable;
 import it.polimi.ingsw.model.popeTrack.PopeCard;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
+import it.polimi.ingsw.serializableModel.SerializableLeaderProductionZone;
+import it.polimi.ingsw.serializableModel.SerializableLockBox;
+import it.polimi.ingsw.serializableModel.SerializableProductionZone;
+import it.polimi.ingsw.serializableModel.SerializableStock;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -54,6 +58,48 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
 
     }
 
+    public Dashboard(String nickName, boolean inkwell, PopeTrack personalPopeTrack, ArrayList<LeaderCard> leaderCards, SerializableStock stock,
+                     SerializableLockBox lockBox, SerializableProductionZone[] productionZones, ArrayList<LeaderProductionZone> leaderProductionZones ){
+        try {
+
+        this.nickName = nickName;
+        if (leaderCards == null ) this.leaderCards = new ArrayList<>();
+        else this.leaderCards = leaderCards;
+        this.inkwell = inkwell;
+        this.personalPopeTrack = personalPopeTrack;
+        this.personalPopeTrack.addPopeTrackListener(this);
+
+        personalLockBox = new LockBox();
+        for (Resource resource: lockBox.getResources().keySet()) {
+            try {
+                personalLockBox.setAmountOf(resource,lockBox.getResources().get(resource));
+            } catch (NotEnoughResourcesException e) {
+                e.printStackTrace();
+            }
+        }
+        personalLockBox.addLockBoxListener(this);
+
+        personalStock = new Stock();
+        personalStock.setBoxes(stock.getBoxes());
+        personalStock.setBoxPlus(stock.getBoxPlus());
+        personalStock.setResourcesPlus(stock.getResourcesPlus());
+        personalStock.addStockListener(this);
+
+        personalProductionZones = new NormalProductionZone[3];
+
+        for (int i = 0; i< personalProductionZones.length; i++){
+            personalProductionZones[i] = new NormalProductionZone();
+            if (productionZones[i].getCards() == null ) personalProductionZones[i].setCards(new ArrayList<>());
+            else personalProductionZones[i].setCards(productionZones[i].getCards());
+            personalProductionZones[i].addProductionZoneListener(this);
+        }
+        if (leaderProductionZones == null) this.leaderProductionZones = new ArrayList<>();
+        else this.leaderProductionZones = leaderProductionZones;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public int getEvolutionCardNumber() {
         return evolutionCardNumber;

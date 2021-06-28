@@ -19,6 +19,7 @@ public abstract class MessageHandler {
     public abstract void handleMessage(SendViewMessage message);
     public abstract void handleMessage(SendResourcesBoughtFromMarket message);
     public abstract void handleMessage(EndGameMessage message);
+    public abstract void handleMessage(PersistenceMessage message);
 
     public abstract void handleUpdateMessage(UpdateLeaderCardsMessage message);
     public abstract void handleUpdateMessage(UpdateDashBoardMessage message);

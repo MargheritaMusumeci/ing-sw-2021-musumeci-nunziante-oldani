@@ -118,6 +118,11 @@ public class MessageHandlerCLI extends MessageHandler{
     }
 
     @Override
+    public void handleMessage(PersistenceMessage message) {
+
+    }
+
+    @Override
     public void handleUpdateMessage(UpdateLeaderCardsMessage message) {
         clientSocket.getView().setLeaderCards(message.getLeaderCards());
     }

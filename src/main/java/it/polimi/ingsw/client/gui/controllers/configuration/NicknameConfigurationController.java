@@ -44,10 +44,10 @@ public class NicknameConfigurationController implements Controller {
         }else{
 
             String nickname = nicknameField.getText();
-            gui.getClientSocket().send(new NickNameMessage(nickname));
             gui.setGamePhase(GamePhases.NUMBEROFPLAYERS);
             gui.setCurrentScene(gui.getScene(GameFxml.PLAYERS.s));
             gui.setOldScene(gui.getScene(GameFxml.NICKNAME.s));
+            gui.getClientSocket().send(new NickNameMessage(nickname));
 
             //overwrite in case of error
             gui.setNickname(nickname);

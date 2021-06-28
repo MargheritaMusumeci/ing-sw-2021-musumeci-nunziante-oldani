@@ -38,6 +38,25 @@ public class GameHandler implements Serializable {
 
     private TurnHandler turnHandler;
 
+    public GameHandler(HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistence, HashMap<ServerClientConnection,
+            HumanPlayer> playersInGamePersistence, Game game, boolean soloGame){
+
+        this.game = game;
+        if (soloGame)
+        {
+            numberOfPlayers = 1;
+            turnHandler = new TurnHandlerSoloGame(game);
+        }
+        else {
+            numberOfPlayers = game.getPlayers().size();
+            turnHandler = new TurnHandlerMultiPlayer(game);
+        }
+
+        playersInGame = playersInGamePersistence;
+        sccRelateToPlayer = sccRelateToPlayerPersistence;
+        playerSockets = new HashMap<>();
+    }
+
     public GameHandler(int numberOfPlayers, ArrayList<ServerClientConnection> playerSockets){
 
         ArrayList<Player> playersForGame = new ArrayList<>();
@@ -200,6 +219,15 @@ public class GameHandler implements Serializable {
         synchronized (this){
             scc.setGamePhase(GamePhases.ENDGAME);
             scc.setActive(false);
+
+            //delete file
+            String path ="";
+            for (Player player : game.getPlayers()) {
+                path = path + player.getNickName();
+            }
+            scc.getServer().getPersistence().deleteGame("C:\\Users\\margh\\IdeaProjects\\ing-sw-2021-musumeci-nunziante-oldani\\src\\main\\resources\\savedGames\\" + path + ".ser");
+
+
             try {
                 scc.getSocket().close();
             } catch (IOException e) {

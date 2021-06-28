@@ -42,6 +42,20 @@ public class Game implements Serializable {
         inPause = false;
     }
 
+    public Game(ArrayList<Player> players,Market market, EvolutionSection evolutionSection, Player activePlayer){
+        this.players = players;
+        this.market = market;
+        this.evolutionSection = evolutionSection;
+        this.activePlayer = activePlayer;
+
+        for(Player player : players){
+            if(player instanceof HumanPlayer)
+                ((HumanPlayer) player).setGame(this);
+        }
+
+        inPause = true;
+    }
+
     /**
      * Method that sets 4 leader card for each player in the game, then the player during the configuration phase
      *      will choose 2 leader cards between the 4

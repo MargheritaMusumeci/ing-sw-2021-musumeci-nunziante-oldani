@@ -470,4 +470,16 @@ public class Stock extends StockObservable implements Serializable {
             }
             return resources == 0;
         }
+
+    public void setBoxes(ArrayList<Resource[]> boxes) {
+        this.boxes = boxes;
+    }
+
+    public void setBoxPlus(ArrayList<Resource[]> boxPlus) {
+        this.boxPlus = boxPlus;
+    }
+
+    public void setResourcesPlus(ArrayList<Resource> resourcesPlus) {
+        this.resourcesPlus = resourcesPlus;
+    }
 }
