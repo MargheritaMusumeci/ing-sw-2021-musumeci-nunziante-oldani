@@ -2,18 +2,23 @@ Musumeci:
 
 da fare:
 
--sistemare lorenzo buy card action
--sistemare lorenzo pope card
-
 -controllare i test
+ - MANAGE STOCK HA DELLE LINEE DI CODICE NON TESTABILI
+ - DOACTION CONTROLLER: VA TESTATO IL BUY FROM MARKET CON UNA / DUE LEADER ATTIVE
+ - TURN HANDLER:  QUANDO LORENZO GIRA UNA CARTA POPE E IL GIOCATORE è NELLA POPE SECTION
+
 -controllare che ci siano tutti i javadoc
 
 -fare gli uml richiesti (completo più classi pricipali)
--fare il README
+
 -eliminare gli sout
 -pulire il codice dai warnings
 
 fatto:
+
+-sistemare lorenzo buy card action
+-sistemare lorenzo pope card
+-fare il README
 -sistemarel'uml iniziale
 -sistemare le risorse iniziali
 -mostrare il regolamento
