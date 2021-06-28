@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.game.EvolutionSection;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -217,4 +218,22 @@ public class NormalProductionZoneTest{
         productionZone.addCard(evolutionCard);
         assertEquals(productionZone.getLevel(),LevelEnum.THIRD);
     }
+
+    /*
+    @Test
+    public void setCardsTest() throws ExcessOfPositionException {
+
+        EvolutionCard evolutionCard;
+        NormalProductionZone productionZone = new NormalProductionZone();
+        evolutionCard = (EvolutionCard) productionZone.getCard();
+        assertNull(evolutionCard);
+        EvolutionSection evolutionSection = new EvolutionSection();
+        evolutionCard = evolutionSection.buy(2,3);
+        ArrayList<EvolutionCard> evolutionCards = new ArrayList<>(Arrays.asList(evolutionCard));
+        productionZone.setCards(evolutionCards);
+        assertEquals(evolutionCards,productionZone.getCardList());
+
+    }
+    */
+
 }
