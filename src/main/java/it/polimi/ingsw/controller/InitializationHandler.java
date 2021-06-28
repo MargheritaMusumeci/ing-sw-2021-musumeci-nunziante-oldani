@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
@@ -22,7 +23,7 @@ public class InitializationHandler {
         ArrayList<LeaderCard> lCards = player.getDashboard().getLeaderCards();
         //If the player chose more than 2 cards
         if(!(posLeaderCards.size() == 2)){
-            System.out.println("return 1");
+            //System.out.println("return 1");
             return false;
         }
 
@@ -30,14 +31,14 @@ public class InitializationHandler {
         //If the cards are not valid
         for(Integer i : posLeaderCards){
             if(i < 0 || i > 3){
-                System.out.println("return 2");
+                //System.out.println("return 2");
                 return false;
             }
 
         }
         //If the player chose the same card
         if(posLeaderCards.get(0) == posLeaderCards.get(1)){
-            System.out.println("return 3");
+            //System.out.println("return 3");
             return false;
         }
 
@@ -52,7 +53,7 @@ public class InitializationHandler {
 
     public ArrayList<SerializableLeaderCard> takeLeaderCards(Player player){
         ArrayList<LeaderCard> leaderCards = player.getDashboard().getLeaderCards();
-        ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<SerializableLeaderCard>();
+        ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<>();
 
         for(int i = 0 ; i < leaderCards.size() ; i++){
             LeaderCard lCard = leaderCards.get(i);
@@ -62,9 +63,14 @@ public class InitializationHandler {
         return serializableLeaderCards;
     }
 
+    /**
+     * Method that initializes the initial resources between whom the player can choose
+     * @param player is the player who have to choose
+     * @return an arrayList of resources
+     */
     public ArrayList<Resource> prepareInitialResources(HumanPlayer player){
         int playerPosition = player.getPosition();
-        ArrayList<Resource> resources = new ArrayList<Resource>();
+        ArrayList<Resource> resources = new ArrayList<>();
 
         if(playerPosition == 2 || playerPosition == 3){
             resources.add(Resource.COIN);
@@ -94,16 +100,16 @@ public class InitializationHandler {
     public boolean setInitialResources(HumanPlayer player, ArrayList<Resource> resources){
         int playerPosition = player.getPosition();
         if(playerPosition == 1){
-            System.out.println("resource return 1");
+            //System.out.println("resource return 1");
             return false;
         }
 
         if( (playerPosition == 2 || playerPosition == 3) && resources.size() != 1 ){
-            System.out.println("resource return 2");
+            //System.out.println("resource return 2");
             return false;
         }
         if(playerPosition == 4 && resources.size() != 2){
-            System.out.println("resource return 3");
+            //System.out.println("resource return 3");
             return false;
         }
 
@@ -114,12 +120,15 @@ public class InitializationHandler {
 
     /**
      * Method that increases the position of the player according to his position in the game
-     * @param player
-     * @param playerPosition
-     * @return
+     * @param player is the player to check if increased the position or no
+     * @return if the position of the player is been increased, false otherwise
      */
-    public boolean setInitialPositionInPopeTrack(Player player, int playerPosition){
-        if(playerPosition == 2 || playerPosition == 3){
+    public boolean setInitialPositionInPopeTrack(Player player){
+        if(player instanceof LorenzoPlayer)
+            return false;
+
+        int playerPosition = ((HumanPlayer) player).getPosition();
+        if(playerPosition == 3 || playerPosition == 4){
             player.getPopeTrack().updateGamerPosition(1);
             return true;
         }

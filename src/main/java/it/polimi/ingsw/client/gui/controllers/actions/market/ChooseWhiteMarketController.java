@@ -62,11 +62,21 @@ public class ChooseWhiteMarketController implements Controller {
     public void init() {
 
         whiteBalls = new ArrayList<>(Arrays.asList(white1, white2, white3, white4));
+
         for(Circle circle: whiteBalls){
             circle.setFill(Color.WHITE);
             circle.setVisible(false);
         }
+
+
+
         resource = gui.getView().getResourcesBoughtFromMarker();
+        for (Resource res: resource
+        ) {
+            System.out.println(resource);
+        }
+        System.out.println(resource.size());
+
         int i = 0;
         for (Resource res : resource) {
             if (res.equals(Resource.NOTHING)) {
@@ -93,15 +103,15 @@ public class ChooseWhiteMarketController implements Controller {
         resourcesWhite = gui.getView().getLeaderCards().get(1).getAbilityResource();
 
         //save the resource that will have to replace the white marbles
-        resourceWhite = null;
+            Resource resourceWhite2 = null;
 
         for (Resource res : resourcesWhite.keySet()) {
             if (resourcesWhite.get(res) == 1) {
-                resourceWhite = res;
+                resourceWhite2 = res;
             }
         }
-        resourceTwo = resourceWhite;
-        path = printer.pathFromResource(resourceWhite);
+        resourceTwo = resourceWhite2;
+        path = printer.pathFromResource(resourceWhite2);
         resource2.setImage(printer.fromPathToImageResource(path));
     }
 
@@ -109,17 +119,20 @@ public class ChooseWhiteMarketController implements Controller {
      * Method that checks that the user has correctly replaced all the white marbles and sends the choice to the server
      */
     public void confirm() {
+        try {
 
-        if (numberWhite == 0) {
-            gui.getView().setResourcesBoughtFromMarker(resource);
-            gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
-            gui.setOldScene(gui.getScene(GameFxml.CHOOSE_WHITE_RESOURCES.s));
-            gui.setGamePhase(GamePhases.STORERESOURCES);
-            gui.changeScene();
-        } else {
-            error.setText("ERROR: all white balls must be replaced!");
-            error.setVisible(true);
-        }
+            if (numberWhite == 0) {
+                gui.getView().setResourcesBoughtFromMarker(resource);
+                gui.setCurrentScene(gui.getScene(GameFxml.STORE_RESOURCES.s));
+                gui.setOldScene(gui.getScene(GameFxml.CHOOSE_WHITE_RESOURCES.s));
+                gui.setGamePhase(GamePhases.STORERESOURCES);
+                gui.changeScene();
+            } else {
+                error.setText("All white balls must be replaced!");
+                error.setVisible(true);
+            }
+        }catch(Exception e){
+        e.printStackTrace();}
     }
 
     /**
@@ -128,6 +141,7 @@ public class ChooseWhiteMarketController implements Controller {
      */
     public void plus(ActionEvent actionEvent) {
 
+        try{
         Button button = (Button) actionEvent.getSource();
         System.out.println(numberWhite);
         if (numberWhite != 0) {
@@ -144,5 +158,7 @@ public class ChooseWhiteMarketController implements Controller {
         } else {
             error.setText("All white balls are replaced");
         }
+    }catch(Exception e){
+        e.printStackTrace();}
     }
 }

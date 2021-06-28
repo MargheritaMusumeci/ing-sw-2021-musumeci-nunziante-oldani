@@ -6,15 +6,12 @@ import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LevelEnum;
-import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
 import it.polimi.ingsw.model.game.Resource;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class HumanPlayerTest extends TestCase {
 
@@ -121,7 +118,6 @@ public class HumanPlayerTest extends TestCase {
         }
     }
 
-    //This test fail because the number of initial resources is 90
     public void testActiveLeaderCard() {
         HumanPlayer player = new HumanPlayer("Matteo" , true);
         HumanPlayer player2 = new HumanPlayer("Margherita" , false);
@@ -440,61 +436,15 @@ public class HumanPlayerTest extends TestCase {
 
     }
 
-    public void testAddResources() {
-        HumanPlayer player = new HumanPlayer("Matteo" , false);
-        assertEquals(player.getResources().size() , 0);
-
-        player.addResources(Resource.COIN);
-        player.addResources(Resource.SHIELD);
-        assertEquals(player.getResources().size() , 2);
-        assertEquals(player.getResources().contains(Resource.COIN) , true);
-        assertEquals(player.getResources().contains(Resource.SHIELD) , true);
-        assertEquals(player.getResources().contains(Resource.ROCK) , false);
-    }
-
-    public void testRemoveResources() {
-        HumanPlayer player = new HumanPlayer("Matteo" , false);
-
-        player.addResources(Resource.COIN);
-        player.addResources(Resource.SHIELD);
-        assertEquals(player.getResources().size() , 2);
-
-        try {
-            player.removeResources(Resource.COIN);
-            assertEquals(player.getResources().size() , 1);
-            assertEquals(player.getResources().contains(Resource.COIN) , false);
-            assertEquals(player.getResources().contains(Resource.SHIELD) , true);
-            assertEquals(player.getResources().contains(Resource.ROCK) , false);
-        }catch (NonCompatibleResourceException e){
-            fail();
-        }
-        try {
-            player.removeResources(Resource.ROCK);
-            fail();
-        }catch (NonCompatibleResourceException e){
-            //It's right
-        }
-        try {
-            player.addResources(Resource.COIN);
-            player.addResources(Resource.COIN);
-            player.addResources(Resource.COIN);
-            assertEquals(player.getResources().size() , 4);
-
-            player.removeResources(Resource.COIN);
-            assertEquals(player.getResources().contains(Resource.COIN) , true);
-            assertEquals(player.getResources().size() , 3);
-        }catch (NonCompatibleResourceException e){
-            fail();
-        }
-    }
-
     public void testSetGame() {
         Player player = new HumanPlayer("Matteo" , false);
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
         players.add(player);
         Game game = new Game(players);
 
         ((HumanPlayer) player).setGame(game);
+
+        assertTrue(((HumanPlayer) player).getGame().getPlayers().get(0).getNickName().equals("Matteo"));
 
     }
 

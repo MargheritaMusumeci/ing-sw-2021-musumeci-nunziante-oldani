@@ -74,11 +74,11 @@ public class Game implements Serializable {
 
         //Check if there is a at least an active player
         boolean checkPlayers = false;
-        for (Player player:players){
+        for (Player player : players){
             if (player.isPlaying()){
                 //if the player is a lorenzo player it doesn't matter
                 if(player instanceof HumanPlayer){
-                    checkPlayers=true;
+                    checkPlayers = true;
                 }
             }
         }
@@ -89,11 +89,11 @@ public class Game implements Serializable {
             return null;
         }
 
-        int j =0;
-        for(int i=0; i<players.size(); i++){
+        int j = 0;
+        for(int i = 0; i < players.size() ; i++){
            j++;
            if(activePlayer.equals(players.get(i))){
-               if(j>= players.size()){
+               if(j >= players.size()){
                    j = 0;
                }
                if(players.get(j).isPlaying()){

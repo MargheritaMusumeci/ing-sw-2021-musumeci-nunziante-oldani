@@ -69,63 +69,18 @@ public class Stock extends StockObservable implements Serializable {
     public Resource getResourceType(int originBox) {
         if(originBox < 0 || originBox >= getNumberOfBoxes())
             return null;
-        if(originBox >= 0 && originBox < boxes.size())
+        if(originBox < boxes.size())
             return boxes.get(originBox)[0];
         else
             return resourcesPlus.get(originBox - boxes.size());
     }
 
     /**
-     * Add resources in the specified origin box starting from the first free position
-     * @param originBox box I would like to insert the resources
-     * @param numberResources number of resources I would like to insert
-     * @param resourceType type of the resources I'm adding
-     * @throws NotEnoughSpaceException if there isn't enough space in the originBox
-     * @throws ResourceAlreadyPresentException if the resource type specified is already in an other box
-     * @throws OutOfBandException if the box doesn't exist
-     */
-    public void addResources(int originBox , int numberResources , Resource resourceType) throws NotEnoughSpaceException, ResourceAlreadyPresentException,OutOfBandException {
-        if(originBox >= boxes.size() + boxPlus.size()) throw new OutOfBandException("There isn't this box");
-
-        if(originBox >= 0 && originBox < boxes.size()) {
-            for (int i = 0; i < boxes.size(); i++) {
-                if (i != originBox)
-                    if (resourceType == getResourceType(i))
-                        throw new ResourceAlreadyPresentException("The resource type is already in an other box");
-            }
-        }
-
-        if(originBox >= boxes.size() && originBox < getNumberOfBoxes()){
-            if(getResourceType(originBox) != resourceType)
-                throw  new ResourceAlreadyPresentException("This kind of resource cannot be placed here");
-        }
-
-        Resource[] box = getBox(originBox);
-
-        if(box.length - getQuantities(originBox) < numberResources) throw new NotEnoughSpaceException("The box is too small");
-
-        int i = 0;
-        int maxDim = box.length;
-
-        while(numberResources != 0 && i < maxDim){
-            if(box[i] == null){
-                box[i] = resourceType;
-                numberResources--;
-            }
-            i++;
-        }
-        setBox(originBox , box);
-
-        notifyStockListener(this);
-    }
-
-
-    /**
      * @param originBox number of box we are interested
      * @return the quantity of resources in the box specified by originBox.
      *          If the box doesn't exist this method returns 0
      */
-    public int getQuantities(int originBox){
+    private int getQuantities(int originBox){
         int quantity = 0;
         int i = 0;
 
@@ -151,7 +106,7 @@ public class Stock extends StockObservable implements Serializable {
         int numOfBox = boxes.size();
         int numOfBoxPlus = 0;
 
-        if(boxPlus!=null) numOfBoxPlus= boxPlus.size();
+        if(boxPlus != null) numOfBoxPlus = boxPlus.size();
 
         int quantities = 0;
 
@@ -160,8 +115,9 @@ public class Stock extends StockObservable implements Serializable {
                 quantities += getQuantities(i);
         }
         for(int i = 0; i < numOfBoxPlus; i++){
-            if(getResourceType(boxes.size() + i) == resourceType)
-                quantities += getQuantities(boxes.size() + i);
+            Resource[] boxPlus = getBox(numOfBox + i);
+            if(getResourceType(numOfBox + i) == resourceType)
+                quantities += getQuantities(numOfBox + i);
         }
         return quantities;
     }
@@ -230,45 +186,6 @@ public class Stock extends StockObservable implements Serializable {
                 }
             }
         }
-
-        notifyStockListener(this);
-    }
-
-    /**
-     * Method that exchange the resources in 2 box
-     * @param originBox from where take the resources
-     * @param destinationBox where put the resources
-     * @throws NotEnoughSpaceException if one of the box is too smaller to contain the amount of resources in the other box
-     */
-    public void moveResources(int originBox , int destinationBox) throws NotEnoughSpaceException,OutOfBandException, NonCompatibleResourceException {
-        if(originBox == destinationBox)
-            return;
-
-        Resource[] boxOrigin = getBox(originBox);
-        Resource[] boxDestination = getBox(destinationBox);
-
-        if(boxOrigin == null || boxDestination == null) throw new OutOfBandException("The box doesn't exist");
-
-        if(getQuantities(originBox) > getBoxLength(destinationBox)) throw new NotEnoughSpaceException("Destination box is too small");
-        if(getQuantities(destinationBox) > getBoxLength(originBox)) throw new NotEnoughSpaceException("Origin box is too small");
-
-        //If one(or two) of originBox or destinationBox is a box plus
-        if(originBox >= boxes.size() || destinationBox >= boxes.size()){
-            if(getResourceType(originBox) != getResourceType(destinationBox))
-                throw new NonCompatibleResourceException("Resources are not compatible according to the boxes");
-        }
-
-        Arrays.fill(boxOrigin , null);
-        Arrays.fill(boxDestination , null);
-        int originQuantities = getQuantities(originBox);
-        int destinationQuantities = getQuantities(destinationBox);
-
-        for(int i = 0; i < originQuantities; i++) { boxDestination[i] = getBox(originBox)[i]; }
-
-        for(int j = 0; j < destinationQuantities; j++) { boxOrigin[j] = getBox(destinationBox)[j]; }
-
-        setBox(originBox , boxOrigin);
-        setBox(destinationBox , boxDestination);
 
         notifyStockListener(this);
     }
@@ -448,17 +365,26 @@ public class Stock extends StockObservable implements Serializable {
         return true;
     }
 
-        public ArrayList<Resource[]> getBoxes () {
-            return boxes;
-        }
+    /**
+     * @return an arrayList of standard boxes
+     */
+    public ArrayList<Resource[]> getBoxes () {
+        return boxes;
+    }
 
-        public ArrayList<Resource[]> getBoxPlus () {
-            return boxPlus;
-        }
+    /**
+     * @return an arrayList of plus boxes
+     */
+    public ArrayList<Resource[]> getBoxPlus () {
+        return boxPlus;
+    }
 
-        public ArrayList<Resource> getResourcesPlus () {
-            return resourcesPlus;
-        }
+    /**
+     * @return an arrayList that contains which kind of resources can be stored in plus boxes
+     */
+    public ArrayList<Resource> getResourcesPlus () {
+        return resourcesPlus;
+    }
 
     /**
      * @return true if the stock is empty, false otherwise
