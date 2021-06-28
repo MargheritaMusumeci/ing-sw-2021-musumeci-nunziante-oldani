@@ -87,6 +87,7 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(ReconnectionMessage message) {
         gui.setView(message.getView());
+        gui.setActionDone(false);
         gui.setPlayers(message.getNumberOfPlayers());
         gui.setLeaderCards(message.getView().getLeaderCards());
 
