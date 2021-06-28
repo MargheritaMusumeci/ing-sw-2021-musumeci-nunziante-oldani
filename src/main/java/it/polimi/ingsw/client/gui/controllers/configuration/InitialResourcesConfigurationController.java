@@ -84,6 +84,7 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
               resourcesBox1.setVisible(true);
           }
           if(resources.size()>4){
+              resourcesBox1.setVisible(true);
               resourcesBox2.setVisible(true);
           }
        }
