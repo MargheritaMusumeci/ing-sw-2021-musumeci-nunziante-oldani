@@ -68,14 +68,7 @@ public class ChooseWhiteMarketController implements Controller {
             circle.setVisible(false);
         }
 
-
-
         resource = gui.getView().getResourcesBoughtFromMarker();
-        for (Resource res: resource
-        ) {
-            System.out.println(resource);
-        }
-        System.out.println(resource.size());
 
         int i = 0;
         for (Resource res : resource) {
@@ -143,7 +136,6 @@ public class ChooseWhiteMarketController implements Controller {
 
         try{
         Button button = (Button) actionEvent.getSource();
-        System.out.println(numberWhite);
         if (numberWhite != 0) {
             if (button.equals(plus1)) {
                 whiteBalls.get(numberWhiteFixed - numberWhite).setFill(printer.colorFromResource(resourceOne));
