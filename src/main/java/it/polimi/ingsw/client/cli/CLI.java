@@ -240,6 +240,9 @@ public class CLI implements Runnable {
         this.temporaryEvolutionSection = temporaryEvolutionSection;
     }
 
+    /**
+     * calls the methods doAction of the current game phase and pass itself to that
+     */
     @Override
     public void run() {
         gamePhase.makeAction(this);
