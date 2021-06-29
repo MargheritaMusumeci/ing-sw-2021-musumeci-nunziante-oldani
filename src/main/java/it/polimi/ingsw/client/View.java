@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * class that contains alla the information of the game and the players related to the client side
+ */
+//TODO remove methods never used
 public class View implements Serializable {
 
     private String activePlayer;
