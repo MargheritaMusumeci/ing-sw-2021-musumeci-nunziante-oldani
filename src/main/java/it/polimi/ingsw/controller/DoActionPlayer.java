@@ -567,7 +567,6 @@ public class DoActionPlayer {
      */
     private void moveCross(int positions, ArrayList<Player> players) {
 
-
         //Increment Pope Track
         for (int i = 0; i < positions; i++) {
             for (Player player : players) {
