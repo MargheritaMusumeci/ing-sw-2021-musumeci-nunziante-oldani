@@ -40,8 +40,6 @@ public class NickNamePhase extends Phase{
             cli.setGamePhase(new NumberOfPlayerPhase());
             cli.setIsAckArrived(false);
             new Thread(cli).start();
-        }else{
-            cli.setIsNackArrived(false);
         }
     }
 }

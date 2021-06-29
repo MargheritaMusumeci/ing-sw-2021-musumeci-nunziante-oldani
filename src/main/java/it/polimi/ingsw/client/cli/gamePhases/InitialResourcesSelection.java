@@ -96,7 +96,6 @@ public class InitialResourcesSelection extends Phase{
             cli.setIsAckArrived(false);
             new Thread(cli).start();
         }else{
-            cli.setIsNackArrived(false);
             System.err.println("Error while setting the initial resources, retry");
             new Thread(cli).start();
         }

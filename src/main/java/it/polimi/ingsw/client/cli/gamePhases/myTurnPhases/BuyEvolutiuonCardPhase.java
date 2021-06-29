@@ -61,8 +61,6 @@ public class BuyEvolutiuonCardPhase extends Phase {
             System.out.println(Constants.ANSI_GREEN + "The card has been correctly bought and inserted" + Constants.ANSI_RESET);
             cli.setIsAckArrived(false);
             cli.setActionBeenDone(true);
-        }else{
-            cli.setIsNackArrived(false);
         }
 
         cli.setGamePhase(new MyTurnPhase());

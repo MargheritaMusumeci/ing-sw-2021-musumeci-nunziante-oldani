@@ -87,7 +87,7 @@ public class BuyFromMarketPhase extends Phase {
             cli.setActionBeenDone(true);
         }else{
             System.out.println(Constants.ANSI_RED + "Error while buying the resources from market!" + Constants.ANSI_RESET);
-            cli.setIsNackArrived(false);
+
         }
 
         //ask the resources
@@ -215,7 +215,6 @@ public class BuyFromMarketPhase extends Phase {
         System.out.println(Constants.ANSI_GREEN + "Resources correctly saved in stock! \n\n" + Constants.ANSI_RESET);
 
         cli.setIsAckArrived(false);
-        cli.setIsNackArrived(false);
 
         cli.setGamePhase(new MyTurnPhase());
         new Thread(cli).start();
