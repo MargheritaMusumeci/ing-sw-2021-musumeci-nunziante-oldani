@@ -11,6 +11,6 @@ public class PersistenceMessage extends ServerMessage {
 
     @Override
     public void handle(MessageHandler messageHandler) {
-
+            messageHandler.handleMessage(this);
     }
 }
