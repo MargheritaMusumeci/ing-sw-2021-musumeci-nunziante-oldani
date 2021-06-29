@@ -15,7 +15,7 @@ import it.polimi.ingsw.utils.Constants;
  */
 public class MessageHandlerCLI extends MessageHandler{
 
-    private CLI cli;
+    private final CLI cli;
 
     /**
      * class constructor
@@ -47,7 +47,6 @@ public class MessageHandlerCLI extends MessageHandler{
     @Override
     public void handleMessage(NACKMessage message) {
         System.out.println(Constants.ANSI_RED + message.getMessage() + Constants.ANSI_RESET);
-        cli.setIsNackArrived(true);
 
         synchronized (cli.getGamePhase()){
             cli.getGamePhase().notifyAll();
@@ -61,7 +60,7 @@ public class MessageHandlerCLI extends MessageHandler{
      */
     @Override
     public void handleMessage(ReconnectionMessage message) {
-        System.out.println("reconnection message arrivato");
+        System.out.println("reconnection message arrived");
         cli.getClientSocket().setView(message.getView());
         if(message.getView().getActivePlayer().equals(cli.getNickname())){
             cli.setGamePhase(new MyTurnPhase());
@@ -248,7 +247,7 @@ public class MessageHandlerCLI extends MessageHandler{
     /**
      * method that close the application when this message arrives displaying the corresponding error.
      * This message arrives when a player exit the game during the initialization phase
-     * @param abortGameMessage
+     * @param abortGameMessage does not contains useful information fot the user
      */
     @Override
     public void handleMessage(AbortGameMessage abortGameMessage) {
