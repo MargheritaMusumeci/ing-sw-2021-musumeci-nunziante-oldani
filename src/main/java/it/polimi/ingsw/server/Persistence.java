@@ -19,11 +19,13 @@ import java.util.HashMap;
 
 // se il server cade invio un game aborted ?
 
-public class Persistence {
+public class Persistence implements Runnable{
     Server server;
     HashMap<String, Game> playerGame;
 
-    public Persistence(Server server) {
+    private Game gameToBeSaved;
+
+    public Persistence(Server server){
         this.server = server;
         playerGame = new HashMap<>();
     }
@@ -50,27 +52,8 @@ public class Persistence {
     }
 
     public void saveGame(Game game) {
-        PersistenceSerializableGame persistenceSerializableGame = new PersistenceSerializableGame(game);
-        try {
-
-            String path = "";
-            for (Player player : game.getPlayers()) {
-                path = path + player.getNickName();
-            }
-            FileOutputStream file = new FileOutputStream("C:\\Users\\margh\\IdeaProjects\\ing-sw-2021-musumeci-nunziante-oldani\\src\\main\\resources\\savedGames\\" + path + ".ser");
-            ObjectOutputStream streamer = new ObjectOutputStream(file);
-
-            // write object to file
-            streamer.writeObject(persistenceSerializableGame);
-            System.out.println("Done");
-
-            // closing resources
-            streamer.close();
-            file.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        gameToBeSaved = game;
+        new Thread(this).start();
     }
 
 
@@ -83,7 +66,7 @@ public class Persistence {
     public void initializeGame() {
 
         try {
-            File[] files = new File("C:\\Users\\margh\\IdeaProjects\\ing-sw-2021-musumeci-nunziante-oldani\\src\\main\\resources\\savedGames").listFiles();
+            File[] files = new File("/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/savedGames").listFiles();
 
             if (files == null) {
                 server.setPersistenceWaitingList(null);
@@ -142,6 +125,7 @@ public class Persistence {
                     ArrayList<LeaderProductionZone> leaderProductionZone = persistenceSerializableGame.getLeaderProductionZoneHashMap().get(playerNickname);
 
                     PopeTrack popeTrack = persistenceSerializableGame.getPopeTrackHashMap().get(playerNickname);
+                    popeTrack.setTrack();
 
                     ArrayList<LeaderCard> leaderCards = persistenceSerializableGame.getLeaderCards().get(playerNickname);
 
@@ -171,5 +155,30 @@ public class Persistence {
 
     public void setPlayerGame(HashMap<String, Game> playerGame) {
         this.playerGame = playerGame;
+    }
+
+    @Override
+    public void run() {
+        PersistenceSerializableGame persistenceSerializableGame = new PersistenceSerializableGame(gameToBeSaved);
+        try {
+
+            String path = "";
+            for (Player player : gameToBeSaved.getPlayers()) {
+                path = path + player.getNickName();
+            }
+            FileOutputStream file = new FileOutputStream("/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/savedGames/" + path + ".ser");
+            ObjectOutputStream streamer = new ObjectOutputStream(file);
+
+            // write object to file
+            streamer.writeObject(persistenceSerializableGame);
+            System.out.println("Done");
+
+            // closing resources
+            streamer.close();
+            file.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
