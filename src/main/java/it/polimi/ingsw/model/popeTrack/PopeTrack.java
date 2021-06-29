@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PopeTrack extends PopeTrackObservable implements Serializable, PopeCardListener {
-    private final Track track;
+    private Track track;
     private final ArrayList<PopeCard> popeCard;
     private Position gamerPosition;
     private Position lorenzoPosition;
@@ -103,5 +103,9 @@ public class PopeTrack extends PopeTrackObservable implements Serializable, Pope
     @Override
     public void update() {
         notifyPopeTrackListener(this);
+    }
+
+    public void setTrack(){
+        track = Track.getInstanceOfTrack();
     }
 }
