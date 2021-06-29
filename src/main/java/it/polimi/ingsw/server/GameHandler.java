@@ -38,6 +38,25 @@ public class GameHandler implements Serializable {
 
     private TurnHandler turnHandler;
 
+    public GameHandler(HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistence, HashMap<ServerClientConnection,
+            HumanPlayer> playersInGamePersistence, Game game, boolean soloGame){
+
+        this.game = game;
+        if (soloGame)
+        {
+            numberOfPlayers = 1;
+            turnHandler = new TurnHandlerSoloGame(game);
+        }
+        else {
+            numberOfPlayers = game.getPlayers().size();
+            turnHandler = new TurnHandlerMultiPlayer(game);
+        }
+
+        playersInGame = playersInGamePersistence;
+        sccRelateToPlayer = sccRelateToPlayerPersistence;
+        playerSockets = new HashMap<>();
+    }
+
     public GameHandler(int numberOfPlayers, ArrayList<ServerClientConnection> playerSockets){
 
         ArrayList<Player> playersForGame = new ArrayList<>();
@@ -195,23 +214,35 @@ public class GameHandler implements Serializable {
     }
 
     public void endGame(ServerClientConnection scc){
+
+
         synchronized (this){
             scc.setGamePhase(GamePhases.ENDGAME);
             scc.setActive(false);
+
+            //delete file
+            String path ="";
+            for (Player player : game.getPlayers()) {
+                path = path + player.getNickName();
+            }
+            scc.getServer().getPersistence().deleteGame(System.getProperty("java.io.tmpdir") + "/savedGames/" + path + ".ser");
+
+
             try {
                 scc.getSocket().close();
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Error while closing the socket");
             }
+
+
             scc.getServer().removeTakeNickname(scc.getNickname());
 
             //removing all the inactive players' nickname from the taken niknames
             for (ServerClientConnection serverClientConnection: playersInGame.keySet()){
                 if(!scc.equals(serverClientConnection)){
-                    if(!serverClientConnection.isActive()){
-                        scc.getServer().removeTakeNickname(serverClientConnection.getNickname());
-                    }
+
+                    scc.getServer().removeTakeNickname(serverClientConnection.getNickname());
                 }
             }
         }

@@ -92,14 +92,25 @@ public class ClientSocket implements Runnable{
                     send(new PingMessage("Ping response"));
                 }
             } catch (EOFException e){
-                System.out.println("Server disconnected, retry later");
+                if(gui!= null){
+                    gui.setErrorFromServer("Server disconnected, please close the application and retry later. Your game has been saved");
+                    gui.changeScene();
+                }
+                System.out.println("Server disconnected, please close the application and retry later. Your game has been saved");
                 return;
             } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Connection ended, retry later");
+                if(gui!= null){
+                    gui.setErrorFromServer("Server disconnected, please close the application and retry later. Your game has been saved");
+                    gui.changeScene();
+                }
+                System.out.println("Server disconnected, please close the application and retry later. Your game has been saved");
                 return;
             } catch (ClassNotFoundException e) {
-                System.out.println("Server corrupted, retry later");
+                if(gui!= null){
+                    gui.setErrorFromServer("Server disconnected, please close the application and retry later. Your game has been saved");
+                    gui.changeScene();
+                }
+                System.out.println("Server disconnected, please close the application and retry later. Your game has been saved");
                 return;
             }
         }

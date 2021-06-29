@@ -161,6 +161,9 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setView(message.getView());
 
+            if(message.getView().getEnemiesDashboard()!=null)gui.setPlayers(message.getView().getEnemiesDashboard().size()+1);
+            else gui.setPlayers(1);
+
             if (gui.getView().getActivePlayer().equals(gui.getView().getNickname())) {
                 gui.setGamePhase(GamePhases.MYTURN);
                 gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
@@ -324,6 +327,17 @@ public class MessageHandlerGUI extends MessageHandler {
             gui.changeScene();
 
             gui.getClientSocket().send(new ExitGameMessage("exit game"));
+        }
+    }
+
+    @Override
+    public void handleMessage(PersistenceMessage message) {
+        synchronized (gui) {
+            System.out.println("p message");
+            gui.setOldScene(gui.getScene(GameFxml.NICKNAME.s));
+            gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
+            gui.setCurrentScene(gui.getScene(GameFxml.WAITING_ROOM.s));
+            gui.changeScene();
         }
     }
 }

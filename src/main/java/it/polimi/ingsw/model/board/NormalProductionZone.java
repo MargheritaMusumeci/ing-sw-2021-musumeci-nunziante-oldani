@@ -69,4 +69,7 @@ public class NormalProductionZone extends ProductionZone implements Serializable
         return cards.isEmpty() ? null : cards.get(0).getLevel();
     }
 
+    public void setCards(ArrayList<EvolutionCard> cards) {
+        this.cards = cards;
+    }
 }

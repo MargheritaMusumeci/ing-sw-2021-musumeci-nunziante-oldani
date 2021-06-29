@@ -65,4 +65,12 @@ public abstract class Player extends PlayerObservable implements Serializable {
      * @param playing
      */
     public void setPlaying(boolean playing) { isPlaying = playing; }
+
+    public void setPopeTrack(PopeTrack popeTrack) {
+        this.popeTrack = popeTrack;
+    }
+
+    public void setDashboard(Dashboard dashboard){
+        this.dashboard = dashboard;
+    }
 }

@@ -21,7 +21,6 @@ public class SerializableLeaderCard implements Serializable {
     private int point;
     private HashMap<Resource, Integer> abilityResource;
     private boolean isActive;
-    private boolean isUsed;
 
     public SerializableLeaderCard(LeaderCard leaderCard) {
         this.requiresForActiveLeaderCards = leaderCard.getRequiresForActiveLeaderCards();

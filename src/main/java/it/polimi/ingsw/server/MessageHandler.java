@@ -42,6 +42,20 @@ public class MessageHandler {
                 return;
             }
             //check if the player was a disconnected one
+            //controllo che il giocatore non sia tra quelli di cui è salvata una partita di persistenza
+            if(server.getPersistenceNicknameList().contains(message.getMessage())){
+                //lo metto in wait finchè non arrivano tutti i giocatori
+
+                scc.send(new PersistenceMessage("wait for other players - server reconnection"));
+                //TODO controllare se non c'è modo più intelligente
+                scc.setNickname(message.getMessage());
+                System.out.println("message send");
+                server.updatePersistenceReconnections(message.getMessage(), scc);
+                server.addTakenNickname(message.getMessage());
+                return;
+            }
+
+            //controllo che il giocatore non sia gia un giocatore di quelli che attendevano di riconnettersi
             if(server.checkDisconnectedPlayer(message.getMessage()) != null){
 
                 //handle the reconnection
@@ -201,12 +215,6 @@ public class MessageHandler {
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
-    /*
-    public void handleActionMessage(UseLeaderCardMessage message){
-        if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
-    }
-     */
-
     public void handleActionMessage(RequestResourcesBoughtFromMarketMessage message){
         if(checkAction()) scc.send(new SendResourcesBoughtFromMarket("Risorse",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
     }
@@ -219,7 +227,7 @@ public class MessageHandler {
 
         //controllo che la richiesta mi viene fatta dal player attivo
         if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
-            scc.send(new NACKMessage("Error! It's not your turn"));
+            scc.send(new NACKMessage("Error! It's not your turn, is the turn of: " + scc.getGameHandler().getGame().getActivePlayer().getNickName()));
             return false;
         }
         return true;
@@ -233,7 +241,7 @@ public class MessageHandler {
         if (scc.getGamePhase() == GamePhases.GAME) {
 
             //store game status
-            //server.getPersistence().saveGame(scc.getGameHandler().getGame());
+            server.getPersistence().saveGame(scc.getGameHandler().getGame());
 
             //per ongi player mando il messaggio che è cambiato il turno
             Message messageEndTurn = scc.getGameHandler().getTurnHandler().endTurn();
@@ -251,6 +259,9 @@ public class MessageHandler {
         } else {
             scc.send(new NACKMessage("KO"));
         }
+
+        //TODO add here the method to write the game to a file
+
     }
 
     public void handleMessage(ExitGameMessage exitGameMessage) {

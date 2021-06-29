@@ -45,6 +45,18 @@ public class HumanPlayer extends Player implements Serializable {
         position = 0;
         isPlaying = true;
     }
+    public HumanPlayer(String nickName,PopeTrack popeTrack,Dashboard dashboard){
+        this.nickName = nickName;
+        this.popeTrack = popeTrack;
+        this.dashboard = dashboard;
+
+        isWinner = false;
+        actionChose = Action.NOTHING;
+        game = null;
+        resources = new ArrayList<>();
+        position = 0;
+        isPlaying = false;
+    }
 
     /**
      * Method that returns in which production zone the player can put the card that he bought
@@ -325,5 +337,7 @@ public class HumanPlayer extends Player implements Serializable {
     public void setPosition(int position) {
         this.position = position;
     }
+
+
 
 }

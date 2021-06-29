@@ -151,4 +151,14 @@ public class Market extends MarketObservable implements Serializable {
      * @return the actual external resource
      */
     public Resource getExternalResource(){ return externalResource;}
+
+    /**
+     * method that allow to preload a market configuration
+     * @param board is the market board to be loaded
+     * @param externalResource is the external resource to be loaded
+     */
+    public void setMarketBoard(Resource[][] board, Resource externalResource){
+        this.marketBoard = board;
+        this.externalResource = externalResource;
+    }
 }
