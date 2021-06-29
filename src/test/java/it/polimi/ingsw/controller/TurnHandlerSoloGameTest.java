@@ -19,11 +19,11 @@ import static org.junit.Assert.*;
 public class TurnHandlerSoloGameTest {
 
     @Test
-    public void startTurn() {
+    public void testStartTurn() {
     }
 
     @Test
-    public void checkWinner() {
+    public void testCheckWinner() {
         HumanPlayer player1 = new HumanPlayer("Matteo" , true);
         LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(player1 , lorenzoPlayer));
@@ -40,7 +40,7 @@ public class TurnHandlerSoloGameTest {
     }
 
     @Test
-    public void checkWinner2() {
+    public void testCheckWinner2() {
         HumanPlayer player1 = new HumanPlayer("Matteo" , true);
         LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(lorenzoPlayer , player1));
@@ -88,7 +88,7 @@ public class TurnHandlerSoloGameTest {
             }
         }
         else{
-            endTurn();
+            testEndTurn();
             try {
                 modelGame.getEvolutionSection().buy(2,0);
                 modelGame.getEvolutionSection().buy(2,0);
@@ -125,7 +125,7 @@ public class TurnHandlerSoloGameTest {
         player1.setGame(modelGame);
         TurnHandler turnHandler = new TurnHandlerSoloGame(modelGame);
         if (!(modelGame.getActivePlayer() instanceof LorenzoPlayer)) {
-            endTurn();
+            testEndTurn();
         }
         modelGame.getActivePlayer().getPopeTrack().updateLorenzoPosition(25);
 
@@ -134,7 +134,7 @@ public class TurnHandlerSoloGameTest {
     }
 
     @Test
-    public void endTurn() {
+    public void testEndTurn() {
     }
 
     @Test

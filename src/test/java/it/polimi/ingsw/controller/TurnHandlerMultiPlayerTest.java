@@ -32,11 +32,11 @@ public class TurnHandlerMultiPlayerTest {
     }
 
     @Test
-    public void checkWinner() {
+    public void testCheckWinner() {
     }
 
     @Test
-    public void checkEndGameTest1() throws NotEnoughResourcesException {
+    public void tesCheckEndGame() {
 
         HumanPlayer player1 = new HumanPlayer("marghe", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
@@ -52,7 +52,7 @@ public class TurnHandlerMultiPlayerTest {
     }
 
     @Test
-    public void checkEndGameTest2(){
+    public void testCheckEndGameTest2(){
 
         HumanPlayer player1 = new HumanPlayer("marghe", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
@@ -95,11 +95,11 @@ public class TurnHandlerMultiPlayerTest {
 
     }
     @Test
-    public void endTurn() {
+    public void testEndTurn() {
     }
 
     @Test
-    public void endGame() {
+    public void testEndGame() {
     }
 
 }
