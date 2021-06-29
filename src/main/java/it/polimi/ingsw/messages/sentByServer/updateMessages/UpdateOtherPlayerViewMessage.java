@@ -21,21 +21,14 @@ public class UpdateOtherPlayerViewMessage extends UpdateMessage implements Seria
         this.nickname = nickname;
         this.view = view;
 
-        //sistemo le view togliendo le leder card che non potrei vedere
+        //remove the leader cards that i cannot see
         for(int i=0; i<view.getLeaderCards().size(); i++){
             if(!view.getLeaderCards().get(i).isActive()){
                 view.getLeaderCards().remove(i);
                 i--;
             }
         }
-        /*
-        for(SerializableLeaderCard serializableLeaderCard : view.getLeaderCards()){
-            if(!serializableLeaderCard.isActive()){
-                view.getLeaderCards().remove(serializableLeaderCard);
-            }
-        }
 
-        */
     }
 
     public String getNickname() {

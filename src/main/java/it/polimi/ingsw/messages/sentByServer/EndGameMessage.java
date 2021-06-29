@@ -5,6 +5,10 @@ import it.polimi.ingsw.client.messageHandler.MessageHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * message sent by server to notify the end of the game to all the clients. It will contain the scores and the
+ * winner
+ */
 public class EndGameMessage extends ServerMessage{
 
     private ArrayList<String> winners;

@@ -3,8 +3,6 @@ package it.polimi.ingsw.messages.sentByServer;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.messageHandler.MessageHandler;
 
-
-
 /**
  * Message sent by server for notify that nickname provided exist and begin the attempt to reconnect
  */
