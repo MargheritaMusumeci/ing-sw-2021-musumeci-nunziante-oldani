@@ -160,6 +160,9 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setView(message.getView());
 
+            if(message.getView().getEnemiesDashboard()!=null)gui.setPlayers(message.getView().getEnemiesDashboard().size()+1);
+            else gui.setPlayers(1);
+
             if (gui.getView().getActivePlayer().equals(gui.getView().getNickname())) {
                 gui.setGamePhase(GamePhases.MYTURN);
                 gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
