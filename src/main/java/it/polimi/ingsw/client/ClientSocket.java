@@ -8,8 +8,6 @@ import it.polimi.ingsw.client.messageHandler.MessageHandlerGUI;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PingMessage;
 import it.polimi.ingsw.messages.sentByServer.ServerMessage;
-
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,12 +18,10 @@ import java.net.Socket;
  */
 public class ClientSocket implements Runnable{
 
-    private CLI cli;
-    private GUI gui;
-    private Socket socket;
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
-    private MessageHandler messageHandler;
+    private final GUI gui;
+    private final ObjectInputStream inputStream;
+    private final ObjectOutputStream outputStream;
+    private final MessageHandler messageHandler;
     boolean isActive;
     private View view;
 
@@ -36,9 +32,7 @@ public class ClientSocket implements Runnable{
      * @param socket is the socket connection established with the server
      */
     public ClientSocket(CLI cli, Socket socket) throws IOException {
-        this.cli = cli;
         this.gui=null;
-        this.socket = socket;
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
         messageHandler = new MessageHandlerCLI(cli, this);
@@ -52,9 +46,7 @@ public class ClientSocket implements Runnable{
      * @param socket is the socket connection established with the server
      */
     public ClientSocket(GUI gui, Socket socket) throws IOException {
-        this.cli = null;
         this.gui=gui;
-        this.socket = socket;
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
         messageHandler = new MessageHandlerGUI(gui, this);
@@ -99,21 +91,7 @@ public class ClientSocket implements Runnable{
                 }else{
                     send(new PingMessage("Ping response"));
                 }
-            } catch (EOFException e){
-                if(gui!= null){
-                    gui.setErrorFromServer("Server disconnected, please close the application and retry later. Your game has been saved");
-                    gui.changeScene();
-                }
-                System.out.println("Server disconnected, please close the application and retry later. Your game has been saved");
-                return;
-            } catch (IOException e) {
-                if(gui!= null){
-                    gui.setErrorFromServer("Server disconnected, please close the application and retry later. Your game has been saved");
-                    gui.changeScene();
-                }
-                System.out.println("Server disconnected, please close the application and retry later. Your game has been saved");
-                return;
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e){
                 if(gui!= null){
                     gui.setErrorFromServer("Server disconnected, please close the application and retry later. Your game has been saved");
                     gui.changeScene();
