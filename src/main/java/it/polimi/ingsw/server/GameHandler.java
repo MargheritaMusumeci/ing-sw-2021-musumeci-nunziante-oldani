@@ -225,7 +225,7 @@ public class GameHandler implements Serializable {
             for (Player player : game.getPlayers()) {
                 path = path + player.getNickName();
             }
-            scc.getServer().getPersistence().deleteGame("C:\\Users\\margh\\IdeaProjects\\ing-sw-2021-musumeci-nunziante-oldani\\src\\main\\resources\\savedGames\\" + path + ".ser");
+            scc.getServer().getPersistence().deleteGame(System.getProperty("java.io.tmpdir") + "/savedGames/" + path + ".ser");
 
 
             try {
