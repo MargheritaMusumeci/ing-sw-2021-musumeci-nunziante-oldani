@@ -2,11 +2,8 @@ package it.polimi.ingsw.client.messageHandler;
 
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.ClientSocket;
-import it.polimi.ingsw.client.cli.gamePhases.EndGamePhase;
-import it.polimi.ingsw.client.cli.gamePhases.InitialLeaderCardSelectionPhase;
-import it.polimi.ingsw.client.cli.gamePhases.InitialResourcesSelection;
+import it.polimi.ingsw.client.cli.gamePhases.*;
 import it.polimi.ingsw.client.cli.gamePhases.myTurnPhases.MyTurnPhase;
-import it.polimi.ingsw.client.cli.gamePhases.OtherPlayersTurnPhase;
 import it.polimi.ingsw.messages.sentByClient.ExitGameMessage;
 import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
@@ -119,7 +116,9 @@ public class MessageHandlerCLI extends MessageHandler{
 
     @Override
     public void handleMessage(PersistenceMessage message) {
-
+        cli.setGamePhase(new WaitingOtherPlayersPhase());
+        System.out.println(Constants.ANSI_GREEN + "Persistence is recreating your game" + Constants.ANSI_RESET);
+        new Thread(cli).start();
     }
 
     @Override
