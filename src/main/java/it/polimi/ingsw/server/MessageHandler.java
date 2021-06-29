@@ -38,6 +38,8 @@ public class MessageHandler {
                 //lo metto in wait finchè non arrivano tutti i giocatori
 
                 scc.send(new PersistenceMessage("wait for other players - server reconnection"));
+                //TODO controllare se non c'è modo più intelligente
+                scc.setNickname(message.getMessage());
                 System.out.println("message send");
                 server.updatePersistenceReconnections(message.getMessage(), scc);
                 server.addTakenNickname(message.getMessage());
