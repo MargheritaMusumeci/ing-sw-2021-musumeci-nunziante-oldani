@@ -14,6 +14,8 @@ import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.serializableModel.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -66,7 +68,28 @@ public class Persistence implements Runnable{
     public void initializeGame() {
 
         try {
-            File[] files = new File("/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/savedGames").listFiles();
+
+            String tempPath = System.getProperty("java.io.tmpdir");
+            File[] files = new File(tempPath).listFiles();
+
+            //check if there is a directory eith the saved games
+            String dirPath = null;
+            for(File file: files){
+                System.out.println(file.getAbsolutePath());
+                System.out.println(tempPath+"savedGame");
+                if(file.getAbsolutePath().contains((tempPath+"savedGames"))){
+                    dirPath = file.getAbsolutePath();
+                    break;
+
+                }
+
+            }
+            if (dirPath == null) {
+                server.setPersistenceWaitingList(null);
+                return;
+            }
+
+            files = new File(dirPath).listFiles();
 
             if (files == null) {
                 server.setPersistenceWaitingList(null);
@@ -141,6 +164,9 @@ public class Persistence implements Runnable{
                     }
                 }
             }
+            if(activePlayer == null){
+                activePlayer = players.get(0);
+            }
             return new Game(players, market, evolutionSection, activePlayer);
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +192,40 @@ public class Persistence implements Runnable{
             for (Player player : gameToBeSaved.getPlayers()) {
                 path = path + player.getNickName();
             }
-            FileOutputStream file = new FileOutputStream("/Users/matteoldani/IdeaProjects/ing-sw-2021-musumeci-nunziante-oldani/src/main/resources/savedGames/" + path + ".ser");
+
+            String tempPath = System.getProperty("java.io.tmpdir");
+            File[] files = new File(tempPath).listFiles();
+            String dirPath = tempPath + "savedGames/";
+
+
+
+            boolean controllo = false;
+            for(File file: files){
+                System.out.println(file.getAbsolutePath());
+                System.out.println(tempPath+"savedGame");
+                if(file.getAbsolutePath().equals((tempPath+"savedGames"))){
+                    controllo = true;
+                }
+
+            }
+
+            if(!controllo){
+
+                Path dirPathTemp = Files.createTempDirectory("savedGames");
+
+                File sourceFile =dirPathTemp.toFile();
+                File destFile = new File(tempPath + "savedGames");
+
+                if (sourceFile.renameTo(destFile)) {
+                    System.out.println("File renamed successfully");
+                } else {
+                    System.out.println("Failed to rename file");
+                }
+
+                dirPath = destFile.getAbsolutePath();
+
+            }
+            FileOutputStream file = new FileOutputStream(dirPath + "/" + path + ".ser");
             ObjectOutputStream streamer = new ObjectOutputStream(file);
 
             // write object to file
