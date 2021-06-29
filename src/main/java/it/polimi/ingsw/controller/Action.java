@@ -13,7 +13,5 @@ public enum Action {
 
     ACTIVE_PRODUCTION,
 
-    STORE_RESOURCE,
-
-    ACTIVE_BASIC_PRODUCTION;
+    STORE_RESOURCE
 }

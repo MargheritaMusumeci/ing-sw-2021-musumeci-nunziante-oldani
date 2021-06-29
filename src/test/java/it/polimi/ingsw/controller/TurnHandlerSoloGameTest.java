@@ -1,13 +1,18 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.LeaderCardSet;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -15,11 +20,40 @@ public class TurnHandlerSoloGameTest {
 
     @Test
     public void startTurn() {
-
     }
 
     @Test
     public void checkWinner() {
+        HumanPlayer player1 = new HumanPlayer("Matteo" , true);
+        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
+        ArrayList<Player> players = new ArrayList<>(Arrays.asList(player1 , lorenzoPlayer));
+        Game game = new Game(players);
+
+        TurnHandlerSoloGame turnHandlerSoloGame = new TurnHandlerSoloGame(game);
+
+        player1.getDashboard().getPopeTrack().updateGamerPosition(25);
+        turnHandlerSoloGame.endTurn();
+
+        Message result = turnHandlerSoloGame.endGame();
+        assertTrue(result instanceof EndGameMessage);
+        assertEquals("Matteo" , ((EndGameMessage) result).getWinners().get(0));
+    }
+
+    @Test
+    public void checkWinner2() {
+        HumanPlayer player1 = new HumanPlayer("Matteo" , true);
+        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
+        ArrayList<Player> players = new ArrayList<>(Arrays.asList(lorenzoPlayer , player1));
+        Game game = new Game(players);
+
+        TurnHandlerSoloGame turnHandlerSoloGame = new TurnHandlerSoloGame(game);
+
+        player1.getDashboard().getPopeTrack().updateGamerPosition(25);
+        turnHandlerSoloGame.endTurn();
+
+        Message result = turnHandlerSoloGame.endGame();
+        assertTrue(result instanceof EndGameMessage);
+        assertEquals("Matteo" , ((EndGameMessage) result).getWinners().get(0));
     }
 
     @Test
@@ -104,12 +138,8 @@ public class TurnHandlerSoloGameTest {
     }
 
     @Test
-    public void endGame() {
-    }
-
-    @Test
     public void testDoLorenzoAction() {
-        HumanPlayer player1 = new HumanPlayer("marghe", true);
+        HumanPlayer player1 = new HumanPlayer("Margherita", true);
         LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);

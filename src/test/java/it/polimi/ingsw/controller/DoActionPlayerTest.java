@@ -3,20 +3,19 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exception.*;
 
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveLeaderCardMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.BuyEvolutionCardMessage;
 import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.model.board.NormalProductionZone;
 import it.polimi.ingsw.model.cards.EvolutionCard;
-import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
+import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 import org.junit.Test;
 
@@ -148,7 +147,7 @@ public class DoActionPlayerTest {
         DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
         LeaderCardSet leaderCardSet = new LeaderCardSet();
 
-        ArrayList<LeaderCard>leaderCards=new ArrayList<LeaderCard>();
+        ArrayList<LeaderCard>leaderCards=new ArrayList<>();
         for(int i=0; i< leaderCardSet.getLeaderCardSet().size();i++){
             if(leaderCardSet.getLeaderCardSet().get(i).getRequiresForActiveLeaderCards()== LeaderCardRequires.NUMBEROFRESOURSE){
                 leaderCards.add(leaderCardSet.getLeaderCard(i));
@@ -214,15 +213,13 @@ public class DoActionPlayerTest {
         ArrayList<Resource> ensures = new ArrayList<>();
         ensures.add(Resource.ROCK);
 
-        ArrayList<Integer> empty= null;
+        ActiveProductionMessage message = new ActiveProductionMessage("active", null ,true,ensures,requires,null);
+        message.setActiveBasic(true);
+        message.setResourcesEnsures(ensures);
+        message.setResourcesRequires(requires);
 
-        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires,null);
-        ((ActiveProductionMessage)message).setActiveBasic(true);
-        ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
-        ((ActiveProductionMessage)message).setResourcesRequires(requires);
-
-        turnHandler.doAction((ActiveProductionMessage) message);
-        assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
+        turnHandler.doAction(message);
+        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
 
         try {
             modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN,5);
@@ -232,11 +229,11 @@ public class DoActionPlayerTest {
 
         requires.add(Resource.COIN);
 
-        assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
 
         ensures.add(Resource.ROCK);
 
-        assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof NACKMessage);
+        assertTrue(turnHandler.doAction(message) instanceof NACKMessage);
     }
 
     @Test
@@ -255,7 +252,7 @@ public class DoActionPlayerTest {
         LeaderCardSet leaderCardSet = new LeaderCardSet();
 
         //Take a random leader card (0) and a random leader card with ability STOCK PLUS(id 10 or 11) and set them in the active player
-        ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         leaderCards.add(leaderCardSet.getLeaderCard(0));
         for(int i = 1 ; i < leaderCardSet.getLeaderCardSet().size() ; i++){
             if(leaderCardSet.getLeaderCard(i).getId() == 10 || leaderCardSet.getLeaderCard(i).getId() == 11){
@@ -489,7 +486,7 @@ public class DoActionPlayerTest {
 
         LeaderCardSet leaderCardSet = new LeaderCardSet();
 
-        ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
 
         //Take a leader card with Production Power ability : Color&level , Green , Second
         //Take an other leader card with Stock Plus ability
@@ -972,6 +969,189 @@ public class DoActionPlayerTest {
         //Verify that the resources taken from the stockBox and LockBox are right
         for(Resource resource : resourceTypes){
             assertEquals(oldResources.get(resource), (Integer) (modelGame.getActivePlayer().getDashboard().getLockBox().getAmountOf(resource) + modelGame.getActivePlayer().getDashboard().getStock().getTotalQuantitiesOf(resource)));
+        }
+    }
+
+    @Test
+    public void testMoveCross(){
+        HumanPlayer player = new HumanPlayer("Matteo", true);
+        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player.getPopeTrack() , player.getDashboard());
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(lorenzoPlayer);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+        int numberOfResourceBought = 0;
+        int lorenzoPosition = 0;
+        modelGame.getActivePlayer().getDashboard().getPopeTrack().setLorenzoPosition();
+        try {
+            for(int i = 0 ; i < 5 ; i++){
+                //Buy some resource
+                numberOfResourceBought = 0;
+                doActionPlayer.buyFromMarket(0 , true);
+                for(Resource resource : ((HumanPlayer) modelGame.getActivePlayer()).getResources()){
+                    if(!(resource.equals(Resource.NOTHING) || resource.equals(Resource.FAITH)))
+                        numberOfResourceBought++;
+                }
+
+                System.out.println("Number of resources bought is:" + numberOfResourceBought);
+                //Discard all the resources
+                lorenzoPosition = modelGame.getActivePlayer().getDashboard().getPopeTrack().getLorenzoPosition().getIndex();
+                System.out.println("Lorenzo position is: " + lorenzoPosition);
+                doActionPlayer.storeResourcesBought(new ArrayList<>());
+                assertEquals(lorenzoPosition + numberOfResourceBought ,
+                        modelGame.getActivePlayer().getDashboard().getPopeTrack().getLorenzoPosition().getIndex());
+                ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
+            }
+        } catch (ExcessOfPositionException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testMoveCross2(){
+        HumanPlayer player1 = new HumanPlayer("Matteo", true);
+        HumanPlayer player2 = new HumanPlayer("Margherita", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        int numberOfResourceBought = 0;
+        int player2Position = 0;
+
+        try {
+            for(int i = 0 ; i < 5 ; i++){
+                //Buy some resource
+                numberOfResourceBought = 0;
+                doActionPlayer.buyFromMarket(0 , true);
+                for(Resource resource : ((HumanPlayer) modelGame.getActivePlayer()).getResources()){
+                    if(!(resource.equals(Resource.NOTHING) || resource.equals(Resource.FAITH)))
+                        numberOfResourceBought++;
+                }
+
+                System.out.println("Number of resources bought is:" + numberOfResourceBought);
+                //Discard all the resources
+                player2Position = modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex();
+                System.out.println("Player2 position is: " + player2Position);
+                doActionPlayer.storeResourcesBought(new ArrayList<>());
+                assertEquals(player2Position + numberOfResourceBought ,
+                        modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex());
+
+                ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
+
+                //Check if the popeCard are correctly activated
+                if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 8 &&
+                        modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex() < 5){
+                    assertTrue(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getPopeCard().get(0).isUsed());
+                    assertTrue(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(0).isDiscard());
+                    assertFalse(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(0).isUsed());
+                }
+                if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 16 &&
+                        modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex() < 12){
+                    assertTrue(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getPopeCard().get(1).isUsed());
+                    assertTrue(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(1).isDiscard());
+                    assertFalse(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(1).isUsed());
+                }
+            }
+            if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 24 &&
+                    modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex() < 19){
+                assertTrue(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getPopeCard().get(2).isUsed());
+                assertTrue(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(2).isDiscard());
+                assertFalse(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(2).isUsed());
+            }
+        } catch (ExcessOfPositionException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testMoveCross3(){
+        HumanPlayer player1 = new HumanPlayer("Matteo", true);
+        HumanPlayer player2 = new HumanPlayer("Margherita", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        int numberOfResourceBought = 0;
+        int player2Position = 0;
+
+        try {
+            for(int i = 0 ; i < 10 ; i++){
+                //Buy some resource
+                numberOfResourceBought = 0;
+                doActionPlayer.buyFromMarket(0 , true);
+                for(Resource resource : ((HumanPlayer) modelGame.getActivePlayer()).getResources()){
+                    if(!(resource.equals(Resource.NOTHING) || resource.equals(Resource.FAITH)))
+                        numberOfResourceBought++;
+                }
+
+                //System.out.println("Number of resources bought is:" + numberOfResourceBought);
+                //Discard all the resources
+                player2Position = modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex();
+                //System.out.println("Player2 position is: " + player2Position);
+                doActionPlayer.storeResourcesBought(new ArrayList<>());
+                if(player2Position + numberOfResourceBought < 25)
+                    assertEquals(player2Position + numberOfResourceBought ,
+                            modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex());
+                else
+                    assertEquals(24, modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex());
+
+                ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
+
+                System.out.println("Active player position is: " +
+                        modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex());
+                System.out.println("Player2 position is: " +
+                        modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex());
+
+                //Check if the popeCard are correctly activated
+                if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 24){
+                    assertTrue(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getPopeCard().get(2).isUsed());
+                    assertFalse(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(2).isDiscard());
+                    assertTrue(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(2).isUsed());
+                }
+                else if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 16){
+                    assertTrue(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getPopeCard().get(1).isUsed());
+                    assertFalse(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(1).isDiscard());
+                    assertTrue(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(1).isUsed());
+                }
+                else if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 8){
+                    assertTrue(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getPopeCard().get(0).isUsed());
+                    assertFalse(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(0).isDiscard());
+                    assertTrue(modelGame.getActivePlayer().getDashboard().getPopeTrack().getPopeCard().get(0).isUsed());
+                }
+
+                if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 16 &&
+                        modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex() <= 19) {
+                    modelGame.getActivePlayer().getDashboard().getPopeTrack().updateGamerPosition(
+                            19 - modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex()
+                    );
+                }
+                else if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 8 &&
+                        modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex() <= 12) {
+                    modelGame.getActivePlayer().getDashboard().getPopeTrack().updateGamerPosition(
+                            12 - modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex()
+                    );
+                }
+                else if(modelGame.getPlayers().get(1).getDashboard().getPopeTrack().getGamerPosition().getIndex() >= 4 &&
+                        modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex() <= 5) {
+                    modelGame.getActivePlayer().getDashboard().getPopeTrack().updateGamerPosition(
+                            5 - modelGame.getActivePlayer().getDashboard().getPopeTrack().getGamerPosition().getIndex()
+                    );
+                }
+            }
+
+        } catch (ExcessOfPositionException e) {
+            fail();
         }
     }
 }

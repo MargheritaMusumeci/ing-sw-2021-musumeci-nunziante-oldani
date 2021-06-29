@@ -17,6 +17,7 @@ import it.polimi.ingsw.model.players.Player;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -151,6 +152,151 @@ public class TurnHandlerTest {
 
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof ACKMessage);
         */
+    }
+
+    @Test
+    public void testDoAction2(){
+        HumanPlayer player1 = new HumanPlayer("Margherita", true);
+        HumanPlayer player2 = new HumanPlayer("Matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+
+        //Test action buy from market
+        Message result = turnHandler.doAction(new BuyFromMarketMessage("Buy" , -1 , true));
+        assertTrue(result instanceof NACKMessage);
+
+        result = turnHandler.doAction(new BuyFromMarketMessage("Buy" , 0 , true));
+        assertTrue(result instanceof ACKMessage);
+        //3 or 4 resources -> 3 if he took the faith
+        assertTrue(((HumanPlayer) modelGame.getActivePlayer()).getResources().size() >= 3);
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
+
+        result = turnHandler.doAction(new BuyFromMarketMessage("Buy" , 0 , true));
+        assertTrue(result instanceof NACKMessage);
+
+        //Test action buy an evolution card
+        result = turnHandler.doAction(new BuyEvolutionCardMessage("Buy" , 2 , 2 , 0));
+        assertTrue(result instanceof NACKMessage);
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
+
+        result = turnHandler.doAction(new BuyEvolutionCardMessage("Buy" , 6 , 2 , 0));
+        assertTrue(result instanceof NACKMessage);
+
+        result = turnHandler.doAction(new BuyEvolutionCardMessage("Buy" , 2 , 2 , 0));
+        assertTrue(result instanceof NACKMessage);
+
+        result = turnHandler.doAction(new BuyEvolutionCardMessage("Buy" , 2 , 2 , 5));
+        assertTrue(result instanceof NACKMessage);
+
+        ArrayList<Resource> resources = new ArrayList<>(Arrays.asList(
+                Resource.ROCK , Resource.ROCK , Resource.SHIELD , Resource.SHIELD
+        ));
+        modelGame.getActivePlayer().getDashboard().getStock().manageStock(resources);
+        result = turnHandler.doAction(new BuyEvolutionCardMessage("Buy" , 2 , 2 , 0));
+        assertTrue(result instanceof ACKMessage);
+        assertEquals(1 , modelGame.getActivePlayer().getDashboard().getProductionZone()[0].getCardList().size());
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
+
+        //Test the activation of a production zone
+        ArrayList<Integer> positions = new ArrayList<>();
+        positions.add(2);
+
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
+                false , null , null , null));
+        assertTrue(result instanceof NACKMessage);
+
+        positions = new ArrayList<>();
+        positions.add(0);
+        positions.add(0);
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
+                false , null , null , null));
+        assertTrue(result instanceof NACKMessage);
+
+        positions = new ArrayList<>();
+        positions.add(0);
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
+                false , null , null , null));
+        assertTrue(result instanceof NACKMessage);
+
+        positions = new ArrayList<>();
+        positions.add(2);
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
+                false , null , null , null));
+        assertTrue(result instanceof NACKMessage);
+
+        ArrayList<Resource> requires = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.COIN));
+        ArrayList<Resource> ensures = new ArrayList<>();
+        ensures.add(Resource.COIN);
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , null ,
+                true , requires , ensures , null));
+        assertTrue(result instanceof NACKMessage);
+
+        requires = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.COIN));
+        ensures = new ArrayList<>();
+        ensures.add(Resource.COIN);
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , null ,
+                true , requires , ensures , null));
+        assertTrue(result instanceof NACKMessage);
+
+        resources = new ArrayList<>(Arrays.asList(
+                Resource.COIN , Resource.COIN
+        ));
+        modelGame.getActivePlayer().getDashboard().getStock().manageStock(resources);
+        requires = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.COIN));
+        ensures = new ArrayList<>();
+        ensures.add(Resource.SERVANT);
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , null ,
+                true , requires , ensures , null));
+        assertTrue(result instanceof ACKMessage);
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
+
+        positions = new ArrayList<>();
+        positions.add(0);
+        result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
+                false , null , null , null));
+        assertTrue(result instanceof ACKMessage);
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
+
+        //Test store resource message
+        ArrayList<Resource> resourcesBought = new ArrayList<>(Arrays.asList(Resource.SERVANT));
+        result = turnHandler.doAction(new StoreResourcesMessage("Store" ,resourcesBought));
+        assertTrue(result instanceof NACKMessage);
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.BUY_FROM_MARKET);
+        result = turnHandler.doAction(new StoreResourcesMessage("Store" ,resourcesBought));
+        assertTrue(result instanceof ACKMessage);
+
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.STORE_RESOURCE);
+        result = turnHandler.doAction(new StoreResourcesMessage("Store" ,resourcesBought));
+        assertTrue(result instanceof ACKMessage);
+
+        //Test active/discard leader card
+        result = turnHandler.doAction(new ActiveLeaderCardMessage("Active Leader" , 10));
+        assertTrue(result instanceof NACKMessage);
+
+        result = turnHandler.doAction(new ActiveLeaderCardMessage("Active Leader" , 0));
+        assertTrue(result instanceof NACKMessage);
+
+        result = turnHandler.doAction(new DiscardLeaderCardMessage("Discard Leader" , 10));
+        assertTrue(result instanceof NACKMessage);
+
+        result = turnHandler.doAction(new DiscardLeaderCardMessage("Discard Leader" , -1));
+        assertTrue(result instanceof NACKMessage);
+
+        result = turnHandler.doAction(new DiscardLeaderCardMessage("Discard Leader" , 0));
+        assertTrue(result instanceof ACKMessage);
+
+        result = turnHandler.doAction(new ActiveLeaderCardMessage("Active Leader" , 0));
+        assertTrue(result instanceof NACKMessage);
     }
 
     @Test
