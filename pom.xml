@@ -25,13 +25,26 @@
             <artifactId>javafx-fxml</artifactId>
             <version>16</version>
         </dependency>
-        <!--
+
+
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
+            <artifactId>javafx-graphics </artifactId>
             <version>16</version>
+            <classifier>win</classifier>
         </dependency>
-        -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics </artifactId>
+            <version>16</version>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics </artifactId>
+            <version>16</version>
+            <classifier>mac</classifier>
+        </dependency>
 
         <!-- JUnit provides unit testing for Java applications -->
         <dependency>
