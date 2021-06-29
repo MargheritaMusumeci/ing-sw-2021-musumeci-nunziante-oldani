@@ -9,6 +9,7 @@ import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.model.board.NormalProductionZone;
 import it.polimi.ingsw.model.cards.EvolutionCard;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;
@@ -32,10 +33,10 @@ public class DoActionPlayerTest {
 
         //check if correctly resources are stored in dashboard space
         //check if client obtained faith ball, his pope position increased
-        //check if i correctly throw the exeption
+        //check if i correctly throw the exception
 
-        HumanPlayer player1 = new HumanPlayer("marghe", true);
-        HumanPlayer player2 = new HumanPlayer("matteo", false);
+        HumanPlayer player1 = new HumanPlayer("Margherita", true);
+        HumanPlayer player2 = new HumanPlayer("Matteo", false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -72,9 +73,133 @@ public class DoActionPlayerTest {
         try{
             doActionPlayer.buyFromMarket(4, true);
         } catch (ExcessOfPositionException e) {
-            System.out.println("eccezione lanciata");
+            System.out.println("Exception thrown");
             assertTrue(true);
         }
+    }
+
+    @Test
+    public void testBuyFromMarket2(){
+        HumanPlayer player1 = new HumanPlayer("Margherita", true);
+        HumanPlayer player2 = new HumanPlayer("Matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        Resource[][] firstRow = modelGame.getMarket().getMarketBoard();
+        ArrayList<Resource> firstRowList = new ArrayList<>();
+
+        boolean faith = false;
+        int initialPosition = 0;
+        int j = -1;
+        //Choose a row with faith
+        while(!faith){
+            j++;
+            firstRowList = new ArrayList<>();
+            if(j == 3){
+                j = -1;
+                try {
+                    modelGame.getMarket().updateBoard(0 , true);
+                } catch (ExcessOfPositionException e) {
+                    fail();
+                }
+            }
+
+            for(int i = 0 ; i<4; i++){
+                firstRowList.add(firstRow[j][i]);
+            }
+            initialPosition = 0 ;
+            if (firstRowList.contains(Resource.FAITH)){
+                initialPosition= modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex();
+                faith = true;
+            }
+        }
+
+        firstRowList.remove(Resource.FAITH);
+
+        try {
+            doActionPlayer.buyFromMarket(j, true);
+        } catch (ExcessOfPositionException e) {
+            assertFalse(false);
+        }
+        ((HumanPlayer) modelGame.getActivePlayer()).getResources();
+        assertEquals(((HumanPlayer) modelGame.getActivePlayer()).getResources(),firstRowList);
+        if (faith){
+            assertEquals(initialPosition+1, modelGame.getActivePlayer().getPopeTrack().getGamerPosition().getIndex());
+        }
+    }
+
+    @Test
+    public void testBuyFromMarket3() {
+        HumanPlayer player1 = new HumanPlayer("Margherita", true);
+        HumanPlayer player2 = new HumanPlayer("Matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+        DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
+
+        LeaderCardSet leaderCardSet = new LeaderCardSet();
+        for(LeaderCard leaderCard : leaderCardSet.getLeaderCardSet()){
+            if(leaderCard.getId() == 5){
+                //Add the leader card with the NO_MORE_WHITE ability
+                modelGame.getActivePlayer().getDashboard().setLeaderCards(new ArrayList<>(Arrays.asList(leaderCard)));
+            }
+        }
+
+        modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).setActive(true);
+
+        Resource[][] firstRow = modelGame.getMarket().getMarketBoard();
+        ArrayList<Resource> firstRowList = new ArrayList<>();
+
+        boolean white = false;
+        int j = -1;
+        //Choose a row with faith
+        while(!white){
+            j++;
+            firstRowList = new ArrayList<>();
+
+            for(int i = 0 ; i<4; i++){
+                firstRowList.add(firstRow[j][i]);
+            }
+            if (firstRowList.contains(Resource.NOTHING)){
+                white = true;
+            }
+        }
+
+        firstRowList.remove(Resource.FAITH);
+        Resource resourceAbility = Resource.NOTHING;
+        for(Resource resource : modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).getAbilityResource().keySet()){
+            if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).getAbilityResource().get(resource) > 0){
+                resourceAbility = resource;
+            }
+        }
+
+        int numOfWhite = 0;
+        for(Resource resource : firstRowList){
+            if(resource.equals(Resource.NOTHING)){
+                numOfWhite++;
+            }
+        }
+
+        for(int i = 0; i < numOfWhite ; i++){
+            firstRowList.remove(Resource.NOTHING);
+            firstRowList.add(resourceAbility);
+        }
+
+        try {
+            doActionPlayer.buyFromMarket(j, true);
+        } catch (ExcessOfPositionException e) {
+            assertFalse(false);
+        }
+        ((HumanPlayer) modelGame.getActivePlayer()).getResources();
+        assertEquals(((HumanPlayer) modelGame.getActivePlayer()).getResources(),firstRowList);
     }
 
     @Test

@@ -62,20 +62,20 @@ public class DoActionPlayer {
                 resourceList.remove(Resource.FAITH);
             }
 
-            //remove white ball if NOMOREWHITE leader card is active
-            int leaderCardActived = 0;
+            //remove white ball if NO_MORE_WHITE leader card is active
+            int leaderCardActivated = 0;
             Resource resource = null;
 
             for (int i = 0; i < humanPlayer.getDashboard().getLeaderCards().size(); i++) {
 
-                //per ogni leader card controllo se ha il potere richiesto e se è attiva
+                //For each leader card check if it has the vary power required and if it is active
                 if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
                         humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
 
-                    leaderCardActived++;
+                    leaderCardActivated++;
                     HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityResource();
 
-                    //se è attiva salvo la risorsa in cui devo trasformarla
+                    //If the leader card is active, save the resource type in which the white ball has to be transformed
                     for (Resource res : resourcesWhite.keySet()) {
                         if (resourcesWhite.get(res) == 1) {
                             resource = res;
@@ -84,7 +84,7 @@ public class DoActionPlayer {
                 }
             }
 
-            if (leaderCardActived == 1) {
+            if (leaderCardActivated == 1) {
                 ArrayList<Resource> resourcesCopy = new ArrayList<>(resourceList);
 
                 for (Resource res : resourcesCopy) {
