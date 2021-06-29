@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class View implements Serializable {
 
     private String activePlayer;
-    private String nickname;
+    private final String nickname;
     private SerializableDashboard dashboard;
     private HashMap<String, SerializableDashboard> enemiesDashboard;
     private HashMap<SerializableDashboard, ArrayList<SerializableLeaderCard>> enemiesActivatedLeaderCards;
