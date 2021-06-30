@@ -164,6 +164,23 @@ public class MessageHandlerGUI extends MessageHandler {
             if(message.getView().getEnemiesDashboard()!=null)gui.setPlayers(message.getView().getEnemiesDashboard().size()+1);
             else gui.setPlayers(1);
 
+            if(message.getView().getLeaderCards()!=null){
+
+                gui.setLeaderCards(message.getView().getLeaderCards());
+
+                for(int i = 0; i<message.getView().getLeaderCards().size();i++){
+                    if(message.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS)&&
+                            message.getView().getLeaderCards().get(i).isActive()){
+                            gui.getStockLeaderCardInUse().add(i);
+                    }
+                }
+                for(int i = message.getView().getLeaderCards().size(); i<2;i++ ){
+                    gui.getLeaderCardsDiscarded().set(i,true);
+                    System.out.println(i);
+                }
+            }
+
+
             if (gui.getView().getActivePlayer().equals(gui.getView().getNickname())) {
                 gui.setGamePhase(GamePhases.MYTURN);
                 gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
@@ -333,7 +350,7 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(PersistenceMessage message) {
         synchronized (gui) {
-            System.out.println("p message");
+
             gui.setOldScene(gui.getScene(GameFxml.NICKNAME.s));
             gui.setGamePhase(GamePhases.WAITINGOTHERPLAYERS);
             gui.setCurrentScene(gui.getScene(GameFxml.WAITING_ROOM.s));
