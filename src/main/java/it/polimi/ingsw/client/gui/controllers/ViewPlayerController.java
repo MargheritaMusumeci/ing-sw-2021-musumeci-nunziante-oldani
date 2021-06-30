@@ -284,91 +284,98 @@ public class ViewPlayerController extends ViewController {
      */
     private void initLeaderCards() {
 
-        leaderEnsure1.setImage(null);
-        leaderEnsure2.setImage(null);
+            leaderEnsure1.setImage(null);
+            leaderEnsure2.setImage(null);
 
-        //set leader card
-        ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
+            //set leader card
+            ArrayList<SerializableLeaderCard> leaderCards = gui.getView().getLeaderCards();
 
-        if (leaderCards.size() > 0) {
+            if (leaderCards.size() > 0) {
 
-            String path = String.valueOf(leaderCards.get(0).getId());
-            leader1.setImage(printer.fromPathToImageLeader(path));
+                String path = String.valueOf(leaderCards.get(0).getId());
+                leader1.setImage(printer.fromPathToImageLeader(path));
 
-            if (leaderCards.get(0).isActive()) {
-                if (leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()) {
-                    discard1.setVisible(false);
-                    active1.setVisible(false);
-                    activeProduction4Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
-                    activeProduction4Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
-                } else {
-                    discard2.setVisible(false);
-                    active2.setVisible(false);
-                    activeProduction5Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
-                    activeProduction5Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                if (leaderCards.get(0).isActive()) {
+                    if (leaderCards.get(0).getId() == gui.getLeaderCards().get(0).getId()) {
+                        discard1.setVisible(false);
+                        active1.setVisible(false);
+                        activeProduction4Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                        activeProduction4Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                    } else {
+                        discard2.setVisible(false);
+                        active2.setVisible(false);
+                        activeProduction5Button.setVisible((leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                        activeProduction5Button.setDisable(!(leaderCards.get(0).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                    }
                 }
-            }
-            //if the card is been discarded
-            else if (gui.getLeaderCardsDiscarded().get(0)) {
-                active1.setVisible(false);
-                discard1.setVisible(false);
-                activeProduction4Button.setVisible(false);
-                activeProduction4.setVisible(false);
-                activeProduction4.setDisable(false);
-            } else {
-                active1.setVisible(true);
-                discard1.setVisible(true);
-                activeProduction4Button.setVisible(false);
-                activeProduction4.setVisible(false);
-                activeProduction4.setDisable(false);
-            }
-
-            if (leaderCards.size() > 1) {
-                path = String.valueOf(leaderCards.get(1).getId());
-                leader2.setImage(printer.fromPathToImageLeader(path));
-
-                if (leaderCards.get(1).isActive() && leaderCards.get(1).getId() == gui.getLeaderCards().get(1).getId()) {
-                    discard2.setVisible(false);
-                    active2.setVisible(false);
-
-                    activeProduction5Button.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
-                    activeProduction5Button.setDisable(!(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                //if the card is been discarded
+                else if (gui.getLeaderCardsDiscarded().get(0)) {
+                    active1.setVisible(false);
+                    discard1.setVisible(false);
+                    activeProduction4Button.setVisible(false);
+                    activeProduction4.setVisible(false);
+                    activeProduction4.setDisable(false);
                 } else {
-                    active2.setVisible(true);
-                    discard2.setVisible(true);
+                    active1.setVisible(true);
+                    discard1.setVisible(true);
+                    activeProduction4Button.setVisible(false);
+                    activeProduction4.setVisible(false);
+                    activeProduction4.setDisable(false);
+                }
+
+                if (leaderCards.size() > 1) {
+                    path = String.valueOf(leaderCards.get(1).getId());
+                    leader2.setImage(printer.fromPathToImageLeader(path));
+
+                    if (leaderCards.get(1).isActive() && leaderCards.get(1).getId() == gui.getLeaderCards().get(1).getId()) {
+                        discard2.setVisible(false);
+                        active2.setVisible(false);
+
+                        activeProduction5Button.setVisible(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER));
+                        activeProduction5Button.setDisable(!(leaderCards.get(1).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)));
+                    } else {
+                        active2.setVisible(true);
+                        discard2.setVisible(true);
+                        activeProduction5Button.setVisible(false);
+                        activeProduction5.setVisible(false);
+                        activeProduction5.setDisable(false);
+                    }
+                }
+                if (gui.getLeaderCardsDiscarded().get(1)) {
+                    active2.setVisible(false);
+                    discard2.setVisible(false);
                     activeProduction5Button.setVisible(false);
                     activeProduction5.setVisible(false);
                     activeProduction5.setDisable(false);
                 }
+            } else {
+                activeProduction4.setVisible(false);
+                activeProduction5.setVisible(false);
+                ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1, active2, discard1, discard2, activeProduction4Button, activeProduction5Button));
+                initializer.visibleButton(buttons, false);
             }
-        } else {
-            activeProduction4.setVisible(false);
-            activeProduction5.setVisible(false);
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1, active2, discard1, discard2, activeProduction4Button, activeProduction5Button));
-            initializer.visibleButton(buttons, false);
-        }
 
-        //Hide leader buttons if the phase is OTHER_PLAYER_TURN
-        if (gui.getGamePhase() == GamePhases.OTHERPLAYERSTURN) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1, active2, discard1, discard2, activeProduction4Button, activeProduction5Button));
-            initializer.visibleButton(buttons, false);
-        }
+            //Hide leader buttons if the phase is OTHER_PLAYER_TURN
+            if (gui.getGamePhase() == GamePhases.OTHERPLAYERSTURN) {
+                ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(active1, active2, discard1, discard2, activeProduction4Button, activeProduction5Button));
+                initializer.visibleButton(buttons, false);
+            }
 
-        if (gui.isActionDone()) {
-            ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProduction4Button, activeProduction5Button));
-            initializer.visibleButton(buttons, false);
-        }
+            if (gui.isActionDone()) {
+                ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(activeProduction4Button, activeProduction5Button));
+                initializer.visibleButton(buttons, false);
+            }
 
-        //leader production
-        if (gui.getLeaderEnsure() != null) {
-            for (Integer leaderIndex : gui.getLeaderEnsure().keySet()) {
-                if (leaderIndex == 1) {
-                    leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
-                } else {
-                    leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(2))));
+            //leader production
+            if (gui.getLeaderEnsure() != null) {
+                for (Integer leaderIndex : gui.getLeaderEnsure().keySet()) {
+                    if (leaderIndex == 1) {
+                        leaderEnsure1.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(1))));
+                    } else {
+                        leaderEnsure2.setImage(printer.fromPathToImageResource(printer.pathFromResource(gui.getLeaderEnsure().get(2))));
+                    }
                 }
             }
-        }
     }
 
     /**

@@ -119,6 +119,7 @@ public class GUI extends Application {
         players=0;
         leaderCardsDiscarded = new ArrayList<>(Arrays.asList(false , false));
         stockLeaderCardInUse = new ArrayList<>();
+        leaderCards = new ArrayList<>();
     }
 
     public static void main(String[] args) {
