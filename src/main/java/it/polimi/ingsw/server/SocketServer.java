@@ -29,6 +29,10 @@ public class SocketServer implements Runnable{
         isActive = value;
     }
 
+    /**
+     * method that handles the creation of a socket connection. When a socket is accepted a new Server client connection
+     * object is created
+     */
     @Override
     public void run() {
         ServerSocket serverSocket = null;
@@ -45,7 +49,6 @@ public class SocketServer implements Runnable{
             Socket s = null;
             try {
                 s = serverSocket.accept();
-                //s.setSoTimeout(20*1000);
 
             } catch (IOException e) {
                 System.err.println("Error while accepting the socket, server still listening");

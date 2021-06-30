@@ -20,11 +20,15 @@ public class PingSender implements Runnable{
         isActive = true;
     }
 
+    /**
+     * method that sends a ping every 20 second and wait for a response. If the answer does not come mark the
+     * server client connection as disconnected
+     */
     @Override
     public void run() {
         while(isActive){
 
-            //mando messaggio di ping
+            //send ping message
             scc.send(new PingMessage("Ping"));
             isActive = false;
 
@@ -34,7 +38,7 @@ public class PingSender implements Runnable{
                 e.printStackTrace();
             }
         }
-        //Socket disconnesso, non devo più mandare ping e devo fare tutte le cose di quando un client si disconnette
+        //Socket has not responded to ping and have disconnected
         if(scc.isActive()){
             scc.disconnect();
         }
@@ -44,10 +48,13 @@ public class PingSender implements Runnable{
             scc.disconnect();
         }
 
-        System.out.println(scc.getNickname() + ": disconnesso nel ping");
+        System.out.println(scc.getNickname() + ": ping disconnection");
     }
 
-    public void pingRecived() {
+    /**
+     * method called when the ping message is received
+     */
+    public void pingReceived() {
         isActive = true;
     }
 

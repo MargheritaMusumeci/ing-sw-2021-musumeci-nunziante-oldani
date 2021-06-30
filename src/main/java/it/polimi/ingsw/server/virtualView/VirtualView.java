@@ -35,7 +35,6 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
      * @param personalDashboard is the dashboard of the player associated with this virtual view
      */
     public VirtualView(ServerClientConnection scc, Market market, EvolutionSection evolutionSection, Dashboard personalDashboard){
-        System.err.println("virtual view created");
         this.scc=scc;
 
         scc.getGameHandler().getPlayersInGame().get(scc).addPlayerListener(this);

@@ -22,7 +22,6 @@ public class EvolutionCard implements Card, Serializable {
     private boolean isActive;
 
     /**
-     * !!!!!!!!Need to initialize the id in the Json!!!!!!!!!!!
      * @param color represent the card color
      * @param level represent the card level
      * @param point represent the card point

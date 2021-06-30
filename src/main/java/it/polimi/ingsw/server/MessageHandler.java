@@ -271,7 +271,6 @@ public class MessageHandler {
             scc.send(new NACKMessage("KO"));
         }
 
-        //TODO add here the method to write the game to a file
 
     }
 

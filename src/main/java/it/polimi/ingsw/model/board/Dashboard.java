@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Dashboard extends DashboardObservable implements LockBoxListener, PopeTrackListener,
-            ProductionZoneListener, LeaderProductionZoneListener, StockListener, Serializable {
+            ProductionZoneListener, StockListener, Serializable {
 
     private String nickName;
     private int totalScore;
@@ -45,19 +45,6 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
 
         personalLockBox = new LockBox();
         personalLockBox.addLockBoxListener(this);
-
-        /*
-        //TODO remove unwanted resources used for testing purpose only
-        try {
-            personalLockBox.setAmountOf(Resource.COIN, 90);
-            personalLockBox.setAmountOf(Resource.ROCK, 90);
-            personalLockBox.setAmountOf(Resource.SERVANT, 90);
-            personalLockBox.setAmountOf(Resource.SHIELD, 90);
-
-        } catch (NotEnoughResourcesException e) {
-            e.printStackTrace();
-        }
-        */
 
         personalStock = new Stock();
         personalStock.addStockListener(this);
@@ -292,10 +279,5 @@ public class Dashboard extends DashboardObservable implements LockBoxListener, P
     public void update(Stock stock) {
         notifyDashboardListener(this);
 
-    }
-
-    @Override
-    public void update(LeaderProductionZone leaderProductionZone) {
-        notifyDashboardListener(this);
     }
 }

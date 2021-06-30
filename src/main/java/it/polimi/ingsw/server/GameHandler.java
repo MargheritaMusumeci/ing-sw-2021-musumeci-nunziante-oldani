@@ -25,6 +25,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * class that orchestrate the game server side, it will create the virtual view for all the players. It
+ * also handles the end of the game. There is a gameHandler for every game
+ */
 public class GameHandler implements Serializable {
 
     private int numberOfPlayers;
@@ -38,6 +42,13 @@ public class GameHandler implements Serializable {
 
     private TurnHandler turnHandler;
 
+    /**
+     * class constructor that creates a gameHandler based on a game reloaded thanks for persistence
+     * @param sccRelateToPlayerPersistence is an hashmap that puts in relation the player with its connection
+     * @param playersInGamePersistence  is an hashmap that puts in relation the connection with its player
+     * @param game is the game that has been restored
+     * @param soloGame is true if its a solo game
+     */
     public GameHandler(HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistence, HashMap<ServerClientConnection,
             HumanPlayer> playersInGamePersistence, Game game, boolean soloGame){
 
@@ -57,6 +68,12 @@ public class GameHandler implements Serializable {
         playerSockets = new HashMap<>();
     }
 
+    /**
+     * class normal constructor. It handles the creation of the game and instantiates the correct turnHandler based on
+     * the number of players
+     * @param numberOfPlayers is the number of player in the game
+     * @param playerSockets contains the connection with the clients belonging to this game
+     */
     public GameHandler(int numberOfPlayers, ArrayList<ServerClientConnection> playerSockets){
 
         ArrayList<Player> playersForGame = new ArrayList<>();
@@ -69,7 +86,7 @@ public class GameHandler implements Serializable {
         for (ServerClientConnection scc : playerSockets) {
             System.out.println(scc.getNickname());
 
-            //creo un player per ogni scc
+            //create a player for every scc
             HumanPlayer hPlayer = new HumanPlayer(scc.getNickname(), first);
             playersInGame.put(scc, hPlayer);
             sccRelateToPlayer.put(hPlayer,scc);
@@ -77,7 +94,7 @@ public class GameHandler implements Serializable {
             if (first) firstPlayer=hPlayer;
             first = false;
 
-            //metto a tutti gli scc il game handler di cui fanno parte
+            //add gamehandler to scc
             scc.setGameHandler(this);
         }
 
@@ -88,14 +105,8 @@ public class GameHandler implements Serializable {
         //Create the game
         game = new Game(playersForGame);
 
-        //I've done this directly in Game
-        //Set the game in each player
-        /*for(HumanPlayer player : playersInGame.values()){
-            player.setGame(game);
-        }*/
 
-        //qui posso mandare le carte perchè sono nel player
-        //Mando anche il mercato e la evolution section che serve per scegleire le carte
+        //Send market and evolution section before the game is started to make player see it while choosing the leader cards
         SerializableMarket serializableMarket = new SerializableMarket(game.getMarket());
         SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(game.getEvolutionSection(), null);
         //TODO controllare che nella serializable evolution section serva veramente il player
@@ -116,6 +127,9 @@ public class GameHandler implements Serializable {
 
     }
 
+    /**
+     * method that prepares the initials resources and send it to clients
+     */
     public void handleInitialResourcesSettings(){
 
         ArrayList<ServerClientConnection> playerSockets = new ArrayList<>();
@@ -126,11 +140,15 @@ public class GameHandler implements Serializable {
         for(ServerClientConnection scc : playerSockets){
             ArrayList<Resource> resources = initializationHandler.prepareInitialResources(getPlayersInGame().get(scc));
             scc.send(new InitialResourcesMessage("Initial resources" , resources));
-            //The following message is useless
-            //scc.send(new StartGameMessage("Start"));
         }
     }
 
+    /**
+     * method able to create a view from a virtual view.
+     * It is also responsible to create "otherPlayersView"
+     * @param virtualView is the virtual view from which create the view
+     * @return the View to be sent
+     */
     public View createView(VirtualView virtualView){
         SerializableDashboard serializableDashboard = new SerializableDashboard(virtualView.getPersonalDashboard());
         SerializableMarket serializableMarket = new SerializableMarket(virtualView.getMarket());
@@ -158,13 +176,17 @@ public class GameHandler implements Serializable {
         return view;
     }
 
+    /**
+     * method that creates the virtual view during the game initialization and send it to the
+     * correct player
+     */
     public void initializationView(){
         for(Player player: playersInGame.values()){
             VirtualView virtualView = new VirtualView(sccRelateToPlayer.get(player),game.getMarket(),game.getEvolutionSection(),player.getDashboard());
             playerSockets.put((HumanPlayer) player, virtualView);
         }
 
-        //do ad ogni player la virtual view di tutti e dovrei registrarli come listeners
+        //Create the hashmap with the view of the other players
         for(Player player: playersInGame.values()){
             HashMap<HumanPlayer,VirtualView> otherPlayers = (HashMap<HumanPlayer, VirtualView>) playerSockets.clone();
             VirtualView myVirtuaView = otherPlayers.remove(player);
@@ -174,14 +196,55 @@ public class GameHandler implements Serializable {
             }
             View view = createView(playerSockets.get(player));
             sccRelateToPlayer.get(player).send(new SendViewMessage("View",view));
-            System.out.println("inviato il messaggio per: " + player.getNickName());
             sccRelateToPlayer.get(player).setGamePhase(GamePhases.GAME);
         }
 
-        //a tutti devo dire che è cambiata la loro fare di gioco nell'scc
+        //Set the new game phase for every player
         for (ServerClientConnection scc : playersInGame.keySet()){
             scc.setGamePhase(GamePhases.GAME);
         }
+    }
+
+    /**
+     * method that handles the end of the game. It will remove the file with the game state used for persistence.
+     * It will also close the connections with the sockets and remove the nicknames from the list of taken ones in the
+     * server
+     * @param scc is the scc that called this method
+     */
+    public void endGame(ServerClientConnection scc){
+
+
+        synchronized (this){
+            scc.setGamePhase(GamePhases.ENDGAME);
+            scc.setActive(false);
+
+            //delete persistence file
+            String path ="";
+            for (Player player : game.getPlayers()) {
+                path = path + player.getNickName();
+            }
+            scc.getServer().getPersistence().deleteGame(System.getProperty("java.io.tmpdir") + "/savedGames/" + path + ".ser");
+
+
+            try {
+                scc.getSocket().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error while closing the socket");
+            }
+
+
+            scc.getServer().removeTakeNickname(scc.getNickname());
+
+            //removing all the inactive players' nickname from the taken nicknames
+            for (ServerClientConnection serverClientConnection: playersInGame.keySet()){
+                if(!scc.equals(serverClientConnection)){
+
+                    scc.getServer().removeTakeNickname(serverClientConnection.getNickname());
+                }
+            }
+        }
+
     }
 
     public TurnHandler getTurnHandler() {
@@ -204,48 +267,10 @@ public class GameHandler implements Serializable {
         return playersInGame;
     }
 
-    public Player getFirstPlayer() {
-        return firstPlayer;
-    }
-
     public InitializationHandler getInitializationHandler() {
         return initializationHandler;
     }
 
-    public void endGame(ServerClientConnection scc){
 
-
-        synchronized (this){
-            scc.setGamePhase(GamePhases.ENDGAME);
-            scc.setActive(false);
-
-            //delete file
-            String path ="";
-            for (Player player : game.getPlayers()) {
-                path = path + player.getNickName();
-            }
-            scc.getServer().getPersistence().deleteGame(System.getProperty("java.io.tmpdir") + "/savedGames/" + path + ".ser");
-
-
-            try {
-                scc.getSocket().close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Error while closing the socket");
-            }
-
-
-            scc.getServer().removeTakeNickname(scc.getNickname());
-
-            //removing all the inactive players' nickname from the taken niknames
-            for (ServerClientConnection serverClientConnection: playersInGame.keySet()){
-                if(!scc.equals(serverClientConnection)){
-
-                    scc.getServer().removeTakeNickname(serverClientConnection.getNickname());
-                }
-            }
-        }
-
-    }
 
 }

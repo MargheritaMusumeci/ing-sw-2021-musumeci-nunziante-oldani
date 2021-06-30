@@ -296,7 +296,7 @@ public class Server {
                     }
                 }
 
-                //players in game persistance contains allll the players
+                //players in game persistence contains all the players
                 // i have to take the players related to my game
 
                 for (ServerClientConnection serverClientConnection: persistenceWaitingList.get(game)) {
@@ -342,6 +342,10 @@ public class Server {
         return persistenceNicknameList;
     }
 
+    /**
+     * Server main method. It will start a new SocketServer ad the given <ip,port>
+     * @param args are not used in out implementation
+     */
     public static void main(String[] args){
         System.out.println(Constants.ANSI_RED + "Master of Renaissance | Server" + Constants.ANSI_RESET);
         Scanner scanner = new Scanner(System.in);
