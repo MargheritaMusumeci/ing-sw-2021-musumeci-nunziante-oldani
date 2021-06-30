@@ -63,6 +63,7 @@ public class MessageHandlerGUI extends MessageHandler {
         synchronized (gui) {
             gui.setErrorFromServer(message.getMessage());
            if(gui.getGamePhase().equals(GamePhases.ASKACTIVELEADER) || gui.getGamePhase().equals(GamePhases.ASKACTIVEPRODUCTION) ) {
+               ((ViewPlayerController) gui.getController(GameFxml.MY_TURN.s)).setLeaderWaitForAck(-1);
                gui.setGamePhase(GamePhases.MYTURN);
                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
            }else if(gui.getOldScene().equals(gui.getScene(GameFxml.STORE_RESOURCES.s))){

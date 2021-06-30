@@ -172,6 +172,7 @@ public class ViewPlayerController extends ViewController {
 
         if (leaderWaitForAck == 1 || leaderWaitForAck == 2) {
             int cardNumber = leaderWaitForAck - 1;
+            System.out.println("In active leader ack and leaderWaitForAck is: " + leaderWaitForAck);
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {
@@ -497,6 +498,10 @@ public class ViewPlayerController extends ViewController {
         } catch (IOException e) {
             error.setText("There was a problem opening the rules, please try again later");
         }
+    }
+
+    public void setLeaderWaitForAck(int leaderWaitForAck){
+        this.leaderWaitForAck = leaderWaitForAck;
     }
 }
 
