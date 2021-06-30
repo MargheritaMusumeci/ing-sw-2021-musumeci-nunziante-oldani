@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exception.ExcessOfPositionException;
+import it.polimi.ingsw.exception.InvalidPlaceException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.sentByServer.EndGameMessage;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
+import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
@@ -135,6 +137,40 @@ public class TurnHandlerSoloGameTest {
 
     @Test
     public void testEndTurn() {
+        HumanPlayer player1 = new HumanPlayer("Matteo", true);
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        player1.setGame(modelGame);
+        TurnHandler turnHandler = new TurnHandlerSoloGame(modelGame);
+
+        try {
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.COIN , 10);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SERVANT , 10);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.ROCK , 10);
+            modelGame.getActivePlayer().getDashboard().getLockBox().setAmountOf(Resource.SHIELD , 10);
+        }
+        catch (Exception e){
+            fail();
+        }
+
+        try {
+            modelGame.getActivePlayer().getDashboard().getProductionZone()[0].addCard(
+                    modelGame.getEvolutionSection().buy(2 , 2));
+        } catch (InvalidPlaceException | ExcessOfPositionException e) {
+            fail();
+        }
+
+        modelGame.getActivePlayer().getDashboard().getProductionZone()[0].getCard().setActive(true);
+        ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.ACTIVE_PRODUCTION);
+
+        turnHandler.endTurn();
+
+        assertFalse(modelGame.getActivePlayer().getDashboard().getProductionZone()[0].getCard().isActive());
+        assertEquals(Action.NOTHING , player1.getActionChose());
     }
 
     @Test
