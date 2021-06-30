@@ -117,7 +117,7 @@ public class Game implements Serializable {
                    System.out.println(activePlayer);
                    System.out.println(activePlayer.getNickName());
                    if(activePlayer instanceof LorenzoPlayer){
-                       System.out.println("lorenzo player è l'active player");
+                       System.out.println("Lorenzo is the active player");
                    }
                    return activePlayer;
                }else{

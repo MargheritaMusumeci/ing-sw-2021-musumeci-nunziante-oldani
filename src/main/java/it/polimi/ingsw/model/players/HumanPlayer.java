@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class HumanPlayer extends Player implements Serializable {
 
@@ -168,10 +167,7 @@ public class HumanPlayer extends Player implements Serializable {
                         ok = false;
                 }
                 //if all the resources required are present
-                if(ok)
-                    result[i][j] = true;
-                else
-                    result[i][j] = false;
+                result[i][j] = ok;
             }
         }
         return result;
@@ -206,7 +202,7 @@ public class HumanPlayer extends Player implements Serializable {
                 break;
 
             case TWOEVOLUTIONCOLOR: case THREEEVOLUTIONCOLOR:
-                int numberOfColorPresent = 0;
+                int numberOfColorPresent;
                 HashMap<CardColor , Integer> totalNumberOfColors = new HashMap<>();
                 for(CardColor color : cardColor){
                     numberOfColorPresent = 0;
@@ -332,7 +328,7 @@ public class HumanPlayer extends Player implements Serializable {
 
     /**
      * Set the position of the player in the game: from 1 to 4
-     * @param position
+     * @param position is the position of the player
      */
     public void setPosition(int position) {
         this.position = position;

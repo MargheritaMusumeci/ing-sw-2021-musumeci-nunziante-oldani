@@ -158,7 +158,7 @@ public class Persistence implements Runnable{
 
                     //se è un solo game ricostruisco anche lorenzo
                     if(persistenceSerializableGame.getPlayerNicknames().contains("LorenzoIlMagnifico")){
-                        players.add(new LorenzoPlayer(popeTrack,dashboard,true));
+                        players.add(new LorenzoPlayer(popeTrack,dashboard));
                     }
                 }
             }

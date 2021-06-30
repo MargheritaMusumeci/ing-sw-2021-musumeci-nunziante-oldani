@@ -34,7 +34,7 @@ public class Track implements Serializable{
      * @return the track
      */
     public Position[] getTrack(){
-        return instanceOfTrack.track.clone();
+        return track.clone();
 
     }
 

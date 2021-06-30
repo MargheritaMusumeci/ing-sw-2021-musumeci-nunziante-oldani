@@ -62,7 +62,7 @@ public abstract class Player extends PlayerObservable implements Serializable {
 
     /**
      * Set if the player is playing or not
-     * @param playing
+     * @param playing is a boolean and it is true if the player is playing
      */
     public void setPlaying(boolean playing) { isPlaying = playing; }
 

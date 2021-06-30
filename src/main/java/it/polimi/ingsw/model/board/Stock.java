@@ -115,7 +115,6 @@ public class Stock extends StockObservable implements Serializable {
                 quantities += getQuantities(i);
         }
         for(int i = 0; i < numOfBoxPlus; i++){
-            Resource[] boxPlus = getBox(numOfBox + i);
             if(getResourceType(numOfBox + i) == resourceType)
                 quantities += getQuantities(numOfBox + i);
         }
@@ -146,6 +145,10 @@ public class Stock extends StockObservable implements Serializable {
         if(numberResources > getQuantities(originBox)) throw new NotEnoughResourcesException("You don't have enough resources");
 
         Resource[] box = getBox(originBox);
+
+        if(box == null)
+            return;
+
         int i = box.length;
 
         while(numberResources != 0)
