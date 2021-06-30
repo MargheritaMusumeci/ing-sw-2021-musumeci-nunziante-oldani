@@ -8,10 +8,15 @@ import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.LeaderCardSet;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
+import it.polimi.ingsw.model.popeTrack.PopeTrack;
+import it.polimi.ingsw.serializableModel.SerializableLockBox;
+import it.polimi.ingsw.serializableModel.SerializableProductionZone;
+import it.polimi.ingsw.serializableModel.SerializableStock;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.locks.Lock;
 
 import static org.junit.Assert.*;
 
@@ -90,20 +95,44 @@ public class DashboardTest {
     public void getInkwellTest() {
     }
 
-    //Credo che questo ora sia inutile
-    //@Test
-    /*public void setScoreTest() throws NegativeScoreException {
-        Dashboard d = new Dashboard("", false , null);
-        int score = 0;
-        score = d.getScore();
-        d.setScore(15);
-        assertTrue((score + 15) == d.getScore());
+    @Test
+    public void testPersistenceConstructor(){
+        String nickname = "Lorenzo";
+        boolean inkwell = true;
+        PopeTrack popeTrack = new PopeTrack();
+        LeaderCardSet l1 = new LeaderCardSet();
 
-        try{
-            d.setScore(-3);
-        }catch (NegativeScoreException e){
-            System.out.println(e.getMessage());
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
+        leaderCards.add(l1.getLeaderCard(1));
+        leaderCards.add(l1.getLeaderCard(2));
+
+        Stock stock = new Stock();
+        SerializableStock serializableStock = new SerializableStock(stock);
+
+        LockBox lockBox = new LockBox();
+        SerializableLockBox serializableLockBox = new SerializableLockBox(lockBox);
+
+        ProductionZone[] productionZones = new ProductionZone[3];
+        SerializableProductionZone[] serializableProductionZones = new SerializableProductionZone[3];
+        for(int i=0; i< productionZones.length; i++){
+            productionZones[i] = new NormalProductionZone();
+            serializableProductionZones[i] = new SerializableProductionZone((NormalProductionZone) productionZones[i]);
         }
-    }*/
+
+        Dashboard dashboard = new Dashboard(nickname, inkwell, popeTrack, leaderCards, serializableStock, serializableLockBox,
+                serializableProductionZones, null);
+
+        assertNotNull(dashboard);
+        assertNotNull(dashboard.getNickName());
+        assertTrue(dashboard.getInkwell());
+        assertNotNull(dashboard.getPopeTrack());
+        assertNotNull(dashboard.getLeaderCards());
+        assertNotNull(dashboard.getStock());
+        assertNotNull(dashboard.getLockBox());
+        assertNotNull(dashboard.getProductionZone());
+        assertNotNull(dashboard.getLeaderProductionZones());
+
+
+    }
 
 }

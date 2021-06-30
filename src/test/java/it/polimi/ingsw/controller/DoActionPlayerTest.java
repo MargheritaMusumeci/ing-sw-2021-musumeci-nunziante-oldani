@@ -101,7 +101,7 @@ public class DoActionPlayerTest {
             j++;
             firstRowList = new ArrayList<>();
             if(j == 3){
-                j = -1;
+                j = 0;
                 try {
                     modelGame.getMarket().updateBoard(0 , true);
                 } catch (ExcessOfPositionException e) {

@@ -25,7 +25,7 @@ public class EvolutionSectionTest {
     }
 
     @Test
-    public void canBuy() {
+    public void canBuyTest() {
         //Test that the matrix returned corresponds to the first card of the array
         EvolutionSection e = new EvolutionSection();
         EvolutionCard[][] cards = e.canBuy();
@@ -52,7 +52,7 @@ public class EvolutionSectionTest {
     }
 
     @Test
-    public void buy() {
+    public void buyTest() {
         EvolutionSection e = new EvolutionSection();
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
@@ -84,4 +84,16 @@ public class EvolutionSectionTest {
             assertTrue(true);
         }
     }
+
+    @Test
+    public void setEvolutionSectionTest(){
+        EvolutionSection evolutionSection = new EvolutionSection();
+        EvolutionSection evolutionSection1 = new EvolutionSection();
+
+        evolutionSection1.setEvolutionSection(evolutionSection.getEvolutionSection());
+
+        assertEquals(evolutionSection.getEvolutionSection(), evolutionSection1.getEvolutionSection());
+    }
+
+
 }
