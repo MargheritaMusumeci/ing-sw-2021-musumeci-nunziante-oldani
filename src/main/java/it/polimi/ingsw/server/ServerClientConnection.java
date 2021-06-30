@@ -95,7 +95,7 @@ public class ServerClientConnection implements Runnable{
 
                     ((ClientMessage) input).handle(messageHandler);
                 }else{
-                    ps.pingRecived();
+                    ps.pingReceived();
                 }
 
             }
