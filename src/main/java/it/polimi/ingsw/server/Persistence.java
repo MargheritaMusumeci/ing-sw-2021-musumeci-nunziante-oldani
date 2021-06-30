@@ -39,7 +39,6 @@ public class Persistence implements Runnable{
 
         try {
             FileInputStream file = new FileInputStream(path);
-            System.out.println("path in readGame: " + path);
             ObjectInputStream streamer = new ObjectInputStream(file);
 
             game = (PersistenceSerializableGame) streamer.readObject();
@@ -75,9 +74,8 @@ public class Persistence implements Runnable{
             //check if there is a directory eith the saved games
             String dirPath = null;
             for(File file: files){
-                System.out.println(file.getAbsolutePath());
-                System.out.println(tempPath+"savedGame");
                 if(file.getAbsolutePath().contains((tempPath+"savedGames"))){
+                    System.out.println(tempPath+"savedGames");
                     dirPath = file.getAbsolutePath();
                     break;
 
@@ -98,6 +96,7 @@ public class Persistence implements Runnable{
 
             for (File file : files) {
                 PersistenceSerializableGame persistenceSerializableGame = readGame(file.getAbsolutePath());
+                System.out.println(file.getAbsolutePath());
                 System.out.println(persistenceSerializableGame.getActivePlayerNickname());
 
                 Game game = recreateGameFromPersistence(persistenceSerializableGame);
@@ -201,8 +200,6 @@ public class Persistence implements Runnable{
 
             boolean controllo = false;
             for(File file: files){
-                System.out.println(file.getAbsolutePath());
-                System.out.println(tempPath+"savedGame");
                 if(file.getAbsolutePath().equals((tempPath+"savedGames"))){
                     controllo = true;
                 }
@@ -230,7 +227,6 @@ public class Persistence implements Runnable{
 
             // write object to file
             streamer.writeObject(persistenceSerializableGame);
-            System.out.println("Done");
 
             // closing resources
             streamer.close();

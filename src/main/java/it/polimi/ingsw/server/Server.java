@@ -26,9 +26,10 @@ public class Server {
     private HashMap<ServerClientConnection, GameHandler> games;
     private List<String> listOfTakenNicknames;
     private HashMap<String, ServerClientConnection> waitingForReconnection;
+
     private HashMap<Game,List<ServerClientConnection>> persistenceWaitingList;
     private HashMap<ServerClientConnection, HumanPlayer> playersInGamePersistence;
-    HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistence;
+    private HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistence;
     private ArrayList<String> persistenceNicknameList;
 
     private Persistence persistence;
@@ -281,7 +282,12 @@ public class Server {
             if(persistenceWaitingList.get(game).size() == game.getPlayers().size() || (persistenceWaitingList.get(game).size() == 1 && lorenzo)){
 
                 game.setInPause(false);
-                GameHandler gameHandler = new GameHandler(sccRelateToPlayerPersistence, playersInGamePersistence, game, lorenzo);
+                //need to crate the hashmap for the single game
+                HashMap<ServerClientConnection, HumanPlayer> playersInThisGame = new HashMap<>();
+                for(ServerClientConnection serverClientConnection: persistenceWaitingList.get(game)){
+                    playersInThisGame.put(serverClientConnection, playersInGamePersistence.get(serverClientConnection));
+                }
+                GameHandler gameHandler = new GameHandler(sccRelateToPlayerPersistence, playersInThisGame, game, lorenzo);
 
                 if(lorenzo) games.put(persistenceWaitingList.get(game).get(0), gameHandler);
                 else {
@@ -290,7 +296,10 @@ public class Server {
                     }
                 }
 
-                for (ServerClientConnection serverClientConnection: playersInGamePersistence.keySet()) {
+                //players in game persistance contains allll the players
+                // i have to take the players related to my game
+
+                for (ServerClientConnection serverClientConnection: persistenceWaitingList.get(game)) {
                     serverClientConnection.setGameHandler(gameHandler);
                 }
 

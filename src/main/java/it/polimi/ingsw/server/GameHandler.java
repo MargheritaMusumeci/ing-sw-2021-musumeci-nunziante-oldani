@@ -64,7 +64,6 @@ public class GameHandler implements Serializable {
         this.playerSockets = new HashMap<>();
         playersInGame = new HashMap<>();
         sccRelateToPlayer = new HashMap<>();
-        System.out.println("gioco da " + numberOfPlayers + "giocatori iniziato: ");
 
         boolean first = true;
         for (ServerClientConnection scc : playerSockets) {
