@@ -95,12 +95,11 @@ public class Persistence implements Runnable{
                 server.setPersistenceWaitingList(null);
                 return;
             }
-
+            Game game = null;
             for (File file : files) {
                 PersistenceSerializableGame persistenceSerializableGame = readGame(file.getAbsolutePath());
-                System.out.println(persistenceSerializableGame.getActivePlayerNickname());
 
-                Game game = recreateGameFromPersistence(persistenceSerializableGame);
+                game = recreateGameFromPersistence(persistenceSerializableGame);
 
                 server.getPersistenceWaitingList().put(game, new ArrayList<>());
 
