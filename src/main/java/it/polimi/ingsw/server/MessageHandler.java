@@ -17,13 +17,13 @@ import it.polimi.ingsw.model.players.Player;
  */
 public class MessageHandler {
 
-    private Server server;
-    private ServerClientConnection scc;
+    private final Server server;
+    private final ServerClientConnection scc;
 
     /**
      * class constructor
      * @param server is the instance of the server
-     * @param serverClientConnection is the server client connection that have will recive the messages
+     * @param serverClientConnection is the server client connection that have will receive the messages
      */
     public MessageHandler(Server server, ServerClientConnection serverClientConnection){
         this.server = server;
@@ -41,23 +41,19 @@ public class MessageHandler {
                 scc.send(new NACKMessage("KO! This nickname cannot be used because is reserved for the unique and magnificent Lorenzo"));
                 return;
             }
-            //check if the player was a disconnected one
-            //controllo che il giocatore non sia tra quelli di cui è salvata una partita di persistenza
-            if(server.getPersistenceNicknameList().contains(message.getMessage())){
-                //lo metto in wait finchè non arrivano tutti i giocatori
 
+            //check if the player has saved games due to persistence
+            if(server.getPersistenceNicknameList().contains(message.getMessage())){
+                //put the player in wait until all the player are back
                 scc.send(new PersistenceMessage("wait for other players - server reconnection"));
-                //TODO controllare se non c'è modo più intelligente
                 scc.setNickname(message.getMessage());
-                System.out.println("message send");
                 server.updatePersistenceReconnections(message.getMessage(), scc);
                 server.addTakenNickname(message.getMessage());
                 return;
             }
 
-            //controllo che il giocatore non sia gia un giocatore di quelli che attendevano di riconnettersi
+            //check if the player was a disconnected one
             if(server.checkDisconnectedPlayer(message.getMessage()) != null){
-
                 //handle the reconnection
                 ServerClientConnection scc_temp = server.checkDisconnectedPlayer(message.getMessage());
                 scc_temp.reconnect(scc.getSocket(), scc.getInputStream(), scc.getOutputStream());
@@ -184,7 +180,7 @@ public class MessageHandler {
 
     /**
      * method able to handle to action of storing the resources in the stock after a buyFromMarket action
-     * @param message contins the resources that the player has chosen to actually store
+     * @param message contains the resources that the player has chosen to actually store
      */
     public void handleActionMessage(StoreResourcesMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
@@ -207,25 +203,40 @@ public class MessageHandler {
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
+    /**
+     * method able to handle the action of active a leader card
+     * @param message contains the position of the leader card in the set of the player
+     */
     public void handleActionMessage(ActiveLeaderCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
+    /**
+     * method able to handle the action of discard a leader card
+     * @param message contains the position of the leader card to be discarded
+     */
     public void handleActionMessage(DiscardLeaderCardMessage message){
         if (checkAction()) scc.send(scc.getGameHandler().getTurnHandler().doAction(message));
     }
 
+    /**
+     * method able to handle the action of requesting resources bought from market
+     * @param message does not contain useful information
+     */
     public void handleActionMessage(RequestResourcesBoughtFromMarketMessage message){
-        if(checkAction()) scc.send(new SendResourcesBoughtFromMarket("Risorse",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
+        if(checkAction()) scc.send(new SendResourcesBoughtFromMarket("Resources",scc.getGameHandler().getPlayersInGame().get(scc).getResources()));
     }
 
+    /**
+     * method that checks if the player is in the "GAME" phase when trying to make an action
+     * @return true if the action can be done, false otherwise
+     */
     private boolean checkAction(){
         if (scc.getGamePhase() != GamePhases.GAME){
             scc.send(new NACKMessage("Error! You are not in the correct phase of the game"));
             return false;
         }
-
-        //controllo che la richiesta mi viene fatta dal player attivo
+        //check if the player requesting the action is the active player
         if(!scc.getNickname().equals(scc.getGameHandler().getGame().getActivePlayer().getNickName())){
             scc.send(new NACKMessage("Error! It's not your turn, is the turn of: " + scc.getGameHandler().getGame().getActivePlayer().getNickName()));
             return false;
@@ -243,15 +254,15 @@ public class MessageHandler {
             //store game status
             server.getPersistence().saveGame(scc.getGameHandler().getGame());
 
-            //per ongi player mando il messaggio che è cambiato il turno
+            //send the message to change turn to every player
             Message messageEndTurn = scc.getGameHandler().getTurnHandler().endTurn();
             if (messageEndTurn instanceof UpdateActivePlayerMessage) {
                 for (ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()) {
-                    serverClientConnection.send((UpdateActivePlayerMessage) messageEndTurn);
+                    serverClientConnection.send(messageEndTurn);
                 }
             } else if (messageEndTurn instanceof EndGameMessage) {
                 for (ServerClientConnection serverClientConnection : scc.getGameHandler().getPlayersInGame().keySet()) {
-                    serverClientConnection.send((EndGameMessage) messageEndTurn);
+                    serverClientConnection.send(messageEndTurn);
                 }
             }
 
@@ -264,6 +275,10 @@ public class MessageHandler {
 
     }
 
+    /**
+     * method that handles the message that confirms to the gameHandler that a player has recived the end game message
+     * @param exitGameMessage does not contains useful information
+     */
     public void handleMessage(ExitGameMessage exitGameMessage) {
         scc.getGameHandler().endGame(scc);
     }
