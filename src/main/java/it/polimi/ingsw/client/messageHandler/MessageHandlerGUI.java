@@ -92,10 +92,18 @@ public class MessageHandlerGUI extends MessageHandler {
         gui.setPlayers(message.getNumberOfPlayers());
         gui.setLeaderCards(message.getView().getLeaderCards());
 
-        int i = 1;
+        int i = 0;
         for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
             if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
                 gui.getStockLeaderCardInUse().add(i);
+                System.out.println("Reconnection: Leader card in position " + i + " active and with stock");
+            }
+            i++;
+        }
+        if(gui.getLeaderCards() != null){
+            for(int k = message.getView().getLeaderCards().size(); k < 2; k++ ){
+                gui.getLeaderCardsDiscarded().set(k , true);
+                System.out.println(k);
             }
         }
 
@@ -168,6 +176,15 @@ public class MessageHandlerGUI extends MessageHandler {
             if(message.getView().getLeaderCards()!=null){
 
                 gui.setLeaderCards(message.getView().getLeaderCards());
+
+                int j = 0;
+                for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
+                    if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                        gui.getStockLeaderCardInUse().add(j);
+                        System.out.println("Persistence: Leader card " + j + "is active and with stock");
+                    }
+                    j++;
+                }
 
                 for(int i = 0; i<message.getView().getLeaderCards().size();i++){
                     if(message.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS)&&
