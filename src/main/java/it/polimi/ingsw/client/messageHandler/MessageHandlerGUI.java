@@ -165,46 +165,50 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(SendViewMessage message) {
 
-        synchronized (gui) {
-            gui.setView(message.getView());
+        try{
+            synchronized (gui) {
+                gui.setView(message.getView());
 
-            if(message.getView().getEnemiesDashboard()!=null)gui.setPlayers(message.getView().getEnemiesDashboard().size()+1);
-            else gui.setPlayers(1);
+                if(message.getView().getEnemiesDashboard()!=null)gui.setPlayers(message.getView().getEnemiesDashboard().size()+1);
+                else gui.setPlayers(1);
 
-            if(message.getView().getLeaderCards()!=null){
+                if(message.getView().getLeaderCards()!=null){
 
-                gui.setLeaderCards(message.getView().getLeaderCards());
+                    gui.setLeaderCards(message.getView().getLeaderCards());
 
-                int j = 0;
-                for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
-                    if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                        gui.getStockLeaderCardInUse().add(j);
+                    int j = 0;
+                    for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
+                        if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
+                            gui.getStockLeaderCardInUse().add(j);
+                        }
+                        j++;
                     }
-                    j++;
-                }
 
-                for(int i = 0; i<message.getView().getLeaderCards().size();i++){
-                    if(message.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS)&&
-                            message.getView().getLeaderCards().get(i).isActive()){
+                    for(int i = 0; i<message.getView().getLeaderCards().size();i++){
+                        if(message.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS)&&
+                                message.getView().getLeaderCards().get(i).isActive()){
                             gui.getStockLeaderCardInUse().add(i);
+                        }
+                    }
+                    for(int i = message.getView().getLeaderCards().size(); i<2;i++ ){
+                        gui.getLeaderCardsDiscarded().set(i,true);
                     }
                 }
-                for(int i = message.getView().getLeaderCards().size(); i<2;i++ ){
-                    gui.getLeaderCardsDiscarded().set(i,true);
+
+
+                if (gui.getView().getActivePlayer().equals(gui.getView().getNickname())) {
+                    gui.setGamePhase(GamePhases.MYTURN);
+                    gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
+                    gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
+                } else {
+                    gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
+                    gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
+                    gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
                 }
+                gui.changeScene();
             }
-
-
-            if (gui.getView().getActivePlayer().equals(gui.getView().getNickname())) {
-                gui.setGamePhase(GamePhases.MYTURN);
-                gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
-                gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
-            } else {
-                gui.setCurrentScene(gui.getScene(GameFxml.OTHER_TURN.s));
-                gui.setOldScene(gui.getScene(GameFxml.OTHER_TURN.s));
-                gui.setGamePhase(GamePhases.OTHERPLAYERSTURN);
-            }
-            gui.changeScene();
+        }catch (Exception e){
+            System.out.println("Leader card exception!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 

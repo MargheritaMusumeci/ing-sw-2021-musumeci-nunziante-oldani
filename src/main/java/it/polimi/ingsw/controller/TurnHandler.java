@@ -59,7 +59,7 @@ public abstract class TurnHandler {
 
     /**
      * Do the action of the active player according to the message received
-     * @param message message contains which row/col user want to buy
+     * @param message contains which row/col user want to buy
      * @return ack or nack message
      */
     public Message doAction(BuyFromMarketMessage message){
@@ -77,6 +77,11 @@ public abstract class TurnHandler {
         return new NACKMessage("Action has already been performed");
     }
 
+    /**
+     * Do the action of the active player according to the message received
+     * @param message contains the position of the card the player wants to buy and where he wanna place it
+     * @return an ACK message or a NACK message
+     */
     public Message doAction(BuyEvolutionCardMessage message){
         //Client asks to buy a evolution card
         //one at a time
@@ -97,6 +102,13 @@ public abstract class TurnHandler {
         return new NACKMessage("Action has already been performed");
     }
 
+    /**
+     * Do the action of the active player according to the message received
+     * @param message contains which production zone the player wants to activate, if he wants tp active
+     *                the basic production , the resources for the basic production  and the ensures in case
+     *                of activation of a leader production zone
+     * @return an ACK message or a NACK message
+     */
     public Message doAction(ActiveProductionMessage message){
 
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)) {
@@ -124,6 +136,11 @@ public abstract class TurnHandler {
         return new NACKMessage("Action has already been performed");
     }
 
+    /**
+     * Do the action of the active player according to the message received
+     * @param message contains an arrayList of resources the player wants to store
+     * @return an ACK message or a NACK message
+     */
     public Message doAction(StoreResourcesMessage message){
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.BUY_FROM_MARKET) || ((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.STORE_RESOURCE)  ) {
             return (actionHandler.storeResourcesBought((message).getSaveResources()));
@@ -131,6 +148,11 @@ public abstract class TurnHandler {
         return new NACKMessage("Before storing resources buying them");
     }
 
+    /**
+     * Do the action of the active player according to the message received
+     * @param message contains the position of the leader card the player wants to activate
+     * @return an ACK message or a NACK message
+     */
     public Message doAction(ActiveLeaderCardMessage message){
         try {
             actionHandler.activeLeaderCard(message.getPosition());
@@ -144,6 +166,11 @@ public abstract class TurnHandler {
         }
     }
 
+    /**
+     * Do the action of the active player according to the message received
+     * @param message contains the position of the leader card the player wants to discard
+     * @return an ACK message or a NACK message
+     */
     public Message doAction(DiscardLeaderCardMessage message){
         try {
             actionHandler.discardLeaderCard((message).getPosition());
@@ -168,7 +195,7 @@ public abstract class TurnHandler {
 
     /**
      * Method called in the end of the turn
-     * @return message that notifies that the game is over
+     * @return message that notifies the new activePlayer
      */
     public abstract Message endTurn();
 
@@ -179,7 +206,6 @@ public abstract class TurnHandler {
     abstract Message endGame();
 
     /**
-     *
      * @return the last section reached
      */
     public int getLastSection() {
@@ -195,7 +221,6 @@ public abstract class TurnHandler {
     }
 
     /**
-     *
      * @return if the game is ended or no
      */
     public boolean isTheEnd() { return isTheEnd; }
@@ -207,7 +232,6 @@ public abstract class TurnHandler {
     public void setTheEnd(boolean theEnd) { isTheEnd = theEnd; }
 
     /**
-     *
      * @return if is the last turn
      */
     public boolean isTheLastTurn() {
@@ -215,8 +239,8 @@ public abstract class TurnHandler {
     }
 
     /**
-     *
-     * @param theLastTurn set true if is the last turn
+     * Method that set isTheLastTurn
+     * @param theLastTurn is true if is the last turn
      */
     public void setTheLastTurn(boolean theLastTurn) {
         isTheLastTurn = theLastTurn;

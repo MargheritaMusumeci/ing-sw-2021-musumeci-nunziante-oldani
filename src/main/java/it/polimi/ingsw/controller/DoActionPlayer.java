@@ -100,7 +100,7 @@ public class DoActionPlayer {
     }
 
     /**
-     * Ask client which resources received from market he wants to store and after is called this method
+     * Ask client which resources received from market he wants to store and after it's called this method
      */
     public Message storeResourcesBought(ArrayList<Resource> saveResources) {
 
@@ -261,11 +261,9 @@ public class DoActionPlayer {
         return new ACKMessage("OK");
     }
 
-
     /**
-     * Set 'active' a specified leaderCard. In case of STOCK_PLUS-leaderCard this method create new space in stock
-     *
-     * @param position index of the array of leaderCard
+     * Method that active a leader card invoking activeLeaderCard in activePlayer object
+     * @param position is the index of the leader card the activePlayer wants to active
      */
     public void activeLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException,ActiveLeaderCardException {
         ((HumanPlayer) modelGame.getActivePlayer()).activeLeaderCard(position);
@@ -273,7 +271,7 @@ public class DoActionPlayer {
 
     /**
      * Method that discard a leader card invoking discardLeaderCard in activePlayer object
-     * @param position is the leader card the activePlayer wants to discard
+     * @param position is the index of the leader card the activePlayer wants to discard
      */
     public void discardLeaderCard(int position) throws OutOfBandException, LeaderCardAlreadyUsedException{
 
@@ -490,10 +488,15 @@ public class DoActionPlayer {
     }
 
     /**
+     *
      * Method that buy a card, use the resources and place the card
      * @param row row of the evolutionSection
      * @param col column of the evolutionSection
      * @param position is in which productionZone the player wants to place the card
+     * @throws InvalidPlaceException if the player wants to place the card in a wrong position
+     * @throws BadParametersException if the row/col are out of range; if the player can't buy the card
+     * @throws NotEnoughResourcesException if resources are not enough
+     * @throws ExcessOfPositionException if the player is buying in a wrong position
      */
     public void buyEvolutionCard(int row, int col , int position) throws InvalidPlaceException , BadParametersException ,
             NotEnoughResourcesException , ExcessOfPositionException{
@@ -561,7 +564,7 @@ public class DoActionPlayer {
 
     /**
      * Method that increment pope track position of the specified player and check if someone has arrived in a Pope Meeting position.
-     * In that case, will be active or de-active pope cards.
+     * In that case, will be activated or de-activated pope cards.
      * @param positions number of steps for each player to take
      * @param players player whose pope track should be increased
      */

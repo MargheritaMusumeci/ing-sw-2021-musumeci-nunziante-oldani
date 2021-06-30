@@ -9,7 +9,6 @@ import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.model.board.NormalProductionZone;
 import it.polimi.ingsw.model.cards.EvolutionCard;
-import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardRequires;
 import it.polimi.ingsw.model.game.Game;
@@ -205,7 +204,7 @@ public class DoActionPlayerTest {
     @Test
     public void testStoreResourcesBought() {
         //check if correctly store resources
-        //check if i pass i differnt type or number of resources
+        //check if i pass i different type or number of resources
 
         HumanPlayer player1 = new HumanPlayer("marghe", true);
         HumanPlayer player2 = new HumanPlayer("matteo", false);
@@ -218,13 +217,12 @@ public class DoActionPlayerTest {
         DoActionPlayer doActionPlayer = new DoActionPlayer(modelGame, turnHandler);
 
         try {
-            doActionPlayer.buyFromMarket(1,true);
+            doActionPlayer.buyFromMarket(1,false);
         } catch (ExcessOfPositionException e) {
             assertFalse(false);
         }
 
         ArrayList<Resource> store = ((HumanPlayer) modelGame.getActivePlayer()).getResources();
-
 
         ArrayList<Resource> store2 = new ArrayList<>();
         for(int i=0; i<5; i++){
