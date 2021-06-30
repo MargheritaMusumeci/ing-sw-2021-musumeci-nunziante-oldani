@@ -73,7 +73,6 @@ public class InitialLeaderCardSelectionPhase extends Phase{
             cli.setIsAckArrived(false);
             new Thread(cli).start();
         }else{
-            cli.setIsNackArrived(false);
             System.err.println(Constants.ANSI_RED + "Error while setting the initial leader card, retry" + Constants.ANSI_RESET);
         }
     }

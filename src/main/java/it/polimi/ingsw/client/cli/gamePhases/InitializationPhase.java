@@ -61,9 +61,7 @@ public class InitializationPhase extends Phase{
                     "are correct and if the server is up and running " + Constants.ANSI_RESET);
         }
 
-        if(cli.getClientSocket() == null){
-            cli.setServerIsUp(false);
-        }else{
+        if(!(cli.getClientSocket() == null)){
             cli.setGamePhase(new NickNamePhase());
             new Thread(cli.getClientSocket()).start();
             new Thread(cli).start();

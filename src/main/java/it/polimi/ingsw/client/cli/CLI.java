@@ -5,14 +5,12 @@ import it.polimi.ingsw.client.ClientSocket;
 
 import it.polimi.ingsw.client.cli.gamePhases.InitializationPhase;
 import it.polimi.ingsw.client.cli.gamePhases.Phase;
-import it.polimi.ingsw.model.cards.EvolutionCard;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.serializableModel.*;
 import it.polimi.ingsw.utils.Constants;
 
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * class responsible to coordinate the client execution if the cli interface is
@@ -20,17 +18,14 @@ import java.util.Scanner;
  */
 public class CLI implements Runnable {
 
-    private Scanner scanner;
     private ClientSocket clientSocket;
     private Phase gamePhase;
     private boolean isAckArrived;
-    private boolean isNackArrived;
     private String nickname;
     private Socket socket;
     private int numberOfPlayers;
     private ArrayList<SerializableLeaderCard> leaderCards;
     private ArrayList<Resource> resources;
-    private boolean serverIsUp;
     private boolean isActionBeenDone;
 
     private SerializableMarket temporaryMarket;
@@ -40,8 +35,7 @@ public class CLI implements Runnable {
      * class constructor that starts the client thread with the first phase
      */
     public CLI(){
-        scanner = new Scanner(System.in);
-        isNackArrived = false;
+
         isAckArrived = false;
         leaderCards = null;
         resources = null;
@@ -59,7 +53,7 @@ public class CLI implements Runnable {
     }
 
     /**
-     * method thet prints the menu that contains the action that a player can perform in his turn
+     * method that prints the menu that contains the action that a player can perform in his turn
      */
     public void printMenu(){
         System.out.println(Constants.menu);
@@ -152,10 +146,6 @@ public class CLI implements Runnable {
         isAckArrived = value;
     }
 
-    public void setIsNackArrived(boolean value){
-        isNackArrived = value;
-    }
-
     public void setLeaderCards(ArrayList<SerializableLeaderCard> leaderCards){ this.leaderCards = leaderCards; }
 
     public void setResources(ArrayList<Resource> resources){ this.resources = resources; }
@@ -204,10 +194,6 @@ public class CLI implements Runnable {
         return resources;
     }
 
-    public void setServerIsUp(boolean serverIsUp) {
-        this.serverIsUp = serverIsUp;
-    }
-
     public boolean isActionBeenDone() {
         return isActionBeenDone;
     }
@@ -224,17 +210,11 @@ public class CLI implements Runnable {
         this.socket = socket;
     }
 
-    public SerializableMarket getTemporaryMarket() {
-        return temporaryMarket;
-    }
 
     public void setTemporaryMarket(SerializableMarket temporaryMarket) {
         this.temporaryMarket = temporaryMarket;
     }
 
-    public SerializableEvolutionSection getTemporaryEvolutionSection() {
-        return temporaryEvolutionSection;
-    }
 
     public void setTemporaryEvolutionSection(SerializableEvolutionSection temporaryEvolutionSection) {
         this.temporaryEvolutionSection = temporaryEvolutionSection;

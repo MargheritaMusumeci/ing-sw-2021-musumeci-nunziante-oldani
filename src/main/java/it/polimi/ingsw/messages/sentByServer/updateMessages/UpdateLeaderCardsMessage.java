@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.messageHandler.MessageHandler;
 
 import java.util.ArrayList;
 
+/**
+ * Message sent by server to notify that the leader cards has changed
+ */
 public class UpdateLeaderCardsMessage extends UpdateMessage{
 
     private ArrayList<SerializableLeaderCard> leaderCards;

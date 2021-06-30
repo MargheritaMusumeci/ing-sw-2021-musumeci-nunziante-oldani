@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
-import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.utils.Constants;
 
@@ -11,30 +10,33 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This class will handle the correlation between the ServerSoocket and the list of clients created
+ * This class will handle the correlation between the ServerSocket and the list of clients created
  */
 public class Server {
 
-    private SocketServer socketServer;
-    private static int port = 2222; //default value for debugging mode, port should be retrieved from args
-    //in the future some hashmap containing the connection from socket ad the game has to be provided
+    private final SocketServer socketServer;
+    private static int port = 2222; //default value
 
     //The add method should be synchronized in order to avoid errors while adding participants
     private List<ServerClientConnection> lobby4players;
     private List<ServerClientConnection> lobby3players;
     private List<ServerClientConnection> lobby2players;
-    private final List<ServerClientConnection> queue; // we should think of a better solution than an array list (MAP)
+    private final List<ServerClientConnection> queue;
 
     private HashMap<ServerClientConnection, GameHandler> games;
     private List<String> listOfTakenNicknames;
     private HashMap<String, ServerClientConnection> waitingForReconnection;
     private HashMap<Game,List<ServerClientConnection>> persistenceWaitingList;
     private HashMap<ServerClientConnection, HumanPlayer> playersInGamePersistence;
-    HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistance;
+    HashMap<HumanPlayer,ServerClientConnection> sccRelateToPlayerPersistence;
     private ArrayList<String> persistenceNicknameList;
 
     private Persistence persistence;
 
+    /**
+     * class constructor. Creates all the object needed and starts the persistence method to check if there are games
+     * left unfinished
+     */
     public Server(){
         this.socketServer = new SocketServer(this);
         lobby4players = new ArrayList<>();
@@ -48,28 +50,17 @@ public class Server {
         persistenceNicknameList = new ArrayList<>();
         persistenceWaitingList= new HashMap<>();
         playersInGamePersistence = new HashMap<>();
-        sccRelateToPlayerPersistance = new HashMap<>();
+        sccRelateToPlayerPersistence = new HashMap<>();
         persistence.initializeGame();
 
     }
 
-    public int getPort(){ return port; }
-
-    public SocketServer getSocketServer(){
-        return socketServer;
-    }
-
-    public List<ServerClientConnection> getQueue(){ return queue; }
-
-    public HashMap<ServerClientConnection, GameHandler> getGames() { return games; }
-
-    public List<String> getListOfTakenNicknames(){ return listOfTakenNicknames;}
-
     /**
      * method that removes the serverClientConnection from the queue.
-     * @param scc
+     * @param scc is the scc of the player to be removed
      * @return true if the object is removed correctly, false otherwise
      */
+    //TODO check if this method can be removed and when this attribute is used
     public boolean removeFromQueue(ServerClientConnection scc){
 
         for (ServerClientConnection serverClientConnection: queue) {
@@ -91,17 +82,13 @@ public class Server {
     public boolean checkNickname(String nickname){
 
         synchronized(listOfTakenNicknames){
-            if(listOfTakenNicknames.contains(nickname)){
-                return false;
-            }else{
-                return true;
-            }
+            return !listOfTakenNicknames.contains(nickname);
         }
 
     }
 
     /**
-     * method that cheks if the player who is trying to play is one of the player that were playing in a game before
+     * method that checks if the player who is trying to play is one of the player that were playing in a game before
      * disconnection
      * @param nickname is the nickname to be evaluated
      * @return the virtual view of the player if exist, null otherwise.
@@ -109,15 +96,15 @@ public class Server {
     public ServerClientConnection checkDisconnectedPlayer(String nickname){
 
         synchronized(waitingForReconnection){
-            if(waitingForReconnection.containsKey(nickname)){
-                return waitingForReconnection.get(nickname);
-            }else{
-                return null;
-            }
+            return waitingForReconnection.getOrDefault(nickname, null);
         }
 
     }
 
+    /**
+     * method able to start a solo game instantiating the game handler
+     * @param scc is the scc of the single player
+     */
     public synchronized void startSoloGame(ServerClientConnection scc){
         ArrayList<ServerClientConnection> soloPlayer = new ArrayList<>();
         soloPlayer.add(scc);
@@ -125,6 +112,11 @@ public class Server {
         System.out.println("solo game started");
     }
 
+    /**
+     * method that adds the new player to the lobby where he will wait for another player.
+     * If the arraylist reaches size()==2 the method will instantiate a gameHandler to start the game
+     * @param scc is the new player' scc
+     */
     public synchronized void addToLobby2Players(ServerClientConnection scc){
         lobby2players.add(scc);
         //check if the lobby is ready to make a new game
@@ -142,6 +134,11 @@ public class Server {
         System.out.println("2 players: " + lobby2players.size());
     }
 
+    /**
+     * method that adds the new player to the lobby where he will wait for other players.
+     * If the arraylist reaches size()==3 the method will instantiate a gameHandler to start the game
+     * @param scc is the new player' scc
+     */
     public synchronized void addToLobby3Players(ServerClientConnection scc){
         lobby3players.add(scc);
         //check if the lobby is ready to make a new game
@@ -160,6 +157,11 @@ public class Server {
         System.out.println("3 players: " + lobby3players.size());
     }
 
+    /**
+     * method that adds the new player to the lobby where he will wait for other players.
+     * If the arraylist reaches size()==4 the method will instantiate a gameHandler to start the game
+     * @param scc is the new player' scc
+     */
     public synchronized void addToLobby4Players(ServerClientConnection scc){
         lobby4players.add(scc);
         //check if the lobby is ready to make a new game
@@ -176,30 +178,54 @@ public class Server {
         System.out.println("4 players: " + lobby4players.size());
     }
 
+    /**
+     * remove players from the corresponding lobby
+     * @param scc is the connection with the player to be removed
+     */
     public synchronized void removeToLobby2Players(ServerClientConnection scc){
         lobby2players.remove(scc);
     }
 
+    /**
+     * remove players from the corresponding lobby
+     * @param scc is the connection with the player to be removed
+     */
     public synchronized void removeToLobby3Players(ServerClientConnection scc){
         lobby2players.remove(scc);
     }
 
+    /**
+     * remove players from the corresponding lobby
+     * @param scc is the connection with the player to be removed
+     */
     public synchronized void removeToLobby4Players(ServerClientConnection scc){
         lobby2players.remove(scc);
     }
 
+    /**
+     * add the nickname to the list of taken nicknames
+     * @param nickname is the nickname to be added
+     */
     public void addTakenNickname(String nickname) {
         synchronized (listOfTakenNicknames){
             listOfTakenNicknames.add(nickname);
         }
     }
 
+    /**
+     * remove the nickname to the list of taken nicknames
+     * @param nickname is the nickname to be removed
+     */
     public void removeTakeNickname(String nickname){
         synchronized (listOfTakenNicknames){
             listOfTakenNicknames.remove(nickname);
         }
     }
 
+    /**
+     * method that add the scc to the hashmap of nicknames-scc that are waiting for a reconnection
+     * @param scc is the scc representing the player that has disconnected
+     */
     public void addWaitingForReconnection(ServerClientConnection scc){
         synchronized (waitingForReconnection){
             waitingForReconnection.put(scc.getNickname(), scc);
@@ -207,38 +233,108 @@ public class Server {
 
     }
 
+    /**
+     * method that removes a scc from the hashmap of scc waiting for reconnection
+     * @param scc is the scc to be removed
+     */
     public void removeWaitForReconnection(ServerClientConnection scc) {
         synchronized (waitingForReconnection){
             waitingForReconnection.remove(scc.getNickname());
         }
     }
 
-    public List<ServerClientConnection> getLobby4players() {
-        return lobby4players;
+    /**
+     * method that updates the reconnected players of a game with persistence and if the number of player needed is reached
+     * it will reset a gameHandler and call the method to initialize the views
+     * @param nickname is the nickname of the player that has reconnected
+     * @param scc is the scc of the player that has reconnected
+     */
+    public void updatePersistenceReconnections(String nickname, ServerClientConnection scc) {
+
+        try{
+            persistenceNicknameList.remove(nickname);
+            Game game = persistence.getPlayerGame().get(nickname);
+            persistenceWaitingList.get(game).add(scc);
+
+            HumanPlayer humanPlayer;
+
+            for(Player player: game.getPlayers()){
+                if(player.getNickName().equals(nickname) && !player.getNickName().equals("LorenzoIlMagnifico")){
+                    humanPlayer = (HumanPlayer) player;
+                    playersInGamePersistence.put(scc,humanPlayer);
+                    sccRelateToPlayerPersistence.put(humanPlayer,scc);
+                    player.setPlaying(true);
+                    break;
+                }
+            }
+
+
+
+            boolean lorenzo = false;
+            for (Player player: game.getPlayers()) {
+                if(player.getNickName().equals("LorenzoIlMagnifico")){
+                    lorenzo=true;
+                    break;
+                }
+            }
+
+            if(persistenceWaitingList.get(game).size() == game.getPlayers().size() || (persistenceWaitingList.get(game).size() == 1 && lorenzo)){
+
+                game.setInPause(false);
+                GameHandler gameHandler = new GameHandler(sccRelateToPlayerPersistence, playersInGamePersistence, game, lorenzo);
+
+                if(lorenzo) games.put(persistenceWaitingList.get(game).get(0), gameHandler);
+                else {
+                    for (int i = 0; i < game.getPlayers().size(); i++) {
+                        games.put(persistenceWaitingList.get(game).get(i), gameHandler);
+                    }
+                }
+
+                for (ServerClientConnection serverClientConnection: playersInGamePersistence.keySet()) {
+                    serverClientConnection.setGameHandler(gameHandler);
+                }
+
+                gameHandler.initializationView();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();}
     }
 
-    public void setLobby4players(List<ServerClientConnection> lobby4players) {
-        this.lobby4players = lobby4players;
+    public int getPort(){ return port; }
+
+    public List<ServerClientConnection> getQueue(){ return queue; }
+
+    public List<ServerClientConnection> getLobby4players() {
+        return lobby4players;
     }
 
     public List<ServerClientConnection> getLobby3players() {
         return lobby3players;
     }
 
-    public void setLobby3players(List<ServerClientConnection> lobby3players) {
-        this.lobby3players = lobby3players;
-    }
-
     public List<ServerClientConnection> getLobby2players() {
         return lobby2players;
     }
 
-    public void setLobby2players(List<ServerClientConnection> lobby2players) {
-        this.lobby2players = lobby2players;
+    public Persistence getPersistence() {
+        return persistence;
+    }
+
+    public HashMap<Game, List<ServerClientConnection>> getPersistenceWaitingList() {
+        return persistenceWaitingList;
+    }
+
+    public void setPersistenceWaitingList(HashMap<Game, List<ServerClientConnection>> persistenceWaitingList) {
+        this.persistenceWaitingList = persistenceWaitingList;
+    }
+
+    public ArrayList<String> getPersistenceNicknameList() {
+        return persistenceNicknameList;
     }
 
     public static void main(String[] args){
-        System.out.println(Constants.ANSI_RED + "Maestri del Rinascimento | Server" + Constants.ANSI_RESET);
+        System.out.println(Constants.ANSI_RED + "Master of Renaissance | Server" + Constants.ANSI_RESET);
         Scanner scanner = new Scanner(System.in);
 
         do {
@@ -262,80 +358,8 @@ public class Server {
 
     }
 
-    public Persistence getPersistence() {
-        return persistence;
-    }
-
-    public void setPersistence(Persistence persistance) {
-        this.persistence = persistance;
-    }
-
-    public HashMap<Game, List<ServerClientConnection>> getPersistenceWaitingList() {
-        return persistenceWaitingList;
-    }
-
-    public void setPersistenceWaitingList(HashMap<Game, List<ServerClientConnection>> persistenceWaitingList) {
-        this.persistenceWaitingList = persistenceWaitingList;
-    }
-
-    public ArrayList<String> getPersistenceNicknameList() {
-        return persistenceNicknameList;
-    }
-
-    public void setPersistenceNicknameList(ArrayList<String> persistenceNicknameList) {
-        this.persistenceNicknameList = persistenceNicknameList;
-    }
-
-    public void updatePersistenceReconnections(String nickname, ServerClientConnection scc) {
-
-        try{
-        persistenceNicknameList.remove(nickname);
-        Game game = persistence.getPlayerGame().get(nickname);
-        persistenceWaitingList.get(game).add(scc);
-
-            HumanPlayer humanPlayer = null;
-
-        for(Player player: game.getPlayers()){
-            if(player.getNickName().equals(nickname) && !player.getNickName().equals("LorenzoIlMagnifico")){
-             humanPlayer = (HumanPlayer) player;
-             playersInGamePersistence.put(scc,humanPlayer);
-             sccRelateToPlayerPersistance.put(humanPlayer,scc);
-             player.setPlaying(true);
-             break;
-            }
-        }
 
 
 
-        boolean lorenzo = false;
-            for (Player player: game.getPlayers()) {
-                if(player.getNickName().equals("LorenzoIlMagnifico")){
-                    lorenzo=true;
-                    break;
-                }
-            }
-
-        if(persistenceWaitingList.get(game).size() == game.getPlayers().size() || (persistenceWaitingList.get(game).size() == 1 && lorenzo)){
-
-            game.setInPause(false);
-            GameHandler gameHandler = new GameHandler(sccRelateToPlayerPersistance, playersInGamePersistence, game, lorenzo);
-
-            if(lorenzo) games.put(persistenceWaitingList.get(game).get(0), gameHandler);
-            else {
-                for (int i = 0; i < game.getPlayers().size(); i++) {
-                    games.put(persistenceWaitingList.get(game).get(i), gameHandler);
-                }
-            }
-
-            for (ServerClientConnection serverClientConnection: playersInGamePersistence.keySet()) {
-             serverClientConnection.setGameHandler(gameHandler);
-            }
-
-            gameHandler.initializationView();
-
-        }
-    }catch (Exception e){
-        e.printStackTrace();}
-    }
 
 }

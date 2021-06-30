@@ -159,7 +159,6 @@ public class ActiveProductionZonePhase extends Phase {
         }
 
         cli.setIsAckArrived(false);
-        cli.setIsNackArrived(false);
 
         cli.setGamePhase(new MyTurnPhase());
         new Thread(cli).start();

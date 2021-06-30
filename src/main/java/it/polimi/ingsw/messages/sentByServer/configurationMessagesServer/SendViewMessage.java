@@ -3,6 +3,10 @@ package it.polimi.ingsw.messages.sentByServer.configurationMessagesServer;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.messageHandler.MessageHandler;
 
+/**
+ * Message sent by server containing the player's view
+ *
+ */
 public class SendViewMessage extends ServerConfigurationMessage {
 
     View view;

@@ -102,7 +102,6 @@ public class DiscardLeaderCardPhase extends Phase{
         }
 
         cli.setIsAckArrived(false);
-        cli.setIsNackArrived(false);
 
         cli.setGamePhase(new MyTurnPhase());
         new Thread(cli).start();

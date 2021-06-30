@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.messageHandler.MessageHandler;
 
 import java.util.ArrayList;
 
+/**
+ * message sent by the server containing the resources obtained by a player after a "buyFromMarket" action
+ */
 public class SendResourcesBoughtFromMarket extends ServerMessage {
     private ArrayList<Resource> resources;
     public SendResourcesBoughtFromMarket(String message,  ArrayList<Resource> resources) {
