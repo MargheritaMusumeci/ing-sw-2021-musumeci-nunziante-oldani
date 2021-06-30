@@ -69,7 +69,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
     }
 
     /**
-     * Check if the acrivePlayer has reached the end of the game
+     * Check if the activePlayer has reached the end of the game
      * Called only if  isTheLastTurn == false
      */
     @Override

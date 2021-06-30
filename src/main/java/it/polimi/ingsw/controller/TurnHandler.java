@@ -8,7 +8,6 @@ import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
-import it.polimi.ingsw.server.GameHandler;
 
 import java.util.ArrayList;
 

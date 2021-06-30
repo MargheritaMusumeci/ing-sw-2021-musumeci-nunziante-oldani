@@ -130,7 +130,7 @@ public class DoActionPlayer {
             }
 
             //if two leader cards are activated
-            int leaderCardActived = 0;
+            int leaderCardActivated = 0;
             Resource resourceOne = null;
             Resource resourceTwo = null;
 
@@ -139,10 +139,10 @@ public class DoActionPlayer {
                 //for each leader card I check if it has the required power and if it is active
                 if (humanPlayer.getDashboard().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.NOMOREWHITE) &&
                         humanPlayer.getDashboard().getLeaderCards().get(i).isActive()) {
-                    leaderCardActived++;
+                    leaderCardActivated++;
                 }
             }
-            if (leaderCardActived == 2) {
+            if (leaderCardActivated == 2) {
 
                 HashMap<Resource, Integer> resourcesWhite = humanPlayer.getDashboard().getLeaderCards().get(0).getAbilityResource();
 
@@ -169,14 +169,14 @@ public class DoActionPlayer {
                 System.out.println(oldResources.get(resourceOne) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne));
                 System.out.println(oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceTwo) );
                 System.out.println(oldResources.get(resourceOne) + oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne) + newResources.get(resourceTwo));
-                for (Resource resoucessss: saveResources
+                for (Resource resource2: saveResources
                      ) {
-                    System.out.println(resoucessss);
+                    System.out.println(resource2);
                 }
 
-                for (Resource ressss: resourceList
+                for (Resource resource3: resourceList
                      ) {
-                    System.out.println(ressss);
+                    System.out.println(resource3);
                 }
 
                 try {
@@ -263,7 +263,7 @@ public class DoActionPlayer {
 
 
     /**
-     * Set 'active' a specified leaderCard. In case of STOCKPLUS-leaderCard this method create new space in stock
+     * Set 'active' a specified leaderCard. In case of STOCK_PLUS-leaderCard this method create new space in stock
      *
      * @param position index of the array of leaderCard
      */
@@ -561,7 +561,7 @@ public class DoActionPlayer {
 
     /**
      * Method that increment pope track position of the specified player and check if someone has arrived in a Pope Meeting position.
-     * In that case, will be active or deactive pope cards.
+     * In that case, will be active or de-active pope cards.
      * @param positions number of steps for each player to take
      * @param players player whose pope track should be increased
      */
@@ -620,40 +620,6 @@ public class DoActionPlayer {
             }
         }
     }
-/*
-    /**
-     * Method used for replace white balls with colored ones if a leader card NOMOREWHITE is in use.
-     * Method used also for transform the array of resources in an arrayList.
-     * @param resources resources obtained by market
-     * @return arrayList of modified resources
-
-    private ArrayList<Resource> modifyResources(Resource[] resources){
-
-        //if leader card with power: NOMOREWHITE is active and in use, modify resource list obtained from market
-        for(int i = 0; i<modelGame.getActivePlayer().getDashboard().getLeaderCards().size();i++){
-
-            if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).isActive() &&
-                    modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityType() == LeaderAbility.NOMOREWHITE){
-
-                Resource replaceResource = Resource.NOTHING;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.COIN)!=0) replaceResource = Resource.COIN;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.ROCK)!=0) replaceResource = Resource.ROCK;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.SERVANT)!=0) replaceResource = Resource.SERVANT;
-                if(modelGame.getActivePlayer().getDashboard().getLeaderCards().get(i).getAbilityResource().get(Resource.SHIELD)!=0) replaceResource = Resource.SHIELD;
-
-                for(int j=0; j<resources.length;j++){
-                    if(resources[j]==Resource.NOTHING){
-                        resources[j]=replaceResource;
-                    }
-                }
-            }
-        }
-        ArrayList<Resource> resourceList = new ArrayList<>();
-        Collections.addAll(resourceList,resources);
-        return resourceList;
-    }
-
-     */
 
     /**
      * Private method that take the resources from Stock before and then from Stock automatically

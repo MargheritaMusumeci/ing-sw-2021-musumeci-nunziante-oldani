@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.players.Player;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class InitializationHandler {
 
@@ -37,13 +36,13 @@ public class InitializationHandler {
 
         }
         //If the player chose the same card
-        if(posLeaderCards.get(0) == posLeaderCards.get(1)){
+        if(posLeaderCards.get(0).equals(posLeaderCards.get(1))){
             //System.out.println("return 3");
             return false;
         }
 
 
-        ArrayList<LeaderCard> leaderCards = new ArrayList<LeaderCard>();
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         for(int i = 0 ; i < 2 ; i++)
             leaderCards.add(lCards.get(posLeaderCards.get(i)));
 
@@ -55,9 +54,8 @@ public class InitializationHandler {
         ArrayList<LeaderCard> leaderCards = player.getDashboard().getLeaderCards();
         ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<>();
 
-        for(int i = 0 ; i < leaderCards.size() ; i++){
-            LeaderCard lCard = leaderCards.get(i);
-            serializableLeaderCards.add(new SerializableLeaderCard(lCard));
+        for(LeaderCard leaderCard : leaderCards){
+            serializableLeaderCards.add(new SerializableLeaderCard(leaderCard));
         }
 
         return serializableLeaderCards;

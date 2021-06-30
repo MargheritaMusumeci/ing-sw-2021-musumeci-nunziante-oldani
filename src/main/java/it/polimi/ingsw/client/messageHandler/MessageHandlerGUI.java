@@ -11,7 +11,6 @@ import it.polimi.ingsw.messages.sentByServer.*;
 import it.polimi.ingsw.messages.sentByServer.configurationMessagesServer.*;
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.cards.LeaderAbility;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 
 public class MessageHandlerGUI extends MessageHandler {

@@ -42,7 +42,6 @@ public class TurnHandlerSoloGame extends TurnHandler{
      * |Green|Blue|Yellow|Purple| --> LEVEL 3
      * |Green|Blue|Yellow|Purple| --> LEVEL 2
      * |Green|Blue|Yellow|Purple| --> LEVEL 1
-     * @return true if server has completed the action. False if something went wrong
      */
     private void doActionLorenzo() throws ExcessOfPositionException {
         if (modelGame.getActivePlayer() instanceof LorenzoPlayer) {
