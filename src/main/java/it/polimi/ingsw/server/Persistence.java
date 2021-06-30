@@ -19,8 +19,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// se il server cade invio un game aborted ?
-
 public class Persistence implements Runnable{
     Server server;
     HashMap<String, Game> playerGame;
@@ -44,7 +42,7 @@ public class Persistence implements Runnable{
             game = (PersistenceSerializableGame) streamer.readObject();
             streamer.close();
 
-            System.out.println("Done");
+            System.out.println("READ A GAME");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -57,26 +55,34 @@ public class Persistence implements Runnable{
         new Thread(this).start();
     }
 
-
     public void deleteGame(String absolutePath) {
         File file = new File(absolutePath);
         file.delete();
     }
 
-
     public void initializeGame() {
 
-        try {
+        String OS = (System.getProperty("os.name")).toUpperCase();
+        String savedGamePath;
 
+        if(OS.contains("MAC") || OS.contains("WIN")){
+            System.out.println("MAC or WIN system");
+            savedGamePath = "savedGames";
+        }else{
+            System.out.println("Linux system");
+            savedGamePath = "/savedGames";
+        }
+
+        try {
             String tempPath = System.getProperty("java.io.tmpdir");
+            System.out.println("Temp Path: " + tempPath);
             File[] files = new File(tempPath).listFiles();
 
-            //check if there is a directory eith the saved games
+            //check if there is a directory with the saved games
             String dirPath = null;
             for(File file: files){
-                System.out.println(file.getAbsolutePath());
-                System.out.println(tempPath+"savedGame");
-                if(file.getAbsolutePath().contains((tempPath+"savedGames"))){
+
+                if(file.getAbsolutePath().contains((tempPath+savedGamePath))){
                     dirPath = file.getAbsolutePath();
                     break;
 
@@ -184,6 +190,18 @@ public class Persistence implements Runnable{
     @Override
     public void run() {
         PersistenceSerializableGame persistenceSerializableGame = new PersistenceSerializableGame(gameToBeSaved);
+
+        String OS = (System.getProperty("os.name")).toUpperCase();
+        String savedGamePath;
+        String directoryPath;
+        if(OS.contains("MAC") || OS.contains("WIN")){
+            savedGamePath = "savedGames";
+            directoryPath = savedGamePath;
+        }else{
+            savedGamePath = "/savedGames";
+            directoryPath = "savedGames";
+        }
+
         try {
 
             String path = "";
@@ -193,15 +211,13 @@ public class Persistence implements Runnable{
 
             String tempPath = System.getProperty("java.io.tmpdir");
             File[] files = new File(tempPath).listFiles();
-            String dirPath = tempPath + "savedGames/";
+            String dirPath = tempPath + savedGamePath + "/";
 
 
 
             boolean controllo = false;
             for(File file: files){
-                System.out.println(file.getAbsolutePath());
-                System.out.println(tempPath+"savedGame");
-                if(file.getAbsolutePath().equals((tempPath+"savedGames"))){
+                if(file.getAbsolutePath().equals((tempPath+savedGamePath))){
                     controllo = true;
                 }
 
@@ -209,10 +225,11 @@ public class Persistence implements Runnable{
 
             if(!controllo){
 
-                Path dirPathTemp = Files.createTempDirectory("savedGames");
+                Path dirPathTemp = Files.createTempDirectory(directoryPath);
 
                 File sourceFile =dirPathTemp.toFile();
-                File destFile = new File(tempPath + "savedGames");
+
+                File destFile = new File(tempPath + savedGamePath);
 
                 if (sourceFile.renameTo(destFile)) {
                     System.out.println("File renamed successfully");
@@ -228,7 +245,6 @@ public class Persistence implements Runnable{
 
             // write object to file
             streamer.writeObject(persistenceSerializableGame);
-            System.out.println("Done");
 
             // closing resources
             streamer.close();
