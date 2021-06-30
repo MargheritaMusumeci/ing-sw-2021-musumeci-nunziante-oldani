@@ -206,7 +206,7 @@ public class TurnHandlerSoloGame extends TurnHandler{
 
     /**
      * Method that ends the game
-     * @return message with results
+     * @return message with the score of the player
      */
     @Override
     public Message endGame(){

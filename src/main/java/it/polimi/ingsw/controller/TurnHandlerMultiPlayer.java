@@ -21,7 +21,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
     }
 
     /**
-     * check if start turn or end game
+     * Check if start turn or end game
      */
     @Override
     public void startTurn() {
@@ -70,7 +70,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
 
     /**
      * Check if the activePlayer has reached the end of the game
-     * Called only if  isTheLastTurn == false
+     * Called only if isTheLastTurn == false
      */
     @Override
     public void checkEndGame(){
@@ -122,7 +122,7 @@ public class TurnHandlerMultiPlayer extends TurnHandler {
     }
 
     /**
-     * Method that collects information about players and their scores and notifies all users the results.
+     * Method that collects information about players and their scores and notifies them to all users.
      * @return a message that contains all information about final results
      */
     @Override

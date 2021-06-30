@@ -50,6 +50,11 @@ public class InitializationHandler {
         return true;
     }
 
+    /**
+     * Method that takes all the leader cards of the player and create an arrayList with serializableLeaderCard
+     * @param player who this method is taking the leader cards
+     * @return an arrayList of serializableLeaderCard
+     */
     public ArrayList<SerializableLeaderCard> takeLeaderCards(Player player){
         ArrayList<LeaderCard> leaderCards = player.getDashboard().getLeaderCards();
         ArrayList<SerializableLeaderCard> serializableLeaderCards = new ArrayList<>();
