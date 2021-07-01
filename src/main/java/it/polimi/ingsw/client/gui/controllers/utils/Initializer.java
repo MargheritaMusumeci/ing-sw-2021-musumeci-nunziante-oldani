@@ -115,6 +115,12 @@ public class Initializer {
 
         SerializableProductionZone[] serializableProductionZones = dashboard.getSerializableProductionZones();
 
+        for(int i = 0 ; i < productionZones.length ; i++){
+            for(ImageView imageView : productionZones[i]){
+                imageView.setImage(null);
+            }
+        }
+
         for (int i = 0; i < serializableProductionZones.length; i++) {
             SerializableProductionZone serializableProductionZone = serializableProductionZones[i];
             if (serializableProductionZone.getCards() != null && serializableProductionZone.getCards().size() > 0) {
