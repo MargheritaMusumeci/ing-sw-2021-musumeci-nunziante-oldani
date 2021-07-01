@@ -36,6 +36,11 @@ public class ServerClientConnection implements Runnable{
     private GameHandler gameHandler;
     private Boolean hasDisconnectionBeenCalled;
 
+    /**
+     * class constructor that creates the streams, the ping sender and the message handler
+     * @param server is the instance of the server
+     * @param socket is the socket with the client
+     */
     public ServerClientConnection(Server server, Socket socket) throws IOException{
         this.server = server;
         this.socket = socket;
@@ -44,17 +49,18 @@ public class ServerClientConnection implements Runnable{
         executorService = Executors.newCachedThreadPool();
         nickname = null;
         messageHandler = new MessageHandler(this.server, this);
-        //System.out.println("trying to create streams for socket: " + socket);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-        //System.out.println("output stream created");
         inputStream = new ObjectInputStream(socket.getInputStream());
-        //System.out.println("input stream created");
         isActive = true;
         ps = new PingSender(this);
         gamePhase = GamePhases.CONFIGURATION;
 
     }
 
+    /**
+     * method able to send a message to the client
+     * @param message is the message to be sent
+     */
     public synchronized void send(Message message) {
         if(!isActive){
             return;
@@ -65,15 +71,14 @@ public class ServerClientConnection implements Runnable{
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            close();
+
         }
     }
 
-    public void close(){
-        //method that delete the socket and if the socket was in a game calls the method to save the satus in order to accept a reconnection
-        System.out.println(nickname + ": disconnesso, close() chiamata");
-    }
-
+    /**
+     * method that wait for messages from the client and than invoke the method to handle it. It also handles the
+     * first part of disconnection when ann IOException is threw
+     */
     @Override
     public void run() {
 
@@ -100,7 +105,7 @@ public class ServerClientConnection implements Runnable{
 
             }
         }catch (IOException e){
-            System.out.println(nickname + ": disconnesso nel readObject");
+            System.out.println(nickname + ": readobject disconnection");
             isActive = false;
             ps.setActive(false);
 
@@ -113,46 +118,10 @@ public class ServerClientConnection implements Runnable{
         }
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public GamePhases getGamePhase() {
-        return gamePhase;
-    }
-
-    public PingSender getPingSender() { return ps;}
-
-    public GameHandler getGameHandler() {
-        return gameHandler;
-    }
-
-    public void setGameHandler(GameHandler gameHandler) {
-        this.gameHandler = gameHandler;
-    }
-
-    public void setGamePhase(GamePhases gamePhase) {
-        this.gamePhase = gamePhase;
-    }
-
-    public boolean isActive(){return isActive;}
-
-    public void setActive(boolean value){
-        this.isActive = value;
-    }
-
-    public Boolean getHasDisconnectionBeenCalled() {
-        return hasDisconnectionBeenCalled;
-    }
-
-    public void setHasDisconnectionBeenCalled(Boolean hasDisconnectionBeenCalled) {
-        this.hasDisconnectionBeenCalled = hasDisconnectionBeenCalled;
-    }
-
+    /**
+     * method that handles the disconnection of a player. Put the player in pause and, in case there aren't players active
+     * puts the game in pause.
+     */
     public synchronized void disconnect(){
 
 
@@ -163,7 +132,7 @@ public class ServerClientConnection implements Runnable{
             abortGame();
             return;
         }
-        //se il nickname non era scelto o sono nel fine gioco non devo aggiungerlo alla lista di chi si vuole riconnettere
+        //check if the disconnection occurs in a relevant moment of the game
         if(nickname != null && gamePhase!= GamePhases.ENDGAME) {
             server.addWaitingForReconnection(this);
             isActive = false;
@@ -175,12 +144,10 @@ public class ServerClientConnection implements Runnable{
             for (Player player: gameHandler.getPlayersInGame().values()){
                 if (player.isPlaying()){
                     if(!(player instanceof LorenzoPlayer)){
-                        System.out.println("test disconnessione single player");
                         checkInGame = true;
                         break;
                     }else{
-                        //se mi sto disconnettendo e lorenzo sta giocando devo metterlo non giocante
-                        System.out.println("ho messo lorenzo a spento");
+                        //put lorenzo in wait if there is a lorenzo player
                         player.setPlaying(false);
                     }
 
@@ -188,29 +155,24 @@ public class ServerClientConnection implements Runnable{
             }
 
             if(!checkInGame){
-                System.err.println("GIOCO IN PAUSA");
+                System.out.println("Paused the game");
                 gameHandler.getGame().setInPause(true);
                 return;
             }
 
             //check if the player was the current player
-            if(gameHandler.getGame().getActivePlayer().getNickName().equals(nickname)){
-                System.err.println("DEVO CAMBIARE TURNO");
+            if(gameHandler.getGame().getActivePlayer().getNickName().equals(nickname)){ ;
                 //the player who was playing the turn has disconnected
-                /*TODO controllare che le risorse comprate dal  mercato non debbano essere resettate o in generale che l'azione
-                non debba essere pulita
-                */
 
-                //chiamo il metodo per terminare il turno in modo "artificioso"
                 Message messageEndTurn = getGameHandler().getTurnHandler().endTurn();
 
                 if( messageEndTurn instanceof UpdateActivePlayerMessage) {
                     for (ServerClientConnection serverClientConnection: gameHandler.getPlayersInGame().keySet()){
-                        serverClientConnection.send((UpdateActivePlayerMessage)messageEndTurn);
+                        serverClientConnection.send(messageEndTurn);
                     }
                 }else if (messageEndTurn instanceof EndGameMessage){
                     for (ServerClientConnection serverClientConnection: gameHandler.getPlayersInGame().keySet()){
-                        serverClientConnection.send((EndGameMessage)messageEndTurn);
+                        serverClientConnection.send(messageEndTurn);
                     }
                 }
             }
@@ -263,38 +225,92 @@ public class ServerClientConnection implements Runnable{
         }
     }
 
+    /**
+     * method that handles the reconnection od a player
+     * @param socket is the new socket with the client
+     * @param inputStream is the new input stream reader
+     * @param outputStream is the new output stream reader
+     * @return true if the player is correctly reconnected
+     */
     public boolean reconnect(Socket socket, ObjectInputStream inputStream, ObjectOutputStream outputStream){
         this.socket = socket;
         this.outputStream = outputStream;
         this.inputStream = inputStream;
 
         if(gameHandler.getGame().isInPause()){
+            //reconnection of the first player is handled in a separate method
             return reconnectFirstPlayer();
         }
 
-        //devo mandare la virtual view al giocatore per "aggiornarlo"
+        //i need to send the virtual view to the player to "update" him
         isActive = true;
         send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this))), gameHandler.getNumberOfPlayers()));
-        //vede se gestire qui la riattivazione del game handler corrispondente
         gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
         return true;
     }
 
+    /**
+     * method that handles the reconnection of the first player that rejoins the game
+     * @return true if the reconnection is done correctly
+     */
     private boolean reconnectFirstPlayer() {
-        System.err.println("RICONNESSIONE PRIMO GIOCATORE");
         isActive = true;
+        //restart the game that was in pause
         gameHandler.getGame().setInPause(false);
+        //send the message to the player
         send(new ReconnectionMessage("", gameHandler.createView(gameHandler.getPlayerSockets().get(gameHandler.getPlayersInGame().get(this))), gameHandler.getNumberOfPlayers()));
+        //reactivate the player
         gameHandler.getPlayersInGame().get(this).setPlaying(true);
         new Thread(this).start();
+        //update the active player
         gameHandler.getGame().updateActivePlayer();
         if(gameHandler.getGame().getActivePlayer() instanceof LorenzoPlayer){
             gameHandler.getGame().updateActivePlayer();
         }
+        //send message with the new active player to the client
         send(new UpdateActivePlayerMessage(nickname));
         return true;
     }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public GamePhases getGamePhase() {
+        return gamePhase;
+    }
+
+    public GameHandler getGameHandler() {
+        return gameHandler;
+    }
+
+    public void setGameHandler(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
+    }
+
+    public void setGamePhase(GamePhases gamePhase) {
+        this.gamePhase = gamePhase;
+    }
+
+    public boolean isActive(){return isActive;}
+
+    public void setActive(boolean value){
+        this.isActive = value;
+    }
+
+    public Boolean getHasDisconnectionBeenCalled() {
+        return hasDisconnectionBeenCalled;
+    }
+
+    public void setHasDisconnectionBeenCalled(Boolean hasDisconnectionBeenCalled) {
+        this.hasDisconnectionBeenCalled = hasDisconnectionBeenCalled;
+    }
+
 
     public Socket getSocket() {
         return socket;
@@ -312,15 +328,8 @@ public class ServerClientConnection implements Runnable{
         return inputStream;
     }
 
-    public void setInputStream(ObjectInputStream inputStream) {
-        this.inputStream = inputStream;
-    }
-
     public ObjectOutputStream getOutputStream() {
         return outputStream;
     }
 
-    public void setOutputStream(ObjectOutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
 }
