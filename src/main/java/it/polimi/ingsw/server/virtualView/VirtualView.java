@@ -19,7 +19,7 @@ import java.util.HashMap;
  * and dashboards
  */
 public class VirtualView extends VirtualViewObservable implements DashboardListener, MarketListener, EvolutionSectionListener,
-        VirtualViewListener, LeaderCardListener, PlayerListener {
+        VirtualViewListener, LeaderCardListener {
 
     private ServerClientConnection scc;
     private Market market;
@@ -36,8 +36,6 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
      */
     public VirtualView(ServerClientConnection scc, Market market, EvolutionSection evolutionSection, Dashboard personalDashboard){
         this.scc=scc;
-
-        scc.getGameHandler().getPlayersInGame().get(scc).addPlayerListener(this);
 
         this.evolutionSection = evolutionSection;
         evolutionSection.addEvolutionSectionListener(this);
@@ -179,10 +177,4 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
         scc.send(new UpdateLeaderCardsMessage("updated set of leader cards", newSerializableLeaderCardSet));
     }
 
-    //TODO capire se questo posso toglierlo veramente o se ci siamo dimeticati qualcosa
-    @Override
-    public void update(ArrayList<Resource> resources) {
-        //devo dire alla view del client che le risorse comrpate dal mercaro sonos state messe nell'array
-       //scc.send(new UpdateResourcesBoughtFromMarketMessage("resources bought from market", resources));
-    }
 }
