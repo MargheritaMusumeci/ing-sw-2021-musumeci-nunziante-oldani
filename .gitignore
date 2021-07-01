@@ -96,7 +96,6 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -132,7 +131,8 @@ buildNumber.properties
 
 # Icon must end with two \r
 # (this hidden file is created if you change the icon of a folder in Finder.app)
-Icon
+Icon
+
 
 # Resource forks and xattr data on non-Apple filesystems
 ._*
