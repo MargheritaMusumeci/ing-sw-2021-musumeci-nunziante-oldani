@@ -21,7 +21,8 @@ public enum GameFxml {
     ENDGAME("end_game.fxml"),
     OTHER_TURN("newView.fxml"),
     CHOOSE_WHITE_RESOURCES("white_ball_choose.fxml"),
-    OTHER_VIEW("enemyView.fxml");
+    OTHER_VIEW("enemyView.fxml"),
+    ASK_LEADER("newView.fxml");
 
     private GamePhases gamePhases;
     public final String s;
@@ -37,6 +38,7 @@ public enum GameFxml {
         INITIAL_RESOURCES.gamePhases=GamePhases.INITIALRESOURCESELECTION;
         WAITING_ROOM.gamePhases=GamePhases.WAITINGOTHERPLAYERS;
         MY_TURN.gamePhases=GamePhases.MYTURN;
+        ASK_LEADER.gamePhases = GamePhases.ASKACTIVELEADER;
         MARKET.gamePhases=GamePhases.BUYFROMMARKET;
         STORE_RESOURCES.gamePhases=GamePhases.STORERESOURCES;
         BASIC_PRODUCTION.gamePhases=GamePhases.ASKACTIVEPRODUCTION;
