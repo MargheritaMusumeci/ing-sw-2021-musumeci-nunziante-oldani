@@ -5,6 +5,7 @@ import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
+import it.polimi.ingsw.model.board.LeaderProductionZone;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
@@ -263,7 +264,7 @@ public abstract class TurnHandler {
      *                  production
      * @return is a message , the attribute if there is not to do , a new message if there was an exchange
      */
-    public ArrayList<Integer> convertMessage(ArrayList<Integer> positions , ArrayList<Integer> leaderIds){
+    private ArrayList<Integer> convertMessage(ArrayList<Integer> positions , ArrayList<Integer> leaderIds){
 
         if(leaderIds == null || leaderIds.size() == 0)
             return positions;
@@ -271,17 +272,18 @@ public abstract class TurnHandler {
         if(positions == null)
             positions = new ArrayList<>();
 
-        ArrayList<LeaderCard> leaderCards = modelGame.getActivePlayer().getDashboard().getLeaderCards();
+        ArrayList<LeaderProductionZone> leaderCards = modelGame.getActivePlayer().getDashboard().getLeaderProductionZones();
 
         int zeroNumber = modelGame.getActivePlayer().getDashboard().getProductionZone().length;
 
         for(int i = 0 ; i < leaderCards.size() ; i++){
             for(Integer leaderCardId : leaderIds){
-                if(leaderCards.get(i).getId() == leaderCardId) {
+                if(((LeaderCard) leaderCards.get(i).getCard()).getId() == leaderCardId) {
                     positions.add(zeroNumber + i);
                 }
             }
         }
+
         return positions;
     }
 }
