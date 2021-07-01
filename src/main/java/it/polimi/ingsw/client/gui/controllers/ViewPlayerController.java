@@ -85,16 +85,18 @@ public class ViewPlayerController extends ViewController {
         if (activeProduction3.isSelected()) productionPositions.add(2);
 
         //leader production
+        ArrayList<Integer> leaderIds = new ArrayList<>();
         ArrayList<Resource> leaderEnsure = new ArrayList<>();
         if (gui.getLeaderEnsure() != null) {
 
             for (Integer leaderIndex : gui.getLeaderEnsure().keySet()) {
                 leaderEnsure.add(gui.getLeaderEnsure().get(leaderIndex));
                 if (leaderIndex == 1 || !(gui.getView().getDashboard().getSerializableProductionZones().length +
-                        gui.getView().getDashboard().getSerializableLeaderProductionZones().length > 4))
-                    productionPositions.add(3);
+                        gui.getView().getDashboard().getSerializableLeaderProductionZones().length > 4)) {
+                    leaderIds.add(gui.getLeaderCards().get(0).getId());
+                }
                 else {
-                    productionPositions.add(4);
+                    leaderIds.add(gui.getLeaderCards().get(1).getId());
                 }
             }
         }
@@ -104,7 +106,7 @@ public class ViewPlayerController extends ViewController {
             gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
 
-            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, gui.getBasicRequires(), gui.getBasicEnsures(), leaderEnsure));
+            gui.getClientSocket().send(new ActiveProductionMessage("Active production zones", productionPositions, activeBasic, leaderIds, gui.getBasicRequires(), gui.getBasicEnsures(), leaderEnsure));
         }
 
         activeBasic = false;
