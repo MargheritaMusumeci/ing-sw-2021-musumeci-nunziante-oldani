@@ -102,7 +102,7 @@ public class DoActionPlayerTest {
             if(j == 3){
                 j = 0;
                 try {
-                    modelGame.getMarket().updateBoard(0 , true);
+                    modelGame.getMarket().updateBoard(0 , false);
                 } catch (ExcessOfPositionException e) {
                     fail();
                 }
