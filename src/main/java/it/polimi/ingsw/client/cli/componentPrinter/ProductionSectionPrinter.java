@@ -101,7 +101,10 @@ public class ProductionSectionPrinter {
             System.out.println();
             ArrayList<SerializableLeaderCard> leaderCards = new ArrayList<>();
             for (int i=0; i< serializableLeaderProductionZone.length; i++){
-                leaderCards.add(serializableLeaderProductionZone[i].getCard());
+                if(serializableProductionZones[i] != null){
+                    leaderCards.add(serializableLeaderProductionZone[i].getCard());
+                }
+
             }
 
             LeaderCardsPrinter.print(leaderCards);
