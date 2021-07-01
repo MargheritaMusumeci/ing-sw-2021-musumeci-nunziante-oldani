@@ -24,9 +24,9 @@
             <GaussianBlur />
          </effect>
       </ImageView>
-      <Text fill="WHITE" layoutX="253.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In which production zone you want to insert the card?" wrappingWidth="648.63818359375">
+      <Text fill="WHITE" layoutX="6.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In which production zone you want to insert the card?" textAlignment="CENTER" wrappingWidth="1260.63818359375">
          <font>
-            <Font size="25.0" />
+            <Font name="Copperplate Gothic Light" size="25.0" />
          </font>
       </Text>
       <HBox layoutX="312.0" layoutY="118.0" prefHeight="262.0" prefWidth="531.0" spacing="15.0">

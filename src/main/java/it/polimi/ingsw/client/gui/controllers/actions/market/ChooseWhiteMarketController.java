@@ -106,6 +106,10 @@ public class ChooseWhiteMarketController implements Controller {
         resourceTwo = resourceWhite2;
         path = printer.pathFromResource(resourceWhite2);
         resource2.setImage(printer.fromPathToImageResource(path));
+        if(numberWhite==0){
+            error.setText("No white ball obtained, go ahead");
+            error.setVisible(true);
+        }
     }
 
     /**
@@ -121,7 +125,7 @@ public class ChooseWhiteMarketController implements Controller {
                 gui.setGamePhase(GamePhases.STORERESOURCES);
                 gui.changeScene();
             } else {
-                error.setText("All white balls must be replaced!");
+                error.setText("All white balls have to be replaced!");
                 error.setVisible(true);
             }
         }catch(Exception e){
@@ -149,6 +153,7 @@ public class ChooseWhiteMarketController implements Controller {
             numberWhite--;
         } else {
             error.setText("All white balls are replaced");
+            error.setVisible(true);
         }
     }catch(Exception e){
         e.printStackTrace();}
