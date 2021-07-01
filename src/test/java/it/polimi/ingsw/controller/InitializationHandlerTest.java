@@ -127,7 +127,7 @@ public class InitializationHandlerTest extends TestCase {
         HumanPlayer player3 = new HumanPlayer("Carlo" , false);
         HumanPlayer player4 = new HumanPlayer("Alessia" , false);
 
-        Player lorenzo = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
+        Player lorenzo = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard(), false);
 
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(player1 , player2 , player3 , player4));
 

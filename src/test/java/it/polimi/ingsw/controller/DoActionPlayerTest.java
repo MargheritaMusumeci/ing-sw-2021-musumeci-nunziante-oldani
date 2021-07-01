@@ -1098,7 +1098,7 @@ public class DoActionPlayerTest {
     @Test
     public void testMoveCross(){
         HumanPlayer player = new HumanPlayer("Matteo", true);
-        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player.getPopeTrack() , player.getDashboard());
+        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player.getPopeTrack() , player.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player);
         players.add(lorenzoPlayer);

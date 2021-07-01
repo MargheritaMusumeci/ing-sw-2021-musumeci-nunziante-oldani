@@ -49,7 +49,7 @@ public class GameTest extends TestCase {
     public void testUpdateActivePlayer2(){
         ArrayList<Player> players = new ArrayList<>();
         Player player1 = new HumanPlayer("Matteo" , true);
-        Player player2 = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
+        Player player2 = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard(), false);
         players.add(player1);
         players.add(player2);
 
