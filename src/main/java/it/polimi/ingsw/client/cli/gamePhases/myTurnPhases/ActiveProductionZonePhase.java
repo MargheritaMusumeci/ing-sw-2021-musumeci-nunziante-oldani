@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.cli.componentPrinter.ResourcesBoughtPrinter;
 import it.polimi.ingsw.client.cli.gamePhases.Phase;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.ActiveProductionMessage;
+import it.polimi.ingsw.model.cards.LeaderAbility;
 import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.utils.Constants;
 
@@ -104,13 +105,26 @@ public class ActiveProductionZonePhase extends Phase {
         ArrayList<Integer> leaderID = new ArrayList<>();
 
         if(productionZones.contains(3)){
-            leaderID.add(cli.getLeaderCards().get(0).getId());
-            productionZones.remove(3);
+            if(cli.getClientSocket().getView().getLeaderCards().size()>0){
+                for(int i=0; i<cli.getClientSocket().getView().getLeaderCards().size();i++){
+                    if(cli.getClientSocket().getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                        leaderID.add(cli.getClientSocket().getView().getLeaderCards().get(i).getId());
+                        break;
+                    }
+                }
+            }
+            Integer i = 3;
+            productionZones.remove(i);
         }
 
         if(productionZones.contains(4)){
-            leaderID.add(cli.getLeaderCards().get(1).getId());
-            productionZones.remove(4);
+            if(cli.getClientSocket().getView().getLeaderCards().size()>1){
+                if(cli.getClientSocket().getView().getLeaderCards().get(2).getAbilityType().equals(LeaderAbility.PRODUCTIONPOWER)){
+                    leaderID.add(cli.getClientSocket().getView().getLeaderCards().get(2).getId());
+                }
+            }
+            Integer i = 4;
+            productionZones.remove(i);
         }
 
         //leader id is ready
