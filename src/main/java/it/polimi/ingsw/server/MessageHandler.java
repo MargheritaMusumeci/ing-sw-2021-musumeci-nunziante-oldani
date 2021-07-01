@@ -42,6 +42,10 @@ public class MessageHandler {
                 return;
             }
 
+            if(message.getMessage().contains("/")){
+                scc.send(new NACKMessage("You cannot use / character in your nickname"));
+            }
+
             //check if the player has saved games due to persistence
             if(server.getPersistenceNicknameList().contains(message.getMessage())){
                 //put the player in wait until all the player are back

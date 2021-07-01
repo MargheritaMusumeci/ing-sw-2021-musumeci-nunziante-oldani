@@ -38,7 +38,7 @@ public class NicknameConfigurationController implements Controller {
 
         //error --> not fill nickname field before pushing button
         if(nicknameField==null || nicknameField.getText().equals("")){
-            error.setText("Nickname is required...");
+            error.setText("Nickname is required");
             error.setVisible(true);
             loginButton.setVisible(true);
             loading.setVisible(false);
@@ -47,7 +47,7 @@ public class NicknameConfigurationController implements Controller {
 
             //error --> nickname could not contains "/" special character
             if(nicknameField.getText().contains("/")){
-                error.setText("Nickname can't contains special character...");
+                error.setText("You cannot use / character in your nickname");
                 error.setVisible(true);
                 loginButton.setVisible(true);
                 loading.setVisible(false);

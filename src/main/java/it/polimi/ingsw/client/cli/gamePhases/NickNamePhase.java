@@ -21,6 +21,10 @@ public class NickNamePhase extends Phase{
         do{
             System.out.print(Constants.ANSI_CYAN + "Enter your nickname: " + Constants.ANSI_RESET);
             nic = scanner.next();
+            if(nic.contains("/")){
+                System.out.println(Constants.ANSI_RED + "The nickname cannot contain / character");
+                continue;
+            }
             cli.getClientSocket().send(new NickNameMessage(nic));
 
             try {
