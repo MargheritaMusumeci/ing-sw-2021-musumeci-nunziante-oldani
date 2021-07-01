@@ -100,6 +100,23 @@ public class ActiveProductionZonePhase extends Phase {
 
         //Now the array with the position is ready
 
+        //take postions of leaer cards and transform it in id
+        ArrayList<Integer> leaderID = new ArrayList<>();
+
+        if(productionZones.contains(3)){
+            leaderID.add(cli.getLeaderCards().get(0).getId());
+            productionZones.remove(3);
+        }
+
+        if(productionZones.contains(4)){
+            leaderID.add(cli.getLeaderCards().get(1).getId());
+            productionZones.remove(4);
+        }
+
+        //leader id is ready
+
+
+
         System.out.println(Constants.ANSI_CYAN + "Do you want to activate the basic production zone? Y/N" + Constants.ANSI_RESET);
 
         do{
@@ -142,7 +159,7 @@ public class ActiveProductionZonePhase extends Phase {
 
         //Send activeProductionMessage to the server
         cli.getClientSocket().send(new ActiveProductionMessage("Active production zones" , productionZones ,
-                activeBasic , resourcesRequires , resourcesEnsures, leaderProduction));
+                activeBasic , leaderID, resourcesRequires , resourcesEnsures, leaderProduction));
 
         //Wait for a response
         synchronized (this){
