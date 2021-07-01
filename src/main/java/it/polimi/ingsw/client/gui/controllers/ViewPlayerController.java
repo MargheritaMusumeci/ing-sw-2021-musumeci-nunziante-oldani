@@ -174,7 +174,6 @@ public class ViewPlayerController extends ViewController {
 
         if (leaderWaitForAck == 1 || leaderWaitForAck == 2) {
             int cardNumber = leaderWaitForAck - 1;
-            System.out.println("In active leader ack and leaderWaitForAck is: " + leaderWaitForAck);
             activeButtons.get(cardNumber).setVisible(false);
             discardButtons.get(cardNumber).setVisible(false);
             if (gui.getLeaderCards().get(cardNumber).getAbilityType().equals(LeaderAbility.STOCKPLUS)) {

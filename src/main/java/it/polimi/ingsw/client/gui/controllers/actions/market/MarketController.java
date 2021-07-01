@@ -113,7 +113,6 @@ public class MarketController extends MarketEvolutionSectionBuilder implements C
                     noMoreWhite++;
                 }
             }
-            System.out.println(noMoreWhite);
 
             gui.getClientSocket().send(new BuyFromMarketMessage("BUY", position, row));
             gui.setOldScene(gui.getScene(GameFxml.MARKET.s));

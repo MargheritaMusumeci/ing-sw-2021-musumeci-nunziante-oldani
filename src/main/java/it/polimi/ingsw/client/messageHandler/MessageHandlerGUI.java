@@ -101,7 +101,6 @@ public class MessageHandlerGUI extends MessageHandler {
         if(gui.getLeaderCards() != null){
             for(int k = message.getView().getLeaderCards().size(); k < 2; k++ ){
                 gui.getLeaderCardsDiscarded().set(k , true);
-                System.out.println(k);
             }
         }
 
