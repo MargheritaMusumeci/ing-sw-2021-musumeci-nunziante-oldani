@@ -9,11 +9,13 @@ public class SerializableLeaderProductionZone implements Serializable {
     private LeaderCard leaderCard;
 
     public SerializableLeaderProductionZone(LeaderProductionZone leaderProductionZone){
-        leaderProductionZone.getCard();
+        leaderCard = (LeaderCard) leaderProductionZone.getCard();
     }
 
     public SerializableLeaderCard getCard(){
         SerializableLeaderCard serializableLeaderCard = new SerializableLeaderCard(leaderCard);
         return serializableLeaderCard;
     }
+
+
 }
