@@ -219,7 +219,7 @@ public class NormalProductionZoneTest{
         assertEquals(productionZone.getLevel(),LevelEnum.THIRD);
     }
 
-    /*
+
     @Test
     public void setCardsTest() throws ExcessOfPositionException {
 
@@ -234,6 +234,6 @@ public class NormalProductionZoneTest{
         assertEquals(evolutionCards,productionZone.getCardList());
 
     }
-    */
+
 
 }

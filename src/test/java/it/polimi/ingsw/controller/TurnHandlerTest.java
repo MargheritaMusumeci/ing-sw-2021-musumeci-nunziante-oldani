@@ -416,23 +416,4 @@ public class TurnHandlerTest {
         assertTrue(turnHandler.isTheLastTurn());
     }
 
-    @Test
-    public void testConvertMessage(){
-        HumanPlayer player1 = new HumanPlayer("Margherita", true);
-        HumanPlayer player2 = new HumanPlayer("Matteo", false);
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-        Game modelGame = new Game(players);
-
-        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
-
-        ArrayList<Integer> result = turnHandler.convertMessage( new ArrayList<Integer>() , null);
-        assertEquals(0 , result.size());
-
-        ArrayList<Integer> leaderIds = new ArrayList<Integer>(Arrays.asList(
-                modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).getId()));
-        result = turnHandler.convertMessage(null , leaderIds);
-        assertEquals(3 , (int) result.get(0));
-    }
 }
