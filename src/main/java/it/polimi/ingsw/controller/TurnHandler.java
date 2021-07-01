@@ -5,10 +5,12 @@ import it.polimi.ingsw.messages.sentByServer.ACKMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.sentByServer.NACKMessage;
 import it.polimi.ingsw.messages.sentByClient.actionMessages.*;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.Player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -114,10 +116,17 @@ public abstract class TurnHandler {
         if(((HumanPlayer) modelGame.getActivePlayer()).getActionChose().equals(Action.NOTHING)) {
 
             try {
-                actionHandler.activeProductionZones(message.getPositions(),
-                        (message).isActiveBasic(),
-                        (message).getResourcesRequires(),
-                        (message).getResourcesEnsures(),
+                ArrayList<Integer> positions;
+                if(message.getLeaderIds() != null && message.getLeaderIds().size() > 0){
+                    positions = convertMessage(message.getPositions() , message.getLeaderIds());
+                }
+                else{
+                    positions = message.getPositions();
+                }
+                actionHandler.activeProductionZones(positions,
+                        message.isActiveBasic(),
+                        message.getResourcesRequires(),
+                        message.getResourcesEnsures(),
                         message.getLeaderResources());
                 return new ACKMessage("OK");
             } catch (NonCompatibleResourceException e) {
@@ -244,5 +253,35 @@ public abstract class TurnHandler {
      */
     public void setTheLastTurn(boolean theLastTurn) {
         isTheLastTurn = theLastTurn;
+    }
+
+    /**
+     * Method called when an activeProductionZone message is received: transform the leaderIds in the relative
+     *                  position in the dashboard
+     * @param positions is an arrayList containing the position with which cards the player wants to activate
+     * @param leaderIds is an arrayList containing the leader id of the leader card the player wants to active the
+     *                  production
+     * @return is a message , the attribute if there is not to do , a new message if there was an exchange
+     */
+    public ArrayList<Integer> convertMessage(ArrayList<Integer> positions , ArrayList<Integer> leaderIds){
+
+        if(leaderIds == null || leaderIds.size() == 0)
+            return positions;
+
+        if(positions == null)
+            positions = new ArrayList<>();
+
+        ArrayList<LeaderCard> leaderCards = modelGame.getActivePlayer().getDashboard().getLeaderCards();
+
+        int zeroNumber = modelGame.getActivePlayer().getDashboard().getProductionZone().length;
+
+        for(int i = 0 ; i < leaderCards.size() ; i++){
+            for(Integer leaderCardId : leaderIds){
+                if(leaderCards.get(i).getId() == leaderCardId) {
+                    positions.add(zeroNumber + i);
+                }
+            }
+        }
+        return positions;
     }
 }
