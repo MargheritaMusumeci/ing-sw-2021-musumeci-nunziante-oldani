@@ -34,6 +34,8 @@ public class NicknameConfigurationController implements Controller {
         loginButton.setVisible(false);
         loading.setVisible(true);
 
+
+
         //error --> not fill nickname field before pushing button
         if(nicknameField==null || nicknameField.getText().equals("")){
             error.setText("Nickname is required...");
@@ -42,6 +44,15 @@ public class NicknameConfigurationController implements Controller {
             loading.setVisible(false);
 
         }else{
+
+            //error --> nickname could not contains "/" special character
+            if(nicknameField.getText().contains("/")){
+                error.setText("Nickname can't contains special character...");
+                error.setVisible(true);
+                loginButton.setVisible(true);
+                loading.setVisible(false);
+                return;
+            }
 
             String nickname = nicknameField.getText();
             gui.setGamePhase(GamePhases.NUMBEROFPLAYERS);

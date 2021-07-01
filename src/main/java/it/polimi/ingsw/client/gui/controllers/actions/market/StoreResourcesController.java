@@ -57,7 +57,6 @@ public class StoreResourcesController implements Controller {
         error.setVisible(false);
         //Show the error if present
         if(gui.getErrorFromServer() != null && !gui.getErrorFromServer().equals("")){
-            System.out.println(gui.getErrorFromServer());
             error.setText(gui.getErrorFromServer());
             error.setVisible(true);
         }

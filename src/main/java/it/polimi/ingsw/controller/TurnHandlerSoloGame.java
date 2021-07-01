@@ -45,7 +45,6 @@ public class TurnHandlerSoloGame extends TurnHandler{
      */
     private void doActionLorenzo() throws ExcessOfPositionException {
         if (modelGame.getActivePlayer() instanceof LorenzoPlayer) {
-            System.out.println("In doActionLorenzo");
             LorenzoActionCard lorenzoActionCard = ((LorenzoPlayer) modelGame.getActivePlayer()).getLorenzoActionCardSet().getActionCard();
 
             //Discard 2 evolution cards

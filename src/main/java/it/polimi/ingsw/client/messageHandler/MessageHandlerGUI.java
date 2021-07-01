@@ -165,7 +165,6 @@ public class MessageHandlerGUI extends MessageHandler {
     @Override
     public void handleMessage(SendViewMessage message) {
 
-        try{
             synchronized (gui) {
                 gui.setView(message.getView());
 
@@ -175,14 +174,6 @@ public class MessageHandlerGUI extends MessageHandler {
                 if(message.getView().getLeaderCards()!=null){
 
                     gui.setLeaderCards(message.getView().getLeaderCards());
-
-                    int j = 0;
-                    for(SerializableLeaderCard leaderCard : gui.getLeaderCards()){
-                        if(leaderCard.isActive() && leaderCard.getAbilityType().equals(LeaderAbility.STOCKPLUS)){
-                            gui.getStockLeaderCardInUse().add(j);
-                        }
-                        j++;
-                    }
 
                     for(int i = 0; i<message.getView().getLeaderCards().size();i++){
                         if(message.getView().getLeaderCards().get(i).getAbilityType().equals(LeaderAbility.STOCKPLUS)&&
@@ -207,9 +198,6 @@ public class MessageHandlerGUI extends MessageHandler {
                 }
                 gui.changeScene();
             }
-        }catch (Exception e){
-            System.out.println("Leader card exception!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
     }
 
     /**

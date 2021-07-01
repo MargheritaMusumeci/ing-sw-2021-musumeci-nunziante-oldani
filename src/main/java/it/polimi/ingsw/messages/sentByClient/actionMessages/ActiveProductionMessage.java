@@ -13,6 +13,8 @@ public class ActiveProductionMessage extends ActionMessage{
 
     private ArrayList<Integer> positions;
 
+    private ArrayList<Integer> leaderIds;
+
     private boolean activeBasic;
 
     private ArrayList<Resource> resourcesRequires;
@@ -20,11 +22,12 @@ public class ActiveProductionMessage extends ActionMessage{
 
     private ArrayList<Resource> leaderResources;
 
-    public ActiveProductionMessage(String message,ArrayList<Integer> positions , boolean activeBasic ,
+    public ActiveProductionMessage(String message,ArrayList<Integer> positions , boolean activeBasic , ArrayList<Integer> leaderIds,
                                    ArrayList<Resource> resourcesRequires , ArrayList<Resource> resourcesEnsures,
                                    ArrayList<Resource> leaderResources) {
         super(message);
         this.positions = positions;
+        this.leaderIds = leaderIds;
         this.resourcesRequires = resourcesRequires;
         this.resourcesEnsures = resourcesEnsures;
         this.activeBasic = activeBasic;
@@ -59,7 +62,6 @@ public class ActiveProductionMessage extends ActionMessage{
         this.resourcesEnsures = resourcesEnsures;
     }
 
-
     public void handle(MessageHandler messageHandler){
         messageHandler.handleActionMessage(this);
     }
@@ -68,7 +70,7 @@ public class ActiveProductionMessage extends ActionMessage{
         return leaderResources;
     }
 
-    public void setLeaderResources(ArrayList<Resource> leaderResources) {
-        this.leaderResources = leaderResources;
+    public ArrayList<Integer> getLeaderIds() {
+        return leaderIds;
     }
 }
