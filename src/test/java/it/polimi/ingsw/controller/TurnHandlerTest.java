@@ -209,40 +209,40 @@ public class TurnHandlerTest {
         positions.add(2);
 
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
-                false , null , null , null));
+                false , null , null , null , null));
         assertTrue(result instanceof NACKMessage);
 
         positions = new ArrayList<>();
         positions.add(0);
         positions.add(0);
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
-                false , null , null , null));
+                false , null , null , null , null));
         assertTrue(result instanceof NACKMessage);
 
         positions = new ArrayList<>();
         positions.add(0);
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
-                false , null , null , null));
+                false , null , null , null , null));
         assertTrue(result instanceof NACKMessage);
 
         positions = new ArrayList<>();
         positions.add(2);
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
-                false , null , null , null));
+                false , null , null , null , null));
         assertTrue(result instanceof NACKMessage);
 
         ArrayList<Resource> requires = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.COIN));
         ArrayList<Resource> ensures = new ArrayList<>();
         ensures.add(Resource.COIN);
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , null ,
-                true , requires , ensures , null));
+                true , null , requires , ensures , null));
         assertTrue(result instanceof NACKMessage);
 
         requires = new ArrayList<>(Arrays.asList(Resource.COIN , Resource.COIN));
         ensures = new ArrayList<>();
         ensures.add(Resource.COIN);
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , null ,
-                true , requires , ensures , null));
+                true , null , requires , ensures , null));
         assertTrue(result instanceof NACKMessage);
 
         resources = new ArrayList<>(Arrays.asList(
@@ -253,7 +253,7 @@ public class TurnHandlerTest {
         ensures = new ArrayList<>();
         ensures.add(Resource.SERVANT);
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , null ,
-                true , requires , ensures , null));
+                true ,null , requires , ensures , null));
         assertTrue(result instanceof ACKMessage);
 
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
@@ -261,7 +261,7 @@ public class TurnHandlerTest {
         positions = new ArrayList<>();
         positions.add(0);
         result = turnHandler.doAction(new ActiveProductionMessage("Active" , positions ,
-                false , null , null , null));
+                false , null , null , null , null));
         assertTrue(result instanceof ACKMessage);
 
         ((HumanPlayer) modelGame.getActivePlayer()).setActionChose(Action.NOTHING);
@@ -403,7 +403,7 @@ public class TurnHandlerTest {
 
     @Test
     public void testSetTheLastTurn() {
-        HumanPlayer player1 = new HumanPlayer("marghe", true);
+        HumanPlayer player1 = new HumanPlayer("Margherita", true);
         LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
@@ -414,5 +414,25 @@ public class TurnHandlerTest {
         assertFalse(turnHandler.isTheLastTurn());
         turnHandler.setTheLastTurn(true);
         assertTrue(turnHandler.isTheLastTurn());
+    }
+
+    @Test
+    public void testConvertMessage(){
+        HumanPlayer player1 = new HumanPlayer("Margherita", true);
+        HumanPlayer player2 = new HumanPlayer("Matteo", false);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        Game modelGame = new Game(players);
+
+        TurnHandler turnHandler = new TurnHandlerMultiPlayer(modelGame);
+
+        ArrayList<Integer> result = turnHandler.convertMessage( new ArrayList<Integer>() , null);
+        assertEquals(0 , result.size());
+
+        ArrayList<Integer> leaderIds = new ArrayList<Integer>(Arrays.asList(
+                modelGame.getActivePlayer().getDashboard().getLeaderCards().get(0).getId()));
+        result = turnHandler.convertMessage(null , leaderIds);
+        assertEquals(3 , (int) result.get(0));
     }
 }

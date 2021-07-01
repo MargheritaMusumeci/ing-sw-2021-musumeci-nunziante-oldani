@@ -103,6 +103,7 @@ public class DoActionPlayerTest {
                 j = 0;
                 try {
                     modelGame.getMarket().updateBoard(0 , false);
+                    firstRow = modelGame.getMarket().getMarketBoard();
                 } catch (ExcessOfPositionException e) {
                     fail();
                 }
@@ -336,7 +337,7 @@ public class DoActionPlayerTest {
         ArrayList<Resource> ensures = new ArrayList<>();
         ensures.add(Resource.ROCK);
 
-        ActiveProductionMessage message = new ActiveProductionMessage("active", null ,true,ensures,requires,null);
+        ActiveProductionMessage message = new ActiveProductionMessage("active", null ,true , null , ensures,requires,null);
         message.setActiveBasic(true);
         message.setResourcesEnsures(ensures);
         message.setResourcesRequires(requires);
