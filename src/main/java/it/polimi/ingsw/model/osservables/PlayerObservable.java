@@ -19,11 +19,4 @@ public abstract class PlayerObservable {
         playerListeners.add(playerListener);
     }
 
-    public void removePlayerListener(PlayerListener playerListener) {
-        playerListeners.remove(playerListener);
-    }
-
-    public void removeAll() {
-        playerListeners = new ArrayList<>();
-    }
 }

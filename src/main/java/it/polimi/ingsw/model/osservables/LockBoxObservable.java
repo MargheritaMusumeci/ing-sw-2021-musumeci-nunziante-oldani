@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.board.LockBox;
 import it.polimi.ingsw.model.listeners.LockBoxListener;
 
 import java.util.ArrayList;
-
+/**
+ * class that implements the observable/listener patter for the lock box
+ */
 public abstract class LockBoxObservable {
 
     private ArrayList<LockBoxListener> lockBoxListeners = new ArrayList<>();
@@ -16,15 +18,8 @@ public abstract class LockBoxObservable {
         }
     }
 
-    public void addLockBoxListener(LockBoxListener lockBoxListener){
+    public void addLockBoxListener(LockBoxListener lockBoxListener) {
         lockBoxListeners.add(lockBoxListener);
     }
 
-    public void removeLockBoxListener(LockBoxListener lockBoxListener) {
-        lockBoxListeners.remove(lockBoxListener);
-    }
-
-    public void removeAll() {
-        lockBoxListeners = new ArrayList<>();
-    }
 }

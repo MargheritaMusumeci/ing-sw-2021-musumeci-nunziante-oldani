@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
 import java.util.ArrayList;
 
+/**
+ * class that implements the observable/listener patter for the pope card
+ */
 public abstract class PopeCardObservable {
 
     private ArrayList<PopeCardListener> popeCardListeners = new ArrayList<>();
@@ -21,11 +24,4 @@ public abstract class PopeCardObservable {
         popeCardListeners.add(popeCardListener);
     }
 
-    public void removePopeCardListener(PopeCardListener popeCardListener) {
-        popeCardListeners.remove(popeCardListener);
-    }
-
-    public void removeAll() {
-        popeCardListeners = new ArrayList<>();
-    }
 }

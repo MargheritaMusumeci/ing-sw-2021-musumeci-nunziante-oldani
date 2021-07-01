@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.listeners.MarketListener;
 
 import java.util.ArrayList;
 
+/**
+ * class that implements the observable/listener patter for the evolution section
+ */
 public abstract class EvolutionSectionOsservable {
 
     private ArrayList<EvolutionSectionListener> evolutionSectionListeners = new ArrayList<>();
@@ -21,11 +24,4 @@ public abstract class EvolutionSectionOsservable {
         evolutionSectionListeners.add(evolutionSectionListener);
     }
 
-    public void removeEvolutionSectionListener(EvolutionSectionListener evolutionSectionListener) {
-        evolutionSectionListeners.remove(evolutionSectionListener);
-    }
-
-    public void removeAll() {
-        evolutionSectionListeners = new ArrayList<>();
-    }
 }

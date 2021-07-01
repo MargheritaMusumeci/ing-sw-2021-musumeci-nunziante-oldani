@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.listeners.StockListener;
 
 import java.util.ArrayList;
 
+/**
+ * class that implements the observable/listener patter for the dashboard
+ */
 public abstract class DashboardObservable {
 
     private ArrayList<DashboardListener> dashboardListeners = new ArrayList<>();
@@ -21,11 +24,4 @@ public abstract class DashboardObservable {
         dashboardListeners.add(dashboardListener);
     }
 
-    public void removeDashboardListener(DashboardListener dashboardListener) {
-        dashboardListeners.remove(dashboardListener);
-    }
-
-    public void removeAll() {
-        dashboardListeners = new ArrayList<>();
-    }
 }

@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.listeners.StockListener;
 
 import java.util.ArrayList;
 
+/**
+ * class that implements the observable/listener patter for the production zone
+ */
 public abstract class ProductionZoneObservable {
 
     private ArrayList<ProductionZoneListener> productionZoneListeners = new ArrayList<>();
@@ -21,12 +24,5 @@ public abstract class ProductionZoneObservable {
         productionZoneListeners.add(productionZoneListener);
     }
 
-    public void removeProductionZoneListener(ProductionZoneListener productionZoneListener) {
-        productionZoneListeners.remove(productionZoneListener);
-    }
-
-    public void removeAll() {
-        productionZoneListeners = new ArrayList<>();
-    }
 
 }

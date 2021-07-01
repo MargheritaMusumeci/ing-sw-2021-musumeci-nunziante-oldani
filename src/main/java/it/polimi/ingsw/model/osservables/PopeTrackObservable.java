@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model.osservables;
 
-import it.polimi.ingsw.model.board.Stock;
 import it.polimi.ingsw.model.listeners.PopeTrackListener;
-import it.polimi.ingsw.model.listeners.StockListener;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 
 import java.util.ArrayList;
+
+/**
+ * class that implements the observable/listener patter for the pope track
+ */
 
 public abstract class PopeTrackObservable {
 
@@ -21,11 +23,4 @@ public abstract class PopeTrackObservable {
         popeTrackListeners.add(popeTrackListener);
     }
 
-    public void removePopeTrackListener(PopeTrackListener popeTrackListener) {
-        popeTrackListeners.remove(popeTrackListener);
-    }
-
-    public void removeAll() {
-        popeTrackListeners = new ArrayList<>();
-    }
 }

@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.listeners.LeaderCardListener;
 
 import java.util.ArrayList;
 
+/**
+ * class that implements the observable/listener patter for the leader cards
+ */
 public abstract class LeaderCardObservable {
 
     private ArrayList<LeaderCardListener> leaderCardListeners = new ArrayList<>();
@@ -19,11 +22,4 @@ public abstract class LeaderCardObservable {
         leaderCardListeners.add(leaderCardListener);
     }
 
-    public void removeLeaderCardListener(LeaderCardListener leaderCardListener) {
-        leaderCardListeners.remove(leaderCardListener);
-    }
-
-    public void removeAll() {
-        leaderCardListeners = new ArrayList<>();
-    }
 }

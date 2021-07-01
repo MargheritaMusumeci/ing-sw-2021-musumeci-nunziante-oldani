@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.listeners.MarketListener;
 
 import java.util.ArrayList;
 
+/**
+ * class that implements the observable/listener patter for the market
+ */
 public abstract class MarketObservable {
 
     private ArrayList<MarketListener> marketListeners = new ArrayList<>();
@@ -19,11 +22,4 @@ public abstract class MarketObservable {
         marketListeners.add(marketListener);
     }
 
-    public void removeMarketListener(MarketListener marketListener) {
-        marketListeners.remove(marketListener);
-    }
-
-    public void removeAll() {
-        marketListeners = new ArrayList<>();
-    }
 }

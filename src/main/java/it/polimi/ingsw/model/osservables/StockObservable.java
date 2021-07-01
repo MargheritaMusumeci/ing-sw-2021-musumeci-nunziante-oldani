@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.listeners.StockListener;
 
 import java.util.ArrayList;
 
+/**
+ * class that implements the observable/listener patter for the stock
+ */
 public abstract class StockObservable {
 
     private ArrayList<StockListener> stockListeners = new ArrayList<>();
@@ -19,11 +22,4 @@ public abstract class StockObservable {
         stockListeners.add(stockListener);
     }
 
-    public void removeStockListener(StockListener stockListener) {
-        stockListeners.remove(stockListener);
-    }
-
-    public void removeAll() {
-        stockListeners = new ArrayList<>();
-    }
 }
