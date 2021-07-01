@@ -162,23 +162,6 @@ public class DoActionPlayer {
                     }
                 }
 
-                System.out.println("old 1: " + oldResources.get(resourceOne));
-                System.out.println("old 2: " + oldResources.get(resourceTwo));
-                System.out.println("new 1: " + newResources.get(resourceOne));
-                System.out.println("new 2: " + newResources.get(resourceTwo));
-                System.out.println(oldResources.get(resourceOne) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne));
-                System.out.println(oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceTwo) );
-                System.out.println(oldResources.get(resourceOne) + oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne) + newResources.get(resourceTwo));
-                for (Resource resource2: saveResources
-                     ) {
-                    System.out.println(resource2);
-                }
-
-                for (Resource resource3: resourceList
-                     ) {
-                    System.out.println(resource3);
-                }
-
                 try {
                     if (!(oldResources.get(resourceOne) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceOne) &&
                             oldResources.get(resourceTwo) + oldResources.get(Resource.NOTHING) >= newResources.get(resourceTwo) &&
@@ -188,8 +171,6 @@ public class DoActionPlayer {
                 }catch(Exception e){
                     e.printStackTrace();
                 }
-
-                System.out.println("qui");
 
                 //check that old things that cannot be changed have not been changed
                 if ((!oldResources.get(Resource.COIN).equals(newResources.get(Resource.COIN)) || resourceOne == Resource.COIN || resourceTwo == Resource.COIN) &&
