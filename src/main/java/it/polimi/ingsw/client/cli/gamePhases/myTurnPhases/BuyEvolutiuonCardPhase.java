@@ -25,14 +25,14 @@ public class BuyEvolutiuonCardPhase extends Phase {
 
         do{
             System.out.println(Constants.ANSI_CYAN + "Insert the row and the column of the Evolution Card that you want to buy:"+ Constants.ANSI_RESET);
-            System.out.print(Constants.ANSI_CYAN + "Row > " + Constants.ANSI_RESET);
+            System.out.print(Constants.ANSI_CYAN + "Row (0,1,2)> " + Constants.ANSI_RESET);
             try{
                 row = scanner.nextInt();
             }catch (InputMismatchException e){
                 row = 6;
                 scanner.nextLine();
             }
-            System.out.print(Constants.ANSI_CYAN + "Column > " + Constants.ANSI_RESET);
+            System.out.print(Constants.ANSI_CYAN + "Column (0,1,2,3)> " + Constants.ANSI_RESET);
             try{
                 col = scanner.nextInt();
             }catch (InputMismatchException e){
