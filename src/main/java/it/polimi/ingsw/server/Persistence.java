@@ -184,7 +184,6 @@ public class Persistence implements Runnable{
                     ArrayList<LeaderProductionZone> leaderProductionZone = persistenceSerializableGame.getLeaderProductionZoneHashMap().get(playerNickname);
 
                     PopeTrack popeTrack = persistenceSerializableGame.getPopeTrackHashMap().get(playerNickname);
-                    System.out.println("recreating game popeTrakc lorenzo Position: " + popeTrack.getLorenzoPosition().getIndex());
                     popeTrack.setTrack();
 
                     ArrayList<LeaderCard> leaderCards = persistenceSerializableGame.getLeaderCards().get(playerNickname);
@@ -226,9 +225,7 @@ public class Persistence implements Runnable{
      */
     @Override
     public void run() {
-        System.out.println("game to be saved lorenzo position: " + gameToBeSaved.getPlayers().get(0).getPopeTrack().getLorenzoPosition().getIndex());
         PersistenceSerializableGame persistenceSerializableGame = new PersistenceSerializableGame(gameToBeSaved);
-        System.out.println("persistance game lorenzo position: " + persistenceSerializableGame.getPopeTrackHashMap().get(persistenceSerializableGame.getActivePlayerNickname()).getLorenzoPosition().getIndex());
         String OS = (System.getProperty("os.name")).toUpperCase();
         String savedGamePath;
         String directoryPath;
