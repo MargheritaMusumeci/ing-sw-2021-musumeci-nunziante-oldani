@@ -101,7 +101,7 @@ public class ViewPlayerController extends ViewController {
             }
         }
 
-        if (productionPositions.size() != 0 || activeBasic) {
+        if (productionPositions.size() != 0 || activeBasic || leaderIds.size() != 0) {
             gui.setCurrentScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setOldScene(gui.getScene(GameFxml.MY_TURN.s));
             gui.setGamePhase(GamePhases.ASKACTIVEPRODUCTION);
