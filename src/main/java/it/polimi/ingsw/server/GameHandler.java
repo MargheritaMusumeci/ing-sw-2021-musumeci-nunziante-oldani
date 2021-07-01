@@ -99,7 +99,7 @@ public class GameHandler implements Serializable {
         }
 
         if(playersForGame.size() == 1){
-            playersForGame.add(new LorenzoPlayer(playersForGame.get(0).getPopeTrack(), playersForGame.get(0).getDashboard()));
+            playersForGame.add(new LorenzoPlayer(playersForGame.get(0).getPopeTrack(), playersForGame.get(0).getDashboard(), false));
         }
 
         //Create the game

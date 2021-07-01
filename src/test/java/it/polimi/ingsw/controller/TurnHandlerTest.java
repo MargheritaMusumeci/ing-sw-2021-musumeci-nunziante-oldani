@@ -305,7 +305,7 @@ public class TurnHandlerTest {
         //testo anche il buon funzionamento del metodo buy from market quando compro una faith resource
 
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -347,7 +347,7 @@ public class TurnHandlerTest {
     @Test
     public void testSetLastSection() {
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -363,7 +363,7 @@ public class TurnHandlerTest {
     @Test
     public void testIsTheEnd() {
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -376,7 +376,7 @@ public class TurnHandlerTest {
     @Test
     public void testSetTheEnd() {
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -391,7 +391,7 @@ public class TurnHandlerTest {
     @Test
     public void testIsTheLastTurn() {
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -404,7 +404,7 @@ public class TurnHandlerTest {
     @Test
     public void testSetTheLastTurn() {
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);

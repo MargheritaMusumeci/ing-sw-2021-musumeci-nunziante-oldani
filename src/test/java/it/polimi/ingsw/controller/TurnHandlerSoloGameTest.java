@@ -27,7 +27,7 @@ public class TurnHandlerSoloGameTest {
     @Test
     public void testCheckWinner() {
         HumanPlayer player1 = new HumanPlayer("Matteo" , true);
-        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
+        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(player1 , lorenzoPlayer));
         Game game = new Game(players);
 
@@ -44,7 +44,7 @@ public class TurnHandlerSoloGameTest {
     @Test
     public void testCheckWinner2() {
         HumanPlayer player1 = new HumanPlayer("Matteo" , true);
-        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard());
+        LorenzoPlayer lorenzoPlayer = new LorenzoPlayer(player1.getPopeTrack() , player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(lorenzoPlayer , player1));
         Game game = new Game(players);
 
@@ -64,7 +64,7 @@ public class TurnHandlerSoloGameTest {
         //check end game del human player viene fatto nella classe turnHandlerMultiplaier
         //è lo stesso codice
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -119,7 +119,7 @@ public class TurnHandlerSoloGameTest {
         //check end game del human player viene fatto nella classe turnHandlerMultiplaier
         //è lo stesso codice
         HumanPlayer player1 = new HumanPlayer("marghe", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -138,7 +138,7 @@ public class TurnHandlerSoloGameTest {
     @Test
     public void testEndTurn() {
         HumanPlayer player1 = new HumanPlayer("Matteo", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
@@ -176,7 +176,7 @@ public class TurnHandlerSoloGameTest {
     @Test
     public void testDoLorenzoAction() {
         HumanPlayer player1 = new HumanPlayer("Margherita", true);
-        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard());
+        LorenzoPlayer player2 = new LorenzoPlayer(player1.getPopeTrack(), player1.getDashboard(), false);
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);

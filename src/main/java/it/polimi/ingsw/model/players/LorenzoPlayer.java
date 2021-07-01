@@ -15,10 +15,13 @@ public class LorenzoPlayer extends Player implements Serializable {
      * @param popeTrack is the popeTrack of the player
      * @param dashboard is the dashboard of the player
      */
-    public LorenzoPlayer(PopeTrack popeTrack , Dashboard dashboard){
+    public LorenzoPlayer(PopeTrack popeTrack , Dashboard dashboard, boolean persistence){
         this.nickName = "LorenzoIlMagnifico";
         this.popeTrack = popeTrack;
-        this.popeTrack.setLorenzoPosition();
+        if(!persistence){
+            this.popeTrack.setLorenzoPosition();
+        }
+
         this.dashboard = dashboard;
         this.isWinner = false;
         isPlaying = true;

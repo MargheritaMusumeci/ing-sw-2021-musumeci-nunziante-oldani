@@ -22,7 +22,6 @@ public class InitializationHandler {
         ArrayList<LeaderCard> lCards = player.getDashboard().getLeaderCards();
         //If the player chose more than 2 cards
         if(!(posLeaderCards.size() == 2)){
-            //System.out.println("return 1");
             return false;
         }
 
@@ -30,14 +29,12 @@ public class InitializationHandler {
         //If the cards are not valid
         for(Integer i : posLeaderCards){
             if(i < 0 || i > 3){
-                //System.out.println("return 2");
                 return false;
             }
 
         }
         //If the player chose the same card
         if(posLeaderCards.get(0).equals(posLeaderCards.get(1))){
-            //System.out.println("return 3");
             return false;
         }
 
@@ -103,16 +100,13 @@ public class InitializationHandler {
     public boolean setInitialResources(HumanPlayer player, ArrayList<Resource> resources){
         int playerPosition = player.getPosition();
         if(playerPosition == 1){
-            //System.out.println("resource return 1");
             return false;
         }
 
         if( (playerPosition == 2 || playerPosition == 3) && resources.size() != 1 ){
-            //System.out.println("resource return 2");
             return false;
         }
         if(playerPosition == 4 && resources.size() != 2){
-            //System.out.println("resource return 3");
             return false;
         }
 
