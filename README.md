@@ -81,6 +81,6 @@ After the execution the client will ask you for the server ip address and port t
 If a disconnection occurs you can rejoin the unless its finished. To do that you have to restart the client jar and reconnect to the same server and insert the same number of player after have chosen your previous nickname.
 
 ### Persistence
-Games that were still active when the server is shut down can be finished when the server is restarted. To do that you have to
-start the client jar and connect ad if you are going to join a new game. If your username is found in the set of players that
+Games that are still active when the server is shut down can be finished when the server is restarted. To do that you have to
+start the client jar and proceed as if you are going to join a new game. If your username is found in the set of players that
 have a game suspended, then you will be automatically added to the game.
