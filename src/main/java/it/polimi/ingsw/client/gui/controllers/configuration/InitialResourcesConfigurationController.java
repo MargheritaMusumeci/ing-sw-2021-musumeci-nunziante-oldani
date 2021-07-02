@@ -106,6 +106,11 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
 
         ArrayList<Resource> selected = new ArrayList<>();
 
+        coinNumber = 0;
+        rockNumber = 0;
+        shieldNumber = 0;
+        servantNumber = 0;
+
         if(radio == coin1){
             coinNumber++;
             selected.add(Resource.COIN);
@@ -138,12 +143,15 @@ public class InitialResourcesConfigurationController extends MarketEvolutionSect
             servantNumber++;
             selected.add(Resource.SERVANT);
         }
-
         if(resources.size()==8 && coinNumber +rockNumber+shieldNumber+servantNumber == 2){
             gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
         }else if(resources.size()==4 && coinNumber +rockNumber+shieldNumber+servantNumber == 1){
             gui.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
         } else{
+            coinNumber = 0;
+            rockNumber = 0;
+            shieldNumber = 0;
+            servantNumber = 0;
             selected.clear();
             error.setText("Error while setting the initial resources, retry...");
             confirm.setVisible(true);
