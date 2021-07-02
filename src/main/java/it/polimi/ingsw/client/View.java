@@ -10,7 +10,6 @@ import java.util.HashMap;
 /**
  * class that contains alla the information of the game and the players related to the client side
  */
-//TODO remove methods never used
 public class View implements Serializable {
 
     private String activePlayer;
@@ -102,10 +101,6 @@ public class View implements Serializable {
         return enemiesDashboard;
     }
 
-    public void setEnemiesDashboard(HashMap<String, SerializableDashboard> enemiesDashboard) {
-        this.enemiesDashboard = enemiesDashboard;
-    }
-
     public void setEnemyActivatedLeaderCards(SerializableDashboard dashboard, ArrayList<SerializableLeaderCard> enemyActivatedLeaderCards) {
         this.enemiesActivatedLeaderCards.put(dashboard, enemyActivatedLeaderCards);
     }
@@ -118,20 +113,12 @@ public class View implements Serializable {
         return enemiesActivatedLeaderCards;
     }
 
-    public void addEnemyLeaderCard(SerializableDashboard enemyDashboard, SerializableLeaderCard leaderCard){
-        enemiesActivatedLeaderCards.get(enemyDashboard).add(leaderCard);
-    }
-
     public ArrayList<Resource> getResourcesBoughtFromMarker() {
         return resourcesBoughtFromMarker;
     }
 
     public void setResourcesBoughtFromMarker(ArrayList<Resource> resourcesBoughtFromMarker) {
         this.resourcesBoughtFromMarker = (ArrayList<Resource>) resourcesBoughtFromMarker.clone();
-    }
-
-    public void setEnemiesActivatedLeaderCards(HashMap<SerializableDashboard, ArrayList<SerializableLeaderCard>> enemiesActivatedLeaderCards) {
-        this.enemiesActivatedLeaderCards = enemiesActivatedLeaderCards;
     }
 
     public ArrayList<String> getWinners() {

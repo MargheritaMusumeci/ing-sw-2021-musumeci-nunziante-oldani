@@ -47,10 +47,9 @@ public class TurnHandlerTest {
         }
         leaderCards.add(leaderCardSet.getLeaderCard(0));
 
-        //COMPRO UNA CARTA EVOLUTION
-        //compro carte anche se non ho abbastanza risorse
-        //abbiamo inizializzato il lockbox
-        //assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof NACKMessage);
+        //Buy an evolution card
+        //Buy card even if the player doesn't have enough resources
+        assertTrue(turnHandler.doAction(new BuyEvolutionCardMessage("BUY",2,2,0)) instanceof NACKMessage);
         turnHandler.endTurn();
 
         try {
@@ -81,7 +80,6 @@ public class TurnHandlerTest {
 
         //posizione non valida
         assertTrue(turnHandler.doAction(new BuyFromMarketMessage("BUY",7,true)) instanceof NACKMessage);
-        //assertTrue(turnHandler.doAction(new BuyFromMarketMessage("BUY",1,true)) instanceof ACKMessage);
 
         //SALVO LE  RISORSE
         ArrayList<Resource> resources = ((HumanPlayer)modelGame.getActivePlayer()).getResources();
@@ -125,7 +123,8 @@ public class TurnHandlerTest {
         turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE
-        // TODO assertTrue(  turnHandler.doAction(new ActiveProductionMessage("ACTIVE",new ArrayList<Integer>(){{add(0);}},false,null,null))instanceof ACKMessage);
+        assertTrue(  turnHandler.doAction(new ActiveProductionMessage("ACTIVE", new ArrayList<Integer>(){{add(0);}} ,
+                false, null , null,null , null))instanceof ACKMessage);
         turnHandler.endTurn();
 
         //ATTIVO LA PRODUZIONE BASE
@@ -141,17 +140,13 @@ public class TurnHandlerTest {
         ArrayList<Resource> ensures = new ArrayList<>();
         ensures.add(Resource.ROCK);
 
-        ArrayList<Integer> empty= null;
-        /*
-        TODO uncomment and fi
-
-        Message message = new ActiveProductionMessage("active",empty,true,ensures,requires);
+        Message message = new ActiveProductionMessage("active", null ,true , null ,
+                                ensures,requires , null);
         ((ActiveProductionMessage)message).setActiveBasic(true);
         ((ActiveProductionMessage)message).setResourcesEnsures(ensures);
         ((ActiveProductionMessage)message).setResourcesRequires(requires);
 
         assertTrue(turnHandler.doAction((ActiveProductionMessage) message) instanceof ACKMessage);
-        */
     }
 
     @Test
