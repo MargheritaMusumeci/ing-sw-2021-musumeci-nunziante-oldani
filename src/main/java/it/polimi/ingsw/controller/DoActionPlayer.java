@@ -401,7 +401,6 @@ public class DoActionPlayer {
 
         //Active the base production -> can I do this operation here without call a method?
         if(activeBasic){
-            //TODO add tests in the test
             modelGame.getActivePlayer().getDashboard().activeBasicProduction(resourcesRequires.get(0) , resourcesRequires.get(1) , resourcesEnsures.get(0));
         }
 
@@ -450,8 +449,6 @@ public class DoActionPlayer {
                 }
                 card.setActive(true);
             }
-
-            //TODO how say the leader production is been activated?
             card.setActive(true);
         }
 
