@@ -17,6 +17,7 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class that is responsible for showing the four leader cards among which the user must choose and manage the decision.
@@ -46,6 +47,9 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
     private ImageView leaderCard3;
     @FXML
     private ImageView leaderCard4;
+
+    ArrayList<ImageView> leaderCardsArray;
+
     @FXML
     private Text errorLabel;
     @FXML
@@ -68,22 +72,16 @@ public class LeaderCardsConfigurationController extends MarketEvolutionSectionBu
         }
         leaderCards= gui.getLeaderCards();
 
-        //TODO trasfomare queste linee in un metodo
-        String path = String.valueOf(leaderCards.get(0).getId());
-        leaderCard1.setImage(printer.fromPathToImageLeader(path));
-        leaderCard1.setCache(true);
+        leaderCardsArray = new ArrayList<>(Arrays.asList(leaderCard1 , leaderCard2 , leaderCard3 , leaderCard4));
 
-        path = String.valueOf(leaderCards.get(1).getId());
-        leaderCard2.setImage(printer.fromPathToImageLeader(path));
-        leaderCard2.setCache(true);
-
-        path = String.valueOf(leaderCards.get(2).getId());
-        leaderCard3.setImage(printer.fromPathToImageLeader(path));
-        leaderCard3.setCache(true);
-
-        path = String.valueOf(leaderCards.get(3).getId());
-        leaderCard4.setImage(printer.fromPathToImageLeader(path));
-        leaderCard4.setCache(true);
+        int i = 0;
+        String path;
+        for(ImageView imageView : leaderCardsArray){
+            path = String.valueOf(leaderCards.get(i).getId());
+            imageView.setImage(printer.fromPathToImageLeader(path));
+            imageView.setCache(true);
+            i++;
+        }
 
         Sphere[][] market = new Sphere[3][4];
         fillMarket(market);
