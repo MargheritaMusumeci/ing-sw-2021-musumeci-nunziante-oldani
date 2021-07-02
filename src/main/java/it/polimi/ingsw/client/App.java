@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.gui.GUI;
 
 /**
  * Class able to start the correct type of client (cli or gui) based
- * on arguments. The default comportment achived with no arguments is the
+ * on arguments. The default comportment achieved with no arguments is the
  * start of the client in gui mode
  */
 public class App {
