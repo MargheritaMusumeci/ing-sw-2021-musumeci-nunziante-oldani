@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.game.Market;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.model.players.LorenzoPlayer;
 import it.polimi.ingsw.model.players.Player;
+import it.polimi.ingsw.model.popeTrack.PopeCard;
 import it.polimi.ingsw.model.popeTrack.PopeTrack;
 import it.polimi.ingsw.serializableModel.*;
 
@@ -185,6 +186,10 @@ public class Persistence implements Runnable{
 
                     PopeTrack popeTrack = persistenceSerializableGame.getPopeTrackHashMap().get(playerNickname);
                     popeTrack.setTrack();
+
+                    for (PopeCard pCard: popeTrack.getPopeCard()) {
+                        pCard.addPopeCardListener(popeTrack);
+                    }
 
                     ArrayList<LeaderCard> leaderCards = persistenceSerializableGame.getLeaderCards().get(playerNickname);
 
