@@ -60,7 +60,6 @@ public class MessageHandlerCLI extends MessageHandler{
      */
     @Override
     public void handleMessage(ReconnectionMessage message) {
-        System.out.println("reconnection message arrived");
         cli.getClientSocket().setView(message.getView());
         if(message.getView().getActivePlayer().equals(cli.getNickname())){
             cli.setGamePhase(new MyTurnPhase());
@@ -155,7 +154,6 @@ public class MessageHandlerCLI extends MessageHandler{
      */
     @Override
     public void handleMessage(EndGameMessage message) {
-        System.out.println("End game message received");
         cli.getClientSocket().getView().setScores(message.getScores());
         cli.getClientSocket().getView().setWinners(message.getWinners());
         cli.setGamePhase(new EndGamePhase());
