@@ -21,7 +21,6 @@ public class Server {
     private List<ServerClientConnection> lobby4players;
     private List<ServerClientConnection> lobby3players;
     private List<ServerClientConnection> lobby2players;
-    private final List<ServerClientConnection> queue;
 
     private HashMap<ServerClientConnection, GameHandler> games;
     private List<String> listOfTakenNicknames;
@@ -43,7 +42,6 @@ public class Server {
         lobby4players = new ArrayList<>();
         lobby3players = new ArrayList<>();
         lobby2players = new ArrayList<>();
-        queue = new ArrayList<>();
         games = new HashMap<>();
         listOfTakenNicknames = new ArrayList<>();
         waitingForReconnection = new HashMap<>();
@@ -54,24 +52,6 @@ public class Server {
         sccRelateToPlayerPersistence = new HashMap<>();
         persistence.initializeGame();
 
-    }
-
-    /**
-     * method that removes the serverClientConnection from the queue.
-     * @param scc is the scc of the player to be removed
-     * @return true if the object is removed correctly, false otherwise
-     */
-    //TODO check if this method can be removed and when this attribute is used
-    public boolean removeFromQueue(ServerClientConnection scc){
-
-        for (ServerClientConnection serverClientConnection: queue) {
-            if(serverClientConnection.equals(scc)){
-                queue.remove(scc);
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -311,8 +291,6 @@ public class Server {
     }
 
     public int getPort(){ return port; }
-
-    public List<ServerClientConnection> getQueue(){ return queue; }
 
     public List<ServerClientConnection> getLobby4players() {
         return lobby4players;

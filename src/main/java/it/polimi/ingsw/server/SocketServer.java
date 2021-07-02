@@ -61,7 +61,6 @@ public class SocketServer implements Runnable{
             ServerClientConnection scc = null;
             try {
                 scc = new ServerClientConnection(this.server, s);
-                server.getQueue().add(scc);
                 executorService.submit(scc);
             } catch (IOException e) {
                 e.printStackTrace();
