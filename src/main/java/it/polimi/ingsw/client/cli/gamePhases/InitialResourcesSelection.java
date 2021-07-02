@@ -51,8 +51,14 @@ public class InitialResourcesSelection extends Phase{
             cli.getClientSocket().send(new SelectedInitialResourceMessage("Resource chose" , selected));
         }
         else if(cli.getResources().size() == 8){
-            ArrayList<Resource> first4 = (ArrayList<Resource>) cli.getResources().subList(0,4);
-            ArrayList<Resource> last4 = (ArrayList<Resource>) cli.getResources().subList(4,8);
+            ArrayList<Resource> first4 =  new ArrayList<>();
+            ArrayList<Resource> last4 = new ArrayList<>();
+
+            for (int i=0; i<4; i++){
+                first4.add(cli.getResources().get(i));
+                last4.add(cli.getResources().get(i+4));
+            }
+
 
             ResourcesBoughtPrinter.print(first4, 0);
             ResourcesBoughtPrinter.print(last4, 4);
@@ -64,6 +70,7 @@ public class InitialResourcesSelection extends Phase{
 
                 try{
                     index = scanner.nextInt();
+                    System.out.println(Constants.ANSI_CYAN + "Another one" + Constants.ANSI_RESET );
                     index2 = scanner.nextInt();
                 }catch (InputMismatchException e){
                     index = 16;
