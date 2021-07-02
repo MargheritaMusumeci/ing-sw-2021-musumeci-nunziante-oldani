@@ -18,7 +18,6 @@ import it.polimi.ingsw.serializableModel.SerializableDashboard;
 import it.polimi.ingsw.serializableModel.SerializableEvolutionSection;
 import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
 import it.polimi.ingsw.serializableModel.SerializableMarket;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -109,7 +108,6 @@ public class GameHandler implements Serializable {
         //Send market and evolution section before the game is started to make player see it while choosing the leader cards
         SerializableMarket serializableMarket = new SerializableMarket(game.getMarket());
         SerializableEvolutionSection serializableEvolutionSection = new SerializableEvolutionSection(game.getEvolutionSection(), null);
-        //TODO controllare che nella serializable evolution section serva veramente il player
         for(ServerClientConnection scc : playerSockets) {
             ArrayList<SerializableLeaderCard> serializableLeaderCards = scc.getGameHandler().getInitializationHandler().takeLeaderCards(scc.getGameHandler().getPlayersInGame().get(scc));
             scc.send(new MarketAndEvolutionSectionMessage("market and evolution section", serializableMarket, serializableEvolutionSection));
@@ -191,9 +189,6 @@ public class GameHandler implements Serializable {
             HashMap<HumanPlayer,VirtualView> otherPlayers = (HashMap<HumanPlayer, VirtualView>) playerSockets.clone();
             VirtualView myVirtuaView = otherPlayers.remove(player);
             playerSockets.get(player).setOtherPlayersView(otherPlayers);
-            for (VirtualView virtualView: otherPlayers.values()){
-                virtualView.addVirtualViewListener(myVirtuaView);
-            }
             View view = createView(playerSockets.get(player));
             sccRelateToPlayer.get(player).send(new SendViewMessage("View",view));
             sccRelateToPlayer.get(player).setGamePhase(GamePhases.GAME);

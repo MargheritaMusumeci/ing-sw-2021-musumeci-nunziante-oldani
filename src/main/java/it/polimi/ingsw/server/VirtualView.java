@@ -1,15 +1,13 @@
-package it.polimi.ingsw.server.virtualView;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.sentByServer.updateMessages.*;
 import it.polimi.ingsw.model.board.Dashboard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.game.EvolutionSection;
 import it.polimi.ingsw.model.game.Market;
-import it.polimi.ingsw.model.game.Resource;
 import it.polimi.ingsw.model.listeners.*;
 import it.polimi.ingsw.model.players.HumanPlayer;
 import it.polimi.ingsw.serializableModel.*;
-import it.polimi.ingsw.server.ServerClientConnection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,8 +16,7 @@ import java.util.HashMap;
  * class that represent the clients view in the server. it is listening for changes on the market, evolution section
  * and dashboards
  */
-public class VirtualView extends VirtualViewObservable implements DashboardListener, MarketListener, EvolutionSectionListener,
-        VirtualViewListener, LeaderCardListener {
+public class VirtualView implements DashboardListener, MarketListener, EvolutionSectionListener, LeaderCardListener {
 
     private ServerClientConnection scc;
     private Market market;
@@ -142,14 +139,6 @@ public class VirtualView extends VirtualViewObservable implements DashboardListe
         }
     }
 
-    /**
-     * method that update the object that stores the view of other players
-     * @param virtualView is the new enemy virtual view to be updated
-     */
-    @Override
-    public void update(VirtualView virtualView) {
-       otherPlayersView.put(virtualView.scc.getGameHandler().getPlayersInGame().get(virtualView.scc), virtualView);
-    }
 
     @Override
     /**

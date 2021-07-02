@@ -2,9 +2,6 @@ package it.polimi.ingsw.messages.sentByServer.updateMessages;
 
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.messageHandler.MessageHandler;
-import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.serializableModel.SerializableLeaderCard;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.io.Serializable;
 
