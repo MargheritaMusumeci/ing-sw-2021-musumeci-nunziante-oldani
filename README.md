@@ -77,10 +77,16 @@ If no arguments is specified the application will load the GUI version by defaul
 
 After the execution the client will ask you for the server ip address and port to connect.
 
-#### Disconnections
+### Disconnections
 If a disconnection occurs you can rejoin the unless its finished. To do that you have to restart the client jar and reconnect to the same server and insert the same number of player after have chosen your previous nickname.
 
 ### Persistence
 Games that are still active when the server is shut down can be finished when the server is restarted. To do that you have to
 start the client jar and proceed as if you are going to join a new game. If your username is found in the set of players that
 have a game suspended, then you will be automatically added to the game.
+
+## License
+
+This project is developed in collaboration with Politecnico di Milano and Cranio Creations.
+
+All rights of graphic resources are reserved to Cranio Creation.
